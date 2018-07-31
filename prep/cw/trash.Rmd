@@ -107,10 +107,6 @@ gapfilled_df %>%
 ```
 
 
-***
-
-## Citation
-
 
 
 
