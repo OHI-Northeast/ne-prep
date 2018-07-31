@@ -11,7 +11,7 @@ dir_M             <- c('Windows' = '//mazu.nceas.ucsb.edu/ohi',
 dir_prep <- '~/github/ne-prep'
 dir_rgn <- file.path(dir_prep, 'prep/regions')  ### github: general buffer region shapefiles
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
-dir_calc <- '~/github/ne-scores/region2016' #where the calculations happen
+dir_calc <- '~/github/ne-scores/region' #where the calculations happen
 
 # WARN rather than stop if directory doesn't exist
 if (!file.exists(sprintf('%s/',dir_M))){
