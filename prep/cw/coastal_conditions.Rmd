@@ -1,0 +1,262 @@
+---
+title: "Coastal condition assessment data layers"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+## Summary
+
+
+```{r setup, message = F, warning = F, reslts = 'hide'}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')
+
+library(tidyverse)
+```
+
+## Load Water Quality Index data
+
+There are two Water Quality Index datasets we are going to use for the two different time periods. 
+I want to select only the information I need.
+
+```{r}
+water_old <- readxl::read_excel(file.path(dir_anx, "_raw_data/EPA/nca_waterchemdata_narschallenge.xlsx")) %>% 
+  filter(PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT")) %>%
+  select(SITE_ID, status = Cat_WQI, LON_DD, LAT_DD, PSTL_CODE, Year = SAMPYEAR)
+
+water_new <- read_csv(file.path(dir_anx, "_raw_data/EPA/ncca2010_water_quality_indicator_status.csv")) %>%
+  filter(PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT"),
+         NCCA_REG == "Northeast") %>%
+  select(SITE_ID, status = CAT_WQI, LON_DD, LAT_DD, PSTL_CODE) %>%
+  mutate(Year = 2010)
+```
+
+## Data wrangling
+
+Combining both datasets and assigning hte time periods for each. If the year is 2000 or 2001, that's time period 1. 2005-2006 is time period 2 and 2010 is time period 3.
+
+```{r}
+wqi <- water_old %>%
+  bind_rows(water_new) %>%
+  mutate(time_period = 
+           case_when(
+             Year %in% c(2000, 2001) ~ 1,
+             Year %in% c(2005, 2006) ~ 2,
+             Year == 2010 ~ 3
+           ))
+```
+
+I also need to assign regions to each of these. For the most part, the State is the region but for Massachusetts we need to be specific to what region it belongs. The best way to do this is manually.
+
+```{r ma}
+ma <- wqi %>%
+  filter(PSTL_CODE == "MA")
+
+ma_points = st_as_sf(ma, coords = c("LON_DD", "LAT_DD"), 
+                 crs = 4326)
+
+mapview::mapview(ma_points) 
+
+ggplot() +
+  geom_sf(data = rgns %>% filter(rgn_id %in% c(7,8)), aes(fill = rgn_id)) +
+  geom_sf(data = ma_points, color = 'darkgreen') +
+  theme_bw()
+
+#try an st_intersect
+
+int <- ma_points %>%
+  st_transform('+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs') %>%
+  st_intersection(rgns)
+
+ggplot() +
+  geom_sf(data = rgns %>% filter(rgn_id %in% c(7,8)), aes(fill = rgn_id)) +
+  geom_sf(data = int, color = 'darkgreen') +
+  theme_bw()
+
+mapview::mapview(int)
+
+# what points are we missing
+
+s <- setdiff(ma_points$SITE_ID, int$SITE_ID)
+
+miss <- ma_points %>%
+  filter(SITE_ID %in% s)
+
+mapview::mapview(miss)
+
+#add a rgn_id column manually for the missing points based on mapview
+miss_gf <- miss %>%
+  data.frame() %>%
+  mutate(rgn_id = 
+           case_when(
+             SITE_ID == "MA01-0080" ~ 7,
+             SITE_ID == "MA01-0076" ~ 7,
+             SITE_ID == "MA00-0075" ~ 7,
+             SITE_ID == "MA01-0004" ~ 7,
+             SITE_ID == "MA00-0075" ~ 7,
+             SITE_ID == "MA01-0074" ~ 7,
+             SITE_ID == "MA00-0075" ~ 7,
+             SITE_ID == "NCCA10-1023" ~ 7,
+             SITE_ID == "MA01-0072" ~ 7,
+             SITE_ID == "MA00-0075" ~ 7,
+             SITE_ID == "MA05-0006" ~ 7,
+             SITE_ID == "MA00-0075" ~ 7,
+             SITE_ID == "MA00-0071" ~ 7,
+             SITE_ID == "MA01-0068" ~ 7,
+             SITE_ID == "MA01-0066" ~ 7,
+             SITE_ID == "MA00-0067" ~ 7,
+             SITE_ID == "MA06-0048" ~ 7,
+             SITE_ID == "MA00-0013" ~ 7,
+             SITE_ID == "MA00-0065" ~ 7,
+             SITE_ID == "MA01-0064" ~ 7,
+             SITE_ID == "MA00-0063" ~ 7,
+             SITE_ID == "MA01-0062" ~ 7,
+             SITE_ID == "MA06-0026" ~ 8,
+             SITE_ID == "MA00-0061" ~ 8,
+             SITE_ID == "MA00-0059" ~ 8,
+             SITE_ID == "BU01-0013" ~ 8,
+             SITE_ID == "MA01-0034" ~ 8,
+             SITE_ID == "NCCA10-1009" ~ 8,
+             SITE_ID == "MA06-0042" ~ 8,
+             SITE_ID == "NCCA10-1011" ~ 8,
+             SITE_ID == "BU01-0001" ~ 8,
+             SITE_ID == "MA01-0046" ~ 8,
+             SITE_ID == "MA05-0009" ~ 8,
+             SITE_ID == "MA01-0048" ~ 8,
+             SITE_ID == "MA01-0010" ~ 8,
+             SITE_ID == "MA00-0009" ~ 8,
+             SITE_ID == "BU01-0002" ~ 8,
+             SITE_ID == "NCCA10-1001" ~ 8,
+             SITE_ID == "MA01-0056" ~ 8,
+             SITE_ID == "MA00-0055" ~ 8,
+             SITE_ID == "NCCA10-1058" ~ 8,
+             SITE_ID == "MA01-0050" ~ 8,
+             SITE_ID == "MA00-0049" ~ 8,
+             SITE_ID == "MA01-0054" ~ 8,
+             SITE_ID == "NCCA10-1008" ~ 8,
+             SITE_ID == "BU01-0016" ~ 8,
+             SITE_ID == "MA00-0039" ~ 8,
+             SITE_ID == "MA00-0035" ~ 8,
+             SITE_ID == "NCCA10-2001" ~ 8,
+             SITE_ID == "MA01-0090" ~ 8,
+             SITE_ID == "MA00-0089" ~ 8,
+             SITE_ID == "MA00-0087" ~ 8,
+             SITE_ID == "MA01-0088" ~ 8,
+             SITE_ID == "MA00-0085" ~ 8,
+             SITE_ID == "MA00-0083" ~ 8,
+             SITE_ID == "RI05-0025" ~ 8,
+             SITE_ID == "MA01-0084" ~ 8
+           )) %>%
+  select(-geometry)
+
+# take the info from int that we want and combine with these missing sites
+
+ma_df <- int %>%
+  data.frame() %>%
+  select(-area_km2, -geometry, -rgn_name) %>%
+  bind_rows(miss_gf)
+
+```
+
+```{r}
+wqi_clean <- wqi %>%
+  mutate(rgn_name = 
+           case_when(
+             PSTL_CODE == "ME" ~ "Maine",
+             PSTL_CODE == "RI" ~ "Rhode Island",
+             PSTL_CODE == "NY" ~ "New York",
+             PSTL_CODE == "CT" ~ "Connecticut",
+             PSTL_CODE == "NH" ~ "New Hampshire",
+             PSTL_CODE == "MA" ~ "NA"
+           )) %>%
+  left_join(rgn_data) %>%
+  left_join(ma_df, by = c("SITE_ID", "time_period", "Year", "status", "PSTL_CODE")) %>%
+  mutate(rgn_id = ifelse(is.na(rgn_id.x), rgn_id.y, rgn_id.x)) %>%
+  select(-rgn_id.x, -rgn_id.y, -rgn_name, -state, -area_km2) %>%
+  left_join(rgn_data) %>%
+  select(-area_km2) %>%
+  mutate(score = 
+      case_when(
+        status == "POOR" ~ 0,
+        status == "FAIR" ~ 50,
+        status == "GOOD" ~ 100
+      )
+  ) %>%
+  filter(!is.na(score),
+         rgn_name != "Georges Bank")
+```
+
+Aggregate by region and take average
+
+```{r wqi_rgns_scores}
+
+wqi_rgns <- wqi_clean %>%
+  group_by(rgn_id, rgn_name, time_period) %>%
+  summarize(score = mean(score)) %>%
+  mutate(year = 
+           case_when(
+             time_period == 1 ~ 2001,
+             time_period == 2 ~ 2006,
+             time_period == 3 ~ 2010
+           ))
+
+ggplot(wqi_rgns, aes(x = year, y = score, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Score",
+       color = "Region")
+```
+
+## Gap-filling
+
+The plot has guessed the values between 2001, 2006 and 2010 but we need to actually assign these before saving this layer. We will assume a simple linear interpolation between years.
+
+```{r gapfill}
+df_gf <- wqi_rgns %>%
+  select(-time_period) %>%
+  complete(year = 2001:2010) %>%
+  group_by(rgn_name, rgn_id) %>%
+  mutate(score = zoo::na.approx(score))
+```
+
+## Save layer for toolbox
+
+I need to attach region ID's to each row. All states except Massachusetts match up to a region. Since this data is not broken down to a coarser resolution, both MA regions will get the same score. I also add the offshore regions 1:4 with NA values for the toolbox to run. 
+
+```{r save_layer}
+other_rgns <- data.frame(year     = rep(2001:2010, each = 4),
+                         rgn_id   = c(1,2,3,4),
+                         rgn_name = c("Offshore", "Georges Bank", "Gulf of Maine", "Mid-Atlantic Bight"),
+                         score = NA)
+
+out <- df_gf %>%
+  bind_rows(other_rgns) %>%
+  write_csv(file.path(dir_calc, "layers/cw_wqi.csv"))
+```
+
+## Citation
+
+Citation: U.S. Environmental Protection Agency. 2016. National Aquatic Resource Surveys. National Coastal Condition Assessment 2010 (data and metadata files). Available from U.S. EPA web page:https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys. Data from the National Aquatic Resource Surveys. Date accessed: 2018-07-31.
+
+
+
+
+
+
+
+
+
