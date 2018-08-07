@@ -1,5 +1,5 @@
 ---
-title: "Coastal condition assessment data layers"
+title: "Water Quality Index data layer"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -17,6 +17,8 @@ output:
 ---
 
 ## Summary
+
+This layer is derived from the EPA's National Coastal Condition Assessment Water Quality Index data.
 
 
 ```{r setup, message = F, warning = F, reslts = 'hide'}
