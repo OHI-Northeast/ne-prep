@@ -43,7 +43,16 @@ raw <- readxl::read_excel(file.path(dir_anx, "_raw_data/OceanConservancy/Coastal
          state = tolower(.[[1]]),
          people = .[[2]],
          pounds = as.numeric(.[[3]])) %>% #for some reason one of the sheets was having pounds read in as character. forcing it to numeric here
-  select(year, state, people, pounds) %>%
+  mutate(state_fix = 
+           case_when(
+             state == "new ampshire" ~ "new hampshire",
+             state == "new  hampshire" ~ "new hampshire",
+             state == "new ork" ~ "new york",
+             state == "new  york" ~ "new york",
+             state == "rhode  island" ~ "rhode island"
+           ))  %>%
+  mutate(State = ifelse(is.na(state_fix), state, state_fix)) %>%
+  select(year, state = State, people, pounds) %>%
   filter(state %in% c("new york", "connecticut", "maine", "massachusetts", "rhode island", "new hampshire")) %>%
   mutate(pounds_per_person = pounds/people)
 
@@ -58,29 +67,7 @@ out <- map_df(years, clean_func)
 ## Visualize data
 
 ```{r pounds_pp_per_rgn}
-# I believe NY and NH are missing data from 2011. So I'm adding in NAs
-
-out_gf <- out %>%
-  complete(year, state)
-
-ggplot(out_gf, aes(x = year, y = pounds_per_person, color = state)) +
-  geom_line() +
-  theme_bw() +
-  labs(x = "Year",
-       y = "Pounds per person",
-       title = "Pounds of trash collected on International Coastal Cleanup Day",
-       color = "State")
-```
-
-It looks like we have some more gaps...especially for the year 2015. Unfortunately we will have to gapfill these missing data. We will use linear regression to gapfill.
-
-```{r pounds_pp_per_rgn_gapfilled}
-gapfilled_df <- out_gf %>%
-  group_by(state) %>%
-  mutate(pounds_pp = zoo::na.approx(pounds_per_person)) %>%
-  ungroup() 
-
-ggplot(gapfilled_df, aes(x = year, y = pounds_pp, color = state)) +
+ggplot(out, aes(x = year, y = pounds_per_person, color = state)) +
   geom_line() +
   theme_bw() +
   labs(x = "Year",
@@ -98,9 +85,9 @@ rgns <- rgn_data %>%
   data.frame() %>%
   mutate(state = tolower(state))
 
-gapfilled_df %>%
+out %>%
   left_join(rgns) %>%
-  select(year, rgn_id, pounds_pp) %>%
+  select(year, rgn_id, pounds_pp = pounds_per_person) %>%
   complete(rgn_id = 1:11, #this adds in regions 1-4 with NA values for pounds_pp
            year) %>%
   write.csv(file.path(dir_calc, "layers/cw_trash.csv"))
