@@ -33,9 +33,9 @@ library(tidyverse)
 
 This data was manually copied and pasted from the [Ocean Conservancy website](https://oceanconservancy.org/trash-free-seas/international-coastal-cleanup/annual-data-release/) as it is not provided in an easy to use format. The "raw" data is an excel file with one sheet for each year. There are also some weird issues like a mix of lower and uppercase letters for the states.
 
-The data is filtered to only those states in our regions (NY to Maine) and I add in a column, `pounds_per_person` which calculates the total pounds per volunteer.
+The data is filtered to only those states in our regions (NY to Maine) as well as the Mid-Atlantic states for setting a reference point later on. I add in a column, `pounds_per_person` which calculates the total pounds per volunteer.
 
-```{r read_data}
+```{r clean_data}
 clean_func <- function(year) {
   
 raw <- readxl::read_excel(file.path(dir_anx, "_raw_data/OceanConservancy/CoastalCleanup_Data.xlsx"), sheet = year) %>%
@@ -47,13 +47,14 @@ raw <- readxl::read_excel(file.path(dir_anx, "_raw_data/OceanConservancy/Coastal
            case_when(
              state == "new ampshire" ~ "new hampshire",
              state == "new  hampshire" ~ "new hampshire",
+             state == "new  jersey" ~ "new jersey",
              state == "new ork" ~ "new york",
              state == "new  york" ~ "new york",
              state == "rhode  island" ~ "rhode island"
            ))  %>%
   mutate(State = ifelse(is.na(state_fix), state, state_fix)) %>%
   select(year, state = State, people, pounds) %>%
-  filter(state %in% c("new york", "connecticut", "maine", "massachusetts", "rhode island", "new hampshire")) %>%
+  filter(state %in% c("new york", "connecticut", "maine", "massachusetts", "rhode island", "new jersey", "new hampshire", "maryland", "virginia", "delaware")) %>%
   mutate(pounds_per_person = pounds/people)
 
 return(raw)
@@ -67,12 +68,64 @@ out <- map_df(years, clean_func)
 ## Visualize data
 
 ```{r pounds_pp_per_rgn}
+ne_data <- out %>% filter(state %in% c("maine", "new hampshire", "massachusetts", "new york", "connecticut", "rhode island"))
+
+ggplot(ne_data, aes(x = year, y = pounds_per_person, color = state)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Pounds per person",
+       title = "Pounds of trash collected on International Coastal Cleanup Day",
+       color = "State")
+```
+
+## Reference point
+
+We need to decide how much trash per person would get a score of 0 and 100. The goal is 0 pounds per person so that is easy to set for a target. Since deciding how much trash is too much is a very subjective question, we can use the data to select a reference point. We are going to look across the Northeast and Mid-Atlantic region, find the highest level across the entire time series and then multiply that value by 10%. 
+```{r}
 ggplot(out, aes(x = year, y = pounds_per_person, color = state)) +
   geom_line() +
   theme_bw() +
   labs(x = "Year",
        y = "Pounds per person",
        title = "Pounds of trash collected on International Coastal Cleanup Day",
+       color = "State")
+```
+
+It looks like Maryland has the highest amount.
+
+```{r}
+out %>%
+  filter(pounds_per_person > 75)
+```
+
+We will use this value, `r out%>%filter(pounds_per_person>75)%>%.$pounds_per_person`, and multiply it by 10%.
+
+```{r ref_point}
+ref <- out %>%
+  filter(pounds_per_person>75) %>%
+  .$pounds_per_person
+
+ref <- ref*1.1
+```
+
+## Rescale
+
+We will use the upper limit of `r ref` pounds per person, with a target of 0 pounds per person. We can simply divide the calculated pounds per person values by `ref` to get our scores.
+
+```{r rescale}
+trash_resc <- ne_data %>%
+  mutate(score = pounds_per_person/ref)
+
+#save for use in dashboard
+write.csv(trash_resc, "data/trash.csv")
+
+ggplot(trash_resc, aes(x = year, y = score, color = state)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Pounds per person",
+       title = "Trash score",
        color = "State")
 ```
 
@@ -85,7 +138,7 @@ rgns <- rgn_data %>%
   data.frame() %>%
   mutate(state = tolower(state))
 
-out %>%
+trash_resc %>%
   left_join(rgns) %>%
   select(year, rgn_id, pounds_pp = pounds_per_person) %>%
   complete(rgn_id = 1:11, #this adds in regions 1-4 with NA values for pounds_pp
