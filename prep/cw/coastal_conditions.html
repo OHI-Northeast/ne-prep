@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Mon Aug 6 17:01:31 2018 by afflerbach" />
+<meta name="author" content="Compiled on Tue Aug 7 10:05:36 2018 by afflerbach" />
 
 
 <title>Coastal condition assessment data layers</title>
@@ -264,7 +264,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Coastal condition assessment data layers</h1>
-<h4 class="author"><em><em>Compiled on Mon Aug 6 17:01:31 2018 by afflerbach</em></em></h4>
+<h4 class="author"><em><em>Compiled on Tue Aug 7 10:05:36 2018 by afflerbach</em></em></h4>
 
 </div>
 
@@ -432,11 +432,14 @@ ma_df &lt;-<span class="st"> </span>int <span class="op">%&gt;%</span>
       )
   ) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(score),
-         rgn_name <span class="op">!=</span><span class="st"> &quot;Georges Bank&quot;</span>)</code></pre></div>
+         rgn_name <span class="op">!=</span><span class="st"> &quot;Georges Bank&quot;</span>)
+  <span class="co"># mutate(rgn_name = ifelse(rgn_id == 2, &quot;Massachusetts-Virginian&quot;, rgn_name),  </span><span class="al">###</span><span class="co"> added this in if we want to turn GB sites to MA</span>
+  <span class="co">#        state = ifelse(rgn_id == 2, NA, state),</span>
+  <span class="co">#        rgn_id = ifelse(rgn_id == 2, 8, rgn_id))</span></code></pre></div>
 <p>Aggregate by region and take average</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wqi_rgns &lt;-<span class="st"> </span>wqi_clean <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">group_by</span>(rgn_id, rgn_name, time_period) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">score =</span> <span class="kw">mean</span>(score)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">score =</span> <span class="kw">mean</span>(score, <span class="dt">na.rm=</span>T)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> 
            <span class="kw">case_when</span>(
              time_period <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">~</span><span class="st"> </span><span class="dv">2001</span>,

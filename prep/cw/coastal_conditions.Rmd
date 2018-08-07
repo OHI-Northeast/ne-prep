@@ -197,6 +197,9 @@ wqi_clean <- wqi %>%
   ) %>%
   filter(!is.na(score),
          rgn_name != "Georges Bank")
+  # mutate(rgn_name = ifelse(rgn_id == 2, "Massachusetts-Virginian", rgn_name),  ### added this in if we want to turn GB sites to MA
+  #        state = ifelse(rgn_id == 2, NA, state),
+  #        rgn_id = ifelse(rgn_id == 2, 8, rgn_id))
 ```
 
 Aggregate by region and take average
@@ -205,7 +208,7 @@ Aggregate by region and take average
 
 wqi_rgns <- wqi_clean %>%
   group_by(rgn_id, rgn_name, time_period) %>%
-  summarize(score = mean(score)) %>%
+  summarize(score = mean(score, na.rm=T)) %>%
   mutate(year = 
            case_when(
              time_period == 1 ~ 2001,
