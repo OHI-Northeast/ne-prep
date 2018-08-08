@@ -231,17 +231,17 @@ ggplot(tr_jobs %>% filter(year > 2007), aes(x = year, y = tr_job_growth, color =
 I am adding in the additional 4 offshore regions as NA to work in the toolbox.
 
 ```{r save_data_layer}
-
 other_rgns <- data.frame(year = rep(2005:2015, each = 4),
                          rgn_name = c("Offshore", "Georges Bank", "Gulf of Maine", "Mid-Atlantic Bight"),
                          rgn_id   = c(1,2,3,4),
                          tr_job_growth = NA)
                          
-tr_jobs %>%
+tr_job_growth <- tr_jobs %>%
   ungroup() %>%
   select(year, rgn_name, rgn_id, tr_job_growth) %>%
-  rbind(other_rgns) %>%
-  write.csv(file.path(dir_calc, "layers/tr_job_growth.csv"))
+  rbind(other_rgns)
+
+write.csv(tr_job_growth, file.path(dir_calc, "layers/tr_job_growth.csv"))
 ```
 
 ***
