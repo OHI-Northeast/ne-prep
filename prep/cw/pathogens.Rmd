@@ -117,7 +117,7 @@ perc <- df_all %>%
         unique() %>% #some weird duplicates
         group_by(`Beach Name`, Year, County, rgn_id, rgn_name) %>%
         summarize(days_closed = sum(`ActionDuration Days`)) %>%
-        mutate(perc_closed = days_closed/365) %>%
+        mutate(perc_closed = days_closed/120) %>%
         ungroup() %>%
         group_by(County, rgn_id, Year,rgn_name) %>%
         summarize(perc_closed = mean(perc_closed))
