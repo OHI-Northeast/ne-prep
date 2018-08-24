@@ -1,0 +1,136 @@
+---
+title: "Downloading NOAA Catch Statistics"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(crul)
+library(rvest)
+library(xml2)
+library(trelliscopejs)
+library(plotly)
+```
+
+[Metadata](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:240:::NO:::)
+
+"Landings data do not indicate the physical location of harvest but the location at which the landings either first crossed the dock or were reported from."
+
+```{r, eval = F}
+conn <- HttpClient$new(
+	url = "https://www.st.nmfs.noaa.gov/pls/webpls/MF_ANNUAL_LANDINGS.RESULTS"
+)
+```
+
+
+```{r new_england_data, eval = F}
+res <- conn$post(body = list(
+	qspecies = "ALL SPECIES INDIVIDUALLY",
+	qreturn = "search",
+	qyearfrom = 1980, #it looks like this is the minimum available year for this region. 
+	qyearto = 2016,
+	qstate = "New England By State",
+	qoutput_type = "TABLE"
+))
+x <- res$parse("UTF-8")
+rvest::html_table(xml2::read_html(x), fill = TRUE) 
+#assign object and save as dataframe
+ne_data <- rvest::html_table(xml2::read_html(x), fill = TRUE) %>% 
+  as.data.frame()
+
+```
+
+```{r new_york_data, eval = F}
+res <- conn$post(body = list(
+	qspecies = "ALL SPECIES INDIVIDUALLY",
+	qreturn = "search",
+	qyearfrom = 1980, #it looks like this is the minimum available year for this region. I originally used 1900 as qyearfrom and 1945 was min returned.
+	qyearto = 2016,
+	qstate = "New York",
+	qoutput_type = "TABLE"
+))
+x <- res$parse("UTF-8")
+ny_data <- rvest::html_table(xml2::read_html(x), fill = TRUE) %>% 
+  as.data.frame() %>%
+  mutate(State = "New York")
+```
+
+Clean up the data
+
+The column "X" is actually dollars. We can remove this column.
+
+```{r clean_data, eval = F}
+
+noaa_data <- ne_data %>%
+  rbind(ny_data) %>%
+  select(-X.) %>%
+  rename(tons = Metric.Tons, pounds = Pounds, state = State, year = Year, species = Species) %>%
+  filter(!is.na(state),
+         !is.na(species),
+         state != "", #these rows are subtotals which we can calculate on our own
+         state != "-") #this row is "grand total" which we can calculate on our own
+```
+
+Most of the species are written like "TUNA, BLUEFIN". But I would like this to be "Bluefin Tuna". This isn't super easy since there are other values like "SHRIMP, MARINE, OTHER" that don't lend themselves to a simple separate and paste.
+
+```{r, eval=F}
+
+nd <- noaa_data %>%
+  mutate(common_name = species) %>%
+  tidyr::separate(common_name, into = c("one", "two", "three"), sep = ", ") %>%
+  mutate(common = paste0(two, " ", one)) %>%
+  mutate(final_name = case_when(
+    is.na(two) ~ one,
+    is.na(three) ~ common,
+    !is.na(three) ~ common
+  )) %>%
+  select(-one, -two, -three, -common, -species) %>%
+  rename(species = final_name) %>%
+  mutate(pounds = as.numeric(gsub(",", "", pounds)),
+         year = as.numeric(year))
+
+write_csv(nd, "data/noaa_catch_statistics.csv")
+```
+
+Visualize
+
+```{r}
+#read in raw data
+nd <- read_csv("data/noaa_catch_statistics.csv")
+
+herr <- nd %>%
+  filter(species == "ATLANTIC HERRING")
+
+ggplot(herr, aes(x = year, y = pounds, color = state)) +
+  geom_line() +
+  theme_bw()
+
+ggplot(nd, aes(x = year, y = pounds, color = species)) +
+  geom_line() +
+  theme_bw() +
+  facet_trelliscope(~state, scales = "free", as_plotly = TRUE, width = 1000) +
+  guides(color = FALSE)
+
+```
+
+
+
+
+
+

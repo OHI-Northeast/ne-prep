@@ -1,0 +1,397 @@
+---
+title: "Linking NOAA catch data to RAM data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+```{r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+```
+
+## Load Data
+
+```{r}
+ram  <- read.csv("~/github/ne-scores/region/layers/fis_ram_stock_assessment_data.csv")
+noaa <- read.csv("data/noaa_catch_statistics.csv")
+```
+
+Let's just look at the species from RAM. Since there are less species in RAM this will be our limiting list.
+
+```{r}
+ram_sp <- ram %>%
+  mutate(common_lower = tolower(commonname)) %>%
+  select(common_lower) %>%
+  distinct()
+
+ram_sp
+```
+
+Pull in NOAA species
+
+```{r}
+noaa_sp <- noaa %>%
+  mutate(common_lower = tolower(species)) %>%
+  select(common_lower) %>%
+  distinct()
+```
+
+There are some weird things going on in the NOAA data. For example, there is both "atlantic herring" and "sea herring". These are two common names for [*Clupea harengus*](https://www.fisheries.noaa.gov/species/atlantic-herring). Quahog clam has three different names; **Ocean quahog clam**, **Quahog clam** and **Northern quahog clam**. The Northern quahog clam is a different species than Ocean quahog, but I'm not sure what the catch designated as simply "Quahog clam" should be as there is no scientific name associated. This is something we need to ask an expert about.
+
+There are likely more species mismatches and name weirdnesses. This is something we need to fix and doublecheck before getting final results.
+
+---
+
+Are there any species in RAM that are not in NOAA
+
+```{r}
+setdiff(ram_sp, noaa_sp)
+```
+
+Ok there are `r length(setdiff(ram_sp, noaa_sp))` ram species not in NOAA. But maybe the names just don't match. I know for a fact that menhaden, bluefin, plaice, butterfish and herring are in the NOAA dataset. We just need to get these identified.
+
+```{r}
+ram_fixed <- ram %>%
+  mutate(common_lower = tolower(commonname),
+         common_lower_noaa = case_when(
+           common_lower == "atlantic menhaden" ~ "menhaden",
+           common_lower == "atlantic bluefin tuna" ~ "bluefin tuna",
+           common_lower == "american plaice" ~ "flounder,atlantic,plaice",
+           common_lower == "herring" ~ "atlantic herring",
+           common_lower == "ocean quahog" ~ "ocean quahog clam",
+           common_lower == "spiny dogfish" ~ "spiny dogfish shark",
+           common_lower == "atlantic surfclam" ~ "atlantic surf clam",
+           common_lower == "tilefish" ~ "golden tilefish",
+           common_lower == "smooth dogfish" ~ "smooth dogfish shark"
+         )) %>%
+  mutate(common_noaa = ifelse(is.na(common_lower_noaa), common_lower, common_lower_noaa)) %>%
+  select(-common_lower, -common_lower_noaa)
+```
+
+Monkfish and Sailfish are the only species in the RAM database (filtered for the US Northeast) that do not appear in NOAA catch statistics.
+
+Are there multiple stocks of a single species? If so this means we need to identify where stocks are fished. 
+
+```{r}
+dups <- ram_fixed %>%
+  select(common_noaa, stocklong, region, areaname) %>%
+  distinct() %>%
+  arrange(common_noaa)
+
+DT::datatable(dups)
+```
+
+Just by looking at the table, it seems there are a few sub-species stocks including:  
+- Atlantic cod (George's Bank and Gulf of Maine are two different stocks)
+- Haddock (George's Bank and Gulf of Maine are two different stocks)
+- Monkfish (seems like a Southern and Northern that might be our region and the mid-atlantic)
+- Winter flounder (George's Bank and Southern New England/Mid-Atlantic)
+- Yellowtail flounder (Cape Cod/Gulf of Maine and Southern New England/Mid-Atlantic)
+
+I did some visual inspection of the shapefiles for these stocks from [Chris Free's database](https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/) and it does seem that all of these touch our regions. Initially I was going to pull the shapefiles for each of these stocks and then assign catch based on the region they touch. For example catch of Yellowtail flounder landed in Connecticut would be assigned to the Southern New England/Mid-Atlantic stock. But I don't think this is appropriate. We need to **check with NEFSC folks** about this. But I imagine fisherman/woman are not this selective and could possibly be landing Yellowtail from either stock. So for now I am going to calculate an average stock score for each of these species.
+
+
+```{r}
+ram_noaa <- ram_fixed %>%
+  mutate(species = toupper(common_noaa)) %>%
+  left_join(noaa) %>%
+  filter(year > 1979)
+```
+
+I want to look just at catch & b/bmsy, f/fmsy of each stock and remove state information. So I need to aggregate all catch per year and stock. I'm going to remove the species with multiple stocks
+
+```{r}
+ram_noaa_stats <- ram_noaa %>%
+  group_by(species, year) %>%
+  mutate(catch = sum(pounds)) %>%
+  select(-state, -tons, -pounds) %>%
+  distinct()
+```
+
+# Visualize
+
+```{r, fig.width = 10, fig.height = 8}
+sp <- unique(ram_noaa_stats$stockid)
+
+plot_1_df <- ram_noaa_stats %>%
+  filter(stockid %in% sp[1:22])
+
+ggplot(plot_1_df, aes(x = year, y = value, color = metric)) +
+  geom_hline(yintercept = 1.0, color = "black") +
+  geom_line() +
+  facet_wrap(~stockid, scales = 'free') +
+  theme_bw()
+
+plot_2_df <- ram_noaa_stats %>%
+  filter(stockid %in% sp[23:44])
+
+ggplot(plot_2_df, aes(x = year, y = value, color = metric)) +
+  geom_hline(yintercept = 1.0, color = "black") +
+  geom_line() +
+  facet_wrap(~stockid, scales = 'free') +
+  theme_bw()
+
+```
+
+Why does Bluefin tuna not have B/Bmsy? Seems weird
+
+
+Convert these value to stock scores.
+
+```{r stock_score_calc}
+
+#grab just B/Bmsy data
+  ram_b_bmsy <- ram_noaa_stats %>%
+    filter(metric == "B/Bmsy") %>%
+    select(stockid, stocklong, common_noaa, year, value) %>%
+    rename(b_bmsy = value)
+
+#grab just F/Fmsy data  
+  ram_f_fmsy <- ram_noaa_stats %>%
+    filter(metric == "F/Fmsy") %>%
+    select(stockid, stocklong, common_noaa, year, value)
+  ### 
+  b_bmsy_underexploit_penalty <- 0.25
+  b_bmsy_underexploit_thresh  <- 3.00
+  f_fmsy_underfishing_penalty <- 0.25
+  f_fmsy_overfishing_thresh   <- 2.00
+  
+  ### Apply rolling mean to F/Fmsy
+  ## Why do we do this? because B is a less sensitive metric (relies of biological processes) and F can fluctuate          pretty easily because it is really just a mgmt decision.
+  ram_f_fmsy <- ram_f_fmsy %>%
+    mutate(f_fmsy= value) %>%
+    arrange(stockid, year) %>%
+    group_by(stockid) %>%
+    mutate(f_fmsy_rollmean = zoo::rollmean(f_fmsy, k = 3, align = 'right', fill = NA)) %>%
+    ungroup() %>%
+    select(-value, -f_fmsy) %>%
+    rename(f_fmsy = f_fmsy_rollmean)
+  
+  stock_status_layers <- ram_b_bmsy %>%
+    full_join(ram_f_fmsy)
+  
+########################################################.
+##### run each fishery through the Kobe plot calcs #####
+########################################################.
+### * ram_b_bmsy, ram_f_fmsy
+  
+  
+### Function for converting B/Bmsy values into a 0 - 1 score
+  rescale_bprime_crit <- function(fish_stat_df,
+                                  bmax, bmax_val) {
+    
+    ###using NOAA's limits here
+    overfished_th  <- 0.8
+    ### 
+    underfished_th <- 1.2
+    
+    bmax_adj <- (bmax - underfished_th) / (1 - bmax_val) + underfished_th
+    ### this is used to create a 'virtual' B/Bmsy max where score drops
+    ### to zero.  If bmax_val == 0, this is bmax; if bmax_val > 0, bmax_adj
+    ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
+    
+    fish_stat_df <- fish_stat_df %>%
+      # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+      mutate(b_max     = max(b_bmsy, na.rm = TRUE)) %>%
+      ungroup() %>%
+      mutate(bPrime = NA,
+             bPrime = ifelse(b_bmsy < overfished_th,  ### overfished stock
+                             b_bmsy / overfished_th,
+                             bPrime),
+             bPrime = ifelse(b_bmsy >= overfished_th & b_bmsy < underfished_th,
+                             1,                       ### appropriately fished stock
+                             bPrime),
+             bPrime = ifelse(b_bmsy >= underfished_th,
+                             (bmax_adj - b_bmsy) / (bmax_adj - underfished_th), ### underfished stock
+                             bPrime),
+             bPrime = ifelse(bPrime < 0, 0, bPrime))
+    return(fish_stat_df)
+  }
+  
+  
+  ### Function to create vertical gradient based on distance from
+  ### ideal F/Fmsy value to actual F/Fmsy value
+  f_gradient <- function(f, over_f, under_f, fmax, fmin_val) {
+    x <- ifelse(f < over_f & f > under_f, 1, NA)
+    x <- ifelse(f <= under_f, (f * (1 - fmin_val) / under_f + fmin_val), x)
+    x <- ifelse(f >= over_f,  (fmax - f) / (fmax - over_f), x)
+    x <- ifelse(f > fmax, NA, x)
+    return(x)
+  }
+  
+  ### Function to convert F/Fmsy values into 0 - 1 score
+  rescale_fprime_crit <- function(fish_stat_df,
+                                  fmax, fmin_val) {
+    
+    ### params - taken from BC but changed Bcrit to 0 instead of 0.4:
+    Bcrit <- 0.5; overfished_th <- 0.8
+    ### underfishing_th is set to the idea "1/3 for the birds":
+    underfishing_th <- 0.66; overfishing_th  <- 1.2
+    
+    bcritslope = 1 / (overfished_th - Bcrit)
+    ### connecting from (Bcrit, 0) to (overfished_th, 1)
+    
+    fish_stat_df <- fish_stat_df %>%
+      mutate(fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < fmax,
+                             f_gradient(f_fmsy + (overfished_th - b_bmsy) * bcritslope,
+                                        over_f = overfishing_th,
+                                        under_f = underfishing_th,
+                                        fmax = fmax,
+                                        fmin_val = fmin_val),
+                             NA),
+             fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < fmax,
+                             f_gradient(f_fmsy,
+                                        over_f = overfishing_th,
+                                        under_f = underfishing_th,
+                                        fmax = fmax,
+                                        fmin_val = fmin_val),
+                             fPrime),
+             fPrime = ifelse(is.na(fPrime), 0, fPrime), ### fill zeros everywhere unscored
+             fPrime = ifelse(is.na(f_fmsy), NA, fPrime) ### but if no f_fmsy, reset to NA
+      )
+    return(fish_stat_df)
+  }
+  
+  stock_status_df <- stock_status_layers %>%
+    rescale_bprime_crit(bmax     = b_bmsy_underexploit_thresh,
+                        bmax_val = b_bmsy_underexploit_penalty) %>%
+    rescale_fprime_crit(fmax     = f_fmsy_overfishing_thresh,
+                        fmin_val = f_fmsy_underfishing_penalty) %>%
+    mutate(x_prod = ifelse(!is.na(fPrime), (fPrime * bPrime), bPrime),
+           basis  = case_when(
+             !is.na(fPrime) & !is.na(bPrime) ~ 'F_Fmsy, B_Bmsy',
+             is.na(fPrime) & !is.na(bPrime) ~ 'B_Bmsy only',
+             is.na(bPrime) & !is.na(fPrime) ~ 'F_Fmsy only'
+           )) %>%
+    dplyr::select(year, stockid, stocklong, common_noaa,
+                  score = x_prod,
+                  basis,
+                  bPrime, fPrime,
+                  b_bmsy, f_fmsy) 
+```
+
+Take the average scores for the 5 species with sub-stocks. Just doing a group_by with common_noaa and averaging scores will do this for all species (but only change the values for these sub-species). 
+
+Remove stocks with just F_Fmsy - these stocks have no stock scores since we don't have a way to get a score from just F/Fmsy
+
+```{r}
+stock_scores <- stock_status_df %>%
+  group_by(common_noaa, year) %>%
+  mutate(score = mean(score, na.rm=T)) %>%
+  filter(basis != "F_Fmsy only") %>%
+  select(year, common_noaa, score, bPrime, fPrime, b_bmsy, f_fmsy, basis) %>%
+  distinct()
+```
+
+Visualize
+
+```{r}
+ggplot(stock_scores, aes(x = year, y = score)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~common_noaa)
+```
+
+
+```{r kobe}
+
+kobe_plot <- function(species){
+  
+ ss_df <- stock_scores %>%
+    filter(common_noaa == species) %>%
+    arrange(year) %>%
+    mutate(last_bbmsy = last(b_bmsy),
+           last_ffmsy = last(f_fmsy),
+           last_datayear = last(year)) %>%
+   ungroup()
+
+generate_kobe_df <- function(f_fmsy_max = 2.5,
+                             b_bmsy_max = 3.0,
+                             reso       = 0.01,
+                             bmax_val   = 0,
+                             fmin_val   = 0,
+                             weighting_b = 1) {
+
+  kobe_raw <- data.frame(stock  = 1,
+                     f_fmsy = rep(seq(0, f_fmsy_max, reso), each  = round(b_bmsy_max/reso) + 1),
+                     b_bmsy = rep(seq(0, b_bmsy_max, reso), times = round(f_fmsy_max/reso) + 1))
+
+  kobe <- kobe_raw %>%
+    rescale_bprime_crit(bmax = b_bmsy_underexploit_thresh,
+                        bmax_val = bmax_val) %>%
+    rescale_fprime_crit(fmax = f_fmsy_overfishing_thresh,
+                        fmin_val = fmin_val) %>%
+    mutate(x_geom  = (fPrime * bPrime),
+           x_arith = (fPrime + bPrime) / 2)
+
+  return(kobe)
+}
+
+bbmsy_lim <- max(round(max(ss_df$b_bmsy, na.rm = TRUE) + .1, 1), 3)
+ffmsy_lim <- max(round(max(ss_df$f_fmsy, na.rm = TRUE) + .1, 1), 2.5)
+  
+kobe_df <- generate_kobe_df(f_fmsy_max = ffmsy_lim,
+                           b_bmsy_max = bbmsy_lim,
+                           bmax_val = .25,
+                           fmin_val = .25)
+
+
+kobe_stock_plot <- ggplot(data = kobe_df, aes(x = b_bmsy, y = f_fmsy)) +
+    theme_bw() +
+    geom_raster(alpha = .8, aes(fill = x_geom)) +
+    scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+    labs(title = as.character(species),
+         x = 'B/Bmsy',
+         y = 'F/Fmsy',
+         fill = "Stock score") +
+    geom_path(data = ss_df, 
+              show.legend = FALSE,
+              aes(x = b_bmsy, y = f_fmsy, group = common_noaa),
+              color = 'grey30') +
+    geom_point(data = ss_df, 
+               show.legend = FALSE,
+              aes(x = last_bbmsy, y = last_ffmsy)) +
+    geom_text(data = ss_df %>%
+                mutate(year = ifelse(year/5 == round(year/5) | year == last_datayear, year, NA)), 
+              aes(x = b_bmsy, y = f_fmsy, label = year), 
+              hjust = 0, nudge_x = .05, size = 2)
+
+return(kobe_stock_plot)
+}
+
+```
+
+Apply function to all species in the stock_scores data frame. This does not work for the sub-stock species so we need to remove those.
+
+```{r, fig.width = 12, fig.height = 8}
+sp <- stock_scores %>%
+  filter(basis == "F_Fmsy, B_Bmsy",
+         !common_noaa %in% c("monkfish", "yellowtail flounder", 
+                             "winter flounder", "haddock", "atlantic cod"))
+
+plots <- lapply(unique(sp$common_noaa), kobe_plot)
+cowplot::plot_grid(plotlist = plots[1:4])
+cowplot::plot_grid(plotlist = plots[5:8])
+cowplot::plot_grid(plotlist = plots[9:12])
+cowplot::plot_grid(plotlist = plots[13:16])
+cowplot::plot_grid(plotlist = plots[17:20])
+cowplot::plot_grid(plotlist = plots[21:24])
+cowplot::plot_grid(plotlist = plots[25:27])
+
+```
+
+
+
+
+
