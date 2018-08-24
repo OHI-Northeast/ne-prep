@@ -1,0 +1,43 @@
+---
+title: "Prep clean waters data layers for dashboard"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+## Summary
+
+The trash layer is derived from [Ocean Conservancy data](https://oceanconservancy.org/trash-free-seas/international-coastal-cleanup/annual-data-release/)) on the pounds of trash collected on International Coastal Cleanup Day.
+
+```{r setup, message = F, warning = F, reslts = 'hide'}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')
+
+library(tidyverse)
+```
+
+## Data Wrangling
+
+```{r}
+
+
+```
+
+
+
+
+
+
