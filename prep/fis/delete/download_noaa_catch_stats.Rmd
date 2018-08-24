@@ -1,11 +1,20 @@
 ---
 title: "Downloading NOAA Catch Statistics"
-author: "Jamie Afflerbach"
-date: "11/9/2017"
-output: html_document
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohi-northeast/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
 ---
-
-
 
 
 ```{r}
@@ -75,6 +84,13 @@ noaa_data <- ne_data %>%
 write_csv(noaa_data, "data/noaa_catch_statistics.csv")
 ```
 
+
+Visualize
+
+```{r}
+
+
+```
 
 
 
