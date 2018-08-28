@@ -59,7 +59,7 @@ Are there any species in RAM that are not in NOAA
 setdiff(ram_sp, noaa_sp)
 ```
 
-Ok there are `r length(setdiff(ram_sp, noaa_sp))` ram species not in NOAA. But maybe the names just don't match. I know for a fact that menhaden, bluefin, plaice, butterfish and herring are in the NOAA dataset. We just need to get these identified.
+Ok there are `r nrow(setdiff(ram_sp, noaa_sp))` ram species not in NOAA. But maybe the names just don't match. I know for a fact that menhaden, bluefin, plaice, butterfish and herring are in the NOAA dataset. We just need to get these identified.
 
 ```{r}
 ram_fixed <- ram %>%
@@ -73,19 +73,23 @@ ram_fixed <- ram %>%
            common_lower == "spiny dogfish" ~ "spiny dogfish shark",
            common_lower == "atlantic surfclam" ~ "atlantic surf clam",
            common_lower == "tilefish" ~ "golden tilefish",
-           common_lower == "smooth dogfish" ~ "smooth dogfish shark"
+           common_lower == "smooth dogfish" ~ "smooth dogfish shark",
+           common_lower == "atlantic butterfish" ~ "butterfish",
+           common_lower == "red deepsea crab" ~ "deepsea red crab",
+           common_lower == "scalloped hammerhead" ~ "hammerhead shark",
+           common_lower == "windowpane" ~ "windowpane flounder"
          )) %>%
   mutate(common_noaa = ifelse(is.na(common_lower_noaa), common_lower, common_lower_noaa)) %>%
   select(-common_lower, -common_lower_noaa)
 ```
-
-Monkfish and Sailfish are the only species in the RAM database (filtered for the US Northeast) that do not appear in NOAA catch statistics.
+**NOTES**
+Monkfish and Sailfish are the only species in the RAM database w/ B/Bmsy (filtered for the US Northeast) that do not appear in NOAA catch statistics.
 
 Are there multiple stocks of a single species? If so this means we need to identify where stocks are fished. 
 
 ```{r}
 dups <- ram_fixed %>%
-  select(common_noaa, stocklong, region, areaname) %>%
+  select(common_noaa, stocklong, areaname) %>%
   distinct() %>%
   arrange(common_noaa)
 
@@ -98,33 +102,20 @@ Just by looking at the table, it seems there are a few sub-species stocks includ
 - Monkfish (seems like a Southern and Northern that might be our region and the mid-atlantic)
 - Winter flounder (George's Bank and Southern New England/Mid-Atlantic)
 - Yellowtail flounder (Cape Cod/Gulf of Maine and Southern New England/Mid-Atlantic)
+- Windowpane flounder
 
 I did some visual inspection of the shapefiles for these stocks from [Chris Free's database](https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/) and it does seem that all of these touch our regions. Initially I was going to pull the shapefiles for each of these stocks and then assign catch based on the region they touch. For example catch of Yellowtail flounder landed in Connecticut would be assigned to the Southern New England/Mid-Atlantic stock. But I don't think this is appropriate. We need to **check with NEFSC folks** about this. But I imagine fisherman/woman are not this selective and could possibly be landing Yellowtail from either stock. So for now I am going to calculate an average stock score for each of these species.
 
 
-```{r}
-ram_noaa <- ram_fixed %>%
-  mutate(species = toupper(common_noaa)) %>%
-  left_join(noaa) %>%
-  filter(year > 1979)
-```
+I want to look just at b/bmsy & f/fmsy of each stock.
 
-I want to look just at catch & b/bmsy, f/fmsy of each stock and remove state information. So I need to aggregate all catch per year and stock. I'm going to remove the species with multiple stocks
-
-```{r}
-ram_noaa_stats <- ram_noaa %>%
-  group_by(species, year) %>%
-  mutate(catch = sum(pounds)) %>%
-  select(-state, -tons, -pounds) %>%
-  distinct()
-```
 
 # Visualize
 
 ```{r, fig.width = 10, fig.height = 8}
-sp <- unique(ram_noaa_stats$stockid)
+sp <- unique(ram_fixed$stockid)
 
-plot_1_df <- ram_noaa_stats %>%
+plot_1_df <- ram_fixed %>%
   filter(stockid %in% sp[1:22])
 
 ggplot(plot_1_df, aes(x = year, y = value, color = metric)) +
@@ -133,7 +124,7 @@ ggplot(plot_1_df, aes(x = year, y = value, color = metric)) +
   facet_wrap(~stockid, scales = 'free') +
   theme_bw()
 
-plot_2_df <- ram_noaa_stats %>%
+plot_2_df <- ram_fixed %>%
   filter(stockid %in% sp[23:44])
 
 ggplot(plot_2_df, aes(x = year, y = value, color = metric)) +
@@ -144,21 +135,18 @@ ggplot(plot_2_df, aes(x = year, y = value, color = metric)) +
 
 ```
 
-Why does Bluefin tuna not have B/Bmsy? Seems weird
-
-
 Convert these value to stock scores.
 
 ```{r stock_score_calc}
 
 #grab just B/Bmsy data
-  ram_b_bmsy <- ram_noaa_stats %>%
+  ram_b_bmsy <- ram_fixed %>%
     filter(metric == "B/Bmsy") %>%
     select(stockid, stocklong, common_noaa, year, value) %>%
     rename(b_bmsy = value)
 
 #grab just F/Fmsy data  
-  ram_f_fmsy <- ram_noaa_stats %>%
+  ram_f_fmsy <- ram_fixed %>%
     filter(metric == "F/Fmsy") %>%
     select(stockid, stocklong, common_noaa, year, value)
   ### 
@@ -287,6 +275,7 @@ Remove stocks with just F_Fmsy - these stocks have no stock scores since we don'
 
 ```{r}
 stock_scores <- stock_status_df %>%
+  filter(year > 1979) %>%
   group_by(common_noaa, year) %>%
   mutate(score = mean(score, na.rm=T)) %>%
   filter(basis != "F_Fmsy only") %>%
@@ -378,7 +367,7 @@ Apply function to all species in the stock_scores data frame. This does not work
 sp <- stock_scores %>%
   filter(basis == "F_Fmsy, B_Bmsy",
          !common_noaa %in% c("monkfish", "yellowtail flounder", 
-                             "winter flounder", "haddock", "atlantic cod"))
+                             "winter flounder", "windowpane flounder", "haddock", "atlantic cod"))
 
 plots <- lapply(unique(sp$common_noaa), kobe_plot)
 cowplot::plot_grid(plotlist = plots[1:4])
@@ -387,11 +376,20 @@ cowplot::plot_grid(plotlist = plots[9:12])
 cowplot::plot_grid(plotlist = plots[13:16])
 cowplot::plot_grid(plotlist = plots[17:20])
 cowplot::plot_grid(plotlist = plots[21:24])
-cowplot::plot_grid(plotlist = plots[25:27])
+cowplot::plot_grid(plotlist = plots[25:28])
 
 ```
 
 
+
+Link with noaa
+
+```{r}
+ram_noaa <- ram_fixed %>%
+  mutate(species = toupper(common_noaa)) %>%
+  left_join(noaa) %>%
+  filter(year > 1979)
+```
 
 
 
