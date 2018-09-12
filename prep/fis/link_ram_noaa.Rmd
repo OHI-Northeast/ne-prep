@@ -18,6 +18,8 @@ output:
 ```{r setup, message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(tidyverse)
+
+source("~/github/ne-prep/src/R/common.R")
 ```
 
 ## Load Data
@@ -81,7 +83,10 @@ ram_fixed <- ram %>%
          )) %>%
   mutate(common_noaa = ifelse(is.na(common_lower_noaa), common_lower, common_lower_noaa)) %>%
   select(-common_lower, -common_lower_noaa)
+
+write.csv(ram_fixed, file = "data/ne_ram_data.csv")
 ```
+
 **NOTES**
 Monkfish and Sailfish are the only species in the RAM database w/ B/Bmsy (filtered for the US Northeast) that do not appear in NOAA catch statistics.
 
@@ -97,12 +102,12 @@ DT::datatable(dups)
 ```
 
 Just by looking at the table, it seems there are a few sub-species stocks including:  
-- Atlantic cod (George's Bank and Gulf of Maine are two different stocks)
-- Haddock (George's Bank and Gulf of Maine are two different stocks)
-- Monkfish (seems like a Southern and Northern that might be our region and the mid-atlantic)
-- Winter flounder (George's Bank and Southern New England/Mid-Atlantic)
-- Yellowtail flounder (Cape Cod/Gulf of Maine and Southern New England/Mid-Atlantic)
-- Windowpane flounder
+- Atlantic cod (George's Bank and Gulf of Maine are two different stocks)  
+- Haddock (George's Bank and Gulf of Maine are two different stocks)  
+- Monkfish (seems like a Southern and Northern that might be our region and the mid-atlantic)  
+- Winter flounder (George's Bank and Southern New England/Mid-Atlantic)  
+- Yellowtail flounder (Cape Cod/Gulf of Maine and Southern New England/Mid-Atlantic)  
+- Windowpane flounder  
 
 I did some visual inspection of the shapefiles for these stocks from [Chris Free's database](https://marine.rutgers.edu/~cfree/ram-legacy-stock-boundary-database/) and it does seem that all of these touch our regions. Initially I was going to pull the shapefiles for each of these stocks and then assign catch based on the region they touch. For example catch of Yellowtail flounder landed in Connecticut would be assigned to the Southern New England/Mid-Atlantic stock. But I don't think this is appropriate. We need to **check with NEFSC folks** about this. But I imagine fisherman/woman are not this selective and could possibly be landing Yellowtail from either stock. So for now I am going to calculate an average stock score for each of these species.
 
@@ -271,7 +276,7 @@ Convert these value to stock scores.
 
 Take the average scores for the 5 species with sub-stocks. Just doing a group_by with common_noaa and averaging scores will do this for all species (but only change the values for these sub-species). 
 
-Remove stocks with just F_Fmsy - these stocks have no stock scores since we don't have a way to get a score from just F/Fmsy
+Remove stocks with just F_Fmsy - these stocks have no stock scores since we don't have a way to get a score from just F/Fmsy. Also roll all values forward to 2017.
 
 ```{r}
 stock_scores <- stock_status_df %>%
@@ -280,7 +285,22 @@ stock_scores <- stock_status_df %>%
   mutate(score = mean(score, na.rm=T)) %>%
   filter(basis != "F_Fmsy only") %>%
   select(year, common_noaa, score, bPrime, fPrime, b_bmsy, f_fmsy, basis) %>%
-  distinct()
+  distinct() %>%
+  complete(year = 1980:2016) %>% #NOAA catch data only goes to 2016
+  distinct() %>%
+  mutate(gapfilled = ifelse(is.na(score), 1, 0)) %>%
+  group_by(common_noaa) %>%
+  fill(score, bPrime, fPrime, b_bmsy, f_fmsy, basis, gapfilled) %>%                #assigns most recent value to following years if missing, up to 2017
+  fill(score, bPrime, fPrime, b_bmsy, f_fmsy, basis, gapfilled, .direction = "up") #assigns values to earlier years if missing
+  
+```
+
+Save cleaned up version for toolbox
+```{r}
+ss_toolbox <- stock_scores %>%
+  select(common_noaa, year, score)
+
+write.csv(ss_toolbox, file = file.path(dir_calc, "layers/fis_stockscores.csv"))
 ```
 
 Visualize
@@ -364,8 +384,10 @@ return(kobe_stock_plot)
 Apply function to all species in the stock_scores data frame. This does not work for the sub-stock species so we need to remove those.
 
 ```{r, fig.width = 12, fig.height = 8}
+
 sp <- stock_scores %>%
   filter(basis == "F_Fmsy, B_Bmsy",
+         gapfilled == 0,
          !common_noaa %in% c("monkfish", "yellowtail flounder", 
                              "winter flounder", "windowpane flounder", "haddock", "atlantic cod"))
 
@@ -381,15 +403,103 @@ cowplot::plot_grid(plotlist = plots[25:28])
 ```
 
 
-
-Link with noaa
+Link with noaa catch data and save for data exploration and dashboard
 
 ```{r}
-ram_noaa <- ram_fixed %>%
+ram_noaa <- stock_scores %>%
   mutate(species = toupper(common_noaa)) %>%
   left_join(noaa) %>%
   filter(year > 1979)
+
+write.csv(ram_noaa, file = "data/noaa_catch_and_ram_data.csv")
 ```
 
+Clean up layers to save for toolbox. This means adding region ids and selecting specific columns necessary
+
+```{r}
+catch <- ram_noaa %>%
+  select(common_noaa, year, state, pounds) %>%
+  distinct() %>%
+  group_by(state, common_noaa) %>%
+  complete(year = 1980:2017) %>%
+  mutate(catch = ifelse(is.na(pounds), 0, pounds),
+         mean_catch = zoo::rollmean(catch, 3, fill = NA)) %>%
+  filter(year > 2005) %>%
+  select(year, common_noaa, state, mean_catch)
+
+write.csv(catch, file = file.path(dir_calc, "layers/fis_meancatch.csv"))
+```
+
+## NOTE: I am gapfilling years with no catch data with a 0 instead of NA. confirm with NOAA
+
+
+Now we can score. *Think about moving this to functions.R*
+
+
+```{r}
+# To calculate the weight (i.e, the relative catch of each stock per region),
+# the mean catch of taxon i is divided by the sum of mean catch of all species in region/year
+
+#get the weight for each region/stock/year combo
+scores_weight <- ram_noaa %>%
+    group_by(year, state) %>%
+    mutate(SumCatch = sum(pounds)) %>%
+    ungroup() %>%
+    mutate(wprop = pounds / SumCatch) %>%
+  distinct()
+
+state_status <- scores_weight %>%
+    group_by(state, year) %>%
+    summarize(status = sum(score * wprop)) %>%
+    ungroup() %>%
+  filter(!is.na(state))
+
+ggplot(state_status %>% filter(year > 2000), aes(x = year, y = status*100, color = state)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Fisheries Status")
+```
+
+```{r, fig.width = 10, fig.height = 8}
+## plotting fishery catch weighting by region
+stock_plot_df <- scores_weight %>%
+  filter(year > 2000,
+         !is.na(state))
+
+ggplot(stock_plot_df, aes(x = year, y = score)) +
+  geom_line(data = state_status %>% filter(year > 2000), aes(x = year, y = status), color = "black") +
+    theme_bw() +
+    geom_line(aes(group = common_noaa, color = common_noaa,
+                  size = wprop), lineend = 'round', alpha = .6) +
+    labs(color = 'Species',
+         y     = 'Stock Score') +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+    facet_wrap(~state) +
+  labs(title = "Species scores over time") +
+  theme(legend.position="bottom")
+```
+
+```{r}
+## plotting fishery catch weighting by region
+stock_plot_df <- scores_weight %>%
+  filter(year > 2000,
+         !is.na(state),
+         wprop > 0.10)
+
+ggplot(stock_plot_df, aes(x = year, y = score)) +
+    theme_bw() +
+    geom_line(aes(group = common_noaa, color = common_noaa,
+                  size = wprop), lineend = 'round', alpha = .8) +
+    geom_line(data = state_status %>% filter(year > 2000), aes(x = year, y = status), color = "black") +
+    labs(color = 'Species',
+         y     = 'Stock Score',
+         title = "Species scores over time\n(species contributing at least 10% of regions catch)") +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+    facet_wrap(~state)  +
+  theme(legend.position="none")
+```
 
 

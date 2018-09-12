@@ -11,15 +11,14 @@ output:
     theme: cerulean
     highlight: haddock
     includes: 
-      in_header: '~/github/ohi-northeast/src/templates/ohi_hdr.html'
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
   pdf_document:
     toc: true
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide'}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, message = FALSE, warning = FALSE)
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
