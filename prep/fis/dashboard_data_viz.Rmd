@@ -1,0 +1,89 @@
+---
+title: "Dashboard Data Viz"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+```{r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library(tidyverse)
+
+source("~/github/ne-prep/src/R/common.R")
+```
+
+This .rmd will eventually be deleted. Keeping here for now to cross check with dashboard plots.
+
+```{r}
+#get the weight for each region/stock/year combo
+catch_weight <- read.csv(file.path(dir_calc, "layers/fis_meancatch.csv")) %>%
+    select(-X) 
+
+#merge catch weight with stock scores
+stockscores <- read.csv(file.path(dir_calc, "layers/fis_stockscores.csv")) %>% select(-X)
+
+scores_weight <- catch_weight %>%
+    left_join(stockscores) %>%
+    filter(!is.na(score)) %>% #remove stocks with no stock scores **THIS MIGHT NEED TO CHANGE IF WE WANT TO KEEP THESE STOCKS AND GAPFILL INSTEAD**
+    group_by(year, rgn_id) %>%
+    mutate(SumCatch = sum(mean_catch)) %>%
+    ungroup() %>%
+    rowwise() %>%
+    mutate(wprop = mean_catch / SumCatch,
+           weighted_score = sum(score * wprop)) %>%
+    group_by(rgn_id, year) %>%
+    mutate(rgn_score = sum(weighted_score)) %>%
+    ungroup()
+
+```
+
+```{r, fig.width = 10, fig.height = 8}
+## plotting fishery catch weighting by region
+stock_plot_df <- scores_weight %>%
+  filter(year > 2000)
+
+ggplot(stock_plot_df, aes(x = year, y = score)) +
+    geom_line(aes(group = species, color = species,
+                  size = wprop), lineend = 'round', alpha = .6) +
+    labs(color = 'Species',
+         y     = 'Stock Score') +
+   geom_line(aes(x = year, y = rgn_score), color = "black") +
+    theme_bw() +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+    facet_wrap(~state) +
+  labs(title = "Species scores over time") +
+  theme(legend.position="bottom")
+```
+
+```{r}
+## plotting fishery catch weighting by region
+stock_plot_df <- scores_weight %>%
+  filter(year > 2000,
+         !is.na(state),
+         wprop > 0.10)
+
+ggplot(stock_plot_df, aes(x = year, y = score)) +
+    theme_bw() +
+    geom_line(aes(group = species, color = species,
+                  size = wprop), lineend = 'round', alpha = .8) +
+    geom_line(aes(x = year, y = rgn_score), color = "black") +
+    labs(color = 'Species',
+         y     = 'Stock Score',
+         title = "Species scores over time\n(species contributing at least 10% of regions catch)") +
+    guides(colour = guide_legend(override.aes = list(size = 3)),
+           size = 'none') +
+    facet_wrap(~state)
+```
+
+
