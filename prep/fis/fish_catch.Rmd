@@ -3,7 +3,7 @@ title: "Downloading NOAA Catch Statistics"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -24,9 +24,11 @@ library(tidyverse)
 library(crul)
 library(rvest)
 library(xml2)
-library(trelliscopejs)
-library(plotly)
+
+source("~/github/ne-prep/src/R/common.R")
 ```
+
+# Query data
 
 [Metadata](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:240:::NO:::)
 
@@ -71,7 +73,7 @@ ny_data <- rvest::html_table(xml2::read_html(x), fill = TRUE) %>%
   mutate(State = "New York")
 ```
 
-Clean up the data
+# Clean up the data
 
 The column "X" is actually dollars. We can remove this column.
 
@@ -108,26 +110,87 @@ nd <- noaa_data %>%
 write_csv(nd, "data/noaa_catch_statistics.csv")
 ```
 
-Visualize
+# Visualize
 
-```{r}
+```{r, fig.width = 10, fig.height = 6}
 #read in raw data
-nd <- read_csv("data/noaa_catch_statistics.csv")
+nd <- read_csv("data/noaa_catch_statistics.csv") %>%
+  filter(year > 2002) %>%
+  mutate(pounds_in_thou = pounds/1000) #column in thousands of pounds for better plotting
 
-herr <- nd %>%
-  filter(species == "ATLANTIC HERRING")
-
-ggplot(herr, aes(x = year, y = pounds, color = state)) +
-  geom_line() +
-  theme_bw()
-
-ggplot(nd, aes(x = year, y = pounds, color = species)) +
+p <- ggplot(nd, aes(x = year, y = pounds_in_thou, color = species)) +
   geom_line() +
   theme_bw() +
-  facet_trelliscope(~state, scales = "free", as_plotly = TRUE, width = 1000) +
-  guides(color = FALSE)
+  facet_wrap(~state, scales = "free") +
+  theme(legend.position = "none")
+
+plotly::ggplotly(p)
 
 ```
+
+# Prepare layer for toolbox
+
+I need to add in the regions, which will be all the state waters. Massachusetts will remain as "Massachusetts" and the final goal score for Wild-Caught Fisheries will be the same for both MA regions. I'm also changing all `species` to lower case to match with RAM later. Even though the NOAA data only goes to 2016, we add the year 2017 for the toolbox. We also need to **gapfill** missing data. When a species/state combination has missing data for a year, we are going to assume that there was **zero catch** for that species/year. We also calculate a rolling average of catch. This is done to account for any wild fluctuations in catch year to year.
+
+### We should double check with NEFSC folks about this method for gap-filling missing data
+
+```{r toolbox_layer}
+
+tbx_lyr <- nd %>%
+  mutate(species = tolower(species)) %>%
+  group_by(state, species) %>%
+  complete(year = 1980:2017) %>%
+  ungroup() %>%
+  mutate(catch = ifelse(is.na(pounds), 0, pounds)) %>%
+  group_by(state, species) %>%
+  arrange(year) %>%
+  mutate(mean_catch = zoo::rollapply(catch, 3, mean, fill = NA, align = 'right')) %>%  ## create a new column `mean_catch` with rolling mean of 3 yrs
+  ungroup() %>%
+  left_join(rgn_data) %>%
+  filter(year > 2004) %>%
+  select(year, state, rgn_id, species, mean_catch)
+
+# save to toolbox
+write.csv(tbx_lyr, file = file.path(dir_calc, "layers/fis_meancatch.csv"))
+```
+
+Plot mean catch after gapfilling. This is the data used in scoring. 
+
+```{r, fig.width = 10, fig.height = 6}
+
+p <- ggplot(tbx_lyr, aes(x = year, y = mean_catch/1000, color = species)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~state, scales = "free") +
+  labs(y = "Mean catch (1000s lbs)",
+       x = "") +
+  theme(legend.position = "none")
+
+plotly::ggplotly(p)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
