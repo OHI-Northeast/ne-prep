@@ -65,7 +65,7 @@ sqi_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA/ncca2010_sediment_indicat
          NCCA_REG == "Northeast") %>%
   select(SITE_ID, NCCA_SQI_STATUS, LON_DD, LAT_DD, PSTL_CODE) %>%
   mutate(Year = 2010) %>%
-  left_join(site_info_2) %>%
+  left_join(site_info_2010) %>%
   rename(siteID = SITE_ID)
 ```
 
