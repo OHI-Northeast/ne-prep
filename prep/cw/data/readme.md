@@ -1,20 +1,6 @@
 #Data details
 ##Jamie Afflerbach
 
-`nccos_chem_data.txt`
-This data was downloaded from NOAA on February 1, 2017.
-
-Data URL: https://products.coastalscience.noaa.gov/nsandt_data/data.aspx
-
-Selected Chemicals: 
-Arsenic, Cadmium, Chlordanes, Chromium, DDT, Dieldrins, Lead, Mercury, Mirex, Nickel, PCB
-
-Selected regions:
-Each state in our regions
-
-This dataset was downloaded as a .txt file, opened in Excel and then saved as a .csv file with no changes or manipulations to the data
-
-***
 
 `beach_actions_(advisories_and_closures).csv`
 This dataset was downloaded from the EPA on February 3, 2017.
@@ -43,3 +29,4 @@ Data URL: https://watersgeo.epa.gov/beacon2/
 (3) Additional Filtering - selected years 2005 - 2016
 (4) Report Selection: selected Beach Actions (advisories and closures)
 (5) Downloaded as a .csv
+
