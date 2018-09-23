@@ -18,8 +18,23 @@ output:
 
 ## Summary
 
-This layer is derived from the EPA's National Coastal Condition Assessment Water Quality Index data.
+This layer is derived from the [EPA's National Coastal Condition Assessment Water Quality Index (WQI) data](https://www.epa.gov/national-aquatic-resource-surveys/ncca), specifically the measurements for 2005/2006 and 2010 time periods.
 
+The EPA measures the Water Quality Index for multiple sites throughout the Northeast region. The WQI status for each site are either `GOOD`, `FAIR`, `POOR` or `MISSING`. A score for each OHI-Northeast coastal region is calculated using these WQI values and the site-associated weights. `GOOD` sites are assigned a perfect score (100), `FAIR` sites are assigned a value of 50 and `POOR` sites are assigned a 0. Each site's score is multiplied by it's weight (assigned by the EPA) and then averaged to get final region scores.
+
+Sites with MISSING data are removed.
+
+## Background
+
+> "The National Coastal Condition Assessment (NCCA) is a national coastal monitoring program with rigorous quality assurance protocols and standardized sampling procedures designed to produce national and regional estimates of coastal condition."
+
+> "NCCA evaluates four indices of condition—water quality, sediment quality, benthic community condition, and fish tissue contaminants – to evaluate the ecological condition and recreational potential of coastal waters. Consistent sampling and analytical procedures ensure that the results can be compared across the country and over time."
+
+The WQI is a composite indicator that combines measurements of five components (DIN, DIP, chlorophyll a, water clarity, and dissolved oxygen).
+
+Assessments have taken place in 2000/2001, 2005/2006, 2010 and 2015. As of this writing, the 2015 data is not available.
+
+### Setup
 
 ```{r setup, message = F, warning = F, reslts = 'hide'}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
@@ -29,30 +44,38 @@ source('~/github/ne-prep/src/R/common.R')
 library(tidyverse)
 ```
 
-## Load Water Quality Index data
+## Load Data
 
-There are two Water Quality Index datasets we are going to use for the two different time periods. 
-I want to select only the information I need (states in our region and Water Quality Index categories). I also load the site info for each time series - we use the weights in each of these datasets.
+Four datasets were downloaded from [this NCCA data portal](https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys):
 
-```{r}
+- site information for both time periods (2 datasets)
+- WQI for both time periods (2 datasets)
+
+The data is loaded and filtered for sites in the Northeast region, identified by postal code. The only information we need from the `sites` data is the weighting factor for each site. This will be used later on to properly weight the contribution of each site to the final score.
+
+```{r load_data}
+#load site info for 05/06 time period
 site_info_1 <- readxl::read_excel(file.path(dir_anx, "_raw_data/EPA/nca_siteinformationdata_narschallenge.xlsx")) %>% 
   filter(PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT")) %>%
-  select(SITE_ID, WGT_NCA_56)
+  select(siteID = SITE_ID, WGT_NCA_56)
 
+#load site info for 2010 time period
 site_info_2 <- read_csv(file.path(dir_anx, "_raw_data/EPA/assessed_ncca2010_siteinfo.revised.06212016.csv")) %>%
   filter(STATE %in% c("MA", "ME", "RI", "NY", "NH", "CT"),
          NCA_REGION == "East Coast") %>%
-  select(SITE_ID, WGT_NCCA10)
+  select(siteID = SITE_ID, WGT_NCCA10)
 
+#load WQI data for 05/06
 water_old <- readxl::read_excel(file.path(dir_anx, "_raw_data/EPA/nca_waterchemdata_narschallenge.xlsx")) %>% 
   filter(PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT")) %>%
-  select(SITE_ID, status = Cat_WQI, LON_DD, LAT_DD, PSTL_CODE, Year = SAMPYEAR) %>%
+  select(siteID = SITE_ID, status = Cat_WQI, LON_DD, LAT_DD, PSTL_CODE, Year = SAMPYEAR) %>%
   left_join(site_info_1)
 
+#load WQI data for 2010
 water_new <- read_csv(file.path(dir_anx, "_raw_data/EPA/ncca2010_water_quality_indicator_status.csv")) %>%
   filter(PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT"),
          NCCA_REG == "Northeast") %>%
-  select(SITE_ID, status = CAT_WQI, LON_DD, LAT_DD, PSTL_CODE) %>%
+  select(siteID = SITE_ID, status = CAT_WQI, LON_DD, LAT_DD, PSTL_CODE) %>%
   mutate(Year = 2010) %>%
   left_join(site_info_2)
 ```
@@ -61,7 +84,7 @@ water_new <- read_csv(file.path(dir_anx, "_raw_data/EPA/ncca2010_water_quality_i
 
 Combining both datasets and assigning the time periods for each. If the year is 2000 or 2001, that's time period 1. 2005-2006 is time period 2 and 2010 is time period 3.
 
-```{r}
+```{r combine_data}
 wqi <- water_old %>%
   bind_rows(water_new) %>%
   mutate(time_period = 
@@ -69,27 +92,31 @@ wqi <- water_old %>%
              Year %in% c(2000, 2001) ~ 1,
              Year %in% c(2005, 2006) ~ 2,
              Year == 2010 ~ 3
-           ))
+           )) %>%
+  filter(time_period != 1) #remove earlier time period
 ```
 
-I also need to assign regions to each of these. For the most part, the State is the region but for Massachusetts we need to be specific to what region it belongs. The best way to do this is manually.
+Now assign OHI region names or ids to each of the sites. For the most part, the State in the WQI data is the region, but for Massachusetts we need to be specific about what region the sites belong to. The best way to do this is manually so I use `mapview::mapview()` to identify sites in MA and assign to either Massachusetts-Gulf of Maine or Massachusetts-Virginian.
 
-```{r ma}
+Look first just at sites identified by the `MA` postal code.
+
+```{r ma_sites}
+#filter wqi for sites only in MA
 ma <- wqi %>%
   filter(PSTL_CODE == "MA")
 
+#create a simple features (sf) object from the coordinates contained in the dataset
 ma_points = st_as_sf(ma, coords = c("LON_DD", "LAT_DD"), 
                  crs = 4326)
-
-#mapview::mapview(ma_points) 
-
+#plot
 ggplot() +
   geom_sf(data = rgns %>% filter(rgn_id %in% c(7,8)), aes(fill = rgn_id)) +
   geom_sf(data = ma_points, color = 'darkgreen') +
   theme_bw()
+```
 
-#try an st_intersect
-
+To assign region ids, try `sf::st_intersect` between the MA sites and the OHI-Northeast regions file already loaded from common.R
+```{r ma_rgns_intersect}
 int <- ma_points %>%
   st_transform('+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs') %>%
   st_intersection(rgns)
@@ -98,80 +125,38 @@ ggplot() +
   geom_sf(data = rgns %>% filter(rgn_id %in% c(7,8)), aes(fill = rgn_id)) +
   geom_sf(data = int, color = 'darkgreen') +
   theme_bw()
-#mapview::mapview(int)
 ```
 
-What points are we missing
-```{r}
-s <- setdiff(ma_points$SITE_ID, int$SITE_ID)
+It looks like most sites were captured but what points are we missing? We probably didn't get all the sites in the intersection.
 
+```{r missing_ma_sites}
+#find sites that are not in the intersection
+s <- setdiff(ma_points$siteID, int$siteID)
+
+#limit to just the missing sites
 miss <- ma_points %>%
-  filter(SITE_ID %in% s)
+  filter(siteID %in% s)
 
-#mapview::mapview(miss)
+#use mapview to manually explore and then assign region ids
+mapview::mapview(miss)
 
-#add a rgn_id column manually for the missing points based on mapview
 miss_gf <- miss %>%
   data.frame() %>%
   mutate(rgn_id = 
            case_when(
-             SITE_ID == "MA01-0080" ~ 7,
-             SITE_ID == "MA01-0076" ~ 7,
-             SITE_ID == "MA00-0075" ~ 7,
-             SITE_ID == "MA01-0004" ~ 7,
-             SITE_ID == "MA00-0075" ~ 7,
-             SITE_ID == "MA01-0074" ~ 7,
-             SITE_ID == "MA00-0075" ~ 7,
-             SITE_ID == "NCCA10-1023" ~ 7,
-             SITE_ID == "MA01-0072" ~ 7,
-             SITE_ID == "MA00-0075" ~ 7,
-             SITE_ID == "MA05-0006" ~ 7,
-             SITE_ID == "MA00-0075" ~ 7,
-             SITE_ID == "MA00-0071" ~ 7,
-             SITE_ID == "MA01-0068" ~ 7,
-             SITE_ID == "MA01-0066" ~ 7,
-             SITE_ID == "MA00-0067" ~ 7,
-             SITE_ID == "MA06-0048" ~ 7,
-             SITE_ID == "MA00-0013" ~ 7,
-             SITE_ID == "MA00-0065" ~ 7,
-             SITE_ID == "MA01-0064" ~ 7,
-             SITE_ID == "MA00-0063" ~ 7,
-             SITE_ID == "MA01-0062" ~ 7,
-             SITE_ID == "MA06-0026" ~ 8,
-             SITE_ID == "MA00-0061" ~ 8,
-             SITE_ID == "MA00-0059" ~ 8,
-             SITE_ID == "BU01-0013" ~ 8,
-             SITE_ID == "MA01-0034" ~ 8,
-             SITE_ID == "NCCA10-1009" ~ 8,
-             SITE_ID == "MA06-0042" ~ 8,
-             SITE_ID == "NCCA10-1011" ~ 8,
-             SITE_ID == "BU01-0001" ~ 8,
-             SITE_ID == "MA01-0046" ~ 8,
-             SITE_ID == "MA05-0009" ~ 8,
-             SITE_ID == "MA01-0048" ~ 8,
-             SITE_ID == "MA01-0010" ~ 8,
-             SITE_ID == "MA00-0009" ~ 8,
-             SITE_ID == "BU01-0002" ~ 8,
-             SITE_ID == "NCCA10-1001" ~ 8,
-             SITE_ID == "MA01-0056" ~ 8,
-             SITE_ID == "MA00-0055" ~ 8,
-             SITE_ID == "NCCA10-1058" ~ 8,
-             SITE_ID == "MA01-0050" ~ 8,
-             SITE_ID == "MA00-0049" ~ 8,
-             SITE_ID == "MA01-0054" ~ 8,
-             SITE_ID == "NCCA10-1008" ~ 8,
-             SITE_ID == "BU01-0016" ~ 8,
-             SITE_ID == "MA00-0039" ~ 8,
-             SITE_ID == "MA00-0035" ~ 8,
-             SITE_ID == "NCCA10-2001" ~ 8,
-             SITE_ID == "MA01-0090" ~ 8,
-             SITE_ID == "MA00-0089" ~ 8,
-             SITE_ID == "MA00-0087" ~ 8,
-             SITE_ID == "MA01-0088" ~ 8,
-             SITE_ID == "MA00-0085" ~ 8,
-             SITE_ID == "MA00-0083" ~ 8,
-             SITE_ID == "RI05-0025" ~ 8,
-             SITE_ID == "MA01-0084" ~ 8
+             siteID == "NCCA10-1023" ~ 7,
+             siteID == "MA05-0006" ~ 7,
+             siteID == "MA06-0048" ~ 7,
+             siteID == "MA06-0026" ~ 8,
+             siteID == "NCCA10-1009" ~ 8,
+             siteID == "MA06-0042" ~ 8,
+             siteID == "NCCA10-1011" ~ 8,
+             siteID == "MA05-0009" ~ 8,
+             siteID == "NCCA10-1001" ~ 8,
+             siteID == "NCCA10-1058" ~ 8,
+             siteID == "NCCA10-1008" ~ 8,
+             siteID == "NCCA10-2001" ~ 8,
+             siteID == "RI05-0025" ~ 8
            )) %>%
   select(-geometry)
 ```
@@ -183,12 +168,11 @@ ma_df <- int %>%
   data.frame() %>%
   select(-area_km2, -geometry, -rgn_name) %>%
   bind_rows(miss_gf)
-
 ```
 
 Additional data cleaning that adds the Massachusetts sites back in and removes the few sites that are actually in the George's Bank area.
 
-```{r}
+```{r clean_wqi_data}
 wqi_clean <- wqi %>%
   mutate(rgn_name = 
            case_when(
@@ -200,7 +184,7 @@ wqi_clean <- wqi %>%
              PSTL_CODE == "MA" ~ "NA"
            )) %>%
   left_join(rgn_data) %>%
-  left_join(ma_df, by = c("SITE_ID", "time_period", "Year", "status", "PSTL_CODE")) %>%
+  left_join(ma_df, by = c("siteID", "time_period", "Year", "status", "PSTL_CODE")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.x), rgn_id.y, rgn_id.x)) %>%
   select(-rgn_id.x, -rgn_id.y, -rgn_name, -state, -area_km2, -WGT_NCA_56.y, -WGT_NCCA10.y) %>%
   left_join(rgn_data) %>%
@@ -223,14 +207,14 @@ We remove all sites that have `MISSING` as a status. In this data, New York has 
 
 In 2010 only New York has missing sites, a total of 3.35% of area.
 
-** For now I will ignore the missing sites **
+**For now I will ignore the MISSING sites**
 
-```{r}
+```{r cat_analysis_0506}
 library(spsurvey)
 
+#select just 0506 data
 wqi_0506 <- wqi_clean %>% 
-  filter(Year < 2007, status != "MISSING") %>%
-  rename(siteID = SITE_ID)
+  filter(Year < 2007, status != "MISSING")
 
 # Create the required data frames
 sites <- wqi_0506 %>%
@@ -257,12 +241,12 @@ Water_Column_Status_Estimates_0506 <- cat.analysis(sites, subpop, design, data) 
       year = 2006)
 ```
 
-2010
-```{r}
+Do the same `cat.analysis` but for 2010 data.
+
+```{r cat_analysis_2010}
 # Create the required data frames
 wqi_2010 <- wqi_clean %>% 
-  filter(Year == 2010, status != "MISSING") %>%
-  rename(siteID = SITE_ID)
+  filter(Year == 2010, status != "MISSING")
 
 sites <- wqi_2010 %>%
           select(siteID) %>%
@@ -292,7 +276,7 @@ Water_Column_Status_Estimates_2010 <- cat.analysis(sites, subpop, design, data) 
 
 Aggregate by region and get WQI scores
 
-```{r}
+```{r wqi_layer_rgn_scores}
 wqi_rgns <- Water_Column_Status_Estimates_0506 %>%
   rbind(Water_Column_Status_Estimates_2010) %>%
   mutate(score = cat_score * (perc/100)) %>%

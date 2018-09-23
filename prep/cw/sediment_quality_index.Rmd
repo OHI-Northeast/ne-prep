@@ -18,8 +18,23 @@ output:
 
 ## Summary
 
-This layer is derived from the EPA's National Coastal Condition Assessment Sediment Quality Index data.
+This layer is derived from the [EPA's National Coastal Condition Assessment Sediment Quality Index (SQI) data](https://www.epa.gov/national-aquatic-resource-surveys/ncca), specifically the measurements for 2005/2006 and 2010 time periods.
 
+The EPA measures the Sediment Quality Index for multiple sites throughout the Northeast region. The SQI status for each site are either `GOOD`, `FAIR`, `POOR` or `MISSING`. A score for each OHI-Northeast coastal region is calculated using these SQI values and the site-associated weights. `GOOD` sites are assigned a perfect score (100), `FAIR` sites are assigned a value of 50 and `POOR` sites are assigned a 0. Each site's score is multiplied by it's weight (assigned by the EPA) and then averaged to get final region scores.
+
+Sites with MISSING data are removed.
+
+## Background
+
+> "The National Coastal Condition Assessment (NCCA) is a national coastal monitoring program with rigorous quality assurance protocols and standardized sampling procedures designed to produce national and regional estimates of coastal condition."
+
+> "NCCA evaluates four indices of condition—water quality, sediment quality, benthic community condition, and fish tissue contaminants – to evaluate the ecological condition and recreational potential of coastal waters. Consistent sampling and analytical procedures ensure that the results can be compared across the country and over time."
+
+The SQI is a composite indicator is based on two measures: sediment contaminant concentrations and sediment toxicity.
+
+Assessments have taken place in 2000/2001, 2005/2006, 2010 and 2015. As of this writing, the 2015 data is not available.
+
+### Setup
 
 ```{r setup, message = F, warning = F, reslts = 'hide'}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
@@ -29,37 +44,32 @@ source('~/github/ne-prep/src/R/common.R')
 library(tidyverse)
 ```
 
-## Load Sediment Quality Index data
+## Load Data
 
-There are two Sediment Quality Index datasets we are going to use for the two different time periods. 
-I want to select only the information I need (states in our region and Water Quality Index categories). I also load the site info for each time series - we use the weights in each of these datasets.
+SQI data was downloaded from [this NCCA data portal](https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys) for the 2010 assessment year. Data for 2005/2006 was not available in a usable format on the portal. Personal communication with folks at the EPA led to retrieval of the 2005/2006 information which was emailed to us on August 27, 2018.
+
+>> "I have attached a file with Sediment Quality Index (NCCA_SQI_STATUS) good/fair/poor values merged with the site information file you have already downloaded."
+
+The data is loaded and filtered for sites in the Northeast region, identified by postal code. The only information we need from the `sites` data is the weighting factor for each site. This will be used later on to properly weight the contribution of each site to the final score.
 
 
-This data was emailed to us on August 27, 2018. 
 
-> "I have attached a file with Sediment Quality Index (NCCA_SQI_STATUS) good/fair/poor values merged with the site information file you have already downloaded."
-
-Load then filter for the 2005-2006 years and our region.
-
-#### 2005-2006 data
-
-```{r}
+```{r load_data}
+#load 0506 data - this has SQI status AND site info
 sqi_0506 <- read.csv("data/NCA0506_SQI+siteinfo.csv") %>%
   filter(SAMPYEAR %in% c(2005,2006),
          NCA_REGION == "East_Coast",
          PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT")) %>%
   select(siteID = SITE_ID, LON_DD, LAT_DD, PSTL_CODE, WGT_NCA_56, NCCA_SQI_STATUS) %>%
   mutate(Year = 2006)
-```
 
-#### 2010 data
-
-```{r}
+#load sqi site info data for 2010
 site_info_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA/assessed_ncca2010_siteinfo.revised.06212016.csv")) %>%
   filter(STATE %in% c("MA", "ME", "RI", "NY", "NH", "CT"),
          NCA_REGION == "East Coast") %>%
   select(SITE_ID, WGT_NCCA10)
 
+#load sqi status data for 2010
 sqi_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA/ncca2010_sediment_indicator_status_revised_06212016.csv")) %>%
   filter(PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT"),
          NCCA_REG == "Northeast") %>%
@@ -71,25 +81,28 @@ sqi_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA/ncca2010_sediment_indicat
 
 ## Data wrangling
 
-I also need to assign regions to each of these. For the most part, the State is the region but for Massachusetts we need to be specific to what region it belongs. The best way to do this is manually.
+Now assign OHI region names or ids to each of the sites. For the most part, the State in the SQI data is the region, but for Massachusetts we need to be specific about what region the sites belong to. The best way to do this is manually so I use `mapview::mapview()` to identify sites in MA and assign to either Massachusetts-Gulf of Maine or Massachusetts-Virginian.
 
-```{r ma}
+Look first just at sites identified by the `MA` postal code.
+
+```{r ma_sites}
+#filter sqi for sites only in MA
 ma <- sqi_0506 %>%
   bind_rows(sqi_2010) %>%
   filter(PSTL_CODE == "MA")
 
+#create a simple features (sf) object from the coordinates contained in the dataset
 ma_points = st_as_sf(ma, coords = c("LON_DD", "LAT_DD"), 
                  crs = 4326)
-
-mapview::mapview(ma_points) 
-
+#plot
 ggplot() +
   geom_sf(data = rgns %>% filter(rgn_id %in% c(7,8)), aes(fill = rgn_id)) +
   geom_sf(data = ma_points, color = 'darkgreen') +
   theme_bw()
+```
 
-#try an st_intersect
-
+To assign region ids, try `sf::st_intersect` between the MA sites and the OHI-Northeast regions file already loaded from common.R.
+```{r ma_rgns_intersect}
 int <- ma_points %>%
   st_transform('+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs') %>%
   st_intersection(rgns)
@@ -101,16 +114,18 @@ ggplot() +
 #mapview::mapview(int)
 ```
 
-What points are we missing
-```{r}
+It looks like most sites were captured but what points are we missing? We probably didn't get all the sites in the intersection.
+```{r missing_ma_sites}
+#find sites that are not in the intersection
 s <- setdiff(ma_points$siteID, int$siteID)
 
+#limit to just the missing sites
 miss <- ma_points %>%
   filter(siteID %in% s)
 
+#use mapviwe to manually explore and then assign region ids
 mapview::mapview(miss)
 
-#add a rgn_id column manually for the missing points based on mapview
 miss_gf <- miss %>%
   data.frame() %>%
   mutate(rgn_id = 
@@ -145,7 +160,7 @@ ma_df <- int %>%
 
 Additional data cleaning that adds the Massachusetts sites back in and removes the few sites that are actually in the George's Bank area.
 
-```{r}
+```{r clean_sqi_data}
 sqi_clean <- sqi_0506 %>%
   bind_rows(sqi_2010) %>%
   mutate(rgn_name = 
@@ -173,7 +188,7 @@ sqi_clean <- sqi_0506 %>%
 
 Use the [`spsurvey`](https://www.rdocumentation.org/packages/spsurvey/versions/3.4) package to run `cat.analysis` and produce a sub-population estimate that incorporates site weights. First we want to see how many sites have a status of `MISSING` to determine if we need to account for them or not.
 
-```{r}
+```{r cat_analysis_0506}
 #install.packages("spsurvey")
 library(spsurvey)
 
@@ -209,9 +224,9 @@ Water_Column_Status_Estimates_0506 <- cat.analysis(sites, subpop, design, data) 
       year = 2006) 
 ```
 
-Apply to 2010 data.
+Do the same `cat.analysis` but for 2010 data.
 
-```{r}
+```{r cat_analysis_2010}
 sqi_2010 <- sqi_clean %>% 
   filter(Year == 2010,
          NCCA_SQI_STATUS != "MISS")
@@ -246,7 +261,7 @@ Water_Column_Status_Estimates_2010 <- cat.analysis(sites, subpop, design, data) 
 
 Aggregate by region and get WQI scores
 
-```{r}
+```{r sqi_layer_rgn_scores}
 sqi_rgns <- Water_Column_Status_Estimates_0506 %>%
   rbind(Water_Column_Status_Estimates_2010) %>%
   mutate(score = cat_score * (perc/100)) %>%
