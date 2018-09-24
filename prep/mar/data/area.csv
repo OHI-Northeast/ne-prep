@@ -1,0 +1,29 @@
+Year,Region,Species,Farmable area (km2),Reference,Notes
+2014,Maine,Shellfish,2.46049,1,
+2014,Maine,Finfish,2.69,1,
+2014,Maine,Seaweed,0.028,1,
+2002,Maine,Finfish,3.03514,5,Reflects lease areas (above too)
+2002,Maine,Shellfish,1.80085,5,Reflects lease areas (above too)
+2002,Maine,Seaweed,0.028328,5,Reflects lease areas (above too)
+2013,Massachusetts,Shellfish,4.46383,13,"Based on all MA, not just survey respondents; figure taken from 2013 Aquaculture Census (referenced in paper)"
+2015,Rhode Island,Shellfish,0.976830203,14,Reflects total area under cultivation
+2014,Rhode Island,Shellfish,0.83446179,15,Reflects total area under cultivation
+2013,Rhode Island,Shellfish,0.714472501,16,Reflects total area under cultivation
+2012,Rhode Island,Shellfish,0.698285076,17,Reflects total area under cultivation
+2011,Rhode Island,Shellfish,0.648508742,18,Reflects total area under cultivation
+2008,Rhode Island,Shellfish,0.497763,19,Reflects total area under cultivation
+2009,Rhode Island,Shellfish,0.54430219,19,Reflects total area under cultivation
+2006,Rhode Island,Shellfish,0.400639,"20, 21",Reflects total area under cultivation
+2007,Rhode Island,Shellfish,0.497763,20,Reflects total area under cultivation
+2005,Rhode Island,Shellfish,0.343983,22,Reflects total area under cultivation
+2004,Rhode Island,Shellfish,0.28328,23,Reflects total area under cultivation
+2003,Rhode Island,Shellfish,0.246858,24,Reflects total area under cultivation
+2002,Rhode Island,Shellfish,0.21751853,25,Reflects total area under cultivation
+2001,Rhode Island,Shellfish,0.2084131,26,Reflects total area under cultivation
+2000,Rhode Island,Shellfish,0.121406,27,Reflects total area under cultivation
+1999,Rhode Island,Shellfish,0.11432369,28,Reflects total area under cultivation
+,Connecticut,Shellfish,124.1133229,30,"This is the area for shellfish leases; Year unknown, but appears to be a website describing the most current conditions. Website accessed in November 2016"
+,Connecticut,Oysters,90.7386147,30,"This reflects the area of franchise oyster grounds; Year unknown, but appears to be a website describing the most current conditions. Website accessed in November 2016"
+2007,Massachusetts,Shellfish,6.070285,33,Reflects total area under cultivation
+2007,Massachusetts,Shellfish,0.497763,34,Reflects acres under lease
+2009,Connecticut,Shellfish,311.60794,35,Reflect leased and franchised shellfish grounds managed by the Department of Agriculture
