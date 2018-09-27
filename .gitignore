@@ -24,3 +24,5 @@ vignettes/*.pdf
 ._.DS_Store
 ._layers.csv
 ._*
+
+appfiles
