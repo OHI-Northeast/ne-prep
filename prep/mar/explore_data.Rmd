@@ -134,19 +134,28 @@ clams <- convert_to_pounds("Clams")
 combo <- bind_rows(hclam, oyster, quahog, scallop, ss_clams, clams)
 ```
 
+Due to weird data reporting, we need to fix Maine's finfish. The `maine_finfish.csv` dataset is used to replace all finfish from Maine.
+
 ```{r}
+#read in the Maine finfish data
+maine_ff <- read_csv("data/maine_finfish.csv") %>%
+  rename(pounds = `Whole Pounds`)
+
 remaining_sp <- data_clean %>%
     filter(!is.na(pounds)) %>%
     select(Year, Region, Species, Species_name_to_use, pounds) 
 
 production_df <- full_join(combo, remaining_sp) %>%
-    mutate(Year = as.numeric(Year))
+    mutate(Year = as.numeric(Year)) %>%
+    filter(!Species_name_to_use %in% c("Atlantic Salmon and Trout", "Atlantic Salmon", "Shellfish", "Mussels, clams, quahogs, and other shellfish (not including oysters)")) %>%
+    select(Year, Region, Species = Species_name_to_use, pounds) %>%
+  bind_rows(maine_ff)
 ```
 
 
 ```{r, fig.width = 8, fig.height = 6}
 
-ggplot(production_df, aes(x = Year, y = pounds, color = Species_name_to_use)) +
+ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
   theme_bw() +
   ylab("Production (pounds)") +
