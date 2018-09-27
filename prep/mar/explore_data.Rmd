@@ -26,12 +26,7 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
-### goal specific folders and info
-goal      <- 'mar'
-scenario  <- 'v2017'
-dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
-dir_goal_anx <- file.path(dir_anx, goal, scenario)
-
+library(tidyverse)
 ```
 
 #Summary
@@ -42,31 +37,129 @@ This script explores the mariculture data gathered by Kate Longley-Wood at the b
 
 #Production
 
+## Data cleaning
 ```{r production}
 
-data <- read_csv("data_from_kate/production.csv", col_types = list(
-  `Biomass (tons)` = col_double())) %>%
-  rename(tons = `Biomass (tons)`) %>%
-  select(Year, Region, Species, tons) %>%
-  filter(Region == "Maine",
-         Year > 2000,
-         !is.na(tons),
-         Species %in% c("American Oyster", "Atlantic Salmon", "Blue Mussel"))
+data <- read_csv("data/production.csv", 
+                 col_names = FALSE)
 
-ggplot(data, aes(x = Year, y = tons, color = Species)) +
+#set row 3 as column names
+colnames(data) <- data[3,]
+
+#change column names. We have two Pounds columns. I'm differentiating by adding a 2 to the second one, and then fix this a couple rows down
+colnames(data) <- c("Year", "Region", "Species", "Tons", "Individuals", "Bags", "Bushels", "Pieces", "Pounds", "Value", "Source ID", NA, "Pounds", "Tons conversion")
+
+#remove first three rows
+data <- data[4:nrow(data),1:10]
+
+#some weird characters in the Tons column
+data$Tons <- gsub("~","", data$Tons)
+data$Tons <- gsub(" \\+", "", data$Tons)
+
+#convert character to numeric. Clean up species names and convert tons to pounds
+data_clean <- data %>%
+  mutate(Tons = as.numeric(Tons),
+         Individuals = as.numeric(gsub(",","", Individuals)),
+         Bags = as.numeric(gsub(",","", Bags)),
+         Bushels = as.numeric(gsub(",", "", Bushels)),
+         Pieces  = as.numeric(gsub(",", "", Pieces)),
+         Pounds  = as.numeric(gsub(",", "", Pounds))) %>%
+  mutate(species = 
+           case_when(
+             Species == "American Oyster" ~ "Oysters",
+             Species == "Eastern Oyster" ~ "Oysters",
+             Species == "bay scallops" ~ "Scallops",
+             Species == "soft shell clams" ~ "Soft Shell Clams"
+           )) %>%
+  mutate(Species_name_to_use = ifelse(is.na(species), Species, species),
+         pounds = Tons*2000,
+         Pounds = ifelse(is.na(Pounds), pounds, Pounds))
+```
+
+Let's filter out data that only has value information. Not sure how we will use this yet.
+
+```{r value_only}
+
+value_only <- data_clean %>%
+  filter(!is.na(Value) & is.na(Tons) & is.na(Individuals) & is.na(Bags) & is.na(Bushels) & is.na(Pieces) & is.na(Pounds))
+
+#remove these rows from data_clean
+data_clean <- setdiff(data_clean, value_only)
+```
+
+What species does not have tons or pounds information?
+
+```{r no_tons_or_lbs}
+
+miss_lbs <- data_clean %>%
+  filter(is.na(Pounds))
+
+unique(miss_lbs$Species_name_to_use)
+```
+
+What if we try to separate by species.
+
+```{r}
+#load the weight conversion table
+conv <- read.csv("data/weight_conversion_table.csv")
+
+# try to make this a function?
+spp <- unique(conv$Species)
+
+convert_to_pounds <- function(sp) {
+sp_conv <- filter(conv, Species == sp)
+  
+  out <- data_clean %>%
+  filter(Species_name_to_use == sp) %>%
+  mutate(pounds = 
+           case_when(
+             !is.na(Individuals) ~ Individuals/sp_conv$Individual,
+             !is.na(Bags) ~ Bags/sp_conv$Bag,
+             !is.na(Bushels) ~ Bushels/sp_conv$Bushel,
+             !is.na(Pounds) ~ Pounds,
+             !is.na(Pieces) ~ Pieces/sp_conv$Individual
+           )) %>%
+    select(Year, Region, Species, Species_name_to_use, pounds)
+  
+  return(out)
+}
+
+hclam <- convert_to_pounds("Hard Clam")
+oyster <- convert_to_pounds("Oysters")
+quahog <- convert_to_pounds("Quahog")
+scallop <- convert_to_pounds("Scallops")
+ss_clams <- convert_to_pounds("Soft Shell Clams")
+clams <- convert_to_pounds("Clams")
+
+combo <- bind_rows(hclam, oyster, quahog, scallop, ss_clams, clams)
+```
+
+```{r}
+remaining_sp <- data_clean %>%
+    filter(!is.na(pounds)) %>%
+    select(Year, Region, Species, Species_name_to_use, pounds) 
+
+production_df <- full_join(combo, remaining_sp) %>%
+    mutate(Year = as.numeric(Year))
+```
+
+
+```{r, fig.width = 8, fig.height = 6}
+
+ggplot(production_df, aes(x = Year, y = pounds, color = Species_name_to_use)) +
   geom_line() +
   theme_bw() +
-  ylab("Production (tons)") +
-  ggtitle("Maine") + 
-  theme(legend.position = "bottom") +
-  scale_color_discrete("")
+  ylab("Production (pounds)") +
+  facet_wrap(~Region, scales = "free") +
+  theme(legend.position = "bottom",
+        legend.title=element_blank())
 ```
 
 #Area
 
 ```{r area}
 
-area <- read_csv("data_from_kate/area.csv") %>%
+area <- read_csv("data/area.csv") %>%
   rename(area = `Farmable area (km2)`) %>%
   select(Year, Region, Species, area) %>%
   filter(Region == "Rhode Island")
