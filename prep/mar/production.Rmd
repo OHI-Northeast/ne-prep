@@ -29,7 +29,7 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 library(tidyverse)
 ```
 
-# Summary
+## Summary
 
 This script creates the mariculture production (i.e. amount produced) layer.
 
@@ -188,7 +188,8 @@ ggplot(weighted_prod, aes(x = Year, y = total_prod, color = Region)) +
 
 gr <- weighted_prod %>%
   group_by(Region) %>%
-  mutate(last_years_prod = lag(total_prod, n = 1),
+  mutate(prod_avg_3yr = zoo::rollapply(total_prod, 3, FUN = mean, align = "right", na.rm = F, partial = T), #calculate the mean for three years
+         last_years_prod = lag(prod_avg_3yr, n = 1),
          growth = total_prod/last_years_prod) %>%
   filter(Year > 2004)
 
@@ -197,7 +198,8 @@ ggplot(gr, aes(x = Year, y = growth, color = Region)) +
   geom_hline(yintercept = 1, color = "black") +
   theme_bw() +
   facet_wrap(~Region) +
-  labs(y = "Growth rate (above 1 indicates increase)")
+  labs(y = "Growth rate (above 1 indicates increase)") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ```
 
@@ -225,11 +227,47 @@ ggplot(score_mar, aes(x = Year, y = final_score, color = Region)) +
 
 
 
+## Alternate - weight by area
 
+Use the total region area to weight production
 
+```{r}
 
+area_weight <- weighted_prod %>%
+  left_join(rgn_data, by = c("Region" = "state")) %>%
+  mutate(area = as.numeric(as.character(area_km2))) %>%
+  group_by(Region) %>%
+  mutate(area = sum(area)) %>%
+  select(-rgn_name,-rgn_id,-area_km2) %>%
+  ungroup() %>%
+  distinct() %>%
+  mutate(area_wgt_prod = total_prod/area)
 
+ggplot(area_weight, aes(x = Year, y = area_wgt_prod, color = Region)) +
+  geom_line() +
+  theme_bw()
+```
 
+Calculate growth rate
+```{r}
 
+gr <- area_weight %>%
+  group_by(Region) %>%
+  mutate(prod_avg_3yr = zoo::rollapply(area_wgt_prod, 3, FUN = mean, align = "right", na.rm = F, partial = T), #calculate the mean for three years
+         last_years_prod = lag(prod_avg_3yr, n = 1),
+         growth = area_wgt_prod/last_years_prod) %>%
+  filter(Year > 2004) %>%
+  ungroup() %>%
+  mutate(prod_x_4perc = last_years_prod * 1.04) %>%
+  group_by(Year) %>%
+  mutate(target = max(prod_x_4perc, na.rm = T),
+         score1 = area_wgt_prod/target,
+         score2 = ifelse(score1 >= 1, 100, score1*100))
+
+ggplot(gr, aes(x = Year, y = score2, color = Region)) +
+  geom_line() +
+  theme_bw()
+
+```
 
 
