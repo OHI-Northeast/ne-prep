@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Mariculture'
+title: 'OHI-Northeast: Mariculture Production Layer'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -7,7 +7,7 @@ output:
     toc: true
     toc_depth: 3
     toc_float: yes
-    number_sections: true
+    number_sections: false
     theme: cerulean
     highlight: haddock
     includes: 
@@ -29,17 +29,15 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 library(tidyverse)
 ```
 
-#Summary
+# Summary
 
-This script explores the mariculture data gathered by Kate Longley-Wood at the beginning of the project.
+This script creates the mariculture production (i.e. amount produced) layer.
 
 ***
 
-#Production
-
 ## Data cleaning
 ```{r production}
-
+#load data
 data <- read_csv("data/production.csv", 
                  col_names = FALSE)
 
@@ -73,7 +71,8 @@ data_clean <- data %>%
            )) %>%
   mutate(Species_name_to_use = ifelse(is.na(species), Species, species),
          pounds = Tons*2000,
-         Pounds = ifelse(is.na(Pounds), pounds, Pounds))
+         Pounds = ifelse(is.na(Pounds), pounds, Pounds)) %>%
+  filter(!is.na(Year)) #there are two records for CT where there is no year..
 ```
 
 Let's filter out data that only has value information. Not sure how we will use this yet.
@@ -90,7 +89,6 @@ data_clean <- setdiff(data_clean, value_only)
 What species does not have tons or pounds information?
 
 ```{r no_tons_or_lbs}
-
 miss_lbs <- data_clean %>%
   filter(is.na(Pounds))
 
@@ -153,7 +151,7 @@ production_df <- full_join(combo, remaining_sp) %>%
 ```
 
 
-```{r, fig.width = 8, fig.height = 6}
+```{r prod_by_species, fig.width = 8, fig.height = 6}
 
 ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
@@ -164,20 +162,74 @@ ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
         legend.title=element_blank())
 ```
 
-#Area
+## Weight by sustainability scores
 
-```{r area}
+```{r prod_weighted_by_sust_scores}
+#sustainability scores from Seafood Watch
+sust_scores <- read_csv("data/species_sust_scores.csv") 
 
-area <- read_csv("data/area.csv") %>%
-  rename(area = `Farmable area (km2)`) %>%
-  select(Year, Region, Species, area) %>%
-  filter(Region == "Rhode Island")
+weighted_prod <- production_df %>%
+  left_join(sust_scores, by = c("Species" = "species")) %>%
+  mutate(sustainabilityscore = 
+           ifelse(Species %in% c("Clams", "Quahog"), 7.01, sustainabilityscore), #assign the same sust score for Hard Clam to Clams and Quahog
+         weight_prod = pounds * sustainabilityscore) %>%
+  group_by(Year, Region) %>%
+  summarize(total_prod = sum(weight_prod))
 
-ggplot(area, aes(x = Year, y = area, color = Species)) +
+
+ggplot(weighted_prod, aes(x = Year, y = total_prod, color = Region)) +
   geom_line() +
-  theme_bw() +
-  ylab("Farmable Area (km2)") +
-  ggtitle("Rhode Island") + 
-  theme(legend.position = "bottom") +
-  scale_color_discrete("")
+  theme_bw()
 ```
+
+## Calculate annual growth rates
+
+```{r prod_growth_rate, fig.width = 6, fig.height = 4}
+
+gr <- weighted_prod %>%
+  group_by(Region) %>%
+  mutate(last_years_prod = lag(total_prod, n = 1),
+         growth = total_prod/last_years_prod) %>%
+  filter(Year > 2004)
+
+ggplot(gr, aes(x = Year, y = growth, color = Region)) +
+  geom_line() +
+  geom_hline(yintercept = 1, color = "black") +
+  theme_bw() +
+  facet_wrap(~Region) +
+  labs(y = "Growth rate (above 1 indicates increase)")
+
+```
+
+## Score
+
+Compare the growth rate to a target of a 4% annual growth rate
+
+```{r mar_status_by_rgn}
+
+target <- 1.04 #4% growth rate target
+
+score_mar <- gr %>%
+  mutate(score = growth/target,
+         final_score = 
+           case_when(
+             score >= 1 ~ 100,
+             score < 1 ~ score*100
+             ))
+
+ggplot(score_mar, aes(x = Year, y = final_score, color = Region)) +
+  geom_line() +
+  theme_bw()
+
+```
+
+
+
+
+
+
+
+
+
+
+
