@@ -17,9 +17,8 @@ output:
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(fig.width = 5, fig.height = 5, fig.path = 'figs/',
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
-
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
@@ -27,15 +26,25 @@ dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 library(tidyverse)
+library(kableExtra)
 ```
 
 ## Summary
 
-This script creates the mariculture production (i.e. amount produced) layer.
+This script creates the mariculture production layer. This layer measures the total amount of biomass produced through mariculture by state and species. Sustainability scores for each species come from the Seafood Watch program (e.g. [Oysters](https://www.seafoodwatch.org/seafood-recommendations/groups/oysters?q=Oysters&t=Oysters&location=domestic&method=farmed&type=eastern&o=1190987422)) and are used to weight production (i.e. the more production of highly sustainable species will have a more positive impact on final scores).
+
+We also provide an alternate way to score this layer that weights by area of state waters.
+
+## Data
+
+Production data was gathered from available state reports (e.g. CRMC's "[Aquaculture in Rhode Island](http://www.crmc.ri.gov/aquaculture/aquareport15.pdf)", [Massachusetts DF&G reports](chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://www.mass.gov/files/documents/2017/08/30/2012-dmf-annual-report.pdf)). Since this data often exists within PDF's and various formats, all production data was entered by hand into a google sheet and subsequently brought into this analysis.
 
 ***
 
 ## Data cleaning
+
+Since this data often exists within PDF's and various formats, all production data was entered by hand into a google sheet and subsequently brought into this analysis.
+
 ```{r production}
 #load data
 data <- read_csv("data/production.csv", 
@@ -47,13 +56,30 @@ colnames(data) <- data[3,]
 #change column names. We have two Pounds columns. I'm differentiating by adding a 2 to the second one, and then fix this a couple rows down
 colnames(data) <- c("Year", "Region", "Species", "Tons", "Individuals", "Bags", "Bushels", "Pieces", "Pounds", "Value", "Source ID", NA, "Pounds", "Tons conversion")
 
-#remove first three rows
+#remove first three rows which don't contain information we need
 data <- data[4:nrow(data),1:10]
 
 #some weird characters in the Tons column
 data$Tons <- gsub("~","", data$Tons)
 data$Tons <- gsub(" \\+", "", data$Tons)
 
+value_only <- data %>%
+  filter(!is.na(Value) & is.na(Tons) & is.na(Individuals) & is.na(Bags) & is.na(Bushels) & is.na(Pieces) & is.na(Pounds))
+
+#remove these rows from data_clean
+data<- setdiff(data, value_only)
+
+data %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover","condensed")) %>%
+  scroll_box(width = "100%", height = "400px")
+```
+
+<br>
+
+Some of the species are entered with different common names. For example we have "American Oyster", "Eastern Oyster" and "Oysters". This chunk just fixes some of that for oysters, scallops and clams.
+
+```{r}
 #convert character to numeric. Clean up species names and convert tons to pounds
 data_clean <- data %>%
   mutate(Tons = as.numeric(Tons),
@@ -75,18 +101,9 @@ data_clean <- data %>%
   filter(!is.na(Year)) #there are two records for CT where there is no year..
 ```
 
-Let's filter out data that only has value information. Not sure how we will use this yet.
+### What species do not have tons or pounds information?
 
-```{r value_only}
-
-value_only <- data_clean %>%
-  filter(!is.na(Value) & is.na(Tons) & is.na(Individuals) & is.na(Bags) & is.na(Bushels) & is.na(Pieces) & is.na(Pounds))
-
-#remove these rows from data_clean
-data_clean <- setdiff(data_clean, value_only)
-```
-
-What species does not have tons or pounds information?
+A lot of the data is entered as **Individuals**, **Bags** or **Bushels** for these species 
 
 ```{r no_tons_or_lbs}
 miss_lbs <- data_clean %>%
@@ -95,13 +112,24 @@ miss_lbs <- data_clean %>%
 unique(miss_lbs$Species_name_to_use)
 ```
 
-What if we try to separate by species.
+Unfortunately, we need some sort of weight metric. We can convert these units to pounds using a conversion table that we put together.
 
+
+#### Weight Conversion Table
 ```{r}
 #load the weight conversion table
 conv <- read.csv("data/weight_conversion_table.csv")
 
-# try to make this a function?
+conv %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover","condensed"), full_width = F)
+```
+
+### Convert to pounds
+
+This chunk uses the conversion table to convert all units to pounds.
+
+```{r}
 spp <- unique(conv$Species)
 
 convert_to_pounds <- function(sp) {
@@ -132,13 +160,25 @@ clams <- convert_to_pounds("Clams")
 combo <- bind_rows(hclam, oyster, quahog, scallop, ss_clams, clams)
 ```
 
-Due to weird data reporting, we need to fix Maine's finfish. The `maine_finfish.csv` dataset is used to replace all finfish from Maine.
+### Fix Maine finfish data
+
+Due to weird data reporting for Salmon and Trout, we need to fix Maine's finfish. The `maine_finfish.csv` dataset is used to replace all finfish from Maine.
 
 ```{r}
 #read in the Maine finfish data
 maine_ff <- read_csv("data/maine_finfish.csv") %>%
   rename(pounds = `Whole Pounds`)
 
+ggplot(maine_ff, aes(x = Year, y = pounds, color = Species)) +
+  geom_line() +
+  theme_bw() +
+  labs(title = "Maine finfish production",
+       y = "Pounds")
+```
+
+Now we have the data cleaned up and can look at production by species and state over time.
+
+```{r prod_by_species, fig.width = 8, fig.height = 6}
 remaining_sp <- data_clean %>%
     filter(!is.na(pounds)) %>%
     select(Year, Region, Species, Species_name_to_use, pounds) 
@@ -148,15 +188,12 @@ production_df <- full_join(combo, remaining_sp) %>%
     filter(!Species_name_to_use %in% c("Atlantic Salmon and Trout", "Atlantic Salmon", "Shellfish", "Mussels, clams, quahogs, and other shellfish (not including oysters)")) %>%
     select(Year, Region, Species = Species_name_to_use, pounds) %>%
   bind_rows(maine_ff)
-```
-
-
-```{r prod_by_species, fig.width = 8, fig.height = 6}
 
 ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
   theme_bw() +
   ylab("Production (pounds)") +
+  ggtitle("Mariculture production in the Northeast") +
   facet_wrap(~Region, scales = "free") +
   theme(legend.position = "bottom",
         legend.title=element_blank())
@@ -164,10 +201,18 @@ ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
 
 ## Weight by sustainability scores
 
-```{r prod_weighted_by_sust_scores}
-#sustainability scores from Seafood Watch
-sust_scores <- read_csv("data/species_sust_scores.csv") 
+Seafood watch provides sustainability scores between 0 and 10. We use these scores to weight production by species.
 
+#### Sustainability Scores
+```{r}
+#sustainability scores from Seafood Watch
+sust_scores <- read_csv("data/species_sust_scores.csv")
+sust_scores %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover","condensed", full_width = F))
+```
+
+```{r prod_weighted_by_sust_scores}
 weighted_prod <- production_df %>%
   left_join(sust_scores, by = c("Species" = "species")) %>%
   mutate(sustainabilityscore = 
@@ -176,16 +221,18 @@ weighted_prod <- production_df %>%
   group_by(Year, Region) %>%
   summarize(total_prod = sum(weight_prod))
 
-
 ggplot(weighted_prod, aes(x = Year, y = total_prod, color = Region)) +
   geom_line() +
-  theme_bw()
+  theme_bw() +
+  labs(y = "Production * Sustainability Score",
+       title = "Total production per state, weighted by sustainability scores")
 ```
 
 ## Calculate annual growth rates
 
-```{r prod_growth_rate, fig.width = 6, fig.height = 4}
+Now that we have production weighted by the sustainability scores we calculate annual growth rates in total production over time. All values above 1 indicate an increase in production. The goal is to be at or above 1 in order to be maintaining growth in production.
 
+```{r prod_growth_rate, fig.width = 6, fig.height = 4}
 gr <- weighted_prod %>%
   group_by(Region) %>%
   mutate(prod_avg_3yr = zoo::rollapply(total_prod, 3, FUN = mean, align = "right", na.rm = F, partial = T), #calculate the mean for three years
@@ -198,14 +245,15 @@ ggplot(gr, aes(x = Year, y = growth, color = Region)) +
   geom_hline(yintercept = 1, color = "black") +
   theme_bw() +
   facet_wrap(~Region) +
-  labs(y = "Growth rate (above 1 indicates increase)") +
+  labs(y = "Growth rate (above 1 indicates increase)",
+       title = "Mariculture production growth") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ```
 
 ## Score
 
-Compare the growth rate to a target of a 4% annual growth rate
+To score each state, we compare the current growth rate to a target of 4% annual growth rate. 
 
 ```{r mar_status_by_rgn}
 
@@ -221,18 +269,22 @@ score_mar <- gr %>%
 
 ggplot(score_mar, aes(x = Year, y = final_score, color = Region)) +
   geom_line() +
-  theme_bw()
+  theme_bw() +
+  labs(y = "Score",
+       title = "Mariculture scores by state")
 
 ```
 
 
-
 ## Alternate - weight by area
 
-Use the total region area to weight production
+An alternate option for scoring this goal is to weight by area. Since These regions have vastly different operational area, we might want to account for "farmable area".
+
+As of now, we do not have farmed area or farmable area estimates by state. Just for proof of concept, we can use the full state waters as weight. So here we still apply the sustainability scores to the production values, and then divide by state waters (km2).
+
+### Apply area weighting
 
 ```{r}
-
 area_weight <- weighted_prod %>%
   left_join(rgn_data, by = c("Region" = "state")) %>%
   mutate(area = as.numeric(as.character(area_km2))) %>%
@@ -245,12 +297,13 @@ area_weight <- weighted_prod %>%
 
 ggplot(area_weight, aes(x = Year, y = area_wgt_prod, color = Region)) +
   geom_line() +
-  theme_bw()
+  theme_bw() +
+  labs(y = "Area weighted production")
 ```
 
-Calculate growth rate
-```{r}
+### Score
 
+```{r}
 gr <- area_weight %>%
   group_by(Region) %>%
   mutate(prod_avg_3yr = zoo::rollapply(area_wgt_prod, 3, FUN = mean, align = "right", na.rm = F, partial = T), #calculate the mean for three years
@@ -266,8 +319,9 @@ gr <- area_weight %>%
 
 ggplot(gr, aes(x = Year, y = score2, color = Region)) +
   geom_line() +
-  theme_bw()
-
+  theme_bw() +
+  labs(y = "Score",
+       title = "Mariculture scores by state (including area weighting)")
 ```
 
 
