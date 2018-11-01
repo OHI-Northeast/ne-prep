@@ -24,6 +24,24 @@ source("~/github/ne-prep/src/R/common.R")
 
 This .rmd will eventually be deleted. Keeping here for now to cross check with dashboard plots.
 
+Create a dataset for the dashboard that shows NOAA landings by state and also identifies catch that is and is not assessed
+
+```{r}
+catch <- read.csv("data/noaa_catch_statistics.csv") %>%
+  mutate(species = tolower(species)) 
+
+ram <- read.csv("data/ne_ram_data.csv")
+
+catch_info <- catch %>%
+  left_join(ram) %>%
+  mutate(assessed = ifelse(is.na(stockid), 0, 1)) %>%
+  select(year, state, species, pounds, assessed) %>%
+  filter(year > 2002)
+
+write.csv(catch_info, file = "data/noaa_catch_dashboard.csv")
+```
+
+
 ```{r}
 #get the weight for each region/stock/year combo
 catch_weight <- read.csv(file.path(dir_calc, "layers/fis_meancatch.csv")) %>%
@@ -31,7 +49,10 @@ catch_weight <- read.csv(file.path(dir_calc, "layers/fis_meancatch.csv")) %>%
 
 #merge catch weight with stock scores
 stockscores <- read.csv(file.path(dir_calc, "layers/fis_stockscores.csv")) %>% select(-X)
+```
 
+
+```{r}
 scores_weight <- catch_weight %>%
     left_join(stockscores) %>%
     filter(!is.na(score)) %>% #remove stocks with no stock scores **THIS MIGHT NEED TO CHANGE IF WE WANT TO KEEP THESE STOCKS AND GAPFILL INSTEAD**
