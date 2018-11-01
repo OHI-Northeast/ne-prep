@@ -89,5 +89,12 @@ out <- taxa_cells_df %>%
 
 write_csv(out, "~/github/ne-prep/prep/bio/data/iucn_spp_in_ne.csv")
 
+## filter the list of IUCN marine maps from Casey's repo to just have the file paths for species in the Northeast
+
+spp_marine_maps <- read_csv("~/github/spp_risk_dists/_data/spp_marine_maps_2018-1.csv") %>%
+  filter(sciname %in% ne_spp,
+         subpop %in% c("Atlantic Northwest", "Northwest Atlantic", NA)) #all other subpops that have regions are not in the Northeast so remove here
+
+write.csv(spp_marine_maps, "~/github/ne-prep/prep/bio/data/iucn_spp_shp_filepaths.csv")
 
 
