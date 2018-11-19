@@ -1,0 +1,197 @@
+---
+title: 'OHI-Northeast: prep SPP layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+```{r setup}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+source('~/github/ne-prep/src/R/common.R')
+
+cellid_rast <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif")
+```
+
+Load lookup tables we need
+
+```{r}
+#natureserve status & scores (no spp info here)
+status_scores  <- read_csv("data/natserv_status_scores.csv") %>% select(-X1)
+
+#LARGE df that lists each cellID, associated species id (SID) and OHI rgn
+spp_cells_rgns <- read_csv(file.path(dir_anx, "bio/sid_cells.csv")) %>% select(-X1)
+
+#list of IUCN species with rangemaps that are found in the OHI Northeast region
+ne_spp <- read_csv("data/iucn_spp_in_ne.csv")
+
+#status of each species in the NatureServe database plus region (state/USA/IUCN)
+natserv_stat <- read.csv("data/natureserve_spp_status.csv") %>%
+  select(-X) %>%
+  rename(natserv_status = status)
+```
+
+First let's figure out what species have more specific status ranks
+
+```{r}
+#Massachusetts dataframe to include both rgn ids for MA
+ma <- data.frame(state = c("MA", "MA"),
+                 rgn = c(7,8))
+
+t <- ne_spp %>%
+  left_join(natserv_stat, by = c("sciname" = "species")) %>%
+  mutate(spp_status = 
+           case_when(
+             is.na(natserv_status) ~ category,
+             natserv_status %in% c("DD-Data deficient", "NU", "NNR", "NNA", NA) ~ category,
+             TRUE ~ as.character(natserv_status))) %>%
+  left_join(status_scores, by = c("spp_status" = "status")) %>%
+  left_join(ma) %>%
+  mutate(rgn = 
+           case_when(
+             state == "RI" ~ 11,
+             state == "NY" ~ 10,
+             state == "NH" ~ 9,
+             state == "ME" ~ 6,
+             state == "CT" ~ 5,
+             !state %in% c("RI", "NY", "NH", "ME", "CT") ~ rgn
+           )) %>%
+  filter(!is.na(score)) %>% #remove rows where no score can be calculated due to Data Deficiency
+  mutate(state = ifelse(is.na(state), "IUCN", state)) #those observations w/o a state value (actual state or USA/IUCN) are those that come from IUCN and thus we can add IUCN as the state in this case.
+```
+
+Separate table just for IUCN and USA species status values. These get filtered out when using `complete()` below so i'm going to add these back in as a wide dataframe.
+```{r}
+us_iucn <- t %>%
+  select(iucn_sid, state, score) %>%
+  distinct() %>%
+  filter(state %in% c("IUCN", "USA")) %>%
+  spread(key = state, value = score)
+```
+
+Now we have scores for each species from the IUCN, USA or state level. There are cases where the data shows a species is in a state that does not have a state-level assessment. In this case, we will use the USA status if there is one, or default to IUCN. To do this we need to make sure each rgn is in this dataset with the appropriate spp_status and score. This is a form of gapfilling so calling this temporary dataset "gf"
+
+There are some cases where there is only a species status for one state and nothing else (not USA or IUCN). One example is Short-finned pilot whale has a status of S4 from NatureServe for NY state but nowhere else. In this case, we can assign this status to the rest of the regions.
+```{r}
+gf <- t %>%
+  select(iucn_sid, state, natserv_status, spp_status, score, rgn) %>%
+  distinct() %>%
+  group_by(iucn_sid) %>%
+  complete(rgn = c(1:11)) %>%
+  ungroup() %>%
+  left_join(us_iucn) %>%
+  mutate(spp_score_update = ifelse(is.na(score), USA, score)) %>%  #for regions without a status, default to USA then IUCN
+  mutate(spp_score_update = ifelse(is.na(spp_score_update), IUCN, spp_score_update)) %>%
+  group_by(iucn_sid) %>%
+  fill(spp_score_update) %>%
+  fill(spp_score_update, .direction = "up") #need to go both up and down - couldn't figure out how to do this within one fill() call
+```  
+
+Create a smaller table to join to the massive spp_cells_rgns
+```{r}
+sid_rgn_score <- gf %>%
+  select(iucn_sid, score = spp_score_update, rgn) %>%
+  distinct()
+```
+
+Join to spp_cells_rgns.
+We can remove all cells where the species has an NA for score. This happens when the status is not calculated or it's Data Deficient
+```{r}
+big <- spp_cells_rgns %>%
+  left_join(sid_rgn_score, by = c("SID" = "iucn_sid", "rgn" = "rgn")) 
+```
+
+Let's look at the species with no score.
+
+```{r}
+no_score_spp <- big %>%
+  filter(is.na(score)) %>%
+  select(SID, rgn) %>%
+  distinct()
+
+filter(ne_spp, iucn_sid %in% no_score_spp$SID)
+```
+
+It looks like these are all Data Deficient species so we can safely remove them.
+
+```{r}
+
+b <- big %>%
+  filter(!is.na(score)) %>%
+  group_by(cellID) %>%
+  summarize(mean_risk_score = mean(score))
+
+#plot this
+
+rgn_cellids <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif") 
+risk_map <- rgn_cellids %>%
+  subs(., b, by = 1, which = 2)
+
+plot(risk_map, box = F, axes = F, col = cols)
+```
+
+Troubleshooting the weird cells over marthas vineyard/longisland/nantucket
+
+
+```{r}
+#grab cells with the really high scores (these look like land cells)
+l <- filter(b, mean_risk_score > 0.35)
+
+#now filter big for these cells to see what 
+m <- filter(big, cellID %in% l$cellID)
+#how many species are in these
+unique(m$SID) %>% length()
+
+#only 106. Let's map some of these and see if they are mapped over land
+
+sp <- unique(m$SID)
+
+for(i in 1:length(sp)){
+  
+  print(sp[i])
+  
+  d <- filter(big, SID == sp[i]) %>%
+    select(cellID, score) %>%
+    distinct()
+  
+  r <- subs(rgn_cellids, d, by = "cellID", which = "score")
+  
+  plot(r, col = "red")
+  
+}
+
+filter(ne_spp, iucn_sid %in% sp)
+
+## it seems like birds are causing the weirdness.
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
