@@ -122,7 +122,7 @@ iucn_sid,common,sciname,population,category,neportal,neportal_name
 155276,Blackfin tuna,Thunnus atlanticus,NA,LC,0,
 161366,Spinytail skate,Bathyraja spinicauda,NA,NT,0,
 161371,Bigelow's ray,Rajella bigelowi,NA,LC,0,
-161418,Little skate,Leucoraja erinacea,NA,NT,0,1
+161418,Little skate,Leucoraja erinacea,NA,NT,1,NA
 161419,Rosette skate,Leucoraja garmani,NA,LC,1,
 161477,Smooth skate,Malacoraja senta,NA,EN,1,
 161491,Shorttail skate,Amblyraja jenseni,NA,LC,0,
@@ -345,7 +345,7 @@ iucn_sid,common,sciname,population,category,neportal,neportal_name
 198775,Hollowsnout grenadier,Coelorinchus caelorhincus,NA,LC,0,
 198921,NA,Mobula birostris,NA,VU,0,
 201946,Blueback shad,Alosa aestivalis,NA,VU,1,Blueback herring
-201947,Hickory shad,Alosa mediocris,NA,LC,0,1
+201947,Hickory shad,Alosa mediocris,NA,LC,1,NA
 201948,Alewife,Alosa pseudoharengus,NA,LC,1,
 13458323,Blackmouth bass,Synagrops bellus,NA,LC,0,
 13462491,Deep-sea lizardfish,Bathysaurus ferox,NA,LC,0,
