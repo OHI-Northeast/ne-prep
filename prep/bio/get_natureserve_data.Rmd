@@ -21,6 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(tidyverse)
 #install.packages("natserv")
 library(natserv)
 ```
@@ -33,7 +34,8 @@ ne_spp <- read.csv("data/iucn_spp_in_ne.csv")$sciname
 
 full_spp_df <- data.frame(state = NA,
                           status = NA,
-                          species = NA)
+                          species = NA,
+                          stringsAsFactors = F)
 
 for (i in 1:length(ne_spp)){
   print(i)
@@ -53,13 +55,16 @@ if(inherits(possibleError, "error")) next
       error=function(e) e)
 
 if(inherits(possibleError, "error")) next
+  
+  #get IUCN status
+  iucn_stat <- b[[1]]$conservationStatus$other$`IUCN Conservation Status`$statusDescription
 
   # get the US national rank
   us_rank <- b[[1]]$conservationStatus$natureserve$nationalStatuses$US$rank
   if(is.null(us_rank)) next #if there is no national rank, skip to next species
   
-  #create a us one row dataframe to rbind later
-  us_df <- data.frame(state = "USA", status = us_rank)
+  #create a dataframe to rbind later
+  iucn_and_us_df <- data.frame(state = c("IUCN", "USA"), status = c(iucn_stat, us_rank), stringsAsFactors = F) 
 
   #Now grab state level information
   state <- b[[1]]$conservationStatus$natureserve$nationalStatuses$US$subnationalStatuses
@@ -76,9 +81,9 @@ for(j in 1:length(state)){
   if(ST %in% c("CT", "NY", "MA", "ME", "RI", "NH")){
     state_rank <- state[[j]]$rank
     
-    df <- data.frame(state = ST, rank = state_rank)
+    df <- data.frame(state = ST, rank = state_rank, stringsAsFactors = F)
   }else{
-    df <- data.frame(state = NA, rank = NA)
+    df <- data.frame(state = NA, rank = NA, stringsAsFactors = F)
   }
   out <- rbind(out, df) %>%
     filter(!is.na(state))
@@ -88,8 +93,8 @@ spp_df <- out %>%
   mutate(update_rank = 
            ifelse(rank %in% c("SNA", "SNR", "SU", "SNRN"), as.character(us_rank), as.character(rank))) %>%
   select(-rank) %>%
-  rename(status = update_rank)%>%
-  bind_rows(us_df) %>%
+  rename(status = update_rank) %>%
+  bind_rows(iucn_and_us_df) %>%
   mutate(species = spp)
 
 full_spp_df <- rbind(spp_df, full_spp_df)
