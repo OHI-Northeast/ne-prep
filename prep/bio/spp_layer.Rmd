@@ -81,12 +81,12 @@ us_iucn <- t %>%
   spread(key = state, value = score)
 ```
 
-Now we have scores for each species from the IUCN, USA or state level. There are cases where the data shows a species is in a state that does not have a state-level assessment. In this case, we will use the USA status if there is one, or default to IUCN. To do this we need to make sure each rgn is in this dataset with the appropriate spp_status and score. This is a form of gapfilling so calling this temporary dataset "gf"
+Now we have scores for each species from the IUCN, USA or state level. There are cases where the data shows a species is in a state that does not have a state-level assessment. In this case, we will use the USA status if there is one, or default to IUCN. To do this we need to make sure each rgn is in this dataset with the appropriate spp_status and score. This is a form of gapfilling so calling this temporary dataset "gf".
 
 There are some cases where there is only a species status for one state and nothing else (not USA or IUCN). One example is Short-finned pilot whale has a status of S4 from NatureServe for NY state but nowhere else. In this case, we can assign this status to the rest of the regions.
 ```{r}
 gf <- t %>%
-  select(iucn_sid, state, natserv_status, spp_status, score, rgn) %>%
+  select(iucn_sid, common, sciname, state, natserv_status, spp_status, score, rgn) %>%
   distinct() %>%
   group_by(iucn_sid) %>%
   complete(rgn = c(1:11)) %>%
@@ -96,7 +96,8 @@ gf <- t %>%
   mutate(spp_score_update = ifelse(is.na(spp_score_update), IUCN, spp_score_update)) %>%
   group_by(iucn_sid) %>%
   fill(spp_score_update) %>%
-  fill(spp_score_update, .direction = "up") #need to go both up and down - couldn't figure out how to do this within one fill() call
+  fill(spp_score_update, .direction = "up") %>% #need to go both up and down - couldn't figure out how to do this within one fill() call
+  filter(!is.na(score))
 ```  
 
 Create a smaller table to join to the massive spp_cells_rgns
@@ -132,9 +133,11 @@ b <- big %>%
   filter(!is.na(score)) %>%
   group_by(cellID) %>%
   summarize(mean_risk_score = mean(score))
+```
 
-#plot this
 
+Plot this
+```{r}
 rgn_cellids <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif") 
 risk_map <- rgn_cellids %>%
   subs(., b, by = 1, which = 2)
