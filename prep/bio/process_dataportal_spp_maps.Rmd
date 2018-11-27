@@ -45,7 +45,7 @@ plot(witch_flounder)
 
 ```
 
-These don't look that different but just to be safe we need to combine them
+We are going to combine these maps so that if a cell is `1` in either season, it is `1` in the range map.
 
 ```{r}
 #pull out all species maps that have either "FALL" or "SPRING"
@@ -188,57 +188,8 @@ We need to link these species up with the associated SID from IUCN. In the `ne_s
 ne_spp <- read_csv("data/iucn_spp_in_ne.csv") %>%
   filter(neportal == 1) 
 
-#lets also pull in the regional status data which gives status information for species in the ne data portal
-ne_sp_status<- readxl::read_excel(file.path(dir_anx, "_raw_data/species/KLW_ES_Data_gaps_Northeast_species_list_9.29.16.xlsx"),
-                                       sheet = "all species",
-                                       skip = 1) %>%
-  select(common = `Species - common name`, 
-         status = `E, T, SC`) %>%
-  filter(!is.na(status))
-
 ```
 
-Ok there are `r nrow(ne_sp_status)` species with a local status. We should assign regions and scores to each of these species.
-
-```{r}
-ne_dataportal_sp_rgns_scores <- ne_sp_status %>%
-  separate(col = status, into = c("states", "status1", "status2"), sep = ";") %>%
-  separate(col = states, into = c("state1", "stat"), sep = "[(]") %>%
-  separate(col = status1, into = c("state2", "stat2"), sep = "[(]") %>%
-  separate(col = status2, into = c("state3", "stat3"), sep = "[(]") 
-
-#create three separate dfs and work within them
-df1 <- ne_dataportal_sp_rgns_scores %>%
-  select(common, state1, stat) %>%
-  mutate(status = str_remove(.$stat, "[)]")) %>%
-  separate(state1, into = c("state1", "state2", "state3", "state4", "state5", "state6"), sep = " ") %>%
-  select(-stat) %>%
-  gather(-common, -status, key = delete, value = state) %>%
-  select(-delete) %>%
-  mutate(state = str_remove(.$state, ",")) %>%
-  filter(!state %in% c("", NA))
-
-
-df2 <- ne_dataportal_sp_rgns_scores %>%
-  select(common, state = state2, stat2) %>%
-  mutate(status = str_remove(.$stat2, "[)]")) %>%
-  separate(state, into = c("state1", "state2", "state3"), sep = " ") %>%
-  select(-stat2) %>%
-  gather(-common, -status, key = delete, value = state) %>%
-  select(-delete) %>%
-  mutate(state = str_remove(.$state, ",")) %>%
-  filter(!state %in% c("", NA))
-
-
-df3 <- ne_dataportal_sp_rgns_scores %>%
-  select(common, state = state3, stat3) %>%
-  filter(!is.na(state)) %>%
-  mutate(status = str_remove(.$stat3, "[)]")) %>%
-  select(-stat3) 
-
-full_df <- bind_rows(df1, df2, df3)
-
-```
 
 
 
