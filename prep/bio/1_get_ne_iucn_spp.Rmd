@@ -79,7 +79,7 @@ for(i in seq_along(taxa)) { ### i <- 5
     
     spp_cells <- parallel::mclapply(spp_ids_in_taxon, mc.cores = 32,
                                     FUN = function(x) { ### x <- spp_ids_in_taxon[1]
-                                      f <- file.path(dir_o_anx, 'spp_rasters',
+                                      f <- file.path('/home/ohara/git-annex/spp_risk_dists/spp_rasters',
                                                      sprintf('iucn_sid_%s.csv', x))
                                       if(file.exists(f)) {
                                         y <- read_csv(f, col_types = 'di') %>%
@@ -115,14 +115,84 @@ library(rfishbase)
 
 sp <- validate_names(c(taxa_cells_df$sciname))  
 fb_list <- species(sp) %>%
-  select(sciname, FBname)
+  select(Species, FBname)
 
 #add back in common names
 out <- taxa_cells_df %>%
-  left_join(fb_list) %>%
+  left_join(fb_list, by = c("sciname" = "Species")) %>%
   rename(common = FBname) %>%
   select(iucn_sid, common, sciname, population, category)
+```
 
+We are still missing a lot of common names. We can use the `rredlist` R package to access the IUCN API and grab common names.
+
+```{r, eval = F}
+library(rredlist)
+
+sci_names <- out %>%
+  filter(is.na(common)) %>%
+  .$sciname
+
+big_df <- data.frame()
+for(i in 1:length(sci_names)){
+  sp <- sci_names[i]
+  print(sp)
+  if(sp == "Phalacrocorax auritus"){ #this one threw some error and no $result was returned from rl_search
+    comm <- NA
+  }else{
+  comm <- rl_search(sp)$result$main_common_name
+  }
+  
+  df <- data.frame(sciname = sp,
+                   common = comm)
+  
+  big_df <- rbind(big_df, df)
+}
+
+```
+
+Ok we got a lot of them but not all. Now we can try to use the `taxize` R package.
+```{r, eval = F}
+library("taxize")
+
+sci_names <- big_df %>%
+  filter(is.na(common)) %>%
+  .$sciname
+
+common_names <- c()
+for(i in 1:length(sci_names)){ #i <- 1
+  sp <- sci_names[i]
+  comm <- sci2comm(sp, db = "itis")
+  
+common_names <- c(common_names, comm)
+}
+
+#turn list into dataframe
+df <- do.call(rbind,lapply(common_names,data.frame))
+df$sciname <- rownames(df)
+
+df2 <- df %>%
+  rename(common = X..i..) %>%
+  filter(!is.na(common)) %>%
+  mutate(sciname = str_extract(sciname, "[^.]+")) #remove numbers
+```
+
+Only 4 of the species had a common name via taxize. We will add these manually and then the remaining species will keep NA for common name.
+
+```{r, eval = F}
+sci_to_comm <- big_df %>%
+  mutate(common_name = 
+           case_when(
+              sciname == "Lestrolepis intermedia" ~ "Barracudina antifaz",
+              sciname == "Astrangia poculata" ~ "Northern star coral",
+              sciname == "Gigantactis vanhoeffeni" ~ "Cosmopolitan whipnose",
+              sciname == "Phalacrocorax auritus" ~ "Double-crested cormorant",
+              TRUE ~ as.character(common))) %>%
+  select(-common)
+```
+
+
+```{r, eval = F}
 #save
 write_csv(out, "~/github/ne-prep/prep/bio/data/1_iucn_spp_in_ne.csv")
 ```
