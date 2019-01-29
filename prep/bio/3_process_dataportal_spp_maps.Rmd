@@ -1,0 +1,148 @@
+---
+title: "Process NE Data Portal Species Rasters"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+This script reads in the shapefiles from the Data Portal and creates presence absence rasters.
+
+```{r setup, include=FALSE, message = F, warning = F}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')
+```
+
+Load rasters for species maps from Duke that are held on our server.
+```{r}
+spp_files <- list.files(file.path(dir_anx, "_raw_data/DUKE_NE_Data_Portal/OHI_PA_Data"), recursive = T, full.names = T) 
+
+#we only want the .tifs
+tifs <- spp_files[str_detect(spp_files, ".tif$")]
+```
+
+We have `r nrow(tifs)` maps provided by Duke for species maps on the Northeast Ocean Data Portal. Some of these are seasonal, so we need to combine them to create one map. For example *Witch flounder*:
+
+```{r}
+witch_flounder <- tifs[str_detect(tifs, "Witch_flounder")] %>%
+  stack()
+
+plot(witch_flounder)
+```
+
+We are going to combine these maps so that if a cell is `1` in either season, it is `1` in the range map.
+
+```{r seasonalspp}
+#pull out all species maps that have either "FALL" or "SPRING"
+seasonal_maps <- data.frame(file = tifs[str_detect(tifs, "FALL|SPRING")]) 
+
+#these are all fish so we can use the same file path patterns to grab individual species names
+species <- seasonal_maps %>% 
+  mutate(species = str_split(file, pattern = '_' ),
+         species1 = map(species, c(11)),
+         species2 = map(species, c(12)),
+         species3 = map(species, c(13))) %>%
+  select(-file, -species) %>%
+  mutate(full_name = ifelse(species2 %in% c("FALL.tif", "SPRING.tif"), species1,
+                            ifelse(species3 %in% c("FALL.tif", "SPRING.tif"), paste(species1, species2, sep = "_"), 
+                                   paste(species1, species2, species3, sep = "_")))) %>%
+  select(full_name) %>%
+  unique()
+```
+
+This function takes each species raster file, combines the two seasonal ones to create a single range map, then rasterizes to the CRS and cell resolution for the OHI Northeast analysis.
+
+```{r seasonalmaps}
+f <- function(sp){
+  
+  sp_files <- tifs[str_detect(tifs, sp)]
+  
+  if(length(sp_files) == 1){
+    
+     s <- raster(sp_files[1])
+     
+  }else{
+    
+    #combine the two rasters
+    s <- raster(sp_files[1]) + raster(sp_files[2])
+  
+  }
+  
+  #now we rasterize to 1km2 and our projection
+  sp_rast <- s %>%
+    projectRaster(crs = crs(ocean_ne)) %>%
+    resample(ocean_ne, method = "ngb")
+  
+  #assign all cells that aren't 0 a value of 1
+  sp_rast[sp_rast!=0]   <- 1
+  sp_rast[sp_rast == 0] <- NA
+  
+  #save raster
+  writeRaster(sp_rast, filename = paste0(dir_anx, "/bio/portal_spp_rasters/", sp, ".tif"), overwrite = TRUE)
+  
+}
+
+map(species$full_name, f)
+```
+
+Now we need to adjust the raster CRS and resolution for the remaining species maps and save each raster to the server
+
+```{r}
+# get the other maps (non fish)
+other_maps <- data.frame(file = tifs[!str_detect(tifs, "FALL|SPRING")])
+
+non_fish_spp <- other_maps %>% 
+  mutate(a = str_split(file, pattern = '/' ),
+         b = map(a, c(11))) %>%
+  select(-file, -a) %>%
+  mutate(name = substr(b, 13, nchar(b)-4)) %>%
+  select(name)
+
+f <- function(sp){
+  
+  sp_files <- tifs[str_detect(tifs, sp)]
+
+  s <- raster(sp_files[1])
+     
+  #now we rasterize to 1km2 and our projection
+  sp_rast <- s %>%
+    projectRaster(crs = crs(ocean_ne), method = "ngb") 
+  extent(sp_rast) <- extent(ocean_ne)
+  sp_rast <- raster:: resample(sp_rast, ocean_ne, method = "ngb")
+  
+  #assign all cells that have a 0 and NA
+  sp_rast[sp_rast == 0] <- NA
+  
+  #save raster to server
+  writeRaster(sp_rast, filename = paste0(dir_anx, "/bio/portal_spp_rasters/", sp, ".tif"), overwrite = TRUE)
+  
+}
+
+#run the function across all species
+map(non_fish_spp$name, f)
+```
+
+
+
+
+
+
+
+
+
+
+
+

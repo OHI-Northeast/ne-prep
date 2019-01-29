@@ -1,0 +1,100 @@
+---
+title: "Gather all species rasters"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Dataportal rasters
+
+We need to get the cellIDs for each dataportal raster
+
+```{r, eval = F}
+cellid_rast <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif")
+
+#dataframe that links cellIDs with the OHI region they are in
+rgn_cells <- read.csv("~/github/ne-prep/spatial/rgn_cellids.csv") %>%
+  select(-X)
+
+files <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"), full.names = T)
+
+## this function maps each species presence/absence raster and overlays the cellIDs to return a dataframe of cellIDs where the species is found, and a column with SID (species ID)
+cellid_extract <- function(file){
+  # update the progress bar (tick()) and print progress (print())
+  pb$tick()$print()
+  #get SID (species ID)
+  sp <- substr(file, 58, nchar(file)-4)
+  df <- data.frame(pres = 1, sp = sp)
+  
+  #read in raster
+  r <- raster(file)
+  
+  #use the raster::zonal() function to get a dataframe that contains cellids and SID as two columns
+  z <- zonal(r, cellid_rast, na.rm=T) %>%
+    as.data.frame() %>%
+    filter(!is.na(mean)) %>%
+    rename(cellID = zone) %>%
+    mutate(species = sp) %>%
+    inner_join(rgn_cells) %>%
+    select(-mean)
+}
+
+pb <- progress_estimated(length(files)) #progress bar
+
+sid_cells <- purrr::map_df(files, cellid_extract)
+```
+
+
+We need to link these species up with the associated SID from IUCN. In the `ne_spp` data we list what species have NE portal maps. 
+
+```{r}
+#list of IUCN species with rangemaps that are found in the OHI Northeast region
+ne_spp <- read_csv("data/1_iucn_spp_in_ne.csv") %>%
+  filter(neportal == 1) 
+
+a <- species %>%
+  mutate(common = str_replace(full_name, "_", " "),
+         sciname = taxize::comm2sci(common, db = "itis")) 
+
+b <- ne_spp %>%
+  left_join(a, by = "sciname") %>%
+  left_join(a, by = c("common.x" = "common"))
+
+#next step is to get specific SID for each of the Northeast species!
+c <-b %>% 
+  select(iucn_sid, sciname.x, common.y) %>% 
+  distinct() %>%
+  filter(!is.na(common.y)) #remove species that are only in IUCN maps
+
+View(c)
+```
+
+There are some species with maps from the portal that are listed multiple times. For example we have a map from Duke that is for "Cusk" or "Spot" but these are associated with multiple Cusk and Spot species maps from IUCN.
+
+```{r}
+dups <- c$common.y[duplicated(c$common.y)]
+unique(dups)
+
+dup_df <- filter(c, common.y %in% dups) %>%
+  rename(portal_map = common.y,
+         IUCN_map = sciname.x)
+View(dup_df)
+```
+
+Are there species with maps in the portal that are not in IUCN. And do those species have statuses? If so we need to add them in.

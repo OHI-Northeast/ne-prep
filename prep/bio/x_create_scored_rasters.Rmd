@@ -1,0 +1,77 @@
+---
+title: "Create speceis risk rasters"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+# Get data
+
+Get list of the species we are using, from both IUCN and the NE Data Portal. Also get the species status
+
+```{r}
+#ne dataportal rasters
+ne_rasters <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"))
+
+#iucn rasters
+iucn_rasters <- list.files(file.path(dir_anx, "bio/spp_presence_rasters"), full.names = T)
+```
+
+The names in the iucn_rasters list only have the sid. So we need to figure out what species we have in the IUCN list that is also in the data portal list by linking sids.
+
+```{r}
+#list of iucn species in northeast. This containts the iucn_sid column.
+iucn_ne_spp <- read_csv("data/1_iucn_spp_in_ne.csv") %>%
+  select(iucn_sid, common, sciname) %>%
+  mutate(common = tolower(common))
+
+#get data portal species
+ne_spp <- data.frame(filepath = ne_rasters) %>%
+  mutate(name = sub(".tif", "", filepath),
+         common = gsub("_", " ", name),
+         common_name = tolower(gsub("normalized", "", common))) %>%
+  select(common_name) %>%
+  mutate(source = "dataportal")
+```
+
+
+Cusk Brosme brosme (Not on your list!)
+Spot Leiostomus xanthurus
+Sand Tiger Carcharias taurus
+Tautog Tautoga onitis
+
+Join the IUCN and NE 
+```{r}
+j <- iucn_ne_spp %>%
+  left_join(ne_spp, by = c("common" = "common_name"))
+```
+
+Now we have identified what IUCN species also have maps from the data portal
+
+
+
+
+
+
+
+

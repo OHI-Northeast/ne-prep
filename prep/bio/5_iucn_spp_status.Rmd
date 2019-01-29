@@ -1,0 +1,40 @@
+---
+title: "IUCN Species Status"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+
+#libraries
+library(rredlist)
+```
+
+# Get data
+
+Get list of the species we are using, from both IUCN and the NE Data Portal (although I think there might only be assessments for IUCN - not sure that assessment data exists for species w/o iucn maps)
+
+```{r}
+ne_spp <- read_csv("data/1_iucn_spp_in_ne.csv")
+
+
+```
+
