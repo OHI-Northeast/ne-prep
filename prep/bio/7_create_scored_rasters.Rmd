@@ -1,0 +1,283 @@
+---
+title: "Create species risk rasters"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r setup, warning = F, message = F}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+# Get data
+
+Load the species info table that contains all species, the map source, the state/geo location in which it has an assessment and the assessment score (0-1).
+
+```{r}
+spp_status    <- read_csv("data/5_spp_status.csv") %>%
+   select(-X1)
+status_scores <- read_csv("data/natserv_status_scores.csv") %>% select(-X1)
+```
+
+This gives us a dataframe of all species and their specific status and scores. But what it doesn't tell us is where the species ranges are located. For example, we can see that Atlantic silverside has different statuses for the species based on some state/geographic levels of assessment. But we don't know if Atlantic silverside is located in New Hampshire and Maine as well.
+
+```{r}
+filter(spp_status, common == "atlantic silverside")
+```
+
+We need to link species and regions to states in the `spp_status`. Easiest way is to add state abbreviation to `rgn_data` (loaded with `common.R`)
+
+```{r}
+rgn_data <- rgn_data %>%
+  mutate(state_abv = case_when(
+    state == "Maine" ~ "ME",
+    state == "New Hampshire" ~ "NH",
+    state == "Massachusetts" ~ "MA",
+    state == "New York" ~ "NY",
+    state == "Rhode Island" ~ "RI",
+    state == "Connecticut" ~ "CT"
+  ))
+```
+
+Fill out all species for all 11 regions. Then left_join to table that lists species and regions they are found to drop rows that are nonsense. For example, here we will make sure all 11 regions have the correct status for "atlantic silverside". But if our table shows that Atlantic silverside is only found in ME and NH, all the additional rows will drop.
+
+
+It actually looks like all species have at least a USA designation. But there are some cases where the USA status is *NNR* (equivalent to NA) but IUCN has an actual status. For example:
+
+```{r}
+filter(status_table, common == "atlantic bluefin tuna")
+```
+
+
+
+```{r}
+expand_spp_status <- spp_status %>%
+  left_join(rgn_data, by = c("state" = "state_abv")) %>%
+  select(-area_km2, -trend, -state.y) %>%
+  left_join(status_scores) %>%
+  mutate(rgn_id = case_when(
+    status_scale == "USA" ~ 12,  #assigning rgn_id numbers to USA and IUCN (12 and 13 respectively)
+    status_scale == "IUCN" ~ 13,
+    TRUE ~ as.numeric(rgn_id)
+  )) %>%
+  select(common, sciname, source, iucn_sid, status, status_scale, rgn_id, score) %>%
+  group_by(common, sciname, source, iucn_sid) %>%
+  complete(rgn_id = c(1:13)) %>% #had to expand through 13 so we don't lose the rows with IUCN and USA
+  distinct() %>%
+  ungroup() %>%
+  left_join(rgn_data, by = "rgn_id") %>%
+  select(-area_km2, -state, -state_abv)
+```
+
+Scenarios for gapfilling (if score == NA):
+- take score from USA (rgn_id 12). If that is also NA
+- take scores from IUCN (rgn_id 13)
+- If USA and IUCN are NA but there are states with scores, take the average across those states.
+
+Create species and geog status table. This tells us the IUCN level status for each species, and the US designated status for each species.
+```{r}
+iucn_usa_status_table <- expand_spp_status %>%
+  select(common, sciname, status_scale, score) %>%
+  filter(status_scale %in% c("IUCN", "USA")) %>%
+  distinct() %>%
+  spread(status_scale, score)
+```
+
+Now we can assign scores to the species/regions that are NA in `expand_spp_status` table.
+
+```{r}
+full_sp_rgn_scores <- expand_spp_status %>%
+  mutate(score1 = ifelse(is.na(score), iucn_usa_status_table$USA[match(sciname, iucn_usa_status_table$sciname)], score)) %>% #first if score is NA then find USA score in iucn_usa_status_table
+  mutate(score2 = ifelse(is.na(score1), iucn_usa_status_table$IUCN[match(sciname, iucn_usa_status_table$sciname)], score1)) %>%
+  select(-score, -score1) %>%
+  rename(score = score2)
+```
+
+Let's look at the species that still have no score
+
+```{r}
+no_score <- full_sp_rgn_scores %>%
+  filter(is.na(score))
+
+#are there any species status assessments here? Or all data deficient or NA
+unique(no_score$status)
+```
+
+All are NA. So we have every species scored that we can - at either the state, US or global (IUCN) level. Now we need to find out which of our NE regions contain these species.
+
+Bring in the tables that link species with OHI NE regions
+
+```{r}
+#this df tells us what regions contain each species from the dataportal
+dp_rgns   <- read_csv("data/6_dp_sp_rgn.csv") %>% 
+  left_join(rgn_data) %>%
+  select(-X1, -area_km2, -state) %>%
+  rename(state = state_abv)
+
+#this df tells us what regions contain each species from IUCN maps
+iucn_rgns <- read_csv("data/6_iucn_sp_rgn.csv") %>% 
+  left_join(rgn_data) %>%
+  select(-X1, -area_km2, -state) 
+```
+
+
+Join `spp_status` with the species-regions tables. Here we start with the table that lists each species, and the regions where it is found, then `left_join` to our `full_sp_rgn_scores` table. This will drop any regions from `full_sp_rgn_scores` that don't actually have the species in it!
+
+```{r}
+#first with dataportal species
+spp_status_rgn1 <- dp_rgns %>%
+  mutate(common = str_remove(common, " normalized")) %>% #some species common names still have "normalized" in them! remove
+  left_join(full_sp_rgn_scores, by = c("rgn_id", "common", "rgn_name")) %>%
+  mutate(iucn_sid = NA) %>%
+  select(common, sciname, status_scale, status, score, rgn_id, rgn_name, iucn_sid)
+
+#then with IUCN species
+spp_status_rgn2 <- iucn_rgns %>%
+  left_join(full_sp_rgn_scores, by = c("rgn_id","rgn_name", "SID" = "iucn_sid")) %>%
+  select(common, sciname, status_scale, status, score, rgn_id, rgn_name, iucn_sid = SID)
+
+#then combine
+spp_rgn_scores <- bind_rows(spp_status_rgn1, spp_status_rgn2)
+
+write.csv(spp_rgn_scores, file = "data/7_spp_rgns_scores.csv")
+```
+
+Some checks. How many unique species?
+
+```{r}
+length(unique(spp_rgn_scores$sciname))
+```
+
+How many species without a score?
+
+```{r}
+spp_rgn_scores %>% 
+  filter(is.na(score)) %>%
+  select(sciname) %>%
+  distinct() %>%
+  nrow()
+```
+
+# Rasterize
+
+```{r}
+iucn_cells <- data.table::fread(file.path(dir_anx, "bio/iucn_sid_cells.csv")) %>%
+  select(-V1)
+dp_cells   <- data.table::fread(file.path(dir_anx, "bio/ne_dataportal_spp_cells.csv")) %>%
+  select(-V1) %>%
+  mutate(common = tolower(str_replace_all(species, "_", " ")),
+         common = str_replace(common, " normalized", "")) 
+```
+
+
+Read in rasters
+```{r}
+portal_list <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"), full.names = T)
+#iucn rasters
+iucn_rasters <- list.files(file.path(dir_anx, "bio/spp_presence_rasters"), full.names = T)
+
+#remove all rasters we don't want. I know this is ugly!
+iucn_list <- iucn_rasters[substr(iucn_rasters, 69, nchar(iucn_rasters)-4) %in% spp_rgn_scores$iucn_sid]
+```
+
+Function to score IUCN species maps
+
+```{r}
+cellid_rast <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif")
+
+score_iucn_spp <- function(file){
+  
+  sid <- substr(file, 69, nchar(file)-4)
+    
+  sid_cells <- iucn_cells %>%
+    filter(SID == sid) %>%
+    left_join(spp_rgn_scores, by = c("SID" = "iucn_sid", "rgn" = "rgn_id")) %>%
+    select(cellID, score) %>%
+    distinct()
+  
+  status_raster <- subs(cellid_rast, sid_cells, by = 1, which = 2)
+  writeRaster(status_raster, paste0(file.path(dir_anx), "/bio/scored_rasters/iucn_", sid, "_scored.tif"), overwrite = T)
+  
+}
+```
+
+Function to score NE data portal species maps
+
+```{r}
+score_dp_spp <- function(file){
+  
+  sp <- substr(file, 58, nchar(file)-4)
+    
+  sp_cells <- dp_cells %>%
+    filter(species == sp) %>%
+    left_join(spp_rgn_scores, by = c("common", "rgn" = "rgn_id")) %>%
+    select(cellID, score) %>%
+    distinct()
+  
+  status_raster <- subs(cellid_rast, sp_cells, by = 1, which = 2)
+  writeRaster(status_raster, paste0(file.path(dir_anx), "/bio/scored_rasters/dp_", sp, "_scored.tif"), overwrite = T)
+  
+}
+```
+
+Apply
+
+```{r, eval = F}
+lapply(iucn_list, score_iucn_spp)
+lapply(portal_list, score_dp_spp)
+```
+
+
+Stack and take average 
+
+```{r}
+scored_spp_rasters <- list.files(file.path(dir_anx, "bio/scored_rasters"), full.names = T) %>%
+  stack()
+
+spp_status_avg <- mean(scored_spp_rasters, na.rm = T)
+```
+
+map
+```{r}
+plot(spp_status_avg, col = cols, box = F)
+```
+
+Mask with ocean cells
+
+```{r}
+spp_status_avg_ocean <- mask(spp_status_avg, ocean_ne)
+
+writeRaster(spp_status_avg_ocean, filename = "data/spp_status_risk.tif", overwrite = T)
+
+plot(spp_status_avg_ocean, col = cols, box = F, axes = F)
+```
+
+
+extract
+
+```{r}
+rgn_spp_scores <- zonal(spp_status_avg_ocean, zones, fun = 'mean') %>%
+  as.data.frame() %>%
+  left_join(rgn_data, by = c("zone" = "rgn_id")) %>%
+  select(-area_km2, -state_abv)
+
+rgn_spp_scores
+```
+
+

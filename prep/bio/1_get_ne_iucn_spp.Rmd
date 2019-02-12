@@ -136,7 +136,7 @@ sci_names <- out %>%
 big_df <- data.frame()
 for(i in 1:length(sci_names)){
   sp <- sci_names[i]
-  print(sp)
+
   if(sp == "Phalacrocorax auritus"){ #this one threw some error and no $result was returned from rl_search
     comm <- NA
   }else{

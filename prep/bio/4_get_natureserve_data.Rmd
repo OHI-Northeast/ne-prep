@@ -27,22 +27,147 @@ library(natserv)
 options(NatureServeKey = Sys.getenv("NatureServeKey"))
 ```
 
+We need to get scientific names for the data portal species. The Nature Serve R package requires scientific names to query the API.
+```{r}
+#ne dataportal rasters
+ne_rasters <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"))
+
+#get data portal species
+ne_dp_spp <- data.frame(filepath = ne_rasters) %>%
+  mutate(name = sub(".tif", "", filepath),
+         common = gsub("_", " ", name),
+         common_name = tolower(gsub("normalized", "", common))) %>%
+  select(common_name) %>%
+  mutate(source = "dataportal")
+```
+
+```{r}
+library(taxize)
+
+dp_sci_names <- c()
+for(i in 1:nrow(ne_dp_spp)){ #i <- 1
+  sp <- ne_dp_spp[i,1]
+  sci <- comm2sci(sp, db = "eol")
+  
+dp_sci_names <- c(dp_sci_names, sci)
+}
+
+#turn list into dataframe
+dp_sci_names_df <- do.call(rbind,lapply(dp_sci_names,data.frame))
+dp_sci_names_df$common <- rownames(dp_sci_names_df)
+
+#clean up df
+dp_sci_names_df_clean <- dp_sci_names_df %>%
+  rename(sciname = X..i..) %>%
+  mutate(common = trimws(str_extract(common, "[^.]+")), "r") %>% #remove numbers
+  distinct() %>%
+  group_by(common) %>%
+  mutate(n = n()) %>%
+  ungroup() %>%
+  mutate(sci_fix = case_when( #fixing a couple manually that have multiple scinames AND adding sci name 
+    common == "butterfish" ~"Peprilus triacanthus",
+    common == "cusk" ~ "Brosme brosme",
+    common == "pollock" ~ "Pollachius virens",
+    common == "spot" ~ "Leiostomus xanthurus",
+    common == "tilefish" ~ "Lopholatilus chamaeleonticeps",
+    common == "weakfish" ~ "Cynoscion regalis",
+    common == "pigfish" ~ "Orthopristis chrysoptera",
+    common == "haddock" ~ "Melanogrammus aeglefinus",
+    common == "round herring" ~ "Etrumeus sadina",
+    common == "goosefish" ~ "Lophius americanus",
+    common == "bluefish" ~ "Pomatomus saltatrix",
+    common == "horseshoe crab" ~ "Limulus polyphemus",
+    common == "pinfish" ~ "Lagodon rhomboides",
+    common == "spiny dogfish" ~ "Squalus acanthias",
+    common == "sperm whale" ~ "Physeter macrocephalus",
+    common == "sand tiger" ~ "Carcharias taurus",
+    common == "sea raven" ~ "Hemitripterus americanus",
+    common == "atlantic sturgeon" ~ "Acipenser oxyrinchus",
+    common == "silver hake" ~ "Merluccius bilinearis",
+    common == "bottlenose dolphin" ~ "Tursiops truncatus",
+    common == "corys shearwater" ~ "Calonectris borealis",
+    common == "herring gull" ~ "Larus smithsonianus",
+    common == "atlantic herring" ~ "Clupea harengus",
+    common == "bay anchovy" ~ "Anchoa mitchilli",
+    common == "fin whale" ~ "Balaenoptera physalus",
+    common == "fourspot flounder" ~ "Hippoglossina oblonga",
+    common == "ocean pout" ~ "Zoarces americanus",
+    common == "razorbill" ~ "Alca torda",
+    common == "smooth dogfish" ~ "Mustelus canis",
+    common == "smooth skate" ~ "Malacoraja senta",
+    common == "striped bass" ~ "Morone saxatilis",
+    common == "thorny skate" ~ "Amblyraja radiata",
+    common == "winter skate" ~ "Leucoraja ocellata",
+    common == "american plaice" ~ "Hippoglossoides platessoides",
+    common == "atlantic spotted dolphin" ~ "Stenella frontalis",
+    common == "atlantic cod" ~ "Gadus morhua",
+    common == "atlantic croaker" ~ "Micropogonias undulatus",
+    common == "atlantic mackerel" ~ "Scomber scombrus",
+    common == "atlantic puffin" ~ "Fratercula arctica",
+    common == "atlantic sharpnose shark" ~ "Rhizoprionodon terraenovae",
+    common == "banded drum" ~ "Larimus fasciatus",
+    common == "black scoter" ~ "Melanitta americana",
+    common == "blackbelly rosefish" ~ "Helicolenus dactylopterus",
+    common == "black sea bass" ~ "Centropristis striata",
+    common == "bluntnose stingray" ~ "Dasyatis say",
+    common == "bonapartes gull" ~ "Chroicocephalus philadelphia",
+    common == "common tern" ~ "Sterna hirundo",
+    common == "great shearwater" ~ "Ardenna gravis",
+    common == "great skua" ~ "Stercorarius skua",
+    common == "harbor porpoise" ~ "Phocoena phocoena",
+    common == "hickory shad" ~ "Alosa mediocris",
+    common == "horned grebe" ~ "Podiceps auritus",
+    common == "laughing gull" ~ "Leucophaeus atricilla",
+    common == "leachs storm petrel" ~ "Oceanodroma leucorhoa",
+    common == "little skate" ~ "Leucoraja erinacea",
+    common == "minke whale" ~ "Balaenoptera acutorostrata",
+    common == "northern fulmar" ~ "Fulmarus glacialis",
+    common == "northern kingfish" ~ "Menticirrhus saxatilis",
+    common == "northern pipefish" ~ "Syngnathus fuscus",
+    common == "roughtail stingray" ~ "Dasyatis centroura",
+    common == "royal tern" ~ "Thalasseus maximus",
+    common == "sooty shearwater" ~ "Ardenna grisea",
+    common == "sooty tern" ~ "Onychoprion fuscatus",
+    common == "spotted hake" ~ "Urophycis regia",
+    common == "striped dolphin" ~ "Stenella coeruleoalba",
+    common == "striped anchovy" ~ "Anchoa hepsetus",
+    common == "white winged scoter" ~ "Melanitta fusca",
+    common == "wilsons storm petrel" ~ "Oceanites oceanicus",
+    common == "windowpane" ~ "Scophthalmus aquosus",
+    common == "winter flounder" ~ "Pseudopleuronectes americanus",
+    common == "yellowtail flounder" ~ "Pleuronectes ferruginea",
+    common == "northern shortfin squid" ~ "Illex illecebrosus",
+    common == "longfin squid" ~ "Doryteuthis pealeii",
+    TRUE ~ as.character(sciname)
+  )) %>%
+  select(common, sciname = sci_fix) %>%
+  distinct() 
+
+write.csv(dp_sci_names_df_clean, file = "data/4_ne_dataportal_spp_common_sci.csv")
+```
+
+```{r}
+#get IUCN species
+ne_iucn_spp <- read.csv("data/1_iucn_spp_in_ne.csv", stringsAsFactors = F)$sciname
+
+#combine to get unique scientific names for all of our species across data portal and iucn maps
+all_sci_names <- c(ne_iucn_spp, dp_sci_names_df_clean$sciname) %>% unique()
+```
+
 ```{r}
 
-ne_spp <- read.csv("data/1_iucn_spp_in_ne.csv")$sciname
 #forloop to grab species uid
-
 full_spp_df <- data.frame(state = NA,
                           status = NA,
                           species = NA,
                           stringsAsFactors = F)
 
-for (i in 1:length(ne_spp)){
+for (i in 1:length(all_sci_names)){
   print(i)
   
-spp <- ne_spp[i]  
+spp <- all_sci_names[i]  
 
-  #first us ns_search to see if the species is in natureserve (tryCatch will skip to next if it's not)
+  #first use ns_search to see if the species is in natureserve (tryCatch will skip to next if it's not)
   possibleError <- tryCatch(
       id <- ns_search(x = spp)$globalSpeciesUid,
       error=function(e) e)
@@ -58,7 +183,8 @@ if(inherits(possibleError, "error")) next
   
   #get IUCN status
   iucn_stat <- b[[1]]$conservationStatus$other$`IUCN Conservation Status`$statusDescription
-
+  if(is.null(iucn_stat))
+    iucn_stat <- NA
   # get the US national rank
   us_rank <- b[[1]]$conservationStatus$natureserve$nationalStatuses$US$rank
   if(is.null(us_rank)) next #if there is no national rank, skip to next species
@@ -69,24 +195,30 @@ if(inherits(possibleError, "error")) next
   #Now grab state level information
   state <- b[[1]]$conservationStatus$natureserve$nationalStatuses$US$subnationalStatuses
 
-#create an empty dataframe to cycle through each state
-out <- data.frame(state = NA,
-                  rank = NA)
+  #create an empty dataframe to cycle through each state
+  out <- data.frame(state = NA,
+                    rank = NA)
 
 #forloop goes through each state and finds only those in our region and gets that info. Output is a dataframe
-for(j in 1:length(state)){
-  
-  ST <- state[[j]]$subnationCode
 
-  if(ST %in% c("CT", "NY", "MA", "ME", "RI", "NH")){
-    state_rank <- state[[j]]$rank
+if(length(state) > 0) {
+  
+  for(j in 1:length(state)){
     
-    df <- data.frame(state = ST, rank = state_rank, stringsAsFactors = F)
-  }else{
-    df <- data.frame(state = NA, rank = NA, stringsAsFactors = F)
+    ST <- state[[j]]$subnationCode
+  
+    if(ST %in% c("CT", "NY", "MA", "ME", "RI", "NH")){
+      state_rank <- state[[j]]$rank
+      
+      df <- data.frame(state = ST, rank = state_rank, stringsAsFactors = F)
+    }else{
+      df <- data.frame(state = NA, rank = NA, stringsAsFactors = F)
+    }
+    out <- rbind(out, df) %>%
+      filter(!is.na(state))
   }
-  out <- rbind(out, df) %>%
-    filter(!is.na(state))
+}else{
+  df <- data.frame(state = NA, rank = NA, stringsAsFactors = F)
 }
 
 spp_df <- out %>%
@@ -97,7 +229,7 @@ spp_df <- out %>%
   bind_rows(iucn_and_us_df) %>%
   mutate(species = spp)
 
-full_spp_df <- rbind(spp_df, full_spp_df)
+full_spp_df <- rbind(spp_df, full_spp_df) 
 
 }
 

@@ -1,0 +1,133 @@
+---
+title: "Linking species maps to cell ids"
+author: "Jamie Afflerbach"
+date: "1/31/2019"
+output: html_document
+---
+
+# Summary
+
+# Setup
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+
+## Where do these species exist within our region?
+
+To identify where these species are, based on the range maps we have, we need to do an overlay of our Northeast regions and each map.
+
+
+```{r}
+cellid_rast <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif")
+
+#dataframe that links cellIDs with the OHI region they are in
+rgn_cells <- read.csv("~/github/ne-prep/spatial/rgn_cellids.csv") %>%
+  select(-X)
+```
+
+Get IUCN SID's for the species that we are not going to use the IUCN maps for (ones that are also in the dataportal).
+```{r}
+iucn_sids <- read_csv("data/5_spp_status.csv") %>%
+  filter(source == "IUCN") %>%
+  select(iucn_sid) %>%
+  distinct() %>%
+  .$iucn_sid
+```
+
+Stack all rasters that we are using. This makes sure we use the dataportal species where we have both.
+
+```{r}
+portal_list <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"), full.names = T)
+```
+
+
+```{r, eval = F}
+dp_extract <- function(spp){
+  
+  #get SID (species ID)
+  sp <- substr(spp, 58, nchar(spp)-4)
+  
+  #read in raster
+  r <- raster(spp)
+  
+  #use the raster::zonal() function to get a dataframe that contains cellids and SID as two columns
+  z <- zonal(r, cellid_rast, na.rm=T) %>%
+    as.data.frame() %>%
+    filter(!is.na(mean)) %>%
+    rename(cellID = zone) %>%
+    mutate(species = sp) %>%
+    inner_join(rgn_cells) %>% #innerjoin because I only want cells that fall inside our region boundaries
+    select(-mean)
+}
+
+dp_cells <- purrr::map_df(portal_list, dp_extract)
+
+#save to mazu because of file size
+write.csv(dp_cells, file = file.path(dir_anx, "bio/ne_dataportal_spp_cells.csv"))
+```
+
+
+```{r}
+#iucn rasters
+iucn_rasters <- list.files(file.path(dir_anx, "bio/spp_presence_rasters"), full.names = T)
+
+#for IUCN, first remove all rasters we don't want. I know this is ugly!
+iucn_list <- iucn_rasters[substr(iucn_rasters, 69, nchar(iucn_rasters)-4) %in% iucn_sids]
+```
+
+This function maps each IUCN species presence/absence raster and overlays the cellIDs to return a dataframe of cellIDs where the species is found, and a column with SID (species ID)
+
+```{r, eval = F}
+sid_extract <- function(spp){
+  
+  # update the progress bar (tick()) and print progress (print())
+  pb$tick()$print()
+  #get SID (species ID)
+  sid <- as.numeric(substr(spp, 69, nchar(spp)-4))
+  
+  #read in raster
+  r <- raster(spp)
+  
+  #swap out 1 for SID simply by multiplying since we have 1 identifying presence (could also use subs but I think this is faster)
+  s <- r*sid
+  
+  #use the raster::zonal() function to get a dataframe that contains cellids and SID as two columns
+  z <- zonal(s, cellid_rast, na.rm=T) %>%
+    as.data.frame() %>%
+    filter(!is.na(mean)) %>%
+    rename(cellID = zone,
+           SID = mean) %>%
+    inner_join(rgn_cells)
+}
+
+pb <- progress_estimated(length(iucn_list)) #progress bar
+sid_cells <- purrr::map_df(iucn_list, sid_extract)
+
+#save to mazu because of file size (2.3 GB!)
+write.csv(sid_cells, file = file.path(dir_anx, "bio/iucn_sid_cells.csv"))
+```
+
+Create a lookup table that gives each species and rgn it's found.
+
+```{r, eval = F}
+iucn_sp_rgn <- sid_cells %>%
+  select(SID, rgn) %>%
+  distinct() %>%
+  left_join(rgn_data, by = c("rgn" = "rgn_id")) %>%
+  select(SID, rgn_id = rgn, rgn_name)
+
+write.csv(iucn_sp_rgn, file = "data/6_iucn_sp_rgn.csv")
+
+dp_sp_rgn <- dp_cells %>%
+  select(species, rgn) %>%
+  mutate(common = tolower(gsub("_", " ", species))) %>%
+  distinct() %>%
+  left_join(rgn_data, by = c("rgn" = "rgn_id")) %>%
+  select(common, rgn_id = rgn, rgn_name)
+
+write.csv(dp_sp_rgn, file = "data/6_dp_sp_rgn.csv")
+```
+
