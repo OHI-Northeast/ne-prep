@@ -201,7 +201,8 @@ iucn <- iucn_spp_rgns_area %>%
          common = tolower(common))
 
 all_spp_rgn_area <- nedp %>%
-  bind_rows(iucn)
+  bind_rows(iucn) %>%
+  mutate(year = 2018) #we have to have at least one year for the OHI model calculation to work
 
 write.csv(all_spp_rgn_area, "~/github/ne-scores/region/layers/spp_rgn_areas.csv")
   

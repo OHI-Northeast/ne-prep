@@ -108,7 +108,8 @@ full_sp_rgn_scores <- expand_spp_status %>%
   mutate(score1 = ifelse(is.na(score), iucn_usa_status_table$USA[match(sciname, iucn_usa_status_table$sciname)], score)) %>% #first if score is NA then find USA score in iucn_usa_status_table
   mutate(score2 = ifelse(is.na(score1), iucn_usa_status_table$IUCN[match(sciname, iucn_usa_status_table$sciname)], score1)) %>%
   select(-score, -score1) %>%
-  rename(score = score2)
+  rename(score = score2) %>%
+  mutate(year = 2017) #have to have a year for OHI model to run... it will backfill other years
 ```
 
 Let's look at the species that still have no score
