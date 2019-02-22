@@ -96,8 +96,8 @@ x <- t %>%
   mutate(status_score_from_emily = 
            case_when(
              status == "SC" ~ 0.2,
-             status == "T" ~ 0.4,
-             status == "E" ~ 0.6
+             status == "T"  ~ 0.4,
+             status == "E"  ~ 0.6
            )) 
 
 #return just those species that have higher (more worrisome) statuses 

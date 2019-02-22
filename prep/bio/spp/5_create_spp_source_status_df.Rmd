@@ -18,7 +18,7 @@ output:
 
 # Summary
 
-This script creates a dataframe that contains all species in the Northeast for which we have maps either from IUCN RedList or the Northeast Ocean Data Portal. It also links each species with the status score based on NatureServe information pulled from `4_get_natureserve_data.Rmd`.
+This script creates a dataframe that contains all species in the Northeast for which we have maps either from IUCN RedList or the Northeast Ocean Data Portal. It also links each species with the status based on NatureServe information pulled from `4_get_natureserve_data.Rmd` or IUCN status information from the IUCN API.
 
 # Setup
 
@@ -39,7 +39,7 @@ ne_rasters <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"))
 iucn_rasters <- list.files(file.path(dir_anx, "bio/spp_presence_rasters"), full.names = T)
 ```
 
-The names in the iucn_rasters list only have the sid. So we need to figure out what species we have in the IUCN list that is also in the data portal list by linking sids.
+The names in the `iucn_rasters` list only have the species ID. So we need to figure out what species we have in the IUCN list that is also in the data portal list by linking sids.
 
 ```{r}
 #list of iucn species in northeast. This containts the iucn_sid column.
@@ -48,8 +48,9 @@ iucn_ne_spp <- read_csv("data/1_iucn_spp_in_ne.csv") %>%
   mutate(common = tolower(common))
 ```
 
+Get data portal species
+
 ```{r}
-#get data portal species
 ne_dp_spp <- read_csv("data/4_ne_dataportal_spp_common_sci.csv") %>%
   mutate(source = "dataportal")
 ```
@@ -108,10 +109,10 @@ iucn_sp_wo_status <- large_df %>%
   select(common, sciname, iucn_sid) %>%
   distinct()
 
-#libraries
+#load the library that accesses the IUCN API
 library(rredlist)
 
-#forloop for each species to grab status
+#forloop for each species to grab status and trend
 
 df_iucn <- data.frame()
 
@@ -178,6 +179,18 @@ d <- large_df %>%
   mutate(status = ifelse(is.na(status), as.character(iucn_status), status), #use IUCN status for IUCN species without a status
          status_scale = ifelse(!is.na(status) & is.na(state) & source == "IUCN", "IUCN", state)) %>%
   select(-iucn_status, -X1)  #remove the interim IUCN status column 
+```
+
+How many species now have a status? Remove data deficient
+
+```{r}
+d %>%
+  filter(!is.na(status),
+         status != "DD",
+         status !="DD - Data deficient") %>%
+  select(sciname) %>%
+  distinct() %>%
+  nrow()
 ```
 
 Save

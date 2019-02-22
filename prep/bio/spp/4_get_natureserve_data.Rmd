@@ -16,6 +16,10 @@ output:
     toc: true
 ---
 
+# Summary
+
+# Setup
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -27,7 +31,7 @@ library(natserv)
 options(NatureServeKey = Sys.getenv("NatureServeKey"))
 ```
 
-We need to get scientific names for the data portal species. The Nature Serve R package requires scientific names to query the API.
+We need to get scientific names for the data portal species. 
 ```{r}
 #ne dataportal rasters
 ne_rasters <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"))
@@ -41,7 +45,9 @@ ne_dp_spp <- data.frame(filepath = ne_rasters) %>%
   mutate(source = "dataportal")
 ```
 
-```{r}
+The Nature Serve R package requires scientific names to query the API.
+
+```{r, eval = F}
 library(taxize)
 
 dp_sci_names <- c()
@@ -143,10 +149,13 @@ dp_sci_names_df_clean <- dp_sci_names_df %>%
   select(common, sciname = sci_fix) %>%
   distinct() 
 
-write.csv(dp_sci_names_df_clean, file = "data/4_ne_dataportal_spp_common_sci.csv")
+#write.csv(dp_sci_names_df_clean, file = "data/4_ne_dataportal_spp_common_sci.csv")
 ```
 
 ```{r}
+#read dataportal names in
+dp_sci_names_df_clean <- read_csv("data/4_ne_dataportal_spp_common_sci.csv")
+
 #get IUCN species
 ne_iucn_spp <- read.csv("data/1_iucn_spp_in_ne.csv", stringsAsFactors = F)$sciname
 
@@ -161,6 +170,8 @@ full_spp_df <- data.frame(state = NA,
                           status = NA,
                           species = NA,
                           stringsAsFactors = F)
+
+spp_status_history <- data.frame()
 
 for (i in 1:length(all_sci_names)){
   print(i)
@@ -185,12 +196,15 @@ if(inherits(possibleError, "error")) next
   iucn_stat <- b[[1]]$conservationStatus$other$`IUCN Conservation Status`$statusDescription
   if(is.null(iucn_stat))
     iucn_stat <- NA
+  
   # get the US national rank
   us_rank <- b[[1]]$conservationStatus$natureserve$nationalStatuses$US$rank
   if(is.null(us_rank)) next #if there is no national rank, skip to next species
   
   #create a dataframe to rbind later
-  iucn_and_us_df <- data.frame(state = c("IUCN", "USA"), status = c(iucn_stat, us_rank), stringsAsFactors = F) 
+  iucn_and_us_df <- data.frame(state = c("IUCN", "USA"), 
+                               status = c(iucn_stat, us_rank), 
+                               stringsAsFactors = F) 
 
   #Now grab state level information
   state <- b[[1]]$conservationStatus$natureserve$nationalStatuses$US$subnationalStatuses
@@ -231,8 +245,28 @@ spp_df <- out %>%
 
 full_spp_df <- rbind(spp_df, full_spp_df) 
 
+################## 
+# Also collecting the history of status reviews and changes
+
+ # get the last year US rank was reviewed
+  us_year <- substr(b[[1]]$conservationStatus$natureserve$nationalStatuses$US$statusLastReviewed, 1, 4)
+  
+  #get Year last reviewed and changed by natureserve
+  ns_year_last_reviewed <- substr(b[[1]]$conservationStatus$natureserve$statusLastReviewed, 1, 4)
+    
+  ns_year_last_changed  <- substr(b[[1]]$conservationStatus$natureserve$statusLastChanged, 1, 4)
+  
+  hist_df <- data.frame(species                   = spp,
+                        us_rank_review_yr         = ifelse(length(us_year) > 0, us_year, NA),
+                        natserve_yr_last_reviewed = ifelse(length(ns_year_last_reviewed) > 0, ns_year_last_reviewed, NA),
+                        natserve_yr_lst_changed   = ifelse(length(ns_year_last_changed) > 0, ns_year_last_changed, NA))
+  
+#spp status history df
+spp_status_history <- rbind(spp_status_history, hist_df)
+
 }
 
 write.csv(full_spp_df, file = "data/4_natureserve_spp_status.csv")
+write.csv(spp_status_history, file = "data/4_natureserve_spp_status_history.csv")
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: "Create species risk rasters"
+title: "Assign species status scores by region"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,6 +18,8 @@ output:
 
 # Summary
 
+This script assigns each species & OHI Northeast region combo (e.g. Loggerhead sea turtle in Rhode Island) a score between 0 and 1 based on the conservation status.
+
 # Setup
 
 ```{r setup, warning = F, message = F}
@@ -27,7 +29,7 @@ source('~/github/ne-prep/src/R/common.R')
 
 # Get data
 
-Load the species info table that contains all species, the map source, the state/geo location in which it has an assessment and the assessment score (0-1).
+Load the species info table that contains all species, the map source, the state/geo location in which it has an assessment and the assessment score (betwee 0 and 1).
 
 ```{r}
 spp_status    <- read_csv("data/5_spp_status.csv") %>%
@@ -121,11 +123,22 @@ unique(no_score$status)
 
 All are NA. So we have every species scored that we can - at either the state, US or global (IUCN) level. Now we need to find out which of our NE regions contain these species.
 
+```{r}
+write.csv(full_sp_rgn_scores, file = "~/github/ne-scores/region/layers/spp_status_scores.csv")
+```
+
+
+
+
+##DELETE BELOW I THINK WE DO THIS IN FUNCTIONS.R now
+
 Bring in the tables that link species with OHI NE regions
 
 ```{r}
 #this df tells us what regions contain each species from the dataportal
-dp_rgns   <- read_csv("data/6_dp_sp_rgn.csv") %>% 
+spp_rgns   <- read.csv("~/github/ne-scores/region/layers/spp_rgn_areas.csv")
+  
+  read_csv("data/6_ne_dataportal_spp_area_by_rgn.csv") %>% 
   left_join(rgn_data) %>%
   select(-X1, -area_km2, -state) %>%
   rename(state = state_abv)
@@ -135,7 +148,6 @@ iucn_rgns <- read_csv("data/6_iucn_sp_rgn.csv") %>%
   left_join(rgn_data) %>%
   select(-X1, -area_km2, -state) 
 ```
-
 
 Join `spp_status` with the species-regions tables. Here we start with the table that lists each species, and the regions where it is found, then `left_join` to our `full_sp_rgn_scores` table. This will drop any regions from `full_sp_rgn_scores` that don't actually have the species in it!
 
@@ -173,111 +185,3 @@ spp_rgn_scores %>%
   distinct() %>%
   nrow()
 ```
-
-# Rasterize
-
-```{r}
-iucn_cells <- data.table::fread(file.path(dir_anx, "bio/iucn_sid_cells.csv")) %>%
-  select(-V1)
-dp_cells   <- data.table::fread(file.path(dir_anx, "bio/ne_dataportal_spp_cells.csv")) %>%
-  select(-V1) %>%
-  mutate(common = tolower(str_replace_all(species, "_", " ")),
-         common = str_replace(common, " normalized", "")) 
-```
-
-
-Read in rasters
-```{r}
-portal_list <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"), full.names = T)
-#iucn rasters
-iucn_rasters <- list.files(file.path(dir_anx, "bio/spp_presence_rasters"), full.names = T)
-
-#remove all rasters we don't want. I know this is ugly!
-iucn_list <- iucn_rasters[substr(iucn_rasters, 69, nchar(iucn_rasters)-4) %in% spp_rgn_scores$iucn_sid]
-```
-
-Function to score IUCN species maps
-
-```{r}
-cellid_rast <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif")
-
-score_iucn_spp <- function(file){
-  
-  sid <- substr(file, 69, nchar(file)-4)
-    
-  sid_cells <- iucn_cells %>%
-    filter(SID == sid) %>%
-    left_join(spp_rgn_scores, by = c("SID" = "iucn_sid", "rgn" = "rgn_id")) %>%
-    select(cellID, score) %>%
-    distinct()
-  
-  status_raster <- subs(cellid_rast, sid_cells, by = 1, which = 2)
-  writeRaster(status_raster, paste0(file.path(dir_anx), "/bio/scored_rasters/iucn_", sid, "_scored.tif"), overwrite = T)
-  
-}
-```
-
-Function to score NE data portal species maps
-
-```{r}
-score_dp_spp <- function(file){
-  
-  sp <- substr(file, 58, nchar(file)-4)
-    
-  sp_cells <- dp_cells %>%
-    filter(species == sp) %>%
-    left_join(spp_rgn_scores, by = c("common", "rgn" = "rgn_id")) %>%
-    select(cellID, score) %>%
-    distinct()
-  
-  status_raster <- subs(cellid_rast, sp_cells, by = 1, which = 2)
-  writeRaster(status_raster, paste0(file.path(dir_anx), "/bio/scored_rasters/dp_", sp, "_scored.tif"), overwrite = T)
-  
-}
-```
-
-Apply
-
-```{r, eval = F}
-lapply(iucn_list, score_iucn_spp)
-lapply(portal_list, score_dp_spp)
-```
-
-
-Stack and take average 
-
-```{r}
-scored_spp_rasters <- list.files(file.path(dir_anx, "bio/scored_rasters"), full.names = T) %>%
-  stack()
-
-spp_status_avg <- mean(scored_spp_rasters, na.rm = T)
-```
-
-map
-```{r}
-plot(spp_status_avg, col = cols, box = F)
-```
-
-Mask with ocean cells
-
-```{r}
-spp_status_avg_ocean <- mask(spp_status_avg, ocean_ne)
-
-writeRaster(spp_status_avg_ocean, filename = "data/spp_status_risk.tif", overwrite = T)
-
-plot(spp_status_avg_ocean, col = cols, box = F, axes = F)
-```
-
-
-extract
-
-```{r}
-rgn_spp_scores <- zonal(spp_status_avg_ocean, zones, fun = 'mean') %>%
-  as.data.frame() %>%
-  left_join(rgn_data, by = c("zone" = "rgn_id")) %>%
-  select(-area_km2, -state_abv)
-
-rgn_spp_scores
-```
-
-

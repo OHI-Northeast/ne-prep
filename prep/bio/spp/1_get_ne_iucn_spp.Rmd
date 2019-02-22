@@ -19,6 +19,8 @@ output:
 # Summary
 
 This script takes the OHI Northeast region shapefile and compares it to the global shapefiles we have from IUCN to extract all species maps that fall within our region. A lot of this code dips into the `spp_risk_dists` repo from Casey O'Hara: https://github.com/jafflerbach/spp_risk_dists.
+
+# Setup
 ```{r setup, message = F, warning = F}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
@@ -26,31 +28,39 @@ source('~/github/ne-prep/src/R/common.R')
 
 library(sf)
 library(raster)
+library(rfishbase)
+library(rredlist)
+library(taxize)
 
-#ne region
+#ne region shapefile
 ne_shp <- rgns_simp
 ```
 
+I need to get a list of the cell IDs for the Northeast region. I'm using the global cell ID raster from Casey O'Hara's `spp_risk_dists` repository. 
 
-We are going to select only those cells in the Northeast and use that list to query the larger species data. First we have to transform our regions shapefile into the same CRS as the cell ids.
-
-```{r}
-#these are global cell ids in raster format pulled from the spp_risk_dists dataset.
+```{r global_cells}
+#these are global cell ids in raster format pulled from the spp_risk_dists repo.
 cells <- raster("~/github/spp_risk_dists/_spatial/cell_id_rast.tif")
+```
+Then I select only those cells in the Northeast and use that list to query the larger species data. First we transform our regions shapefile into the same CRS as the cell ID raster (`cells`).
 
+```{r reproject_rgns}
 #reproject to our CRS
 ne_reproj <- st_transform(ne_shp, crs = "+proj=cea +lon_0=0 +lat_ts=45 +x_0=0 +y_0=0 +ellps=WGS84
 +units=m +no_defs")
+
+plot(cells, col = cols)
+plot(ne_reproj, add = T)
 ```
 
 Extract the cell ids for our region
-```{r}
+```{r extract_ne_cell_ids}
 ne_cells <- extract(cells, ne_reproj) %>%
   unlist()
 ```
 
 Read in the necessary files to link species to their map's filepath and species info
-```{r}
+```{r spp_files}
 # .csv file that lists all species and the file path to their map
 spp_maps <- read_csv('~/github/spp_risk_dists/_data/spp_marine_maps_2018-1.csv',
                      col_types = 'ddciccc')
@@ -58,6 +68,12 @@ spp_maps <- read_csv('~/github/spp_risk_dists/_data/spp_marine_maps_2018-1.csv',
 #file with species information to link to iucn_sid at the end
 spp_info <- read_csv("/home/ohara/git-annex/spp_risk_dists/iucn/spp_info_from_api_2018-1.csv")
 ```
+
+The following forloop goes through each species:  
+- finds it's species path
+- reads in the species .csv that lists all global cells where it is found
+- filters that list to just those in the Northeast
+- returns an aggregated dataframe (`taxa_cells_df`) with all species scientific names, their unique ids (sids), and cellIDs
 
 ```{r, eval = F}
 #grab each taxa's folder filepath
@@ -71,7 +87,7 @@ taxa_cells_list <- vector('list', length = length(taxa))
 #for each taxa, grab the species map (raster) and filter to only keep those cells in the northeast.
 for(i in seq_along(taxa)) { ### i <- 5
     taxon <- taxa[i]
-    
+    print(i)
     spp_ids_in_taxon <- spp_maps %>%
       filter(str_detect(dbf_file, taxon)) %>%
       .$iucn_sid
@@ -102,68 +118,71 @@ for(i in seq_along(taxa)) { ### i <- 5
 taxa_cells_df <- taxa_cells_list %>%
     bind_rows()  %>%
     filter(!is.na(cell_id)) %>%
-    select(cell_id, iucn_sid, spp_gp) %>%
     select(iucn_sid) %>%
     distinct() %>%
     left_join(spp_info)
 ```
 
-We don't have any common names for these maps! So we're using `rfishbase` to get common names
+We don't have any common names for these maps! So we're using `rredlist` to get common names
 
-```{r, eval = F}
-library(rfishbase)
+```{r}
+scinames <- taxa_cells_df$sciname
 
-sp <- validate_names(c(taxa_cells_df$sciname))  
-fb_list <- species(sp) %>%
-  select(Species, FBname)
-
-#add back in common names
-out <- taxa_cells_df %>%
-  left_join(fb_list, by = c("sciname" = "Species")) %>%
-  rename(common = FBname) %>%
-  select(iucn_sid, common, sciname, population, category)
-```
-
-We are still missing a lot of common names. We can use the `rredlist` R package to access the IUCN API and grab common names.
-
-```{r, eval = F}
-library(rredlist)
-
-sci_names <- out %>%
-  filter(is.na(common)) %>%
-  .$sciname
-
-big_df <- data.frame()
-for(i in 1:length(sci_names)){
-  sp <- sci_names[i]
+iucn_common_names <- data.frame()
+for(i in 1:length(scinames)){
+  sp <- scinames[i]
+  print(i)
 
   if(sp == "Phalacrocorax auritus"){ #this one threw some error and no $result was returned from rl_search
     comm <- NA
   }else{
-  comm <- rl_search(sp)$result$main_common_name
+  comm <- rredlist::rl_search(sp)$result$main_common_name
   }
   
   df <- data.frame(sciname = sp,
                    common = comm)
   
-  big_df <- rbind(big_df, df)
+  iucn_common_names <- rbind(iucn_common_names, df) %>%
+    mutate(common = as.character(common),
+         sciname = as.character(sciname))
 }
+```
 
+
+We are still missing `r nrow(filter(iucn_common_names, is.na(common)))`. Let's try fishbase?
+
+
+```{r, eval = F}
+sp <- iucn_common_names %>%
+  filter(is.na(common))  %>%
+  select(sciname)
+
+fb_list <- species(sp$sciname) %>%
+  select(Species, FBname)
+```
+
+This got us `r nrow(filter(fb_list, !is.na(FBname)))` more common names we need to add back in.
+
+```{r}
+#add back in common names
+out <- iucn_common_names %>%
+  left_join(fb_list, by = c("sciname" = "Species")) %>%
+  mutate(common = ifelse(is.na(common), FBname, common)) %>%
+  select(-FBname)
 ```
 
 Ok we got a lot of them but not all. Now we can try to use the `taxize` R package.
-```{r, eval = F}
-library("taxize")
 
-sci_names <- big_df %>%
+```{r, eval = F}
+missing_scinames <- out %>%
   filter(is.na(common)) %>%
   .$sciname
 
 common_names <- c()
-for(i in 1:length(sci_names)){ #i <- 1
-  sp <- sci_names[i]
-  comm <- sci2comm(sp, db = "itis")
-  
+for(i in 1:length(missing_scinames)){ #i <- 1
+  sp <- missing_scinames[i]
+  comm <- taxize::sci2comm(sp, db = "itis")
+  print(comm)
 common_names <- c(common_names, comm)
 }
 
@@ -180,7 +199,7 @@ df2 <- df %>%
 Only 4 of the species had a common name via taxize. We will add these manually and then the remaining species will keep NA for common name.
 
 ```{r, eval = F}
-sci_to_comm <- big_df %>%
+sci_to_comm <- out %>%
   mutate(common_name = 
            case_when(
               sciname == "Lestrolepis intermedia" ~ "Barracudina antifaz",
@@ -191,18 +210,24 @@ sci_to_comm <- big_df %>%
   select(-common)
 ```
 
+```{r}
+iucn_spp_info <- taxa_cells_df %>%
+  select(iucn_sid, sciname, population, category) %>%
+  left_join(sci_to_comm)
+```
+
 
 ```{r, eval = F}
 #save
-write_csv(out, "~/github/ne-prep/prep/bio/data/1_iucn_spp_in_ne.csv")
+write_csv(iucn_spp_info, "data/1_iucn_spp_in_ne.csv")
 ```
 
 Filter the list of IUCN marine maps from Casey's repo to just have the file paths for species in the Northeast
 ```{r, eval = F}
 spp_marine_maps <- read_csv("~/github/spp_risk_dists/_data/spp_marine_maps_2018-1.csv") %>%
-  filter(sciname %in% out$sciname,
+  filter(sciname %in% iucn_spp_info$sciname,
          subpop %in% c("Atlantic Northwest", "Northwest Atlantic", NA)) #all other subpops that have regions are not in the Northeast so remove here
 #save
-write.csv(spp_marine_maps, "~/github/ne-prep/prep/bio/data/1_iucn_spp_shp_filepaths.csv")
+write.csv(spp_marine_maps, "data/1_iucn_spp_shp_filepaths.csv")
 ```
 

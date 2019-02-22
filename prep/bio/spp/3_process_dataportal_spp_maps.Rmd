@@ -136,7 +136,7 @@ map(non_fish_spp$name, f)
 ```
 
 
-
+Create a lookup table for Northeast data portal species info, similar to what is done for IUCN species in `1_get_ne_iucn_spp.Rmd`.
 
 
 

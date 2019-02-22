@@ -16,6 +16,20 @@ output:
     toc: true
 ---
 
+# Summary
+
+Using a set of IUCN species range maps, rasterize each species range map to 1km x 1km raster using `fasterize`.  Use `presence` field from shapefile.
+
+* Subpopulation polygons must be identified and rasterized separately from the parent polygon; this must be done by sciname and subpop fields since the polygon IDs are based upon the parent ID.
+* Regional assessments need not be determined at this stage - the ID numbers match the global ID numbers (including subpops).
+
+# Data source
+
+IUCN Red List: Spatial Data Download
+IUCN: Gina Ralph direct communication
+
+# Setup 
+
 ``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
 
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
@@ -33,18 +47,6 @@ dir_shp <- file.path(dir_M, 'git-annex/globalprep/_raw_data/iucn_spp/d2018-1')
   ### (in the unzipped folder).
   ### in this folder are shapefiles at a taxonomic level.
 ```
-
-# Summary
-
-Using a set of IUCN species range maps, rasterize each species to 1km x 1km raster using `fasterize`.  Use `presence` field from shapefile.
-
-* Subpopulation polygons must be identified and rasterized separately from the parent polygon; this must be done by sciname and subpop fields since the polygon IDs are based upon the parent ID.
-* Regional assessments need not be determined at this stage - the ID numbers match the global ID numbers (including subpops).
-
-# Data source
-
-IUCN Red List: Spatial Data Download
-IUCN: Gina Ralph direct communication
 
 # Methods
 

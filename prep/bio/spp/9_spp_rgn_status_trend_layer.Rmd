@@ -1,0 +1,67 @@
+---
+title: "Create SPP status and trend layers"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Setup
+
+```{r setup, warning = F, message = F}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+* Mean risk
+* Number of species for mean/var calculations
+* Number of species categorized as "threatened" (i.e. VU, EN, CR)
+* Mean trend
+* Number of species for trend calculations
+
+Stack and take average 
+
+```{r, cache = T}
+scored_spp_rasters <- list.files(file.path(dir_anx, "bio/scored_rasters"), full.names = T) %>%
+  stack()
+
+spp_status_avg <- mean(scored_spp_rasters, na.rm = T)
+```
+
+Map
+```{r}
+plot(spp_status_avg, col = cols, box = F)
+```
+
+Mask with ocean cells because we have cells popping up over Long Island and elsewhere due to bird range maps (see `debug_land_cells.Rmd`).
+
+```{r}
+spp_status_avg_ocean <- mask(spp_status_avg, ocean_ne)
+#writeRaster(spp_status_avg_ocean, filename = "data/spp_status_risk.tif", overwrite = T)
+
+plot(spp_status_avg_ocean, col = cols, box = F, axes = F)
+```
+
+
+# Status by region
+
+Extract
+
+```{r}
+rgn_spp_scores <- zonal(spp_status_avg_ocean, zones, fun = 'mean') %>%
+  as.data.frame() %>%
+  left_join(rgn_data, by = c("zone" = "rgn_id")) %>%
+  select(-area_km2, -state_abv)
+
+rgn_spp_scores
+```

@@ -1,0 +1,108 @@
+---
+title: "Create individual species conservation status rasters"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+This script creates scored rasters for each species depending on their conservation status and location. These rasters are primarily going to be used to create an aggregate species conservation risk map for the OHI Northeast region.
+
+# Setup
+
+```{r setup, warning = F, message = F}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+# Rasterize
+
+# Load data
+
+```{r cells}
+iucn_cells <- data.table::fread(file.path(dir_anx, "bio/iucn_sid_cells.csv")) %>%
+  select(-V1)
+dp_cells   <- data.table::fread(file.path(dir_anx, "bio/ne_dataportal_spp_cells.csv")) %>%
+  select(-V1) %>%
+  mutate(common = tolower(str_replace_all(species, "_", " ")),
+         common = str_replace(common, " normalized", "")) 
+```
+
+Load species rgn scores information
+```{r}
+spp_rgn_scores <- read_csv("data/7_spp_rgns_scores.csv")
+```
+
+
+Read in rasters
+```{r}
+portal_list <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"), full.names = T)
+#iucn rasters
+iucn_rasters <- list.files(file.path(dir_anx, "bio/spp_presence_rasters"), full.names = T)
+
+#remove all rasters we don't want. I know this is ugly!
+iucn_list <- iucn_rasters[substr(iucn_rasters, 69, nchar(iucn_rasters)-4) %in% spp_rgn_scores$iucn_sid]
+```
+
+Function to score IUCN species maps
+
+```{r}
+cellid_rast <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif")
+
+score_iucn_spp <- function(file){
+  
+  sid <- substr(file, 69, nchar(file)-4)
+    
+  sid_cells <- iucn_cells %>%
+    filter(SID == sid) %>%
+    left_join(spp_rgn_scores, by = c("SID" = "iucn_sid", "rgn" = "rgn_id")) %>%
+    select(cellID, score) %>%
+    distinct()
+  
+  status_raster <- subs(cellid_rast, sid_cells, by = 1, which = 2)
+  writeRaster(status_raster, paste0(file.path(dir_anx), "/bio/scored_rasters/iucn_", sid, "_scored.tif"), overwrite = T)
+  
+}
+```
+
+Function to score NE data portal species maps
+
+```{r}
+score_dp_spp <- function(file){
+  
+  sp <- substr(file, 58, nchar(file)-4)
+    
+  sp_cells <- dp_cells %>%
+    filter(species == sp) %>%
+    left_join(spp_rgn_scores, by = c("common", "rgn" = "rgn_id")) %>%
+    select(cellID, score) %>%
+    distinct()
+  
+  status_raster <- subs(cellid_rast, sp_cells, by = 1, which = 2)
+  writeRaster(status_raster, paste0(file.path(dir_anx), "/bio/scored_rasters/dp_", sp, "_scored.tif"), overwrite = T)
+  
+}
+```
+
+Apply
+
+```{r, eval = F}
+lapply(iucn_list, score_iucn_spp)
+lapply(portal_list, score_dp_spp)
+```
+
+
+
+
