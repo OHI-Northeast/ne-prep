@@ -181,6 +181,7 @@ Combine dataportal and IUCN rgn area dataframes for a single one to save in our 
 ```{r}
 #get northeast species cleaned up
 ne_scinames <- read_csv("data/4_ne_dataportal_spp_common_sci.csv") %>%
+  select(-X1) %>%
   mutate(sciname = tolower(sciname))
 
 nedp <- dp_spp_rgns_area %>%
@@ -189,7 +190,11 @@ nedp <- dp_spp_rgns_area %>%
          common  = trimws(tolower(species), "right")) %>%
   select(-sciname, -species) %>%
   left_join(ne_scinames) %>%
-  select(-X1)
+  select(-X1) %>%
+  group_by(common, sciname) %>%
+  mutate(prop_area = area_km2/sum(area_km2)) %>%
+  ungroup() %>%
+  select(rgn_id, common, sciname, prop_area)
 
 #iucn
 iucn_ne_spp_info <- read_csv("data/1_iucn_spp_in_ne.csv")
@@ -198,37 +203,16 @@ iucn <- iucn_spp_rgns_area %>%
   left_join(iucn_ne_spp_info, by = c("SID" = "iucn_sid")) %>%
   select(rgn_id, area_km2, sciname, common = common_name) %>%
   mutate(sciname = tolower(sciname),
-         common = tolower(common))
+         common = tolower(common)) %>%
+  group_by(common, sciname) %>%
+  mutate(prop_area = area_km2/sum(area_km2)) %>%
+  select(rgn_id, common, sciname, prop_area)
 
 all_spp_rgn_area <- nedp %>%
   bind_rows(iucn) %>%
-  mutate(year = 2018) #we have to have at least one year for the OHI model calculation to work
+  mutate(year = 2017) #we have to have at least one year for the OHI model calculation to work
 
 write.csv(all_spp_rgn_area, "~/github/ne-scores/region/layers/spp_rgn_areas.csv")
   
-```
-
-
-
-### DELETE ?
-Create a lookup table that gives each species and rgn it's found.
-
-```{r, eval = F}
-iucn_sp_rgn <- sid_cells %>%
-  select(SID, rgn) %>%
-  distinct() %>%
-  left_join(rgn_data, by = c("rgn" = "rgn_id")) %>%
-  select(SID, rgn_id = rgn, rgn_name)
-
-write.csv(iucn_sp_rgn, file = "data/6_iucn_sp_rgn.csv")
-
-dp_sp_rgn <- dp_cells %>%
-  select(species, rgn) %>%
-  mutate(common = tolower(gsub("_", " ", species))) %>%
-  distinct() %>%
-  left_join(rgn_data, by = c("rgn" = "rgn_id")) %>%
-  select(common, rgn_id = rgn, rgn_name)
-
-write.csv(dp_sp_rgn, file = "data/6_dp_sp_rgn.csv")
 ```
 
