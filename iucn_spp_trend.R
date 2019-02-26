@@ -3,6 +3,7 @@
 
 #load the library that accesses the IUCN API
 library(rredlist)
+library(tidyverse)
 
 spp_list    <- read_csv("prep/bio/spp/data/1_iucn_spp_in_ne.csv") %>%
       select(common_name, sciname, iucn_sid) %>%
@@ -12,7 +13,7 @@ spp_list    <- read_csv("prep/bio/spp/data/1_iucn_spp_in_ne.csv") %>%
 
 df_iucn <- data.frame()
 
-for(i in 631:nrow(spp_list)){
+for(i in 1:nrow(spp_list)){
   
   print(i)
   sp <- as.character(spp_list[i,2]) #grab scientific name

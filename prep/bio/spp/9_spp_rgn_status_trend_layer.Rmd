@@ -1,5 +1,5 @@
 ---
-title: "Create SPP status and trend layers"
+title: "Create SPP trend layer"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,6 +16,8 @@ output:
     toc: true
 ---
 
+# Summary
+
 # Setup
 
 ```{r setup, warning = F, message = F}
@@ -23,45 +25,61 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
 source('~/github/ne-prep/src/R/common.R')
 ```
 
-* Mean risk
-* Number of species for mean/var calculations
-* Number of species categorized as "threatened" (i.e. VU, EN, CR)
-* Mean trend
-* Number of species for trend calculations
 
-Stack and take average 
-
-```{r, cache = T}
-scored_spp_rasters <- list.files(file.path(dir_anx, "bio/scored_rasters"), full.names = T) %>%
-  stack()
-
-spp_status_avg <- mean(scored_spp_rasters, na.rm = T)
-```
-
-Map
-```{r}
-plot(spp_status_avg, col = cols, box = F)
-```
-
-Mask with ocean cells because we have cells popping up over Long Island and elsewhere due to bird range maps (see `debug_land_cells.Rmd`).
+# Data
 
 ```{r}
-spp_status_avg_ocean <- mask(spp_status_avg, ocean_ne)
-#writeRaster(spp_status_avg_ocean, filename = "data/spp_status_risk.tif", overwrite = T)
-
-plot(spp_status_avg_ocean, col = cols, box = F, axes = F)
+iucn_trends <- read.csv("data/iucn_population_trends.csv")
 ```
 
-
-# Status by region
-
-Extract
+Scores for species trends
 
 ```{r}
-rgn_spp_scores <- zonal(spp_status_avg_ocean, zones, fun = 'mean') %>%
-  as.data.frame() %>%
-  left_join(rgn_data, by = c("zone" = "rgn_id")) %>%
-  select(-area_km2, -state_abv)
-
-rgn_spp_scores
+pop_trend_score <- data.frame(trend = c("Increasing", "Decreasing", "Stable", "Unknown"),
+                              score = c(0.025, -0.025, 0, NA))
 ```
+
+
+# Score
+
+```{r}
+spp_trend_scores <- iucn_trends %>% 
+  left_join(pop_trend_score) %>%
+  filter(!is.na(trend)) #remove the 3 species with NAs
+```
+
+
+# Visualize
+
+```{r}
+spp_trends_plot <- spp_trend_scores %>%
+  group_by(trend) %>%
+  summarize(count = n())
+
+ggplot(spp_trends_plot, aes(x = trend, y = count)) +
+  geom_bar(stat = "identity") +
+  theme_bw()
+```
+
+# Save
+
+Saving this as the trend layer
+
+```{r}
+spp_trends <- spp_trend_scores %>%
+  mutate(year = 2017,  #have to add a year for the toolbox
+         sciname = tolower(sciname)) %>%
+  select(sciname, score, year)
+
+write.csv(spp_trends, file = "~/github/ne-scores/region/layers/spp_trend.csv", row.names = F)  
+```
+
+
+
+
+
+
+
+
+
+
