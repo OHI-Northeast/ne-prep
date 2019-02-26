@@ -190,11 +190,7 @@ nedp <- dp_spp_rgns_area %>%
          common  = trimws(tolower(species), "right")) %>%
   select(-sciname, -species) %>%
   left_join(ne_scinames) %>%
-  select(-X1) %>%
-  group_by(common, sciname) %>%
-  mutate(prop_area = area_km2/sum(area_km2)) %>%
-  ungroup() %>%
-  select(rgn_id, common, sciname, prop_area)
+  select(-X)
 
 #iucn
 iucn_ne_spp_info <- read_csv("data/1_iucn_spp_in_ne.csv")
@@ -203,10 +199,7 @@ iucn <- iucn_spp_rgns_area %>%
   left_join(iucn_ne_spp_info, by = c("SID" = "iucn_sid")) %>%
   select(rgn_id, area_km2, sciname, common = common_name) %>%
   mutate(sciname = tolower(sciname),
-         common = tolower(common)) %>%
-  group_by(common, sciname) %>%
-  mutate(prop_area = area_km2/sum(area_km2)) %>%
-  select(rgn_id, common, sciname, prop_area)
+         common = tolower(common)) 
 
 all_spp_rgn_area <- nedp %>%
   bind_rows(iucn) %>%
