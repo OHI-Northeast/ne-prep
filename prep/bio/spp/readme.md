@@ -8,7 +8,7 @@ The species status depends upon two pieces of information:
 
 We use data from multiple data sources to help answer these questions for all regions in the OHI Northeast assessment. To answer question 1 we use species range maps from the IUCN and more regionally specific range maps developed for the [Northeast Ocean Data Portal](https://www.northeastoceandata.org/). For question 2, we use available conservation status information from [NatureServe](http://www.natureserve.org/) and supplement missing status information with IUCN threat levels.
 
-## 1. What marine species exist in the US Northeast region?
+## What marine species exist in the US Northeast region?
 
 **Get IUCN species range maps**  
 We have already downloaded all available IUCN marine species range maps for other projects (see [`spp_risk_dists`](https://github.com/oharac/spp_risk_dists) project). Casey already rasterized these maps for that project and created lookup tables that identify what global cells each species is found in. This is queried in `1_get_ne_iucn_spp.Rmd` which returns `data/1_iucn_spp_in_ne.csv` - a list of all IUCN species with ranges that fall within our Northeast region.
@@ -49,8 +49,8 @@ Unfortunately we don't have very detailed information on the history of genuine 
 - `create_scored_rasters.Rmd` creates individual species rasters with cell values equal to the risk score. These rasters are aggregated to create a single regional species risk (or conservation status) map `data/spp_status_risk.tif`  
 - `debug_land_cells.Rmd` was used to determine why we were seeing some species cells show up over land. In the end, these are bird ranges and removed within the analysis.
 - `get_spp_historical_status.Rmd` gets previous statuses for IUCN species and saves the file `iucn_spp_historical_status.csv`. This is not currently used in the goal model but could be if we change how we incorporate trend.
-
-
+- `assign_status_scores.R` gives a value between 0 (no threats, least concern) and 1 (extinct) to each conservation status category, creating `natserv_status_scores.csv`.
+- `compare_natserve_w_other_spp_status.R` was used to compare NatureServe data to a dataset provided by Emily. Ultimately it supported our decision to only use NatureServe and IUCN data.
 
 
 
