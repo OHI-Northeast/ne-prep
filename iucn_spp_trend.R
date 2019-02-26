@@ -32,5 +32,5 @@ for(i in 631:nrow(spp_list)){
 }
 
 
-write.csv(df_iucn, file = "prep/bio/spp/data/iucn_population_trends.csv")
+write.csv(df_iucn, file = "prep/bio/spp/data/iucn_population_trends.csv", row.names = F)
 
