@@ -42,7 +42,7 @@ dp_cells   <- data.table::fread(file.path(dir_anx, "bio/ne_dataportal_spp_cells.
 
 Load species rgn scores information
 ```{r}
-spp_rgn_scores <- read_csv("data/7_spp_rgns_scores.csv")
+spp_rgn_scores <- read_csv("~/github/ne-scores/region/layers/spp_status_scores.csv")
 ```
 
 

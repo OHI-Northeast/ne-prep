@@ -68,7 +68,7 @@ for(i in 1:nrow(spp_list)){
 ```
 
 ```{r}
-write.csv(df_iucn,"data/8_iucn_spp_historical_status.csv")
+write.csv(df_iucn,"data/iucn_spp_historical_status.csv")
 ```
 
 ----

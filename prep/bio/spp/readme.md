@@ -36,9 +36,34 @@ Now that we have species range maps and their assocatied conservation status inf
 1. link these species maps with our OHI Northeast regions, and 
 2. score each species between 0 and 1 based on their conservation status
 
-The script `6_link_spp_cells_rgns.Rmd` iterates through each species range raster, and calculates the amount of area in each OHI region. It also creates a large dataframe that contains each cell ID for each species. These two datasets sit on the server due to large size and will be used to make a map of all species conservation status. 
+The script `6_link_spp_cells_rgns.Rmd` iterates through each species range raster, and calculates the amount of area in each OHI region. It also creates a large dataframe that contains each cell ID for each species. These two datasets sit on the server due to large size and will be used to make a map of all species conservation status. This script saves the `spp_rgn_areas` layer used in the toolbox.
 
-After determining the total area of each species range in all OHI regions, we assign each species status a score in `7_assign_spp_status_scores.Rmd`.
+After determining the total area of each species range in all OHI regions, we assign each species status a score in `7_assign_spp_status_scores.Rmd`. This script saves the `spp_status_scores` layer used in the toolbox.
+
+## What is the conservation status trend of these species?
+
+Unfortunately we don't have very detailed information on the history of genuine risk for our Northeast species. We still want to assess trends if possible and with the IUCN data we can do that. The script `8_spp_trend_layer.Rmd` creates the `spp_trend` layer used in the toolbox by querying the IUCN API for population trend information (using the `iucn_spp_trend.R` script) and saving a list of all species and their associated trend.
+
+## Additional analyses
+
+- `create_scored_rasters.Rmd` creates individual species rasters with cell values equal to the risk score. These rasters are aggregated to create a single regional species risk (or conservation status) map `data/spp_status_risk.tif`  
+- `debug_land_cells.Rmd` was used to determine why we were seeing some species cells show up over land. In the end, these are bird ranges and removed within the analysis.
+- `get_spp_historical_status.Rmd` gets previous statuses for IUCN species and saves the file `iucn_spp_historical_status.csv`. This is not currently used in the goal model but could be if we change how we incorporate trend.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
