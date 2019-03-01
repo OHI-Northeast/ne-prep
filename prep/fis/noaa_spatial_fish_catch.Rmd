@@ -1,0 +1,144 @@
+---
+title: "Spatializing fish catch in the Northeast"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(readxl)
+library(sf)
+source("~/github/ne-prep/src/R/common.R")
+```
+
+
+# Data Cleaning
+
+```{r}
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_DEC 2018.xlsx"))
+
+clean <- raw %>%
+  rename(year = YEAR,
+         stat_area = `STAT\r\nAREA`,
+         species = SPECIES,
+         pounds = `LBS LANDED \r\n(HAIL WT)`) %>%
+  mutate(stat_area = as.numeric(stat_area))
+
+head(clean)
+```
+
+Statistical areas
+```{r}
+stat_shp <- sf::read_sf(file.path(dir_anx, "spatial/Statistical_Areas_2010_withNames.shp")) %>%
+  st_set_crs(p4s_nad83) %>%
+  st_transform(crs = crs(rgns)) 
+
+stat_shp$stat_area <- st_area(stat_shp) #add area as column
+
+plot(stat_shp["SHORT_NAME"])
+```
+
+Overlay stat areas to find what ones are in our NE regions
+
+```{r}
+ohi_stat_areas <- st_intersection(rgns, stat_shp)
+ohi_stat_areas$ohi_area <- st_area(ohi_stat_areas)
+
+plot(ohi_stat_areas["Id"])
+```
+
+Calculate proportion of each statistical area in our OHI regions
+
+```{r}
+calc_prop_area <- ohi_stat_areas %>%
+  group_by(Id)  %>% #calculate the total statistical area region
+  mutate(ohi_rgn_prop_area = ohi_area/stat_area) #this column tells us how much of each OHI sub-region falls within the statistical area in our region
+
+plot(calc_prop_area["ohi_rgn_prop_area"])
+```
+
+
+Let's filter the catch data to just the statistical areas in our region.
+
+```{r}
+region_catch <- clean %>%
+  filter(stat_area %in% ohi_stat_areas$Id) %>%
+  left_join(calc_prop_area, by = c("stat_area" = "Id")) %>%
+  mutate(catch = pounds*ohi_rgn_prop_area)
+```
+
+
+Visualize the data
+
+```{r}
+sp_catch <- region_catch %>%
+  group_by(species, year, rgn_name, rgn_id) %>%
+  summarize(catch = sum(pounds))
+
+ggplot(sp_catch, aes(x = year, y = catch, color = species)) +
+  facet_wrap(~rgn_name) +
+  geom_line() +
+  theme_bw() +
+  theme(legend.position = 'none')
+
+```
+
+Create maps of catch for all species using just the most recent year
+
+```{r}
+map_catch <- stat_shp %>%
+  left_join(clean %>%
+              filter(year == 2017), by = c("Id" = "stat_area")) %>%
+  filter(!is.na(pounds))
+
+
+for(i in 32:length(unique(map_catch$species))){
+
+  sp <- unique(map_catch$species)[i]
+  
+ggplot() +
+  geom_sf(data = map_catch%>%filter(species == sp), aes(fill = pounds)) +
+  #geom_sf(data = rgns_simp, aes(), fill = NA) +
+  theme_bw() +
+  labs(title = sp)
+
+sp_save_name <- ifelse(str_detect(sp, "/"), str_replace_all(sp, "/", "_"), sp)
+
+ggsave(paste0("figs/", sp_save_name,"_catch_by_statistical_area.pdf"))
+}
+
+  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

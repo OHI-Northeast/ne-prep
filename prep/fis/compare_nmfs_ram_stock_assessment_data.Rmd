@@ -1,0 +1,107 @@
+---
+title: "Compare RAM and NOAA stock assessment data"
+author: "Jamie Afflerbach"
+date: "2/28/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+Load data
+
+```{r}
+nmfs <- read.csv("data/nmfs_stock_assessment_data.csv") %>% select(-X)
+ram  <- read.csv("data/fis_ram_stock_assessment_data.csv") %>% select(-X)
+```
+
+Prep for matching
+
+```{r}
+nmfs_clean <- nmfs %>% 
+  separate(stock, into = c("species", "location"), sep = " - ") %>%
+  spread(key = indicator, value = value) %>%
+  rename(nmfs_ffmsy = f_fmsy, nmfs_bbmsy = b_bmsy) %>%
+  mutate(species = tolower(species),
+         location = str_replace(location, " \\| Asmt & Status", ""),
+         location = str_replace(location, " \\| Asmt", "")) %>%
+  mutate(species = case_when(
+    species == "goosefish" ~ "monkfish",
+    TRUE ~ as.character(species)
+  ))
+```
+
+```{r}
+ram_clean <- ram %>%
+  rename(location = areaname) %>%
+  mutate(species = tolower(commonname),
+         location = str_replace(as.character(location), "/Mid Atlantic", "/ Mid-Atlantic"),
+    indicator = case_when(
+    metric == "B/Bmsy" ~ "b_bmsy",
+    metric == "F/Fmsy" ~ "f_fmsy"
+  )) %>%
+  select(year, species, location, indicator, value) %>%
+  spread(indicator, value) %>%
+  rename(ram_bbmsy = b_bmsy, 
+         ram_ffmsy = f_fmsy) %>%
+  filter(year > 2000)
+
+#join
+
+both <- nmfs_clean %>%
+  full_join(ram_clean, by = c("species", "year", "location"))
+```
+
+Plot NMFS then RAM then compare
+
+```{r}
+ggplot(nmfs_clean %>% gather(indicator, value, -species, -location, -year), 
+       aes(x = year, y = value, color = indicator)) +
+  geom_hline(yintercept = 1, color = "darkgray") +
+  geom_line() +
+  facet_wrap(~species+location, scales = "free_y") +
+  theme_bw()
+```
+
+ 
+```{r}
+ggplot(ram_clean %>% gather(indicator, value, -species, -location, -year), 
+       aes(x = year, y = value, color = indicator)) +
+  geom_hline(yintercept = 1, color = "darkgray") +
+  geom_line() +
+  facet_wrap(~species+location, scales = "free_y") +
+  theme_bw()
+```
+ 
+ 
+```{r, fig.width = 14, fig.height = 10}
+plot_df <- both %>%
+  gather(indicator, value, -species, -location, -year) %>%
+  filter(!is.na(value))
+
+
+ggplot(plot_df, aes(x = year, y = value, color = indicator)) +
+  geom_hline(yintercept = 1, color = "darkgray") +
+  geom_line() +
+  facet_wrap(~species+location, scales = "free_y") +
+  theme_bw()
+ggsave(file = "figs/ram_nmfs_stock_assessment_comparison.pdf")
+
+```
+ 
+
+Why is Atlantic menhaden in RAM but not NMFS
+Why is there no Scup in NMFS
+Why is there such a big difference in Winter flounder for George's bank b/w the indicators (years 2011, 2014)
+Why is there such a big difference between the two data sources for Summer flounder?
+Why isn't monkfish, spiny dogfish or striped bass in the NMFS data?
+
+
+
+
+
+
+
+
