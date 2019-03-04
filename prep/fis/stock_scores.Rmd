@@ -1,0 +1,64 @@
+---
+title: "Northeast fisheries stock scores: Combining NOAA and RAM data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+This script creates the stock score layer for the toolbox by combining both NMFS and RAM data.
+
+# Setup
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide'}
+
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+```
+
+## Load data
+
+```{r}
+nmfs_ss <- read.csv("data/nmfs_stock_scores.csv") %>% 
+  separate(stock, into = c("species", "location"), sep = " - ") %>%
+  mutate(source = "NMFS") %>%
+  select(year, source, species, location, score)
+
+ram_ss <- read.csv("data/ram_stock_scores.csv") %>% 
+  separate(stocklong, into = c("species", "location", "location2", "location3", "location4", "location5"), 
+           sep = "(?<=.)(?=[[:upper:]])") %>%
+  mutate(source = "RAM",
+         location = paste(trimws(location), location2, location3, location4, location5),
+         location = trimws(str_replace_all(location, "NA", "")),
+         location = str_replace_all(location, "  ", " "),
+         species = trimws(species)) %>%
+  filter(year>2004) %>%
+  select(year, source, species, location, score) 
+  
+```
+
+# Combine
+
+```{r}
+ss_toolbox <- nmfs_ss %>%
+  bind_rows(ram_ss)
+```
+
+# Save to toolbox
+```{r}
+write.csv(ss_toolbox, file = file.path(dir_calc, "layers/fis_stockscores.csv"), row.names = F)
+```
+
+

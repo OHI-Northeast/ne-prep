@@ -92,13 +92,6 @@ ggsave(file = "figs/ram_nmfs_stock_assessment_comparison.pdf")
 ```
  
 
-Why is Atlantic menhaden in RAM but not NMFS
-Why is there no Scup in NMFS
-Why is there such a big difference in Winter flounder for George's bank b/w the indicators (years 2011, 2014)
-Why is there such a big difference between the two data sources for Summer flounder?
-Why isn't monkfish, spiny dogfish or striped bass in the NMFS data?
-
-
 
 
 

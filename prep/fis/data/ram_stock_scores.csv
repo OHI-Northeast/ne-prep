@@ -1,0 +1,253 @@
+"","commonname","stocklong","year","score","bPrime","fPrime","b_bmsy","f_fmsy","basis","gapfilled"
+"1","Albacore tuna","Albacore tuna North Atlantic",2000,1,1,1,0.992,0.874,"F_Fmsy, B_Bmsy",1
+"2","Albacore tuna","Albacore tuna North Atlantic",2001,1,1,1,0.992,0.874,"F_Fmsy, B_Bmsy",0
+"3","Albacore tuna","Albacore tuna North Atlantic",2002,1,1,1,1.02,0.756,"F_Fmsy, B_Bmsy",0
+"4","Albacore tuna","Albacore tuna North Atlantic",2003,1,1,1,1.05,0.671,"F_Fmsy, B_Bmsy",0
+"5","Albacore tuna","Albacore tuna North Atlantic",2004,0.987878787878788,1,0.987878787878788,1.07,0.649333333333333,"F_Fmsy, B_Bmsy",0
+"6","Albacore tuna","Albacore tuna North Atlantic",2005,1,1,1,1.09,0.738,"F_Fmsy, B_Bmsy",0
+"7","Albacore tuna","Albacore tuna North Atlantic",2006,1,1,1,1.1,0.821333333333333,"F_Fmsy, B_Bmsy",0
+"8","Albacore tuna","Albacore tuna North Atlantic",2007,1,1,1,1.1,0.782666666666667,"F_Fmsy, B_Bmsy",0
+"9","Albacore tuna","Albacore tuna North Atlantic",2008,0.992424242424243,1,0.992424242424243,1.13,0.653333333333333,"F_Fmsy, B_Bmsy",0
+"10","Albacore tuna","Albacore tuna North Atlantic",2009,0.779166666666667,1,0.779166666666667,1.17,0.465666666666667,"F_Fmsy, B_Bmsy",0
+"11","Albacore tuna","Albacore tuna North Atlantic",2010,0.730978535353535,0.991666666666667,0.737121212121212,1.22,0.428666666666667,"F_Fmsy, B_Bmsy",0
+"12","Albacore tuna","Albacore tuna North Atlantic",2011,0.696164772727273,0.975,0.714015151515152,1.26,0.408333333333333,"F_Fmsy, B_Bmsy",0
+"13","Albacore tuna","Albacore tuna North Atlantic",2012,0.749968434343435,0.958333333333333,0.782575757575758,1.3,0.468666666666667,"F_Fmsy, B_Bmsy",0
+"14","Albacore tuna","Albacore tuna North Atlantic",2013,0.768996212121212,0.95,0.809469696969697,1.32,0.492333333333333,"F_Fmsy, B_Bmsy",0
+"15","Albacore tuna","Albacore tuna North Atlantic",2014,0.800059974747475,0.941666666666667,0.849621212121212,1.34,0.527666666666667,"F_Fmsy, B_Bmsy",0
+"16","Albacore tuna","Albacore tuna North Atlantic",2015,0.800059974747475,0.941666666666667,0.849621212121212,1.34,0.527666666666667,"F_Fmsy, B_Bmsy",1
+"17","Albacore tuna","Albacore tuna North Atlantic",2016,0.800059974747475,0.941666666666667,0.849621212121212,1.34,0.527666666666667,"F_Fmsy, B_Bmsy",1
+"18","Albacore tuna","Albacore tuna North Atlantic",2017,0.800059974747475,0.941666666666667,0.849621212121212,1.34,0.527666666666667,"F_Fmsy, B_Bmsy",1
+"19","American lobster","American lobster Gulf of Maine",2000,0.57583333375,0.57583333375,NA,0.460666667,NA,"B_Bmsy only",1
+"20","American lobster","American lobster Gulf of Maine",2001,0.57583333375,0.57583333375,NA,0.460666667,NA,"B_Bmsy only",0
+"21","American lobster","American lobster Gulf of Maine",2002,0.64083333375,0.64083333375,NA,0.512666667,NA,"B_Bmsy only",0
+"22","American lobster","American lobster Gulf of Maine",2003,0.7075,0.7075,NA,0.566,NA,"B_Bmsy only",0
+"23","American lobster","American lobster Gulf of Maine",2004,0.7775,0.7775,NA,0.622,NA,"B_Bmsy only",0
+"24","American lobster","American lobster Gulf of Maine",2005,0.79833333375,0.79833333375,NA,0.638666667,NA,"B_Bmsy only",0
+"25","American lobster","American lobster Gulf of Maine",2006,0.78666666625,0.78666666625,NA,0.629333333,NA,"B_Bmsy only",0
+"26","American lobster","American lobster Gulf of Maine",2007,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",0
+"27","American lobster","American lobster Gulf of Maine",2008,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"28","American lobster","American lobster Gulf of Maine",2009,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"29","American lobster","American lobster Gulf of Maine",2010,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"30","American lobster","American lobster Gulf of Maine",2011,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"31","American lobster","American lobster Gulf of Maine",2012,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"32","American lobster","American lobster Gulf of Maine",2013,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"33","American lobster","American lobster Gulf of Maine",2014,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"34","American lobster","American lobster Gulf of Maine",2015,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"35","American lobster","American lobster Gulf of Maine",2016,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"36","American lobster","American lobster Gulf of Maine",2017,0.72583333375,0.72583333375,NA,0.580666667,NA,"B_Bmsy only",1
+"37","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2000,0,0.31125,0,0.249,2.13666666666667,"F_Fmsy, B_Bmsy",1
+"38","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2001,0,0.31125,0,0.249,2.13666666666667,"F_Fmsy, B_Bmsy",0
+"39","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2002,0,0.305,0,0.244,2.23,"F_Fmsy, B_Bmsy",0
+"40","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2003,0,0.305,0,0.244,2.31666666666667,"F_Fmsy, B_Bmsy",0
+"41","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2004,0,0.315,0,0.252,2.09333333333333,"F_Fmsy, B_Bmsy",0
+"42","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2005,0,0.3225,0,0.258,1.82,"F_Fmsy, B_Bmsy",0
+"43","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2006,0,0.335,0,0.268,1.6,"F_Fmsy, B_Bmsy",0
+"44","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2007,0,0.37625,0,0.301,1.63666666666667,"F_Fmsy, B_Bmsy",0
+"45","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2008,0,0.39875,0,0.319,1.46666666666667,"F_Fmsy, B_Bmsy",0
+"46","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2009,0,0.41375,0,0.331,1.33,"F_Fmsy, B_Bmsy",0
+"47","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2010,0,0.4525,0,0.362,1.2,"F_Fmsy, B_Bmsy",0
+"48","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2011,0,0.5525,0,0.442,1.24333333333333,"F_Fmsy, B_Bmsy",0
+"49","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2012,0,0.59875,0,0.479,1.181,"F_Fmsy, B_Bmsy",0
+"50","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2013,0,0.59875,0,0.479,1.181,"F_Fmsy, B_Bmsy",1
+"51","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2014,0,0.59875,0,0.479,1.181,"F_Fmsy, B_Bmsy",1
+"52","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2015,0,0.59875,0,0.479,1.181,"F_Fmsy, B_Bmsy",1
+"53","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2016,0,0.59875,0,0.479,1.181,"F_Fmsy, B_Bmsy",1
+"54","Atlantic bluefin tuna","Bluefin tuna Western Atlantic",2017,0,0.59875,0,0.479,1.181,"F_Fmsy, B_Bmsy",1
+"55","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2000,0.117571494424986,0.221139222916666,0.531662781818182,3.069265865,0.247863248,"F_Fmsy, B_Bmsy",1
+"56","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2001,0.117571494424986,0.221139222916666,0.531662781818182,3.069265865,0.247863248,"F_Fmsy, B_Bmsy",0
+"57","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2002,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",0
+"58","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2003,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"59","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2004,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"60","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2005,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"61","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2006,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"62","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2007,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"63","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2008,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"64","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2009,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"65","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2010,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"66","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2011,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"67","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2012,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"68","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2013,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"69","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2014,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"70","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2015,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"71","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2016,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"72","Atlantic croaker","Atlantic croaker Mid-Atlantic Coast",2017,0.189327701098981,0.343552698333333,0.551087801136364,2.775473524,0.264957265,"F_Fmsy, B_Bmsy",1
+"73","Atlantic menhaden","Atlantic menhaden Atlantic",2000,0.4164587229969,0.84065326625,0.495398923333333,0.672522613,1.178756238,"F_Fmsy, B_Bmsy",1
+"74","Atlantic menhaden","Atlantic menhaden Atlantic",2001,0.4164587229969,0.84065326625,0.495398923333333,0.672522613,1.178756238,"F_Fmsy, B_Bmsy",0
+"75","Atlantic menhaden","Atlantic menhaden Atlantic",2002,0.20412910346138,0.7467964825,0.273339669166666,0.597437186,1.10611888466667,"F_Fmsy, B_Bmsy",0
+"76","Atlantic menhaden","Atlantic menhaden Atlantic",2003,0.043536404275667,0.62626884375,0.0695171166666664,0.501015075,0.94776989,"F_Fmsy, B_Bmsy",0
+"77","Atlantic menhaden","Atlantic menhaden Atlantic",2004,0.273112092144936,0.691180905,0.395138364166667,0.552944724,0.860371722,"F_Fmsy, B_Bmsy",0
+"78","Atlantic menhaden","Atlantic menhaden Atlantic",2005,0.413537016932583,0.70937185875,0.582962252916667,0.567497487,0.758621821,"F_Fmsy, B_Bmsy",0
+"79","Atlantic menhaden","Atlantic menhaden Atlantic",2006,0.350551477505297,0.68825376875,0.509334628333333,0.550603015,0.761209014,"F_Fmsy, B_Bmsy",0
+"80","Atlantic menhaden","Atlantic menhaden Atlantic",2007,1,1,1,0.837035176,0.698527504333333,"F_Fmsy, B_Bmsy",0
+"81","Atlantic menhaden","Atlantic menhaden Atlantic",2008,0.985277920454546,1,0.985277920454546,0.91521608,0.64704457,"F_Fmsy, B_Bmsy",0
+"82","Atlantic menhaden","Atlantic menhaden Atlantic",2009,0.8797637125,1,0.8797637125,0.913015075,0.554192067,"F_Fmsy, B_Bmsy",0
+"83","Atlantic menhaden","Atlantic menhaden Atlantic",2010,0.907078325757576,1,0.907078325757576,0.846532663,0.578228926666667,"F_Fmsy, B_Bmsy",0
+"84","Atlantic menhaden","Atlantic menhaden Atlantic",2011,0.97937540719697,1,0.97937540719697,0.861829146,0.641850358333333,"F_Fmsy, B_Bmsy",0
+"85","Atlantic menhaden","Atlantic menhaden Atlantic",2012,1,1,1,1.019145729,0.675113082666667,"F_Fmsy, B_Bmsy",0
+"86","Atlantic menhaden","Atlantic menhaden Atlantic",2013,0.905766342045455,1,0.905766342045455,0.995386935,0.577074381,"F_Fmsy, B_Bmsy",0
+"87","Atlantic menhaden","Atlantic menhaden Atlantic",2014,0.809485328409091,1,0.809485328409091,0.96801005,0.492347089,"F_Fmsy, B_Bmsy",0
+"88","Atlantic menhaden","Atlantic menhaden Atlantic",2015,0.807748610606061,1,0.807748610606061,0.876603015,0.490818777333333,"F_Fmsy, B_Bmsy",0
+"89","Atlantic menhaden","Atlantic menhaden Atlantic",2016,0.902508556060606,1,0.902508556060606,0.839045226,0.574207529333333,"F_Fmsy, B_Bmsy",0
+"90","Atlantic menhaden","Atlantic menhaden Atlantic",2017,0.902508556060606,1,0.902508556060606,0.839045226,0.574207529333333,"F_Fmsy, B_Bmsy",1
+"91","Bigeye tuna","Bigeye tuna Atlantic",2000,0.541666666666667,1,0.541666666666667,0.867,1.56666666666667,"F_Fmsy, B_Bmsy",1
+"92","Bigeye tuna","Bigeye tuna Atlantic",2001,0.541666666666667,1,0.541666666666667,0.867,1.56666666666667,"F_Fmsy, B_Bmsy",0
+"93","Bigeye tuna","Bigeye tuna Atlantic",2002,0.745833333333333,1,0.745833333333333,0.852,1.40333333333333,"F_Fmsy, B_Bmsy",0
+"94","Bigeye tuna","Bigeye tuna Atlantic",2003,0.7875,1,0.7875,0.879,1.37,"F_Fmsy, B_Bmsy",0
+"95","Bigeye tuna","Bigeye tuna Atlantic",2004,0.741666666666667,1,0.741666666666667,0.876,1.40666666666667,"F_Fmsy, B_Bmsy",0
+"96","Bigeye tuna","Bigeye tuna Atlantic",2005,0.758333333333333,1,0.758333333333333,0.864,1.39333333333333,"F_Fmsy, B_Bmsy",0
+"97","Bigeye tuna","Bigeye tuna Atlantic",2006,0.891666666666667,1,0.891666666666667,0.865,1.28666666666667,"F_Fmsy, B_Bmsy",0
+"98","Bigeye tuna","Bigeye tuna Atlantic",2007,1,1,1,0.866,1.19666666666667,"F_Fmsy, B_Bmsy",0
+"99","Bigeye tuna","Bigeye tuna Atlantic",2008,0.995833333333333,1,0.995833333333333,0.855,1.20333333333333,"F_Fmsy, B_Bmsy",0
+"100","Bigeye tuna","Bigeye tuna Atlantic",2009,0.833333333333333,1,0.833333333333333,0.852,1.33333333333333,"F_Fmsy, B_Bmsy",0
+"101","Bigeye tuna","Bigeye tuna Atlantic",2010,0.708333333333333,1,0.708333333333333,0.826,1.43333333333333,"F_Fmsy, B_Bmsy",0
+"102","Bigeye tuna","Bigeye tuna Atlantic",2011,0.48628125,0.9975,0.4875,0.798,1.60333333333333,"F_Fmsy, B_Bmsy",0
+"103","Bigeye tuna","Bigeye tuna Atlantic",2012,0.31078125,0.95625,0.325,0.765,1.62333333333333,"F_Fmsy, B_Bmsy",0
+"104","Bigeye tuna","Bigeye tuna Atlantic",2013,0.3255,0.93,0.35,0.744,1.53333333333333,"F_Fmsy, B_Bmsy",0
+"105","Bigeye tuna","Bigeye tuna Atlantic",2014,0.51925,0.93,0.558333333333333,0.744,1.36666666666667,"F_Fmsy, B_Bmsy",0
+"106","Bigeye tuna","Bigeye tuna Atlantic",2015,0.51925,0.93,0.558333333333333,0.744,1.36666666666667,"F_Fmsy, B_Bmsy",1
+"107","Bigeye tuna","Bigeye tuna Atlantic",2016,0.51925,0.93,0.558333333333333,0.744,1.36666666666667,"F_Fmsy, B_Bmsy",1
+"108","Bigeye tuna","Bigeye tuna Atlantic",2017,0.51925,0.93,0.558333333333333,0.744,1.36666666666667,"F_Fmsy, B_Bmsy",1
+"109","Blue marlin","Blue marlin Atlantic",2000,0,0.8875,0,0.71,3.728380619,"F_Fmsy, B_Bmsy",1
+"110","Blue marlin","Blue marlin Atlantic",2001,0,0.8875,0,0.71,3.728380619,"F_Fmsy, B_Bmsy",0
+"111","Blue marlin","Blue marlin Atlantic",2002,0,0.825,0,0.66,3.57664419866667,"F_Fmsy, B_Bmsy",0
+"112","Blue marlin","Blue marlin Atlantic",2003,0,0.8125,0,0.65,3.52787177766667,"F_Fmsy, B_Bmsy",0
+"113","Blue marlin","Blue marlin Atlantic",2004,0,0.75,0,0.6,3.23523725233333,"F_Fmsy, B_Bmsy",0
+"114","Blue marlin","Blue marlin Atlantic",2005,0,0.775,0,0.62,3.18646483133333,"F_Fmsy, B_Bmsy",0
+"115","Blue marlin","Blue marlin Atlantic",2006,0,0.775,0,0.62,2.86131535866667,"F_Fmsy, B_Bmsy",0
+"116","Blue marlin","Blue marlin Atlantic",2007,0,0.8,0,0.64,3.22981809433333,"F_Fmsy, B_Bmsy",0
+"117","Blue marlin","Blue marlin Atlantic",2008,0,0.75,0,0.6,3.65251240866667,"F_Fmsy, B_Bmsy",0
+"118","Blue marlin","Blue marlin Atlantic",2009,0,0.6875,0,0.55,3.92888946066667,"F_Fmsy, B_Bmsy",0
+"119","Blue marlin","Blue marlin Atlantic",2010,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",0
+"120","Blue marlin","Blue marlin Atlantic",2011,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",1
+"121","Blue marlin","Blue marlin Atlantic",2012,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",1
+"122","Blue marlin","Blue marlin Atlantic",2013,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",1
+"123","Blue marlin","Blue marlin Atlantic",2014,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",1
+"124","Blue marlin","Blue marlin Atlantic",2015,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",1
+"125","Blue marlin","Blue marlin Atlantic",2016,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",1
+"126","Blue marlin","Blue marlin Atlantic",2017,0,0.6875,0,0.55,3.96682356566667,"F_Fmsy, B_Bmsy",1
+"127","Sailfish","Sailfish Western Atlantic",2000,0.226160350833333,1,0.226160350833333,0.94,1.81907171933333,"F_Fmsy, B_Bmsy",1
+"128","Sailfish","Sailfish Western Atlantic",2001,0.226160350833333,1,0.226160350833333,0.94,1.81907171933333,"F_Fmsy, B_Bmsy",0
+"129","Sailfish","Sailfish Western Atlantic",2002,0,1,0,0.9,2.200751946,"F_Fmsy, B_Bmsy",0
+"130","Sailfish","Sailfish Western Atlantic",2003,0,1,0,0.84,2.290081361,"F_Fmsy, B_Bmsy",0
+"131","Sailfish","Sailfish Western Atlantic",2004,0,0.8875,0,0.71,2.39565248766667,"F_Fmsy, B_Bmsy",0
+"132","Sailfish","Sailfish Western Atlantic",2005,0,0.8125,0,0.65,2.298202217,"F_Fmsy, B_Bmsy",0
+"133","Sailfish","Sailfish Western Atlantic",2006,0,0.7375,0,0.59,2.23323536966667,"F_Fmsy, B_Bmsy",0
+"134","Sailfish","Sailfish Western Atlantic",2007,0,0.675,0,0.54,2.24135622533333,"F_Fmsy, B_Bmsy",0
+"135","Sailfish","Sailfish Western Atlantic",2008,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",0
+"136","Sailfish","Sailfish Western Atlantic",2009,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"137","Sailfish","Sailfish Western Atlantic",2010,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"138","Sailfish","Sailfish Western Atlantic",2011,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"139","Sailfish","Sailfish Western Atlantic",2012,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"140","Sailfish","Sailfish Western Atlantic",2013,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"141","Sailfish","Sailfish Western Atlantic",2014,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"142","Sailfish","Sailfish Western Atlantic",2015,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"143","Sailfish","Sailfish Western Atlantic",2016,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"144","Sailfish","Sailfish Western Atlantic",2017,0.35,0.35,0,0.28,2.24135622533333,"B_Bmsy only",1
+"145","Skipjack tuna","Skipjack tuna Western Atlantic",2000,0.958333333333333,0.958333333333333,1,1.3,0.715054862666667,"F_Fmsy, B_Bmsy",1
+"146","Skipjack tuna","Skipjack tuna Western Atlantic",2001,0.958333333333333,0.958333333333333,1,1.3,0.715054862666667,"F_Fmsy, B_Bmsy",0
+"147","Skipjack tuna","Skipjack tuna Western Atlantic",2002,0.9875,0.9875,1,1.23,0.673076531333333,"F_Fmsy, B_Bmsy",0
+"148","Skipjack tuna","Skipjack tuna Western Atlantic",2003,0.860260362272727,0.9,0.955844846969697,1.44,0.621143465333333,"F_Fmsy, B_Bmsy",0
+"149","Skipjack tuna","Skipjack tuna Western Atlantic",2004,0.799152180839646,0.895833333333333,0.892076853030303,1.45,0.565027630666667,"F_Fmsy, B_Bmsy",0
+"150","Skipjack tuna","Skipjack tuna Western Atlantic",2005,0.848740209722222,0.916666666666667,0.925898410606061,1.4,0.594790601333333,"F_Fmsy, B_Bmsy",0
+"151","Skipjack tuna","Skipjack tuna Western Atlantic",2006,0.890154251565656,0.933333333333333,0.953736698106061,1.36,0.619288294333333,"F_Fmsy, B_Bmsy",0
+"152","Skipjack tuna","Skipjack tuna Western Atlantic",2007,0.876289492992424,0.925,0.947339992424242,1.38,0.613659193333333,"F_Fmsy, B_Bmsy",0
+"153","Skipjack tuna","Skipjack tuna Western Atlantic",2008,0.808421189065657,0.908333333333333,0.890004978787879,1.42,0.563204381333333,"F_Fmsy, B_Bmsy",0
+"154","Skipjack tuna","Skipjack tuna Western Atlantic",2009,0.750256091788195,0.870833333333333,0.861538095833333,1.51,0.538153524333333,"F_Fmsy, B_Bmsy",0
+"155","Skipjack tuna","Skipjack tuna Western Atlantic",2010,0.740057718519571,0.891666666666667,0.829971273106061,1.46,0.510374720333333,"F_Fmsy, B_Bmsy",0
+"156","Skipjack tuna","Skipjack tuna Western Atlantic",2011,0.790024318986742,0.875,0.902884935984848,1.5,0.574538743666667,"F_Fmsy, B_Bmsy",0
+"157","Skipjack tuna","Skipjack tuna Western Atlantic",2012,0.951061800381944,0.954166666666667,0.996745991666667,1.31,0.657136472666667,"F_Fmsy, B_Bmsy",0
+"158","Skipjack tuna","Skipjack tuna Western Atlantic",2013,0.993255749242424,1,0.993255749242424,1.2,0.654065059333333,"F_Fmsy, B_Bmsy",0
+"159","Skipjack tuna","Skipjack tuna Western Atlantic",2014,0.9625,0.9625,0.993255749242424,1.29,0.654065059333333,"B_Bmsy only",0
+"160","Skipjack tuna","Skipjack tuna Western Atlantic",2015,0.9625,0.9625,0.993255749242424,1.29,0.654065059333333,"B_Bmsy only",1
+"161","Skipjack tuna","Skipjack tuna Western Atlantic",2016,0.9625,0.9625,0.993255749242424,1.29,0.654065059333333,"B_Bmsy only",1
+"162","Skipjack tuna","Skipjack tuna Western Atlantic",2017,0.9625,0.9625,0.993255749242424,1.29,0.654065059333333,"B_Bmsy only",1
+"163","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2000,1,1,1,0.986460348,0.918095238,"F_Fmsy, B_Bmsy",1
+"164","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2001,1,1,1,0.986460348,0.918095238,"F_Fmsy, B_Bmsy",0
+"165","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2002,1,1,1,1.092843327,0.956190476333334,"F_Fmsy, B_Bmsy",0
+"166","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2003,1,1,1,1.124620061,0.971428571666667,"F_Fmsy, B_Bmsy",0
+"167","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2004,1,1,1,1.095606521,1.07047619066667,"F_Fmsy, B_Bmsy",0
+"168","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2005,0.995238095,1,0.995238095,1.10113291,1.203809524,"F_Fmsy, B_Bmsy",0
+"169","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2006,0.809523809166666,1,0.809523809166666,1.025145068,1.35238095266667,"F_Fmsy, B_Bmsy",0
+"170","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2007,0.778571428333333,1,0.778571428333333,0.993368334,1.37714285733333,"F_Fmsy, B_Bmsy",0
+"171","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2008,0.761904761666666,1,0.761904761666666,0.965736391,1.39047619066667,"F_Fmsy, B_Bmsy",0
+"172","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2009,0.92380952375,1,0.92380952375,0.938104449,1.260952381,"F_Fmsy, B_Bmsy",0
+"173","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2010,1,1,1,0.910472506,1.182857143,"F_Fmsy, B_Bmsy",0
+"174","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2011,1,1,1,0.906327715,1.16761904766667,"F_Fmsy, B_Bmsy",0
+"175","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2012,1,1,1,0.849682233,1.15428571433333,"F_Fmsy, B_Bmsy",0
+"176","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2013,1,1,1,0.849682233,1.15428571433333,"F_Fmsy, B_Bmsy",1
+"177","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2014,1,1,1,0.849682233,1.15428571433333,"F_Fmsy, B_Bmsy",1
+"178","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2015,1,1,1,0.849682233,1.15428571433333,"F_Fmsy, B_Bmsy",1
+"179","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2016,1,1,1,0.849682233,1.15428571433333,"F_Fmsy, B_Bmsy",1
+"180","Striped bass","Striped bass Gulf of Maine / Cape Hatteras",2017,1,1,1,0.849682233,1.15428571433333,"F_Fmsy, B_Bmsy",1
+"181","Swordfish","Swordfish North Atlantic",2000,0.99375,0.99375,1,0.795,1.045049329,"F_Fmsy, B_Bmsy",1
+"182","Swordfish","Swordfish North Atlantic",2001,0.99375,0.99375,1,0.795,1.045049329,"F_Fmsy, B_Bmsy",0
+"183","Swordfish","Swordfish North Atlantic",2002,1,1,1,0.844,0.947784345666667,"F_Fmsy, B_Bmsy",0
+"184","Swordfish","Swordfish North Atlantic",2003,1,1,1,0.902,0.891853195,"F_Fmsy, B_Bmsy",0
+"185","Swordfish","Swordfish North Atlantic",2004,1,1,1,0.935,0.903304858666667,"F_Fmsy, B_Bmsy",0
+"186","Swordfish","Swordfish North Atlantic",2005,1,1,1,0.957,0.942669989,"F_Fmsy, B_Bmsy",0
+"187","Swordfish","Swordfish North Atlantic",2006,1,1,1,0.975,0.921924437666667,"F_Fmsy, B_Bmsy",0
+"188","Swordfish","Swordfish North Atlantic",2007,1,1,1,1.01,0.901095906333333,"F_Fmsy, B_Bmsy",0
+"189","Swordfish","Swordfish North Atlantic",2008,1,1,1,1.03,0.843376209666667,"F_Fmsy, B_Bmsy",0
+"190","Swordfish","Swordfish North Atlantic",2009,1,1,1,1.07,0.831896859666667,"F_Fmsy, B_Bmsy",0
+"191","Swordfish","Swordfish North Atlantic",2010,1,1,1,1.09,0.793352359,"F_Fmsy, B_Bmsy",0
+"192","Swordfish","Swordfish North Atlantic",2011,1,1,1,1.12,0.804518257333333,"F_Fmsy, B_Bmsy",0
+"193","Swordfish","Swordfish North Atlantic",2012,1,1,1,1.14,0.824919967666667,"F_Fmsy, B_Bmsy",0
+"194","Swordfish","Swordfish North Atlantic",2013,1,1,1,1.14,0.824919967666667,"F_Fmsy, B_Bmsy",1
+"195","Swordfish","Swordfish North Atlantic",2014,1,1,1,1.14,0.824919967666667,"F_Fmsy, B_Bmsy",1
+"196","Swordfish","Swordfish North Atlantic",2015,1,1,1,1.14,0.824919967666667,"F_Fmsy, B_Bmsy",1
+"197","Swordfish","Swordfish North Atlantic",2016,1,1,1,1.14,0.824919967666667,"F_Fmsy, B_Bmsy",1
+"198","Swordfish","Swordfish North Atlantic",2017,1,1,1,1.14,0.824919967666667,"F_Fmsy, B_Bmsy",1
+"199","Weakfish","Weakfish Atlantic Coast",2000,0.88171726125,0.88171726125,NA,0.705373809,NA,"B_Bmsy only",1
+"200","Weakfish","Weakfish Atlantic Coast",2001,0.88171726125,0.88171726125,NA,0.705373809,NA,"B_Bmsy only",0
+"201","Weakfish","Weakfish Atlantic Coast",2002,0.55383633,0.55383633,NA,0.443069064,NA,"B_Bmsy only",0
+"202","Weakfish","Weakfish Atlantic Coast",2003,0.32910895,0.32910895,NA,0.26328716,NA,"B_Bmsy only",0
+"203","Weakfish","Weakfish Atlantic Coast",2004,0.40401807625,0.40401807625,NA,0.323214461,NA,"B_Bmsy only",0
+"204","Weakfish","Weakfish Atlantic Coast",2005,0.36963355875,0.36963355875,NA,0.295706847,NA,"B_Bmsy only",0
+"205","Weakfish","Weakfish Atlantic Coast",2006,0.28858434,0.28858434,NA,0.230867472,NA,"B_Bmsy only",0
+"206","Weakfish","Weakfish Atlantic Coast",2007,0.20999115875,0.20999115875,NA,0.167992927,NA,"B_Bmsy only",0
+"207","Weakfish","Weakfish Atlantic Coast",2008,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",0
+"208","Weakfish","Weakfish Atlantic Coast",2009,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"209","Weakfish","Weakfish Atlantic Coast",2010,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"210","Weakfish","Weakfish Atlantic Coast",2011,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"211","Weakfish","Weakfish Atlantic Coast",2012,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"212","Weakfish","Weakfish Atlantic Coast",2013,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"213","Weakfish","Weakfish Atlantic Coast",2014,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"214","Weakfish","Weakfish Atlantic Coast",2015,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"215","Weakfish","Weakfish Atlantic Coast",2016,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"216","Weakfish","Weakfish Atlantic Coast",2017,0.16332645625,0.16332645625,NA,0.130661165,NA,"B_Bmsy only",1
+"217","white marlin","White marlin Atlantic",2000,0,0.3668064675,0,0.293445174,2.07524076533333,"F_Fmsy, B_Bmsy",1
+"218","white marlin","White marlin Atlantic",2001,0,0.3668064675,0,0.293445174,2.07524076533333,"F_Fmsy, B_Bmsy",0
+"219","white marlin","White marlin Atlantic",2002,0,0.3451289475,0,0.276103158,1.88740875433333,"F_Fmsy, B_Bmsy",0
+"220","white marlin","White marlin Atlantic",2003,0,0.3559677075,0,0.284774166,1.58748344666667,"F_Fmsy, B_Bmsy",0
+"221","white marlin","White marlin Atlantic",2004,0,0.40845012625,0,0.326760101,1.43600601866667,"F_Fmsy, B_Bmsy",0
+"222","white marlin","White marlin Atlantic",2005,0,0.42898672375,0,0.343189379,1.248174008,"F_Fmsy, B_Bmsy",0
+"223","white marlin","White marlin Atlantic",2006,0,0.43526179625,0,0.348209437,1.05125335133333,"F_Fmsy, B_Bmsy",0
+"224","white marlin","White marlin Atlantic",2007,0,0.4706303825,0,0.376504306,0.954307797333333,"F_Fmsy, B_Bmsy",0
+"225","white marlin","White marlin Atlantic",2008,0,0.4466710175,0,0.357336814,0.939160054333333,"F_Fmsy, B_Bmsy",0
+"226","white marlin","White marlin Atlantic",2009,0,0.40845012625,0,0.326760101,1.07548973966667,"F_Fmsy, B_Bmsy",0
+"227","white marlin","White marlin Atlantic",2010,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",0
+"228","white marlin","White marlin Atlantic",2011,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",1
+"229","white marlin","White marlin Atlantic",2012,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",1
+"230","white marlin","White marlin Atlantic",2013,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",1
+"231","white marlin","White marlin Atlantic",2014,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",1
+"232","white marlin","White marlin Atlantic",2015,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",1
+"233","white marlin","White marlin Atlantic",2016,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",1
+"234","white marlin","White marlin Atlantic",2017,0,0.402745515,0,0.322196412,0.984603282666667,"F_Fmsy, B_Bmsy",1
+"235","Yellowfin tuna","Yellowfin tuna Atlantic",2000,0.716328125,0.99375,0.720833333333334,0.795,1.40666666666667,"F_Fmsy, B_Bmsy",1
+"236","Yellowfin tuna","Yellowfin tuna Atlantic",2001,0.716328125,0.99375,0.720833333333334,0.795,1.40666666666667,"F_Fmsy, B_Bmsy",0
+"237","Yellowfin tuna","Yellowfin tuna Atlantic",2002,0.470625,0.94125,0.5,0.753,1.44333333333333,"F_Fmsy, B_Bmsy",0
+"238","Yellowfin tuna","Yellowfin tuna Atlantic",2003,0.391,0.92,0.425,0.736,1.44666666666667,"F_Fmsy, B_Bmsy",0
+"239","Yellowfin tuna","Yellowfin tuna Atlantic",2004,0.49315625,0.9175,0.5375,0.734,1.35,"F_Fmsy, B_Bmsy",0
+"240","Yellowfin tuna","Yellowfin tuna Atlantic",2005,0.640166666666666,0.92,0.695833333333333,0.736,1.23,"F_Fmsy, B_Bmsy",0
+"241","Yellowfin tuna","Yellowfin tuna Atlantic",2006,0.870296875,0.95375,0.9125,0.763,1.14666666666667,"F_Fmsy, B_Bmsy",0
+"242","Yellowfin tuna","Yellowfin tuna Atlantic",2007,0.9825,0.9825,1,0.786,1.032,"F_Fmsy, B_Bmsy",0
+"243","Yellowfin tuna","Yellowfin tuna Atlantic",2008,1,1,1,0.823,1.012,"F_Fmsy, B_Bmsy",0
+"244","Yellowfin tuna","Yellowfin tuna Atlantic",2009,1,1,1,0.846,1.00866666666667,"F_Fmsy, B_Bmsy",0
+"245","Yellowfin tuna","Yellowfin tuna Atlantic",2010,1,1,1,0.861,1.02333333333333,"F_Fmsy, B_Bmsy",0
+"246","Yellowfin tuna","Yellowfin tuna Atlantic",2011,1,1,1,0.883,0.985666666666667,"F_Fmsy, B_Bmsy",0
+"247","Yellowfin tuna","Yellowfin tuna Atlantic",2012,1,1,1,0.913,0.930333333333333,"F_Fmsy, B_Bmsy",0
+"248","Yellowfin tuna","Yellowfin tuna Atlantic",2013,1,1,1,0.942,0.868,"F_Fmsy, B_Bmsy",0
+"249","Yellowfin tuna","Yellowfin tuna Atlantic",2014,1,1,1,0.98,0.822333333333333,"F_Fmsy, B_Bmsy",0
+"250","Yellowfin tuna","Yellowfin tuna Atlantic",2015,1,1,1,0.98,0.822333333333333,"F_Fmsy, B_Bmsy",1
+"251","Yellowfin tuna","Yellowfin tuna Atlantic",2016,1,1,1,0.98,0.822333333333333,"F_Fmsy, B_Bmsy",1
+"252","Yellowfin tuna","Yellowfin tuna Atlantic",2017,1,1,1,0.98,0.822333333333333,"F_Fmsy, B_Bmsy",1

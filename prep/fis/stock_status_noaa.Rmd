@@ -48,8 +48,6 @@ ne_data <- readxl::read_excel(file.path(dir_anx, '_raw_data/NOAA_NMFS/stock_asse
 midatl_data <- readxl::read_excel(file.path(dir_anx, '_raw_data/NOAA_NMFS/stock_assessments/MA_Assessment_Records.xlsx'))
 ```
 
-Get a sense of the data. It looks like there are `r length(unique(assessment_data$Stock))` stocks.
-
 Clean data
 ```{r, fig.width = 15, fig.height = 8}
 #select just the columns we are interested in
@@ -80,7 +78,7 @@ write.csv(data, file = "data/nmfs_stock_assessment_data.csv")
 
 Span plot
 
-```{r}
+```{r, fig.height = 10, fig.width = 10}
 
 stock_ids <- data$stock %>% unique()
 
@@ -132,11 +130,15 @@ Looks like there are just `r length(unique(dups$species))`.
 
 Use a linear model to fill years between assessments.
 
-###NEED TO THINK ABOUT WHETHER THIS IS THE RIGHT PLACE TO GAPFILL. Also we should remove species with limited time series (e.g. Atlantic Mackerel has just 2005 B/Bmsy and 2018 F/fmsy). Gapfilling these causes a lot of weirdness.
+### Also we should remove species with limited time series (e.g. Atlantic Mackerel has just 2005 & 2018 B/Bmsy and only 2018 F/fmsy). Gapfilling these causes a lot of weirdness.
+
+We gapfill at B/bmsy not stock score. If we have 2010 and 2012 data that shows b/bmsy of 0.7 and 1.3 respectively. If we gapfill at B/bmsy, the 2011 value becomes 1. This would get a stock score of it. But if we instead gapfill between 2010 anda 2012 stock scores (0.7 and something like 0.9) we would get 0.8...
 
 ```{r}
 data_gf <- data %>%
   group_by(stock, indicator) %>%
+  mutate(timeseries = n()) %>% #get number of years for each stock/indicator combo. We need at least 2 years
+  filter(timeseries > 1) %>%
   complete(year = 2005:2018) %>%
   ungroup() %>%
   mutate(value2 = ifelse(year == 2018 & is.na(value), zoo::na.locf(value), value), #if 2018 is NA, use 2017 (or last reported value)
@@ -144,7 +146,7 @@ data_gf <- data %>%
   group_by(stock, indicator) %>%
   mutate(gf_value = zoo::na.approx(value3),
          gf = ifelse(is.na(value), 1, 0)) %>% #if a value is gapfilled, assign it a 1, otherwise 0
-  select(-value, -value2, -value3) %>%
+  select(-value, -value2, -value3, -timeseries) %>%
   rename(value = gf_value)
 ```
 
@@ -295,12 +297,12 @@ stock_scores <- stock_status_df %>%
   mutate(score = mean(score, na.rm = T)) %>%
   select(year, stock, score, bPrime, fPrime, b_bmsy, f_fmsy, basis)
  
-write.csv(stock_scores, file = "data/stock_scores.csv")  
+write.csv(stock_scores, file = "data/stock_scores_nmfs.csv")  
 ```
 
 ## Visualize
 
-```{r}
+```{r, fig.height = 8, fig.width = 14}
 ggplot(stock_scores, aes(x = year, y = score)) +
   geom_line() +
   theme_bw() +
@@ -373,14 +375,13 @@ return(kobe_stock_plot)
 }
 ```
 
-Apply function to all species in the stock_scores data frame. This does not work for the sub-stock species so we need to remove those.
+Apply function to all species in the stock_scores data frame.
 
 ```{r, fig.width = 12, fig.height = 8}
 sp <- stock_scores %>%
-  filter(basis == "F_Fmsy, B_Bmsy",
-         gapfilled == 0)
+  filter(basis == "F_Fmsy, B_Bmsy")
 
-plots <- lapply(unique(sp$species), kobe_plot)
+plots <- lapply(unique(sp$stock), kobe_plot)
 cowplot::plot_grid(plotlist = plots[1:4])
 cowplot::plot_grid(plotlist = plots[5:8])
 cowplot::plot_grid(plotlist = plots[9:12])
@@ -388,17 +389,10 @@ cowplot::plot_grid(plotlist = plots[13:16])
 cowplot::plot_grid(plotlist = plots[17:20])
 cowplot::plot_grid(plotlist = plots[21:24])
 cowplot::plot_grid(plotlist = plots[25:28])
+cowplot::plot_grid(plotlist = plots[29:32])
+cowplot::plot_grid(plotlist = plots[33:35])
 ```
 
-## Save layer to toolbox
-
-Save cleaned up version for toolbox
 ```{r}
-ss_toolbox <- stock_scores %>%
-  left_join(noaa) %>%
-  left_join(rgn_data) %>%
-  filter(year > 2004) %>%
-  select(year, species, score, rgn_id, rgn_name)
-
-write.csv(ss_toolbox, file = file.path(dir_calc, "layers/fis_stockscores.csv"))
+write.csv(stock_scores, file = "data/nmfs_stock_scores.csv")
 ```
