@@ -84,6 +84,24 @@ region_catch <- clean %>%
   left_join(calc_prop_area, by = c("stat_area" = "Id")) %>%
   mutate(catch = pounds*ohi_rgn_prop_area)
 ```
+Map one species
+
+```{r}
+#black sea bass
+bsb <- region_catch %>%
+  filter(year == 2017, species == "BLACK SEA BASS") %>%
+  group_by(rgn_id, species, year) %>%
+  summarize(catch = sum(catch)) 
+
+bsb_map <- rgns_simp %>%
+  left_join(bsb, by = 'rgn_id')
+
+ggplot(bsb_map) +
+  geom_sf(aes(fill = catch))+
+  theme_bw() +
+  labs(title = "BLACK SEA BASS")
+
+```
 
 
 Visualize the data
@@ -103,14 +121,14 @@ ggplot(sp_catch, aes(x = year, y = catch, color = species)) +
 
 Create maps of catch for all species using just the most recent year
 
-```{r}
+```{r, eval = F}
 map_catch <- stat_shp %>%
   left_join(clean %>%
               filter(year == 2017), by = c("Id" = "stat_area")) %>%
   filter(!is.na(pounds))
 
 
-for(i in 32:length(unique(map_catch$species))){
+for(i in 1:length(unique(map_catch$species))){
 
   sp <- unique(map_catch$species)[i]
   
@@ -124,15 +142,79 @@ sp_save_name <- ifelse(str_detect(sp, "/"), str_replace_all(sp, "/", "_"), sp)
 
 ggsave(paste0("figs/", sp_save_name,"_catch_by_statistical_area.pdf"))
 }
-
-  
 ```
 
 
+Calculate species catch per OHI region
 
+```{r}
+#first get ohi regions and statistical area proportions 
+catch_by_ohi_rgn <- region_catch %>%
+  select(year,species, rgn_name, rgn_id, catch) %>%
+  group_by(species, rgn_id, year, rgn_name) %>%
+  summarize(catch = sum(catch))
 
+write.csv(catch_by_ohi_rgn, file = "data/nmfs_spatial_catch_by_ohi_rgn.csv")
+```
 
+There are `r length(unique(catch_by_ohi_rgn$species))`. Way more than we have information for. Let's look at total regional catch for each
 
+```{r}
+#calculate total regional catch per species
+species_catch <- catch_by_ohi_rgn %>%
+  group_by(species, year) %>%
+  summarize(sp_catch = sum(catch)) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(yr_catch = sum(sp_catch),
+         catch_prop = sp_catch/yr_catch) %>%
+  ungroup() %>%
+  filter(year > 2004) 
+```
+
+Look at top 15 species
+
+```{r}
+
+ggplot(species_catch, aes(x = year, y = catch_prop, fill = species)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(legend.text = element_text(size = 6))
+
+plotly::ggplotly()
+```
+Clearly atlantic herring is making up the majority of catch! 
+
+What about missing years? Let's look at AMBERJACK, SPECIES NOT SPECIFIED.
+
+Look at the raw data
+```{r}
+amb <- clean %>%
+  filter(species == "AMBERJACK, SPECIES NOT SPECIFIED")
+unique(amb$year)
+```
+
+Ok clearly we are missing 1999, 2001, 2003, 2006, 09-11, 13-16
+
+# Save toolbox data layer
+
+I'm also changing all `species` to lower case to match with RAM later. We also need to **gapfill** missing data. When a species/state combination has missing data for a year, we are going to assume that there was **zero catch** for that species/year. We also calculate a rolling average of catch. This is done to account for any wild fluctuations in catch year to year.
+
+```{r}
+toolbox_data <- catch_by_ohi_rgn %>%
+  group_by(rgn_id, rgn_name, species) %>%
+  complete(year = 1998:2017) %>%
+  ungroup() %>%
+  mutate(catch = ifelse(is.na(catch), 0, catch)) %>%  ##THIS IS WHERE WE MAKE GAPFILLING HAPPEN. We might need to change to linear interpolation based on what NOAA folks say (JA, 3/4/19)
+  group_by(rgn_id, rgn_name, species) %>%
+  arrange(year) %>%
+  mutate(mean_catch = zoo::rollapply(catch, 3, mean, fill = NA, align = 'right')) %>% ## create a new column `mean_catch` with rolling mean of 3 yrs
+  filter(year > 2004) %>%
+  select(year, rgn_id, rgn_name, species, mean_catch)
+
+# save to toolbox
+write.csv(toolbox_data, file = file.path(dir_calc, "layers/fis_meancatch.csv"))
+```
 
 
 
