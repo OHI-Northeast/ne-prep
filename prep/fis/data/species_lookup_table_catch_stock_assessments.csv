@@ -1,66 +1,77 @@
-"","stock_assessment_species_name","stock_assessment_species_location","source","nmfs_catch_species_name","nmfs_catch_species_name2"
-"1","atlantic cod","Georges Bank","NMFS","cod",NA
-"2","atlantic cod","Gulf of Maine","NMFS","cod",NA
-"3","haddock","Georges Bank","NMFS","haddock",NA
-"4","haddock","Gulf of Maine","NMFS","haddock",NA
-"5","ocean pout","Northwestern Atlantic Coast","NMFS","ocean pout",NA
-"6","pollock","Gulf of Maine / Georges Bank","NMFS","pollock",NA
-"7","white hake","Gulf of Maine / Georges Bank","NMFS","white hake",NA
-"8","windowpane","Gulf of Maine / Georges Bank","NMFS","sand-dab flounder","brill"
-"9","windowpane","Southern New England / Mid-Atlantic","NMFS","sand-dab flounder","brill"
-"10","winter flounder","Gulf of Maine","NMFS","winter flounder",NA
-"11","winter flounder","Southern New England / Mid-Atlantic","NMFS","winter flounder",NA
-"12","witch flounder","Northwestern Atlantic Coast","NMFS","witch flounder",NA
-"13","yellowtail flounder","Cape Cod / Gulf of Maine","NMFS","yellowtail flounder",NA
-"14","yellowtail flounder","Georges Bank","NMFS","yellowtail flounder",NA
-"15","yellowtail flounder","Southern New England / Mid-Atlantic","NMFS","yellowtail flounder",NA
-"16","atlantic herring","Northwestern Atlantic Coast","NMFS","atlantic herring",NA
-"17","red deepsea crab","Northwestern Atlantic","NMFS","red crab",NA
-"18","acadian redfish","Gulf of Maine / Georges Bank","NMFS","redfish",NA
-"19","american plaice","Gulf of Maine / Georges Bank","NMFS","american plaice flounder",NA
-"20","atlantic halibut","Northwestern Atlantic Coast","NMFS","atlantic halibut",NA
-"21","winter flounder","Georges Bank","NMFS","winter flounder",NA
-"22","sea scallop","Northwestern Atlantic Coast","NMFS","sea scallop",NA
-"23","red hake","Gulf of Maine / Northern Georges Bank","NMFS","red hake",NA
-"24","red hake","Southern Georges Bank / Mid-Atlantic","NMFS","red hake",NA
-"25","silver hake","Gulf of Maine / Northern Georges Bank","NMFS","silver hake",NA
-"26","silver hake","Southern Georges Bank / Mid-Atlantic","NMFS","silver hake",NA
-"27","atlantic wolffish","Gulf of Maine / Georges Bank","NMFS","wolffish",NA
-"28","atlantic cod","Eastern Georges Bank | Asmt","NMFS","cod",NA
-"29","haddock","Eastern Georges Bank | Asmt","NMFS","haddock",NA
-"30","silver hake","Southern Georges Bank / Mid-Atlantic | Asmt & Status","NMFS","silver hake",NA
-"31","goosefish","Gulf of Maine / Northern Georges Bank","NMFS","monkfish",NA
-"32","goosefish","Southern Georges Bank / Mid-Atlantic","NMFS","monkfish",NA
-"33","spiny dogfish","Atlantic Coast","NMFS","spiny dogfish",NA
-"34","summer flounder","Mid-Atlantic Coast","NMFS","summer flounder",NA
-"35","bluefish","Atlantic Coast","NMFS","bluefish",NA
-"36","atlantic surfclam","Mid-Atlantic Coast","NMFS","surf clam",NA
-"37","black sea bass","Mid-Atlantic Coast","NMFS","black sea bass",NA
-"38","scup","Atlantic Coast","NMFS","scup",NA
-"39","tilefish","Mid-Atlantic Coast","NMFS","tilefish",NA
-"40","butterfish","Gulf of Maine / Cape Hatteras","NMFS","butterfish",NA
-"41","ocean quahog","Atlantic Coast","NMFS","ocean quahog",NA
-"42","atlantic mackerel","Gulf of Maine / Cape Hatteras","NMFS","atlantic mackerel",NA
-"43","barndoor skate","Georges Bank / Southern New England | Asmt & Status","NMFS","barndoor skate",NA
-"44","clearnose skate","Southern New England / Mid-Atlantic | Asmt & Status","NMFS","clearnose skate",NA
-"45","little skate","Georges Bank / Southern New England | Asmt & Status","NMFS","little (summer) skate",NA
-"46","rosette skate","Southern New England / Mid-Atlantic | Asmt & Status","NMFS",NA,NA
-"47","smooth skate","Gulf of Maine | Asmt & Status","NMFS","smooth skate",NA
-"48","thorny skate","Gulf of Maine | Asmt & Status","NMFS","thorny skate wings",NA
-"49","winter skate","Georges Bank / Southern New England | Asmt & Status","NMFS","winter (big) skate",NA
-"50","atlantic salmon","Gulf of Maine | Asmt & Status","NMFS",NA,NA
-"51","longfin inshore squid","Georges Bank / Cape Hatteras | Asmt & Status","NMFS","squid",NA
-"52","albacore tuna","Northern Atlantic","RAM","albacore tuna",NA
-"53","atlantic bluefin tuna","Western Atlantic","RAM","bluefin tuna",NA
-"54","atlantic croaker","Mid-Atlantic Coast","RAM","atlantic croaker",NA
-"55","bigeye tuna","Atlantic Ocean","RAM","big eye tuna",NA
-"56","blue marlin","Atlantic Ocean","RAM",NA,NA
-"57","american lobster","Gulf of Maine","RAM","american lobster",NA
-"58","atlantic menhaden","Atlantic","RAM","menhaden",NA
-"59","sailfish","Western Atlantic","RAM",NA,NA
-"60","skipjack tuna","Western Atlantic","RAM","skipjack tuna",NA
-"61","striped bass","Gulf of Maine / Cape Hatteras","RAM","striped bass",NA
-"62","swordfish","Northern Atlantic","RAM","swordfish",NA
-"63","weakfish","Atlantic Coast","RAM","weakfish","gray sea trout"
-"64","white marlin","Atlantic Ocean","RAM","white marlin",NA
-"65","yellowfin tuna","Atlantic Ocean","RAM","yellowfin tuna",NA
+"","nmfs_original_species","stock_assessment_species_name","stock_assessment_species_location","source"
+"1","COD","atlantic cod","Georges Bank","NMFS"
+"2","COD","atlantic cod","Gulf of Maine","NMFS"
+"3","HADDOCK","haddock","Georges Bank","NMFS"
+"4","HADDOCK","haddock","Gulf of Maine","NMFS"
+"5","OCEAN POUT","ocean pout","Northwestern Atlantic Coast","NMFS"
+"6","POLLOCK","pollock","Gulf of Maine / Georges Bank","NMFS"
+"7","HAKE, WHITE","white hake","Gulf of Maine / Georges Bank","NMFS"
+"8","FLOUNDER, SAND-DAB / WINDOWPANE / BRILL","windowpane","Gulf of Maine / Georges Bank","NMFS"
+"9","FLOUNDER, SAND-DAB / WINDOWPANE / BRILL","windowpane","Southern New England / Mid-Atlantic","NMFS"
+"10","FLOUNDER, WINTER / BLACKBACK","winter flounder","Gulf of Maine","NMFS"
+"11","FLOUNDER, WINTER / BLACKBACK","winter flounder","Southern New England / Mid-Atlantic","NMFS"
+"12","FLOUNDER, WITCH / GRAY SOLE","witch flounder","Northwestern Atlantic Coast","NMFS"
+"13","FLOUNDER, YELLOWTAIL","yellowtail flounder","Cape Cod / Gulf of Maine","NMFS"
+"14","FLOUNDER, YELLOWTAIL","yellowtail flounder","Georges Bank","NMFS"
+"15","FLOUNDER, YELLOWTAIL","yellowtail flounder","Southern New England / Mid-Atlantic","NMFS"
+"16","HERRING, ATLANTIC","atlantic herring","Northwestern Atlantic Coast","NMFS"
+"17","CRAB, RED","red deepsea crab","Northwestern Atlantic","NMFS"
+"18","REDFISH / OCEAN PERCH","acadian redfish","Gulf of Maine / Georges Bank","NMFS"
+"19","FLOUNDER, AMERICAN PLAICE /DAB","american plaice","Gulf of Maine / Georges Bank","NMFS"
+"20","HALIBUT, ATLANTIC","atlantic halibut","Northwestern Atlantic Coast","NMFS"
+"21","FLOUNDER, WINTER / BLACKBACK","winter flounder","Georges Bank","NMFS"
+"22","SCALLOP, SEA","sea scallop","Northwestern Atlantic Coast","NMFS"
+"23","HAKE, RED / LING","red hake","Gulf of Maine / Northern Georges Bank","NMFS"
+"24","HAKE, RED / LING","red hake","Southern Georges Bank / Mid-Atlantic","NMFS"
+"25","HAKE, SILVER / WHITING","silver hake","Gulf of Maine / Northern Georges Bank","NMFS"
+"26","HAKE, SILVER / WHITING","silver hake","Southern Georges Bank / Mid-Atlantic","NMFS"
+"27","WOLFFISH / OCEAN CATFISH","atlantic wolffish","Gulf of Maine / Georges Bank","NMFS"
+"28","COD","atlantic cod","Eastern Georges Bank | Asmt","NMFS"
+"29","HADDOCK","haddock","Eastern Georges Bank | Asmt","NMFS"
+"30","HAKE, SILVER / WHITING","silver hake","Southern Georges Bank / Mid-Atlantic | Asmt & Status","NMFS"
+"31","MONKFISH / ANGLERFISH / GOOSEFISH","goosefish","Gulf of Maine / Northern Georges Bank","NMFS"
+"32","MONKFISH / ANGLERFISH / GOOSEFISH","goosefish","Southern Georges Bank / Mid-Atlantic","NMFS"
+"33","DOGFISH, SPINY","spiny dogfish","Atlantic Coast","NMFS"
+"34","FLOUNDER, SUMMER / FLUKE","summer flounder","Mid-Atlantic Coast","NMFS"
+"35","BLUEFISH","bluefish","Atlantic Coast","NMFS"
+"36","CLAM, SURF","atlantic surfclam","Mid-Atlantic Coast","NMFS"
+"37","BLACK SEA BASS","black sea bass","Mid-Atlantic Coast","NMFS"
+"38","SCUP / PORGY","scup","Atlantic Coast","NMFS"
+"39","TILEFISH","tilefish","Mid-Atlantic Coast","NMFS"
+"40","BUTTERFISH","butterfish","Gulf of Maine / Cape Hatteras","NMFS"
+"41","OCEAN QUAHOG","ocean quahog","Atlantic Coast","NMFS"
+"42","MACKEREL, ATLANTIC","atlantic mackerel","Gulf of Maine / Cape Hatteras","NMFS"
+"43","SKATE, BARNDOOR","barndoor skate","Georges Bank / Southern New England | Asmt & Status","NMFS"
+"44","SKATE, CLEARNOSE","clearnose skate","Southern New England / Mid-Atlantic | Asmt & Status","NMFS"
+"45","SKATE, LITTLE (SUMMER)","little skate","Georges Bank / Southern New England | Asmt & Status","NMFS"
+"46",NA,"rosette skate","Southern New England / Mid-Atlantic | Asmt & Status","NMFS"
+"47","SKATE, SMOOTH","smooth skate","Gulf of Maine | Asmt & Status","NMFS"
+"48","SKATE, THORNY","thorny skate","Gulf of Maine | Asmt & Status","NMFS"
+"49","SKATE, WINTER (BIG)","winter skate","Georges Bank / Southern New England | Asmt & Status","NMFS"
+"50",NA,"atlantic salmon","Gulf of Maine | Asmt & Status","NMFS"
+"51","SQUID / LOLIGO","longfin inshore squid","Georges Bank / Cape Hatteras | Asmt & Status","NMFS"
+"52","TUNA, ALBACORE","albacore tuna","Northern Atlantic","RAM"
+"53","TUNA, BLUEFIN","atlantic bluefin tuna","Western Atlantic","RAM"
+"54","CROAKER, ATLANTIC","atlantic croaker","Mid-Atlantic Coast","RAM"
+"55","TUNA, BIG EYE","bigeye tuna","Atlantic Ocean","RAM"
+"56",NA,"blue marlin","Atlantic Ocean","RAM"
+"57","LOBSTER, AMERICAN","american lobster","Gulf of Maine","RAM"
+"58","MENHADEN","atlantic menhaden","Atlantic","RAM"
+"59",NA,"sailfish","Western Atlantic","RAM"
+"60","TUNA, SKIPJACK","skipjack tuna","Western Atlantic","RAM"
+"61","STRIPED BASS","striped bass","Gulf of Maine / Cape Hatteras","RAM"
+"62","SWORDFISH","swordfish","Northern Atlantic","RAM"
+"63","WEAKFISH / SQUETEAGUE / GRAY SEA TROUT","weakfish","Atlantic Coast","RAM"
+"64","MARLIN, WHITE","white marlin","Atlantic Ocean","RAM"
+"65","TUNA, YELLOWFIN","yellowfin tuna","Atlantic Ocean","RAM"
+"66","SKATE WINGS, LITTLE (SUMMER)","little skate","Georges Bank / Southern New England | Asmt & Status","NMFS"
+"67","SKATE WINGS, WINTER (BIG)","winter skate","Georges Bank / Southern New England | Asmt & Status","NMFS"
+"68","SKATE, SMOOTH","smooth skate","Gulf of Maine | Asmt & Status","NMFS"
+"69","MONK HEADS","goosefish","Gulf of Maine / Northern Georges Bank","NMFS"
+"70","MONK LIVERS","goosefish","Gulf of Maine / Northern Georges Bank","NMFS"
+"71","MONK TAILS","goosefish","Gulf of Maine / Northern Georges Bank","NMFS"
+"72","MONK HEADS","goosefish","Southern Georges Bank / Mid-Atlantic","NMFS"
+"73","MONK LIVERS","goosefish","Southern Georges Bank / Mid-Atlantic","NMFS"
+"74","MONK TAILS","goosefish","Southern Georges Bank / Mid-Atlantic","NMFS"
+"75","TILEFISH, BLUELINE","tilefish","Mid-Atlantic Coast","NMFS"
+"76","TILEFISH, GOLDEN","tilefish","Mid-Atlantic Coast","NMFS"
