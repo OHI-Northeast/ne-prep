@@ -132,7 +132,7 @@ Use a linear model to fill years between assessments.
 
 ### Also we should remove species with limited time series (e.g. Atlantic Mackerel has just 2005 & 2018 B/Bmsy and only 2018 F/fmsy). Gapfilling these causes a lot of weirdness.
 
-We gapfill at B/bmsy not stock score. If we have 2010 and 2012 data that shows b/bmsy of 0.7 and 1.3 respectively. If we gapfill at B/bmsy, the 2011 value becomes 1. This would get a stock score of it. But if we instead gapfill between 2010 anda 2012 stock scores (0.7 and something like 0.9) we would get 0.8...
+We gapfill at B/bmsy not stock score. If we have 2010 and 2012 data that shows b/bmsy of 0.7 and 1.3 respectively. If we gapfill at B/bmsy, the 2011 value becomes 1. This would get a stock score of it. But if we instead gapfill between 2010 and 2012 stock scores (0.7 and something like 0.9) we would get 0.8...
 
 ```{r}
 data_gf <- data %>%
@@ -144,7 +144,7 @@ data_gf <- data %>%
   mutate(value2 = ifelse(year == 2018 & is.na(value), zoo::na.locf(value), value), #if 2018 is NA, use 2017 (or last reported value)
          value3 = ifelse(year == 2005 & is.na(value2), zoo::na.locf(value2, fromLast = TRUE), value2)) %>% #if 2005 is NA, roll back the closest value from following years
   group_by(stock, indicator) %>%
-  mutate(gf_value = zoo::na.approx(value3),
+  mutate(gf_value = zoo::na.approx(value3), #linear interpolation to gapfill
          gf = ifelse(is.na(value), 1, 0)) %>% #if a value is gapfilled, assign it a 1, otherwise 0
   select(-value, -value2, -value3, -timeseries) %>%
   rename(value = gf_value)
