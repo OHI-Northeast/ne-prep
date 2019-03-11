@@ -1,0 +1,143 @@
+---
+title: "Lobster"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(readxl)
+library(gganimate)
+source("~/github/ne-prep/src/R/common.R")
+```
+
+
+# Data Cleaning
+
+```{r}
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_MAR 2019.xlsx"))
+
+#get the lobster data
+lobster <- raw %>%
+  rename(year = YEAR,
+         stat_area = `STAT\r\nAREA`,
+         species = SPECIES,
+         pounds = `LBS LANDED \r\n(HAIL WT)`,
+         stock_id = `STOCK ID`,
+         stock = `STOCK NAME`) %>%
+  mutate(stat_area = as.numeric(stat_area)) %>%
+  filter(species == "LOBSTER, AMERICAN") %>%
+  group_by(stat_area, species) %>%
+  complete(year = 1996:2017) %>%
+  ungroup() %>%
+  mutate(pounds = ifelse(is.na(pounds), 0, pounds))
+```
+
+
+#Map lobster catch
+
+Statistical areas
+```{r}
+stat_shp <- sf::read_sf(file.path(dir_anx, "spatial/Statistical_Areas_2010_withNames.shp")) %>%
+  st_set_crs(p4s_nad83) %>%
+  st_transform(crs = crs(rgns)) 
+
+stat_shp$stat_area <- st_area(stat_shp) #add area as column
+
+plot(stat_shp["SHORT_NAME"])
+```
+
+
+```{r}
+ohi_stat_areas <- st_intersection(rgns, stat_shp)
+ohi_stat_areas$ohi_area <- st_area(ohi_stat_areas)
+
+plot(ohi_stat_areas["Id"])
+```
+
+
+Calculate proportion of each statistical area in our OHI regions
+
+```{r}
+calc_prop_area <- ohi_stat_areas %>%
+  group_by(Id)  %>% #calculate the total statistical area region
+  mutate(ohi_rgn_prop_area = ohi_area/stat_area) #this column tells us how much of each OHI sub-region falls within the statistical area in our region
+
+plot(calc_prop_area["ohi_rgn_prop_area"])
+```
+
+
+Map lobster using statistical areas
+
+```{r, fig.width = 14}
+
+lob_map <- stat_shp %>%
+  filter(Id %in% ohi_stat_areas$Id) %>%
+  left_join(lobster, by = c("Id" = "stat_area")) %>%
+  select(Id, year, pounds)
+
+ggplot(lob_map) +
+  geom_sf(aes(fill = pounds)) +
+  facet_wrap(~year, ncol = 8) +
+  theme_bw()
+```
+
+Map lobster using our OHI regions
+
+```{r, fig.width = 14}
+lob_map_ohi <- calc_prop_area %>%
+  left_join(lobster, by = c("Id" = "stat_area")) %>%
+  mutate(catch = ohi_rgn_prop_area*pounds) %>%
+  group_by(rgn_id, rgn_name, year) %>%
+  summarize(catch = sum(catch)) %>%
+  select(rgn_name, rgn_id, year, catch)
+
+
+ggplot(lob_map_ohi) +
+  geom_sf(aes(fill = catch), size = 0.1) +
+  theme_bw() +
+  facet_wrap(~year, ncol = 8)
+```
+
+
+```{r}
+ggplot(lob_map_ohi, aes(x = year, y = catch, color = rgn_name)) +
+  geom_line() +
+  theme_bw()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

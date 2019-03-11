@@ -1,0 +1,108 @@
+---
+title: "Exploring NOAA catch data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(readxl)
+source("~/github/ne-prep/src/R/common.R")
+```
+
+
+# Data Cleaning
+
+```{r}
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_MAR 2019.xlsx"))
+
+clean <- raw %>%
+  rename(year = YEAR,
+         stat_area = `STAT\r\nAREA`,
+         species = SPECIES,
+         pounds = `LBS LANDED \r\n(HAIL WT)`,
+         stock_id = `STOCK ID`,
+         stock = `STOCK NAME`) %>%
+  mutate(stat_area = as.numeric(stat_area))
+
+head(clean)
+```
+
+# Questions
+
+## What species have gaps in their catch data?
+
+I expect some gaps in the raw catch data since we are using statistical areas but it might help us determine how to gapfill if we know what types of species, with aggregated catch, have missing years.
+
+```{r}
+aggregated_catch <- clean %>% 
+  group_by(year, species, stock_id, stock) %>%
+  summarize(catch = sum(pounds)) %>%
+  ungroup() %>%
+  mutate(assessed = ifelse(is.na(stock_id), 0, 1)) 
+```
+
+Lets just look at assessed stocks.
+
+```{r}
+ggplot(aggregated_catch %>% filter(assessed == 1), aes(x = species, y = year)) +
+  geom_point() +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 7)) +
+  coord_flip()
+```
+This isn't the whole story we definitley have stock assessments for more than these.
+
+```{r, fig.width = 10, fig.height = 8}
+sp_match_table <- read.csv("data/species_lookup_table_catch_stock_assessments.csv")
+
+assessed_stocks <- aggregated_catch %>%
+  left_join(sp_match_table, by = c("species" = "nmfs_original_species")) %>%
+  filter(!is.na(source)) %>%
+  select(year, species) %>%
+  distinct()
+
+ggplot(assessed_stocks, aes(x = species, y = year)) +
+  geom_point(color = "darkred", ) +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 7)) +
+  coord_flip()
+```
+Ok it looks like there are just a couple species/stocks with year gaps. Let's look at those and their catch timeseries
+
+```{r, fig.width=8, fig.height = 6}
+sp <- c("CLAM, SURF", "CRAB, RED", "MARLIN, WHITE", "MONK HEADS", "OCEAN QUAHOG", "TUNA, SKIPJACK", "TUNA, BIG EYE", "TILEFISH", "SKATE, THORNY", "SKATE, WINTER (BIG)", "SKATE, SMOOTH", "SKATE, LITTLE (SUMMER)", "SKATE, CLEARNOSE", "SKATE, BARNDOOR", "SKATE WINGS, WINTER (BIG)", "SKATE WINGS, LITTLE (SUMMER)", "TILEFISH, GOLDEN", "TILEFISH, BLUELINE")
+
+ggplot(aggregated_catch %>% filter(species %in% sp), aes(x = year, y = catch)) +
+  geom_bar(stat = "identity", width = 0.2, color = "black") +
+  facet_wrap(~species, scales = "free_y") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        strip.text.x = element_text(size = 7))
+```
+
+
+
+
+
+
+
+
