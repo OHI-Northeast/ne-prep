@@ -33,13 +33,15 @@ source("~/github/ne-prep/src/R/common.R")
 # Data Cleaning
 
 ```{r}
-raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_DEC 2018.xlsx"))
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_MAR 2019.xlsx"))
 
 clean <- raw %>%
   rename(year = YEAR,
          stat_area = `STAT\r\nAREA`,
          species = SPECIES,
-         pounds = `LBS LANDED \r\n(HAIL WT)`) %>%
+         pounds = `LBS LANDED \r\n(HAIL WT)`,
+         stock_id = `STOCK ID`,
+         stock = `STOCK NAME`) %>%
   mutate(stat_area = as.numeric(stat_area))
 
 head(clean)
@@ -82,7 +84,10 @@ Let's filter the catch data to just the statistical areas in our region.
 region_catch <- clean %>%
   filter(stat_area %in% ohi_stat_areas$Id) %>%
   left_join(calc_prop_area, by = c("stat_area" = "Id")) %>%
-  mutate(catch = pounds*ohi_rgn_prop_area)
+  mutate(catch = pounds*ohi_rgn_prop_area) %>%
+  select(-area_km2, -FULL_NAME, -SHORT_NAME, -stat_area.y, -ohi_area, -NAFODIV)
+
+head(region_catch, n = 20)
 ```
 Map one species
 
@@ -90,7 +95,7 @@ Map one species
 #black sea bass
 bsb <- region_catch %>%
   filter(year == 2017, species == "BLACK SEA BASS") %>%
-  group_by(rgn_id, species, year) %>%
+  group_by(rgn_id, stock_id, stock, species, year) %>%
   summarize(catch = sum(catch)) 
 
 bsb_map <- rgns_simp %>%
@@ -108,15 +113,18 @@ Visualize the data
 
 ```{r}
 sp_catch <- region_catch %>%
-  group_by(species, year, rgn_name, rgn_id) %>%
-  summarize(catch = sum(pounds))
+  group_by(species, stock, stock_id, year, rgn_name, rgn_id) %>%
+  summarize(catch = sum(catch))
 
+head(sp_catch, n = 30)
+```
+
+```{r}
 ggplot(sp_catch, aes(x = year, y = catch, color = species)) +
-  facet_wrap(~rgn_name) +
+  facet_wrap(~rgn_name, scales = "free_y") +
   geom_line() +
   theme_bw() +
   theme(legend.position = 'none')
-
 ```
 
 Create maps of catch for all species using just the most recent year
@@ -150,14 +158,15 @@ Calculate species catch per OHI region
 ```{r}
 #first get ohi regions and statistical area proportions 
 catch_by_ohi_rgn <- region_catch %>%
-  select(year,species, rgn_name, rgn_id, catch) %>%
-  group_by(species, rgn_id, year, rgn_name) %>%
-  summarize(catch = sum(catch))
+  select(year,species, stock_id, stock, rgn_name, rgn_id, catch) %>%
+  group_by(species, stock_id, stock, rgn_id, year, rgn_name) %>%
+  summarize(catch = sum(catch)) %>%
+  ungroup()
 
 write.csv(catch_by_ohi_rgn, file = "data/nmfs_spatial_catch_by_ohi_rgn.csv")
 ```
 
-There are `r length(unique(catch_by_ohi_rgn$species))`. Way more than we have information for. Let's look at total regional catch for each
+Let's look at total regional catch for each species (not stock)
 
 ```{r}
 #calculate total regional catch per species
@@ -172,8 +181,6 @@ species_catch <- catch_by_ohi_rgn %>%
   filter(year > 2004) 
 ```
 
-Look at top 15 species
-
 ```{r}
 
 ggplot(species_catch, aes(x = year, y = catch_prop, fill = species)) +
@@ -185,33 +192,70 @@ plotly::ggplotly()
 ```
 Clearly atlantic herring is making up the majority of catch! 
 
-What about missing years? Let's look at AMBERJACK, SPECIES NOT SPECIFIED.
+-----
 
-Look at the raw data
+There are `r length(unique(catch_by_ohi_rgn$species))`. Way more than we have stock information for. Let's see what species also have stock ids
+
+```{r}
+stocks <- catch_by_ohi_rgn %>%
+  filter(!is.na(stock_id)) %>%
+  select(species, stock, stock_id) %>%
+  distinct()
+
+stocks
+```
+
+
+```{r, fig.width=10}
+ggplot(catch_by_ohi_rgn %>%
+  filter(!is.na(stock_id)), aes(x = year, y = catch, color = stock_id)) +
+  geom_line() +
+  facet_wrap(~rgn_name, scales = "free_y") +
+  theme_bw() +
+  theme(legend.text = element_text(size = 7))
+```
+
+
+
+----
+
+We have records for 0 catch. But what about the missing data? Let's look at AMBERJACK, SPECIES NOT SPECIFIED.
+
 ```{r}
 amb <- clean %>%
   filter(species == "AMBERJACK, SPECIES NOT SPECIFIED")
 unique(amb$year)
 ```
 
-Ok clearly we are missing 1999, 2001, 2003, 2006, 09-11, 13-16
+Ok clearly we are missing 1999, 2001, 2003, 2006, 09-11, 13-16.
 
-# Save toolbox data layer
+# Gapfill
 
-I'm also changing all `species` to lower case to match with RAM later. We also need to **gapfill** missing data. When a species/state combination has missing data for a year, we are going to assume that there was **zero catch** for that species/year. We also calculate a rolling average of catch. This is done to account for any wild fluctuations in catch year to year.
+We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. This is a large assumption, but without better information that indicates catches exist for the missing years, and what those values are, we feel this is the best option to address missing data. We also calculate a rolling average of catch so NAs will cause those averages to rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
-```{r}
+```{r, fig.width = 10}
 toolbox_data <- catch_by_ohi_rgn %>%
-  group_by(rgn_id, rgn_name, species) %>%
+  group_by(rgn_id, rgn_name, species, stock, stock_id) %>%
   complete(year = 1998:2017) %>%
-  ungroup() %>%
-  mutate(catch = ifelse(is.na(catch), 0, catch)) %>%  ##THIS IS WHERE WE MAKE GAPFILLING HAPPEN. We might need to change to linear interpolation based on what NOAA folks say (JA, 3/4/19)
-  group_by(rgn_id, rgn_name, species) %>%
   arrange(year) %>%
   mutate(mean_catch = zoo::rollapply(catch, 3, mean, fill = NA, align = 'right')) %>% ## create a new column `mean_catch` with rolling mean of 3 yrs
   filter(year > 2004) %>%
-  select(year, rgn_id, rgn_name, species, mean_catch)
+  select(year, rgn_id, rgn_name, species, stock, stock_id, mean_catch) %>%
+  ungroup()
 
+ggplot(toolbox_data, aes(x = year, y = mean_catch, color = species)) +
+  geom_line() +
+  facet_wrap(~rgn_name, scales = "free_y") +
+  theme_bw() +
+  theme(legend.text = element_text(size = 4),
+        legend.position = "below")
+
+plotly::ggplotly()
+```
+
+# Save to toolbox
+
+```{r}
 # save to toolbox
 write.csv(toolbox_data, file = file.path(dir_calc, "layers/fis_meancatch.csv"))
 ```
