@@ -47,7 +47,7 @@ clean <- raw %>%
 head(clean)
 ```
 
-Statistical areas
+# Statistical areas
 ```{r}
 stat_shp <- sf::read_sf(file.path(dir_anx, "spatial/Statistical_Areas_2010_withNames.shp")) %>%
   st_set_crs(p4s_nad83) %>%
@@ -77,6 +77,7 @@ calc_prop_area <- ohi_stat_areas %>%
 plot(calc_prop_area["ohi_rgn_prop_area"])
 ```
 
+# Catch per region
 
 Let's filter the catch data to just the statistical areas in our region.
 
@@ -231,7 +232,7 @@ Ok clearly we are missing 1999, 2001, 2003, 2006, 09-11, 13-16.
 
 # Gapfill
 
-We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. This is a large assumption, but without better information that indicates catches exist for the missing years, and what those values are, we feel this is the best option to address missing data. We also calculate a rolling average of catch so NAs will cause those averages to rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
+We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. Since we calculate a rolling average of catch, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
 ```{r, fig.width = 10}
 toolbox_data <- catch_by_ohi_rgn %>%
