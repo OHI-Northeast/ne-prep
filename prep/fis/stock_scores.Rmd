@@ -30,12 +30,18 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 
 ## Load data
 
+NMFS/NOAA stock scores. We also add `rgn_id` since the toolbox needs that column to run.
 ```{r}
 nmfs_ss <- read.csv("data/nmfs_stock_scores.csv") %>% 
   separate(stock, into = c("species", "location"), sep = " - ") %>%
   mutate(source = "NMFS") %>%
   select(year, source, species, location, score)
 
+sp_lookup <- read.csv("data/species_lookup_table_catch_stock_assessments.csv")
+```
+
+RAM
+```{r}
 ram_ss <- read.csv("data/ram_stock_scores.csv") %>% 
   separate(stocklong, into = c("species", "location", "location2", "location3", "location4", "location5"), 
            sep = "(?<=.)(?=[[:upper:]])") %>%
@@ -51,14 +57,25 @@ ram_ss <- read.csv("data/ram_stock_scores.csv") %>%
 
 # Combine
 
+We can combine these two (RAM and NMFS) now. Then we need to assign region IDs to each stock for hte toolbox. We can do this by using the fisheries lookup table
+
 ```{r}
+#fisheries lookup table gives us a list of each species with stock assessment plus info on where they are
+lookup_table <- read_csv("data/species_lookup_table_catch_stock_assessments.csv") %>%
+  rename(species  = stock_assessment_species_name,
+         location = stock_assessment_species_location)
+
 ss_toolbox <- nmfs_ss %>%
-  bind_rows(ram_ss)
+  bind_rows(ram_ss) %>%
+  mutate(species = tolower(species)) %>%
+  left_join(lookup_table, by = c("source", "species", "location")) %>%
+  select(year, source, species, location, score, rgn_id)
 ```
+
 
 # Save to toolbox
 ```{r}
-write.csv(ss_toolbox, file = file.path(dir_calc, "layers/fis_stockscores.csv"), row.names = F)
+write_csv(ss_toolbox, file.path(dir_calc, "layers/fis_stockscores.csv"))
 ```
 
 
