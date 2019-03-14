@@ -36,8 +36,6 @@ nmfs_ss <- read.csv("data/nmfs_stock_scores.csv") %>%
   separate(stock, into = c("species", "location"), sep = " - ") %>%
   mutate(source = "NMFS") %>%
   select(year, source, species, location, score)
-
-sp_lookup <- read.csv("data/species_lookup_table_catch_stock_assessments.csv")
 ```
 
 RAM
@@ -52,7 +50,6 @@ ram_ss <- read.csv("data/ram_stock_scores.csv") %>%
          species = trimws(species)) %>%
   filter(year>2004) %>%
   select(year, source, species, location, score) 
-  
 ```
 
 # Combine
@@ -69,7 +66,7 @@ ss_toolbox <- nmfs_ss %>%
   bind_rows(ram_ss) %>%
   mutate(species = tolower(species)) %>%
   left_join(lookup_table, by = c("source", "species", "location")) %>%
-  select(year, source, species, location, score, rgn_id)
+  select(year, source, nmfs_original_species, location, score, rgn_id)
 ```
 
 
