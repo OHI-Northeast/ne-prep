@@ -62,29 +62,29 @@
 "61",2012,"Yellowtail flounder - Cape Cod / Gulf of Maine","f_fmsy",1.38499999046326
 "62",2012,"Yellowtail flounder - Georges Bank","f_fmsy",1.24000000953674
 "63",2012,"Yellowtail flounder - Southern New England / Mid-Atlantic","f_fmsy",0.379999995231628
-"64",2013,"Atlantic cod - Eastern Georges Bank | Asmt","f_fmsy",0.635999977588654
+"64",2013,"Atlantic cod - Eastern Georges Bank","f_fmsy",0.635999977588654
 "65",2013,"Atlantic cod - Georges Bank","f_fmsy",2.38899993896484
-"66",2013,"Haddock - Eastern Georges Bank | Asmt","f_fmsy",0.615000009536743
+"66",2013,"Haddock - Eastern Georges Bank","f_fmsy",0.615000009536743
 "67",2013,"White hake - Gulf of Maine / Georges Bank","f_fmsy",0.649999976158142
 "68",2013,"Yellowtail flounder - Georges Bank","f_fmsy",3.11999988555908
 "69",2014,"Sea scallop - Northwestern Atlantic Coast","f_fmsy",0.666999995708466
-"70",2014,"Atlantic cod - Eastern Georges Bank | Asmt","f_fmsy",0.363999992609024
-"71",2014,"Haddock - Eastern Georges Bank | Asmt","f_fmsy",0.615000009536743
+"70",2014,"Atlantic cod - Eastern Georges Bank","f_fmsy",0.363999992609024
+"71",2014,"Haddock - Eastern Georges Bank","f_fmsy",0.615000009536743
 "72",2014,"Haddock - Gulf of Maine","f_fmsy",0.847000002861023
 "73",2014,"Pollock - Gulf of Maine / Georges Bank","f_fmsy",0.370000004768372
 "74",2014,"Red hake - Gulf of Maine / Northern Georges Bank","f_fmsy",1.04299998283386
 "75",2014,"Red hake - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.433999985456467
 "76",2014,"Silver hake - Gulf of Maine / Northern Georges Bank","f_fmsy",0.0500000007450581
-"77",2014,"Silver hake - Southern Georges Bank / Mid-Atlantic | Asmt & Status","f_fmsy",0.112999998033047
+"77",2014,"Silver hake - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.112999998033047
 "78",2014,"Winter flounder - Georges Bank","f_fmsy",0.681999981403351
 "79",2014,"Winter flounder - Gulf of Maine","f_fmsy",0.261000007390976
 "80",2015,"Atlantic herring - Northwestern Atlantic Coast","f_fmsy",0.666999995708466
 "81",2015,"Sea scallop - Northwestern Atlantic Coast","f_fmsy",0.896000027656555
 "82",2015,"Acadian redfish - Gulf of Maine / Georges Bank","f_fmsy",0.389999985694885
 "83",2015,"American plaice - Gulf of Maine / Georges Bank","f_fmsy",0.589999973773956
-"84",2015,"Atlantic cod - Eastern Georges Bank | Asmt","f_fmsy",0.363999992609024
+"84",2015,"Atlantic cod - Eastern Georges Bank","f_fmsy",0.363999992609024
 "85",2015,"Atlantic wolffish - Gulf of Maine / Georges Bank","f_fmsy",0.00999999977648258
-"86",2015,"Haddock - Eastern Georges Bank | Asmt","f_fmsy",0.884999990463257
+"86",2015,"Haddock - Eastern Georges Bank","f_fmsy",0.884999990463257
 "87",2015,"Haddock - Georges Bank","f_fmsy",0.620000004768372
 "88",2015,"Haddock - Gulf of Maine","f_fmsy",0.550000011920929
 "89",2015,"Ocean pout - Northwestern Atlantic Coast","f_fmsy",0.354999989271164
@@ -101,358 +101,360 @@
 "100",2015,"Yellowtail flounder - Cape Cod / Gulf of Maine","f_fmsy",2.28999996185303
 "101",2015,"Yellowtail flounder - Georges Bank","f_fmsy",0.284000009298325
 "102",2015,"Yellowtail flounder - Southern New England / Mid-Atlantic","f_fmsy",4.69999980926514
-"103",2016,"Atlantic cod - Eastern Georges Bank | Asmt","f_fmsy",0.455000013113022
-"104",2016,"Haddock - Eastern Georges Bank | Asmt","f_fmsy",0.884999990463257
-"105",2016,"Yellowtail flounder - Georges Bank","f_fmsy",0.200000002980232
-"106",2017,"Acadian redfish - Gulf of Maine / Georges Bank","f_fmsy",0.275000005960464
-"107",2017,"American plaice - Gulf of Maine / Georges Bank","f_fmsy",0.504999995231628
-"108",2017,"Atlantic cod - Eastern Georges Bank | Asmt","f_fmsy",0.455000013113022
-"109",2017,"Atlantic wolffish - Gulf of Maine / Georges Bank","f_fmsy",0.00899999961256981
-"110",2017,"Haddock - Eastern Georges Bank | Asmt","f_fmsy",0.384999990463257
-"111",2017,"Haddock - Georges Bank","f_fmsy",0.883000016212463
-"112",2017,"Haddock - Gulf of Maine","f_fmsy",0.298000007867813
-"113",2017,"Ocean pout - Northwestern Atlantic Coast","f_fmsy",0.291000008583069
-"114",2017,"Pollock - Gulf of Maine / Georges Bank","f_fmsy",0.137999996542931
-"115",2017,"Red hake - Gulf of Maine / Northern Georges Bank","f_fmsy",0.551999986171722
-"116",2017,"Red hake - Southern Georges Bank / Mid-Atlantic","f_fmsy",1.35899996757507
-"117",2017,"Silver hake - Gulf of Maine / Northern Georges Bank","f_fmsy",0.0540000014007092
-"118",2017,"Silver hake - Southern Georges Bank / Mid-Atlantic | Asmt & Status","f_fmsy",0.171000003814697
-"119",2017,"White hake - Gulf of Maine / Georges Bank","f_fmsy",0.358999997377396
-"120",2017,"Windowpane - Gulf of Maine / Georges Bank","f_fmsy",0.652999997138977
-"121",2017,"Windowpane - Southern New England / Mid-Atlantic","f_fmsy",0.902999997138977
-"122",2017,"Winter flounder - Georges Bank","f_fmsy",0.224999994039536
-"123",2017,"Winter flounder - Gulf of Maine","f_fmsy",0.374000012874603
-"124",2017,"Winter flounder - Southern New England / Mid-Atlantic","f_fmsy",0.617999970912933
-"125",2017,"Yellowtail flounder - Cape Cod / Gulf of Maine","f_fmsy",1.14999997615814
-"126",2017,"Yellowtail flounder - Southern New England / Mid-Atlantic","f_fmsy",3.20600008964539
-"127",2018,"Atlantic herring - Northwestern Atlantic Coast","f_fmsy",0.882000029087067
-"128",2018,"Sea scallop - Northwestern Atlantic Coast","f_fmsy",0.187999993562698
-"129",2007,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.28999999165535
-"130",2007,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.300000011920929
-"131",2008,"Spiny dogfish - Atlantic Coast","f_fmsy",0.386999994516373
-"132",2010,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.232999995350838
-"133",2010,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.151999995112419
-"134",2010,"Spiny dogfish - Atlantic Coast","f_fmsy",0.337999999523163
-"135",2011,"Spiny dogfish - Atlantic Coast","f_fmsy",0.381000012159348
-"136",2013,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.181999996304512
-"137",2013,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.296999990940094
-"138",2013,"Spiny dogfish - Atlantic Coast","f_fmsy",0.611000001430511
-"139",2015,"Spiny dogfish - Atlantic Coast","f_fmsy",0.876999974250793
-"140",2016,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.181999996304512
-"141",2016,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.296999990940094
-"142",2016,"Spiny dogfish - Atlantic Coast","f_fmsy",0.876999974250793
-"143",2018,"Spiny dogfish - Atlantic Coast","f_fmsy",0.828000009059906
-"144",2004,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.11500000953674
-"145",2005,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.45000004768372
-"146",2006,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.91999995708466
-"147",2007,"Bluefish - Atlantic Coast","f_fmsy",0.790000021457672
-"148",2007,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.26999998092651
-"149",2008,"Bluefish - Atlantic Coast","f_fmsy",0.788999974727631
-"150",2008,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.929000020027161
-"151",2009,"Atlantic surfclam - Mid-Atlantic Coast","f_fmsy",0.180000007152557
-"152",2009,"Bluefish - Atlantic Coast","f_fmsy",0.632000029087067
-"153",2009,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.666999995708466
-"154",2009,"Scup - Atlantic Coast","f_fmsy",0.270999997854233
-"155",2009,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.805999994277954
-"156",2009,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.375
-"157",2010,"Bluefish - Atlantic Coast","f_fmsy",0.526000022888184
-"158",2010,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.689999997615814
-"159",2010,"Scup - Atlantic Coast","f_fmsy",0.243000000715256
-"160",2010,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.764999985694885
-"161",2011,"Bluefish - Atlantic Coast","f_fmsy",0.736999988555908
-"162",2011,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.976000010967255
-"163",2011,"Scup - Atlantic Coast","f_fmsy",0.225999996066093
-"164",2011,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.697000026702881
-"165",2012,"Bluefish - Atlantic Coast","f_fmsy",0.600000023841858
-"166",2012,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.476999998092651
-"167",2012,"Scup - Atlantic Coast","f_fmsy",0.19200000166893
-"168",2012,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.77700001001358
-"169",2013,"Atlantic surfclam - Mid-Atlantic Coast","f_fmsy",0.180000007152557
-"170",2013,"Bluefish - Atlantic Coast","f_fmsy",0.510999977588654
-"171",2013,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.921999990940094
-"172",2014,"Butterfish - Gulf of Maine / Cape Hatteras","f_fmsy",0.025000000372529
-"173",2014,"Bluefish - Atlantic Coast","f_fmsy",0.620999991893768
-"174",2014,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.742999970912933
-"175",2015,"Bluefish - Atlantic Coast","f_fmsy",0.924000024795532
-"176",2015,"Scup - Atlantic Coast","f_fmsy",0.577000021934509
-"177",2015,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.16199994087219
-"178",2016,"Atlantic surfclam - Mid-Atlantic Coast","f_fmsy",0.294999986886978
-"179",2016,"Bluefish - Atlantic Coast","f_fmsy",0.924000024795532
-"180",2016,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.26199996471405
-"181",2016,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.742999970912933
-"182",2017,"Butterfish - Gulf of Maine / Cape Hatteras","f_fmsy",0.061999998986721
-"183",2017,"Ocean quahog - Atlantic Coast","f_fmsy",0.263000011444092
-"184",2017,"Scup - Atlantic Coast","f_fmsy",0.632000029087067
-"185",2017,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.802999973297119
-"186",2018,"Atlantic mackerel - Gulf of Maine / Cape Hatteras","f_fmsy",1.80799996852875
-"187",2004,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.35199999809265
-"188",2004,"Yellowtail flounder - Georges Bank","b_bmsy",0.662000000476837
-"189",2005,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",0.740000009536743
-"190",2005,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.5
-"191",2005,"Atlantic cod - Georges Bank","b_bmsy",0.104000002145767
-"192",2005,"Atlantic cod - Gulf of Maine","b_bmsy",0.226999998092651
-"193",2005,"Atlantic halibut - Northwestern Atlantic Coast","b_bmsy",0.0500000007450581
-"194",2005,"Haddock - Georges Bank","b_bmsy",0.467000007629395
-"195",2005,"Haddock - Gulf of Maine","b_bmsy",0.270000010728836
-"196",2005,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.363000005483627
-"197",2005,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",0.662999987602234
-"198",2005,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",1.01400005817413
-"199",2005,"Silver hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.769999980926514
-"200",2005,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.389999985694885
-"201",2005,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.829999983310699
-"202",2005,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",0.207000002264977
-"203",2005,"Winter flounder - Gulf of Maine","b_bmsy",0.839999973773956
-"204",2005,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.129999995231628
-"205",2005,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.839999973773956
-"206",2005,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.0879999995231628
-"207",2005,"Yellowtail flounder - Georges Bank","b_bmsy",0.266999989748001
-"208",2005,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.00999999977648258
-"209",2006,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",1.64999997615814
-"210",2006,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.592999994754791
-"211",2006,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.125
-"212",2006,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.702000021934509
-"213",2006,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",2.5
-"214",2006,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.563000023365021
-"215",2006,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.127000004053116
-"216",2006,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.517000019550323
-"217",2007,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.52999997138977
-"218",2008,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",0.635999977588654
-"219",2008,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.505999982357025
-"220",2008,"Atlantic cod - Georges Bank","b_bmsy",0.119000002741814
-"221",2008,"Atlantic cod - Gulf of Maine","b_bmsy",0.582000017166138
-"222",2008,"Atlantic halibut - Northwestern Atlantic Coast","b_bmsy",0.0270000007003546
-"223",2008,"Haddock - Georges Bank","b_bmsy",1.9889999628067
-"224",2008,"Haddock - Gulf of Maine","b_bmsy",0.991999983787537
-"225",2008,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0970000028610229
-"226",2008,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",0.377000004053116
-"227",2008,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.351999998092651
-"228",2008,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.171000003814697
-"229",2008,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",0.559000015258789
-"230",2008,"Winter flounder - Georges Bank","b_bmsy",0.310000002384186
-"231",2008,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.0869999974966049
-"232",2008,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.300000011920929
-"233",2008,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.246999993920326
-"234",2008,"Yellowtail flounder - Georges Bank","b_bmsy",0.221000000834465
-"235",2008,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.128000006079674
-"236",2008,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.629999995231628
-"237",2008,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.35099995136261
-"238",2008,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.717000007629395
-"239",2008,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.08299994468689
-"240",2008,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.448000013828278
-"241",2008,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.101999998092651
-"242",2008,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.934000015258789
-"243",2009,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",0.972000002861023
-"244",2009,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.629999995231628
-"245",2009,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.35099995136261
-"246",2009,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.717000007629395
-"247",2009,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.08299994468689
-"248",2009,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.448000013828278
-"249",2009,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.101999998092651
-"250",2009,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.934000015258789
-"251",2010,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.0349999666214
-"252",2010,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",2.15400004386902
-"253",2010,"Yellowtail flounder - Georges Bank","b_bmsy",0.324000000953674
-"254",2011,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",0.953000009059906
-"255",2011,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.930999994277954
-"256",2011,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",0.966000020503998
-"257",2011,"Silver hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.672999978065491
-"258",2011,"Winter flounder - Georges Bank","b_bmsy",0.822000026702881
-"259",2011,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.162000000476837
-"260",2011,"Yellowtail flounder - Georges Bank","b_bmsy",0.203999996185303
-"261",2011,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.685000002384186
-"262",2011,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.42900002002716
-"263",2011,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.15900003910065
-"264",2011,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",0.833000004291534
-"265",2011,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.555000007152557
-"266",2011,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.0590000003576279
-"267",2011,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.72899997234344
-"268",2012,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",3.29900002479553
-"269",2012,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",1.32299995422363
-"270",2012,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.587000012397766
-"271",2012,"Atlantic cod - Georges Bank","b_bmsy",0.0799999982118607
-"272",2012,"Atlantic cod - Gulf of Maine","b_bmsy",0.194000005722046
-"273",2012,"Atlantic halibut - Northwestern Atlantic Coast","b_bmsy",0.034000001847744
-"274",2012,"Atlantic wolffish - Gulf of Maine / Georges Bank","b_bmsy",0.287999987602234
-"275",2012,"Haddock - Georges Bank","b_bmsy",1.33899998664856
-"276",2012,"Haddock - Gulf of Maine","b_bmsy",0.584999978542328
-"277",2012,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0829999968409538
-"278",2012,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.287999987602234
-"279",2012,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",1.45799994468689
-"280",2012,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.407999992370605
-"281",2012,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.237000003457069
-"282",2012,"Yellowtail flounder - Georges Bank","b_bmsy",0.105999998748302
-"283",2012,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",1.29299998283386
-"284",2012,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.688000023365021
-"285",2012,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.45500004291534
-"286",2012,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.35800004005432
-"287",2012,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",0.875
-"288",2012,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.851999998092651
-"289",2012,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.0579999983310699
-"290",2012,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.55200004577637
-"291",2013,"Atlantic cod - Georges Bank","b_bmsy",0.0710000023245811
-"292",2013,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.828999996185303
-"293",2013,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.77700001001358
-"294",2013,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.47000002861023
-"295",2013,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.15600001811981
-"296",2013,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",0.688000023365021
-"297",2013,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.851999998092651
-"298",2013,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.0439999997615814
-"299",2013,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.192999958992
-"300",2014,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.37399995326996
-"301",2014,"Haddock - Gulf of Maine","b_bmsy",1.00999999046326
-"302",2014,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",1.63800001144409
-"303",2014,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",0.799000024795532
-"304",2014,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.13699996471405
-"305",2014,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",2.44899988174438
-"306",2014,"Silver hake - Southern Georges Bank / Mid-Atlantic | Asmt & Status","b_bmsy",1.02999997138977
-"307",2014,"Winter flounder - Georges Bank","b_bmsy",0.857999980449677
-"308",2014,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.77700001001358
-"309",2014,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.52999997138977
-"310",2014,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.13699996471405
-"311",2014,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",0.875
-"312",2014,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.814999997615814
-"313",2014,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.028999999165535
-"314",2014,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.885999977588654
-"315",2015,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",2.00200009346008
-"316",2015,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",2.03900003433228
-"317",2015,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",1.16999995708466
-"318",2015,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.839999973773956
-"319",2015,"Atlantic wolffish - Gulf of Maine / Georges Bank","b_bmsy",0.379999995231628
-"320",2015,"Haddock - Georges Bank","b_bmsy",1.38999998569489
-"321",2015,"Haddock - Gulf of Maine","b_bmsy",2.23000001907349
-"322",2015,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0590000003576279
-"323",2015,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",1.47000002861023
-"324",2015,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",1.39800000190735
-"325",2015,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.607999980449677
-"326",2015,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.879999995231628
-"327",2015,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.340000003576279
-"328",2015,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",1.66999995708466
-"329",2015,"Winter flounder - Georges Bank","b_bmsy",0.430000007152557
-"330",2015,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.230000004172325
-"331",2015,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.219999998807907
-"332",2015,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.159999996423721
-"333",2015,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.259999990463257
-"334",2015,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.898000001907349
-"335",2015,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.16700005531311
-"336",2015,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.09800004959106
-"337",2015,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1
-"338",2015,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.703999996185303
-"339",2015,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.0309999994933605
-"340",2015,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.903999984264374
-"341",2016,"Atlantic salmon - Gulf of Maine | Asmt & Status","b_bmsy",0.146999999880791
-"342",2016,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.00999999046326
-"343",2016,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.10000002384186
-"344",2016,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.910000026226044
-"345",2016,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.05999994277954
-"346",2016,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.769999980926514
-"347",2016,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.0410000011324883
-"348",2016,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.939999997615814
-"349",2017,"Atlantic salmon - Gulf of Maine | Asmt & Status","b_bmsy",0.146999999880791
-"350",2017,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",1.45200002193451
-"351",2017,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.989000022411346
-"352",2017,"Atlantic wolffish - Gulf of Maine / Georges Bank","b_bmsy",0.404000014066696
-"353",2017,"Haddock - Georges Bank","b_bmsy",2.78299999237061
-"354",2017,"Haddock - Gulf of Maine","b_bmsy",7.06500005722046
-"355",2017,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0450000017881393
-"356",2017,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",1.74300003051758
-"357",2017,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",2.01999998092651
-"358",2017,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.372999995946884
-"359",2017,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",3.1029999256134
-"360",2017,"Silver hake - Southern Georges Bank / Mid-Atlantic | Asmt & Status","b_bmsy",0.635999977588654
-"361",2017,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.686999976634979
-"362",2017,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.174999997019768
-"363",2017,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",1.29999995231628
-"364",2017,"Winter flounder - Georges Bank","b_bmsy",0.518999993801117
-"365",2017,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.177000001072884
-"366",2017,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.256999999284744
-"367",2017,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.0820000022649765
-"368",2017,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.00999999046326
-"369",2017,"Clearnose skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",0.893999993801117
-"370",2017,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.910000026226044
-"371",2017,"Rosette skate - Southern New England / Mid-Atlantic | Asmt & Status","b_bmsy",1.05999994277954
-"372",2017,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",0.925999999046326
-"373",2017,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.0410000011324883
-"374",2017,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.939999997615814
-"375",2018,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",0.749000012874603
-"376",2018,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",2.71799993515015
-"377",2018,"Barndoor skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.00999999046326
-"378",2018,"Little skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",0.763000011444092
-"379",2018,"Smooth skate - Gulf of Maine | Asmt & Status","b_bmsy",1.05599999427795
-"380",2018,"Thorny skate - Gulf of Maine | Asmt & Status","b_bmsy",0.0419999994337559
-"381",2018,"Winter skate - Georges Bank / Southern New England | Asmt & Status","b_bmsy",1.25800001621246
-"382",2005,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",0.810000002384186
-"383",2005,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.503000020980835
-"384",2006,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",0.479999989271164
-"385",2006,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.419999986886978
-"386",2007,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.28999996185303
-"387",2007,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.11000001430511
-"388",2008,"Spiny dogfish - Atlantic Coast","b_bmsy",1.1599999666214
-"389",2010,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.24800002574921
-"390",2010,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.76199996471405
-"391",2010,"Spiny dogfish - Atlantic Coast","b_bmsy",1.02499997615814
-"392",2011,"Spiny dogfish - Atlantic Coast","b_bmsy",1.06400001049042
-"393",2013,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.31299996376038
-"394",2013,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.54999995231628
-"395",2013,"Spiny dogfish - Atlantic Coast","b_bmsy",1.35399997234344
-"396",2015,"Spiny dogfish - Atlantic Coast","b_bmsy",0.873000025749207
-"397",2016,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.31299996376038
-"398",2016,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.54999995231628
-"399",2016,"Spiny dogfish - Atlantic Coast","b_bmsy",0.873000025749207
-"400",2018,"Spiny dogfish - Atlantic Coast","b_bmsy",0.670000016689301
-"401",2004,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.46000003814697
-"402",2004,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.63400000333786
-"403",2005,"Atlantic mackerel - Gulf of Maine / Cape Hatteras","b_bmsy",3.5699999332428
-"404",2005,"Bluefish - Atlantic Coast","b_bmsy",0.709999978542328
-"405",2005,"Scup - Atlantic Coast","b_bmsy",0.25
-"406",2005,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.592999994754791
-"407",2005,"Tilefish - Mid-Atlantic Coast","b_bmsy",0.720000028610229
-"408",2006,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",1.29999995231628
-"409",2006,"Ocean quahog - Atlantic Coast","b_bmsy",1.52999997138977
-"410",2006,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.519999980926514
-"411",2007,"Bluefish - Atlantic Coast","b_bmsy",0.949999988079071
-"412",2007,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.469999998807907
-"413",2008,"Bluefish - Atlantic Coast","b_bmsy",1.0460000038147
-"414",2008,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.722000002861023
-"415",2009,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",1.61699998378754
-"416",2009,"Ocean quahog - Atlantic Coast","b_bmsy",1.62300002574921
-"417",2009,"Bluefish - Atlantic Coast","b_bmsy",1.11300003528595
-"418",2009,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.02799999713898
-"419",2009,"Scup - Atlantic Coast","b_bmsy",2.04299998283386
-"420",2009,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.765999972820282
-"421",2009,"Tilefish - Mid-Atlantic Coast","b_bmsy",1.04499995708466
-"422",2010,"Bluefish - Atlantic Coast","b_bmsy",1.06099998950958
-"423",2010,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.0349999666214
-"424",2010,"Scup - Atlantic Coast","b_bmsy",1.67900002002716
-"425",2010,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.889999985694885
-"426",2011,"Longfin inshore squid - Georges Bank / Cape Hatteras | Asmt & Status","b_bmsy",1.28400003910065
-"427",2011,"Bluefish - Atlantic Coast","b_bmsy",0.953999996185303
-"428",2011,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.11099994182587
-"429",2011,"Scup - Atlantic Coast","b_bmsy",2.0239999294281
-"430",2011,"Summer flounder - Mid-Atlantic Coast","b_bmsy",1.00300002098083
-"431",2012,"Bluefish - Atlantic Coast","b_bmsy",0.903999984264374
-"432",2012,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.02400004863739
-"433",2012,"Scup - Atlantic Coast","b_bmsy",2.06900000572205
-"434",2012,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.949000000953674
-"435",2013,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",1.0900000333786
-"436",2013,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777
-"437",2013,"Bluefish - Atlantic Coast","b_bmsy",0.856000006198883
-"438",2013,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.820999979972839
-"439",2014,"Butterfish - Gulf of Maine / Cape Hatteras","b_bmsy",1.74199998378754
-"440",2014,"Bluefish - Atlantic Coast","b_bmsy",0.841000020503998
-"441",2014,"Tilefish - Mid-Atlantic Coast","b_bmsy",1.01499998569489
-"442",2015,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777
-"443",2015,"Bluefish - Atlantic Coast","b_bmsy",0.777999997138977
-"444",2015,"Scup - Atlantic Coast","b_bmsy",2.09500002861023
-"445",2015,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.646000027656555
-"446",2016,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",2.53999996185303
-"447",2016,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777
-"448",2016,"Bluefish - Atlantic Coast","b_bmsy",0.777999997138977
-"449",2016,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.580999970436096
-"450",2016,"Tilefish - Mid-Atlantic Coast","b_bmsy",1.01499998569489
-"451",2017,"Butterfish - Gulf of Maine / Cape Hatteras","b_bmsy",1.41100001335144
-"452",2017,"Longfin inshore squid - Georges Bank / Cape Hatteras | Asmt & Status","b_bmsy",1.7389999628067
-"453",2017,"Ocean quahog - Atlantic Coast","b_bmsy",1.63300001621246
-"454",2017,"Scup - Atlantic Coast","b_bmsy",2.06100010871887
-"455",2017,"Tilefish - Mid-Atlantic Coast","b_bmsy",0.89300000667572
-"456",2018,"Atlantic mackerel - Gulf of Maine / Cape Hatteras","b_bmsy",0.221000000834465
-"457",2018,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777
+"103",2016,"Atlantic salmon - Gulf of Maine","f_fmsy",0
+"104",2016,"Atlantic cod - Eastern Georges Bank","f_fmsy",0.455000013113022
+"105",2016,"Haddock - Eastern Georges Bank","f_fmsy",0.884999990463257
+"106",2016,"Yellowtail flounder - Georges Bank","f_fmsy",0.200000002980232
+"107",2017,"Atlantic salmon - Gulf of Maine","f_fmsy",0
+"108",2017,"Acadian redfish - Gulf of Maine / Georges Bank","f_fmsy",0.275000005960464
+"109",2017,"American plaice - Gulf of Maine / Georges Bank","f_fmsy",0.504999995231628
+"110",2017,"Atlantic cod - Eastern Georges Bank","f_fmsy",0.455000013113022
+"111",2017,"Atlantic wolffish - Gulf of Maine / Georges Bank","f_fmsy",0.00899999961256981
+"112",2017,"Haddock - Eastern Georges Bank","f_fmsy",0.384999990463257
+"113",2017,"Haddock - Georges Bank","f_fmsy",0.883000016212463
+"114",2017,"Haddock - Gulf of Maine","f_fmsy",0.298000007867813
+"115",2017,"Ocean pout - Northwestern Atlantic Coast","f_fmsy",0.291000008583069
+"116",2017,"Pollock - Gulf of Maine / Georges Bank","f_fmsy",0.137999996542931
+"117",2017,"Red hake - Gulf of Maine / Northern Georges Bank","f_fmsy",0.551999986171722
+"118",2017,"Red hake - Southern Georges Bank / Mid-Atlantic","f_fmsy",1.35899996757507
+"119",2017,"Silver hake - Gulf of Maine / Northern Georges Bank","f_fmsy",0.0540000014007092
+"120",2017,"Silver hake - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.171000003814697
+"121",2017,"White hake - Gulf of Maine / Georges Bank","f_fmsy",0.358999997377396
+"122",2017,"Windowpane - Gulf of Maine / Georges Bank","f_fmsy",0.652999997138977
+"123",2017,"Windowpane - Southern New England / Mid-Atlantic","f_fmsy",0.902999997138977
+"124",2017,"Winter flounder - Georges Bank","f_fmsy",0.224999994039536
+"125",2017,"Winter flounder - Gulf of Maine","f_fmsy",0.374000012874603
+"126",2017,"Winter flounder - Southern New England / Mid-Atlantic","f_fmsy",0.617999970912933
+"127",2017,"Yellowtail flounder - Cape Cod / Gulf of Maine","f_fmsy",1.14999997615814
+"128",2017,"Yellowtail flounder - Southern New England / Mid-Atlantic","f_fmsy",3.20600008964539
+"129",2018,"Atlantic herring - Northwestern Atlantic Coast","f_fmsy",0.882000029087067
+"130",2018,"Sea scallop - Northwestern Atlantic Coast","f_fmsy",0.187999993562698
+"131",2007,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.28999999165535
+"132",2007,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.300000011920929
+"133",2008,"Spiny dogfish - Atlantic Coast","f_fmsy",0.386999994516373
+"134",2010,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.232999995350838
+"135",2010,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.151999995112419
+"136",2010,"Spiny dogfish - Atlantic Coast","f_fmsy",0.337999999523163
+"137",2011,"Spiny dogfish - Atlantic Coast","f_fmsy",0.381000012159348
+"138",2013,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.181999996304512
+"139",2013,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.296999990940094
+"140",2013,"Spiny dogfish - Atlantic Coast","f_fmsy",0.611000001430511
+"141",2015,"Spiny dogfish - Atlantic Coast","f_fmsy",0.876999974250793
+"142",2016,"Goosefish - Gulf of Maine / Northern Georges Bank","f_fmsy",0.181999996304512
+"143",2016,"Goosefish - Southern Georges Bank / Mid-Atlantic","f_fmsy",0.296999990940094
+"144",2016,"Spiny dogfish - Atlantic Coast","f_fmsy",0.876999974250793
+"145",2018,"Spiny dogfish - Atlantic Coast","f_fmsy",0.828000009059906
+"146",2004,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.11500000953674
+"147",2005,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.45000004768372
+"148",2006,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.91999995708466
+"149",2007,"Bluefish - Atlantic Coast","f_fmsy",0.790000021457672
+"150",2007,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.26999998092651
+"151",2008,"Bluefish - Atlantic Coast","f_fmsy",0.788999974727631
+"152",2008,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.929000020027161
+"153",2009,"Atlantic surfclam - Mid-Atlantic Coast","f_fmsy",0.180000007152557
+"154",2009,"Bluefish - Atlantic Coast","f_fmsy",0.632000029087067
+"155",2009,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.666999995708466
+"156",2009,"Scup - Atlantic Coast","f_fmsy",0.270999997854233
+"157",2009,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.805999994277954
+"158",2009,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.375
+"159",2010,"Bluefish - Atlantic Coast","f_fmsy",0.526000022888184
+"160",2010,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.689999997615814
+"161",2010,"Scup - Atlantic Coast","f_fmsy",0.243000000715256
+"162",2010,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.764999985694885
+"163",2011,"Bluefish - Atlantic Coast","f_fmsy",0.736999988555908
+"164",2011,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.976000010967255
+"165",2011,"Scup - Atlantic Coast","f_fmsy",0.225999996066093
+"166",2011,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.697000026702881
+"167",2012,"Bluefish - Atlantic Coast","f_fmsy",0.600000023841858
+"168",2012,"Black sea bass - Mid-Atlantic Coast","f_fmsy",0.476999998092651
+"169",2012,"Scup - Atlantic Coast","f_fmsy",0.19200000166893
+"170",2012,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.77700001001358
+"171",2013,"Atlantic surfclam - Mid-Atlantic Coast","f_fmsy",0.180000007152557
+"172",2013,"Bluefish - Atlantic Coast","f_fmsy",0.510999977588654
+"173",2013,"Summer flounder - Mid-Atlantic Coast","f_fmsy",0.921999990940094
+"174",2014,"Butterfish - Gulf of Maine / Cape Hatteras","f_fmsy",0.025000000372529
+"175",2014,"Bluefish - Atlantic Coast","f_fmsy",0.620999991893768
+"176",2014,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.742999970912933
+"177",2015,"Bluefish - Atlantic Coast","f_fmsy",0.924000024795532
+"178",2015,"Scup - Atlantic Coast","f_fmsy",0.577000021934509
+"179",2015,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.16199994087219
+"180",2016,"Atlantic surfclam - Mid-Atlantic Coast","f_fmsy",0.294999986886978
+"181",2016,"Bluefish - Atlantic Coast","f_fmsy",0.924000024795532
+"182",2016,"Summer flounder - Mid-Atlantic Coast","f_fmsy",1.26199996471405
+"183",2016,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.742999970912933
+"184",2017,"Butterfish - Gulf of Maine / Cape Hatteras","f_fmsy",0.061999998986721
+"185",2017,"Ocean quahog - Atlantic Coast","f_fmsy",0.263000011444092
+"186",2017,"Scup - Atlantic Coast","f_fmsy",0.632000029087067
+"187",2017,"Tilefish - Mid-Atlantic Coast","f_fmsy",0.802999973297119
+"188",2018,"Atlantic mackerel - Gulf of Maine / Cape Hatteras","f_fmsy",1.80799996852875
+"189",2004,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.35199999809265
+"190",2004,"Yellowtail flounder - Georges Bank","b_bmsy",0.662000000476837
+"191",2005,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",0.740000009536743
+"192",2005,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.5
+"193",2005,"Atlantic cod - Georges Bank","b_bmsy",0.104000002145767
+"194",2005,"Atlantic cod - Gulf of Maine","b_bmsy",0.226999998092651
+"195",2005,"Atlantic halibut - Northwestern Atlantic Coast","b_bmsy",0.0500000007450581
+"196",2005,"Haddock - Georges Bank","b_bmsy",0.467000007629395
+"197",2005,"Haddock - Gulf of Maine","b_bmsy",0.270000010728836
+"198",2005,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.363000005483627
+"199",2005,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",0.662999987602234
+"200",2005,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",1.01400005817413
+"201",2005,"Silver hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.769999980926514
+"202",2005,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.389999985694885
+"203",2005,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.829999983310699
+"204",2005,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",0.207000002264977
+"205",2005,"Winter flounder - Gulf of Maine","b_bmsy",0.839999973773956
+"206",2005,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.129999995231628
+"207",2005,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.839999973773956
+"208",2005,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.0879999995231628
+"209",2005,"Yellowtail flounder - Georges Bank","b_bmsy",0.266999989748001
+"210",2005,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.00999999977648258
+"211",2006,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",1.64999997615814
+"212",2006,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.592999994754791
+"213",2006,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.125
+"214",2006,"Little skate - Georges Bank / Southern New England","b_bmsy",0.702000021934509
+"215",2006,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",2.5
+"216",2006,"Smooth skate - Gulf of Maine","b_bmsy",0.563000023365021
+"217",2006,"Thorny skate - Gulf of Maine","b_bmsy",0.127000004053116
+"218",2006,"Winter skate - Georges Bank / Southern New England","b_bmsy",0.517000019550323
+"219",2007,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.52999997138977
+"220",2008,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",0.635999977588654
+"221",2008,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.505999982357025
+"222",2008,"Atlantic cod - Georges Bank","b_bmsy",0.119000002741814
+"223",2008,"Atlantic cod - Gulf of Maine","b_bmsy",0.582000017166138
+"224",2008,"Atlantic halibut - Northwestern Atlantic Coast","b_bmsy",0.0270000007003546
+"225",2008,"Haddock - Georges Bank","b_bmsy",1.9889999628067
+"226",2008,"Haddock - Gulf of Maine","b_bmsy",0.991999983787537
+"227",2008,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0970000028610229
+"228",2008,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",0.377000004053116
+"229",2008,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.351999998092651
+"230",2008,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.171000003814697
+"231",2008,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",0.559000015258789
+"232",2008,"Winter flounder - Georges Bank","b_bmsy",0.310000002384186
+"233",2008,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.0869999974966049
+"234",2008,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.300000011920929
+"235",2008,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.246999993920326
+"236",2008,"Yellowtail flounder - Georges Bank","b_bmsy",0.221000000834465
+"237",2008,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.128000006079674
+"238",2008,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.629999995231628
+"239",2008,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.35099995136261
+"240",2008,"Little skate - Georges Bank / Southern New England","b_bmsy",0.717000007629395
+"241",2008,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",1.08299994468689
+"242",2008,"Smooth skate - Gulf of Maine","b_bmsy",0.448000013828278
+"243",2008,"Thorny skate - Gulf of Maine","b_bmsy",0.101999998092651
+"244",2008,"Winter skate - Georges Bank / Southern New England","b_bmsy",0.934000015258789
+"245",2009,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",0.972000002861023
+"246",2009,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.629999995231628
+"247",2009,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.35099995136261
+"248",2009,"Little skate - Georges Bank / Southern New England","b_bmsy",0.717000007629395
+"249",2009,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",1.08299994468689
+"250",2009,"Smooth skate - Gulf of Maine","b_bmsy",0.448000013828278
+"251",2009,"Thorny skate - Gulf of Maine","b_bmsy",0.101999998092651
+"252",2009,"Winter skate - Georges Bank / Southern New England","b_bmsy",0.934000015258789
+"253",2010,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.0349999666214
+"254",2010,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",2.15400004386902
+"255",2010,"Yellowtail flounder - Georges Bank","b_bmsy",0.324000000953674
+"256",2011,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",0.953000009059906
+"257",2011,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.930999994277954
+"258",2011,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",0.966000020503998
+"259",2011,"Silver hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.672999978065491
+"260",2011,"Winter flounder - Georges Bank","b_bmsy",0.822000026702881
+"261",2011,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.162000000476837
+"262",2011,"Yellowtail flounder - Georges Bank","b_bmsy",0.203999996185303
+"263",2011,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.685000002384186
+"264",2011,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.42900002002716
+"265",2011,"Little skate - Georges Bank / Southern New England","b_bmsy",1.15900003910065
+"266",2011,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",0.833000004291534
+"267",2011,"Smooth skate - Gulf of Maine","b_bmsy",0.555000007152557
+"268",2011,"Thorny skate - Gulf of Maine","b_bmsy",0.0590000003576279
+"269",2011,"Winter skate - Georges Bank / Southern New England","b_bmsy",1.72899997234344
+"270",2012,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",3.29900002479553
+"271",2012,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",1.32299995422363
+"272",2012,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.587000012397766
+"273",2012,"Atlantic cod - Georges Bank","b_bmsy",0.0799999982118607
+"274",2012,"Atlantic cod - Gulf of Maine","b_bmsy",0.194000005722046
+"275",2012,"Atlantic halibut - Northwestern Atlantic Coast","b_bmsy",0.034000001847744
+"276",2012,"Atlantic wolffish - Gulf of Maine / Georges Bank","b_bmsy",0.287999987602234
+"277",2012,"Haddock - Georges Bank","b_bmsy",1.33899998664856
+"278",2012,"Haddock - Gulf of Maine","b_bmsy",0.584999978542328
+"279",2012,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0829999968409538
+"280",2012,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.287999987602234
+"281",2012,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",1.45799994468689
+"282",2012,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.407999992370605
+"283",2012,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.237000003457069
+"284",2012,"Yellowtail flounder - Georges Bank","b_bmsy",0.105999998748302
+"285",2012,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",1.29299998283386
+"286",2012,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.688000023365021
+"287",2012,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.45500004291534
+"288",2012,"Little skate - Georges Bank / Southern New England","b_bmsy",1.35800004005432
+"289",2012,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",0.875
+"290",2012,"Smooth skate - Gulf of Maine","b_bmsy",0.851999998092651
+"291",2012,"Thorny skate - Gulf of Maine","b_bmsy",0.0579999983310699
+"292",2012,"Winter skate - Georges Bank / Southern New England","b_bmsy",1.55200004577637
+"293",2013,"Atlantic cod - Georges Bank","b_bmsy",0.0710000023245811
+"294",2013,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.828999996185303
+"295",2013,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.77700001001358
+"296",2013,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.47000002861023
+"297",2013,"Little skate - Georges Bank / Southern New England","b_bmsy",1.15600001811981
+"298",2013,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",0.688000023365021
+"299",2013,"Smooth skate - Gulf of Maine","b_bmsy",0.851999998092651
+"300",2013,"Thorny skate - Gulf of Maine","b_bmsy",0.0439999997615814
+"301",2013,"Winter skate - Georges Bank / Southern New England","b_bmsy",1.192999958992
+"302",2014,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",1.37399995326996
+"303",2014,"Haddock - Gulf of Maine","b_bmsy",1.00999999046326
+"304",2014,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",1.63800001144409
+"305",2014,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",0.799000024795532
+"306",2014,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.13699996471405
+"307",2014,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",2.44899988174438
+"308",2014,"Silver hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.02999997138977
+"309",2014,"Winter flounder - Georges Bank","b_bmsy",0.857999980449677
+"310",2014,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.77700001001358
+"311",2014,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.52999997138977
+"312",2014,"Little skate - Georges Bank / Southern New England","b_bmsy",1.13699996471405
+"313",2014,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",0.875
+"314",2014,"Smooth skate - Gulf of Maine","b_bmsy",0.814999997615814
+"315",2014,"Thorny skate - Gulf of Maine","b_bmsy",0.028999999165535
+"316",2014,"Winter skate - Georges Bank / Southern New England","b_bmsy",0.885999977588654
+"317",2015,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",2.00200009346008
+"318",2015,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",2.03900003433228
+"319",2015,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",1.16999995708466
+"320",2015,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.839999973773956
+"321",2015,"Atlantic wolffish - Gulf of Maine / Georges Bank","b_bmsy",0.379999995231628
+"322",2015,"Haddock - Georges Bank","b_bmsy",1.38999998569489
+"323",2015,"Haddock - Gulf of Maine","b_bmsy",2.23000001907349
+"324",2015,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0590000003576279
+"325",2015,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",1.47000002861023
+"326",2015,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",1.39800000190735
+"327",2015,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.607999980449677
+"328",2015,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.879999995231628
+"329",2015,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.340000003576279
+"330",2015,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",1.66999995708466
+"331",2015,"Winter flounder - Georges Bank","b_bmsy",0.430000007152557
+"332",2015,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.230000004172325
+"333",2015,"Witch flounder - Northwestern Atlantic Coast","b_bmsy",0.219999998807907
+"334",2015,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.159999996423721
+"335",2015,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.259999990463257
+"336",2015,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",0.898000001907349
+"337",2015,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.16700005531311
+"338",2015,"Little skate - Georges Bank / Southern New England","b_bmsy",1.09800004959106
+"339",2015,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",1
+"340",2015,"Smooth skate - Gulf of Maine","b_bmsy",0.703999996185303
+"341",2015,"Thorny skate - Gulf of Maine","b_bmsy",0.0309999994933605
+"342",2015,"Winter skate - Georges Bank / Southern New England","b_bmsy",0.903999984264374
+"343",2016,"Atlantic salmon - Gulf of Maine","b_bmsy",0.146999999880791
+"344",2016,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",1.00999999046326
+"345",2016,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",1.10000002384186
+"346",2016,"Little skate - Georges Bank / Southern New England","b_bmsy",0.910000026226044
+"347",2016,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",1.05999994277954
+"348",2016,"Smooth skate - Gulf of Maine","b_bmsy",0.769999980926514
+"349",2016,"Thorny skate - Gulf of Maine","b_bmsy",0.0410000011324883
+"350",2016,"Winter skate - Georges Bank / Southern New England","b_bmsy",0.939999997615814
+"351",2017,"Atlantic salmon - Gulf of Maine","b_bmsy",0.146999999880791
+"352",2017,"Acadian redfish - Gulf of Maine / Georges Bank","b_bmsy",1.45200002193451
+"353",2017,"American plaice - Gulf of Maine / Georges Bank","b_bmsy",0.989000022411346
+"354",2017,"Atlantic wolffish - Gulf of Maine / Georges Bank","b_bmsy",0.404000014066696
+"355",2017,"Haddock - Georges Bank","b_bmsy",2.78299999237061
+"356",2017,"Haddock - Gulf of Maine","b_bmsy",7.06500005722046
+"357",2017,"Ocean pout - Northwestern Atlantic Coast","b_bmsy",0.0450000017881393
+"358",2017,"Pollock - Gulf of Maine / Georges Bank","b_bmsy",1.74300003051758
+"359",2017,"Red hake - Gulf of Maine / Northern Georges Bank","b_bmsy",2.01999998092651
+"360",2017,"Red hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.372999995946884
+"361",2017,"Silver hake - Gulf of Maine / Northern Georges Bank","b_bmsy",3.1029999256134
+"362",2017,"Silver hake - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.635999977588654
+"363",2017,"White hake - Gulf of Maine / Georges Bank","b_bmsy",0.686999976634979
+"364",2017,"Windowpane - Gulf of Maine / Georges Bank","b_bmsy",0.174999997019768
+"365",2017,"Windowpane - Southern New England / Mid-Atlantic","b_bmsy",1.29999995231628
+"366",2017,"Winter flounder - Georges Bank","b_bmsy",0.518999993801117
+"367",2017,"Winter flounder - Southern New England / Mid-Atlantic","b_bmsy",0.177000001072884
+"368",2017,"Yellowtail flounder - Cape Cod / Gulf of Maine","b_bmsy",0.256999999284744
+"369",2017,"Yellowtail flounder - Southern New England / Mid-Atlantic","b_bmsy",0.0820000022649765
+"370",2017,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",1.00999999046326
+"371",2017,"Clearnose skate - Southern New England / Mid-Atlantic","b_bmsy",0.893999993801117
+"372",2017,"Little skate - Georges Bank / Southern New England","b_bmsy",0.910000026226044
+"373",2017,"Rosette skate - Southern New England / Mid-Atlantic","b_bmsy",1.05999994277954
+"374",2017,"Smooth skate - Gulf of Maine","b_bmsy",0.925999999046326
+"375",2017,"Thorny skate - Gulf of Maine","b_bmsy",0.0410000011324883
+"376",2017,"Winter skate - Georges Bank / Southern New England","b_bmsy",0.939999997615814
+"377",2018,"Atlantic herring - Northwestern Atlantic Coast","b_bmsy",0.749000012874603
+"378",2018,"Sea scallop - Northwestern Atlantic Coast","b_bmsy",2.71799993515015
+"379",2018,"Barndoor skate - Georges Bank / Southern New England","b_bmsy",1.00999999046326
+"380",2018,"Little skate - Georges Bank / Southern New England","b_bmsy",0.763000011444092
+"381",2018,"Smooth skate - Gulf of Maine","b_bmsy",1.05599999427795
+"382",2018,"Thorny skate - Gulf of Maine","b_bmsy",0.0419999994337559
+"383",2018,"Winter skate - Georges Bank / Southern New England","b_bmsy",1.25800001621246
+"384",2005,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",0.810000002384186
+"385",2005,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.503000020980835
+"386",2006,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",0.479999989271164
+"387",2006,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",0.419999986886978
+"388",2007,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.28999996185303
+"389",2007,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.11000001430511
+"390",2008,"Spiny dogfish - Atlantic Coast","b_bmsy",1.1599999666214
+"391",2010,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.24800002574921
+"392",2010,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.76199996471405
+"393",2010,"Spiny dogfish - Atlantic Coast","b_bmsy",1.02499997615814
+"394",2011,"Spiny dogfish - Atlantic Coast","b_bmsy",1.06400001049042
+"395",2013,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.31299996376038
+"396",2013,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.54999995231628
+"397",2013,"Spiny dogfish - Atlantic Coast","b_bmsy",1.35399997234344
+"398",2015,"Spiny dogfish - Atlantic Coast","b_bmsy",0.873000025749207
+"399",2016,"Goosefish - Gulf of Maine / Northern Georges Bank","b_bmsy",1.31299996376038
+"400",2016,"Goosefish - Southern Georges Bank / Mid-Atlantic","b_bmsy",1.54999995231628
+"401",2016,"Spiny dogfish - Atlantic Coast","b_bmsy",0.873000025749207
+"402",2018,"Spiny dogfish - Atlantic Coast","b_bmsy",0.670000016689301
+"403",2004,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.46000003814697
+"404",2004,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.63400000333786
+"405",2005,"Atlantic mackerel - Gulf of Maine / Cape Hatteras","b_bmsy",3.5699999332428
+"406",2005,"Bluefish - Atlantic Coast","b_bmsy",0.709999978542328
+"407",2005,"Scup - Atlantic Coast","b_bmsy",0.25
+"408",2005,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.592999994754791
+"409",2005,"Tilefish - Mid-Atlantic Coast","b_bmsy",0.720000028610229
+"410",2006,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",1.29999995231628
+"411",2006,"Ocean quahog - Atlantic Coast","b_bmsy",1.52999997138977
+"412",2006,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.519999980926514
+"413",2007,"Bluefish - Atlantic Coast","b_bmsy",0.949999988079071
+"414",2007,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.469999998807907
+"415",2008,"Bluefish - Atlantic Coast","b_bmsy",1.0460000038147
+"416",2008,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.722000002861023
+"417",2009,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",1.61699998378754
+"418",2009,"Ocean quahog - Atlantic Coast","b_bmsy",1.62300002574921
+"419",2009,"Bluefish - Atlantic Coast","b_bmsy",1.11300003528595
+"420",2009,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.02799999713898
+"421",2009,"Scup - Atlantic Coast","b_bmsy",2.04299998283386
+"422",2009,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.765999972820282
+"423",2009,"Tilefish - Mid-Atlantic Coast","b_bmsy",1.04499995708466
+"424",2010,"Bluefish - Atlantic Coast","b_bmsy",1.06099998950958
+"425",2010,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.0349999666214
+"426",2010,"Scup - Atlantic Coast","b_bmsy",1.67900002002716
+"427",2010,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.889999985694885
+"428",2011,"Longfin inshore squid - Georges Bank / Cape Hatteras","b_bmsy",1.28400003910065
+"429",2011,"Bluefish - Atlantic Coast","b_bmsy",0.953999996185303
+"430",2011,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.11099994182587
+"431",2011,"Scup - Atlantic Coast","b_bmsy",2.0239999294281
+"432",2011,"Summer flounder - Mid-Atlantic Coast","b_bmsy",1.00300002098083
+"433",2012,"Bluefish - Atlantic Coast","b_bmsy",0.903999984264374
+"434",2012,"Black sea bass - Mid-Atlantic Coast","b_bmsy",1.02400004863739
+"435",2012,"Scup - Atlantic Coast","b_bmsy",2.06900000572205
+"436",2012,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.949000000953674
+"437",2013,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",1.0900000333786
+"438",2013,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777
+"439",2013,"Bluefish - Atlantic Coast","b_bmsy",0.856000006198883
+"440",2013,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.820999979972839
+"441",2014,"Butterfish - Gulf of Maine / Cape Hatteras","b_bmsy",1.74199998378754
+"442",2014,"Bluefish - Atlantic Coast","b_bmsy",0.841000020503998
+"443",2014,"Tilefish - Mid-Atlantic Coast","b_bmsy",1.01499998569489
+"444",2015,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777
+"445",2015,"Bluefish - Atlantic Coast","b_bmsy",0.777999997138977
+"446",2015,"Scup - Atlantic Coast","b_bmsy",2.09500002861023
+"447",2015,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.646000027656555
+"448",2016,"Atlantic surfclam - Mid-Atlantic Coast","b_bmsy",2.53999996185303
+"449",2016,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777
+"450",2016,"Bluefish - Atlantic Coast","b_bmsy",0.777999997138977
+"451",2016,"Summer flounder - Mid-Atlantic Coast","b_bmsy",0.580999970436096
+"452",2016,"Tilefish - Mid-Atlantic Coast","b_bmsy",1.01499998569489
+"453",2017,"Butterfish - Gulf of Maine / Cape Hatteras","b_bmsy",1.41100001335144
+"454",2017,"Longfin inshore squid - Georges Bank / Cape Hatteras","b_bmsy",1.7389999628067
+"455",2017,"Ocean quahog - Atlantic Coast","b_bmsy",1.63300001621246
+"456",2017,"Scup - Atlantic Coast","b_bmsy",2.06100010871887
+"457",2017,"Tilefish - Mid-Atlantic Coast","b_bmsy",0.89300000667572
+"458",2018,"Atlantic mackerel - Gulf of Maine / Cape Hatteras","b_bmsy",0.221000000834465
+"459",2018,"Ocean quahog - Atlantic Coast","b_bmsy",1.71200001239777

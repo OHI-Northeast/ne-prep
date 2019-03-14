@@ -59,8 +59,10 @@ data <- ne_data %>%
          f_fmsy = `F/Fmsy`, 
          b_bmsy = `B/Bmsy`) %>%
   gather(key = "indicator", value = "value", -year, -stock) %>%
-  filter(value > 0) #Smooth skate has F/Fmsy value of -9999 so removing that
-
+  filter(value >= 0) %>% #Smooth skate has F/Fmsy value of -9999 so removing that
+  mutate(stock = str_replace(stock, " \\| Asmt & Status", ""),
+         stock = str_replace(stock, " \\| Asmt", ""))
+  
 ggplot(data, aes(x = year, y = value, color = indicator)) +
   geom_hline(yintercept = 1, color = "darkgray") +
   geom_line() +
