@@ -16,7 +16,8 @@ Two data layers are used in this goal. Click on a layer to see data preparation:
 - The catch layer is derived from NOAA Landings data.
 
 
-**Note** . 
+**Note** 
+
 All data from NOAA was provided via email. While NOAA does maintain an online database for landings, it is presented as an aggregated landings database - to the state level. We used disaggregated landings data that is more spatially explicit.
 
 
