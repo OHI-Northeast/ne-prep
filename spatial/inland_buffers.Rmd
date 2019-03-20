@@ -1,0 +1,70 @@
+---
+title: 'OHI-Northeast: Create inland buffers for OHI regions'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+```{r}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+Let's just play with MA for now
+```{r}
+# create basic function
+inlandBuffer <- function(x, w){
+  
+  rgn_buff <- rgns %>%
+    filter(rgn_id == x) %>%
+    as('Spatial')
+  
+  buff <- buffer(rgn_buff, width = w, dissolve = T)
+  e    <- erase(buff, rgn_buff)
+  return(e)
+  
+}
+
+rgn_ids <- c(5:11)
+
+all <- lapply(rgn_ids, inlandBuffer, 1000)
+
+m <- do.call(bind, all) %>%
+  st_as_sf() %>%
+  mutate(rgn_id = c(5:11))
+
+write_sf(m, "~/github/ne-prep/spatial/shapefiles/coastal_rgns_1km_inland_buffer.shp")
+
+all_3000 <- lapply(rgn_ids, inlandBuffer, 3000)
+
+m2 <- do.call(bind, all_3000) %>%
+  st_as_sf() %>%
+  mutate(rgn_id = c(5:11))
+
+write_sf(m2, "~/github/ne-prep/spatial/shapefiles/coastal_rgns_3km_inland_buffer.shp")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+

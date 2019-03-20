@@ -1,0 +1,190 @@
+---
+title: 'OHI-Northeast: Salt Marsh Habitat Data'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+This script creates the Salt Marsh habitat data layer for the Habitats goal (a sub-goal of Biodiversity). Using spatial land cover data from NOAA's [Coastal Change Analysis Program (C-CAP)](https://coast.noaa.gov/digitalcoast/data/ccapregional.html). 
+
+# Data
+
+Data was downloaded [from this site](https://coast.noaa.gov/ccapftp/#/) for each state for the years 1996, 2001, 2006, and 2010.
+
+# Setup
+
+```{r setup, message = F, warning = F}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+source('~/github/ne-prep/src/R/common.R')
+
+# Multiprocessing
+library(parallel)
+```
+
+# Load in C-CAP data
+
+The C-CAP Regional Land Cover Classifications that we are using include:  
+- Estuarine Forested Wetland (16)
+- Estuarine Scrub/Shrub Wetland (17)
+- Estuarine Emergent Wetland (18)
+- Estuarine Aquatic Bed (23)
+
+We may potentially need to include:  
+- Palustrine Forested Wetlands (13)
+- Palustrine Scrub/Shrub Wetlands (14)
+- Palustrine Emergent Wetlands (15)
+- Palustrine Aquatic Bed (22)
+
+The rasters are provided as `.img` files. Fortunately the `raster` package can read these as rasters.
+```{r load_files}
+#load all files in this folder held on Mazu
+ccap_files <- list.files(file.path(dir_anx, "_raw_data/NOAA_C-CAP"), full.names = T, recursive = T)
+
+#get the rasters (.img)
+files <- ccap_files[str_detect(ccap_files, ".img")]
+```
+
+# Remove non-wetland cells
+
+The `get_wetland_cells` reads in each raster, and sets all cells that are not equal to 16, 17, 18 or 23 as `NA`, then saves the file to our server.
+```{r get_wetland_cells, eval = F}
+#define all values that represent estuarine wetland habitats
+wetlands <- c(16, 17, 18, 23)
+
+get_wetland_cells <- function(file){
+  
+  name <- substr(file, 80, 86)
+  r    <- raster(file)
+  
+  r[!r %in% wetlands] <- NA
+  writeRaster(r, filename = paste0(dir_anx, "/hab/salt_marsh/", name,"_wetland_cells.tif"), overwrite = T)
+  
+}
+
+mclapply(files, get_wetland_cells, mc.cores = 12)
+```
+
+# Calculate habitat loss over time
+
+Now we want to look at change over time and calculate the proportion lost. Since all of these cells are the same size, we can simply get the number of cells in each time period and then calculate % loss or gain. The `get_cells_over_time` function does just this.
+
+```{r calculate_habitat_loss}
+states <- c("/nh", "/ny", "/me", "/ri", "/ct") #added the slash because "me" was bringing all rasters
+
+files2 <- list.files(file.path(dir_anx, "hab/salt_marsh"), full.names = T)
+
+get_cells_over_time <- function(state){
+  
+  state_files <- files2[str_detect(files2, state)] %>%
+    stack()
+  
+  #create dataframe
+  vals <- getValues(state_files) %>% 
+    colSums(na.rm = T) %>%
+    data.frame() %>%
+    rownames_to_column() %>%
+    mutate(state = str_replace(state, "/", ""),
+           year = substr(rowname, 4,7)) %>%
+    rename(num_wetland_cells = ".") %>%
+    select(-rowname)
+  
+  return(vals)
+  
+}
+```
+
+```{r massachusetts}
+# need to do massachusetts separately
+ma_rast <- files2[str_detect(files2, "/ma")] %>%
+    stack()
+
+#get MA
+
+ma_shp <- rgns %>%
+  filter(rgn_name %in% c("Massachusetts-Gulf of Maine", "Massachusetts-Virginian")) %>%
+  st_transform(crs = "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") #transform to the same CRS as the C-CAP data.
+
+a <- raster::extract(ma_rast, ma_shp)
+
+
+```
+
+By using `map_df` we can apply the `get_cells_over_time` function for each state and produce a dataframe that shows the number of cells per time period per state.
+
+```{r calculate_change_over_time}
+state_cells <- map_df(states, get_cells_over_time) 
+
+#we want to compare each time period to the 1996 time period, not the previous one
+perc_change_df <- state_cells %>%
+  group_by(state) %>%
+  mutate(first = dplyr::first(num_wetland_cells),
+         change = (1-(num_wetland_cells/first))*100) %>% #calculate % change from 1996
+  ungroup() %>%
+  mutate(state = toupper(state))
+
+perc_change_df
+```
+
+We want to add in historical loss from the 1777-1854 time period. We have values from the 80's/90's. We can add what we just calculated to these for a couple more data points.
+
+```{r historic_loss}
+hist_loss <- data.frame(state = c("RI", "MA", "NH", "ME", "CT", "NY"),
+                        hist_perc_loss = c(53, 41, 18, 0, 27, 48))
+
+full_df <- perc_change_df %>%
+  left_join(hist_loss) %>%
+  mutate(total_loss = change + hist_perc_loss,
+         year = as.numeric(year)) %>%
+  select(state, year, total_loss)
+```
+
+# Visualize
+
+```{r visualize}
+ggplot(full_df, aes(x = year, y = total_loss, color = state)) +
+  geom_line() +
+  theme_bw() +
+  labs(title = "Change in salt marsh habitat",
+       x = "Year",
+       y = "Habitat loss (%) since 1770-1850s")
+```
+
+# Save to toolbox
+
+We need to save this data for the toolbox.
+
+```{r save}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
