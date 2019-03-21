@@ -32,6 +32,8 @@ source('~/github/ne-prep/src/R/common.R')
 
 # Multiprocessing
 library(parallel)
+#for gapfilling
+library(zoo)
 ```
 
 # Load in C-CAP data
@@ -106,21 +108,24 @@ get_cells_over_time <- function(state){
 }
 ```
 
-```{r massachusetts}
+####
+
+This section is on hold for now. Eventually we may want to figure out a way to assign inland cells to either MA region. But until we can figure that out, both MA regions get the same data.
+```{r massachusetts, eval = F}
 # need to do massachusetts separately
 ma_rast <- files2[str_detect(files2, "/ma")] %>%
     stack()
 
 #get MA
 
-ma_shp <- rgns %>%
-  filter(rgn_name %in% c("Massachusetts-Gulf of Maine", "Massachusetts-Virginian")) %>%
+ma_shp <- read_sf("~/github/ne-prep/spatial/shapefiles/coastal_rgns_3km_inland_buffer.shp") %>%
+  filter(rgn_id %in% c(7,8)) %>%
   st_transform(crs = "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") #transform to the same CRS as the C-CAP data.
 
 a <- raster::extract(ma_rast, ma_shp)
-
-
 ```
+
+####
 
 By using `map_df` we can apply the `get_cells_over_time` function for each state and produce a dataframe that shows the number of cells per time period per state.
 
@@ -135,7 +140,11 @@ perc_change_df <- state_cells %>%
   ungroup() %>%
   mutate(state = toupper(state))
 
-perc_change_df
+ggplot(perc_change_df, aes(x = as.numeric(year), y = change, color = state)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Year",
+       y = "% Habitat loss (negative values mean gains in habitat)")
 ```
 
 We want to add in historical loss from the 1777-1854 time period. We have values from the 80's/90's. We can add what we just calculated to these for a couple more data points.
@@ -164,10 +173,28 @@ ggplot(full_df, aes(x = year, y = total_loss, color = state)) +
 
 # Save to toolbox
 
-We need to save this data for the toolbox.
+We need to save this data for the toolbox. We only have data points for a couple years in our time series. We will do a linear interpolation between points to gapfill `NA`. We also convert % loss to scores simply by inverting percent loss. So 75% loss gets a score of 25.
 
 ```{r save}
+toolbox_layer <- full_df %>%
+  group_by(state) %>%
+  complete(year = 1996:2010) %>% #only completing to 2010 for linear interpolation
+  mutate(score = na.approx(total_loss)) %>%
+  complete(year = 1996:2017) %>%
+  mutate(score = na.locf(score)) %>% #now we carry forward the 2010 value for all years to 2017 %>%
+  ungroup() %>%
+  mutate(score = ifelse(score <= 0, 100, 100-score)) %>% #this keeps the score from going above 100 for Maine
+  left_join(rgns) %>%
+  select(rgn_id, rgn_name, year, score)
 
+write_csv(toolbox_layer, file.path(dir_calc, "layers/hab_salt_marsh.csv"))
+
+ggplot(toolbox_layer, aes(x = year, y = score, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Score",
+       title = "Salt Marsh")
 ```
 
 
