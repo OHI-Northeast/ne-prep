@@ -148,8 +148,7 @@ epu_ext <- st_buffer(epu_ext, 0)
 st_is_valid(epu_ext)
 
 epu_pb <- st_intersection(epu_ext, ne_sa) %>%
-  select(EPU, longname, geometry) %>%
-  distinct()
+  select(EPU, longname, geometry)
 ```
 
 ```{r}
@@ -246,7 +245,6 @@ I'm going to join this back to `epu_fix` and then remove state waters
 ```{r}
 
 epus <- epu_fix %>%
-  select(-do_union) %>%
   rbind(offshore_rgn)
 
 ggplot(epus) +
@@ -317,7 +315,8 @@ ne_ohi_rgns <- e %>%
   arrange(rgn_id) %>%
   st_transform(crs = us_alb) %>%
   mutate(area_m2 = st_area(.),
-         area_km2 = area_m2/1000000) %>%
+         area_km2 = area_m2/1000000,
+         state = c(NA, NA, NA, NA, "CT", "ME", "MA", "MA", "NH", "NY", "RI")) %>%
   separate(area_km2, into = c("area_km2", "units"), sep = " ") %>%
   select(-area_m2, -units)
 
@@ -331,7 +330,7 @@ ggplot(ne_ohi_rgns) +
 
 
 
-Looks great! I want to add another column that has area of each region
+# Save
 
 ```{r}
 st_write(ne_ohi_rgns, "shapefiles/ne_ohi_rgns.shp", delete_layer = T)
