@@ -65,7 +65,7 @@ rgn_data   <- data.frame(rgns) %>%
   mutate(rgn_name = as.character(rgn_name),
          state = ifelse(str_detect(rgn_name, "Massachusetts"), "Massachusetts", rgn_name))
 ocean_ne   <- raster::raster('~/github/ne-prep/spatial/ocean_rasters/ocean_ne.tif')
-ocean_rgns <- raster::raster('~/github/ne-prep/spatial/ocean_rasters/ocean_rgns.tif')
+ocean_rgns <- raster::raster('~/github/ne-prep/spatial/ocean_rasters/ne_rgns_rast.tif')
 zones      <- ocean_rgns #for zonal stats
 three_nm <- rgns %>% filter(rgn_id < 8)   #use the state water boundaries as the 3 nautical mile shapefile
 
