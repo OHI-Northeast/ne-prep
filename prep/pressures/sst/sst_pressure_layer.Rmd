@@ -24,7 +24,7 @@ source('~/github/ne-prep/src/R/common.R') ### an OHINE specific version of commo
 
 # Summary
 
-For OHI Global Assessments, we calculated a climatology from 1982-2012 per cell using weekly data from CorTAD. We then calculated the number of times a given cell's weekly SST was greater than the climatological mean for that week (an anomaly: greater than mean + one standard deviation) and summed the number of weekly anomalies in a single year. The maximum value a cell could have is 52 which would mean that cell had anomalous SST temperatures for each week of the year.
+For OHI Global Assessments, we calculated a climatology from 1982-2017 per cell using weekly data from CorTAD. We then calculated the number of times a given cell's weekly SST was greater than the climatological mean for that week (an anomaly: greater than mean + one standard deviation) and summed the number of weekly anomalies in a single year. The maximum value a cell could have is 52 which would mean that cell had anomalous SST temperatures for each week of the year.
 
 To account for annual variation, we look at Sea Surface Temperature anomalies in 5 year periods, so the maximum value possible per cell is 260 anomalous weeks. To rescale the values from 0 to 1 we set a reference point. Previously, the reference point for SST has just been the maximum difference in anomalous weeks between the most recent time period and a historical reference period (1985-1989).
 
@@ -36,7 +36,7 @@ This time we have decided to use a reference point that represents a regime shif
 # Data
 
 **Source**: The [Coral Reef Temperature Anomaly Database Version 6 (CoRTAD)](https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:0175483)  
-**Downloaded**: May 29, 2015  
+**Downloaded**: August 21, 2018  
 **Description**:  Sea Surface Temperature Anomalies (Kelvin)  
 **Native data resolution**: 4km^2^    
 **Time range**: 1982 - 2017  
@@ -48,7 +48,7 @@ This time we have decided to use a reference point that represents a regime shif
 
 ## Global data layers
 
-We're going to use the global data that was processed for OHI 2015 & used for OHI 2016. This data is held on a server at NCEAS.
+We're going to use the global data that was processed for OHI 2018. This data is held on a server at NCEAS.
 
 Each of these rasters is the number of positive weekly anomalies each year.
 
