@@ -235,7 +235,7 @@ Ok clearly we are missing 1999, 2001, 2003, 2006, 09-11, 13-16.
 We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. Since we calculate a rolling average of catch, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
 ```{r, fig.width = 10}
-toolbox_data <- catch_by_ohi_rgn %>%
+gf_data <- catch_by_ohi_rgn %>%
   group_by(rgn_id, rgn_name, species, stock, stock_id) %>%
   complete(year = 1998:2017) %>%
   arrange(year) %>%
@@ -244,7 +244,7 @@ toolbox_data <- catch_by_ohi_rgn %>%
   select(year, rgn_id, rgn_name, species, stock, stock_id, mean_catch) %>%
   ungroup()
 
-ggplot(toolbox_data, aes(x = year, y = mean_catch, color = species)) +
+ggplot(gf_data, aes(x = year, y = mean_catch, color = species)) +
   geom_line() +
   facet_wrap(~rgn_name, scales = "free_y") +
   theme_bw() +
@@ -253,6 +253,18 @@ ggplot(toolbox_data, aes(x = year, y = mean_catch, color = species)) +
 
 plotly::ggplotly()
 ```
+
+# Remove non-food catch
+
+Some of these species are harvested for food as well as other markets like pet food or bait. We want to make sure this goal captures catch meant for human consumption. We have data from NOAA that identifies the amount of catch per species, state and year meant for food, bait, and other markets. This data was cleaned in `prop_catch_food_bait.Rmd`.
+
+```{r}
+prop_data <- read_csv("data/fish_catch_food_prop_rgn.csv")
+
+toolbox_data <- gf_data %>%
+  
+```
+
 
 # Save to toolbox
 
