@@ -78,7 +78,7 @@ sp <- unique(nonfood_df$species)
 sp
 ```
 
-```{r}
+```{r, eval = F}
 
 for(i in 1:length(sp)){
   
@@ -95,7 +95,9 @@ ggplot(sp_df, aes(x = year, y = prop, fill = market)) +
 
 ggsave(paste0("figs/", spp, "_market_prop.pdf"), width = 6, height = 4)
 }
+```
 
+```{r}
 library(trelliscopejs)
 
 
