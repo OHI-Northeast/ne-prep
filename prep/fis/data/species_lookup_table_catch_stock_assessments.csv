@@ -272,6 +272,7 @@ BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,4,Mid-Atlantic Bight
+"CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,5,Connecticut
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,7,Massachusetts-Gulf of Maine
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,8,Massachusetts-Virginian
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,10,New York
@@ -324,8 +325,12 @@ OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,1,Offshore
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,4,Mid-Atlantic Bight
+OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,5,Connecticut
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,6,Maine
+OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,7,Massachusetts-Gulf of Maine
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,8,Massachusetts-Virginian
+OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,9,New Hampshire
+OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,10,New York
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,1,Offshore
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,2,Georges Bank
@@ -485,7 +490,6 @@ SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,1,Offshore
 SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,2,Georges Bank
 SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,4,Mid-Atlantic Bight
 SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,8,Massachusetts-Virginian
-SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,10,New York
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,1,Offshore
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,2,Georges Bank
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,3,Gulf of Maine

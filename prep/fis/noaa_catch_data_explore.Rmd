@@ -32,7 +32,7 @@ source("~/github/ne-prep/src/R/common.R")
 # Data Cleaning
 
 ```{r}
-raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_MAR 2019.xlsx"))
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area w Stock Name & Clam Trips_MAR 2019.xlsx"))
 
 clean <- raw %>%
   rename(year = YEAR,
@@ -89,7 +89,7 @@ ggplot(assessed_stocks, aes(x = species, y = year)) +
 Ok it looks like there are just a couple species/stocks with year gaps. Let's look at those and their catch timeseries
 
 ```{r, fig.width=8, fig.height = 6}
-sp <- c("CLAM, SURF", "CRAB, RED", "MARLIN, WHITE", "MONK HEADS", "OCEAN QUAHOG", "TUNA, SKIPJACK", "TUNA, BIG EYE", "TILEFISH", "SKATE, THORNY", "SKATE, WINTER (BIG)", "SKATE, SMOOTH", "SKATE, LITTLE (SUMMER)", "SKATE, CLEARNOSE", "SKATE, BARNDOOR", "SKATE WINGS, WINTER (BIG)", "SKATE WINGS, LITTLE (SUMMER)", "TILEFISH, GOLDEN", "TILEFISH, BLUELINE")
+sp <- c("CLAM, SURF", "CRAB, RED", "CROAKER, ATLANTIC", "MARLIN, WHITE", "MONK HEADS", "OCEAN QUAHOG", "SCALLOP, SEA", "TUNA, SKIPJACK", "TUNA, BIG EYE", "TILEFISH", "SKATE, THORNY", "SKATE, WINTER (BIG)", "SKATE, SMOOTH", "SKATE, LITTLE (SUMMER)", "SKATE, CLEARNOSE", "SKATE, BARNDOOR", "SKATE WINGS, WINTER (BIG)", "SKATE WINGS, LITTLE (SUMMER)", "TILEFISH, GOLDEN", "TILEFISH, BLUELINE", "SWORDFISH")
 
 ggplot(aggregated_catch %>% filter(species %in% sp), aes(x = year, y = catch)) +
   geom_bar(stat = "identity", width = 0.2, color = "black") +

@@ -33,7 +33,7 @@ source("~/github/ne-prep/src/R/common.R")
 # Data Cleaning
 
 ```{r}
-raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_MAR 2019.xlsx"))
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area w Stock Name & Clam Trips_MAR 2019.xlsx"))
 
 clean <- raw %>%
   rename(year = YEAR,
@@ -220,15 +220,15 @@ ggplot(catch_by_ohi_rgn %>%
 
 ----
 
-We have records for 0 catch. But what about the missing data? Let's look at AMBERJACK, SPECIES NOT SPECIFIED.
+We have records for 0 catch. But what about the missing data? Let's look at ALEWIFE.
 
 ```{r}
-amb <- clean %>%
-  filter(species == "AMBERJACK, SPECIES NOT SPECIFIED")
-unique(amb$year)
+ale <- clean %>%
+  filter(species == "ALEWIFE")
+unique(ale$year)
 ```
 
-Ok clearly we are missing 1999, 2001, 2003, 2006, 09-11, 13-16.
+Ok clearly we are missing 2001, 2002, 04-05, 2008-11.
 
 # Gapfill
 
@@ -262,7 +262,12 @@ Some of these species are harvested for food as well as other markets like pet f
 prop_data <- read_csv("data/fish_catch_food_prop_rgn.csv")
 
 toolbox_data <- gf_data %>%
-  
+  left_join(prop_data) %>%
+  mutate(prop = ifelse(is.na(prop),1,prop),
+         mean_catch_times_prop = mean_catch*prop) %>%
+  filter(!market %in% c("BAIT", "NO MARKET"), #remove bait and no market records.
+         !is.na(mean_catch)) %>%  #remove records with no catch (don't need them)
+  select(-market, -pounds_live_by_market, -total_pounds_live, -prop)
 ```
 
 

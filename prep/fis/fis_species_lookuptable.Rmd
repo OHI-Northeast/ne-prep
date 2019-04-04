@@ -38,7 +38,6 @@ Grab all species from NMFS catch data and get them, as well as their alternative
 
 ```{r}
 nmfs_catch_sp <- nmfs_catch %>%
-  filter(!str_detect(species_low, "bushel")) %>% #remove species that are reported by bushel. These are also reported just in regular pounds
   separate(species_low, into = c("species1", "species2", "species3"), sep = ",", remove = FALSE) %>%
   mutate(species2 = trimws(gsub("\\/.*","", species2))) %>%
   separate(species_low, into = c("alt_name1", "alt_name2", "alt_name3"), sep = "/", remove = FALSE) %>%
@@ -255,7 +254,7 @@ m2 <- m %>%
   select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x)
 ```
 
-Now lets just get all OHI regions where the remaining stocks are caught. The easier alternative to this would be to assign all OHI regions to all of these stocks, but if this data is used outside of scores that would possible indicate stocks existing where they do not.
+Now lets just get all OHI regions where the remaining stocks are caught. The easier alternative to this would be to assign all OHI regions to all of these stocks, but if this data is used outside of scores that would possibly indicate stocks existing where they do not.
 
 ```{r}
 leftovers <- m2 %>%
