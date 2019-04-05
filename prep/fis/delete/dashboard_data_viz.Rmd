@@ -32,8 +32,7 @@ source("~/github/ne-prep/src/R/common.R")
 Create a dataset for the dashboard that shows catch over time by OHI region.
 
 ```{r}
-catch <- read_csv("data/nmfs_spatial_catch_by_ohi_rgn.csv") %>%
-  select(-X1)
+catch <- read_csv("data/fish_catch_food_prop_rgn.csv")
 
 assessments <- read_csv("~/github/ne-scores/region/layers/fis_stockscores.csv") 
 
