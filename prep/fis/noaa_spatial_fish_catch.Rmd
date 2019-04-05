@@ -265,7 +265,7 @@ toolbox_data <- gf_data %>%
   left_join(prop_data) %>%
   mutate(prop = ifelse(is.na(prop),1,prop),
          mean_catch_times_prop = mean_catch*prop) %>%
-  filter(!market %in% c("BAIT", "NO MARKET"), #remove bait and no market records.
+  filter(!market %in% c("BAIT", "NO MARKET", "CANNED PET FOOD"), #remove bait, pet food and no market records.
          !is.na(mean_catch)) %>%  #remove records with no catch (don't need them)
   select(-market, -pounds_live_by_market, -total_pounds_live, -prop)
 ```
