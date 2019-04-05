@@ -45,6 +45,7 @@ clean <- data %>%
          pounds_landed = `LBS (LANDED WEIGHT)`,
          pounds_live = `LBS (LIVE WEIGHT)`,
          value = VALUE) %>%
+  mutate(species = str_replace(species, ",", ", ")) %>%
   filter(year > 2002)
 ```
 
