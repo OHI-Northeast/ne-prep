@@ -270,6 +270,17 @@ toolbox_data <- gf_data %>%
   select(-market, -pounds_live_by_market, -total_pounds_live, -prop)
 ```
 
+```{r}
+ggplot(toolbox_data, aes(x = year, y = mean_catch_times_prop, fill = species)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  facet_wrap(~rgn_id, scales = "free_y") +
+  theme(legend.text = element_text(size = 6),
+        axis.text = element_text(size = 4))
+
+plotly::ggplotly()
+```
+
 
 # Save to toolbox
 
