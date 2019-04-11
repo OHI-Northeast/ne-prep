@@ -75,4 +75,43 @@ ss_toolbox <- nmfs_ss %>%
 write_csv(ss_toolbox, file.path(dir_calc, "layers/fis_stockscores.csv"))
 ```
 
+# Visualize
+
+I want to see stock scores combined with catch proportion.
+
+```{r}
+catch <- read_csv(file.path(dir_calc, "layers/fis_meancatch.csv"))
+
+#combine catch and stock scores
+catch_ss <- ss_toolbox %>%
+  left_join(catch, by = c("year", "rgn_id", "nmfs_original_species" = "species")) %>%
+  filter(!is.na(mean_catch)) %>%
+  group_by(year, rgn_id) %>%
+  mutate(yr_rgn_catch = sum(mean_catch_times_prop),
+         catch_prop = mean_catch_times_prop/yr_rgn_catch) %>%
+  ungroup() %>%
+  mutate(display_name = ifelse(is.na(stock_id), nmfs_original_species, stock_id))
+```
+
+Lines are weighted based on the catch_prop
+
+```{r}
+ggplot(catch_ss %>% filter(catch_prop > 0.1), aes(x = year, y = score, color = display_name, size=catch_prop)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~rgn_id) +
+  theme(legend.position = "bottom")
+```
+
+Atlantic herring stock score drops very low due to very high B/Bmsy in 2012 ([see kobe plots here]( https://ohi-northeast.github.io/ne-prep/prep/fis/stock_status_noaa.html#32_visualize))
+
+
+
+
+
+
+
+
+
+
 
