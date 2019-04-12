@@ -3,7 +3,7 @@ title: 'OHI-Northeast: Salt Marsh Habitat Data'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -181,7 +181,7 @@ toolbox_layer <- full_df %>%
   complete(year = 1996:2010) %>% #only completing to 2010 for linear interpolation
   mutate(score = na.approx(total_loss)) %>%
   complete(year = 1996:2017) %>%
-  mutate(score = na.locf(score)) %>% #now we carry forward the 2010 value for all years to 2017 %>%
+  mutate(score = na.locf(score)) %>% #now we carry forward the 2010 value for all years to 2017 
   ungroup() %>%
   mutate(score = ifelse(score <= 0, 100, 100-score)) %>% #this keeps the score from going above 100 for Maine
   left_join(rgns) %>%

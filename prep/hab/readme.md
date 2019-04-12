@@ -14,4 +14,3 @@ Click on a habitat to see data preparation:
 
 Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
 
-Thank you!
