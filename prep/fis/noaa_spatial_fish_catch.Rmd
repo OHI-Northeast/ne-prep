@@ -7,7 +7,7 @@ output:
     toc: true
     toc_depth: 3
     toc_float: yes
-    number_sections: true
+    number_sections: false
     theme: cerulean
     highlight: haddock
     includes: 
@@ -18,6 +18,22 @@ output:
 
 # Summary
 
+This script calculates catch by OHI region using landings data provided by NOAA>
+
+# Data
+
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: April 3, 2019
+
+**Description**:  Commercial fish landings by statistical area
+
+**Time range**: 1996-2017. Data provided annually
+
+**Format**:  Excel spreadsheet
+
+***
+
 # Setup
 
 ```{r, message = FALSE, warning = FALSE}
@@ -26,12 +42,14 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 library(tidyverse)
 library(readxl)
 library(sf)
+
 source("~/github/ne-prep/src/R/common.R")
 ```
 
 
 # Data Cleaning
 
+Cleaning the raw data a bit by fixing column names and turning `stat_area` numeric. 
 ```{r}
 raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area w Stock Name & Clam Trips_MAR 2019.xlsx"))
 
@@ -47,133 +65,124 @@ clean <- raw %>%
 head(clean)
 ```
 
-# Statistical areas
+# Spatial data
+
+Since the data is provided by statistical landing area, we can use this information to infer what OHI region's encompass or overlap with these areas. We have downloaded the shapefile for Statistical Areas from [this public FTP NOAA site](ftp://ftp.nefsc.noaa.gov/pub/gis/).
+
+## Statistical areas
+
+Load in the statistical areas and add area of each polygon as a column.
+
 ```{r}
 stat_shp <- sf::read_sf(file.path(dir_anx, "spatial/Statistical_Areas_2010_withNames.shp")) %>%
-  st_set_crs(p4s_nad83) %>%
-  st_transform(crs = crs(rgns)) 
+  st_set_crs(p4s_nad83) %>% #set the CRS
+  st_transform(crs = crs(rgns))  #transform to our NE specific CRS
 
 stat_shp$stat_area <- st_area(stat_shp) #add area as column
 
 plot(stat_shp["SHORT_NAME"])
 ```
 
-Overlay stat areas to find what ones are in our NE regions
+Overlay statistical areas with our regions to find what ones are in our area
 
 ```{r}
-ohi_stat_areas <- st_intersection(rgns, stat_shp)
-ohi_stat_areas$ohi_area <- st_area(ohi_stat_areas)
+ohi_stat_areas <- st_intersection(rgns, stat_shp) #intersects statistical areas with OHI regions
+ohi_stat_areas$ohi_area <- st_area(ohi_stat_areas) #calculate area of each overlapped polygon
 
 plot(ohi_stat_areas["Id"])
 ```
 
-Calculate proportion of each statistical area in our OHI regions
+Calculate proportion of each statistical area in our OHI regions. For statistical areas that overlap with OHI regions, we can use proportional area overlap to adjust catch. We assume that catch is evenly distributed across each statistical area.
 
 ```{r}
 calc_prop_area <- ohi_stat_areas %>%
-  group_by(Id)  %>% #calculate the total statistical area region
+  group_by(Id) %>%
   mutate(ohi_rgn_prop_area = ohi_area/stat_area) #this column tells us how much of each OHI sub-region falls within the statistical area in our region
 
 plot(calc_prop_area["ohi_rgn_prop_area"])
 ```
 
-# Catch per region
+# Catch per OHI region
 
-Let's filter the catch data to just the statistical areas in our region.
+Now we calculate the total catch per species and year for each of the OHI regions.
+
+First let's filter the catch data to just the statistical areas in our region. We don't care about the catch outside of these statistical areas.
 
 ```{r}
 region_catch <- clean %>%
   filter(stat_area %in% ohi_stat_areas$Id) %>%
   left_join(calc_prop_area, by = c("stat_area" = "Id")) %>%
-  mutate(catch = pounds*ohi_rgn_prop_area) %>%
-  select(-area_km2, -FULL_NAME, -SHORT_NAME, -stat_area.y, -ohi_area, -NAFODIV)
+  mutate(catch = pounds*ohi_rgn_prop_area) %>% #adjusting catch by the proportional area with overlap
+  select(-area_km2, -FULL_NAME, -SHORT_NAME, -stat_area.y, -ohi_area, -NAFODIV) %>%
+  group_by(species, stock_id, stock, rgn_id, year, rgn_name) %>%
+  summarize(catch = sum(catch)) %>%
+  ungroup() %>%
+  mutate(display_name = ifelse(is.na(stock_id), species, stock_id))
 
 head(region_catch, n = 20)
 ```
-Map one species
 
 ```{r}
-#black sea bass
-bsb <- region_catch %>%
-  filter(year == 2017, species == "BLACK SEA BASS") %>%
-  group_by(rgn_id, stock_id, stock, species, year) %>%
-  summarize(catch = sum(catch)) 
-
-bsb_map <- rgns_simp %>%
-  left_join(bsb, by = 'rgn_id')
-
-ggplot(bsb_map) +
-  geom_sf(aes(fill = catch))+
-  theme_bw() +
-  labs(title = "BLACK SEA BASS")
-
+write.csv(region_catch, file = "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this file is used in fis_species_lookuptable.Rmd to create the species lookup table
 ```
 
+## Visualize catch by region
 
-Visualize the data
-
-```{r}
-sp_catch <- region_catch %>%
-  group_by(species, stock, stock_id, year, rgn_name, rgn_id) %>%
-  summarize(catch = sum(catch))
-
-head(sp_catch, n = 30)
-```
-
-```{r}
-ggplot(sp_catch, aes(x = year, y = catch, color = species)) +
+```{r, fig.width = 10}
+p <- ggplot(region_catch, aes(x = year, y = catch, fill = display_name)) +
   facet_wrap(~rgn_name, scales = "free_y") +
-  geom_line() +
+  geom_bar(stat = "identity") +
   theme_bw() +
-  theme(legend.position = 'none')
+  theme(legend.position = 'none',
+        axis.text = element_text(size = 6),
+        axis.text.x = element_text(angle = 45))
+
+plotly::ggplotly(p)
 ```
 
-Create maps of catch for all species using just the most recent year
+# Gapfill
 
-```{r, eval = F}
-map_catch <- stat_shp %>%
-  left_join(clean %>%
-              filter(year == 2017), by = c("Id" = "stat_area")) %>%
-  filter(!is.na(pounds))
-
-
-for(i in 1:length(unique(map_catch$species))){
-
-  sp <- unique(map_catch$species)[i]
-  
-ggplot() +
-  geom_sf(data = map_catch%>%filter(species == sp), aes(fill = pounds)) +
-  #geom_sf(data = rgns_simp, aes(), fill = NA) +
-  theme_bw() +
-  labs(title = sp)
-
-sp_save_name <- ifelse(str_detect(sp, "/"), str_replace_all(sp, "/", "_"), sp)
-
-ggsave(paste0("figs/", sp_save_name,"_catch_by_statistical_area.pdf"))
-}
-```
-
-
-Calculate species catch per OHI region
+The data shared with us includes records of 0 catch. But there is still missing data. As an example, let's look at ALEWIFE.
 
 ```{r}
-#first get ohi regions and statistical area proportions 
-catch_by_ohi_rgn <- region_catch %>%
-  select(year,species, stock_id, stock, rgn_name, rgn_id, catch) %>%
-  group_by(species, stock_id, stock, rgn_id, year, rgn_name) %>%
-  summarize(catch = sum(catch)) %>%
+ale <- clean %>%
+  filter(species == "ALEWIFE")
+
+unique(ale$year)
+```
+
+Ok clearly we are missing data for 2001, 2002, 04-05, 2008-11. We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. Since we calculate a rolling average of catch, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
+
+```{r, fig.width = 10}
+gf_data <- region_catch %>%
+  group_by(rgn_id, rgn_name, species, stock, stock_id, display_name) %>%
+  complete(year = 1998:2017) %>%
+  arrange(year) %>%
+  mutate(mean_catch = zoo::rollapply(catch, 3, mean, fill = NA, align = 'right')) %>% ## create a new column `mean_catch` with rolling mean of 3 yrs
+  filter(year > 2004) %>%
+  select(year, rgn_id, rgn_name, species, stock, stock_id, mean_catch, display_name) %>%
   ungroup()
 
-write.csv(catch_by_ohi_rgn, file = "data/nmfs_spatial_catch_by_ohi_rgn.csv")
+p <- ggplot(gf_data, aes(x = year, y = mean_catch, fill = display_name)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~rgn_name, scales = "free_y") +
+  theme_bw() +
+  theme(legend.text = element_text(size = 6),
+        legend.position = "below",
+        axis.text = element_text(size = 6),
+        axis.text.x = element_text(angle = 45))
+
+plotly::ggplotly(p)
 ```
+
 
 Let's look at total regional catch for each species (not stock)
 
 ```{r}
 #calculate total regional catch per species
-species_catch <- catch_by_ohi_rgn %>%
+species_catch <- gf_data %>%
   group_by(species, year) %>%
-  summarize(sp_catch = sum(catch)) %>%
+  summarize(sp_catch = sum(mean_catch, na.rm=T)) %>%
   ungroup() %>%
   group_by(year) %>%
   mutate(yr_catch = sum(sp_catch),
@@ -183,76 +192,15 @@ species_catch <- catch_by_ohi_rgn %>%
 ```
 
 ```{r}
-
-ggplot(species_catch, aes(x = year, y = catch_prop, fill = species)) +
+p <- ggplot(species_catch, aes(x = year, y = catch_prop, fill = species)) +
   geom_bar(stat = "identity") +
   theme_bw() +
   theme(legend.text = element_text(size = 6))
 
-plotly::ggplotly()
-```
-Clearly atlantic herring is making up the majority of catch! 
-
------
-
-There are `r length(unique(catch_by_ohi_rgn$species))`. Way more than we have stock information for. Let's see what species also have stock ids
-
-```{r}
-stocks <- catch_by_ohi_rgn %>%
-  filter(!is.na(stock_id)) %>%
-  select(species, stock, stock_id) %>%
-  distinct()
-
-stocks
+plotly::ggplotly(p)
 ```
 
-
-```{r, fig.width=10}
-ggplot(catch_by_ohi_rgn %>%
-  filter(!is.na(stock_id)), aes(x = year, y = catch, color = stock_id)) +
-  geom_line() +
-  facet_wrap(~rgn_name, scales = "free_y") +
-  theme_bw() +
-  theme(legend.text = element_text(size = 7))
-```
-
-
-
-----
-
-We have records for 0 catch. But what about the missing data? Let's look at ALEWIFE.
-
-```{r}
-ale <- clean %>%
-  filter(species == "ALEWIFE")
-unique(ale$year)
-```
-
-Ok clearly we are missing 2001, 2002, 04-05, 2008-11.
-
-# Gapfill
-
-We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. Since we calculate a rolling average of catch, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
-
-```{r, fig.width = 10}
-gf_data <- catch_by_ohi_rgn %>%
-  group_by(rgn_id, rgn_name, species, stock, stock_id) %>%
-  complete(year = 1998:2017) %>%
-  arrange(year) %>%
-  mutate(mean_catch = zoo::rollapply(catch, 3, mean, fill = NA, align = 'right')) %>% ## create a new column `mean_catch` with rolling mean of 3 yrs
-  filter(year > 2004) %>%
-  select(year, rgn_id, rgn_name, species, stock, stock_id, mean_catch) %>%
-  ungroup()
-
-ggplot(gf_data, aes(x = year, y = mean_catch, color = species)) +
-  geom_line() +
-  facet_wrap(~rgn_name, scales = "free_y") +
-  theme_bw() +
-  theme(legend.text = element_text(size = 4),
-        legend.position = "below")
-
-plotly::ggplotly()
-```
+Clearly atlantic herring is making up the majority of catch! Atlantic herring is primarily a bait fishery, so we need to account for that since this goal is only measuring catch meant for human consumption. We adjust for this below.
 
 # Remove non-food catch
 
@@ -270,15 +218,15 @@ toolbox_data <- gf_data %>%
   select(-market, -pounds_live_by_market, -total_pounds_live, -prop)
 ```
 
-```{r}
-ggplot(toolbox_data, aes(x = year, y = mean_catch_times_prop, fill = species)) +
+```{r, fig.width = 10}
+p <- ggplot(toolbox_data, aes(x = year, y = mean_catch_times_prop, fill = display_name)) +
   geom_bar(stat = "identity") +
   theme_bw() +
-  facet_wrap(~rgn_id, scales = "free_y") +
+  facet_wrap(~rgn_name, scales = "free_y") +
   theme(legend.text = element_text(size = 6),
         axis.text = element_text(size = 4))
 
-plotly::ggplotly()
+plotly::ggplotly(p)
 ```
 
 
