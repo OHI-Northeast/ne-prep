@@ -127,7 +127,7 @@ a <- raster::extract(ma_rast, ma_shp)
 
 ####
 
-By using `map_df` we can apply the `get_cells_over_time` function for each state and produce a dataframe that shows the number of cells per time period per state.
+By using `map_df` we can apply the `get_cells_over_time()` function for each state and produce a dataframe that shows the number of cells per time period per state.
 
 ```{r calculate_change_over_time}
 state_cells <- map_df(states, get_cells_over_time) 
@@ -158,6 +158,9 @@ full_df <- perc_change_df %>%
   mutate(total_loss = change + hist_perc_loss,
          year = as.numeric(year)) %>%
   select(state, year, total_loss)
+
+#save for dashboard
+write_csv(full_df, "data/salt_marsh_percent_change.csv")
 ```
 
 # Visualize
@@ -179,17 +182,16 @@ We need to save this data for the toolbox. We only have data points for a couple
 toolbox_layer <- full_df %>%
   group_by(state) %>%
   complete(year = 1996:2010) %>% #only completing to 2010 for linear interpolation
-  mutate(score = na.approx(total_loss)) %>%
+  mutate(perc_loss = na.approx(total_loss)) %>%
   complete(year = 1996:2017) %>%
-  mutate(score = na.locf(score)) %>% #now we carry forward the 2010 value for all years to 2017 
+  mutate(perc_loss = na.locf(perc_loss)) %>% #now we carry forward the 2010 value for all years to 2017
   ungroup() %>%
-  mutate(score = ifelse(score <= 0, 100, 100-score)) %>% #this keeps the score from going above 100 for Maine
   left_join(rgns) %>%
-  select(rgn_id, rgn_name, year, score)
+  select(rgn_id, rgn_name, year, perc_loss)
 
 write_csv(toolbox_layer, file.path(dir_calc, "layers/hab_salt_marsh.csv"))
 
-ggplot(toolbox_layer, aes(x = year, y = score, color = rgn_name)) +
+ggplot(toolbox_layer, aes(x = year, y = perc_loss, color = rgn_name)) +
   geom_line() +
   theme_bw() +
   labs(x = "Year",
