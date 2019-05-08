@@ -37,7 +37,7 @@ This script calculates catch by OHI region using landings data provided by NOAA>
 # Setup
 
 ```{r, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.path = "figs/", fig.ext = "pdf", dpi = 300)
 
 library(tidyverse)
 library(readxl)
@@ -73,33 +73,46 @@ Since the data is provided by statistical landing area, we can use this informat
 
 Load in the statistical areas and add area of each polygon as a column.
 
-```{r}
+```{r statistical_areas}
 stat_shp <- sf::read_sf(file.path(dir_anx, "spatial/Statistical_Areas_2010_withNames.shp")) %>%
   st_set_crs(p4s_nad83) %>% #set the CRS
   st_transform(crs = crs(rgns))  #transform to our NE specific CRS
 
 stat_shp$stat_area <- st_area(stat_shp) #add area as column
 
-plot(stat_shp["SHORT_NAME"])
+
+ggplot(stat_shp) +
+  geom_sf() +
+  theme_bw() +
+  labs(title = "Statistical areas") +
+  theme(legend.position = "none")
 ```
 
 Overlay statistical areas with our regions to find what ones are in our area
 
-```{r}
+```{r ohi_stat_areas}
 ohi_stat_areas <- st_intersection(rgns, stat_shp) #intersects statistical areas with OHI regions
 ohi_stat_areas$ohi_area <- st_area(ohi_stat_areas) #calculate area of each overlapped polygon
 
-plot(ohi_stat_areas["Id"])
+ggplot(ohi_stat_areas) +
+  geom_sf(aes(fill = rgn_name)) +
+  geom_sf(data = ne_states, fill = "beige") +
+  theme_bw() +
+  labs(title = "Statistical areas overlapped with OHI regions") 
 ```
 
 Calculate proportion of each statistical area in our OHI regions. For statistical areas that overlap with OHI regions, we can use proportional area overlap to adjust catch. We assume that catch is evenly distributed across each statistical area.
 
-```{r}
+```{r prop_stat_areas_in_ohi_rgns}
 calc_prop_area <- ohi_stat_areas %>%
   group_by(Id) %>%
   mutate(ohi_rgn_prop_area = ohi_area/stat_area) #this column tells us how much of each OHI sub-region falls within the statistical area in our region
 
-plot(calc_prop_area["ohi_rgn_prop_area"])
+ggplot(calc_prop_area) +
+  geom_sf(aes(fill = ohi_rgn_prop_area)) +
+  geom_sf(data = ne_states, fill = "beige") +
+  theme_bw() +
+  labs(title = "Proportion of each \nstatistical area in OHI region") 
 ```
 
 # Catch per OHI region
@@ -138,6 +151,28 @@ p <- ggplot(region_catch, aes(x = year, y = catch, fill = display_name)) +
         axis.text.x = element_text(angle = 45))
 
 plotly::ggplotly(p)
+```
+
+Mapping just one species - Winter Flounder, George's Bank
+
+```{r winter_flounder_catch}
+
+#filter just for 2017 winter flounder georges bank
+wf <- region_catch %>%
+  filter(year == 2017, stock == "GB Winter Flounder") %>%
+  group_by(rgn_id, stock_id, stock, species, year) %>%
+  summarize(catch = sum(catch)) 
+
+#join back to spatial info
+wf_map <- rgns_simp %>%
+  left_join(wf, by = 'rgn_id')
+
+#plot
+ggplot(wf_map) +
+  geom_sf(aes(fill = catch))+
+  geom_sf(data = ne_states, fill = "beige") +
+  theme_bw() +
+  labs(title = "Winter Flounder - George's Bank")
 ```
 
 # Gapfill
