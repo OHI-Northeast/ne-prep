@@ -186,7 +186,7 @@ wqi_clean <- wqi %>%
   left_join(rgn_data) %>%
   left_join(ma_df, by = c("siteID", "time_period", "Year", "status", "PSTL_CODE")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.x), rgn_id.y, rgn_id.x)) %>%
-  select(-rgn_id.x, -rgn_id.y, -rgn_name, -state, -area_km2, -WGT_NCA_56.y, -WGT_NCCA10.y) %>%
+  select(-rgn_id.x, -rgn_id.y, -rgn_name, -area_km2, -WGT_NCA_56.y, -WGT_NCCA10.y) %>%
   left_join(rgn_data) %>%
   select(-area_km2) %>%
   filter(rgn_name != "Georges Bank") %>%
