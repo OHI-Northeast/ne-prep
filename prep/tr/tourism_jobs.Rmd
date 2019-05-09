@@ -25,14 +25,12 @@ The Tourism & Recreation goal is calculated using coastal employment data from t
 ``` {r setup, message = FALSE, warning = FALSE, results = 'hide'}
 knitr::opts_chunk$set(fig.width = 8, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
-dir_git <- '~/github/ne-prep'
-dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
-source(file.path(dir_git, 'src/R/common.R'))  ### an OHIBC specific version of common.R
+#load common file
+source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
 
+#libraries
 library(zoo)
 library(trelliscopejs)
-
-dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 #round to 2 decimals
 options(digits=2)
@@ -43,10 +41,10 @@ options(digits=2)
 
 #### National Ocean Economics Program (NOEP)
 
-**Downloaded**: [Manually downloaded by state from website](http://www.oceaneconomics.org/Market/ocean/oceanEcon.asp) on July 3, 2018.    
-**Description**:  Total number of jobs and wages per sector for RI, ME, MA, CT, NY and NH counties from 2005 to 2015. The data also include number of establishments and GDP for each sector - state - year.  
+**Downloaded**: [Manually downloaded by state from website](http://www.oceaneconomics.org/Market/ocean/oceanEcon.asp) on May 9, 2019.    
+**Description**:  Total number of jobs and wages per sector for RI, ME, MA, CT, NY and NH counties from 2005 to 2016. The data also include number of establishments and GDP for each sector - state - year.  
 **Native data resolution**: County level     
-**Time range**: 2005 - 2015  
+**Time range**: 2005 - 2016  
 **Format**:  Tabular  
 
 **NOTES**

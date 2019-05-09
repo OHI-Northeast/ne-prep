@@ -26,26 +26,24 @@ This script takes individual state-level .csv data that were manually downloaded
 
 ### National Ocean Economics Program (NOEP)
 
-**Downloaded**: [Manually downloaded by state from website](http://www.oceaneconomics.org/Market/ocean/oceanEcon.asp) on July 3, 2018.    
-**Description**:  Total number of jobs and wages per sector for RI, ME, MA, CT, and NH counties from 2005 to 2015. The data also include number of establishments and GDP for each sector - state - year.  
+**Downloaded**: [Manually downloaded by state from website](http://www.oceaneconomics.org/Market/ocean/oceanEcon.asp) on May 9, 2019.    
+**Description**:  Total number of jobs and wages per sector for RI, ME, MA, CT, and NH counties from 2005 to 2016. The data also include number of establishments and GDP for each sector - state - year.  
 **Native data resolution**: County level     
-**Time range**: 2005 - 2015  
+**Time range**: 2005 - 2016  
 **Format**:  Tabular  
 ---
 
 ## Setup
 
 ```{r, message = F, warning = F}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
-
-library(tidyverse)
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', 
+                      message = FALSE, warning = FALSE)
 
 #load common file
-dir_git <- '~/github/ne-prep'
-source(file.path(dir_git, 'src/R/common.R'))  ### an OHI-NE specific version of common.R
+source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
 
-#set dir_anx to mazu
-dir_anx <- file.path(dir_M, 'git-annex/neprep')
+#libraries
+library(tidyverse)
 ```
 
 ## Get data  
@@ -53,10 +51,11 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 Load the data and fix the column classes to be numeric instead of character.
 ```{r}
 ## get a list of the files we're going to combine. These are all held on the Mazu server at NCEAS
-files <- list.files(file.path(dir_anx, "_raw_data/NOEP/d2018"), full.names = T)
+files <- list.files(file.path(dir_anx, "_raw_data/NOEP/d2019"), full.names = T)
 
 ## read in each csv file and change columns from character to numeric while also removing commas and dollar signs ($)
 out <- map_df(files, read_csv) %>%
+  select(1:10) %>% #there's a weird character column of NA showing up at the end. remove here
   filter(!is.na(State)) %>% #there are some NA for state because these rows have notes
   mutate(Establishments = as.numeric(gsub(",", "", Establishments)),
          Employment     = as.numeric(gsub(",", "", Employment)),
