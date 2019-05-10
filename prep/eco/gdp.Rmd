@@ -20,17 +20,13 @@ output:
 ``` {r setup, echo=F, message = FALSE, warning = FALSE, results = 'hide'}
 knitr::opts_chunk$set(fig.width = 8, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
-dir_git <- '~/github/ne-prep'
-dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
-source(file.path(dir_git, 'src/R/common.R'))   ### an OHI-Northeast specific version of common.R
+source('~/github/ne-prep/src/R/common.R')   ### an OHI-Northeast specific version of common.R
 
 library(readxl)
 library(DT)
 library(dplyr)
 library(zoo)
 library(trelliscopejs)
-
-dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 #round to 2 decimals
 options(digits = 3, scipen = 999)
@@ -46,10 +42,10 @@ The Gross Domestic Product (GDP) layer is calculated using coastal GDP data from
 
 ##National ocean Economics Program (NOEP)
 
-**Downloaded**: Manually downloaded on July 3, 2018.  
+**Downloaded**: Manually downloaded on May 9, 2019.  
 **Description**:  GDP [2012 $USD] per sector for RI, ME, MA, CT, NY and NH counties from 2005 to 2014. The data also include number of establishments, jobs and wages for each sector - state - year.  
 **Native data resolution**: County level   
-**Time range**: 2005 - 2015  
+**Time range**: 2005 - 2016  
 **Format**:  Tabular  
 
 
