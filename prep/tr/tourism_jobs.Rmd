@@ -208,7 +208,9 @@ ggplot(c, aes(x = year, y = jobs, color = cat)) +
   xlab("Year") +
   theme_bw() +
   ggtitle("Regional employment in the Tourism & Recreation sector") +
-  scale_color_manual(" ", labels = c("Mean employment over the \nprevious 3 years","Annual employment"), values = c("red", "blue"))
+  scale_color_manual(" ", labels = c("Annual employment", "Mean employment over the \nprevious 3 years"), values = c("blue", "red")) +
+  theme(axis.text.x = element_text(angle = 90),
+       strip.text.x = element_text(size = 6))
 ```
 
 ### Plot: Tourism & Recreation sector job growth rate
