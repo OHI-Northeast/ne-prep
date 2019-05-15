@@ -20,16 +20,14 @@ output:
 ``` {r setup, message = FALSE, warning = FALSE, results = 'hide'}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
-dir_git <- '~/github/ne-prep'
-source(file.path(dir_git, 'src/R/common.R'))  ### an OHI-NE specific version of common.R
+dir_git <- 
+source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
 
 library(tidyverse)
 #install.packages("striprtf")
 library(striprtf)
 library(zoo)
 library(trelliscopejs)
-
-dir_anx <- file.path(dir_M, 'git-annex/neprep')
 ```
 
 ## Summary
@@ -44,10 +42,10 @@ We calculated annual job growth rates by comparing total employment to the avera
 
 #### National Ocean Economics Program (NOEP)
 
-**Downloaded**: [Manually downloaded by state from website](http://www.oceaneconomics.org/Market/ocean/oceanEcon.asp) on July 3, 2018.    
+**Downloaded**: [Manually downloaded by state from website](http://www.oceaneconomics.org/Market/ocean/oceanEcon.asp) on May 9, 2019.    
 **Description**:  Total number of jobs and wages per sector for RI, ME, MA, CT, NY and NH counties from 2005 to 2015. The data also include number of establishments and GDP for each sector - state - year.  
 **Native data resolution**: County level     
-**Time range**: 2005 - 2015  
+**Time range**: 2005 - 2016  
 **Format**:  Tabular  
 
 **NOTES**
