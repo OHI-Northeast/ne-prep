@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Gross Domestic Product data layer preparation'
+title: 'Gross Domestic Product data layer preparation'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -24,7 +24,6 @@ source('~/github/ne-prep/src/R/common.R')   ### an OHI-Northeast specific versio
 
 library(readxl)
 library(DT)
-library(dplyr)
 library(zoo)
 library(trelliscopejs)
 
