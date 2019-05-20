@@ -151,14 +151,15 @@ ggplot(perc_change_df, aes(x = as.numeric(year), y = change, color = state)) +
 We want to add in historical loss from the 1777-1854 time period. We have values from the 80's/90's. We can add what we just calculated to these for a couple more data points.
 
 ```{r historic_loss}
-hist_loss <- data.frame(state = c("RI", "MA", "NH", "ME", "CT", "NY"),
+hist_loss <- data.frame(state_name = c("Rhode Island", "Massachusetts", "New Hampshire", "Maine", "Connecticut", "New York"),
+                        state = c("RI", "MA", "NH", "ME", "CT", "NY"),
                         hist_perc_loss = c(53, 41, 18, 0, 27, 48))
 
 full_df <- perc_change_df %>%
   left_join(hist_loss) %>%
   mutate(total_loss = change + hist_perc_loss,
          year = as.numeric(year)) %>%
-  select(state, year, total_loss)
+  select(state, state_name, year, total_loss)
 
 #save for dashboard
 write_csv(full_df, "data/salt_marsh_percent_change.csv")
