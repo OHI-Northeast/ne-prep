@@ -1,0 +1,41 @@
+---
+title: 'OHI-Northeast: Deep sea coral habitat layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+This script creates the Deep Sea Coral habitat data layer for the Habitats goal (a sub-goal of Biodiversity). 
+
+# Data
+
+Presence data from NOAA: https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:145923
+
+# Setup
+
+```{r setup, message = F, warning = F}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+# Load Presence Data
+
+```{r}
+
+```
+
+# Citation
+Kinlan BP, Poti M, Drohan A, Packer DB, Nizinski M, Dorfman D, Caldow C. 2013. Digital data: Predictive models of deep-sea coral habitat suitability in the U.S. Northeast Atlantic and Mid-Atlantic regions. Downloadable digital data package. Department of Commerce (DOC), National Oceanic and Atmospheric Administration (NOAA), National Ocean Service (NOS), National Centers for Coastal Ocean Science (NCCOS), Center for Coastal Monitoring and Assessment (CCMA), Biogeography Branch and NOAA National Marine Fisheries Service (NMFS), Northeast Fisheries Science Center (NEFSC). Released August 2013. Available at: http://coastalscience.noaa.gov/projects/detail?key=35
