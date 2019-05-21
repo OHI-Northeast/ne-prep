@@ -40,8 +40,10 @@ library(animation)
 
 Load and crop to our region
 
-```{r load_sasi}
+```{r sasi_raw}
 sasi_raw <- read_sf(file.path(dir_anx, "_raw_data/SASI/disturbProps_allGear_20181018/disturbProps_allGear_20181018.shp")) 
+
+plot(sasi_raw[10], border = NA)
 ```
 
 Clean up by cropping to our region, and averaging SASI per year.
@@ -61,6 +63,10 @@ for(i in 2:ncol(sasi2)){
 }
 ```
 
+# Calculate layer
+
+## Average annual SASI rasters
+
 Calculate average annual rasters for SASI
 
 ```{r, eval = F}
@@ -77,7 +83,9 @@ for(i in 2004:2017){
 }
 ```
 
-Create yearly gif
+## Animate
+
+Create yearly gif for data visualization purposes.
 
 ```{r annual_gif}
 annual_files <- list.files("data/rasters", full.names = T)
@@ -94,7 +102,9 @@ annual_files <- list.files("data/rasters", full.names = T)
 # }, movie.name = 'sasi.gif')
 ```
 
-# Get regional averages
+![](sasi.gif)
+
+## Get regional average SASI scores
 
 ```{r}
 
@@ -117,7 +127,7 @@ for(i in 2004:2017){
 }
 ```
 
-# Visualize
+# Results
 
 ```{r plot}
 
