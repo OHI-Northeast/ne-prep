@@ -1,0 +1,142 @@
+---
+title: 'OHI-Northeast: Coastal Protection sub-goal'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 2
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+library(ggrepel)
+```
+
+# Summary
+
+The Coastal Protection sub-goal measures the health of habitats that contribute to coastal protection from storm surge, flooding and sea level rise. In the Northeast, this includes Salt Marsh and Eelgrass habitats. Both of these habitats are also included in the Biodiversity - Habitats subgoal. We can use those same layers here. These habitats vary in their ability to protect against coastal storm surge so we apply a weighting scheme. Salt marsh is four times more protective than eelgrass. 
+
+***
+
+# Data Source
+
+**Eelgrass**
+All spatial data, both current and historical eelgrass locations, were downloaded from the [Northeast Ocean Data Portal](https://www.northeastoceandata.org/data-explorer/?habitat|biological).
+
+**Salt Marsh**
+
+Spatial land cover data was downloaded [from this site](https://coast.noaa.gov/ccapftp/#/) for each state in the Northeast for the years 1996, 2001, 2006, and 2010.
+
+***
+  
+# Methods
+
+## Load Data
+
+```{r load_data}
+eelgrass   <- read_csv("~/github/ne-scores/region/layers/hab_eelgrass.csv") %>%
+  mutate(habitat = "eelgrass") %>%
+  select(rgn_name, year, score, habitat, rgn_id)
+
+#read in the salt marsh data and add a column that converts the perc_loss to a score between 0 and 100
+salt_marsh <- read_csv("~/github/ne-scores/region/layers/hab_salt_marsh.csv") %>%
+  rowwise() %>%
+  mutate(habitat = "saltmarsh",
+          score  = min(100, (100 - perc_loss))) %>% #prevents score from going above 100
+  select(rgn_name, year, score, habitat, rgn_id)
+```
+
+```{r eelgrass_score_plot}
+ggplot(eelgrass, aes(x = year, y = score, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  geom_text_repel(data = subset(eelgrass, year == max(year)),
+                  aes(label = rgn_name),
+                  size = 3,
+                  hjust = 0,
+                  direction = "y",
+                  nudge_x = 2,
+                  segment.color = NA) +
+  labs(x = "Year",
+       y = "Score",
+       title = "Eelgrass") +
+  theme(legend.position = "none")
+
+```
+```{r saltmarsh_score_plot}
+ggplot(salt_marsh, aes(x = year, y = score, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  geom_text_repel(data = subset(salt_marsh, year == max(year)),
+                  aes(label = rgn_name),
+                  size = 3,
+                  nudge_x = 45,
+                  segment.color = NA) +
+  labs(x = "Year",
+       y = "Score",
+       title = "Salt Marsh") +
+  theme(legend.position = "none")
+```
+
+## Apply coastal protection weights
+
+```{r calculate_cp_scores}
+cp_scores <- eelgrass %>%
+  bind_rows(salt_marsh) %>%
+  mutate(weight_times_score = ifelse(habitat == "eelgrass", score, score*4)) %>%
+  group_by(rgn_id, rgn_name, year) %>%
+  summarize(cp_score = sum(weight_times_score)/5) %>%
+  filter(year > 2005) #eelgrass data starts at 2006 so can only measure CS for overlapping years
+```
+
+
+***
+
+# Results
+
+```{r coastal_protection_rgn_scores}
+ggplot(cp_scores %>% filter(!is.na(cp_score)), aes(x = year, y = cp_score, color = rgn_name)) +
+  geom_line(show.legend = F) +
+  theme_bw() +
+  labs(x = "Year",
+       y = "Score",
+       title = "Coastal Protection") +
+  geom_text_repel(
+    data = subset(cp_scores, year == max(year)),
+    aes(label = rgn_name),
+    size = 3,
+    hjust = 0,
+    direction = "y",
+    nudge_x = 2,
+    segment.color = NA,
+    show.legend = FALSE
+  )
+```
+
+
+***
+
+# Save to toolbox
+
+```{r save_to_toolbox}
+write.csv(cp_scores, file = "~/github/ne-scores/region/layers/hs_coastal_protection.csv")
+```
+
+
+***
+
+
+
