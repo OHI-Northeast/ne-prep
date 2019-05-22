@@ -1,0 +1,104 @@
+---
+title: 'OHI-Northeast: Habitats dashboard data'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 2
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(zoo)
+```
+
+# Summary
+
+
+***
+  
+# Methods
+
+## Load Data
+
+Also add metric and score column
+
+```{r load_data}
+
+eelgrass   <- read_csv("data/eelgrass_score_rgn_gf.csv") %>%
+  mutate(metric = "water_quality_index",
+         raw_data = wqi_score,
+         habitat = "eelgrass") %>%
+  select(year, rgn_name, raw_data, metric, score, habitat)
+
+offshore   <- read_csv("~/github/ne-scores/region/layers/hab_sasi.csv") %>%
+  mutate(metric = "sasi_score",
+         raw_data = sasi,
+         habitat = "offshore") %>%
+  select(year, rgn_name, raw_data, metric, score, habitat)
+
+
+salt_marsh <- read_csv("data/salt_marsh_percent_change.csv") %>%
+  group_by(state) %>%
+  complete(year = 1996:2010) %>% #only completing to 2010 for linear interpolation
+  mutate(perc_loss = na.approx(total_loss)) %>%
+  complete(year = 1996:2017) %>%
+  mutate(perc_loss = na.locf(perc_loss)) %>% #now we carry forward the 2010 value for all years to 2017
+  ungroup() %>%
+  left_join(rgns) %>%
+  rowwise() %>%
+  mutate(metric = "percent_loss",
+         raw_data = total_loss,
+         score  = min(100, (100 - perc_loss)),
+         habitat = "salt_marsh") %>%
+  select(year, rgn_name, raw_data, metric, score, habitat)
+
+```
+
+Combine
+
+```{r}
+all <- eelgrass %>%
+  bind_rows(offshore) %>%
+  bind_rows(salt_marsh)
+
+write.csv(all, "data/dashboard_habitat_data.csv")
+```
+
+
+```{r eelgrass_score_plot}
+ggplot(eelgrass, aes(x = year, y = score, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  geom_text_repel(data = subset(eelgrass, year == max(year)),
+                  aes(label = rgn_name),
+                  size = 3,
+                  hjust = 0,
+                  direction = "y",
+                  nudge_x = 2,
+                  segment.color = NA) +
+  labs(x = "Year",
+       y = "Score",
+       title = "Eelgrass") +
+  theme(legend.position = "none")
+
+```
+
+
+
+
+

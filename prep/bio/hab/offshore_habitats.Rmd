@@ -129,17 +129,20 @@ for(i in 2004:2017){
 
 # Results
 
+High impact scores should result in lower OHI scores so here we subtract SASI values from 1
+
 ```{r plot}
 
 rgn_sasi_scores <- rgn_sasi_out %>%
+  mutate(score = 1-sasi) %>% #invert scores so high impact = low score
   left_join(rgn_data) %>%
   select(-area_km2, -state)
 
-ggplot(rgn_sasi_scores, aes(x = year, y = sasi, color = rgn_name)) +
+ggplot(rgn_sasi_scores, aes(x = year, y = score, color = rgn_name)) +
   geom_line() +
   theme_bw() +
   labs(x = "Year",
-       y = "SASI Score",
+       y = "Layer Score",
        title = "Offshore Habitat")
 
 ```
