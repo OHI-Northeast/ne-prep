@@ -1,5 +1,5 @@
 ### buffer_polygons.R
-### 20190522 - Jamie Afflerbach
+### 20190523 - Jamie Afflerbach
 
 source('~/github/ne-prep/src/R/common.R')
 
@@ -10,10 +10,10 @@ buffer_seed_layer <- 'ne_eez'
 ### expand this basic EEZ file (1 region covering entire EEZ) outward
 buffer_slice_layer <- 'states_and_state_waters'
 ### intersect resulting buffer with this shapefile to slice it into regions
-dst <- 'ohine_inland_3km'
+dst <- 'ohine_inland_1km'
 ### save the result here...
 proj_units  <- 'm'
-buffer_dist <- 3000
+buffer_dist <- 1000
 
 buffer_seed <- read_sf(dir_spatial, layer = buffer_seed_layer) %>%
   select(geometry) %>%

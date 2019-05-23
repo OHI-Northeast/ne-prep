@@ -8,14 +8,16 @@ library(sf)
 
 #filter just for coastal states
 states <- ne_states %>%
-  mutate(state = STUSPS) %>% 
+  mutate(state = STUSPS,
+         rgn_name = NA,
+         rgn_id = NA) %>% 
   filter(!state %in% c("VT", "PA", "NJ")) %>%
-  select(state, geometry)
+  select(state, rgn_name, rgn_id, geometry)
 
 #combine states and state waters
 all <- rgns %>%
   filter(!is.na(state)) %>%
-  select(state, geometry) %>%
+  select(rgn_name, rgn_id, state, geometry) %>%
   rbind(states) %>%
   st_union(by_feature = TRUE)
 
