@@ -26,3 +26,6 @@ vignettes/*.pdf
 ._*
 
 appfiles
+
+# huge .html
+wdpa_map.html
