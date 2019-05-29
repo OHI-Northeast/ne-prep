@@ -122,11 +122,15 @@ ggplot(t, aes(x = Year, y = GDP, color = spatial_res)) +
 
 There are some clear discrepencies between these two time series. What we see here is similar to what we see when we look at the **jobs** data. We can apply the same logic here [as we did there](https://ohi-northeast.github.io/ne-prep/prep/liv/jobs.html). We will use the County level information for Massachusetts and New Hampshire, and the State level data for the remaining three states.
 
+
+
 ---
 
 ## Assign spatial scale to use
 
 Using the information gained from the meta analysis above, I'm assigning which spatial scale to use for each of the five states. For Maine, Connecticut and Rhode Island we are going to use the State level data, which means we filter for rows that say "All [state] counties" and remove the rest. For Massachusetts and New Hampshire we want to keep only the individual county information and then summarize total number of jobs from that data. Finally we join the two datasets. 
+
+Pat Johnston recommends using state level data over counties but we will stick with county leve for Masachusetts since we have that state split into two regions. We will also keep the county level for New Hampshire due to the strange jump in 2010.
 
 ```{r combine_noep_state_county_data}
 
