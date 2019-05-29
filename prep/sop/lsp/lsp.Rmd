@@ -1,0 +1,330 @@
+---
+title: 'OHI-Northeast: Lasting Special Places'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+here is a setup code chunk with many of the common parameters:
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = FALSE, message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(tidyverse)
+library(sf)
+library(mapview)
+```
+
+#Summary
+[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]
+
+***
+
+#Data Source [NOTE: can be copied from README.md in rawdata file]
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+
+
+## Filter and re-project WDPA polygons
+
+The WDPA-MPA dataset comes as a shapefile or geodatabase in WGS84 coordinate reference system.  
+
+* For OHI we have chosen to count only protected areas with defined legal protection, so we apply a filter on the STATUS attribute that selects only STATUS == "Designated". 
+  * According to the WDPA Manual:  STATUS as "Designated" means:  "Is recognized or dedicated through legal means. Implies specific binding commitment to conservation in the long term. Applicable to government and non-government sources."
+  * Other values for STATUS include "Proposed", "Adopted", "Inscribed", or "Not Reported".
+    * "Adopted" and "Inscribed" are World Heritage or Barcelona Convention sites; while these may seem important, they are generally protected by other means (as overlapping "Designated" polygons) in addition to these values.
+* In 2015, the USA started including polygons that represent marine management plans, in addition to more strictly defined protected areas.  This info is contained in the "MANG_PLAN" field.
+  * These programmatic management plans variously protect species, habitats, and (??) and can be MPA or non-MPA.
+  * For OHI we have chosen to count only MPA programmatic management plans, omitting Non-MPA programmatic management plans.
+* For ease of tallying areas, we convert the polygons to a Mollweide equal-area projection before rasterizing.
+
+
+***
+  
+#Methods
+
+## Load Data
+
+```{r}
+wdpa_raw <- read_sf(file.path(dir_anx, "_raw_data/WDPA/d2019/WDPA_May2019_USA-shapefile/WDPA_May2019_USA-shapefile-polygons.shp"))
+```
+
+## Crop to our region
+
+```{r}
+wdpa_ne <- st_transform(wdpa_raw, us_alb) %>%
+  st_crop(rgns)
+
+plot(wdpa_ne[9], main = "Protected areas by IUCN Category")
+```
+
+## Explore the data
+
+We will mainly filter on the management plans, we can look at these by IUCN category.
+
+```{r, fig.width = 10, fig.height = 8}
+ggplot(wdpa_ne) +
+  geom_sf(aes(fill = MANG_PLAN)) +
+  facet_wrap(~ MANG_PLAN) +
+  theme_bw() 
+```
+
+## Filter by management plan
+
+All of the areas included in the US have a status of "DESIGNATED" so we don't need to filter on that.
+
+```{r}
+unique(wdpa_ne$STATUS)
+```
+
+
+In 2015, the USA started including polygons that represent marine management plans, in addition to more strictly defined protected areas.  This info is contained in the "MANG_PLAN" field.
+  * These programmatic management plans variously protect species, habitats, and (??) and can be MPA or non-MPA.
+  * For OHI we have chosen to count only MPA programmatic management plans, omitting Non-MPA programmatic management plans.
+* For ease of tallying areas, we convert the polygons to a Mollweide equal-area projection before rasterizing.
+
+```{r remove_areas_wo_mgmnt_plans}
+wdpa_ne_filtered <- wdpa_ne %>%
+  filter(!str_detect(MANG_PLAN, pattern = "Non-MPA Program"),
+         MANG_PLAN != "No Management Plan")
+
+ggplot(wdpa_ne_filtered) +
+  geom_sf(aes(fill = MANG_PLAN)) +
+  theme_bw() 
+```
+
+
+## Apply an inland buffer
+
+We want to include coastal protected areas up to 1km inland.
+
+```{r land_protected_areas}
+inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp")
+
+land_areas <- st_intersection(wdpa_ne_filtered, inland_buffer)
+
+ggplot(land_areas) +
+  geom_sf(aes(fill = DESIG_ENG)) +
+  theme_bw() +
+  theme(legend.position = "none")
+
+```
+
+## Marine areas in state waters
+
+We want to look at areas within state waters only. 
+
+Filter out all 100% terrestrial protected areas
+
+```{r state_water_protected_areas, fig.width=10}
+#filter for just marine areas in wdpa_ne
+marine_wdpa_ne <- wdpa_ne_filtered %>% filter(MARINE != 0) #this removes 100% terrestrial areas
+
+#3nm buffer
+buffer_3nm <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_offshore_3nm.shp") %>%
+  mutate(rgn_area = st_area(geometry))
+state_areas <- st_intersection(buffer_3nm, marine_wdpa_ne) #intersect our state water regions with the marine areas
+
+ggplot(state_areas) +
+  geom_sf(aes(fill = DESIG)) +
+  theme_bw() +
+  theme(legend.text=element_text(size = 8)) +
+  guides(fill=guide_legend(ncol = 4))
+```
+
+
+Look at the marine areas that are captured but don't limit just to state waters. Basically, a plot of all regions that touch state waters.
+```{r}
+ggplot(wdpa_ne %>% filter(WDPA_PID %in% state_areas$WDPA_PID)) +
+  geom_sf(aes(fill = NAME)) +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+What marine areas will not be captured?
+
+```{r plot_not_included_marine_areas}
+
+non_state_prot_areas <- wdpa_ne_filtered %>%
+  filter(!WDPA_PID %in% state_areas$WDPA_PID,
+         MARINE != 0) #when MARINE == 0, it's 100% terrestrial. we don't care about missing these in the marine protected areas clip
+
+ggplot(non_state_prot_areas) +
+  geom_sf(aes(fill = NAME)) +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+
+Interactive map to show the areas included when we use state waters, inland buffer and whole region
+
+```{r interactive_map, eval = F}
+#map the data layers  
+interactive_map <-  mapview(wdpa_ne_filtered, col.regions = "darkorange", zcol = "DESIG", layer.name = "WDPA areas w/o non-mpa program mngmt plans") + 
+  mapview(land_areas, col.regions = "darkgreen", zcol = "DESIG", layer.name = "Land protected areas w/i 1km") + 
+  mapview(state_areas, col.regions = "darkblue", zcol = "DESIG", layer.name = "Protected areas in state waters")  +
+  mapview(non_state_prot_areas, col.regions = "darkred", zcol = "DESIG", layer.name = "Protected areas not included in state waters") +
+  mapview(inland_buffer, col.regions = "lightgreen") +
+  mapview(buffer_3nm, col.regions = "lightblue")
+
+## save interactive map
+mapshot(interactive_map, url = "wdpa_map.html")
+```
+
+## Years of implementation
+
+```{r}
+max(state_areas$STATUS_YR)
+```
+
+
+
+## Calculate total area protected
+
+We want to know the proportion of area protected within each region. After visual inspection it looks like very little overlap between the marien and terrestrial shapefiles so rather than combining them using `st_union()` (takes a long time and makes a very large file) I will calculate the area of each separately then combine.
+
+We need to do this by year...
+
+Marine areas
+```{r}
+s <- state_areas %>%
+  select(rgn_id, rgn_name, STATUS_YR, WDPA_PID, NAME) %>%
+  mutate(area = st_area(geometry))
+
+state_protected_by_rgn <- data.frame()
+for(i in 2005:2017){
+  
+  print(i)
+  
+  s_yr <- filter(s, STATUS_YR <= i) %>%
+    group_by(rgn_id, rgn_name) %>%
+    summarize(protected_area_m = sum(area)) %>%
+    mutate(year = i,
+           type = "marine") %>%
+    st_set_geometry(NULL)
+  
+  state_protected_by_rgn <- bind_rows(s_yr, state_protected_by_rgn)
+}
+```
+
+Calculate total protected area and compare to our target of 10%
+```{r}
+
+marine_prot_area <- state_protected_by_rgn %>%
+  left_join(buffer_3nm) %>%
+  mutate(prop_protected = protected_area_m/as.numeric(rgn_area),
+         score = (prop_protected/0.1)*100) %>%
+  select(rgn_id, rgn_name, year, protected_area_m, rgn_area, prop_protected, score, type)
+
+ggplot(marine_prot_area, aes(x = year, y = prop_protected, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "",
+       y = "Proportion of 3nm coast protected")
+
+```
+
+
+Terrestrial areas
+```{r}
+l <-  land_areas %>%
+  select(rgn_id, rgn_name, STATUS_YR, WDPA_PID, NAME) %>%
+  mutate(area = st_area(geometry))
+
+land_protected_by_rgn <- data.frame()
+for(i in 2005:2017){
+  
+  print(i)
+  
+  l_yr <- filter(l, STATUS_YR <= i) %>%
+    group_by(rgn_id, rgn_name) %>%
+    summarize(protected_area_m = sum(area)) %>%
+    mutate(year = i,
+           type = "land") %>%
+    st_set_geometry(NULL)
+  
+  land_protected_by_rgn <- bind_rows(l_yr, land_protected_by_rgn)
+}
+
+```
+
+
+Calculate total protected area and compare to our target of 17%
+```{r}
+
+land_prot_area <- land_protected_by_rgn %>%
+  left_join(inland_buffer) %>%
+  mutate(prop_protected = protected_area_m/area,
+         score = min(((prop_protected/0.17)*100), 100)) %>% #if more than 17% is protected, don't let score go above 100
+  select(rgn_id, rgn_name, year, protected_area_m, rgn_area = area, prop_protected, score, type)
+
+ggplot(land_prot_area, aes(x = year, y = prop_protected, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "",
+       y = "Proportion of 1km coast protected")
+
+```
+
+# Results
+
+Combine the land and marine protected area scores and take the average.
+
+```{r, fig.height = 6, fig.width = 8}
+
+lsp <- marine_prot_area %>%
+  bind_rows(land_prot_area) %>%
+  group_by(rgn_id, rgn_name, year) %>%
+  summarize(score = mean(score)) %>%
+  mutate(type = "lsp_score")
+  
+  
+all <- marine_prot_area %>%
+  select(rgn_id, rgn_name, year, score, type) %>%
+  rbind(lsp) %>%
+  rbind(land_prot_area %>% select(rgn_id, rgn_name, year, score, type))
+
+ggplot(all, aes(x = year, y = score, color = type)) +
+  geom_line(lwd = 2) +
+  facet_wrap(~rgn_name) +
+  theme_bw() +
+  labs(x = "",
+       y = "Score") +
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position = "bottom") +
+  scale_color_manual(name = "", 
+                       labels = c("Coastal land protection", "Lasting Special Places", "Marine protection"),
+                       values = c("darkgreen", "orange", "blue")) 
+  
+
+```
+
+
+
+
+
+
+
