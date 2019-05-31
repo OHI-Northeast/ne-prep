@@ -4,7 +4,7 @@
 #------------------------------------------------------------------------
 
 #
-source('~/github/ohi-northeast/src/R/rast_tools.R')
+source('~/github/ne-prep/src/R/rast_tools.R')
 
 
 library(dplyr)
@@ -48,15 +48,15 @@ plot(ocean_ras)
 plot(rgns,add=T)
 
 #save to spatial file. This is for all ocean areas in the NE region, not only our regions
-writeRaster(ocean_ras,filename = 'ocean_rasters/ocean_ne.tif',overwrite=T)
+writeRaster(ocean_ras,filename = '~/github/ne-prep/spatial/ocean_rasters/ocean_ne.tif',overwrite=T)
 #-------------------------------------------------------------------------
 
 #create an ocean raster at 1km res with only the rgns, the cell values = rgn_id
   
 #the function gdal_rast2 comes from rast_tools.R
-rgn_ras <- gdal_rast2(src = '~/github/ohi-northeast/spatial/ne_ohi_rgns',
+rgn_ras <- gdal_rast2(src = '~/github/ne-prep/spatial/shapefiles/ne_ohi_rgns',
                       rast_base = ocean_ras,
-                      dst = '~/github/ohi-northeast/spatial/ocean_rasters/ocean_rgns.tif',
+                      dst = '~/github/ne-prep/spatial/ocean_rasters/ocean_rgns.tif',
                       value = 'rgn_id',
                       override_p4s = TRUE)
 
@@ -64,10 +64,10 @@ rgn_ras <- gdal_rast2(src = '~/github/ohi-northeast/spatial/ne_ohi_rgns',
 
 # create a raster at 1000 res for all cells within 3nm. We can use the state waters in our regions shapefile as the mask for this raster.
 
-three_nm <- rgns[rgns@data$rgn_id %in% c(1:7),]
+three_nm <- rgns[rgns$rgn_id > 4,]
 
 r_3nm_mask <- mask(ocean_ras,three_nm, progress='text',
-                   filename = '~/github/ohi-northeast/spatial/ocean_rasters/rast_3nm_mask.tif',overwrite=T)
+                   filename = '~/github/ne-prep/spatial/ocean_rasters/rast_3nm_mask.tif',overwrite=T)
 
 plot(r_3nm_mask)
 
