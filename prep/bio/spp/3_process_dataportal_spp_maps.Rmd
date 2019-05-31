@@ -66,6 +66,7 @@ species <- seasonal_maps %>%
 This function takes each species raster file, combines the two seasonal ones to create a single range map, then rasterizes to the CRS and cell resolution for the OHI Northeast analysis.
 
 ```{r seasonalmaps}
+
 f <- function(sp){
   
   sp_files <- tifs[str_detect(tifs, sp)]
@@ -83,8 +84,9 @@ f <- function(sp){
   
   #now we rasterize to 1km2 and our projection
   sp_rast <- s %>%
-    projectRaster(crs = crs(ocean_ne)) %>%
-    resample(ocean_ne, method = "ngb")
+    projectRaster(crs = us_alb) %>%
+    crop(ne_ext) %>%
+    resample(zones, method = "ngb")
   
   #assign all cells that aren't 0 a value of 1
   sp_rast[sp_rast!=0]   <- 1
@@ -119,9 +121,11 @@ f <- function(sp){
      
   #now we rasterize to 1km2 and our projection
   sp_rast <- s %>%
-    projectRaster(crs = crs(ocean_ne), method = "ngb") 
-  extent(sp_rast) <- extent(ocean_ne)
-  sp_rast <- raster:: resample(sp_rast, ocean_ne, method = "ngb")
+    projectRaster(crs = us_alb, method = "ngb") %>%
+    crop(ne_ext)
+  
+  #extent(sp_rast) <- extent(zones)
+  sp_rast <- raster:: resample(sp_rast, zones, method = "ngb")
   
   #assign all cells that have a 0 and NA
   sp_rast[sp_rast == 0] <- NA
@@ -132,7 +136,7 @@ f <- function(sp){
 }
 
 #run the function across all species
-map(non_fish_spp$name, f)
+map(non_fish_spp%>%filter(!str_detect(name, "normalized")) %>% .$name, f)
 ```
 
 
