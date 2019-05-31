@@ -298,8 +298,6 @@ stock_scores <- stock_status_df %>%
   group_by(stock, year) %>%
   mutate(score = mean(score, na.rm = T)) %>%
   select(year, stock, score, bPrime, fPrime, b_bmsy, f_fmsy, basis)
- 
-write.csv(stock_scores, file = "data/stock_scores_nmfs.csv")  
 ```
 
 ## Visualize
