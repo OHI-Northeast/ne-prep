@@ -20,7 +20,7 @@ p4s_wgs84 <- '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
 p4s_nad83 <- '+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0'
 us_alb    <- raster::crs("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs") 
 
-rgns      <- readOGR(dsn = paste0(path.expand(dir_git),'/spatial'),layer = 'ne_ohi_rgns', verbose = FALSE) #need to use path.expand because readOGR does not read '~'
+rgns      <- readOGR(dsn = paste0(path.expand(dir_git),'/spatial/shapefiles'),layer = 'ne_ohi_rgns', verbose = FALSE) #need to use path.expand because readOGR does not read '~'
 
 
 #---------------------------------------------------------------------------------
@@ -59,17 +59,6 @@ rgn_ras <- gdal_rast2(src = '~/github/ne-prep/spatial/shapefiles/ne_ohi_rgns',
                       dst = '~/github/ne-prep/spatial/ocean_rasters/ocean_rgns.tif',
                       value = 'rgn_id',
                       override_p4s = TRUE)
-
-#-------------------------------------------------------------------------
-
-# create a raster at 1000 res for all cells within 3nm. We can use the state waters in our regions shapefile as the mask for this raster.
-
-three_nm <- rgns[rgns$rgn_id > 4,]
-
-r_3nm_mask <- mask(ocean_ras,three_nm, progress='text',
-                   filename = '~/github/ne-prep/spatial/ocean_rasters/rast_3nm_mask.tif',overwrite=T)
-
-plot(r_3nm_mask)
 
 
 

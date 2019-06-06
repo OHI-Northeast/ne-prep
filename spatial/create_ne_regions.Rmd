@@ -29,8 +29,7 @@ This script shows how I made the spatial regions for the Northeast assessment. T
 The final regions file is called `ne_ohi_rgns` and found [here](https://github.com/OHI-Northeast/ne-prep/tree/gh-pages/spatial/shapefiles).
 
 ```{r setup, message = F, warning = F, results = 'hide'}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 8, fig.path = 'figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE, root.dir = "ohi-northeast")
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, root.dir = "ohi-northeast")
 
 source('~/github/ne-prep/src/R/common.R') ### an OHI-NE specific version of common.R
 
@@ -39,14 +38,15 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 library(tidyverse)
 library(sf)
+library(mapview)
+library(mapedit)
 ```
 
 
 ## Ecological Production Units
 
 
-```{r epus, eval = F}
-
+```{r epus}
 epu <- st_read(file.path(dir_anx, 'spatial/data_for_rgn_options/Extended_EPU'), 'EPU_extended', quiet=T) %>%
          st_transform(p4s_nad83) %>%
          mutate(longname = c('Georges Bank','Gulf of Maine','Scotian Shelf','Mid-Atlantic Bight'))
@@ -188,12 +188,74 @@ ggplot(offshore) +
   theme_bw()
 ```
 
-For some reason a lot of the coastline is still there. I'm going to create a big buffer from a State Waters shapefile and then use that to erase the coast line.
+For some reason a lot of the coastline is still there. I split the offshore region simple feature into individual polygons, assign ID's and then select just the offshore polygon which will remove the inland ones
+
+```{r}
+offshore_rgn <- st_cast(offshore, "POLYGON") %>%
+  mutate(id = 1:nrow(.)) %>%
+  filter(id == 1) %>% #keep what we want
+  mutate(name = "OS",
+         longname = "Offshore") %>%
+  select(name, longname, geometry)
+
+ggplot(offshore_rgn) +
+  geom_sf(aes(fill = longname)) +
+  theme_bw() 
+```
+
+I'm going to join this back to `epu_fix` and then remove state waters
+
+```{r}
+epus <- epu_fix %>%
+  rbind(offshore_rgn)
+
+ggplot(epus) +
+  geom_sf(aes(fill = longname)) +
+  theme_bw() +
+  labs(fill = "Offshore regions")
+
+```
+
+Load states + state waters shapefile from northeast ocean data portal. We use this instead of the state waters to remove state waters from EPU's because it won't leave any coastline in case there is mismatching between EPUs and state water shapefiles.
+
+```{r}
+states_plus_state_waters <- read_sf(file.path(dir_anx, "_raw_data/NEOceanDataPortal/Administrative/AdministrativeBoundaries.gdb"), layer = "States") %>%
+  st_transform(crs = crs(epus))
+```
+
+Remove state waters from the EPUs since we just want these to be offshore regions.
+
+```{r}
+## mask out state waters. 
+s = as(states_plus_state_waters, 'Spatial') #turning state_wa into a spatialpolygonsdataframe
+ 
+epu_ext_offshore = as(epus, 'Spatial') - s
+
+#transform back to simple feature
+
+epu_ext_offshore <- st_as_sf(epu_ext_offshore) %>%
+  st_cast(., "POLYGON") %>%
+  mutate(id = 1:nrow(.))  %>%
+  filter(id %in% c(14, 11, 1, 2)) #keep what we want
+
+ggplot(epu_ext_offshore) +
+  geom_sf(aes(fill = longname))  +
+  theme_bw()
+
+##try to fix the small overlaps in polygons, mainly the issue is with George's Bank
+clean_epu <- st_intersection(epu_ext_offshore) %>%
+  mutate(id = 1:nrow(.)) %>%
+  filter(id %in% c(5, 3,4,7, 1, 8)) %>% #keeping all the George's bank ones, and then only the other regions that have n.overlaps = 1
+  group_by(name, longname) %>%
+  summarize() %>%
+  ungroup()
+
+```
 
 ## State waters
 
 ```{r state_waters}
-state_wa <- st_read(dsn = file.path(dir_anx, 'spatial'), layer = 'StateWaters_wo_rivs_cleaned',quiet=T)%>%
+state_wa <- st_read(dsn = file.path(dir_anx, 'spatial'), layer = 'StateWaters_wo_rivs_cleaned',quiet=T) %>%
               st_transform(p4s_nad83)
 
 ggplot(state_wa) +
@@ -204,9 +266,7 @@ ggplot(state_wa) +
 
 Trying to erase the hudson river
 
-
 ```{r}
-
 states <- st_read(dsn = 'shapefiles',layer = 'states',quiet=T)%>%
           st_transform(p4s_nad83) %>%
   filter(!NAME %in% c("Pennsylvania","New Jersey"))
@@ -223,74 +283,51 @@ st_erase = function(x, y) st_difference(x, st_union(st_combine(y)))
 
 state_wa <- st_erase(state_wa, ny_crop)
 
-```
-Now I create a buffer from state waters to remove the weird coastline issue from the offshore region.
-
-```{r}
-state_wa_buff <- st_buffer(state_wa, 0.5)
-
-offshore_rgn <- st_erase(offshore, state_wa_buff) %>%
-  mutate(name = "OS",
-         longname = "Offshore") %>%
-  select(name, longname, geometry) %>%
-  st_crop(xmin = -73, ymin = 37.7, xmax = -65.7, ymax = 41.2) #did this to remove some state islands
-
-ggplot(offshore_rgn) +
-  geom_sf(aes(fill = longname)) +
-  theme_bw() 
+write_sf(state_wa, "shapefiles/state_waters.shp")
 ```
 
-I'm going to join this back to `epu_fix` and then remove state waters
-
-```{r}
-
-epus <- epu_fix %>%
-  rbind(offshore_rgn)
-
-ggplot(epus) +
-  geom_sf(aes(fill = longname)) +
-  theme_bw() +
-  labs(fill = "Offshore regions")
-
-```
-
-Remove state waters from the EPUs since we just want these to be offshore regions.
-
-```{r}
-## mask out state waters. 
-s = as(state_wa, 'Spatial') #turning state_wa into a spatialpolygonsdataframe
- 
-epu_ext_offshore = as(epus, 'Spatial') - s
-
-# mask with states (land boundary) as well
-
-states_buffer <-  st_buffer(states, 0.05)
-
-e = st_erase(st_as_sf(epu_ext_offshore), states_buffer)
-
-ggplot(e) +
-  geom_sf(aes(fill = longname)) +
-  geom_sf(data = state_wa, aes(fill = NAME10)) +
-  theme_bw()
-
-```
-
-Now we need to get each state their own waters and have MA split into two.
+Now we need to split Massachusetts waters into two regions using the EPUs as our separation line.
 
 ```{r state_wa_w_mass_split}
 
-#intersect state waters with EPU to get the massachussets split
-int <- st_intersection(epus, state_wa)
+#get Gulf of Maine EPU and use this to remove the northern part of MA
 
-state_rgns <- int %>%
-  mutate(rgn_name = 
-           case_when(
-             NAME10 == "Massachusetts" & longname %in% c("Georges Bank", "Mid-Atlantic Bight") ~ "Massachusetts-Virginian",
-             NAME10 == "Massachusetts" & longname == "Gulf of Maine" ~ "Massachusetts-Gulf of Maine",
-         NAME10 != "Massachusetts" ~ as.character(NAME10))) %>%
-  select(rgn_name, geometry) %>%
-  group_by(rgn_name) %>%
-  summarize()
+ma <- state_wa %>% 
+  filter(STUSPS10 == "MA")
+
+ma_region_2 <- st_difference(ma, epus %>% filter(name == "GOM"))
+
+plot(ma_region_2[1])
+```
+
+There is still a lot of excess coastal pieces. I think the best way to remove these is to use a hand drawn polygon mask
+
+```{r ma_mask}
+ # north_ma_mask <- mapview(ma_region_2) %>%
+ #   editMap()
+
+#write_sf(north_ma_mask$finished, "shapefiles/north_ma_mask_poly.shp")
+
+north_ma_mask <- read_sf("shapefiles/north_ma_mask_poly.shp") %>%
+  st_transform(crs(ma))
+
+ma_region_south <- st_difference(ma_region_2, north_ma_mask) %>%
+  select(STUSPS10, NAME10) %>%
+  mutate(rgn_name = "Massachusetts-Virginian")
+ma_region_north <- st_difference(ma, ma_region_south) %>%
+  select(STUSPS10, NAME10) %>%
+  mutate(rgn_name = "Massachusetts-Gulf of Maine")
+
+## combine Masachusetts back with the other states
+
+state_rgns <- state_wa %>%
+  filter(STUSPS10 != "MA") %>%
+  select(STUSPS10, NAME10) %>%
+  mutate(rgn_name = NAME10) %>%
+  rbind(ma_region_north) %>%
+  rbind(ma_region_south) %>%
+  rename(state_abv = STUSPS10,
+         state_name = NAME10)
 
 ggplot(state_rgns)+
   geom_sf(aes(fill = rgn_name)) +
@@ -307,16 +344,29 @@ Now we combine state regions with offshore
 #set US Albers equal area CRS - this is what we will use for all spatial data.
 us_alb    <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs" 
 
-ne_ohi_rgns <- e %>%
+ne_ohi_rgns <- clean_epu %>%
   rename(rgn_name = longname) %>%
   select(-name) %>%
+  mutate(state_abv = NA,
+         state_name = NA) %>%
   rbind(state_rgns) %>%
-  mutate(rgn_id = c(1:11)) %>%
+  mutate(rgn_id = case_when(
+    rgn_name == "Offshore" ~ 1,
+    rgn_name == "Georges Bank" ~ 2,
+    rgn_name == "Gulf of Maine" ~ 3,
+    rgn_name == "Mid-Atlantic Bight" ~ 4,
+    rgn_name == "Connecticut" ~ 5,
+    rgn_name == "Maine" ~ 6,
+    rgn_name == "Massachusetts-Gulf of Maine" ~ 7,
+    rgn_name == "Massachusetts-Virginian" ~ 8,
+    rgn_name == "New Hampshire" ~ 9,
+    rgn_name == "New York" ~ 10,
+    rgn_name == "Rhode Island" ~ 11
+  )) %>%
   arrange(rgn_id) %>%
   st_transform(crs = us_alb) %>%
   mutate(area_m2 = st_area(.),
-         area_km2 = area_m2/1000000,
-         state = c(NA, NA, NA, NA, "CT", "ME", "MA", "MA", "NH", "NY", "RI")) %>%
+         area_km2 = area_m2/1000000) %>%
   separate(area_km2, into = c("area_km2", "units"), sep = " ") %>%
   select(-area_m2, -units)
 
