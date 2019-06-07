@@ -32,6 +32,10 @@ spp_files <- list.files(file.path(dir_anx, "_raw_data/DUKE_NE_Data_Portal/OHI_PA
 
 #we only want the .tifs
 tifs <- spp_files[str_detect(spp_files, ".tif$")]
+
+#we don't want the Avian_PA files
+
+tifs <- tifs[!str_detect(tifs, "/Avian_PA/")]
 ```
 
 We have `r nrow(tifs)` maps provided by Duke for species maps on the Northeast Ocean Data Portal. Some of these are seasonal, so we need to combine them to create one map. For example *Witch flounder*:
@@ -136,11 +140,9 @@ f <- function(sp){
 }
 
 #run the function across all species
-map(non_fish_spp%>%filter(!str_detect(name, "normalized")) %>% .$name, f)
+map(non_fish_spp$name, f)
 ```
 
-
-Create a lookup table for Northeast data portal species info, similar to what is done for IUCN species in `1_get_ne_iucn_spp.Rmd`.
 
 
 

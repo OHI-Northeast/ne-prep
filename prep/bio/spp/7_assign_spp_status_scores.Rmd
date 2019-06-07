@@ -63,7 +63,7 @@ Fill out all species for all 11 regions. Then left_join to table that lists spec
 It actually looks like all species have at least a USA designation. But there are some cases where the USA status is *NNR* (equivalent to NA) but IUCN has an actual status. For example:
 
 ```{r}
-filter(status_table, common == "atlantic bluefin tuna")
+filter(spp_status, common == "atlantic bluefin tuna")
 ```
 
 
@@ -98,7 +98,15 @@ iucn_usa_status_table <- expand_spp_status %>%
   select(common, sciname, status_scale, score) %>%
   filter(status_scale %in% c("IUCN", "USA")) %>%
   distinct() %>%
-  spread(status_scale, score)
+  group_by(common, sciname) %>% 
+  mutate(count = n()) %>% #this should be 1 or 2. bigeye sand tiger has 3 entries... need to filter out
+  ungroup() %>%
+  filter(!(common == 'bigeye sand tiger' & status_scale == 'IUCN' & is.na(score) & count == 3),
+         common != "bonaparte's gull") %>% #this is in twice. once as bonaparte's gull and also bonapartes gull. second is correct
+  mutate(common = ifelse(
+    common == "	g<fc>nther<92>s lanternfish", "gunther's lanternfish", common
+  )) %>%
+  tidyr::spread(status_scale, score)
 ```
 
 Now we can assign scores to the species/regions that are NA in `expand_spp_status` table.

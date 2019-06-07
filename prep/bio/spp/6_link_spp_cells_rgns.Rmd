@@ -56,7 +56,7 @@ List of dataportal rasters
 portal_list <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"), full.names = T)
 ```
 
-
+Calculate area of each species in each OHI region. 
 ```{r, eval = F}
 calc_sp_rgn_area_dp <- function(spp){
   
@@ -186,11 +186,10 @@ ne_scinames <- read_csv("data/4_ne_dataportal_spp_common_sci.csv") %>%
 
 nedp <- dp_spp_rgns_area %>%
   mutate(sciname = str_replace_all(species, "_", " "),
-         species = str_replace_all(sciname, "normalized", ""),
-         common  = trimws(tolower(species), "right")) %>%
+         species = str_replace_all(sciname, "normalized AEA", ""),
+         common  = trimws(tolower(species), "both")) %>%
   select(-sciname, -species) %>%
-  left_join(ne_scinames) %>%
-  select(-X)
+  left_join(ne_scinames)
 
 #iucn
 iucn_ne_spp_info <- read_csv("data/1_iucn_spp_in_ne.csv")

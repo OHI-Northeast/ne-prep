@@ -69,7 +69,8 @@ maps_to_rasterize <- read_csv("data/1_iucn_spp_shp_filepaths.csv") %>%
   mutate(shp_file = str_replace(dbf_file, 'dbf$', 'shp'))
 
 ### rast_base for cell IDs
-rast_base <- raster("~/github/ne-prep/spatial/ocean_rasters/ocean_ne.tif")
+rast_base <- raster("~/github/ne-prep/spatial/ocean_rasters/ocean_ne.tif") %>%
+  projectRaster(crs = us_alb)
 
   
 ################################################################.
@@ -125,11 +126,11 @@ shps <- maps_to_rasterize$shp_file %>% unique()
     
   ### These will be used as masks
   rast_bathy <- raster('~/github/spp_risk_dists/_spatial/bathy_rast.tif') %>%
-    projectRaster(ocean_ne)
+    projectRaster(crs = us_alb)
   rast_neritic <- raster('~/github/spp_risk_dists/_spatial/bathy_rast_neritic.tif') %>%
-    projectRaster(ocean_ne)
+    projectRaster(crs = us_alb)
   rast_shallow <- raster('~/github/spp_risk_dists/_spatial/bathy_rast_shallow.tif') %>%
-    projectRaster(ocean_ne)
+    projectRaster(crs = us_alb)
 
     ####################################################################.
     ### In each shapefile, loop over each species ID using mclapply().
@@ -147,7 +148,7 @@ shps <- maps_to_rasterize$shp_file %>% unique()
        # spp_shp <- valid_check(spp_shp)
           ### if invalid geom, and bounds exceeded, buffer to 0
         spp_shp <- spp_shp %>%
-          st_transform(crs = "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs")
+          st_transform(crs = us_alb)
         
         spp_rast <- fasterize::fasterize(spp_shp, rast_base, field = 'presence', fun = 'min')
         

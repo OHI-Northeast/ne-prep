@@ -29,6 +29,9 @@ library(tidyverse)
 #install.packages("natserv")
 library(natserv)
 options(NatureServeKey = Sys.getenv("NatureServeKey"))
+library(taxize)
+
+source("~/github/ne-prep/src/R/common.R")
 ```
 
 We need to get scientific names for the data portal species. 
@@ -40,16 +43,15 @@ ne_rasters <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"))
 ne_dp_spp <- data.frame(filepath = ne_rasters) %>%
   mutate(name = sub(".tif", "", filepath),
          common = gsub("_", " ", name),
-         common_name = tolower(gsub("normalized", "", common))) %>%
+         common_name = str_trim(tolower(gsub("normalized AEA", "", common)), "both")) %>% #removing white space and the normalized aea strings
   select(common_name) %>%
   mutate(source = "dataportal")
 ```
 
-The Nature Serve R package requires scientific names to query the API.
+The Nature Serve R package requires scientific names to query the API. We can use the `taxize` library to help.
 
 ```{r, eval = F}
-library(taxize)
-
+#for loop to grab each data portal species name and find it's scientific name
 dp_sci_names <- c()
 for(i in 1:nrow(ne_dp_spp)){ #i <- 1
   sp <- ne_dp_spp[i,1]
@@ -62,16 +64,17 @@ dp_sci_names <- c(dp_sci_names, sci)
 dp_sci_names_df <- do.call(rbind,lapply(dp_sci_names,data.frame))
 dp_sci_names_df$common <- rownames(dp_sci_names_df)
 
-#clean up df
+#clean up df. there are a lot of viruses?!
 dp_sci_names_df_clean <- dp_sci_names_df %>%
   rename(sciname = X..i..) %>%
   mutate(common = trimws(str_extract(common, "[^.]+")), "r") %>% #remove numbers
   distinct() %>%
+  filter(!str_detect(sciname, "virus")) %>%
   group_by(common) %>%
   mutate(n = n()) %>%
   ungroup() %>%
-  mutate(sci_fix = case_when( #fixing a couple manually that have multiple scinames AND adding sci name 
-    common == "butterfish" ~"Peprilus triacanthus",
+  mutate(sci_fix = case_when( #manually doing this... taxize returns so many names
+    common == "butterfish" ~ "Peprilus triacanthus",
     common == "cusk" ~ "Brosme brosme",
     common == "pollock" ~ "Pollachius virens",
     common == "spot" ~ "Leiostomus xanthurus",
@@ -104,39 +107,73 @@ dp_sci_names_df_clean <- dp_sci_names_df %>%
     common == "striped bass" ~ "Morone saxatilis",
     common == "thorny skate" ~ "Amblyraja radiata",
     common == "winter skate" ~ "Leucoraja ocellata",
+    common == "alewife" ~ "Alosa pseudoharengus",
     common == "american plaice" ~ "Hippoglossoides platessoides",
+    common == "arctic tern" ~ "Sterna paradisaea",
     common == "atlantic spotted dolphin" ~ "Stenella frontalis",
     common == "atlantic cod" ~ "Gadus morhua",
     common == "atlantic croaker" ~ "Micropogonias undulatus",
     common == "atlantic mackerel" ~ "Scomber scombrus",
     common == "atlantic puffin" ~ "Fratercula arctica",
     common == "atlantic sharpnose shark" ~ "Rhizoprionodon terraenovae",
+    common == "atlantic white sided dolphin" ~ "Lagenorhynchus acutus",
+    common == "atlantic halibut" ~ "Hippoglossus hippoglossus",
+    common == "atlantic wolffish" ~ "Anarhichas lupus",
     common == "banded drum" ~ "Larimus fasciatus",
+    common == "black legged kittiwake" ~ "Rissa tridactyla",
     common == "black scoter" ~ "Melanitta americana",
     common == "blackbelly rosefish" ~ "Helicolenus dactylopterus",
     common == "black sea bass" ~ "Centropristis striata",
+    common == "blainvilles beaked whale" ~ "Mesoplodon densirostris",
     common == "bluntnose stingray" ~ "Dasyatis say",
     common == "bonapartes gull" ~ "Chroicocephalus philadelphia",
+    common == "bridled tern" ~ "Onychoprion anaethetus",
+    common == "bullnose ray" ~ "Myliobatis freminvillii",
     common == "common tern" ~ "Sterna hirundo",
+    common == "clearnose skate" ~ "Raja eglanteria",
+    common == "common eider" ~ "Somateria mollissima",
+    common == "common loon" ~ "Gavia immer",
+    common == "common murre" ~ "Uria aalge",
+    common == "cuviers beaked whale" ~ "Ziphius cavirostris",
+    common == "double crested cormorant" ~ "Phalacrocorax auritus",
+    common == "dovekie" ~ "Alle alle",
+    common == "gervais beaked whale" ~ "Mesoplodon europaeus",
     common == "great shearwater" ~ "Ardenna gravis",
     common == "great skua" ~ "Stercorarius skua",
+    common == "gulf stream flounder" ~ "Citharichthys arctifrons",
     common == "harbor porpoise" ~ "Phocoena phocoena",
     common == "hickory shad" ~ "Alosa mediocris",
     common == "horned grebe" ~ "Podiceps auritus",
+    common == "humpback whale" ~ "Megaptera novaeangliae",
     common == "laughing gull" ~ "Leucophaeus atricilla",
     common == "leachs storm petrel" ~ "Oceanodroma leucorhoa",
+    common == "least tern" ~ "Sternula antillarum",
     common == "little skate" ~ "Leucoraja erinacea",
+    common == "long finned pilot whale" ~ "Globicephala melas",
+    common == "long tailed duck" ~ "Clangula hyemalis",
+    common == "manx shearwater" ~ "Puffinus puffinus", 
     common == "minke whale" ~ "Balaenoptera acutorostrata",
+    common == "north atlantic right whale" ~ "Eubalaena glacialis",
     common == "northern fulmar" ~ "Fulmarus glacialis",
+    common == "northern gannet" ~ "Morus bassanus",
     common == "northern kingfish" ~ "Menticirrhus saxatilis",
     common == "northern pipefish" ~ "Syngnathus fuscus",
+    common == "red throated loon" ~ "Gavia stellata",
+    common == "rissos dolphin" ~ "Grampus griseus",
     common == "roughtail stingray" ~ "Dasyatis centroura",
+    common == "rosette skate" ~ "Leucoraja garmani",
     common == "royal tern" ~ "Thalasseus maximus",
+    common == "sei whale" ~ "Balaenoptera borealis",
+    common == "short beaked common dolphin" ~ "Delphinus delphis",
+    common == "short finned pilot whale" ~ "Globicephala macrorhynchus",
     common == "sooty shearwater" ~ "Ardenna grisea",
     common == "sooty tern" ~ "Onychoprion fuscatus",
+    common == "south polar skua" ~ "Stercorarius maccormicki",
     common == "spotted hake" ~ "Urophycis regia",
     common == "striped dolphin" ~ "Stenella coeruleoalba",
     common == "striped anchovy" ~ "Anchoa hepsetus",
+    common == "summer flounder" ~ "Paralichthys dentatus",
+    common == "surf scoter" ~ "Melanitta perspicillata",
     common == "white winged scoter" ~ "Melanitta fusca",
     common == "wilsons storm petrel" ~ "Oceanites oceanicus",
     common == "windowpane" ~ "Scophthalmus aquosus",
@@ -149,7 +186,7 @@ dp_sci_names_df_clean <- dp_sci_names_df %>%
   select(common, sciname = sci_fix) %>%
   distinct() 
 
-#write.csv(dp_sci_names_df_clean, file = "data/4_ne_dataportal_spp_common_sci.csv")
+write.csv(dp_sci_names_df_clean, file = "data/4_ne_dataportal_spp_common_sci.csv")
 ```
 
 ```{r}

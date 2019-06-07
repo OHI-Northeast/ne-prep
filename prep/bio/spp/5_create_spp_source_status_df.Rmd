@@ -44,8 +44,8 @@ The names in the `iucn_rasters` list only have the species ID. So we need to fig
 ```{r}
 #list of iucn species in northeast. This containts the iucn_sid column.
 iucn_ne_spp <- read_csv("data/1_iucn_spp_in_ne.csv") %>%
-  select(iucn_sid, common, sciname) %>%
-  mutate(common = tolower(common))
+  select(iucn_sid, common_name, sciname) %>%
+  mutate(common = tolower(common_name))
 ```
 
 Get data portal species
@@ -131,7 +131,7 @@ for(i in 1:nrow(iucn_sp_wo_status)){
 }
 ```
 
-I'll do the same, using the IUCN API, for Northeast dataportal species without a status. This is just 17 species.
+I'll do the same, using the IUCN API, for Northeast dataportal species without a status. This is just 49 species.
 
 ```{r}
 #get ne_dp species without a status
@@ -167,7 +167,7 @@ if(inherits(possibleError, "error")) next
 }
 ```
 
-Looks like these 17 species don't have a status in the IUCN database!
+Looks like these 49 species don't have a status in the IUCN database!
 
 Add status category back to `large_df`
 
