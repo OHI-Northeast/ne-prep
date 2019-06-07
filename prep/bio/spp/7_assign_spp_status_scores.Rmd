@@ -130,7 +130,7 @@ no_score <- full_sp_rgn_scores %>%
 unique(no_score$status)
 ```
 
-All are NA. So we have every species scored that we can - at either the state, US or global (IUCN) level. Now we need to find out which of our NE regions contain these species.
+All are NA. So we have every species scored that we can - at either the state, US or global (IUCN) level.
 
 ```{r}
 write.csv(full_sp_rgn_scores, file = "~/github/ne-scores/region/layers/spp_status_scores.csv")
