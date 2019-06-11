@@ -59,7 +59,8 @@ rgns       <- sf::st_read(dsn = paste0(path.expand(dir_prep),'/spatial/shapefile
 rgns_simp  <- sf::st_read(dsn = paste0(path.expand(dir_prep),'/spatial/shapefiles'),layer = 'ne_ohi_rgns_simp', quiet = T) #need to use path.expand because readOGR does not read '~'
 rgn_data   <- data.frame(rgns) %>% 
   select(-geometry) %>% 
-  mutate(rgn_name = as.character(rgn_name),
+  mutate(area_km2 = as.numeric(levels(area_km2))[area_km2],
+         rgn_name = as.character(rgn_name),
          state = ifelse(str_detect(rgn_name, "Massachusetts"), "Massachusetts", rgn_name))
 ocean_ne   <- raster::raster('~/github/ne-prep/spatial/ocean_rasters/ocean_ne.tif')
 ocean_rgns <- raster::raster('~/github/ne-prep/spatial/ocean_rasters/ne_rgns_rast.tif')
