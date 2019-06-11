@@ -16,10 +16,16 @@ output:
     toc: true
 ---
 
-here is a setup code chunk with many of the common parameters:
-``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE)
+# Summary
+This script creates two layers used for the Lasting Special Places subgoal:
+
+1. Marine protected areas within state waters
+2. Terrestrial protected areas within 1km of the coastline
+
+The output layers are saved to `ne-scores/region/layers` for use in the Toolbox.
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
@@ -28,38 +34,23 @@ library(sf)
 library(mapview)
 ```
 
-#Summary
-[general description: What data are being generated? Why (what project, etc.)? Upstream/downstream processing information that might be helpful?  Other information?]
 
 ***
 
-#Data Source [NOTE: can be copied from README.md in rawdata file]
-**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+# Data Source 
 
-**Downloaded**: [date downloaded or received]
+We use the United States Geological Survey Protected Areas Database for the US. Version 2.0.
 
-**Description**:  [e.g., surface aragonite state]
+**Reference**: 
+U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United States (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
 
-**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+**Downloaded**: June 5th, 2019
 
-**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+**Description**:  
 
-**Format**:  [e.g. NetCDF]
+**Time range**: Protected areas list established date back to early 1900's where available
 
-
-
-## Filter and re-project WDPA polygons
-
-The WDPA-MPA dataset comes as a shapefile or geodatabase in WGS84 coordinate reference system.  
-
-* For OHI we have chosen to count only protected areas with defined legal protection, so we apply a filter on the STATUS attribute that selects only STATUS == "Designated". 
-  * According to the WDPA Manual:  STATUS as "Designated" means:  "Is recognized or dedicated through legal means. Implies specific binding commitment to conservation in the long term. Applicable to government and non-government sources."
-  * Other values for STATUS include "Proposed", "Adopted", "Inscribed", or "Not Reported".
-    * "Adopted" and "Inscribed" are World Heritage or Barcelona Convention sites; while these may seem important, they are generally protected by other means (as overlapping "Designated" polygons) in addition to these values.
-* In 2015, the USA started including polygons that represent marine management plans, in addition to more strictly defined protected areas.  This info is contained in the "MANG_PLAN" field.
-  * These programmatic management plans variously protect species, habitats, and (??) and can be MPA or non-MPA.
-  * For OHI we have chosen to count only MPA programmatic management plans, omitting Non-MPA programmatic management plans.
-* For ease of tallying areas, we convert the polygons to a Mollweide equal-area projection before rasterizing.
+**Format**:  Spatial Geodatabase
 
 
 ***
@@ -68,260 +59,163 @@ The WDPA-MPA dataset comes as a shapefile or geodatabase in WGS84 coordinate ref
 
 ## Load Data
 
-```{r}
-wdpa_raw <- read_sf(file.path(dir_anx, "_raw_data/WDPA/d2019/WDPA_May2019_USA-shapefile/WDPA_May2019_USA-shapefile-polygons.shp"))
-```
-
-## Crop to our region
-
-```{r}
-wdpa_ne <- st_transform(wdpa_raw, us_alb) %>%
-  st_crop(rgns)
-
-plot(wdpa_ne[9], main = "Protected areas by IUCN Category")
-```
-
-## Explore the data
-
-We will mainly filter on the management plans, we can look at these by IUCN category.
-
-```{r, fig.width = 10, fig.height = 8}
-ggplot(wdpa_ne) +
-  geom_sf(aes(fill = MANG_PLAN)) +
-  facet_wrap(~ MANG_PLAN) +
-  theme_bw() 
-```
-
-## Filter by management plan
-
-All of the areas included in the US have a status of "DESIGNATED" so we don't need to filter on that.
-
-```{r}
-unique(wdpa_ne$STATUS)
-```
-
-
-In 2015, the USA started including polygons that represent marine management plans, in addition to more strictly defined protected areas.  This info is contained in the "MANG_PLAN" field.
-  * These programmatic management plans variously protect species, habitats, and (??) and can be MPA or non-MPA.
-  * For OHI we have chosen to count only MPA programmatic management plans, omitting Non-MPA programmatic management plans.
-* For ease of tallying areas, we convert the polygons to a Mollweide equal-area projection before rasterizing.
-
-```{r remove_areas_wo_mgmnt_plans}
-wdpa_ne_filtered <- wdpa_ne %>%
-  filter(!str_detect(MANG_PLAN, pattern = "Non-MPA Program"),
-         MANG_PLAN != "No Management Plan")
-
-ggplot(wdpa_ne_filtered) +
-  geom_sf(aes(fill = MANG_PLAN)) +
-  theme_bw() 
-```
-
-
-## Apply an inland buffer
-
-We want to include coastal protected areas up to 1km inland.
-
-```{r land_protected_areas}
+Load our inland and offshore buffers.
+```{r buffers}
+#load buffers
 inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp")
-
-land_areas <- st_intersection(wdpa_ne_filtered, inland_buffer)
-
-ggplot(land_areas) +
-  geom_sf(aes(fill = DESIG_ENG)) +
-  theme_bw() +
-  theme(legend.position = "none")
-
+offshore_buffer <- rgns %>% filter(rgn_id > 4)
 ```
 
-## Marine areas in state waters
+Let's look at the available layers in the USGS PADUS database
 
-We want to look at areas within state waters only. 
-
-Filter out all 100% terrestrial protected areas
-
-```{r state_water_protected_areas, fig.width=10}
-#filter for just marine areas in wdpa_ne
-marine_wdpa_ne <- wdpa_ne_filtered %>% filter(MARINE != 0) #this removes 100% terrestrial areas
-
-#3nm buffer
-buffer_3nm <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_offshore_3nm.shp") %>%
-  mutate(rgn_area = st_area(geometry))
-state_areas <- st_intersection(buffer_3nm, marine_wdpa_ne) #intersect our state water regions with the marine areas
-
-ggplot(state_areas) +
-  geom_sf(aes(fill = DESIG)) +
-  theme_bw() +
-  theme(legend.text=element_text(size = 8)) +
-  guides(fill=guide_legend(ncol = 4))
+```{r look_at_gdb_layers}
+st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
 ```
 
+After exploring the data descriptions we know we want all ecept the Proclamation layer. When I load these, I'm also cropping to our region to reduce object size.
 
-Look at the marine areas that are captured but don't limit just to state waters. Basically, a plot of all regions that touch state waters.
-```{r}
-ggplot(wdpa_ne %>% filter(WDPA_PID %in% state_areas$WDPA_PID)) +
-  geom_sf(aes(fill = NAME)) +
-  theme_bw() +
-  theme(legend.position = "none")
+```{r load_three_land_layers}
+desig <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Designation.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns) %>%
+  st_intersection(inland_buffer)
+
+ease <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Easement.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(inland_buffer)
+
+#fee is causing geometry errors. so i filter just for our states first and the error goes away. The error must exist outside or region of interest
+fee <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Fee.shp")) %>%
+  filter(State_Nm %in% c("NY", "RI", "CT", "MA", "NH", "ME")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(inland_buffer)
 ```
 
-What marine areas will not be captured?
+For the marine layer, we are going to remove all areas that are designated as fishery/shellfish management areas as well as the Special Area Management Plans. 
 
-```{r plot_not_included_marine_areas}
-
-non_state_prot_areas <- wdpa_ne_filtered %>%
-  filter(!WDPA_PID %in% state_areas$WDPA_PID,
-         MARINE != 0) #when MARINE == 0, it's 100% terrestrial. we don't care about missing these in the marine protected areas clip
-
-ggplot(non_state_prot_areas) +
-  geom_sf(aes(fill = NAME)) +
-  theme_bw() +
-  theme(legend.position = "none")
+```{r load_and_clean_marine_layer}
+marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(offshore_buffer) %>%
+  filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
+         !is.na(Loc_Ds)) 
 ```
 
-
-Interactive map to show the areas included when we use state waters, inland buffer and whole region
-
+Create and save an interactive .html map to show the different layers.
 ```{r interactive_map, eval = F}
-#map the data layers  
-interactive_map <-  mapview(wdpa_ne_filtered, col.regions = "darkorange", zcol = "DESIG", layer.name = "WDPA areas w/o non-mpa program mngmt plans") + 
-  mapview(land_areas, col.regions = "darkgreen", zcol = "DESIG", layer.name = "Land protected areas w/i 1km") + 
-  mapview(state_areas, col.regions = "darkblue", zcol = "DESIG", layer.name = "Protected areas in state waters")  +
-  mapview(non_state_prot_areas, col.regions = "darkred", zcol = "DESIG", layer.name = "Protected areas not included in state waters") +
-  mapview(inland_buffer, col.regions = "lightgreen") +
-  mapview(buffer_3nm, col.regions = "lightblue")
+usgs_data <- mapview(proc, col.regions = "red") + mapview(desig, col.regions = "yellow") + mapview(ease, col.regions = "green") + mapview(marine, col.regions = "blue") +mapview(fee, col.regions = "orange")
 
 ## save interactive map
-mapshot(interactive_map, url = "wdpa_map.html")
+mapshot(usgs_data, url = "usgs_map.html")
 ```
-
-## Years of implementation
-
-```{r}
-max(state_areas$STATUS_YR)
-```
-
 
 
 ## Calculate total area protected
 
-We want to know the proportion of area protected within each region. After visual inspection it looks like very little overlap between the marien and terrestrial shapefiles so rather than combining them using `st_union()` (takes a long time and makes a very large file) I will calculate the area of each separately then combine.
+We want to know the proportion of area protected within each region. After visual inspection it looks like very little overlap between the marine and terrestrial shapefiles so rather than combining them using `st_union()` (takes a long time and makes a very large file) I will calculate the area of each separately then combine.
 
-We need to do this by year...
 
-Marine areas
+### Marine areas
+
+First let's combine polygons so we don't double count areas. For example, multiple shipwrecks are included within the larger MA North Shore Sanctuary. 
+
+All areas included in the Marine layer were established before our time period (or have NA for Date_Est) so we don't need to do this by year. 
 ```{r}
-s <- state_areas %>%
-  select(rgn_id, rgn_name, STATUS_YR, WDPA_PID, NAME) %>%
-  mutate(area = st_area(geometry))
-
-state_protected_by_rgn <- data.frame()
-for(i in 2005:2017){
-  
-  print(i)
-  
-  s_yr <- filter(s, STATUS_YR <= i) %>%
-    group_by(rgn_id, rgn_name) %>%
-    summarize(protected_area_m = sum(area)) %>%
-    mutate(year = i,
-           type = "marine") %>%
-    st_set_geometry(NULL)
-  
-  state_protected_by_rgn <- bind_rows(s_yr, state_protected_by_rgn)
-}
+marine_protected_by_rgn <- marine %>%
+  select(rgn_id, Date_Est, Loc_Ds, Loc_Nm) %>%
+  mutate(rgn_id = ifelse(c(rgn_id == 11 & Loc_Nm == "Cape and Islands Ocean Sanctuary"), 8, rgn_id)) %>% #one sliver of Cape and Islands Ocean Sanctuary was being assigned to Rhode Island but is definitely MA
+  group_by(rgn_id) %>%
+  summarise() %>%
+  ungroup() %>%
+  mutate(area = st_area(geometry)/1000000) %>% #calculate total protected area
+  left_join(rgn_data) %>%
+  mutate(prop_area = as.numeric(area)/area_km2, #calculate proportion of state waters protected
+         type = "marine",
+         year = 2005) %>%
+    st_set_geometry(NULL) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
 ```
 
-Calculate total protected area and compare to our target of 10%
+### Land
+
 ```{r}
+#select the same columns from each of the three land layers
+ease_clean <- ease %>%
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
 
-marine_prot_area <- state_protected_by_rgn %>%
-  left_join(buffer_3nm) %>%
-  mutate(prop_protected = protected_area_m/as.numeric(rgn_area),
-         score = (prop_protected/0.1)*100) %>%
-  select(rgn_id, rgn_name, year, protected_area_m, rgn_area, prop_protected, score, type)
+fee_clean <- fee %>%
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
 
-ggplot(marine_prot_area, aes(x = year, y = prop_protected, color = rgn_name)) +
-  geom_line() +
-  theme_bw() +
-  labs(x = "",
-       y = "Proportion of 3nm coast protected")
+desig_clean <- desig %>%
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
 
+#combine them into `land`
+
+land <- ease_clean %>%
+  rbind(fee_clean) %>%
+  rbind(desig_clean) %>%
+  unique() %>% #remove duplicates
+  lwgeom::st_make_valid()
 ```
 
+We do have years added so we need to take that into account, unlike with the Marine layer.
+Importantly - a lot of areas have NA for date est. So we assume they have been established the entire time...
 
-Terrestrial areas
-```{r}
-l <-  land_areas %>%
-  select(rgn_id, rgn_name, STATUS_YR, WDPA_PID, NAME) %>%
-  mutate(area = st_area(geometry))
+```{r calculate_land_protection}
 
 land_protected_by_rgn <- data.frame()
+
 for(i in 2005:2017){
   
   print(i)
   
-  l_yr <- filter(l, STATUS_YR <= i) %>%
-    group_by(rgn_id, rgn_name) %>%
-    summarize(protected_area_m = sum(area)) %>%
-    mutate(year = i,
-           type = "land") %>%
+  s_yr <- filter(land, Date_Est <= i | is.na(Date_Est)) %>% #all NA included as well
+    group_by(rgn_id) %>%
+    summarise() %>%
+    ungroup() %>%
+    mutate(prot_area_m = st_area(geometry)) %>% #calculate total protected area
+    left_join(inland_buffer %>% st_set_geometry(NULL)) %>% #join to inland buffer 
+    mutate(prop_area = prot_area_m/area, #calculate proportion of land in 1km region protected
+           type = "land",
+           year = i) %>%
     st_set_geometry(NULL)
   
-  land_protected_by_rgn <- bind_rows(l_yr, land_protected_by_rgn)
+  land_protected_by_rgn <- bind_rows(s_yr, land_protected_by_rgn)
 }
-
 ```
 
-
-Calculate total protected area and compare to our target of 17%
-```{r}
-
-land_prot_area <- land_protected_by_rgn %>%
-  left_join(inland_buffer) %>%
-  mutate(prop_protected = protected_area_m/area,
-         score = min(((prop_protected/0.17)*100), 100)) %>% #if more than 17% is protected, don't let score go above 100
-  select(rgn_id, rgn_name, year, protected_area_m, rgn_area = area, prop_protected, score, type)
-
-ggplot(land_prot_area, aes(x = year, y = prop_protected, color = rgn_name)) +
-  geom_line() +
-  theme_bw() +
-  labs(x = "",
-       y = "Proportion of 1km coast protected")
-
-```
 
 # Results
 
-Combine the land and marine protected area scores and take the average.
-
-```{r, fig.height = 6, fig.width = 8}
-
-lsp <- marine_prot_area %>%
-  bind_rows(land_prot_area) %>%
-  group_by(rgn_id, rgn_name, year) %>%
-  summarize(score = mean(score)) %>%
-  mutate(type = "lsp_score")
-  
-  
-all <- marine_prot_area %>%
-  select(rgn_id, rgn_name, year, score, type) %>%
-  rbind(lsp) %>%
-  rbind(land_prot_area %>% select(rgn_id, rgn_name, year, score, type))
-
-ggplot(all, aes(x = year, y = score, color = type)) +
-  geom_line(lwd = 2) +
-  facet_wrap(~rgn_name) +
+```{r marine_protected_prop_by_rgn}
+ggplot(marine_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+  geom_line() +
   theme_bw() +
-  labs(x = "",
-       y = "Score") +
-  theme(axis.text.x = element_text(angle = 90),
-        legend.position = "bottom") +
-  scale_color_manual(name = "", 
-                       labels = c("Coastal land protection", "Lasting Special Places", "Marine protection"),
-                       values = c("darkgreen", "orange", "blue")) 
-  
-
+  labs(y = "Proportion of State waters protected")
 ```
 
+```{r land_protected_prop_by_rgn}
+ggplot(land_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Proportion of inland 1km protected")
+```
+
+
+# Save Layers
+
+```{r save_to_layers}
+#save land
+write.csv(land_protected_by_rgn %>% select(rgn_id, year, prop_area), file = "~/github/ne-scores/region/layers/lsp_protected_land.csv")
+
+#save marine
+write.csv(marine_protected_by_rgn %>% select(rgn_id, year, prop_area), file = "~/github/ne-scores/region/layers/lsp_protected_marine.csv")
+```
 
 
 
