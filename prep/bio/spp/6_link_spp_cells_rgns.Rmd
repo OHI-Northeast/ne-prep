@@ -184,6 +184,8 @@ ne_scinames <- read_csv("data/4_ne_dataportal_spp_common_sci.csv") %>%
   select(-X1) %>%
   mutate(sciname = tolower(sciname))
 
+dp_spp_rgns_area <- read_csv("data/6_ne_dataportal_spp_area_by_rgn.csv")
+
 nedp <- dp_spp_rgns_area %>%
   mutate(sciname = str_replace_all(species, "_", " "),
          species = str_replace_all(sciname, "normalized AEA", ""),
@@ -193,6 +195,8 @@ nedp <- dp_spp_rgns_area %>%
 
 #iucn
 iucn_ne_spp_info <- read_csv("data/1_iucn_spp_in_ne.csv")
+
+iucn_spp_rgns_area <- read_csv("data/6_ne_iucn_spp_area_by_rgn.csv")
 
 iucn <- iucn_spp_rgns_area %>%
   left_join(iucn_ne_spp_info, by = c("SID" = "iucn_sid")) %>%
