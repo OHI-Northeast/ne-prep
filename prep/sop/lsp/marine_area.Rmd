@@ -1,0 +1,127 @@
+---
+title: 'OHI-Northeast: Lasting Special Places - Marine'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+This script creates the designated marine areas layer for the Lasting Special Places subgoal. This layer measures the amount of marine area within state waters that is designated and/or protected.
+
+The output layer is saved to `ne-scores/region/layers` for use in the Toolbox.
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(tidyverse)
+library(sf)
+library(mapview)
+```
+
+
+***
+
+# Data Source 
+
+We use the United States Geological Survey Protected Areas Database for the US. Version 2.0.
+
+**Reference**: 
+U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United States (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
+
+**Downloaded**: June 5th, 2019
+
+**Description**:  
+
+**Time range**: Protected areas list established date back to early 1900's where available
+
+**Format**:  Spatial Geodatabase
+
+
+***
+
+# Load Data
+
+Load the state waters shapefile.
+```{r buffer}
+#load buffer
+state_waters <- rgns %>% filter(rgn_id > 4)
+```
+
+Let's look at the available layers in the USGS PADUS database
+
+```{r look_at_gdb_layers}
+st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
+```
+
+After exploring the data descriptions we know we just want the Marine layer. When I load this layer, I'm also cropping to our region to reduce object size.
+
+We are also going to remove all areas that are designated as fishery/shellfish management areas as well as the Special Area Management Plans. This designations are not associated with protection or designation as a special place, and therefore should not be included.
+
+```{r load_and_clean_marine_layer}
+marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(offshore_buffer) %>%
+  filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
+         !is.na(Loc_Ds)) 
+```
+
+# Calculate total area protected
+
+We want to know the proportion of area protected within each region. 
+
+First let's combine polygons so we don't double count areas. For example, multiple shipwrecks are included within the larger MA North Shore Sanctuary. 
+
+All areas included in the Marine layer were established before our time period (or have NA for Date_Est) so we don't need to do this by year. 
+```{r}
+marine_protected_by_rgn <- marine %>%
+  select(rgn_id, Date_Est, Loc_Ds, Loc_Nm) %>%
+  mutate(rgn_id = ifelse(c(rgn_id == 11 & Loc_Nm == "Cape and Islands Ocean Sanctuary"), 8, rgn_id)) %>% #one sliver of Cape and Islands Ocean Sanctuary was being assigned to Rhode Island but is definitely MA
+  group_by(rgn_id) %>%
+  summarise() %>%
+  ungroup() %>%
+  mutate(area = st_area(geometry)/1000000) %>% #calculate total protected area
+  left_join(rgn_data) %>%
+  mutate(prop_area = as.numeric(area)/area_km2, #calculate proportion of state waters protected
+         type = "marine",
+         year = 2005) %>%
+    st_set_geometry(NULL) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
+```
+
+# Results
+
+```{r marine_protected_prop_by_rgn}
+ggplot(marine_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Proportion of State waters protected")
+```
+
+# Save Layer
+
+```{r save_to_toolbox}
+#save marine
+write.csv(marine_protected_by_rgn %>% select(rgn_id, year, prop_area), file = "~/github/ne-scores/region/layers/lsp_protected_marine.csv")
+```
+
+
+
+
+
+

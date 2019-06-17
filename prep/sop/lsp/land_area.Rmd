@@ -1,0 +1,160 @@
+---
+title: 'OHI-Northeast: Lasting Special Places - Terrestrial'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+This script creates the designated terrestrial (land) areas layer for the Lasting Special Places subgoal. This layer measures the amount of designated and/or protected area within 1km of the coastline for each state in the Northeast region.
+
+The output layer is saved to `ne-scores/region/layers` for use in the Toolbox.
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(tidyverse)
+library(sf)
+library(mapview)
+```
+
+
+***
+
+# Data Source 
+
+We use the United States Geological Survey Protected Areas Database for the US. Version 2.0.
+
+**Reference**: 
+U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United States (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
+
+**Downloaded**: June 5th, 2019
+
+**Description**:  
+
+**Time range**: Protected areas list established date back to early 1900's where available
+
+**Format**:  Spatial Geodatabase
+
+
+***
+
+# Load Data
+
+Load our inland buffer so we can extract just the areas within 1km of the coastline.
+```{r buffers}
+inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp")
+```
+
+Let's look at the available layers in the USGS PADUS database
+
+```{r look_at_gdb_layers}
+st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
+```
+
+After exploring the data descriptions we know we want all ecept the Proclamation layer. When I load these, I'm also cropping to our region to reduce object size.
+
+```{r load_three_land_layers}
+desig <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Designation.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns) %>%
+  st_intersection(inland_buffer)
+
+ease <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Easement.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(inland_buffer)
+
+#fee is causing geometry errors. so i filter just for our states first and the error goes away. The error must exist outside or region of interest
+fee <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Fee.shp")) %>%
+  filter(State_Nm %in% c("NY", "RI", "CT", "MA", "NH", "ME")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(inland_buffer)
+```
+
+# Calculate total area protected
+
+We want to know the proportion of area protected within each region. 
+```{r}
+#select the same columns from each of the three land layers
+ease_clean <- ease %>%
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
+
+fee_clean <- fee %>%
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
+
+desig_clean <- desig %>%
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
+
+#combine them into `land`
+
+land <- ease_clean %>%
+  rbind(fee_clean) %>%
+  rbind(desig_clean) %>%
+  unique() %>% #remove duplicates
+  lwgeom::st_make_valid()
+```
+
+We want to measure amount protected each year. The data has this information stored in the `Date_Est` column. To account for this, we can iterate over each year (2005-2017). Some designated areas have an `NA` for Date Established. Since we have no other information to use for these areas, we assume they have been established since before 2005.
+
+```{r calculate_land_protection}
+#create empty dataframe to fill with each iteration in the for loop
+land_protected_by_rgn <- data.frame()
+
+#for each year from 2005 - 2017
+for(i in 2005:2017){
+  
+  #filter dataset to only include areas with Date_Est <= year i, and NAs
+  s_yr <- filter(land, Date_Est <= i | is.na(Date_Est)) %>% #all NA included as well
+    group_by(rgn_id) %>%
+    summarise() %>% #this takes care of overlapping geometries so we don't double count areas
+    ungroup() %>%
+    mutate(prot_area_m = st_area(geometry)) %>% #calculate total protected area
+    left_join(inland_buffer %>% st_set_geometry(NULL)) %>% #join to inland buffer 
+    mutate(prop_area = prot_area_m/area, #calculate proportion of land in 1km region protected
+           type = "land",
+           year = i) %>%
+    st_set_geometry(NULL)
+  
+  #fill out dataframe
+  land_protected_by_rgn <- bind_rows(s_yr, land_protected_by_rgn)
+}
+```
+
+
+# Results
+
+```{r land_protected_prop_by_rgn}
+ggplot(land_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Proportion of inland 1km protected")
+```
+
+
+# Save Layer
+
+```{r save_to_toolbox}
+#save land
+write.csv(land_protected_by_rgn %>% select(rgn_id, year, prop_area), file = "~/github/ne-scores/region/layers/lsp_protected_land.csv")
+```
+
+
+
+
+
+

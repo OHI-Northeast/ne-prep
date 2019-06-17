@@ -1,0 +1,163 @@
+---
+title: 'OHI-Northeast: Iconic Species'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+```
+
+#Summary
+This script creates the Iconic Species status data layer for use in the Sense of Place: Iconic Species subgoal.
+
+***
+
+#Data Source
+
+We use NatureServe and IUCN conservation status (aka extinction risk) information.
+
+***
+  
+
+#Load Data
+
+Load the list of our iconic species. This list was created manually through consultation with folks in the region about iconic Northeast species.
+
+```{r load_list_of_species}
+iconic_list <- read_csv("data/iconic_species_list.csv") %>%
+  filter(!is.na(common)) %>% #not sure why we have NA rows in the raw data
+  mutate(common = tolower(common),
+         scientific = tolower(scientific))
+```
+
+
+Species range and status information comes from a layer in the Biodiversity - Species subgoal. The `spp_status_scores.csv` contains information about each species in our region, their conservation status and the associated score between 0 and 1 (where 0 is low extinction risk and 1 is extinct).
+
+```{r get_spp_range_and_status}
+species_status <- read_csv("~/github/ne-scores/region/layers/spp_status_scores.csv")
+
+#filter species status just for our iconic species
+iconic_species_status1 <- species_status %>%
+  filter(common %in% iconic_list$common)
+
+#filter based on scientific name
+iconic_species_status2 <- species_status %>%
+  filter(tolower(sciname) %in% iconic_list$scientific)
+
+#join and add Bald eagle to common. I guess the IUCN only has the scientific name
+iconic_species_status <- iconic_species_status1 %>%
+  bind_rows(iconic_species_status2) %>%
+  distinct() %>%
+  mutate(common = ifelse(sciname == "Haliaeetus leucocephalus", "bald eagle", common),
+         score = 1-score) %>% #the original scores from the SPP status are 0 (good) to 1 (bad/extinct). Here I reverse this so closer to 1 = better
+  select(common, sciname, rgn_id, rgn_name, score, year) %>%
+  filter(!is.na(rgn_name),  #these are holdover rows from the status data in SPP where they were used to identify USA and/or IUCN
+         !is.na(score)) 
+``` 
+
+Did we get all 33 species?
+```{r}
+  unique(iconic_species_status$common)
+```
+
+What are we missing
+
+```{r missing_spp}
+missing <- setdiff(iconic_list$common, iconic_species_status$common)
+missing
+```
+
+Everything we are missing is a harvested (commercially fished) species. We will use our stock scores for these species where available. The `nmfs_stock_scores.csv` dataset was created in the Seafood Provision - Wild-Caught Fisheries subgoal data prep.
+
+```{r get_stock_scores_for_harvested_spp}
+stock_scores <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_scores.csv") %>%
+  select(year, stock, b_bmsy) %>%
+  mutate(score = ifelse(b_bmsy >=1, 1, b_bmsy)) %>%
+  separate(stock, into = c("species", "area"), sep = " - ") %>%
+  filter(tolower(species) %in% missing) %>%
+  select(common = species, score, year)
+
+unique(stock_scores$species)
+```
+
+Only three of the species have stock assessments from NMFS that we can use as scores. So looks like we are missing american oyster, blue crab, bay scallop, soft shell clam, and quahog.
+
+```{r combine}
+iconic_species_status <- iconic_species_status %>%
+  bind_rows(stock_scores) %>%
+  mutate(common = tolower(common))
+```
+
+## Find where these species exist
+
+We don't care about how big or small the species range map is, if a species exists within an OHI region we will count it there.
+
+```{r}
+spp_rgn_areas <- read_csv("~/github/ne-scores/region/layers/spp_rgn_areas.csv") %>%
+  filter(common %in% iconic_species_status$common) %>%
+  select(rgn_id, common, sciname, year)
+```
+
+We are missing salmon and surfclam. For now let's assume they are everywhere. Combine rgn_areas with the scores
+
+```{r}
+salm_surf <- iconic_species_status %>%
+  filter(common %in% c("atlantic salmon", "atlantic surfclam")) %>%
+  group_by(common, score) %>%
+  complete(rgn_id = 1:11, year) %>%
+  select(common, score, rgn_id, year) %>%
+  mutate(sciname = case_when(
+    common == "atlantic salmon" ~ "Salmo salar",
+    common == "atlantic surfclam" ~ "Spissula solidissima"
+  ))
+spp_rgns_scores <- iconic_species_status %>%
+  left_join(spp_rgn_areas) %>%
+  left_join(spp_rgn_areas, by = "common") %>%
+  mutate(rgn_id = ifelse(is.na(rgn_id.x), rgn_id.y, rgn_id.x),
+         sciname = ifelse(is.na(sciname.x), sciname.y, sciname.x)) %>% #this fixes sea scallop
+  select(common, sciname, rgn_id, year = year.x, score) %>%
+  distinct() %>%
+  filter(!is.na(sciname)) %>%
+  bind_rows(salm_surf)
+```
+
+
+# Results
+
+We need to add all years even though we dont have any information that tells us status changes. So these scores will all be the same over the entire time period.
+
+```{r plot}
+ico_layer <- spp_rgns_scores %>%
+  group_by(common, sciname, rgn_id, score) %>%
+  complete(year = 2005:2017)
+
+ggplot(ico_layer, aes(x = year, y = score, color = common)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~rgn_id)
+```
+
+
+# Save layer to toolbox
+
+```{r save}
+write.csv(ico_layer, file = "~/github/ne-scores/region/layers/ico_scores.csv")
+```
+
+
+
