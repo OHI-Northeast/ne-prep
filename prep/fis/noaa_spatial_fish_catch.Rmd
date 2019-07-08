@@ -136,7 +136,7 @@ head(region_catch, n = 20)
 ```
 
 ```{r}
-write.csv(region_catch, file = "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this file is used in fis_species_lookuptable.Rmd to create the species lookup table
+write_csv(region_catch, "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this file is used in fis_species_lookuptable.Rmd to create the species lookup table
 ```
 
 ## Visualize catch by region
