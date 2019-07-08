@@ -15,6 +15,11 @@ Two data layers are used in this goal. Click on a layer to see data preparation:
 ### [Catch](https://ohi-northeast.github.io/ne-prep/prep/fis/noaa_spatial_fish_catch.html)
 - The catch layer is derived from NOAA Landings data.
 
+```
+-- `noaa_spatial_fish_catch.Rmd`
+-- `prop_catch_food_bait.Rmd`
+```
+
 
 **Note** 
 

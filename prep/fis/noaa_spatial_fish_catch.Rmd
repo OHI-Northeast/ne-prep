@@ -51,7 +51,7 @@ source("~/github/ne-prep/src/R/common.R")
 
 Cleaning the raw data a bit by fixing column names and turning `stat_area` numeric. 
 ```{r}
-raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area w Stock Name & Clam Trips_MAR 2019.xlsx"))
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_JUL 2019 Updated.xlsx"))
 
 clean <- raw %>%
   rename(year = YEAR,
