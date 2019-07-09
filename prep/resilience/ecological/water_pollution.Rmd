@@ -1,0 +1,121 @@
+---
+title: "OHIEC: Resilience - EPA ECHO prep"
+author: "Juliette Verstaen"
+date: "7/9/2019"
+output: html_document
+toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(csv)
+library(dplyr)
+library(tidyverse)
+```
+
+# linking to the raw data on the server
+
+# Summary
+
+This layer calculates the resilience of each region to water pollution
+
+**Data** EPA ECHO https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set
+
+**Target** EPA established ‘National Goals’: 
+1. 50% for inspector coverage (can't find the inspector coverage)
+2. 95% for monitoring report submission
+3. 0% for compliance violations.
+
+
+```{r}
+
+##check to see how NCEAS reads in there data. Also need access to the server :]
+#maine_dmrs <- read_csv("Desktop/ME_FY2009_NPDES_DMRS_LIMITS/ME_FY2009_NPDES_DMRS.csv", na = " ")
+#na.strings=c("","NA")
+
+#maine_2009 <- maine_dmrs %>%
+#  select(EXTERNAL_PERMIT_NMBR, REPORTED_EXCURSION_NMBR, NPDES_VIOLATION_ID, NMBR_OF_SUBMISSION, NMBR_OF_REPORT)
+
+#will be in this format eventaully (write_csv(cwb_df, file.path(dir_goal, 'int/cwb_canada_raw.csv'))
+
+#write.csv(maine_2009, file = "marine_2009")
+  
+```
+
+**Column Descriptions:**
+
+REPORTED_EXCURSION_NMBR - The number of times a limit was exceeded, as reported on the DMR form. (the maine data shows it as True/False) ##I am not currently using this becuase it's listed as T/F not as actual number of times it's exceeded limit, so I calculate that number using the number of times a violation code was listed
+
+NMBR_OF_REPORT - The number of months in the monitoring period covered by the DMR (e.g., monthly = 1, quarterly = 3, semi-annually = 6).
+
+NMBR_OF_SUBMISSION - The attribute stores the number of months for submitting the DMRs for the limit set (e.g., monthly = 1, quarterly = 3, semi-annually = 6). This data element will be blank for Unscheduled Limit Sets. 
+
+NPDES_VIOLATION_ID - The system-generated unique identifier for the NPDES Violation.
+
+**Regulation:** 
+Every state will get a score of 1 since there are permits issued in all states
+
+**Monitoring:**
+1. If there is any number in the NMBR_OF_SUBMISSION column that means some type of monitoring is occuring, and that permit will get a 1. if blank will get a 0. 
+*Can think about if more intense sampling deserves a higher score instead of binary*
+
+2. ratio of actual:expected monitoring report
+*check interpretation of column name/descriptions here*
+
+**Compliance:**
+count the number of times a violation ID was created
+*Can think about if we want to seperate out in none, low, med, high for number of violations*
+
+##2009
+
+#Maine
+```{r}
+
+# monitoring 1
+mon1 <- maine_2009 %>% 
+  mutate(monitoring = case_when(
+    NMBR_OF_SUBMISSION >= 1 ~ 1,
+    NMBR_OF_SUBMISSION <1 ~ 0)) %>% 
+  mutate(monitoring = as.numeric(monitoring))
+
+monitoring1_score <- mean(mon$monitoring)
+
+# monitoring 2
+ mon2 <- maine_2009 %>% 
+   select(EXTERNAL_PERMIT_NMBR, NMBR_OF_SUBMISSION, NMBR_OF_REPORT) %>% 
+   mutate(ratio_reports = NMBR_OF_REPORT/NMBR_OF_SUBMISSION)
+ 
+ monitoring2_score <- mean(mon2$ratio_reports) #100%
+
+# compliance 
+comp <- maine_2009 %>% 
+  filter(NPDES_VIOLATION_ID != "NA") %>% 
+  select(EXTERNAL_PERMIT_NMBR, NPDES_VIOLATION_ID) %>% 
+  group_by(EXTERNAL_PERMIT_NMBR) %>% 
+  summarise(n= n()) %>% 
+  ungroup()
+
+# compliance stats
+unique(maine_2009$EXTERNAL_PERMIT_NMBR) #388
+unique(comp$EXTERNAL_PERMIT_NMBR) #293
+293/388 #75.5%
+mean(comp$n) #35.07
+median(comp$n) #23
+max(comp$n) #317
+min(comp$n) #1
+
+
+```
+
+
+Data Summaries:
+- 293 permits had at least 1 violation
+- There are a total of 388 permits
+- 75.5 % of permits had a violation
+- no missed monitoring reports
+
+
+
