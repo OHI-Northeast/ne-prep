@@ -24,6 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(csv)
 library(dplyr)
 library(tidyverse)
+library(ggplotly)
 ```
 
 # need to link the raw data on the server
@@ -34,8 +35,8 @@ This layer calculates the resilience of each region to water pollution
 
 **Data** EPA ECHO https://echo.epa.gov/tools/data-downloads 
 
-ICIS-NPDES National Data Set 
-Permit Limit and DMR Data by Jurisdiction
+1. ICIS-NPDES National Data Set 
+2. Permit Limit and DMR Data by Jurisdiction
 
 **Target** EPA established ‘National Goals’: 
 1. 50% for inspector coverage (can't find the inspector coverage)
@@ -147,7 +148,7 @@ percen_fac_insp <- left_join(num_fac, num_fac_inspec, by = "year_state") %>%
 percen_fac_insp$year <- as.numeric(percen_fac_insp$year)
 
 #save data
-#write_csv(percen_fac_insp, file = "facility_inspections")
+#write_csv(percen_fac_insp, file = "facility_inspections") write it to the data folder in the repo
 
 graph <- ggplot(percen_fac_insp) +
   geom_line(aes(x= year, y = percent_w_inspections, color= state))+
@@ -165,159 +166,6 @@ potential correlation with number of inspections and the number of violations
 
 ##Report Submissions
 
-2009
-**ask about looping? wierd because all in seperate csvs
-
-```{r}
-
-## Maine
-maine_2009 <- ME_FY2009_NPDES_DMRS
-
-maine_2009$DAYS_LATE[is.na(maine_2009$DAYS_LATE)] <- 0
-
-maine_2009 <- maine_2009 %>% 
-  select(EXTERNAL_PERMIT_NMBR, DAYS_LATE) %>% 
-  filter(DAYS_LATE == 0)
-
-#expected 85510 reports
-# did not receive 53585
-
-#percentage reports submitted in maine 2009
-53585/85510 #62.67%
-
-## New Hampshire
-new_hampshire_2009 <- ME_FY2009_NPDES_DMRS
-
-new_hampshire_2009$DAYS_LATE[is.na(new_hampshire_2009$DAYS_LATE)] <- 0
-
-new_hampshire_2009 <- new_hampshire_2009 %>% 
-  select(EXTERNAL_PERMIT_NMBR, DAYS_LATE) %>% 
-  filter(DAYS_LATE == 0)
-
-#expected ____ reports
-# did not receive ___
-
-#percentage reports submitted in new hampshire 2009
-
-## Massachusetts
-
-## Rhode Island
-
-## Connecticut
-
-## New York
-
-
-
-```
-
-
-
-#**Compliance**
-##Violations
-percentage of facilities with compliance regualtions
-
-```{r}
-
-violations <- NPDES_QNCR_HISTORY
-
-violations$state <- substr(violations$NPDES_ID, 0, 2)
-violations$year <- substr(violations$YEARQTR, 0, 4)
-
-##total violations by state
-vios_total <- violations %>% 
-  filter(year >=2005 & year <=2017) %>% 
-  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
-  select(year, state, NUME90Q, NUMCVDT, NUMSVCD, NUMPSCH) %>% 
-  group_by(year, state) %>% 
-  count()
-
-#every state has had a violation in the given time frame
-
-## percent of facilities with violations by state
-fac <- ICIS_FACILITIES
-
-fac <- fac %>% 
-  select(NPDES_ID) %>% 
-  mutate("2005" = "2005") %>% 
-  mutate("2006" = "2006") %>% 
-  mutate("2007" = "2007") %>% 
-  mutate("2008" = "2008") %>% 
-  mutate("2009" = "2009") %>% 
-  mutate("2010" = "2010") %>% 
-  mutate("2011" = "2011") %>% 
-  mutate("2012" = "2012") %>% 
-  mutate("2013" = "2013") %>% 
-  mutate("2014" = "2014") %>% 
-  mutate("2015" = "2015") %>% 
-  mutate("2016" = "2016") %>% 
-  mutate("2017" = "2017") %>% 
-  gather(year, year2, 2:14) %>% 
-  mutate(ID = NPDES_ID) %>% 
-  unite(key, c("ID", "year2"), sep = "-")
-
-vios <- violations %>% 
-  filter(year >=2005 & year <=2017) %>% 
-  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
-  select(NPDES_ID, year, state, NUME90Q, NUMCVDT, NUMSVCD, NUMPSCH) %>% 
-  group_by(NPDES_ID, year) %>% 
-  count() %>% 
-  unite(key, c("NPDES_ID", "year"), sep = "-") 
-
-all_vio <- left_join(fac, vios, by = "key") 
-all_vio$n[is.na(all_vio$n)] <- 0
-all_vio$state <- substr(all_vio$NPDES_ID, 0, 2)
-
-violations_fac <- all_vio %>% 
-  mutate(violation = case_when(
-    n > 0 ~ "1", 
-    n == 0 ~ "0")) %>% 
-  select(NPDES_ID, year, state, violation) %>% 
-  filter(year >=2005 & year <=2017) %>% 
-  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") 
-
-#total number of facilities in each state
-
-num_fac <- violations_fac %>% 
-  select(state, year, NPDES_ID) %>% 
-  group_by(year, state) %>% 
-  count() %>% 
-  ungroup() %>% 
-  rename(fac_total = n) %>% 
-  unite(year_state, c("year", "state"))
-
-#total num violations
-num_fac_vio <- violations_fac %>% 
-  filter(violation == 1) %>% 
-  select(state, year, NPDES_ID) %>% 
-  group_by(year, state) %>% 
-  count() %>% 
-  ungroup() %>% 
-  rename(fac_violations = n)%>% 
-  unite(year_state, c("year", "state"))
-
-percen_fac_vio <- left_join(num_fac, num_fac_vio, by = "year_state") %>% 
-  separate(year_state, c("year", "state"), sep = "_") %>% 
-  mutate(percent_w_violations = fac_violations/fac_total)
-
-#save data
-#write_csv(percen_fac_vio, file = "facility_violations")
-percen_fac_vio$year <- as.numeric(percen_fac_vio$year)
-
-graph <- ggplot(percen_fac_vio) +
-  geom_line(aes(x= year, y = percent_w_violations, color= state)) +
-  ggtitle("Percentage of Facilities with Violations in NE") +
-  ylab("Percent") +
-  xlab("Year") +
-  theme_classic()
-graph
-
-
-```
-
-Need to talk through the violations that we consider "bad" right now I am aggregated all of them, but there are multiple kinds
-
-# Report Submissions
 RNC_DETECTION_CODE: N=Non-Recipt of DMR/Schedule Report
 
 2009
@@ -1016,7 +864,7 @@ dmr_submissions <- rbind(dmr_2009, dmr_2010, dmr_2011, dmr_2012, dmr_2013, dmr_2
   mutate(percent_submitted = as.numeric(percent_submitted))
 
 
-#write.csv(dmr_submissions, file = "dmr_submissions")
+#write.csv(dmr_submissions, file = "dmr_submissions") write it to the data folder in the repo
 
 graph <- ggplot(dmr_submissions) +
   geom_line(aes(x= year, y= percent_submitted, color=state))+
@@ -1032,6 +880,146 @@ library(plotly)
 ggplotly(graph)
 
 ```
+
+
+#**Compliance**
+##Violations
+percentage of facilities with compliance regualtions
+
+```{r}
+
+violations <- NPDES_QNCR_HISTORY
+
+violations$state <- substr(violations$NPDES_ID, 0, 2)
+violations$year <- substr(violations$YEARQTR, 0, 4)
+
+##total violations by state
+vios_total <- violations %>% 
+  filter(year >=2005 & year <=2017) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
+  select(year, state, NUME90Q, NUMCVDT, NUMSVCD, NUMPSCH) %>% 
+  group_by(year, state) %>% 
+  count()
+
+#every state has had a violation in the given time frame
+
+## percent of facilities with violations by state
+fac <- ICIS_FACILITIES
+
+fac <- fac %>% 
+  select(NPDES_ID) %>% 
+  mutate("2005" = "2005") %>% 
+  mutate("2006" = "2006") %>% 
+  mutate("2007" = "2007") %>% 
+  mutate("2008" = "2008") %>% 
+  mutate("2009" = "2009") %>% 
+  mutate("2010" = "2010") %>% 
+  mutate("2011" = "2011") %>% 
+  mutate("2012" = "2012") %>% 
+  mutate("2013" = "2013") %>% 
+  mutate("2014" = "2014") %>% 
+  mutate("2015" = "2015") %>% 
+  mutate("2016" = "2016") %>% 
+  mutate("2017" = "2017") %>% 
+  gather(year, year2, 2:14) %>% 
+  mutate(ID = NPDES_ID) %>% 
+  unite(key, c("ID", "year2"), sep = "-")
+
+vios <- violations %>% 
+  filter(year >=2005 & year <=2017) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
+  select(NPDES_ID, year, state, NUME90Q, NUMCVDT, NUMSVCD, NUMPSCH) %>% 
+  group_by(NPDES_ID, year) %>% 
+  count() %>% 
+  unite(key, c("NPDES_ID", "year"), sep = "-") 
+
+all_vio <- left_join(fac, vios, by = "key") 
+all_vio$n[is.na(all_vio$n)] <- 0
+all_vio$state <- substr(all_vio$NPDES_ID, 0, 2)
+
+violations_fac <- all_vio %>% 
+  mutate(violation = case_when(
+    n > 0 ~ "1", 
+    n == 0 ~ "0")) %>% 
+  select(NPDES_ID, year, state, violation) %>% 
+  filter(year >=2005 & year <=2017) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") 
+
+#total number of facilities in each state
+
+num_fac <- violations_fac %>% 
+  select(state, year, NPDES_ID) %>% 
+  group_by(year, state) %>% 
+  count() %>% 
+  ungroup() %>% 
+  rename(fac_total = n) %>% 
+  unite(year_state, c("year", "state"))
+
+#total num violations
+num_fac_vio <- violations_fac %>% 
+  filter(violation == 1) %>% 
+  select(state, year, NPDES_ID) %>% 
+  group_by(year, state) %>% 
+  count() %>% 
+  ungroup() %>% 
+  rename(fac_violations = n)%>% 
+  unite(year_state, c("year", "state"))
+
+percen_fac_vio <- left_join(num_fac, num_fac_vio, by = "year_state") %>% 
+  separate(year_state, c("year", "state"), sep = "_") %>% 
+  mutate(percent_w_violations = fac_violations/fac_total)
+
+#save data
+#write_csv(percen_fac_vio, file = "facility_violations") write it to the data folder in the repo
+percen_fac_vio$year <- as.numeric(percen_fac_vio$year)
+
+graph <- ggplot(percen_fac_vio) +
+  geom_line(aes(x= year, y = percent_w_violations, color= state)) +
+  ggtitle("Percentage of Facilities with Violations in NE") +
+  ylab("Percent") +
+  xlab("Year") +
+  theme_classic()
+graph
+
+
+```
+
+#Creating a single data frame for water pollution resilience metric
+
+```{r}
+
+##read in the data from the data folder once all the server stuff is dealt with
+
+fac_insp <- facility_inspections %>% 
+  select(year, state, percent_w_inspections) %>% 
+  mutate(target_inspections = 0.5)
+
+fac_vio <- facility_violations %>% 
+  select(year, state, percent_w_violations) %>% 
+  mutate(target_violations = 0)
+
+dmr_sub <- dmr_submissions %>% 
+  select(year, state, percent_submitted) %>% 
+  mutate(target_submitted = 0.95)
+
+join_1 <- left_join(fac_insp, fac_vio, by = c("year", "state"))
+
+wp_res_metrics <- left_join(join_1, dmr_sub, by = c("year", "state")) 
+#  replace(., is.na(.), "0")
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
