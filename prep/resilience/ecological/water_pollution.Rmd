@@ -1011,8 +1011,46 @@ wp_res_metrics <- left_join(join_1, dmr_sub, by = c("year", "state"))
 ```
 
 
+Calculaing Scores
+
+For the water pollution resilience scores (wp_res_scores) a score of 1 would be the best
+4 metrics go into the calculation:
+1. Score of 1 for having regulations in place (ie: the EPA); no regulation would be 0
+2. Score between 0-1 for inspections of discharge facilities. Calculated by taking the percent of facilities inspected at least once/the EPA's target go 50%. If reached target a score of 1 would be acheived
+3. Score between 0-1 for discharge facilitiy violations. Calculated by taking the percent of facilities that had no violations/ the EPA's target of 100% no violations. If reached target a score of 1 would be acheived
+4. Score between 0-1 for submissions of discharge monitoring reports (DMR). Calculated by taking the percent of DMRs submitted/ % the EPA's target of 95% submission of expected DMRs. If reached target a score of 1 would be acheived
 
 
+```{r}
+wp_res_score <- wp_res_metrics %>% 
+  mutate(regulation_score = 1) %>% 
+  replace(., is.na(.), 0) %>% 
+  mutate(target_submitted = if_else(target_submitted == 0, 0.95, target_submitted)) %>% ##next few lines are gap filling for report submission data
+  mutate(percent_submitted = if_else(percent_submitted == 0 & state == "CT", 1, percent_submitted)) %>% 
+  mutate(percent_submitted = if_else(percent_submitted == 0 & state == "MA", 0.9841761, percent_submitted)) %>% 
+  mutate(percent_submitted = if_else(percent_submitted == 0 & state == "ME", 0.9668811, percent_submitted)) %>% 
+  mutate(percent_submitted = if_else(percent_submitted == 0 & state == "NH", 0.9971842, percent_submitted)) %>% 
+  mutate(percent_submitted = if_else(percent_submitted == 0 & state == "NY", 0.9973308, percent_submitted)) %>% 
+  mutate(percent_submitted = if_else(percent_submitted == 0 & state == "RI", 1, percent_submitted)) %>% 
+  mutate(inspection_score = percent_w_inspections/target_inspections) %>% 
+  mutate(noviolation_score = percent_noviolations/target_noviolations) %>% 
+  mutate(submitted_score = percent_submitted/target_submitted) %>% 
+  mutate(submitted_score = if_else(submitted_score >1, 1, submitted_score)) %>% # capping the score at 1
+  group_by(year, state) %>% 
+  mutate(submitted_score = as.numeric(submitted_score)) %>% 
+  summarise(average_score = sum(inspection_score, submitted_score, noviolation_score, regulation_score)/4)
+
+#write.csv(wp_res_score, file = "wp_res_score")
+
+graph <- ggplot(wp_res_score) +
+  geom_line(aes(x=year, y= average_score, color = state))+
+  ggtitle("North East Water Pollution Resilience Scores") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+
+graph
+```
 
 
 
