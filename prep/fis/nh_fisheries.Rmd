@@ -1,0 +1,148 @@
+---
+title: "New Hampshire fisheries scores"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Setup
+
+```{r setup, message = F, warning = F}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+source('~/github/ne-prep/src/R/common.R')
+
+```
+
+# Load data
+
+```{r}
+
+#catch
+catch <- read_csv("data/nmfs_spatial_catch_by_ohi_rgn.csv") %>% filter(rgn_id == 9)
+
+#proportion
+prop <- read_csv("data/fish_catch_food_prop_rgn.csv")
+
+#mean catch
+mean_catch <- read_csv("~/github/ne-scores/region/layers/fis_meancatch.csv") %>%
+  filter(rgn_id == 9)
+ 
+#stock scores
+stock_scores <- read_csv("~/github/ne-scores/region/layers/fis_stockscores.csv") %>%
+  filter(rgn_id == 9) %>%
+  rename(species = nmfs_original_species)
+
+```
+
+# Visualize
+
+New Hampshire catch
+
+This data is created by multiplying the amount of catch reported for statistical area 513 by 1.75%. Our NH region is just 1.75% of th entire stat area 513. So we attribute 1.75% of all catch reported in 513 for NH.
+
+```{r}
+
+ggplot(catch, aes(x = year, y = catch, fill = display_name)) +
+  geom_col() +
+  theme_bw() +
+  theme(legend.position = "none")
+
+plotly::ggplotly()
+```
+
+
+We implement a rolling mean for catch to try and adjust for variability. Right now, we just use a 3 year rolling mean. So the catch for 2015 is actually the average catch from 2013, 2014 and 2015.
+
+```{r}
+ggplot(mean_catch, aes(x = year, y = mean_catch, fill = display_name)) +
+  geom_col() +
+  theme_bw() +
+  theme(legend.position = "none")
+
+plotly::ggplotly()
+```
+
+Regional proportion for species that are harvested for non-food uses as well. Not all species are included here. Just those that have some proportion of their total dedicated towards non-human consumption. 
+
+Notice some species are not in every year. This **has not been gapfilled**. 
+
+```{r}
+#filter prop for food
+food <- prop %>% filter(market == "FOOD")
+
+ggplot(food, aes(x = year, y = prop)) +
+  geom_col() +
+  theme_bw() +
+  theme(legend.position = "none") +
+  facet_wrap(~species)
+
+plotly::ggplotly()
+```
+
+To see if it matters, here I'm plotting these 13 species for NH
+
+```{r}
+nh_spp <- catch %>% filter(species %in% food$species)
+
+ggplot(nh_spp, aes(x = year, y = catch)) +
+  geom_col() +
+  facet_wrap(~display_name) +
+  theme_bw()
+```
+
+As suspected, I don't think these food vs bait proportions matter except for Herring, and we have all years for Herring.
+
+Here is the mean catch data after it is multiplied by proportion for food. We really see the drop in 2010. 
+
+```{r}
+ggplot(mean_catch, aes(x = year, y = mean_catch_times_prop, fill = display_name)) +
+  geom_col() +
+  theme_bw() +
+  theme(legend.position = "none")
+
+plotly::ggplotly()
+```
+
+Now lets look at catch over time along with stock scores
+
+```{r}
+
+catch_status <- catch %>%
+    left_join(stock_scores) %>%
+    filter(!is.na(score)) %>% #remove stocks with no stock scores **THIS MIGHT NEED TO CHANGE IF WE WANT TO KEEP THESE STOCKS AND GAPFILL INSTEAD**
+    group_by(year, rgn_id) %>%
+    mutate(SumCatch = sum(catch, na.rm=T)) %>% #calculate total catch per region per year
+    ungroup() %>%
+    rowwise() %>%
+    mutate(wprop = catch / SumCatch,  #calculate proportional catch
+           weighted_score = sum(score * wprop)) 
+
+```
+
+```{r}
+ggplot(catch_status, aes(x = year, y = wprop, fill = score)) +
+  geom_col() +
+  scale_fill_gradient2(low = "red", high = "forestgreen", mid = "yellow", midpoint = 0.5) +
+  theme_bw()
+```
+
+
+```{r, fig.width=10, fig.height=6}
+ggplot(catch_status, aes(x = year, y = score, color = species, size = wprop)) +
+  geom_line() +
+  theme_bw() +
+  theme(legend.position = "bottom")
+```
+
