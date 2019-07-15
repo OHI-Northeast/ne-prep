@@ -16,31 +16,17 @@ output:
     toc: true
 ---
 
-
-
-include the above as the start of a .Rmd; include the below as the last lines.
-
-``` {r child = file.path(dir_git, 'src/templates/ohibc_prov_ftr.Rmd')}
-```
-
 here is a setup code chunk with many of the common parameters:
-``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'Figs/',
-                      echo = FALSE, message = FALSE, warning = FALSE)
-
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
 
 dir_git <- '~/github/ne-prep'
-#dir_rgn <- file.path(dir_git, 'prep/regions')  ### github: general buffer region shapefiles
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
-source('~/github/ne-prep/src/R/common.R'))  ### an OHINE specific version of common.R
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
-### goal specific folders and info
-goal      <- 'tr'
-scenario  <- 'v2017'
-dir_goal  <- file.path(dir_git, 'prep', goal, scenario)
-dir_goal_anx <- file.path(dir_anx, goal, scenario)
-
+#Add libraries here!
 ```
 
 #Summary
