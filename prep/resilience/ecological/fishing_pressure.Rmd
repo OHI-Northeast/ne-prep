@@ -277,24 +277,3 @@ catch <- nmfs_catch %>%
  
 
 ```
-
-Merging the stock assesment year data with the catch data
-```{r}
-
-caught_assessed <- left_join(catch, ass_year, by = c("year", "species", "rgn_name")) %>% 
-  select(year, species, rgn_name, rgn_id, stock_ass) %>% 
- 
-  
-  ##to do: fill in the stock, rgn id,(maybe a simplified version of the ass_year data) and the stock ass as 0
-  
-   mutate(case_when())
-  replace(., is.na(.), "0") 
-
-```
-
-
-
-
-
-
-
