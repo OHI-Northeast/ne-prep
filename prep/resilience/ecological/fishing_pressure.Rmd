@@ -1,28 +1,51 @@
 ---
-title: "fishing_pressure"
-author: "Juliette Verstaen"
-date: "7/15/2019"
-output: html_document
+title: "OHIEC: Resilience - Fishing Pressure prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
----
-title: "fp_notebook"
-author: "Juliette Verstaen"
-date: "7/12/2019"
-output: html_document
----
+# Summary
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+This script calculates fishing pressure resilience values by OHINE region. 
+
+# Data
+
+**Reference**: 
 
 
+**Downloaded**: July, 2019 insert jamie month/year here
 
-```{r}
+**Description**:  
 
+
+**Time range**: 
+
+**Format**:  Excel spreadsheet
+
+
+``` {r setup,  message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
 library(tidyverse)
 library(dplyr)
 library(Hmisc)
@@ -30,143 +53,6 @@ library(stringi)
 
 ```
 
-
-```{r}
-nmfs_stock_assessment_data <- read_csv("Desktop/fp/data/nmfs_stock_assessment_data.csv")
-ram_stock_assessment_data <- read_csv("Desktop/fp/data/ram_stock_assessment_data.csv")
-nmfs_spatial_catch_by_ohi_rgn <- read_csv("Desktop/fp/data/nmfs_spatial_catch_by_ohi_rgn.csv")
-species_lookup_table_catch_stock_assessments <- read_csv("Desktop/fp/data/species_lookup_table_catch_stock_assessments.csv")
-
-nmfs <- nmfs_stock_assessment_data
-ram <- ram_stock_assessment_data
-nmfs_catch <- nmfs_spatial_catch_by_ohi_rgn 
-ass_locations <- species_lookup_table_catch_stock_assessments 
-
-```
-
-
-Stock Assesment data
-```{r}
-
-# Merging assesmenet data 
-nmfs <- nmfs_stock_assessment_data
-
-nmfs<- nmfs %>% 
-  select(year, stock) %>% 
-  separate(stock, c("stock", "location"), sep = "-") %>% 
-  mutate(source= "nmfs") %>% 
-  filter(year >= "2005" & year <= "2017") 
- # rename( rgn_name = location)
-
-
-ram <- ram_stock_assessment_data
-
-ram <- ram %>% 
-  select(year, commonname, areaname) %>% 
-  filter(year >= "2005" & year <= "2017") %>% 
-  rename(stock=commonname, location = areaname) %>% 
-  mutate(source = "ram") %>% 
-  filter(year >= "2005" & year <= "2017") 
-
-#working on merging data afer the location ids are added
-#all_ass <- rbind(ram, nmfs) %>% 
-#  filter(year >= "2005" & year <= "2017") 
-
-```
-
-
-Locations and region IDs
-```{r}
-
-# Grabbing region IDs for locations
-
-rgnID_loc <- species_lookup_table_catch_stock_assessments
-
-rgnID_loc <- rgnID_loc %>% 
-  select(stock_assessment_species_location, rgn_id, rgn_name) %>%  
-  distinct() %>% 
-  rename(location= stock_assessment_species_location) %>% 
-  replace(., is.na(.), "0") %>% 
-  filter(rgn_id != "0")
-  
-```
-
-
-Catch data tidying
-```{r}
-
-# Wrangling catch data into a form that can be compared to the stock assesment data
-catch <- nmfs_catch %>% 
-  select(year, species, rgn_name) %>% 
-  filter(year >= "2005" & year <= "2017") %>% 
-  rename(stock = species) %>% 
-  filter(stock != "CONFIDENTIAL SPECIES" | stock != "UNCLASSIFIED SKATE") %>% 
-      ### removed species that are unidentifiable
-      ### all below tiddying is to get species name right ex: Surf clam; not CLAM, SURF
-  separate(stock, c("last", "first"), sep = ", ") %>% 
-  filter(first != "SPECIES NOT SPECIFIED") %>% 
-  replace(., is.na(.), "") %>% 
-  unite(stock, c("first", "last"), sep = " ") %>%
-  mutate(stock = str_trim(stock, side = c("left"))) %>% 
-      ### looked at the stock assesment data and chose the common name used there
-      ## OUBLE CHECK
-  mutate(stock = str_replace(stock, "WINTER / BLACKBACK FLOUNDER", "WINTER FLOUNDER")) %>% 
-  mutate(stock = str_replace(stock, "SUMMER / FLUKE FLOUNDER", "SUMMER FLOUNDER")) %>% 
-  mutate(stock = str_replace(stock, "WITCH / GRAY SOLE FLOUNDER", "WITCH FLOUNDER")) %>% 
-  mutate(stock = str_replace(stock, "AMERICAN PLAICE /DAB FLOUNDER", "AMERICAN PLAICE")) %>% 
-  mutate(stock = str_replace(stock, "SAND-DAB / WINDOWPANE / BRILL FLOUNDER", "WINDOWPANE")) %>% 
-  mutate(stock = str_replace(stock, "SILVER / WHITING HAKE", "SILVER HAKE")) %>% 
-  mutate(stock = str_replace(stock, "RED / LING HAKE", "RED HAKE")) %>% 
-  mutate(stock = str_replace(stock, "SPOTTED / SPOTTED SEA TROUT WEAKFISH", "WEAKFISH")) %>% 
-  mutate(stock = str_replace(stock, "KING / KINGFISH WHITING", "KING WHITING")) %>% 
-  mutate(stock = str_replace(stock, "LITTLE \\(SUMMER\\) SKATE WINGS" , "LITTLE SKATE")) %>% 
-  mutate(stock = str_replace(stock, "WINTER \\(BIG\\) SKATE WINGS", "WINTER SKATE")) %>% 
-  mutate(stock = str_replace(stock, "LITTLE \\(SUMMER\\) SKATE" , "LITTLE SKATE")) %>% 
-  mutate(stock = str_replace(stock, "WINTER \\(BIG\\) SKATE", "WINTER SKATE") ) %>% 
-  distinct() %>% 
-  mutate(stock = str_to_sentence(stock)) %>% 
-  mutate(source = "catch_data")
-  
-unique(catch$stock)  
-
-```
-
-
-Merging the region ID/location data, assesment data, and catch data
-
-
-this part is all fucked up
-```{r}
-
-ram_loc <- left_join(ram, rgnID_loc, by = "location")
-nmfs_loc <- left_join(nmfs, rgnID_loc, by = "rgn_name")
-
-
-
-
-ass_loc1 <- left_join(all_ass, rgnID_loc, by = "location") 
-
-ass_loc <- left_join(ass_loc1, rgnID_loc, by = "rgn_id") %>% 
-  mutate(stock_assesment = "yes") %>% 
-  select(year, stock, rgn_id, rgn_name, source, stock_assesment)
-
-
-
-
-catch_loc <- left_join(catch, rgnID_loc, by = "rgn_name") %>% 
-  select(year, stock, rgn_id, rgn_name)
-
-assed_stocks <- full_join(ass_loc, catch_loc, by = c("year", "stock", "rgn_id", "rgn_name")) %>% 
-  replace(., is.na(.), "no")
-
-  
-```
-
-Calculating percent each
-
-############
-
-STARTING OVER
 
 Data
 ```{r}
@@ -204,7 +90,7 @@ ram_clean <- ram %>%
   rename(location = areaname) %>%
   mutate(species = tolower(commonname),
          location = str_replace(as.character(location), "/Mid Atlantic", "/ Mid-Atlantic")) %>%
-  select(year, species, location,) %>%
+  select(year, species, location) %>%
   filter(year > 2000)
 
 ```
@@ -238,6 +124,7 @@ Merging stock assesment year data to stock stock assesment location data
 ass_year <- left_join(both, rgnID_loc, by = "stock") %>% 
   mutate(stock_ass = 1)
 
+##4 stocks without rgn_names or IDs: Guld of Maine - atlantic salmon; Southern New England / Mid-Atlantic - rosette skate; Atlantic Ocean - blue marlin; Western Atlantic - sailfish
 ```
 
 
@@ -277,3 +164,108 @@ catch <- nmfs_catch %>%
  
 
 ```
+
+Merging the stock assesment year data with the catch data
+```{r}
+
+off <- c("Offshore", "1")
+
+regions <- ass_year %>% 
+  select(rgn_name, rgn_id) %>% 
+  distinct() %>% 
+  filter(rgn_id > 1) %>% 
+  rbind(off)
+
+
+caught_assessed <- left_join(catch, ass_year, by = c("year", "species", "rgn_name")) %>% 
+  select(year, species, stock, rgn_name, rgn_id, stock_ass) %>% 
+  rename(rgn_id_1 = rgn_id) %>% 
+  left_join(regions, by = c("rgn_name")) %>% 
+  select(-rgn_id_1) %>% 
+  distinct() %>%  ### why are there multiples?? look at species siny dogfish for example
+  replace(., is.na(.), "0") # only nas are in the stock assment column from merged
+
+```
+
+
+Stats
+Percent assessed
+```{r}
+
+num_spec_caught <- caught_assessed %>% 
+  group_by(year, rgn_name, rgn_id) %>% 
+  count() %>% 
+  rename(spec_caught = n)
+num_spec_caught
+
+num_spec_ass <- caught_assessed %>% 
+  filter(stock_ass == 0) %>% 
+  group_by(year, rgn_name, rgn_id) %>% 
+  count() %>% 
+  rename(spec_ass = n)
+num_spec_ass
+
+percent_ass <- left_join(num_spec_caught, num_spec_ass, by = c("year", "rgn_name", "rgn_id")) %>% 
+  mutate(spec_caught = as.numeric(spec_caught),
+         spec_ass = as.numeric(spec_ass),
+         percent_ass = spec_ass/spec_caught)
+percent_ass
+
+```
+
+Frequency Assessed
+
+```{r}
+library(plotly)
+
+freq_13years <- caught_assessed %>% 
+  filter(stock_ass == 1) %>% 
+  group_by(rgn_name, rgn_id, species) %>%
+  mutate(stock_ass = as.numeric(stock_ass)) %>% 
+  count() %>% 
+  mutate(freq_13years = 13/n)  %>% 
+  rename(freq_13yr = n) %>% 
+  ungroup() %>% 
+  mutate(rgn_name = as.factor(rgn_name))
+
+freq_13years  
+
+freq_7years <- caught_assessed %>% 
+  filter(year >= 2011) %>% 
+  filter(stock_ass == 1) %>% 
+  group_by(rgn_name, rgn_id, species) %>%
+  mutate(stock_ass = as.numeric(stock_ass)) %>% 
+  count() %>% 
+  mutate(freq_7years = 7/n)  %>% 
+  rename(freq_7yr = n)
+
+freq_7years  
+
+fre13 <- ggplot(freq_13years)+
+  geom_point(aes(color= rgn_name, y= freq_13years, x=species))
+fre13
+
+fre7 <- ggplot(freq_7years)+
+  geom_point(aes(color= rgn_name, y= freq_7years, x=species))
+fre7
+
+```
+
+
+
+
+Visualizing
+```{r}
+
+percent_ass_gr <- ggplot(percent_ass)+
+  geom_line(aes(y= percent_ass, x= year, color=rgn_name))
+
+percent_ass_gr
+
+```
+
+
+
+
+
+
