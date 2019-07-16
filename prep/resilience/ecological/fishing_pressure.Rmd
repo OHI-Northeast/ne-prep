@@ -1,0 +1,300 @@
+---
+title: "fishing_pressure"
+author: "Juliette Verstaen"
+date: "7/15/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+---
+title: "fp_notebook"
+author: "Juliette Verstaen"
+date: "7/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+
+library(tidyverse)
+library(dplyr)
+library(Hmisc)
+library(stringi)
+
+```
+
+
+```{r}
+nmfs_stock_assessment_data <- read_csv("Desktop/fp/data/nmfs_stock_assessment_data.csv")
+ram_stock_assessment_data <- read_csv("Desktop/fp/data/ram_stock_assessment_data.csv")
+nmfs_spatial_catch_by_ohi_rgn <- read_csv("Desktop/fp/data/nmfs_spatial_catch_by_ohi_rgn.csv")
+species_lookup_table_catch_stock_assessments <- read_csv("Desktop/fp/data/species_lookup_table_catch_stock_assessments.csv")
+
+nmfs <- nmfs_stock_assessment_data
+ram <- ram_stock_assessment_data
+nmfs_catch <- nmfs_spatial_catch_by_ohi_rgn 
+ass_locations <- species_lookup_table_catch_stock_assessments 
+
+```
+
+
+Stock Assesment data
+```{r}
+
+# Merging assesmenet data 
+nmfs <- nmfs_stock_assessment_data
+
+nmfs<- nmfs %>% 
+  select(year, stock) %>% 
+  separate(stock, c("stock", "location"), sep = "-") %>% 
+  mutate(source= "nmfs") %>% 
+  filter(year >= "2005" & year <= "2017") 
+ # rename( rgn_name = location)
+
+
+ram <- ram_stock_assessment_data
+
+ram <- ram %>% 
+  select(year, commonname, areaname) %>% 
+  filter(year >= "2005" & year <= "2017") %>% 
+  rename(stock=commonname, location = areaname) %>% 
+  mutate(source = "ram") %>% 
+  filter(year >= "2005" & year <= "2017") 
+
+#working on merging data afer the location ids are added
+#all_ass <- rbind(ram, nmfs) %>% 
+#  filter(year >= "2005" & year <= "2017") 
+
+```
+
+
+Locations and region IDs
+```{r}
+
+# Grabbing region IDs for locations
+
+rgnID_loc <- species_lookup_table_catch_stock_assessments
+
+rgnID_loc <- rgnID_loc %>% 
+  select(stock_assessment_species_location, rgn_id, rgn_name) %>%  
+  distinct() %>% 
+  rename(location= stock_assessment_species_location) %>% 
+  replace(., is.na(.), "0") %>% 
+  filter(rgn_id != "0")
+  
+```
+
+
+Catch data tidying
+```{r}
+
+# Wrangling catch data into a form that can be compared to the stock assesment data
+catch <- nmfs_catch %>% 
+  select(year, species, rgn_name) %>% 
+  filter(year >= "2005" & year <= "2017") %>% 
+  rename(stock = species) %>% 
+  filter(stock != "CONFIDENTIAL SPECIES" | stock != "UNCLASSIFIED SKATE") %>% 
+      ### removed species that are unidentifiable
+      ### all below tiddying is to get species name right ex: Surf clam; not CLAM, SURF
+  separate(stock, c("last", "first"), sep = ", ") %>% 
+  filter(first != "SPECIES NOT SPECIFIED") %>% 
+  replace(., is.na(.), "") %>% 
+  unite(stock, c("first", "last"), sep = " ") %>%
+  mutate(stock = str_trim(stock, side = c("left"))) %>% 
+      ### looked at the stock assesment data and chose the common name used there
+      ## OUBLE CHECK
+  mutate(stock = str_replace(stock, "WINTER / BLACKBACK FLOUNDER", "WINTER FLOUNDER")) %>% 
+  mutate(stock = str_replace(stock, "SUMMER / FLUKE FLOUNDER", "SUMMER FLOUNDER")) %>% 
+  mutate(stock = str_replace(stock, "WITCH / GRAY SOLE FLOUNDER", "WITCH FLOUNDER")) %>% 
+  mutate(stock = str_replace(stock, "AMERICAN PLAICE /DAB FLOUNDER", "AMERICAN PLAICE")) %>% 
+  mutate(stock = str_replace(stock, "SAND-DAB / WINDOWPANE / BRILL FLOUNDER", "WINDOWPANE")) %>% 
+  mutate(stock = str_replace(stock, "SILVER / WHITING HAKE", "SILVER HAKE")) %>% 
+  mutate(stock = str_replace(stock, "RED / LING HAKE", "RED HAKE")) %>% 
+  mutate(stock = str_replace(stock, "SPOTTED / SPOTTED SEA TROUT WEAKFISH", "WEAKFISH")) %>% 
+  mutate(stock = str_replace(stock, "KING / KINGFISH WHITING", "KING WHITING")) %>% 
+  mutate(stock = str_replace(stock, "LITTLE \\(SUMMER\\) SKATE WINGS" , "LITTLE SKATE")) %>% 
+  mutate(stock = str_replace(stock, "WINTER \\(BIG\\) SKATE WINGS", "WINTER SKATE")) %>% 
+  mutate(stock = str_replace(stock, "LITTLE \\(SUMMER\\) SKATE" , "LITTLE SKATE")) %>% 
+  mutate(stock = str_replace(stock, "WINTER \\(BIG\\) SKATE", "WINTER SKATE") ) %>% 
+  distinct() %>% 
+  mutate(stock = str_to_sentence(stock)) %>% 
+  mutate(source = "catch_data")
+  
+unique(catch$stock)  
+
+```
+
+
+Merging the region ID/location data, assesment data, and catch data
+
+
+this part is all fucked up
+```{r}
+
+ram_loc <- left_join(ram, rgnID_loc, by = "location")
+nmfs_loc <- left_join(nmfs, rgnID_loc, by = "rgn_name")
+
+
+
+
+ass_loc1 <- left_join(all_ass, rgnID_loc, by = "location") 
+
+ass_loc <- left_join(ass_loc1, rgnID_loc, by = "rgn_id") %>% 
+  mutate(stock_assesment = "yes") %>% 
+  select(year, stock, rgn_id, rgn_name, source, stock_assesment)
+
+
+
+
+catch_loc <- left_join(catch, rgnID_loc, by = "rgn_name") %>% 
+  select(year, stock, rgn_id, rgn_name)
+
+assed_stocks <- full_join(ass_loc, catch_loc, by = c("year", "stock", "rgn_id", "rgn_name")) %>% 
+  replace(., is.na(.), "no")
+
+  
+```
+
+Calculating percent each
+
+############
+
+STARTING OVER
+
+Data
+```{r}
+
+nmfs_stock_assessment_data <- read_csv("Desktop/fp/data/nmfs_stock_assessment_data.csv")
+ram_stock_assessment_data <- read_csv("Desktop/fp/data/ram_stock_assessment_data.csv")
+nmfs_spatial_catch_by_ohi_rgn <- read_csv("Desktop/fp/data/nmfs_spatial_catch_by_ohi_rgn.csv")
+species_lookup_table_catch_stock_assessments <- read_csv("Desktop/fp/data/species_lookup_table_catch_stock_assessments.csv")
+
+nmfs <- nmfs_stock_assessment_data
+ram <- ram_stock_assessment_data
+nmfs_catch <- nmfs_spatial_catch_by_ohi_rgn 
+ass_locations <- species_lookup_table_catch_stock_assessments 
+
+```
+
+Stock Assesment data and years
+```{r}
+nmfs_clean <- nmfs %>% 
+  separate(stock, into = c("species", "location"), sep = " - ") %>%
+  select(year, species, location) %>%
+  mutate(species = tolower(species),
+         location = str_replace(location, " \\| Asmt & Status", ""),
+         location = str_replace(location, " \\| Asmt", "")) %>%
+  mutate(species = case_when(
+    species == "goosefish" ~ "monkfish",
+    TRUE ~ as.character(species)
+  ))
+
+```
+
+
+```{r}
+ram_clean <- ram %>%
+  rename(location = areaname) %>%
+  mutate(species = tolower(commonname),
+         location = str_replace(as.character(location), "/Mid Atlantic", "/ Mid-Atlantic")) %>%
+  select(year, species, location,) %>%
+  filter(year > 2000)
+
+```
+
+```{r}
+
+both <- nmfs_clean %>%
+  full_join(ram_clean, by = c("species", "year", "location")) %>% 
+  mutate(species1 = species) %>% 
+  unite(stock, c("location", "species1"), sep = " - ")
+  
+
+```
+
+Locations and region IDs
+```{r}
+
+# Grabbing region IDs for locations
+
+rgnID_loc <- species_lookup_table_catch_stock_assessments
+
+rgnID_loc <- rgnID_loc %>% 
+  select(stock_assessment_species_name, stock_assessment_species_location, source, rgn_id, rgn_name) %>% 
+  unite(stock, c("stock_assessment_species_location", "stock_assessment_species_name"), sep = " - ")
+  
+```
+
+Merging stock assesment year data to stock stock assesment location data
+```{r}
+
+ass_year <- left_join(both, rgnID_loc, by = "stock") %>% 
+  mutate(stock_ass = 1)
+
+```
+
+
+Tiddying Catch Data
+List of all the species caught each year and where
+```{r}
+
+# Wrangling catch data into a form that can be compared to the stock assesment data
+catch <- nmfs_catch %>% 
+  select(year, species, rgn_name) %>% 
+  filter(year >= "2005" & year <= "2017") %>% 
+  filter(species != "CONFIDENTIAL SPECIES" | species != "UNCLASSIFIED SKATE") %>% 
+      ### removed species that are unidentifiable
+      ### all below tiddying is to get species name right ex: Surf clam; not CLAM, SURF
+  separate(species, c("last", "first"), sep = ", ") %>% 
+  filter(first != "SPECIES NOT SPECIFIED") %>% 
+  replace(., is.na(.), "") %>% 
+  unite(species, c("first", "last"), sep = " ") %>%
+  ### looked at the stock assesment data and chose the common name used there
+      ## DOUBLE CHECK
+  mutate(species = str_trim(species, side = c("left")),
+         species = str_replace(species, "WINTER / BLACKBACK FLOUNDER", "WINTER FLOUNDER"),
+         species = str_replace(species, "SUMMER / FLUKE FLOUNDER", "SUMMER FLOUNDER"),
+         species = str_replace(species, "WITCH / GRAY SOLE FLOUNDER", "WITCH FLOUNDER"),
+         species = str_replace(species, "AMERICAN PLAICE /DAB FLOUNDER", "AMERICAN PLAICE"),
+         species = str_replace(species, "SAND-DAB / WINDOWPANE / BRILL FLOUNDER", "WINDOWPANE"),
+         species = str_replace(species, "SILVER / WHITING HAKE", "SILVER HAKE"),
+         species = str_replace(species, "RED / LING HAKE", "RED HAKE"),
+         species = str_replace(species, "SPOTTED / SPOTTED SEA TROUT WEAKFISH", "WEAKFISH"),
+         species = str_replace(species, "KING / KINGFISH WHITING", "KING WHITING"),
+         species = str_replace(species, "LITTLE \\(SUMMER\\) SKATE WINGS" , "LITTLE SKATE"),
+         species = str_replace(species, "WINTER \\(BIG\\) SKATE WINGS", "WINTER SKATE"),
+         species = str_replace(species, "LITTLE \\(SUMMER\\) SKATE" , "LITTLE SKATE"),
+         species = str_replace(species, "WINTER \\(BIG\\) SKATE", "WINTER SKATE"),
+         species = tolower(species)) %>% 
+   distinct() # this is necesary because some species were under multiple names and they were all changed ot the common name in the NE
+ 
+
+```
+
+Merging the stock assesment year data with the catch data
+```{r}
+
+caught_assessed <- left_join(catch, ass_year, by = c("year", "species", "rgn_name")) %>% 
+  select(year, species, rgn_name, rgn_id, stock_ass) %>% 
+ 
+  
+  ##to do: fill in the stock, rgn id,(maybe a simplified version of the ass_year data) and the stock ass as 0
+  
+   mutate(case_when())
+  replace(., is.na(.), "0") 
+
+```
+
+
+
+
+
+
+

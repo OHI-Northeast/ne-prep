@@ -58,6 +58,15 @@ An NA value for DAYS_LATE column means that it was never submitted. Code in NODI
 Percentage of facilities with violations
 used NPDES_QNCR_HISTORY.csv
 
+**Calculating Scores**
+For the water pollution resilience scores (wp_res_scores) a score of 1 is optimal
+
+4 metrics go into the calculation:
+1. Score of 1 for having regulations in place (ie: the EPA); no regulation would be 0
+2. Score between 0-1 for inspections of discharge facilities. Calculated by taking the percent of facilities inspected at least once/the EPA's target go 50%. If reached target a score of 1 would be acheived
+3. Score between 0-1 for discharge facilitiy violations. Calculated by taking the percent of facilities that had no violations/ the EPA's target of 100% no violations. If reached target a score of 1 would be acheived
+4. Score between 0-1 for submissions of discharge monitoring reports (DMR). Calculated by taking the percent of DMRs submitted/ % the EPA's target of 95% submission of expected DMRs. If reached target a score of 1 would be acheived
+
 
 ```{r}
 
@@ -66,8 +75,7 @@ used NPDES_QNCR_HISTORY.csv
 NPDES_INSPECTIONS.csv <- read_csv("Desktop/notebook_data/NPDES_INSPECTIONS.csv")
 NPDES_QNCR_HISTORY <- read_csv("Desktop/npdes_downloads/NPDES_QNCR_HISTORY.csv")
 ICIS_FACILITIES <- read_csv("Desktop/npdes_downloads/ICIS_FACILITIES.csv")
-ME_FY2009_NPDES_DMRS
-#the rest of the report data. all 54 of them!
+ME_FY2009_NPDES_DMRS # and the rest of the report data. all 54 of them!
 
 
 ```
@@ -1011,10 +1019,11 @@ wp_res_metrics <- left_join(join_1, dmr_sub, by = c("year", "state"))
 ```
 
 
-Calculaing Scores
+Calculating Scores:
 
 For the water pollution resilience scores (wp_res_scores) a score of 1 would be the best
-4 metrics go into the calculation:
+
+4 equally weighted metrics used in the calculation:
 1. Score of 1 for having regulations in place (ie: the EPA); no regulation would be 0
 2. Score between 0-1 for inspections of discharge facilities. Calculated by taking the percent of facilities inspected at least once/the EPA's target go 50%. If reached target a score of 1 would be acheived
 3. Score between 0-1 for discharge facilitiy violations. Calculated by taking the percent of facilities that had no violations/ the EPA's target of 100% no violations. If reached target a score of 1 would be acheived
