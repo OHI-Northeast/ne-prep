@@ -48,7 +48,13 @@ Target = EPA established ‘National Goals’:
 
 **Time range**: Data provided annually for each source
 
-NPDES_INSPECTIONS.csv , :1967-2019
+1. ICIS-NPDES National Data Set 
+  a. ICIS_FACILITIES.csv: no date range
+  b. NPDES_INSPECTIONS.csv: 1967-2019
+  c. NPDES_QNCR_HISTORY.csv:1973-2019
+
+2. Permit Limit and DMR Data by Jurisdiction: 2009-2019
+
 
 **Format**:  CSV file
 
@@ -69,7 +75,7 @@ library(tidyverse)
 
 ```
 
-#Data
+#Load Data
 ```{r}
 
 raw_inspec <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/NPDES_INSPECTIONS.csv"))
@@ -1058,7 +1064,7 @@ violations <- left_join(num_fac, violations_hist, by = c("year", "state"))%>%
 Visualization
 ```{r}
 
-violations_graph <- ggplot(violations_clean) +
+violations_graph <- ggplot(violations) +
   geom_line(aes(x= year, y = percent_w_violations, color= state)) +
   ggtitle("Percentage of Facilities with Violations in NE") +
   ylab("Percent") +
