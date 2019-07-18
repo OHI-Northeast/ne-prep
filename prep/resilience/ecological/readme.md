@@ -7,9 +7,6 @@ This folder describes the methods used to prepare data for the water pollution r
 - This layer is derived from [EPA Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov) data.
 
 
-The `int` folder holds intermediate gdp data that may be useful to examine how the layer is created. This is saved here for possible use in the dashboard.
-
-
 Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
 
 Thank you!
