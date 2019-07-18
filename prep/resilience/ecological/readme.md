@@ -3,7 +3,7 @@
 This folder describes the methods used to prepare data for the water pollution resilience layer for the US Northeast OHI assessment. 
 
 
-#### [Gross Domestic Product (GDP)](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/water_pollution.html)
+#### [Water Pollution Resilience](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/water_pollution.html)
 - This layer is derived from [EPA Enforcement and Compliance History Online (ECHO)](https://echo.epa.gov) data.
 
 
