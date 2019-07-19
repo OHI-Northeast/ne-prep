@@ -378,6 +378,15 @@ ggplot(ne_ohi_rgns) +
   labs(fill = "OHI NE Regions")
 ```
 
+# Make sure it is valid
+
+```{r}
+st_is_valid(ne_ohi_rgns)
+
+#fix using lwgeom
+
+ne_ohi_rgns <- lwgeom::st_make_valid(ne_ohi_rgns)
+```
 
 
 # Save
