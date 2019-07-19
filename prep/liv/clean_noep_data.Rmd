@@ -87,7 +87,8 @@ clean_data <- out %>%
                Wages          = ifelse(State == "Massachusetts" & County %in% c("Plymouth", "Barnstable"), 
                                        Wages/2, Wages),
                GDP            = ifelse(State == "Massachusetts" & County %in% c("Plymouth", "Barnstable"),
-                                       GDP/2, GDP))
+                                       GDP/2, GDP)) %>%
+        select(-rgn_id.x, -rgn_id.y)
 ```
 
 ## Save

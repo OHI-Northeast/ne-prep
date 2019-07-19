@@ -281,7 +281,7 @@ ggplot(jobs_plot, aes(x = year, y = rate, color = series)) +
   scale_color_manual(" ", labels = c("Regional","National"), values = c("red", "blue"))
 ```
 
-We see that regional growth rate is often above the national average with some exceptions in Massachusetts-Virginian and New Hampshire. There is a dip in all data series around the years 2008-2010, coinciding with the recession of the time.
+We see that regional growth rate is often above the national average with some exceptions in Massachusetts-South and New Hampshire. There is a dip in all data series around the years 2008-2010, coinciding with the recession of the time.
 
 ***
 
