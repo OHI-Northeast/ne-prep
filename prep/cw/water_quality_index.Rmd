@@ -96,7 +96,7 @@ wqi <- water_old %>%
   filter(time_period != 1) #remove earlier time period
 ```
 
-Now assign OHI region names or ids to each of the sites. For the most part, the State in the WQI data is the region, but for Massachusetts we need to be specific about what region the sites belong to. The best way to do this is manually so I use `mapview::mapview()` to identify sites in MA and assign to either Massachusetts-Gulf of Maine or Massachusetts-Virginian.
+Now assign OHI region names or ids to each of the sites. For the most part, the State in the WQI data is the region, but for Massachusetts we need to be specific about what region the sites belong to. The best way to do this is manually so I use `mapview::mapview()` to identify sites in MA and assign to either Massachusetts-North or Massachusetts-South.
 
 Look first just at sites identified by the `MA` postal code.
 
@@ -144,19 +144,8 @@ miss_gf <- miss %>%
   data.frame() %>%
   mutate(rgn_id = 
            case_when(
-             siteID == "NCCA10-1023" ~ 7,
-             siteID == "MA05-0006" ~ 7,
-             siteID == "MA06-0048" ~ 7,
-             siteID == "MA06-0026" ~ 8,
-             siteID == "NCCA10-1009" ~ 8,
-             siteID == "MA06-0042" ~ 8,
-             siteID == "NCCA10-1011" ~ 8,
-             siteID == "MA05-0009" ~ 8,
              siteID == "NCCA10-1001" ~ 8,
-             siteID == "NCCA10-1058" ~ 8,
-             siteID == "NCCA10-1008" ~ 8,
-             siteID == "NCCA10-2001" ~ 8,
-             siteID == "RI05-0025" ~ 8
+             siteID == "NCCA10-1008" ~ 8
            )) %>%
   select(-geometry)
 ```
@@ -194,9 +183,6 @@ wqi_clean <- wqi %>%
          WGT_NCCA10 = WGT_NCCA10.x) %>%
   filter(Year > 2004) %>% #remove the early years
   as.data.frame()
-  # mutate(rgn_name = ifelse(rgn_id == 2, "Massachusetts-Virginian", rgn_name),  ### added this in if we want to turn GB sites to MA
-  #        state = ifelse(rgn_id == 2, NA, state),
-  #        rgn_id = ifelse(rgn_id == 2, 8, rgn_id))
 ```
 
 ## Run cat.analysis

@@ -59,7 +59,7 @@ ny <- read_csv('data/beach_actions_(advisories_and_closures)_NY.csv') %>%
 
 ### Split Massachusetts between two regions
 
-Since Massachussetts has state waters divided into two regions, we have to manually assign counties to the Gulf of Maine and Virginian regions
+Since Massachussetts has state waters divided into two regions, we have to manually assign counties to the Northern and Southern regions
 
 ```{r ma_county_split}
 
