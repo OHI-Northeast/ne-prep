@@ -245,7 +245,7 @@ ggplot(epu_ext_offshore) +
 ##try to fix the small overlaps in polygons, mainly the issue is with George's Bank
 clean_epu <- st_intersection(epu_ext_offshore) %>%
   mutate(id = 1:nrow(.)) %>%
-  filter(id %in% c(5, 3,4,7, 1, 8)) %>% #keeping all the George's bank ones, and then only the other regions that have n.overlaps = 1
+  filter(id %in% c(5, 3, 4, 7, 1, 8)) %>% #keeping all the George's bank ones, and then only the other regions that have n.overlaps = 1
   group_by(name, longname) %>%
   summarize() %>%
   ungroup()
@@ -313,10 +313,10 @@ north_ma_mask <- read_sf("shapefiles/north_ma_mask_poly.shp") %>%
 
 ma_region_south <- st_difference(ma_region_2, north_ma_mask) %>%
   select(STUSPS10, NAME10) %>%
-  mutate(rgn_name = "Massachusetts-Virginian")
+  mutate(rgn_name = "Massachusetts-South")
 ma_region_north <- st_difference(ma, ma_region_south) %>%
   select(STUSPS10, NAME10) %>%
-  mutate(rgn_name = "Massachusetts-Gulf of Maine")
+  mutate(rgn_name = "Massachusetts-North")
 
 ## combine Masachusetts back with the other states
 
@@ -357,8 +357,8 @@ ne_ohi_rgns <- clean_epu %>%
     rgn_name == "Mid-Atlantic Bight" ~ 4,
     rgn_name == "Connecticut" ~ 5,
     rgn_name == "Maine" ~ 6,
-    rgn_name == "Massachusetts-Gulf of Maine" ~ 7,
-    rgn_name == "Massachusetts-Virginian" ~ 8,
+    rgn_name == "Massachusetts-North" ~ 7,
+    rgn_name == "Massachusetts-South" ~ 8,
     rgn_name == "New Hampshire" ~ 9,
     rgn_name == "New York" ~ 10,
     rgn_name == "Rhode Island" ~ 11

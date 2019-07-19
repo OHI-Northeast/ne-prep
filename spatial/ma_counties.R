@@ -6,16 +6,16 @@
 ma_cntys <- c('Barnstable','Barnstable','Bristol','Nantucket','Dukes','Plymouth','Plymouth','Norfolk','Essex','Suffolk')
 
 df <- data.frame(County = ma_cntys,
-                 rgn_name = c('Massachusetts-Gulf of Maine',
-                              'Massachusetts-Virginian',
-                              'Massachusetts-Virginian',
-                              'Massachusetts-Virginian',
-                              'Massachusetts-Virginian',
-                              'Massachusetts-Virginian',
-                              'Massachusetts-Gulf of Maine',
-                              'Massachusetts-Gulf of Maine',
-                              'Massachusetts-Gulf of Maine',
-                              'Massachusetts-Gulf of Maine'
+                 rgn_name = c('Massachusetts-North',
+                              'Massachusetts-South',
+                              'Massachusetts-South',
+                              'Massachusetts-South',
+                              'Massachusetts-South',
+                              'Massachusetts-South',
+                              'Massachusetts-North',
+                              'Massachusetts-North',
+                              'Massachusetts-North',
+                              'Massachusetts-North'
                               ),
                  rgn_id = c(7,8,8,8,8,8,7,7,7,7))
 

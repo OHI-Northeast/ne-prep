@@ -1,11 +1,11 @@
 "","County","rgn_name","rgn_id"
-"1","Barnstable","Massachusetts-Gulf of Maine",7
-"2","Barnstable","Massachusetts-Virginian",8
-"3","Bristol","Massachusetts-Virginian",8
-"4","Nantucket","Massachusetts-Virginian",8
-"5","Dukes","Massachusetts-Virginian",8
-"6","Plymouth","Massachusetts-Virginian",8
-"7","Plymouth","Massachusetts-Gulf of Maine",7
-"8","Norfolk","Massachusetts-Gulf of Maine",7
-"9","Essex","Massachusetts-Gulf of Maine",7
-"10","Suffolk","Massachusetts-Gulf of Maine",7
+"1","Barnstable","Massachusetts-North",7
+"2","Barnstable","Massachusetts-South",8
+"3","Bristol","Massachusetts-South",8
+"4","Nantucket","Massachusetts-South",8
+"5","Dukes","Massachusetts-South",8
+"6","Plymouth","Massachusetts-South",8
+"7","Plymouth","Massachusetts-North",7
+"8","Norfolk","Massachusetts-North",7
+"9","Essex","Massachusetts-North",7
+"10","Suffolk","Massachusetts-North",7

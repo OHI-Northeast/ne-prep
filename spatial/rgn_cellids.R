@@ -8,11 +8,11 @@ r <- raster(nrows = 900, ncols = 800, crs = crs(ocean_ne), ext = extent(ocean_ne
 r[] <- 1:ncell(ocean_ne)
 
 #save just the cell id raster
-writeRaster(r, filename = "~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif")
+writeRaster(r, filename = "~/github/ne-prep/spatial/ocean_rasters/ne_cellids.tif", overwrite = T)
 
 #now I want a lookup table in .csv form that links OHI NE regions to cell ids
 rgn_cells <- r %>%
-  extract(rgns, df = TRUE) %>%  #using the rgns shapefile to extract what cells are in what rgns
+  raster::extract(rgns, df = TRUE) %>%  #using the rgns shapefile to extract what cells are in what rgns
   rename(rgn = ID,
          cellID = layer)
 
