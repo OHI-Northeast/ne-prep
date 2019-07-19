@@ -14,11 +14,8 @@
 
 `states_shp.R` makes a shapefile for state borders (on land)
 
-`wkshp_interactive_map.R` creates an html widget to turn polygons on and off
-
-`global.R` is sourced by `wkshp_interactive_map.R` and loads all shapefiles for plotting in the interactive map.
-
-`ocean_rasters` contain two rasters with cell resolution of 1km^2^. 
+`ocean_rasters` contain rasters
 
 `shapefiles` is a folder where all shapefiles are kept
+
 
