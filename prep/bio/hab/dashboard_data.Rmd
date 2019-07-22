@@ -28,6 +28,7 @@ library(zoo)
 
 # Summary
 
+Combines the three habitat layers into a single dataset for use in data disply on the OHI Northeast dashboard.
 
 ***
   
@@ -69,7 +70,7 @@ salt_marsh <- read_csv("data/salt_marsh_percent_change.csv") %>%
 
 ```
 
-Combine
+Combine and save
 
 ```{r}
 all <- eelgrass %>%
@@ -77,25 +78,6 @@ all <- eelgrass %>%
   bind_rows(salt_marsh)
 
 write.csv(all, "data/dashboard_habitat_data.csv")
-```
-
-
-```{r eelgrass_score_plot}
-ggplot(eelgrass, aes(x = year, y = score, color = rgn_name)) +
-  geom_line() +
-  theme_bw() +
-  geom_text_repel(data = subset(eelgrass, year == max(year)),
-                  aes(label = rgn_name),
-                  size = 3,
-                  hjust = 0,
-                  direction = "y",
-                  nudge_x = 2,
-                  segment.color = NA) +
-  labs(x = "Year",
-       y = "Score",
-       title = "Eelgrass") +
-  theme(legend.position = "none")
-
 ```
 
 
