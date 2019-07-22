@@ -21,10 +21,11 @@ here is a setup code chunk with many of the common parameters:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
 
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
-source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
 #Add libraries here!
 ```
