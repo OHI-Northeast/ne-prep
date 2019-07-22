@@ -76,6 +76,7 @@ ggplot(eelgrass, aes(x = year, y = score, color = rgn_name)) +
   theme(legend.position = "none")
 
 ```
+
 ```{r saltmarsh_score_plot}
 ggplot(salt_marsh, aes(x = year, y = score, color = rgn_name)) +
   geom_line() +
@@ -135,8 +136,6 @@ ggplot(cp_scores %>% filter(!is.na(cp_score)), aes(x = year, y = cp_score, color
 write.csv(cp_scores, file = "~/github/ne-scores/region/layers/hs_coastal_protection.csv")
 ```
 
-
-***
 
 
 
