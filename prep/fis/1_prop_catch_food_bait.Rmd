@@ -1,0 +1,157 @@
+---
+title: 'OHI-Northeast: Calculate proportion of catch for food or bait'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Setup
+
+```{r setup, message = F, warning = F}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+source('~/github/ne-prep/src/R/common.R')
+library(readxl)
+```
+
+# Data
+
+We received **Dealer Data** from NOAA that reports the amount of harvested species that results in food, bait or other markets.
+
+```{r}
+data <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/Afflerbach_UCSB_Dealer Data All Species_MAR 2019.xlsx"))
+```
+
+## Clean data
+
+```{r}
+clean <- data %>%
+  rename(year = YEAR,
+         state = STATE,
+         species = SPECIES,
+         market = DISPOSITION,
+         pounds_landed = `LBS (LANDED WEIGHT)`,
+         pounds_live = `LBS (LIVE WEIGHT)`,
+         value = VALUE) %>%
+  mutate(species = str_replace(species, ",", ", ")) %>%
+  filter(year > 2002)
+```
+
+# Visualize by state
+
+Let's just look at species that have more than one market
+
+```{r}
+df1 <- clean %>%
+  group_by(state, year, species) %>%
+  mutate(markets = n(),
+         total_pounds_live = sum(pounds_live)) %>%
+  ungroup() %>%
+  mutate(prop = pounds_live/total_pounds_live) 
+
+#we want to keep all records where there are either 2 markets, or 1 market but market != "FOOD"
+
+nonfood_df <- df1 %>%
+  mutate(keep = case_when(
+    markets > 1 ~ 1,
+    markets == 1 & market != "FOOD" ~ 1,
+    TRUE ~ 0
+  )) %>%
+  filter(keep == 1,
+         species != "CONFIDENTIAL SPECIES") #this isn't going to help us
+```
+What species have more than one market (that aren't "CONFIDENTIAL") or their only market is not FOOD
+
+```{r}
+sp <- unique(nonfood_df$species)
+sp
+```
+
+```{r, eval = F}
+
+for(i in 1:length(sp)){
+  
+  spp <- sp[i]
+  sp_df <- filter(df1, species == spp)
+  
+ggplot(sp_df, aes(x = year, y = prop, fill = market)) +
+  geom_col() +
+  facet_wrap(~state) +
+  theme_bw() +
+  labs(y = "Proportion",
+       x = "Year",
+       title = spp)
+
+ggsave(paste0("figs/", spp, "_market_prop.pdf"), width = 6, height = 4)
+}
+```
+
+```{r}
+library(trelliscopejs)
+
+
+df2 <- df1 %>% filter(species %in% sp)
+
+ggplot(df2, aes(x = year, y = prop, fill = market)) +
+  geom_col() +
+  facet_wrap(~state) +
+  theme_bw() +
+  labs(y = "Proportion",
+       x = "Year") +
+  facet_trelliscope(~ species, scales = "free_y", self_contained = TRUE, width = 600, height = 400)
+```
+
+
+# Just get region proportions
+
+Splitting these out by state may actually make things more complicated since our catch data is by statistical area. So instead I'll calculate regional proportions.
+
+```{r}
+rgn_prop <- clean %>%
+  filter(species != "CONFIDENTIAL SPECIES",
+         !market %in% c("REASON NOT SPECIFIED", "KEPT, DISPOSITION UNKNOWN", "REASON NOT SPECIFIED", "UNKNOWN")) %>%
+  group_by(year, species) %>%
+  mutate(total_pounds_live = sum(pounds_live)) %>%
+  ungroup() %>%
+  select(year, species, market, pounds_live, total_pounds_live) %>%
+  group_by(market, species, year) %>%
+  mutate(pounds_live_by_market = sum(pounds_live)) %>%
+  select(year, species, market, pounds_live_by_market, total_pounds_live) %>%
+  distinct() %>%
+  mutate(prop = pounds_live_by_market/total_pounds_live) %>%
+  filter(prop < 1) #we really only want to keep all records where proportion is less than 1
+```
+
+
+# Save
+
+Save the proportions for these species in a .csv to be used in the Fisheries data prep.
+
+```{r}
+out <- df2 %>%
+  select(year, state, species, market, prop) 
+
+write_csv(out, "data/fish_catch_food_prop_by_state.csv")
+
+write_csv(rgn_prop, "data/fish_catch_food_prop_rgn.csv")
+```
+
+
+
+
+
+
+
+
+

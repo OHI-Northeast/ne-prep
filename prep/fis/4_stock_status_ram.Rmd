@@ -1,0 +1,408 @@
+---
+title: 'Preparing stock status data layer derived from the RAM database'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide'}
+
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+
+library(sf)
+```
+
+This script filters the RAM database v4.44 for all stocks in the Northeast region and summarizes the available information for each stock. The output includes stock status and scores for all stocks that are not included in the data shared by NOAA.
+
+***
+#Data Source
+
+**Downloaded**: February 28, 2018 from ramlegacy.org
+
+**Description**:  RAM Legacy Stock Assessment Database provides information on global fish stocks including catch, B/Bmsy and F/Fmsy among other metrics.
+
+**Time range**: pre-1900 to 2016
+
+**Format**:  Tabular
+
+***
+  
+#Analysis
+
+What assessment information do we have for these stocks?
+
+```{r, fig.height = 10, fig.width = 8}
+
+#RAM data
+assessment_data_file <- file.path(dir_M, 'git-annex/globalprep/_raw_data/RAM/d2019/RLSADB v4.44/DB Files With Assessment Data/DBdata.RData')
+load(assessment_data_file)
+
+metadata <- as.data.frame(metadata, stringsAsFactors = FALSE)
+
+#filter metadata from RAM to select only those stocks in the Northeast
+ne_stocks <- metadata %>%
+  filter(region %in% c("US East Coast", "Atlantic Ocean"),
+         areaname != "South Atlantic",
+         areaname != "Eastern Atlantic")
+```
+
+Bring in a list of the stocks we already have assessment info for from NOAA.
+```{r}
+noaa_stock_assess <- read.csv("data/nmfs_stock_scores.csv") %>%
+  select(-X) %>%
+  separate(stock, into = c("species", "location"), sep = " - ")
+
+unique(noaa_stock_assess$species)
+```
+
+Compare species in NOAA data with RAM
+
+```{r}
+diff <- setdiff(tolower(ne_stocks$commonname), tolower(noaa_stock_assess$species)) #make all names lowercase to avoide any mismatches due to case
+diff
+```
+
+A couple things to note:  
+
+- RAM has monkfish and NOAA has goosefish but these are the same stock
+- butterfish is in both but missing "atlantic" in NOAA data
+- herring is in both but missing "atlantic" in RAM
+
+So we can remove these three species (monkfish, butterfish and herring) from the RAM data since they are captured in NOAA data
+
+```{r}
+ram_stocks_to_use <- ne_stocks %>%
+  mutate(common = tolower(commonname)) %>%
+  filter(common %in% diff) %>%
+  filter(!common %in% c("monkfish", "atlantic butterfish", "herring"))
+```
+
+
+```{r}
+
+### get time series of B/Bmsy and F/Fmsy for NE stocks from .Rdata
+ts <- as.data.frame(timeseries_values_views, stringsAsFactors = FALSE) %>%
+  filter(stockid %in% ram_stocks_to_use$stockid) %>%
+  select(stockid, stocklong, year, BdivBmsypref, UdivUmsypref) %>%
+  filter(!is.na(BdivBmsypref)) %>%
+  gather(key = tsid, value = value, -stockid, -stocklong, -year)
+
+span_df <- ts %>%
+  filter(!is.na(value)) %>%
+  group_by(stocklong, tsid) %>%
+  summarize(yr_min = min(year), yr_max = max(year)) %>%
+  ungroup() %>%
+  mutate(yr_min = ifelse(yr_min < 1980, 1980, yr_min)) %>% ## some stocks have a really long history (e.g. Atlantic Halibut goes back to pre-1900) so I'm reducing the years to only 1980 for plotting purposes
+  mutate(metric = 
+           case_when(
+             tsid == "BdivBmsypref" ~ "B/Bmsy",
+             tsid == "UdivUmsypref" ~ "F/Fmsy"
+           ))
+
+stock_ids <- span_df$stocklong %>% unique()
+
+span_plot <- ggplot(span_df, aes(x = stocklong)) +
+  #ggtheme_basic +
+  theme(panel.border     = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(colour = 'grey90'),
+        panel.background = element_blank()) +
+  annotate('rect', ymin = 2000, ymax = 2016,
+           xmin = first(stock_ids), xmax = last(stock_ids),
+           fill = 'red', alpha = .1) +
+  geom_linerange(aes(ymin = yr_min, ymax = yr_max, 
+                     color = metric),
+                 position = position_dodge(width = .5), alpha = .8) +
+  scale_color_manual(values = c('red', 'blue'),
+                       labels=c("B/Bmsy", "F/Fmsy")) +
+  coord_flip() +
+  labs(x = 'RAM Stock',
+       y = 'Year',
+       color = 'Parameter')
+
+span_plot
+
+```
+
+# Create layer
+
+```{r}
+#get more species specific information from ne_stocks
+sp <- ram_stocks_to_use %>% 
+  select(stockid, stocklong, scientificname, commonname, areaname) %>%
+  distinct()
+
+stock_ass_data <- ts %>%
+  mutate(metric = 
+           case_when(
+    tsid == "BdivBmsypref" ~ "B/Bmsy",
+    tsid == "UdivUmsypref" ~ "F/Fmsy")) %>%
+  select(stockid, stocklong, year, value, metric) %>%
+  left_join(sp)
+
+write.csv(stock_ass_data, file = "data/ram_stock_assessment_data.csv")
+```
+
+---
+
+## Calculate stock scores
+
+Convert these value to stock scores.
+
+```{r stock_score_calc}
+
+#grab just B/Bmsy data
+  ram_b_bmsy <- stock_ass_data %>%
+    filter(metric == "B/Bmsy") %>%
+    select(stockid, stocklong, scientificname, commonname, year, value) %>%
+    rename(b_bmsy = value)
+
+#grab just F/Fmsy data  
+  ram_f_fmsy <- stock_ass_data %>%
+    filter(metric == "F/Fmsy") %>%
+    select(stockid, stocklong, scientificname, commonname, year, value)
+  ### 
+  b_bmsy_underexploit_penalty <- 0.25
+  b_bmsy_underexploit_thresh  <- 3.00
+  f_fmsy_underfishing_penalty <- 0.25
+  f_fmsy_overfishing_thresh   <- 2.00
+  
+  ### Apply rolling mean to F/Fmsy
+  ## Why do we do this? because B is a less sensitive metric (relies of biological processes) and F can fluctuate pretty easily because it is really just a mgmt decision.
+  ram_f_fmsy <- ram_f_fmsy %>%
+    mutate(f_fmsy= value) %>%
+    arrange(stockid, year) %>%
+    group_by(stockid) %>%
+    mutate(f_fmsy_rollmean = zoo::rollmean(f_fmsy, k = 3, align = 'right', fill = NA)) %>%
+    ungroup() %>%
+    select(-value, -f_fmsy) %>%
+    rename(f_fmsy = f_fmsy_rollmean)
+  
+  stock_status_layers <- ram_b_bmsy %>%
+    full_join(ram_f_fmsy)
+  
+########################################################.
+##### run each fishery through the Kobe plot calcs #####
+########################################################.
+### * ram_b_bmsy, ram_f_fmsy
+  
+  
+### Function for converting B/Bmsy values into a 0 - 1 score
+  rescale_bprime_crit <- function(fish_stat_df,
+                                  bmax, bmax_val) {
+    
+    ###using NOAA's limits here
+    overfished_th  <- 0.8
+    ### 
+    underfished_th <- 1.2
+    
+    bmax_adj <- (bmax - underfished_th) / (1 - bmax_val) + underfished_th
+    ### this is used to create a 'virtual' B/Bmsy max where score drops
+    ### to zero.  If bmax_val == 0, this is bmax; if bmax_val > 0, bmax_adj
+    ### extends beyond bmax, to create a gradient where bmax_val occurs at bmax.
+    
+    fish_stat_df <- fish_stat_df %>%
+      # group_by(stock) %>% ### grouping by stock will set b_max by max per stock, instead of max overall
+      mutate(b_max     = max(b_bmsy, na.rm = TRUE)) %>%
+      ungroup() %>%
+      mutate(bPrime = NA,
+             bPrime = ifelse(b_bmsy < overfished_th,  ### overfished stock
+                             b_bmsy / overfished_th,
+                             bPrime),
+             bPrime = ifelse(b_bmsy >= overfished_th & b_bmsy < underfished_th,
+                             1,                       ### appropriately fished stock
+                             bPrime),
+             bPrime = ifelse(b_bmsy >= underfished_th,
+                             (bmax_adj - b_bmsy) / (bmax_adj - underfished_th), ### underfished stock
+                             bPrime),
+             bPrime = ifelse(bPrime < 0, 0, bPrime))
+    return(fish_stat_df)
+  }
+  
+  
+  ### Function to create vertical gradient based on distance from
+  ### ideal F/Fmsy value to actual F/Fmsy value
+  f_gradient <- function(f, over_f, under_f, fmax, fmin_val) {
+    x <- ifelse(f < over_f & f > under_f, 1, NA)
+    x <- ifelse(f <= under_f, (f * (1 - fmin_val) / under_f + fmin_val), x)
+    x <- ifelse(f >= over_f,  (fmax - f) / (fmax - over_f), x)
+    x <- ifelse(f > fmax, NA, x)
+    return(x)
+  }
+  
+  ### Function to convert F/Fmsy values into 0 - 1 score
+  rescale_fprime_crit <- function(fish_stat_df,
+                                  fmax, fmin_val) {
+    
+    ### params - taken from BC but changed Bcrit to 0 instead of 0.4:
+    Bcrit <- 0.5; overfished_th <- 0.8
+    ### underfishing_th is set to the idea "1/3 for the birds":
+    underfishing_th <- 0.66; overfishing_th  <- 1.2
+    
+    bcritslope = 1 / (overfished_th - Bcrit)
+    ### connecting from (Bcrit, 0) to (overfished_th, 1)
+    
+    fish_stat_df <- fish_stat_df %>%
+      mutate(fPrime = ifelse(b_bmsy < overfished_th & f_fmsy < fmax,
+                             f_gradient(f_fmsy + (overfished_th - b_bmsy) * bcritslope,
+                                        over_f = overfishing_th,
+                                        under_f = underfishing_th,
+                                        fmax = fmax,
+                                        fmin_val = fmin_val),
+                             NA),
+             fPrime = ifelse(b_bmsy >= overfished_th & f_fmsy < fmax,
+                             f_gradient(f_fmsy,
+                                        over_f = overfishing_th,
+                                        under_f = underfishing_th,
+                                        fmax = fmax,
+                                        fmin_val = fmin_val),
+                             fPrime),
+             fPrime = ifelse(is.na(fPrime), 0, fPrime), ### fill zeros everywhere unscored
+             fPrime = ifelse(is.na(f_fmsy), NA, fPrime) ### but if no f_fmsy, reset to NA
+      )
+    return(fish_stat_df)
+  }
+  
+  stock_status_df <- stock_status_layers %>%
+    rescale_bprime_crit(bmax     = b_bmsy_underexploit_thresh,
+                        bmax_val = b_bmsy_underexploit_penalty) %>%
+    rescale_fprime_crit(fmax     = f_fmsy_overfishing_thresh,
+                        fmin_val = f_fmsy_underfishing_penalty) %>%
+    mutate(x_prod = ifelse(!is.na(fPrime), (fPrime * bPrime), bPrime),
+           basis  = case_when(
+             !is.na(fPrime) & !is.na(bPrime) ~ 'F_Fmsy, B_Bmsy',
+             is.na(fPrime)  & !is.na(bPrime) ~ 'B_Bmsy only',
+             is.na(bPrime)  & !is.na(fPrime) ~ 'F_Fmsy only'
+           )) %>%
+    dplyr::select(year, stockid, stocklong, scientificname, commonname,
+                  score = x_prod,
+                  basis,
+                  bPrime, fPrime,
+                  b_bmsy, f_fmsy) 
+```
+
+Take the average scores for the 5 species with sub-stocks. Just doing a group_by with species and averaging scores will do this for all species (but only change the values for these sub-species). 
+
+Remove stocks with just F_Fmsy - these stocks have no stock scores since we don't have a way to get a score from just F/Fmsy. Also roll all values forward to 2017.
+
+```{r}
+stock_scores <- stock_status_df %>%
+  filter(year > 2000,
+         basis != "F_Fmsy only") %>%
+  group_by(commonname, stocklong, year) %>%
+  mutate(score = mean(score, na.rm = T)) %>%
+  select(year, commonname, stocklong, score, bPrime, fPrime, b_bmsy, f_fmsy, basis) %>%
+  complete(year = 2000:2017) %>% #NOAA catch data only goes to 2016
+  distinct() %>%
+  mutate(gapfilled = ifelse(is.na(score), 1, 0)) %>%
+  group_by(commonname, stocklong) %>%
+  fill(score, bPrime, fPrime, b_bmsy, f_fmsy, basis, gapfilled) %>%                #assigns most recent value to following years if missing, up to 2017
+  fill(score, bPrime, fPrime, b_bmsy, f_fmsy, basis, gapfilled, .direction = "up") #assigns values to earlier years if missing
+
+write.csv(stock_scores, file = "data/ram_stock_scores.csv")  
+```
+
+## Visualize
+
+```{r}
+ggplot(stock_scores, aes(x = year, y = score)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~stocklong)
+```
+
+```{r kobe}
+kobe_plot <- function(sp){
+  
+ ss_df <- stock_scores %>%
+    filter(stocklong == sp) %>%
+    arrange(year) %>%
+    mutate(last_bbmsy = last(b_bmsy),
+           last_ffmsy = last(f_fmsy),
+           last_datayear = last(year)) %>%
+   ungroup()
+
+generate_kobe_df <- function(f_fmsy_max = 2.5,
+                             b_bmsy_max = 3.0,
+                             reso       = 0.01,
+                             bmax_val   = 0,
+                             fmin_val   = 0,
+                             weighting_b = 1) {
+
+  kobe_raw <- data.frame(stock  = 1,
+                     f_fmsy = rep(seq(0, f_fmsy_max, reso), each  = round(b_bmsy_max/reso) + 1),
+                     b_bmsy = rep(seq(0, b_bmsy_max, reso), times = round(f_fmsy_max/reso) + 1))
+
+  kobe <- kobe_raw %>%
+    rescale_bprime_crit(bmax = b_bmsy_underexploit_thresh,
+                        bmax_val = bmax_val) %>%
+    rescale_fprime_crit(fmax = f_fmsy_overfishing_thresh,
+                        fmin_val = fmin_val) %>%
+    mutate(x_geom  = (fPrime * bPrime),
+           x_arith = (fPrime + bPrime) / 2)
+
+  return(kobe)
+}
+
+bbmsy_lim <- max(round(max(ss_df$b_bmsy, na.rm = TRUE) + .1, 1), 3)
+ffmsy_lim <- max(round(max(ss_df$f_fmsy, na.rm = TRUE) + .1, 1), 2.5)
+  
+kobe_df <- generate_kobe_df(f_fmsy_max = ffmsy_lim,
+                           b_bmsy_max = bbmsy_lim,
+                           bmax_val = .25,
+                           fmin_val = .25)
+
+
+kobe_stock_plot <- ggplot(data = kobe_df, aes(x = b_bmsy, y = f_fmsy)) +
+    theme_bw() +
+    geom_raster(alpha = .8, aes(fill = x_geom)) +
+    scale_fill_distiller(palette = 'RdYlGn', direction = 1) +
+    labs(title = as.character(sp),
+         x = 'B/Bmsy',
+         y = 'F/Fmsy',
+         fill = "Stock score") +
+    geom_path(data = ss_df, 
+              show.legend = FALSE,
+              aes(x = b_bmsy, y = f_fmsy, group = sp),
+              color = 'grey30') +
+    geom_point(data = ss_df, 
+               show.legend = FALSE,
+              aes(x = last_bbmsy, y = last_ffmsy)) +
+    geom_text(data = ss_df %>%
+                mutate(year = ifelse(year/5 == round(year/5) | year == last_datayear, year, NA)), 
+              aes(x = b_bmsy, y = f_fmsy, label = year), 
+              hjust = 0, nudge_x = .05, size = 2)
+
+return(kobe_stock_plot)
+}
+```
+
+Apply function to all species in the stock_scores data frame. This does not work for the sub-stock species so we need to remove those.
+
+```{r, fig.width = 12, fig.height = 8}
+sp <- stock_scores %>%
+  filter(basis == "F_Fmsy, B_Bmsy")
+
+plots <- lapply(unique(sp$stocklong), kobe_plot)
+cowplot::plot_grid(plotlist = plots[1:4])
+cowplot::plot_grid(plotlist = plots[5:8])
+cowplot::plot_grid(plotlist = plots[9:12])
+cowplot::plot_grid(plotlist = plots[13:15])
+```
+
+

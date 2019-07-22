@@ -1,0 +1,168 @@
+nmfs_original_species,stock_assessment_species_name,stock_assessment_species_location,stockid,source,assessed
+ALEWIFE,NA,NA,NA,NA,no
+"AMBERJACK, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,yes
+BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,yes
+BONITO,NA,NA,NA,NA,no
+BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,yes
+"CLAM, RAZOR",NA,NA,NA,NA,no
+"CLAM, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,yes
+COBIA,NA,NA,NA,NA,no
+COD,atlantic cod,Georges Bank,CODGBW,NMFS,yes
+COD,atlantic cod,Gulf of Maine,CODGMSS,NMFS,yes
+COD,atlantic cod,Eastern Georges Bank,CODGBE,NMFS,yes
+CONFIDENTIAL SPECIES,NA,NA,NA,NA,no
+"CRAB, BLUE",NA,NA,NA,NA,no
+"CRAB, CANCER",NA,NA,NA,NA,no
+"CRAB, GREEN",NA,NA,NA,NA,no
+"CRAB, HORSESHOE",NA,NA,NA,NA,no
+"CRAB, JONAH",NA,NA,NA,NA,no
+"CRAB, QUEEN SNOW",NA,NA,NA,NA,no
+"CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,yes
+"CRAB, ROCK",NA,NA,NA,NA,no
+"CRAB, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"CRAB, SPIDER",NA,NA,NA,NA,no
+CREVALLE,NA,NA,NA,NA,no
+"CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,yes
+CUNNER,NA,NA,NA,NA,no
+CUSK,NA,NA,NA,NA,no
+"DOGFISH, CHAIN",NA,NA,NA,NA,no
+"DOGFISH, SMOOTH",NA,NA,NA,NA,no
+"DOGFISH, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,yes
+DOLPHIN FISH / MAHI-MAHI,NA,NA,NA,NA,no
+"DRUM, BLACK",NA,NA,NA,NA,no
+"EEL, AMERICAN",NA,NA,NA,NA,no
+"EEL, CONGER",NA,NA,NA,NA,no
+"EEL, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,yes
+"FLOUNDER, FOURSPOT",NA,NA,NA,NA,no
+"FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,yes
+"FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,yes
+"FLOUNDER, SOUTHERN",NA,NA,NA,NA,no
+"FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,yes
+"FLOUNDER, WINTER / BLACKBACK",winter flounder,Gulf of Maine,FLWGMSS,NMFS,yes
+"FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,yes
+"FLOUNDER, WINTER / BLACKBACK",winter flounder,Georges Bank,FLWGB,NMFS,yes
+"FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,yes
+"FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,yes
+"FLOUNDER, YELLOWTAIL",yellowtail flounder,Georges Bank,YELGB,NMFS,yes
+"FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,yes
+"FLOUNDER,NOT SPECIFIED",NA,NA,NA,NA,no
+HADDOCK,haddock,Georges Bank,HADGBW,NMFS,yes
+HADDOCK,haddock,Gulf of Maine,HADGM,NMFS,yes
+HADDOCK,haddock,Eastern Georges Bank,HADGBE,NMFS,yes
+HAGFISH,NA,NA,NA,NA,no
+"HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,yes
+"HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,yes
+"HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,yes
+"HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,yes
+"HAKE, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,yes
+"HAKE,SPOTTED",NA,NA,NA,NA,no
+"HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,yes
+"HALIBUT, GREENLAND",NA,NA,NA,NA,no
+HARD QUAHOG,NA,NA,NA,NA,no
+"HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,yes
+"HERRING, BLUE BACK",NA,NA,NA,NA,no
+JOHN DORY,NA,NA,NA,NA,no
+"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,yes
+LUMPFISH,NA,NA,NA,NA,no
+"MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,yes
+"MACKEREL, CHUB",NA,NA,NA,NA,no
+"MACKEREL, FRIGATE",NA,NA,NA,NA,no
+"MACKEREL, KING",NA,NA,NA,NA,no
+"MACKEREL, SPANISH",NA,NA,NA,NA,no
+MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,yes
+MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,yes
+MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,yes
+MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,yes
+MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,yes
+MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,yes
+MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,yes
+MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,yes
+MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,yes
+OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,yes
+OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,yes
+OTHER FINFISH,NA,NA,NA,NA,no
+OTHER FOR BAIT,NA,NA,NA,NA,no
+OTHER INVERTEBRATES,NA,NA,NA,NA,no
+"PERCH, WHITE",NA,NA,NA,NA,no
+POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,yes
+"PUFFER, NORTHERN",NA,NA,NA,NA,no
+REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,yes
+"SCALLOP, BAY",NA,NA,NA,NA,no
+"SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,yes
+SCALLOPS/SHELLS,NA,NA,NA,NA,no
+SCULPINS,NA,NA,NA,NA,no
+SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,yes
+SEA RAVEN,NA,NA,NA,NA,no
+SEA ROBINS,NA,NA,NA,NA,no
+SEA URCHINS,NA,NA,NA,NA,no
+"SEATROUT, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"SHAD, AMERICAN",NA,NA,NA,NA,no
+"SHAD, GIZZARD",NA,NA,NA,NA,no
+"SHAD, HICKORY",NA,NA,NA,NA,no
+"SHARK, BASKING",NA,NA,NA,NA,no
+"SHARK, BLUE",NA,NA,NA,NA,no
+"SHARK, DUSKY",NA,NA,NA,NA,no
+"SHARK, MAKO, SHORTFIN",NA,NA,NA,NA,no
+"SHARK, MAKO, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"SHARK, NOT SPECIFIED",NA,NA,NA,NA,no
+"SHARK, PORBEAGLE",NA,NA,NA,NA,no
+"SHARK, SANDBAR",NA,NA,NA,NA,no
+"SHARK, THRESHER",NA,NA,NA,NA,no
+SHRIMP (MANTIS),NA,NA,NA,NA,no
+SHRIMP (PANAEID),NA,NA,NA,NA,no
+SHRIMP (PANDALID),NA,NA,NA,NA,no
+"SHRIMP, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"SILVERSIDES, ATLANTIC",NA,NA,NA,NA,no
+SKATE WINGS,NA,NA,NA,NA,no
+"SKATE WINGS, BARNDOOR",NA,NA,NA,NA,no
+"SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,yes
+"SKATE WINGS, LITTLE/WINTER MIXED",NA,NA,NA,NA,no
+"SKATE WINGS, SMOOTH",NA,NA,NA,NA,no
+"SKATE WINGS, THORNY",NA,NA,NA,NA,no
+"SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,yes
+"SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,yes
+"SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,yes
+"SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,yes
+"SKATE, LITTLE/WINTER MIXED",NA,NA,NA,NA,no
+"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,yes
+"SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,yes
+"SKATE, UNCLASSIFIED",NA,NA,NA,NA,no
+"SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,yes
+SMELT,NA,NA,NA,NA,no
+SPOT,NA,NA,NA,NA,no
+SQUID / ILLEX,NA,NA,NA,NA,no
+SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,yes
+"SQUID, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+STARFISH,NA,NA,NA,NA,no
+STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,yes
+"STURGEON, ATLANTIC",NA,NA,NA,NA,no
+SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,yes
+TAUTOG,NA,NA,NA,NA,no
+TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,yes
+"TILEFISH, BLUELINE",tilefish,Mid-Atlantic Coast,NA,NMFS,yes
+"TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,yes
+"TILEFISH, SAND",NA,NA,NA,NA,no
+"TOADFISH, OYSTER",NA,NA,NA,NA,no
+TRIGGERFISH,NA,NA,NA,NA,no
+"TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,yes
+"TUNA, BIG EYE",bigeye tuna,Atlantic Ocean,BIGEYEATL,RAM,yes
+"TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,yes
+"TUNA, LITTLE",NA,NA,NA,NA,no
+"TUNA, SKIPJACK",skipjack tuna,Western Atlantic,SKJWATL,RAM,yes
+"TUNA, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,yes
+WAHOO,NA,NA,NA,NA,no
+WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,yes
+"WEAKFISH, SPOTTED / SPOTTED SEA TROUT",NA,NA,NA,NA,no
+"WHELK / CONCH, SPECIES NOT SPECIFIED",NA,NA,NA,NA,no
+"WHELK, CHANNELED",NA,NA,NA,NA,no
+"WHELK, KNOBBED",NA,NA,NA,NA,no
+"WHELK, LIGHTNING",NA,NA,NA,NA,no
+"WHITING, BLACK",NA,NA,NA,NA,no
+"WHITING, KING / KINGFISH",NA,NA,NA,NA,no
+WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,yes

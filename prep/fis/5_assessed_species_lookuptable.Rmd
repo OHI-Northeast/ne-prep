@@ -1,0 +1,307 @@
+---
+title: "Create an assessed species information lookup table"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+This script creates a lookup table to match species from NMFS catch data, RAM database and NMFS stock assessment data. The stock assessment species are not identical to the species listed in the catch data so we need to make sure they match. The final dataset is a lookup table that lists all assessed species in the Northeast is used in `6_stock_scores.Rmd`.
+
+```{r}
+library(tidyverse)
+```
+
+Grab species names from each
+```{r}
+nmfs_catch <- read.csv("data/nmfs_spatial_catch_by_ohi_rgn.csv") %>%
+  mutate(nmfs_original_species = as.character(species),
+         species_low = tolower(species)) %>%
+  select(nmfs_original_species, species_low) %>%
+  distinct()
+nmfs_stock_ass <- read_csv("data/nmfs_stock_assessment_data.csv") %>% select(-X1)
+ram_stock_ass  <- read_csv("data/ram_stock_assessment_data.csv") %>% select(-X1)
+```
+
+Grab all species from NMFS catch data and get them, as well as their alternative names, cleaned up
+
+```{r}
+nmfs_catch_sp <- nmfs_catch %>%
+  separate(species_low, into = c("species1", "species2", "species3"), sep = ",", remove = FALSE) %>%
+  mutate(species2 = trimws(gsub("\\/.*","", species2))) %>%
+  separate(species_low, into = c("alt_name1", "alt_name2", "alt_name3"), sep = "/", remove = FALSE) %>%
+  mutate(nmfs_catch = str_replace_all(paste0(species3, " ", species2, " ", species1), "NA ", ""),
+         nmfs_catch = trimws(gsub("\\/.*","", nmfs_catch)),
+         nmfs_catch_alternate = case_when(
+          !is.na(alt_name2) ~ alt_name2,
+          TRUE ~ NA_character_),
+         nmfs_catch_alternate_2 = case_when(
+          !is.na(alt_name3) ~ alt_name3,
+          TRUE ~ NA_character_)) %>%
+  select(species_low, nmfs_catch, nmfs_catch_alternate, nmfs_catch_alternate_2) %>%
+  mutate(nmfs_catch2              = ifelse(str_detect(nmfs_catch_alternate, "mixed"), 
+                                         paste0(nmfs_catch, " ", nmfs_catch_alternate), NA),
+         nmfs_species             = ifelse(!is.na(nmfs_catch2), tolower(nmfs_catch2), tolower(nmfs_catch)),
+         nmfs_species_alternate   = trimws(ifelse(str_detect(nmfs_catch_alternate, "mixed"), NA, 
+                                                tolower(nmfs_catch_alternate)), "both"),
+         nmfs_species_alternate_2 = trimws(tolower(nmfs_catch_alternate_2)), "both") %>% 
+  select(species_low, nmfs_species, nmfs_species_alternate, nmfs_species_alternate_2) %>%
+  mutate(species = nmfs_species)
+```
+
+Get NMFS stock assessment data species
+```{r}
+nmfs_stock_sp <- nmfs_stock_ass %>%
+  select(stock) %>%
+  distinct() %>%
+  separate(stock, into = c("species", "location"), sep = " - ") %>%
+  mutate(species = tolower(species),
+         source = "NMFS",
+         stockid = NA)
+```
+
+Get RAM stock species
+```{r}
+ram_sp <- ram_stock_ass %>%
+  select(commonname, areaname, stockid) %>%
+  distinct() %>%
+  mutate(species = tolower(commonname),
+         source      = "RAM",
+         location = as.character(areaname)) %>%
+  select(-commonname, -areaname) #create a duplicate column "species" to match with noaa
+```
+
+First I want to combine the RAM and NMFS Stock assessment data since they have location data too
+```{r}
+stock_matching <- nmfs_stock_sp %>%
+  bind_rows(ram_sp)
+```
+
+Now combine catch species with stocks. Lots of data wrangling here to get these species to matchup correctly
+```{r}
+comb <- stock_matching %>%
+  left_join(nmfs_catch_sp) %>%
+  select(species_low, species, location, source, nmfs_species, stockid) %>%
+  left_join(nmfs_catch_sp, by = c("species" = "nmfs_species_alternate")) %>%
+  mutate(nmfs_species = ifelse(is.na(nmfs_species.x), nmfs_species.y, nmfs_species.x)) %>%
+  select(species_low = species_low.x, species, location, source, nmfs_species, stockid) %>%
+  left_join(nmfs_catch_sp, by = "nmfs_species") %>%
+  mutate(species_low = ifelse(is.na(species_low.x), species_low.y, species_low.x)) %>%
+  select(-species.y, -species_low.y, -species_low.x) %>%
+  rename(species = species.x) %>%
+  mutate(nmfs_species_fix = case_when(  #manually making some fixes for species that are found in both but aren't matching
+    species == "atlantic bluefin tuna" ~ "bluefin tuna",
+    species == "bigeye tuna" ~ "big eye tuna",
+    species == "atlantic surfclam" ~ "surf clam",
+    species == "atlantic cod" ~ "cod",
+    species == "red deepsea crab" ~ "red crab",
+    species == "american plaice" ~ "american plaice flounder",
+    species == "atlantic menhaden" ~ "menhaden",
+    species == "goosefish" ~ "monkfish",
+    species == "acadian redfish" ~ "redfish",
+    species == "little skate" ~ "little (summer) skate",
+    species == "winter skate" ~ "winter (big) skate", #we still see winter and little skate wings reported in catch...fixed below
+    species == "atlantic wolffish" ~ "wolffish",
+    species == "longfin inshore squid" ~ "squid", #the NMFS catch data has longfin and shortfin (loligo and illex). but stock assessment data just has longfin
+    TRUE ~ NA_character_
+  ),
+  nmfs_species = ifelse(is.na(nmfs_species), nmfs_species_fix, nmfs_species),
+  nmfs_species_alternate = ifelse(nmfs_species == 'squid', "loligo", nmfs_species_alternate)) %>%
+  select(species_low, 
+         stockid,
+         stock_assessment_species_name = species, 
+         stock_assessment_species_location = location,
+         source,
+         nmfs_catch_species_name = nmfs_species, 
+         nmfs_catch_species_name2 = nmfs_species_alternate_2) %>%
+  mutate(species_low = case_when(
+    nmfs_catch_species_name == "cod" ~ "cod",
+    nmfs_catch_species_name == "big eye tuna" ~ "tuna, big eye",
+    nmfs_catch_species_name == "bluefin tuna" ~ "tuna, bluefin",
+    nmfs_catch_species_name == "american plaice flounder" ~ "flounder, american plaice /dab",
+    nmfs_catch_species_name == "surf clam" ~ "clam, surf",
+    nmfs_catch_species_name == "red crab" ~ "crab, red",
+    nmfs_catch_species_name == "menhaden" ~ "menhaden",
+    nmfs_catch_species_name == "monkfish" ~ "monkfish / anglerfish / goosefish",
+    nmfs_catch_species_name == "redfish" ~ "redfish / ocean perch",
+    nmfs_catch_species_name == "little (summer) skate" ~ "skate, little (summer)",
+    nmfs_catch_species_name == "winter (big) skate" ~ "skate, winter (big)",
+    nmfs_catch_species_name == "wolffish" ~ "wolffish / ocean catfish",
+    nmfs_catch_species_name == "squid" ~ "squid / loligo",
+    TRUE ~ as.character(species_low)
+  )) %>%
+  left_join(nmfs_catch) %>% #add in the original catch (uppercase)
+select(nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source)
+```
+
+Fixing the skate wings and monk fish pieces matching. Skates and Monkfish are reported in NMFS catch as full fish as well as pieces (wings, livers, heads). I'm sure there is a nice way to incorporate these species names into the data above but I'm doing it manually here...
+```{r}
+add_species <- data.frame(stock_assessment_species_name = c("little skate", "winter skate", "smooth skate", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "tilefish", "tilefish"),
+                          stock_assessment_species_location = c("Georges Bank / Southern New England", 
+                                                                "Georges Bank / Southern New England",
+                                                                "Gulf of Maine",
+                                                                "Gulf of Maine / Northern Georges Bank",
+                                                                "Gulf of Maine / Northern Georges Bank",
+                                                                "Gulf of Maine / Northern Georges Bank",
+                                                                "Southern Georges Bank / Mid-Atlantic",
+                                                                "Southern Georges Bank / Mid-Atlantic",
+                                                                "Southern Georges Bank / Mid-Atlantic",
+                                                                "Mid-Atlantic Coast",
+                                                                "Mid-Atlantic Coast"),
+                          source = "NMFS",
+                          nmfs_original_species = c("SKATE WINGS, LITTLE (SUMMER)", "SKATE WINGS, WINTER (BIG)", "SKATE, SMOOTH", 
+                                                    "MONK HEADS", "MONK LIVERS", "MONK TAILS", "MONK HEADS", "MONK LIVERS", "MONK TAILS", "TILEFISH, BLUELINE", "TILEFISH, GOLDEN"),
+                          stockid = NA)
+```
+
+Combine the two datasets to get the full lookup table
+```{r}
+full_df <- comb %>%
+  bind_rows(add_species)
+```
+
+```{r}
+#list of stocks and their rgn_ids
+match_areas_to_stocks <- read.csv("data/nmfs_spatial_catch_by_ohi_rgn.csv", stringsAsFactors = F) %>%
+  select(species, stock_id, stock, rgn_id, rgn_name) %>%
+  filter(!is.na(stock_id)) %>%
+  distinct() %>%
+  mutate(stock_assessment_species_location = case_when(
+    stock_id == "CODGBE" ~ "Eastern Georges Bank",
+    stock_id == "CODGBW" ~ "Georges Bank",
+    stock_id == "CODGMSS" ~ "Gulf of Maine",
+    stock_id == "PLAGMMA" ~ "Gulf of Maine / Georges Bank",
+    stock_id == "FLDSNEMA" ~ "Southern New England / Mid-Atlantic",
+    stock_id == "FLGMGBSS" ~ "Gulf of Maine / Georges Bank",
+    stock_id == "FLWGB" ~ "Georges Bank",
+    stock_id == "FLWGMSS" ~ "Gulf of Maine",
+    stock_id == "FLWSNEMA" ~ "Southern New England / Mid-Atlantic",
+    stock_id == "WITGMMA" ~ "Northwestern Atlantic Coast",
+    stock_id == "YELCCGM" ~ "Cape Cod / Gulf of Maine",
+    stock_id == "YELGB" ~ "Georges Bank",
+    stock_id == "YELSNE" ~ "Southern New England / Mid-Atlantic",
+    stock_id == "HADGBE" ~ "Eastern Georges Bank",
+    stock_id == "HADGBW" ~ "Georges Bank",
+    stock_id == "HADGM" ~ "Gulf of Maine",
+    stock_id == "HKRGMNGB" ~ "Gulf of Maine / Northern Georges Bank",
+    stock_id == "HKRSGBMA" ~ "Southern Georges Bank / Mid-Atlantic",
+    stock_id == "HKSGMNGB" ~ "Gulf of Maine / Northern Georges Bank",
+    stock_id == "HKSSGBMA" ~ "Southern Georges Bank / Mid-Atlantic", 
+    stock_id == "HKWGMMA" ~ "Gulf of Maine / Georges Bank",
+    stock_id == "HALGMMA" ~ "Northwestern Atlantic Coast",
+    stock_id == "OPTGMMA" ~ "Northwestern Atlantic Coast",
+    stock_id == "POKGMASS" ~ "Gulf of Maine / Georges Bank",
+    stock_id == "REDGMGBSS" ~ "Gulf of Maine / Georges Bank",
+    stock_id == "WOLGMMA" ~ "Gulf of Maine / Georges Bank"
+  ))
+```
+
+Match
+```{r}
+m <- full_df %>%
+  left_join(match_areas_to_stocks, by = c("nmfs_original_species" = "species", "stock_assessment_species_location")) %>%
+  mutate(stockid = ifelse(is.na(stock_id), stockid, stock_id)) %>%
+  select(-stock_id)
+```
+
+There are still species with stock assessments that do not have `stockid` in the NMFS catch dataset.
+
+```{r}
+filter(m, is.na(stockid)) %>% .$stock_assessment_species_name %>% unique()
+```
+
+These species do not have multiple stocks within our region, so we can use the OHI regions where they are caught to identify where they are. The one issue is Goosefish/Monkfish. There are two stocks (Southern Georges Bank / Mid-Atlantic and Gulf of Maine / Northern Georges Bank). Let's look at these two areas, which are used for other stocks, and see what OHI areas this includes.
+
+Regions in Southern New England/Mid Atlantic include
+```{r}
+sgb <- filter(m, stock_assessment_species_location == "Southern Georges Bank / Mid-Atlantic") %>%
+  select(rgn_id, rgn_name, stock_assessment_species_location) %>%
+  distinct()
+sgb
+```
+
+```{r}
+gom <- filter(m, stock_assessment_species_location == "Gulf of Maine / Northern Georges Bank") %>%
+  select(rgn_id, rgn_name, stock_assessment_species_location) %>%
+  distinct() 
+gom
+```
+
+Regions 2 and 8 are in both (MA-Virginian and Georges Bank). I think we can use these distinctions to assign regions to the Goosefish/Monkfish scores.
+
+```{r}
+goosefish <- gom %>%
+  bind_rows(sgb) %>%
+  filter(!is.na(rgn_id)) %>%
+  mutate(stock_assessment_species_name = "goosefish")
+
+m2 <- m %>%
+  left_join(goosefish, by = c("stock_assessment_species_name", "stock_assessment_species_location")) %>%
+  mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
+         rgn_name = ifelse(is.na(rgn_name.y), rgn_name.x, rgn_name.y)) %>%
+  select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x)
+```
+
+Now lets just get all OHI regions where the remaining stocks are caught. The easier alternative to this would be to assign all OHI regions to all of these stocks, but if this data is used outside of scores that would possibly indicate stocks existing where they do not.
+
+```{r}
+leftovers <- m2 %>%
+  filter(is.na(rgn_id))
+
+#filter catch for these leftover species
+leftovers_catch <- read.csv("data/nmfs_spatial_catch_by_ohi_rgn.csv", stringsAsFactors = F) %>%
+  filter(species %in% leftovers$nmfs_original_species) %>%
+  select(species, rgn_id, rgn_name) %>%
+  distinct()
+```
+
+Combine! This should make the complete dataset.
+
+```{r}
+comp_dataset <- m2 %>%
+  left_join(leftovers_catch, by = c("nmfs_original_species" = "species")) %>%
+  mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
+         rgn_name = ifelse(is.na(rgn_name.y), rgn_name.x, rgn_name.y)) %>%
+  select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x)
+```
+
+
+Create another dataset that lists all species caught in the northeast and identify which are assessed.
+
+```{r}
+all_species_caught <- nmfs_catch %>%
+  left_join(comp_dataset, by = "nmfs_original_species") %>%
+  select(nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source) %>%
+  mutate(assessed = ifelse(is.na(source), "no", "yes")) %>%
+  distinct()
+```
+
+
+#Save
+
+```{r}
+write_csv(comp_dataset, "data/assessed_species_lookup_table.csv")
+write_csv(all_species_caught, "data/all_species_caught_assessment_summary.csv")
+```
+
+
+
+
+
+
+
+
+
+
+         
