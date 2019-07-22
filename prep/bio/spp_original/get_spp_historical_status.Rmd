@@ -1,0 +1,271 @@
+---
+title: "Get history of species assessments"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r setup, warning = F, message = F}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+
+#IUCN redlist API library
+library(rredlist)
+```
+
+# Data Wrangling
+
+## List of species
+
+Load the species info table that contains all species, the map source, the state/geo location in which it has an assessment and the assessment score (0-1).
+
+```{r}
+spp_list    <- read_csv("data/5_spp_status.csv") %>%
+   select(common, sciname, source, iucn_sid) %>%
+   distinct()
+```
+
+## Get Historical status
+
+The `rl_history()` function retrieves all previous assessments and status for each species.
+
+```{r, eval = F}
+
+df_iucn <- data.frame()
+
+for(i in 1:nrow(spp_list)){
+  
+  print(i)
+  
+  sp <- as.character(spp_list[i,2]) #grab scientific name
+  
+  possibleError <- tryCatch(
+   
+    sp_history <- rl_history(sp)$result %>%
+                  mutate(sciname = sp),
+      
+    error=function(e) e)
+  
+  if(inherits(possibleError, "error")) next
+    
+  df_iucn <- rbind(df_iucn, sp_history)
+}
+```
+
+```{r}
+write.csv(df_iucn,"data/iucn_spp_historical_status.csv")
+```
+
+----
+
+Now I want to look at species who have had their conservation status changed over time. First this requires gapfilling for all years between assessments, then assigning the status scores between 0 and 1, and then looking only at those that have changed since 2005. These species are then compared to the NatureServe (NS) data to see if the finer-scale data from NS matches what IUCN says for those species with changed statuses.
+
+Gapfill between years and fix the codes
+
+```{r}
+gf <- df_iucn %>%
+  group_by(sciname) %>%
+  complete(year = full_seq(year, period = 1),
+                   sciname) %>%
+  zoo::na.locf(.) %>%
+  mutate(status = case_when(
+    code == "V" ~ "VU",
+    code == "LR/nt" ~ "NT",
+    code == "LR/lc" ~ "LC",
+    code == "E" ~ "EN",
+    code == "LR/cd" ~ "NT", #these are "conservation dependent" species, which is a status that is no longer used. But is b/w LC and NT.
+    code == "T" ~ "VU", #T stands for threatened and is an old status category that is only present in our dataset for Pterodroma cahow from 88 - 93...
+    code == "I" ~ "DD", #I stands for indeterminant
+    TRUE ~ as.character(code)
+    ))   %>%
+  left_join(spp_list, by = "sciname")
+```
+
+Assign scores
+
+```{r}
+scores <- read_csv("data/natserv_status_scores.csv") %>%
+  select(-X1)
+
+gf_scores <- gf %>%
+  left_join(scores) %>%
+  filter(year > 2004)
+```
+
+Let's look at the species that have changed status over time
+
+```{r}
+spp_w_stat_chng <- gf_scores %>%
+  filter(!is.na(score)) %>%
+  group_by(sciname) %>%
+  mutate(n = n_distinct(score)) %>%
+  filter(n > 1) %>%
+  mutate(common = case_when(
+    sciname == "Caretta caretta" ~ "loggerhead sea turtle",
+    sciname == "Calidris canutus" ~ "red knot",
+    sciname == "Calidris pusilla" ~ "semipalmated sandpiper",
+    sciname == "Calidris ruficollis" ~ "red-necked stint",
+    sciname == "Cystophora cristata" ~ "hooded seal",
+    sciname == "Dermochelys coriacea" ~ "leatherback sea turtle",
+    sciname == "Lepidochelys olivacea" ~ "olive ridley sea turtle",
+    sciname == "Stenella attenuata" ~ "pantropical spotted dolphin",
+    sciname == "Stenella longirostris" ~ "spinner dolphin",
+    TRUE ~ as.character(common)
+  ))
+```
+
+Plot these
+```{r}
+ggplot(spp_w_stat_chng, aes(x = year, y = score, color = common)) +
+  geom_line() +
+  theme_bw()
+```
+
+
+I want to know what the current status of these species is. Do we have different statuses from NatureServe?
+
+```{r}
+natserve_stat <- read_csv("data/4_natureserve_spp_status.csv") %>% 
+  select(-X1) %>%
+  filter(species %in% spp_w_stat_chng$sciname) %>%
+  left_join(scores)
+
+#get the iucn species and just the most current scores so we can filter to 2018
+iucn_spp_current_scores <- spp_w_stat_chng %>%
+   group_by(sciname) %>%
+  mutate(year_max = max(year)) %>%
+  filter(year == year_max) %>%
+  select(sciname, common, score, year)
+
+#compare
+
+comp <- natserve_stat %>%
+  left_join(iucn_spp_current_scores, by = c("species" = "sciname")) %>%
+  rename(iucn_score = score.y, natserve_score = score.x) %>%
+  mutate(score_diff = iucn_score - natserve_score) %>% #this is the iucn score - the natserve score
+  filter(state != "IUCN") # we don't want to make comparisons to the IUCN data drawn from natureserve because in the end we'll likely use the IUCN data drawn from the API
+```
+
+
+```{r}
+ggplot(comp, aes(x = iucn_score, y = natserve_score, color = common)) +
+  geom_point() +
+  theme_bw()
+```
+Split into a couple different plots showing sharks, whales, birds, etc.
+
+```{r}
+library(ggrepel)
+
+sharks <- c("dusky shark", "kitefin shark", "shortfin mako", "smooth hammerhead", "silky shark", "sandbar shark", "oceanic whitetip shark","whale shark", "scalloped hammerhead", "porbeagle")
+
+shark_plot <- ggplot(comp %>% filter(common %in% sharks), aes(x = iucn_score, y = natserve_score, color = common, label = common)) +
+  geom_abline(col = "gray") +
+  geom_text_repel(size = 3) +
+  geom_point(alpha = 0.6) +
+  theme_bw() +
+  labs(title = "Sharks") +
+  theme(legend.position = "none")
+```
+
+Interestingly none of the sharks have state level statuses. So we should use the IUCN status history for our shark species.
+
+```{r}
+birds <- c("razorbill", "black legged kittiwake", "atlantic puffin", "white winged scoter", "horned grebe", "common eider", "long tailed duck", "red knot", "semipalmated sandpiper", "red-necked stint")
+
+#since we have multiple states with the same status we need to just select unique status comparisons
+comp_birds <- comp %>%
+  filter(common %in% birds) %>%
+  select(common, natserve_score, iucn_score) %>%
+  distinct()
+
+bird_plot <- ggplot(comp_birds, aes(x = iucn_score, y = natserve_score, color = common, label = common)) +
+  geom_abline(col = "gray") +
+  geom_text_repel(size = 3) +
+  geom_point() +
+  theme_bw() +
+  labs(title = "Birds") +
+  theme(legend.position = "none")
+```
+
+Whales and dolphins
+
+```{r}
+whales_dolphins <- c("humpback whale", "fin whale", "harbor porpoise","minke whale", "striped dolphin", "short finned pilot whale", "yellowfin tuna", "pantropical spotted dolphin", "spinner dolphin")
+
+#since we have multiple states with the same status we need to just select unique status comparisons
+comp_big <- comp %>%
+  filter(common %in% whales_dolphins) %>%
+  select(common, natserve_score, iucn_score) %>%
+  distinct()
+
+whale_plot <- ggplot(comp_big, aes(x = iucn_score, y = natserve_score, color = common, label = common)) +
+  geom_abline(col = "gray") +
+  geom_point() +
+  geom_text_repel(size = 3) +
+  theme_bw() +
+  labs(title = "Whales, Dolphins, Tuna") +
+  theme(legend.position = "none") 
+```
+
+The rest
+```{r}
+#get the rest of the species
+rest <- comp %>%
+  filter(!common %in% c(whales_dolphins, sharks, birds))
+
+#since we have multiple states with the same status we need to just select unique status comparisons
+comp_rest <- comp %>%
+  filter(common %in% rest$common) %>%
+  select(common, natserve_score, iucn_score) %>%
+  distinct()
+
+rest_plot <- ggplot(comp_rest, aes(x = iucn_score, y = natserve_score, color = common, label = common)) +
+  geom_abline(col = "gray") +
+  geom_point() +
+  geom_text_repel(size = 3) +
+  theme_bw() +
+  theme(legend.position = "none") 
+```
+
+```{r, fig.width=8, fig.height=6}
+cowplot::plot_grid(whale_plot, bird_plot, rest_plot)
+```
+
+```{r}
+ggplot(spp_w_stat_chng %>% filter(common == "leatherback sea turtle"), aes(x = year, y = score, color = common)) +
+  geom_line() +
+  theme_bw()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

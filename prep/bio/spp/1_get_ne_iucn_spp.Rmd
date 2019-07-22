@@ -55,7 +55,7 @@ plot(ne_reproj, add = T)
 
 Extract the cell ids for our region
 ```{r extract_ne_cell_ids}
-ne_cells <- extract(cells, ne_reproj) %>%
+ne_cells <- raster::extract(cells, ne_reproj) %>%
   unlist()
 ```
 
@@ -133,7 +133,7 @@ for(i in 1:length(scinames)){
   sp <- scinames[i]
   print(i)
 
-  if(sp == "Phalacrocorax auritus"){ #this one threw some error and no $result was returned from rl_search
+  if(sp %in% c("Phalacrocorax auritus", "Raja eglanteria")){ #this one threw some error and no $result was returned from rl_search
     comm <- NA
   }else{
   comm <- rredlist::rl_search(sp)$result$main_common_name

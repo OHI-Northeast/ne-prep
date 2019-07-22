@@ -38,7 +38,7 @@ tifs <- spp_files[str_detect(spp_files, ".tif$")]
 tifs <- tifs[!str_detect(tifs, "/Avian_PA/")]
 ```
 
-We have `r nrow(tifs)` maps provided by Duke for species maps on the Northeast Ocean Data Portal. Some of these are seasonal, so we need to combine them to create one map. For example *Witch flounder*:
+We have `r length(tifs)` maps provided by Duke for species maps on the Northeast Ocean Data Portal. Some of these are seasonal, so we need to combine them to create one map. For example *Witch flounder*:
 
 ```{r}
 witch_flounder <- tifs[str_detect(tifs, "Witch_flounder")] %>%
@@ -131,7 +131,7 @@ f <- function(sp){
   #extent(sp_rast) <- extent(zones)
   sp_rast <- raster:: resample(sp_rast, zones, method = "ngb")
   
-  #assign all cells that have a 0 and NA
+  #assign all cells that have a 0 an NA
   sp_rast[sp_rast == 0] <- NA
   
   #save raster to server

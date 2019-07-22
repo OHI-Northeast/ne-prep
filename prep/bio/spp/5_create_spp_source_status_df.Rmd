@@ -131,7 +131,7 @@ for(i in 1:nrow(iucn_sp_wo_status)){
 }
 ```
 
-I'll do the same, using the IUCN API, for Northeast dataportal species without a status. This is just 49 species.
+I'll do the same, using the IUCN API, for Northeast dataportal species without a status. This is just `r large_df %>% filter(source == "dataportal", is.na(status)) %>% nrow()` species.
 
 ```{r}
 #get ne_dp species without a status
@@ -165,9 +165,11 @@ if(inherits(possibleError, "error")) next
   df_np <- rbind(df_np, df)
   
 }
+
+df_np
 ```
 
-Looks like these 49 species don't have a status in the IUCN database!
+Looks like these species don't have a status in the IUCN database!
 
 Add status category back to `large_df`
 

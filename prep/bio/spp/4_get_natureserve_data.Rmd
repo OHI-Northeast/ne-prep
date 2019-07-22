@@ -18,13 +18,14 @@ output:
 
 # Summary
 
+We access the NatureServe API with the `natserv` R package to retrieve each species conservation status across all scales from global (IUCN) to state level (CT, NY, MA, ME, RI, NH).
+
 # Setup
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+``` {r setup, message = FALSE, warning = FALSE}
 
-```{r}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
 library(tidyverse)
 #install.packages("natserv")
 library(natserv)
@@ -34,8 +35,8 @@ library(taxize)
 source("~/github/ne-prep/src/R/common.R")
 ```
 
-We need to get scientific names for the data portal species. 
-```{r}
+We need to get scientific names for the data portal species before querying NatureServe. 
+```{r get_sci_names_for_dp_species}
 #ne dataportal rasters
 ne_rasters <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"))
 

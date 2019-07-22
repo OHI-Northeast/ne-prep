@@ -1,0 +1,725 @@
+"","shp_iucn_sid","iucn_sid","sciname","presence","subpop","dbf_file","max_depth","comp_assessed"
+"1",222,222,"Acipenser brevirostrum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/acipenseriformes.dbf","200 m +",TRUE
+"2",245,245,"Acipenser oxyrinchus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/acipenseriformes.dbf","200 m +",TRUE
+"3",13458323,13458323,"Synagrops bellus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/acropomatidae.dbf","200 m +",FALSE
+"4",42830204,42830204,"Synagrops japonicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/acropomatidae.dbf","< 200 m",FALSE
+"5",185924,185924,"Paroncheilus affinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/apogonidae.dbf","200 m +",FALSE
+"6",16407630,16407630,"Ariomma bondi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ariommatidae.dbf","200 m +",FALSE
+"7",190252,190252,"Ariomma melanum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ariommatidae.dbf","200 m +",FALSE
+"8",154767,154767,"Membras martinica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/atheriniformes.dbf","< 200 m",FALSE
+"9",16441575,16441575,"Menidia menidia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/atheriniformes.dbf","200 m +",FALSE
+"10",16441698,16441698,"Synodus foetens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","< 200 m",FALSE
+"11",13486199,13486199,"Trachinocephalus myops",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","< 200 m",FALSE
+"12",13485675,13485675,"Benthalbella infans",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"13",190316,190316,"Scopelarchus analis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"14",194997,194997,"Arctozenus risso",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"15",13485398,13485398,"Lestidiops affinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"16",189818,189818,"Lestidiops jayakari",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"17",190099,190099,"Lestidium atlanticum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"18",13485622,13485622,"Lestrolepis intermedia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"19",13485631,13485631,"Macroparalepis affinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"20",68064267,68064267,"Macroparalepis brevis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"21",13485635,13485635,"Magnisudis atlantica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"22",20885933,20885933,"Paralepis elongata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"23",190146,190146,"Stemonosudis intermedia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"24",47165538,47165538,"Sudis atrox",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"25",190101,190101,"Sudis hyalina",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"26",13485312,13485312,"Omosudis lowii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"27",13485141,13485141,"Ahliesaurus berryi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"28",13485167,13485167,"Scopelosaurus argenteus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","< 200 m",FALSE
+"29",190389,190389,"Scopelosaurus lepidus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"30",67966271,67966271,"Scopelosaurus smithii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"31",13462751,13462751,"Bathypterois dubius",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"32",194992,194992,"Bathypterois grallator",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"33",190243,190243,"Bathypterois longipes",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"34",13462757,13462757,"Bathypterois phenax",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"35",47164926,47164926,"Coccorella atlantica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"36",194995,194995,"Evermannella balbo",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"37",13462731,13462731,"Odontostomops normalops",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"38",194993,194993,"Chlorophthalmus agassizi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"39",20661580,20661580,"Parasudis truculenta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"40",13462491,13462491,"Bathysaurus ferox",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"41",195001,195001,"Bathysaurus mollis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"42",18123632,18123632,"Anotopterus pharao",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"43",60469186,60469186,"Alepisaurus brevirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","deep oceanic",FALSE
+"44",154820,154820,"Alepisaurus ferox",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/aulopiformes.dbf","200 m +",FALSE
+"45",16441738,16441738,"Opsanus tau",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/batrachoidiformes.dbf","< 200 m",FALSE
+"46",190211,190211,"Scomberesox saurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"47",15521852,15521852,"Euleptorhamphus velox",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"48",15521875,15521875,"Hemiramphus balao",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","unknown",FALSE
+"49",15521927,15521927,"Hemiramphus brasiliensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","unknown",FALSE
+"50",191197,191197,"Hyporhamphus meeki",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"51",15521934,15521934,"Oxyporhamphus similis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"52",190123,190123,"Cheilopogon cyanopterus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"53",198575,198575,"Cheilopogon exsiliens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"54",190391,190391,"Cheilopogon furcatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"55",190276,190276,"Cheilopogon melanurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"56",13487700,13487700,"Cheilopogon nigricans",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"57",190163,190163,"Exocoetus obtusirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"58",198566,198566,"Exocoetus volitans",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"59",190292,190292,"Hirundichthys speculiger",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"60",68308810,68308810,"Hirundichthys volador",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"61",20885921,20885921,"Prognichthys glaphyrae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","200 m +",FALSE
+"62",13486514,13486514,"Ablennes hians",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"63",155259,155259,"Strongylura marina",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beloniformes.dbf","< 200 m",FALSE
+"64",16449531,16449531,"Gephyroberyx darwinii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","deep oceanic",FALSE
+"65",198579,198579,"Hoplostethus mediterraneus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","deep oceanic",FALSE
+"66",190137,190137,"Diretmichthys parini",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","200 m +",FALSE
+"67",18124015,18124015,"Diretmus argenteus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","200 m +",FALSE
+"68",198578,198578,"Beryx decadactylus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","deep oceanic",FALSE
+"69",16425354,16425354,"Beryx splendens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","deep oceanic",FALSE
+"70",18123960,18123960,"Anoplogaster cornuta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","200 m +",FALSE
+"71",16443217,16443217,"Ostichthys trachypoma",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/beryciformes.dbf","unknown",FALSE
+"72",195091,195091,"Brama brama",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/bramidae.dbf","200 m +",FALSE
+"73",190330,190330,"Pterycombus brama",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/bramidae.dbf","200 m +",FALSE
+"74",190394,190394,"Taractichthys longipinnis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/bramidae.dbf","200 m +",FALSE
+"75",165611,165611,"Chaetodon ocellatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/BUTTERFLYFISH.dbf","< 200 m",TRUE
+"76",165695,165695,"Chaetodon capistratus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/BUTTERFLYFISH.dbf","< 200 m",TRUE
+"77",16506725,16506725,"Foetorepus agassizii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/callionymidae.dbf","< 200 m",FALSE
+"78",190066,190066,"Foetorepus goodenbeani",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/callionymidae.dbf","200 m +",FALSE
+"79",16407132,16407132,"Antigonia capros",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/caproidae.dbf","200 m +",FALSE
+"80",154928,154928,"Antigonia combatia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/caproidae.dbf","< 200 m",FALSE
+"81",155014,155014,"Alectis ciliaris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","200 m +",FALSE
+"82",16431725,16431725,"Caranx bartholomaei",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"83",154807,154807,"Caranx crysos",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","200 m +",FALSE
+"84",190458,190458,"Caranx hippos",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"85",191829,191829,"Caranx latus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"86",16431737,16431737,"Caranx ruber",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"87",16437187,16437187,"Chloroscombrus chrysurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 20 m",FALSE
+"88",190117,190117,"Decapterus macarellus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"89",16439848,16439848,"Decapterus punctatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"90",16440027,16440027,"Elagatis bipinnulata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"91",190452,190452,"Naucrates ductor",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"92",190388,190388,"Selar crumenophthalmus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"93",16506931,16506931,"Selene setapinnis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"94",16507307,16507307,"Selene vomer",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"95",198643,198643,"Seriola dumerili",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"96",190139,190139,"Seriola fasciata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"97",16507347,16507347,"Seriola rivoliana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"98",16507442,16507442,"Seriola zonata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"99",16507646,16507646,"Trachinotus carolinus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"100",190407,190407,"Trachinotus falcatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"101",154970,154970,"Trachinotus goodei",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"102",195098,195098,"Trachurus lathami",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"103",183364,183364,"Oligoplites saurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/carangidae.dbf","< 200 m",FALSE
+"104",198571,198571,"Centrolophus niger",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/centrolophidae.dbf","200 m +",FALSE
+"105",155081,155081,"Hyperoglyphe perciformis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/centrolophidae.dbf","< 200 m",FALSE
+"106",21110276,21110276,"Barbourisia rufa",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cetomimiformes.dbf","200 m +",FALSE
+"107",190349,190349,"Cetomimus gillii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cetomimiformes.dbf","200 m +",FALSE
+"108",190260,190260,"Cetostoma regani",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cetomimiformes.dbf","200 m +",FALSE
+"109",190414,190414,"Ditropichthys storeri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cetomimiformes.dbf","200 m +",FALSE
+"110",190331,190331,"Gyrinomimus myersi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cetomimiformes.dbf","deep oceanic",FALSE
+"111",60483273,60483273,"Rondeletia loricata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cetomimiformes.dbf","200 m +",FALSE
+"112",190310,190310,"Chiasmodon niger",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"113",21113900,21113900,"Dysalotus alcocki",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"114",60470373,60470373,"Dysalotus oligoscolus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"115",21113904,21113904,"Kali indica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"116",60471792,60471792,"Kali kerberti",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"117",60471825,60471825,"Kali macrura",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"118",21113907,21113907,"Kali parri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"119",60483083,60483083,"Pseudoscopelus altipinnis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"120",190433,190433,"Pseudoscopelus scriptus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","deep oceanic",FALSE
+"121",60483092,60483092,"Pseudoscopelus scutatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/chiasmodontidae.dbf","200 m +",FALSE
+"122",3851,3851,"Carcharhinus limbatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"123",3852,3852,"Carcharhinus obscurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"124",3853,3853,"Carcharhinus plumbeus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"125",3854,3854,"Carcharias taurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"126",3855,3855,"Carcharodon carcharias",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"127",4292,4292,"Cetorhinus maximus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"128",6229,6229,"Dalatias licha",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"129",11200,11200,"Lamna nasus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"130",19488,19488,"Rhincodon typus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"131",39336,39336,"Odontaspis noronhai",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"132",39339,39339,"Alopias vulpinus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"133",39341,39341,"Isurus oxyrinchus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"134",39359,39359,"Mustelus canis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"135",39368,39368,"Carcharhinus brevipinna",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"136",39370,39370,"Carcharhinus falciformis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"137",39372,39372,"Carcharhinus leucas",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"138",39374,39374,"Carcharhinus longimanus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"139",39378,39378,"Galeocerdo cuvier",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"140",39380,39380,"Negaprion brevirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"141",39381,39381,"Prionace glauca",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"142",39382,39382,"Rhizoprionodon terraenovae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"143",39385,39385,"Sphyrna lewini",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"144",39386,39386,"Sphyrna mokarran",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"145",39387,39387,"Sphyrna tiburo",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"146",39388,39388,"Sphyrna zygaena",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"147",39771,39771,"Dipturus laevis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"148",41747,41747,"Centroscymnus coelolepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"149",41801,41801,"Echinorhinus brucus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"150",42700,42700,"Apristurus melanoasper",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","unknown",TRUE
+"151",44216,44216,"Apristurus laurussonii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"152",44224,44224,"Apristurus profundorum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"153",44566,44566,"Pseudotriakis microdon",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","deep oceanic",TRUE
+"154",44599,44599,"Apristurus manis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"155",44657,44657,"Apristurus microps",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"156",60128,60128,"Rhinoptera bonasus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"157",60140,60140,"Harriotta raleighana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","deep oceanic",TRUE
+"158",60145,60145,"Rhinochimaera atlantica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"159",60159,60159,"Hypanus say",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"160",60213,60213,"Somniosus microcephalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"161",60219,60219,"Carcharhinus signatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"162",60223,60223,"Ginglymostoma cirratum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"163",60225,60225,"Isurus paucus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"164",60233,60233,"Scyliorhinus retifer",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"165",60242,60242,"Etmopterus princeps",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"166",60248,60248,"Squatina dumeril",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"167",63123,63123,"Hydrolagus affinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","deep oceanic",TRUE
+"168",63127,63127,"Bathyraja richardsoni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","deep oceanic",TRUE
+"169",63152,63152,"Bathytoshia centroura",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"170",63153,63153,"Gymnura altavela",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"171",161366,161366,"Bathyraja spinicauda",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"172",161371,161371,"Rajella bigelowi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","deep oceanic",TRUE
+"173",161418,161418,"Leucoraja erinacea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"174",161419,161419,"Leucoraja garmani",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"175",161477,161477,"Malacoraja senta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"176",161491,161491,"Amblyraja jenseni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","unknown",TRUE
+"177",161521,161521,"Centroscyllium fabricii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","unknown",TRUE
+"178",161524,161524,"Carcharhinus isodon",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"179",161542,161542,"Amblyraja radiata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","deep oceanic",TRUE
+"180",161568,161568,"Myliobatis freminvillii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"181",161580,161580,"Tetronarce nobiliana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"182",161587,161587,"Rajella fyllae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","unknown",TRUE
+"183",161631,161631,"Leucoraja ocellata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"184",161658,161658,"Raja eglanteria",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"185",161696,161696,"Alopias superciliosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"186",161731,161731,"Pteroplatytrygon violacea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","< 200 m",TRUE
+"187",198921,198921,"Mobula birostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"188",91209505,91209505,"Squalus acanthias",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CHONDRICHTHYES.dbf","200 m +",TRUE
+"189",201946,201946,"Alosa aestivalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","200 m +",FALSE
+"190",201947,201947,"Alosa mediocris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","200 m +",FALSE
+"191",201948,201948,"Alosa pseudoharengus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","200 m +",FALSE
+"192",191206,191206,"Alosa sapidissima",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","200 m +",FALSE
+"193",16406327,16406327,"Anchoa hepsetus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"194",191214,191214,"Anchoa lyolepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"195",190222,190222,"Anchoa mitchilli",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"196",190134,190134,"Brevoortia tyrannus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"197",155123,155123,"Clupea harengus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","200 m +",FALSE
+"198",16440016,16440016,"Engraulis eurystole",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"199",82626288,82626288,"Etrumeus sadina",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","200 m +",FALSE
+"200",190478,190478,"Harengula jaguana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"201",16466100,16466100,"Opisthonema oglinum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"202",198581,198581,"Sardinella aurita",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/clupeiformes.dbf","< 200 m",FALSE
+"203",46104064,46104064,"Hypsoblennius hentz",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/COMBTOOTHBLENNIES.dbf","< 200 m",TRUE
+"204",133446,133446,"Astrangia poculata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/CORALS_PART_2.dbf","< 200 m",TRUE
+"205",170350,170350,"Coryphaena equiselis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/coryphaenidae.dbf","200 m +",FALSE
+"206",154712,154712,"Coryphaena hippurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/coryphaenidae.dbf","200 m +",FALSE
+"207",189823,189823,"Cyprinodon variegatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cyprinodontiformes.dbf","< 200 m",FALSE
+"208",189824,189824,"Fundulus heteroclitus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cyprinodontiformes.dbf","< 200 m",FALSE
+"209",20662958,20662958,"Fundulus majalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cyprinodontiformes.dbf","< 200 m",FALSE
+"210",191368,191368,"Lucania parva",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/cyprinodontiformes.dbf","< 200 m",FALSE
+"211",190393,190393,"Echeneis naucrates",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"212",16440083,16440083,"Echeneis neucratoides",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"213",190461,190461,"Phtheirichthys lineatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"214",155075,155075,"Remora albescens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"215",198650,198650,"Remora australis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"216",155068,155068,"Remora brachyptera",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"217",190080,190080,"Remora osteochir",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"218",198651,198651,"Remora remora",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/echeneidae.dbf","200 m +",FALSE
+"219",16435530,16435530,"Chaetodipterus faber",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ephippidae.dbf","< 200 m",FALSE
+"220",198652,198652,"Epigonus denticulatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/epigonidae.dbf","deep oceanic",FALSE
+"221",15601962,15601962,"Epigonus pandionis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/epigonidae.dbf","200 m +",FALSE
+"222",15522054,15522054,"Enchelyopus cimbrius",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"223",198775,198775,"Coelorinchus caelorhincus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","unknown",FALSE
+"224",18125776,18125776,"Coryphaenoides armatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","deep oceanic",FALSE
+"225",198594,198594,"Coryphaenoides guentheri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"226",15522140,15522140,"Coryphaenoides leptolepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","deep oceanic",FALSE
+"227",198595,198595,"Coryphaenoides mediterraneus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","deep oceanic",FALSE
+"228",15522149,15522149,"Coryphaenoides rupestris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","deep oceanic",FALSE
+"229",198596,198596,"Hymenocephalus italicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","deep oceanic",FALSE
+"230",155265,155265,"Malacocephalus occidentalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","unknown",FALSE
+"231",198597,198597,"Nezumia aequalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"232",198598,198598,"Nezumia sclerorhynchus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"233",15522213,15522213,"Melanonus zugmayeri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"234",16466377,16466377,"Merluccius albidus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"235",16466393,16466393,"Merluccius bilinearis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"236",190385,190385,"Antimora rostrata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"237",190069,190069,"Gadella imberbis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"238",190091,190091,"Physiculus fulvus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","200 m +",FALSE
+"239",47145877,47145877,"Urophycis regia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gadiformes.dbf","< 200 m",FALSE
+"240",16781113,16781113,"Fistularia petimba",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gasterosteiformes.dbf","< 200 m",FALSE
+"241",16781124,16781124,"Fistularia tabacaria",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gasterosteiformes.dbf","< 200 m",FALSE
+"242",19922686,19922686,"Gasterosteus wheatlandi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gasterosteiformes.dbf","200 m +",FALSE
+"243",20665551,20665551,"Diplospinus multistriatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gempylidae.dbf","200 m +",FALSE
+"244",16509126,16509126,"Gempylus serpens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gempylidae.dbf","200 m +",FALSE
+"245",190287,190287,"Lepidocybium flavobrunneum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gempylidae.dbf","200 m +",FALSE
+"246",16509242,16509242,"Nealotus tripes",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gempylidae.dbf","200 m +",FALSE
+"247",18158583,18158583,"Nesiarchus nasutus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gempylidae.dbf","200 m +",FALSE
+"248",16509297,16509297,"Promethichthys prometheus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gempylidae.dbf","200 m +",FALSE
+"249",190432,190432,"Ruvettus pretiosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gempylidae.dbf","200 m +",FALSE
+"250",186005,186005,"Gobiesox strumosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gobiesociformes.dbf","< 20 m",FALSE
+"251",186012,186012,"Gobiosoma bosc",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gobiidae.dbf","< 200 m",FALSE
+"252",186010,186010,"Gobiosoma ginsburgi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/gobiidae.dbf","< 200 m",FALSE
+"253",192937,192937,"Orthopristis chrysoptera",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/haemulidae.dbf","< 200 m",FALSE
+"254",198561,198561,"Kyphosus sectatrix",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/kyphosidae.dbf","< 200 m",FALSE
+"255",195038,195038,"Lampris guttatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lampriformes.dbf","200 m +",FALSE
+"256",190378,190378,"Regalecus glesne",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lampriformes.dbf","200 m +",FALSE
+"257",21112669,21112669,"Stylephorus chordatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lampriformes.dbf","200 m +",FALSE
+"258",190073,190073,"Desmodema polystictum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lampriformes.dbf","200 m +",FALSE
+"259",190346,190346,"Zu cristatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lampriformes.dbf","200 m +",FALSE
+"260",170009,170009,"Homarus americanus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/LOBSTERS.dbf","200 m +",TRUE
+"261",185012,185012,"Stereomastis sculpta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/LOBSTERS.dbf","200 m +",TRUE
+"262",169958,169958,"Nephropsis aculeata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/LOBSTERS.dbf","deep oceanic",TRUE
+"263",169976,169976,"Panulirus argus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/LOBSTERS.dbf","< 200 m",TRUE
+"264",185000,185000,"Stereomastis nana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/LOBSTERS.dbf","deep oceanic",TRUE
+"265",185015,185015,"Cardus crucifer",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/LOBSTERS.dbf","unknown",TRUE
+"266",185026,185026,"Polycheles typhlops",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/LOBSTERS.dbf","deep oceanic",TRUE
+"267",16467178,16467178,"Fowlerichthys radiosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","< 200 m",FALSE
+"268",190183,190183,"Histrio histrio",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"269",190447,190447,"Caulophryne jordani",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"270",21112867,21112867,"Caulophryne polynema",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"271",60469670,60469670,"Centrophryne spinulosa",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"272",18127741,18127741,"Ceratias holboelli",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"273",21112879,21112879,"Ceratias uranoscopus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"274",190067,190067,"Cryptopsaras couesii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"275",18127809,18127809,"Bufoceratias wedli",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"276",190089,190089,"Diceratias pileatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"277",60470485,60470485,"Gigantactis gibbsi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"278",60470680,60470680,"Gigantactis ios",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"279",60470683,60470683,"Gigantactis longicirra",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"280",60470687,60470687,"Gigantactis vanhoeffeni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"281",60470792,60470792,"Himantolophus albinares",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"282",60470817,60470817,"Himantolophus brevirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"283",18127836,18127836,"Himantolophus groenlandicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"284",60470918,60470918,"Himantolophus rostratus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"285",60470770,60470770,"Haplophryne mollis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"286",21112898,21112898,"Linophryne pennibarbata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"287",18127840,18127840,"Melanocetus johnsonii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"288",60481914,60481914,"Neoceratias spinifer",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"289",20663855,20663855,"Dibranchus atlanticus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"290",20663917,20663917,"Dibranchus tremendus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","< 200 m",FALSE
+"291",60469804,60469804,"Chaenophryne draco",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"292",154916,154916,"Chaenophryne longiceps",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"293",42830251,42830251,"Chaenophryne ramifera",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"294",42830260,42830260,"Dolopichthys allector",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"295",61934241,61934241,"Dolopichthys danae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"296",190278,190278,"Dolopichthys longicornis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"297",60470361,60470361,"Dolopichthys pullatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"298",60471934,60471934,"Leptacanthichthys gracilispinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"299",190157,190157,"Lophodolos acanthognathus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"300",42830277,42830277,"Microlophichthys microlophus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"301",18128749,18128749,"Oneirodes eschrichtii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"302",60482102,60482102,"Oneirodes macrosteus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","200 m +",FALSE
+"303",60482374,60482374,"Pentherichthys atratus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"304",60482553,60482553,"Phyllorhinichthys balushkini",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"305",190402,190402,"Spiniphryne gladisfenae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lophiiformes.dbf","deep oceanic",FALSE
+"306",12417,12417,"Lutjanus cyanopterus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lutjanidae.dbf","< 200 m",FALSE
+"307",192941,192941,"Lutjanus griseus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lutjanidae.dbf","< 200 m",FALSE
+"308",190221,190221,"Lutjanus jocu",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lutjanidae.dbf","< 200 m",FALSE
+"309",194341,194341,"Ocyurus chrysurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/lutjanidae.dbf","unknown",FALSE
+"310",190116,190116,"Luvarus imperialis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/luvaridae.dbf","200 m +",FALSE
+"311",16545046,16545046,"Lopholatilus chamaeleonticeps",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/malacanthidae.dbf","< 200 m",FALSE
+"312",17027,17027,"Phocoena phocoena",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","< 200 m",TRUE
+"313",20730,20730,"Stenella clymene",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"314",11142,11142,"Lagenorhynchus albirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"315",13245,13245,"Mesoplodon europaeus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"316",9250,9250,"Globicephala melas",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"317",41712,41712,"Eubalaena glacialis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"318",23211,23211,"Ziphius cavirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"319",17013,17013,"Phoca vitulina",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"320",20731,20731,"Stenella coeruleoalba",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"321",2477,2477,"Balaenoptera musculus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"322",2476,2476,"Balaenoptera edeni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"323",13250,13250,"Mesoplodon mirus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"324",15421,15421,"Orcinus orca",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"325",9660,9660,"Halichoerus grypus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"326",13006,13006,"Megaptera novaeangliae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"327",11141,11141,"Lagenorhynchus acutus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"328",6204,6204,"Cystophora cristata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"329",22563,22563,"Tursiops truncatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"330",41755,41755,"Physeter macrocephalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"331",13244,13244,"Mesoplodon densirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"332",11047,11047,"Kogia breviceps",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"333",11048,11048,"Kogia sima",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"334",41671,41671,"Pagophilus groenlandicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"335",2474,2474,"Balaenoptera acutorostrata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"336",2478,2478,"Balaenoptera physalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"337",9461,9461,"Grampus griseus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"338",20729,20729,"Stenella attenuata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"339",20732,20732,"Stenella frontalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"340",20733,20733,"Stenella longirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"341",9249,9249,"Globicephala macrorhynchus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"342",6336,6336,"Delphinus delphis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"343",2475,2475,"Balaenoptera borealis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"344",13241,13241,"Mesoplodon bidens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"345",10707,10707,"Hyperoodon ampullatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/MARINE_MAMMALS.dbf","200 m +",TRUE
+"346",192942,192942,"Morone saxatilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/moronidae.dbf","< 200 m",FALSE
+"347",135567,135567,"Mugil cephalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/mugiliformes.dbf","< 200 m",FALSE
+"348",190168,190168,"Mugil curema",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/mugiliformes.dbf","< 200 m",FALSE
+"349",16545072,16545072,"Mullus auratus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/mullidae.dbf","< 200 m",FALSE
+"350",16545086,16545086,"Pseudupeneus maculatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/mullidae.dbf","< 200 m",FALSE
+"351",198611,198611,"Benthosema glaciale",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"352",15598524,15598524,"Benthosema suborbitale",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"353",190390,190390,"Bolinichthys indicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"354",190317,190317,"Bolinichthys photothorax",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"355",190488,190488,"Bolinichthys supralateralis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"356",15598550,15598550,"Centrobranchus nigroocellatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"357",198612,198612,"Ceratoscopelus maderensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"358",15598596,15598596,"Ceratoscopelus warmingii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"359",15598621,15598621,"Diaphus bertelseni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"360",15598630,15598630,"Diaphus brachycephalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"361",190314,190314,"Diaphus dumerilii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"362",15598639,15598639,"Diaphus effulgens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"363",15598666,15598666,"Diaphus fragilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"364",190321,190321,"Diaphus garmani",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"365",15598672,15598672,"Diaphus lucidus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"366",47165067,47165067,"Diaphus luetkeni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","deep oceanic",FALSE
+"367",198613,198613,"Diaphus metopoclampus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"368",190197,190197,"Diaphus mollis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"369",15598778,15598778,"Diaphus perspicillatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"370",60470092,60470092,"Diaphus problematicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"371",154729,154729,"Diaphus rafinesquii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"372",15598791,15598791,"Diaphus splendidus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"373",15598799,15598799,"Diaphus subtilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"374",15598809,15598809,"Diaphus taaningi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"375",15598812,15598812,"Diaphus termophilus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"376",198614,198614,"Diogenichthys atlanticus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"377",198615,198615,"Electrona risso",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"378",198616,198616,"Gonichthys cocco",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"379",190100,190100,"Hygophum benoiti",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"380",198617,198617,"Hygophum hygomii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"381",15598815,15598815,"Hygophum macrochir",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"382",15598887,15598887,"Hygophum reinhardtii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"383",15598938,15598938,"Hygophum taaningi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"384",15598948,15598948,"Lampadena anomala",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"385",15598951,15598951,"Lampadena chavesi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"386",15598957,15598957,"Lampadena luminosa",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"387",60471855,60471855,"Lampadena speculigera",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"388",15599060,15599060,"Lampanyctus alatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"389",198618,198618,"Lampanyctus crocodilus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"390",15599067,15599067,"Lampanyctus festivus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"391",15599070,15599070,"Lampanyctus intricarius",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"392",18128938,18128938,"Lampanyctus macdonaldi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"393",190369,190369,"Lampanyctus nobilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"394",60471860,60471860,"Lampanyctus photonotus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"395",198619,198619,"Lampanyctus pusillus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"396",15599123,15599123,"Lepidophanes gaussi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"397",15599136,15599136,"Lepidophanes guentheri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"398",198620,198620,"Lobianchia dofleini",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"399",190425,190425,"Lobianchia gemellarii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"400",60473762,60473762,"Loweina interrupta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"401",60474290,60474290,"Loweina rara",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"402",15599150,15599150,"Myctophum affine",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"403",15600450,15600450,"Myctophum asperum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"404",15600453,15600453,"Myctophum nitidulum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"405",15600713,15600713,"Myctophum obtusirostre",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"406",190453,190453,"Myctophum punctatum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"407",15600727,15600727,"Myctophum selenops",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"408",15600731,15600731,"Nannobrachium atrum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"409",15600738,15600738,"Nannobrachium cuprarium",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"410",190311,190311,"Nannobrachium lineatum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"411",190261,190261,"Notolychnus valdiviae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"412",198621,198621,"Notoscopelus bolini",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"413",15601865,15601865,"Notoscopelus caudispinosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"414",15601872,15601872,"Notoscopelus resplendens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"415",190477,190477,"Symbolophorus rufinus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"416",190466,190466,"Symbolophorus veranyi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"417",190232,190232,"Taaningichthys bathyphilus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"418",15601902,15601902,"Taaningichthys minimus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/myctophiformes.dbf","200 m +",FALSE
+"419",198675,198675,"Cubiceps capensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/nomeidae.dbf","200 m +",FALSE
+"420",16439367,16439367,"Cubiceps pauciradiatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/nomeidae.dbf","200 m +",FALSE
+"421",16545183,16545183,"Nomeus gronovii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/nomeidae.dbf","unknown",FALSE
+"422",16545253,16545253,"Psenes cyanophrys",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/nomeidae.dbf","200 m +",FALSE
+"423",16545256,16545256,"Psenes pellucidus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/nomeidae.dbf","200 m +",FALSE
+"424",190356,190356,"Aldrovandia affinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","deep oceanic",FALSE
+"425",190486,190486,"Aldrovandia gracilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","unknown",FALSE
+"426",195838,195838,"Aldrovandia phalacra",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","deep oceanic",FALSE
+"427",195840,195840,"Halosauropsis macrochir",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","unknown",FALSE
+"428",190196,190196,"Halosaurus guentheri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","unknown",FALSE
+"429",195852,195852,"Notacanthus chemnitzii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","200 m +",FALSE
+"430",190403,190403,"Polyacanthonotus challengeri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","deep oceanic",FALSE
+"431",190489,190489,"Polyacanthonotus merretti",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/notacanthiformes.dbf","deep oceanic",FALSE
+"432",60469175,60469175,"Abyssobrotula galatheae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"433",190154,190154,"Bassozetus compressus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"434",60469264,60469264,"Bassozetus levistomatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"435",60469273,60469273,"Bassozetus normalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"436",57693936,57693936,"Bathyonus laticeps",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"437",154929,154929,"Benthocometes robustus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","200 m +",FALSE
+"438",60470322,60470322,"Dicrolene introniger",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"439",60471877,60471877,"Lamprogrammus brunswigi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"440",60471916,60471916,"Lamprogrammus shcherbachevi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","200 m +",FALSE
+"441",16501868,16501868,"Lepophidium brevibarbe",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"442",16502093,16502093,"Lepophidium profundorum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"443",190213,190213,"Ophidion marginatum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","< 200 m",FALSE
+"444",60482312,60482312,"Penopus microphthalmus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"445",60482748,60482748,"Porogadus miles",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","deep oceanic",FALSE
+"446",18139045,18139045,"Spectrunculus grandis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","200 m +",FALSE
+"447",60482248,60482248,"Parabrotula plagiophthalma",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/ophidiiformes.dbf","200 m +",FALSE
+"448",15147715,15147715,"Alepocephalus agassizii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"449",15147725,15147725,"Alepocephalus australis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"450",15147740,15147740,"Alepocephalus bairdii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"451",18139074,18139074,"Alepocephalus productus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"452",15147816,15147816,"Bajacalifornia megalops",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"453",15147965,15147965,"Bathyprion danae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"454",190282,190282,"Bathytroctes macrolepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"455",15147977,15147977,"Bathytroctes michaelsarsi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"456",190265,190265,"Bathytroctes microlepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"457",57825241,57825241,"Einara edentula",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"458",15148742,15148742,"Einara macrolepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"459",18140291,18140291,"Narcetes stomias",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"460",190298,190298,"Photostylus pycnopterus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"461",15149121,15149121,"Rouleina attrita",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"462",190264,190264,"Rouleina maderensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"463",190198,190198,"Talismania antillarum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"464",15149335,15149335,"Xenodermichthys copei",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"465",16407217,16407217,"Argentina striata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"466",18140358,18140358,"Bathylagichthys greyae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"467",18140736,18140736,"Dolicholagus longirostris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"468",190485,190485,"Melanolagus bericoides",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"469",60481712,60481712,"Nansenia longicauda",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"470",60481729,60481729,"Nansenia megalopa",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"471",21101200,21101200,"Dolichopteroides binocularis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"472",18155920,18155920,"Opisthoproctus soleatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"473",60483211,60483211,"Rhynchohyalus natalensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"474",18155946,18155946,"Maulisia mauli",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"475",21108245,21108245,"Maulisia microlepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"476",60479648,60479648,"Mentodus facilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","200 m +",FALSE
+"477",18155949,18155949,"Normichthys operosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/osmeriformes.dbf","deep oceanic",FALSE
+"478",16425314,16425314,"Bembrops gobioides",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/percophidae.dbf","200 m +",FALSE
+"479",43972,43972,"Polyprion americanus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/polyprionidae.dbf","200 m +",FALSE
+"480",190279,190279,"Pomatomus saltatrix",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/pomatomidae.dbf","< 200 m",FALSE
+"481",198558,198558,"Priacanthus arenatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/priacanthidae.dbf","< 200 m",FALSE
+"482",190255,190255,"Cookeolus japonicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/priacanthidae.dbf","deep oceanic",FALSE
+"483",190246,190246,"Sphoeroides maculatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/PUFFERFISH.dbf","< 200 m",TRUE
+"484",190193,190193,"Sphoeroides pachygaster",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/PUFFERFISH.dbf","200 m +",TRUE
+"485",190380,190380,"Lagocephalus laevigatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/PUFFERFISH.dbf","< 200 m",TRUE
+"486",190464,190464,"Lagocephalus lagocephalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/PUFFERFISH.dbf","200 m +",TRUE
+"487",193630,193630,"Sphoeroides spengleri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/PUFFERFISH.dbf","< 200 m",TRUE
+"488",193813,193813,"Sphoeroides testudineus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/PUFFERFISH.dbf","< 200 m",TRUE
+"489",190190,190190,"Rachycentron canadum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/rachycentridae.dbf","200 m +",FALSE
+"490",3897,3897,"Caretta caretta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/REPTILES.dbf","200 m +",TRUE
+"491",8005,8005,"Eretmochelys imbricata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/REPTILES.dbf","200 m +",TRUE
+"492",6494,46967827,"Dermochelys coriacea",1,"Northwest Atlantic","/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/REPTILES.dbf","200 m +",TRUE
+"493",4615,4615,"Chelonia mydas",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/REPTILES.dbf","200 m +",TRUE
+"494",11534,11534,"Lepidochelys olivacea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/REPTILES.dbf","200 m +",TRUE
+"495",3897,84131194,"Caretta caretta",1,"Atlantic Northwest","/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/REPTILES.dbf","200 m +",TRUE
+"496",18227109,18227109,"Cyema atrum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/saccopharyngiformes.dbf","deep oceanic",FALSE
+"497",18227119,18227119,"Eurypharynx pelecanoides",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/saccopharyngiformes.dbf","200 m +",FALSE
+"498",193264,193264,"Bairdiella chrysoura",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"499",193266,193266,"Cynoscion nebulosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"500",47147749,47147749,"Larimus fasciatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"501",193267,193267,"Leiostomus xanthurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"502",195075,195075,"Menticirrhus americanus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"503",46105847,46105847,"Menticirrhus saxatilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"504",193268,193268,"Micropogonias undulatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"505",193269,193269,"Pogonias cromis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sciaenidae.dbf","< 200 m",FALSE
+"506",21132418,21132418,"Scombrolabrax heterolepis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/scombrolabracidae.dbf","deep oceanic",FALSE
+"507",15873,15873,"Pagrus pagrus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEABREAMS_PORGIES.dbf","< 200 m",TRUE
+"508",170223,170223,"Archosargus probatocephalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEABREAMS_PORGIES.dbf","< 200 m",TRUE
+"509",170250,170250,"Lagodon rhomboides",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEABREAMS_PORGIES.dbf","< 200 m",TRUE
+"510",170190,170190,"Calamus bajonado",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEABREAMS_PORGIES.dbf","< 200 m",TRUE
+"511",170156,170156,"Archosargus rhomboidalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEABREAMS_PORGIES.dbf","< 200 m",TRUE
+"512",170168,170168,"Stenotomus chrysops",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEABREAMS_PORGIES.dbf","< 200 m",TRUE
+"513",180271,180271,"Molpadiodemas atlanticus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEACUCUMBERS.dbf","unknown",TRUE
+"514",180365,180365,"Paelopatides gigantea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEACUCUMBERS.dbf","deep oceanic",TRUE
+"515",180468,180468,"Mesothuria lactea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEACUCUMBERS.dbf","200 m +",TRUE
+"516",153538,153538,"Zostera marina",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SEAGRASSES.dbf","< 200 m",TRUE
+"517",16407002,16407002,"Anthias nicholsi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/serranidae.dbf","< 200 m",FALSE
+"518",16750054,16750054,"Baldwinella aureorubens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/serranidae.dbf","< 200 m",FALSE
+"519",16435325,16435325,"Centropristis striata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/serranidae.dbf","< 200 m",FALSE
+"520",190399,190399,"Sphyraena barracuda",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sphyraenidae.dbf","unknown",FALSE
+"521",20666166,20666166,"Sphyraena borealis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sphyraenidae.dbf","200 m +",FALSE
+"522",190362,190362,"Sphyraena guachancho",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/sphyraenidae.dbf","< 200 m",FALSE
+"523",18253276,18253276,"Argyropelecus aculeatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"524",190118,190118,"Argyropelecus affinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"525",18253282,18253282,"Argyropelecus gigas",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"526",154998,154998,"Argyropelecus hemigymnus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"527",21132859,21132859,"Argyropelecus sladeni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"528",60469232,60469232,"Aristostomias lunifer",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"529",21132898,21132898,"Aristostomias polydactylus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"530",190353,190353,"Aristostomias tittmanni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"531",18256447,18256447,"Astronesthes gemmifer",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"532",190229,190229,"Astronesthes leucopogon",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"533",190361,190361,"Astronesthes niger",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"534",154815,154815,"Astronesthes richardsoni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"535",21132928,21132928,"Bathophilus brevis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"536",18256458,18256458,"Bathophilus digitatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"537",60469323,60469323,"Bathophilus metallicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"538",18256490,18256490,"Bathophilus vaillanti",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"539",190176,190176,"Bonapartia pedaliota",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"540",198762,198762,"Borostomias antarcticus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"541",190203,190203,"Chauliodus danae",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"542",190324,190324,"Chauliodus sloani",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"543",18252612,18252612,"Cyclothone acclinidens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"544",190300,190300,"Cyclothone alba",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"545",198757,198757,"Cyclothone braueri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"546",190133,190133,"Cyclothone microdon",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"547",18252619,18252619,"Cyclothone pallida",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"548",18252629,18252629,"Cyclothone pseudopallida",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"549",18256560,18256560,"Echiostoma barbatum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"550",47165104,47165104,"Eustomias bibulbosus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"551",47165158,47165158,"Eustomias bigelowi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"552",47165363,47165363,"Eustomias macrurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"553",18256943,18256943,"Eustomias obscurus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"554",190465,190465,"Eustomias polyaster",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"555",60470418,60470418,"Eustomias satterleei",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"556",60470422,60470422,"Eustomias simplex",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"557",18256992,18256992,"Flagellostomias boureei",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stomiiformes.dbf","200 m +",FALSE
+"558",154624,154624,"Peprilus paru",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/stromateidae.dbf","< 200 m",FALSE
+"559",177982,177982,"Acanthurus chirurgus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SURGEONFISH_TANGS_UNICORNFISH.dbf","< 200 m",TRUE
+"560",177953,177953,"Acanthurus coeruleus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/SURGEONFISH_TANGS_UNICORNFISH.dbf","< 200 m",TRUE
+"561",12302,12302,"Lontra canadensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TERRESTRIAL_MAMMALS.dbf","< 200 m",TRUE
+"562",190296,190296,"Tetragonurus atlanticus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/tetragonuridae.dbf","200 m +",FALSE
+"563",198716,198716,"Tetragonurus cuvieri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/tetragonuridae.dbf","200 m +",FALSE
+"564",21856,21856,"Thunnus alalunga",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"565",21857,21857,"Thunnus albacares",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"566",21859,21859,"Thunnus obesus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"567",21860,21860,"Thunnus thynnus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"568",170314,170314,"Makaira nigricans",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"569",23148,23148,"Xiphias gladius",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"570",155096,155096,"Sarda sarda",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"571",155276,155276,"Thunnus atlanticus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"572",170339,170339,"Scomberomorus cavalla",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"573",170323,170323,"Scomberomorus maculatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"574",170345,170345,"Euthynnus alletteratus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"575",170354,170354,"Scomber scombrus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"576",170322,170322,"Kajikia albida",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"577",170327,170327,"Scomberomorus regalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","unknown",TRUE
+"578",170333,170333,"Tetrapturus georgii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"579",170338,170338,"Istiophorus platypterus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"580",170344,170344,"Auxis thazard",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"581",170355,170355,"Auxis rochei",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"582",170307,170307,"Tetrapturus pfluegeri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","< 200 m",TRUE
+"583",170310,170310,"Katsuwonus pelamis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/TUNAS_BILLFISHES.dbf","200 m +",TRUE
+"584",47153800,47153800,"Astroscopus guttatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/uranoscopidae.dbf","< 200 m",FALSE
+"585",187479,187479,"Tautoga onitis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/WRASSE.dbf","< 200 m",TRUE
+"586",187448,187448,"Tautogolabrus adspersus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/WRASSE.dbf","< 200 m",TRUE
+"587",190721,190721,"Sparisoma rubripinne",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/WRASSE.dbf","< 200 m",TRUE
+"588",198723,198723,"Melanostigma atlanticum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/zoarcidae.dbf","200 m +",FALSE
+"589",18180983,18180983,"Pachycara bulbiceps",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/iucn_spp/d2018-1/zoarcidae.dbf","deep oceanic",FALSE
+"590",22693764,22693764,"Charadrius semipalmatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"591",62169677,62169677,"Fulica americana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"592",22693777,22693777,"Charadrius vociferus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"593",22694787,22694787,"Chlidonias niger",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"594",22689714,22689714,"Chordeiles minor",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"595",22680427,22680427,"Clangula hyemalis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"596",22694469,22694469,"Hydrocoloeus minutus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"597",22696974,22696974,"Egretta thula",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"598",22697829,22697829,"Gavia stellata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"599",22697211,22697211,"Nycticorax nycticorax",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"600",22696453,22696453,"Falco columbarius",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"601",45354964,45354964,"Falco peregrinus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"602",22697842,22697842,"Gavia immer",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"603",22680423,22680423,"Histrionicus histrionicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"604",22735803,22735803,"Hydrobates castro",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"605",22698511,22698511,"Hydrobates leucorhous",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"606",22697314,22697314,"Ixobrychus exilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"607",22721123,22721123,"Ammospiza maritima",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"608",22728393,22728393,"Ammospiza nelsoni",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"609",22680163,22680163,"Mareca americana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"610",22680157,22680157,"Mareca penelope",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"611",22694455,22694455,"Larus atricilla",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"612",22694317,22694317,"Larus delawarensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"613",22694373,22694373,"Larus fuscus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"614",22694346,22694346,"Larus glaucoides",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"615",22694324,22694324,"Larus marinus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"616",22694432,22694432,"Larus philadelphia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"617",22694420,22694420,"Larus ridibundus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"618",62030590,62030590,"Larus smithsonianus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"619",22693344,22693344,"Limnodromus griseus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"620",22698436,22698436,"Oceanites oceanicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"621",22693154,22693154,"Limosa haemastica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"622",22680472,22680472,"Lophodytes cucullatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"623",22680441,22680441,"Melanitta perspicillata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"624",22680492,22680492,"Mergus merganser",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"625",22680485,22680485,"Mergus serrator",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"626",22697648,22697648,"Mycteria americana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"627",22696792,22696792,"Phalacrocorax carbo",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"628",22693178,22693178,"Numenius phaeopus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"629",22697203,22697203,"Nyctanassa violacea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"630",22698436,22698436,"Oceanites oceanicus",3,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"631",22694730,22694730,"Onychoprion anaethetus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"632",22694938,22694938,"Pandion haliaetus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"633",22696776,22696776,"Phalacrocorax auritus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"634",22693749,22693749,"Pluvialis squatarola",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"635",22694856,22694856,"Pinguinus impennis",5,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"636",22693740,22693740,"Pluvialis dominica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"637",62155296,62155296,"Rallus crepitans",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"638",22694629,22694629,"Sterna paradisaea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"639",22680405,22680405,"Somateria mollissima",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"640",22680409,22680409,"Somateria spectabilis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"641",22680247,22680247,"Spatula clypeata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"642",22680229,22680229,"Spatula discors",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"643",22694240,22694240,"Stercorarius pomarinus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"644",22694623,22694623,"Sterna hirundo",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"645",22694673,22694673,"Sternula antillarum",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"646",22694591,22694591,"Thalasseus sandvicensis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"647",22694591,22694591,"Thalasseus sandvicensis",3,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"648",22693319,22693319,"Tringa semipalmata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"649",22693231,22693231,"Tringa melanoleuca",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"650",22710886,22710886,"Sturnus vulgaris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"651",22710886,22710886,"Sturnus vulgaris",4,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"652",22696657,22696657,"Morus bassanus",4,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"653",22696657,22696657,"Morus bassanus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"654",22694524,22694524,"Hydroprogne caspia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"655",22696599,22696599,"Podiceps grisegena",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"656",22698088,22698088,"Pterodroma cahow",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"657",22736135,22736135,"Pterodroma deserta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"658",45959182,45959182,"Puffinus lherminieri",3,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"659",45959182,45959182,"Puffinus lherminieri",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"660",45959182,45959182,"Puffinus lherminieri",5,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"661",22698226,22698226,"Puffinus puffinus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"662",45959182,45959182,"Puffinus lherminieri",4,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"663",22694497,22694497,"Rissa tridactyla",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"664",22694542,22694542,"Thalasseus maximus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"665",22694841,22694841,"Uria aalge",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"666",22694847,22694847,"Uria lomvia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"667",22705993,22705993,"Corvus ossifragus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"668",22711374,22711374,"Cistothorus palustris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"669",22721836,22721836,"Geothlypis trichas",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"670",22696931,22696931,"Egretta tricolor",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"671",22680364,22680364,"Aythya valisineria",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"672",22721058,22721058,"Melospiza melodia",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"673",22695144,22695144,"Haliaeetus leucocephalus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"674",22679946,22679946,"Branta bernicla",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"675",22693427,22693427,"Calidris alpina",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"676",22693399,22693399,"Calidris fuscicollis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"677",22694343,22694343,"Larus hyperboreus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"678",22693396,22693396,"Calidris minutilla",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"679",22732425,22732425,"Melanitta americana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"680",22693373,22693373,"Calidris pusilla",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"681",22693383,22693383,"Calidris ruficollis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"682",22734194,22734194,"Melanitta deglandi",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"683",22696998,22696998,"Ardea herodias",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"684",22696998,22696998,"Ardea herodias",3,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"685",22680455,22680455,"Bucephala clangula",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"686",22697043,22697043,"Ardea alba",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"687",22693277,22693277,"Actitis macularius",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"688",22680301,22680301,"Anas acuta",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"689",22680174,22680174,"Anas rubripes",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"690",22679896,22679896,"Anser caerulescens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"691",22693336,22693336,"Arenaria interpres",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"692",22680402,22680402,"Aythya affinis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"693",22680367,22680367,"Aythya americana",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"694",22680391,22680391,"Aythya fuligula",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"695",22680398,22680398,"Aythya marila",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"696",22680462,22680462,"Bucephala albeola",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"697",22728182,22728182,"Butorides striata",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"698",22693369,22693369,"Calidris alba",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"699",22693363,22693363,"Calidris canutus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"700",22693420,22693420,"Calidris maritima",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"701",22693408,22693408,"Calidris melanotos",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"702",22680418,22680418,"Camptorhynchus labradorius",5,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 200 m",TRUE
+"703",22694861,22694861,"Cepphus grylle",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"704",22696645,22696645,"Phaethon lepturus",4,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"705",22718575,22718575,"Anthus rubescens",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"706",22696645,22696645,"Phaethon lepturus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"707",22721033,22721033,"Calcarius lapponicus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"708",22694740,22694740,"Onychoprion fuscatus",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"709",22696645,22696645,"Phaethon lepturus",3,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"710",22694852,22694852,"Alca torda",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"711",22694837,22694837,"Alle alle",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"712",22698201,22698201,"Ardenna gravis",4,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"713",22698201,22698201,"Ardenna gravis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"714",22694160,22694160,"Catharacta skua",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"715",22694927,22694927,"Fratercula arctica",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"716",22697866,22697866,"Fulmarus glacialis",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"717",22698209,22698209,"Ardenna grisea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"718",22696944,22696944,"Egretta caerulea",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE
+"719",22694601,22694601,"Sterna dougallii",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"720",22694601,22694601,"Sterna dougallii",3,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"721",22694601,22694601,"Sterna dougallii",4,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"722",22694479,22694479,"Xema sabini",3,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"723",22694479,22694479,"Xema sabini",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","200 m +",TRUE
+"724",22717434,22717434,"Eremophila alpestris",1,NA,"/home/shares/ohi/git-annex/globalprep/_raw_data/birdlife_intl/d2018/bli_marine_v2017.dbf","< 20 m",TRUE

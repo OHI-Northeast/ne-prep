@@ -1,0 +1,85 @@
+---
+title: "Create SPP trend layer"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+# Summary
+
+# Setup
+
+```{r setup, warning = F, message = F}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
+```
+
+
+# Data
+
+```{r}
+iucn_trends <- read.csv("data/iucn_population_trends.csv")
+```
+
+Scores for species trends
+
+```{r}
+pop_trend_score <- data.frame(trend = c("Increasing", "Decreasing", "Stable", "Unknown"),
+                              score = c(0.025, -0.025, 0, NA))
+```
+
+
+# Score
+
+```{r}
+spp_trend_scores <- iucn_trends %>% 
+  left_join(pop_trend_score) %>%
+  filter(!is.na(trend)) #remove the 3 species with NAs
+```
+
+
+# Visualize
+
+```{r}
+spp_trends_plot <- spp_trend_scores %>%
+  group_by(trend) %>%
+  summarize(count = n())
+
+ggplot(spp_trends_plot, aes(x = trend, y = count)) +
+  geom_bar(stat = "identity") +
+  theme_bw()
+```
+
+# Save
+
+Saving this as the trend layer
+
+```{r}
+spp_trends <- spp_trend_scores %>%
+  mutate(year = 2017,  #have to add a year for the toolbox
+         sciname = tolower(sciname)) %>%
+  select(sciname, score, year)
+
+write.csv(spp_trends, file = "~/github/ne-scores/region/layers/spp_trend.csv", row.names = F)  
+```
+
+
+
+
+
+
+
+
+
+

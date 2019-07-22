@@ -26,14 +26,13 @@ Using a set of IUCN species range maps, rasterize each species range map to 1km 
 # Data source
 
 IUCN Red List: Spatial Data Download
-IUCN: Gina Ralph direct communication
+IUCN: Casey O'Hara via Gina Ralph direct communication
 
 # Setup 
 
 ``` {r setup, echo = TRUE, message = FALSE, warning = FALSE}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
-                      echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
 library(raster)
 library(rgeos)
@@ -69,7 +68,7 @@ maps_to_rasterize <- read_csv("data/1_iucn_spp_shp_filepaths.csv") %>%
   mutate(shp_file = str_replace(dbf_file, 'dbf$', 'shp'))
 
 ### rast_base for cell IDs
-rast_base <- raster("~/github/ne-prep/spatial/ocean_rasters/ocean_ne.tif") %>%
+rast_base <- raster("~/github/ne-prep/spatial/ocean_rasters/ne_rgns_rast.tif") %>%
   projectRaster(crs = us_alb)
 
   
@@ -77,98 +76,5 @@ rast_base <- raster("~/github/ne-prep/spatial/ocean_rasters/ocean_ne.tif") %>%
 ### Loop over each distinct shapefile with species range maps
 ################################################################.
   
-shps <- maps_to_rasterize$shp_file %>% unique()
-
-  for(i in seq_along(shps)) {
-    ### i <- 1
-    
-    shp <- shps[i]
-    
-    maps_in_shp <- maps_to_rasterize %>%
-      filter(shp_file == shp)
-    
-    id_fix <- maps_in_shp %>%
-      select(shp_iucn_sid, iucn_sid, subpop, max_depth) %>%
-      distinct()
-    
-    polys_all <- read_sf(shp, type = 6)
-      ### we will check geoms and fix them inside the mclapply, 
-      ### and then reproject, one species at a time
-
-    if(!'sciname' %in% names(polys_all)) {
-      polys_all <- polys_all %>%
-        rename(sciname = binomial)
-    }
-
-    if(!'subpop' %in% names(polys_all)) {
-      polys_all$subpop <- NA_character_
-      ### if shape doesn't have subpop column, add it as NA
-    }
-    if('id_no' %in% names(polys_all)) {
-      polys_all <- polys_all %>%
-        rename(iucn_sid = id_no)
-    }
-    if(!'presence' %in% names(polys_all)) {
-      polys_all <- polys_all %>%
-        mutate(presence = 1)
-    }
-
-    
-    polys_match <- polys_all %>%
-      select(shp_iucn_sid = iucn_sid, sciname, subpop, presence, geometry) %>%
-      mutate(presence = ifelse(presence == 0, 1, presence),
-             subpop   = as.character(subpop)) %>%
-      inner_join(id_fix, by = c('shp_iucn_sid', 'subpop')) 
-    
-    spp_ids <- maps_in_shp$iucn_sid %>% 
-      sort() %>% 
-      unique()
-    
-  ### These will be used as masks
-  rast_bathy <- raster('~/github/spp_risk_dists/_spatial/bathy_rast.tif') %>%
-    projectRaster(crs = us_alb)
-  rast_neritic <- raster('~/github/spp_risk_dists/_spatial/bathy_rast_neritic.tif') %>%
-    projectRaster(crs = us_alb)
-  rast_shallow <- raster('~/github/spp_risk_dists/_spatial/bathy_rast_shallow.tif') %>%
-    projectRaster(crs = us_alb)
-
-    ####################################################################.
-    ### In each shapefile, loop over each species ID using mclapply().
-    ####################################################################.
-    
-      tmp <- parallel::mclapply(seq_along(spp_ids),
-                                mc.cores = 12, 
-                                FUN = function(x) {
-        ### x <- 1
-        spp <- spp_ids[x]
-        
-        spp_shp <- polys_match %>%
-          filter(iucn_sid == spp)
-        
-       # spp_shp <- valid_check(spp_shp)
-          ### if invalid geom, and bounds exceeded, buffer to 0
-        spp_shp <- spp_shp %>%
-          st_transform(crs = us_alb)
-        
-        spp_rast <- fasterize::fasterize(spp_shp, rast_base, field = 'presence', fun = 'min')
-        
-        ### depth clip if necessary; otherwise clip to bathy raster (which previously
-        ### was clipped to area raster - so cells with any marine area will be kept,
-        ### and non-marine cells will be dropped)
-        if(spp_shp$max_depth == '< 20 m') {
-          spp_rast <- mask(spp_rast, rast_shallow)
-        } else if(spp_shp$max_depth == '< 200 m') {
-          spp_rast <- mask(spp_rast, rast_neritic)
-        } else {
-          spp_rast <- mask(spp_rast, rast_bathy)
-        }
-        ### write out as a raster:
-        rast_file <- file.path(dir_anx, sprintf('bio/spp_presence_rasters/iucn_sid_%s.tif', spp))
-        raster::writeRaster(spp_rast, rast_file, overwrite = TRUE)
-
-        return(NA)
-      }) ### end of mclapply FUN definition
-    # }) ### end of system.time call
-  } ### end of for loop over each species group
 
 ```

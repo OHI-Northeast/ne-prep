@@ -37,7 +37,7 @@ spp_status    <- read_csv("data/5_spp_status.csv") %>%
 status_scores <- read_csv("data/natserv_status_scores.csv") %>% select(-X1)
 ```
 
-This gives us a dataframe of all species and their specific status and scores. But what it doesn't tell us is where the species ranges are located. For example, we can see that Atlantic silverside has different statuses for the species based on some state/geographic levels of assessment. But we don't know if Atlantic silverside is located in New Hampshire and Maine as well.
+This gives us a dataframe of all species and their specific status and scores. But what it doesn't tell us is where the species ranges are located. For example, we can see that Atlantic silverside has different statuses based on some state/geographic levels of assessment. But we don't know if Atlantic silverside is located in New Hampshire and Maine as well.
 
 ```{r}
 filter(spp_status, common == "atlantic silverside")
@@ -56,9 +56,6 @@ rgn_data <- rgn_data %>%
     state == "Connecticut" ~ "CT"
   ))
 ```
-
-Fill out all species for all 11 regions. Then left_join to table that lists species and regions they are found to drop rows that are nonsense. For example, here we will make sure all 11 regions have the correct status for "atlantic silverside". But if our table shows that Atlantic silverside is only found in ME and NH, all the additional rows will drop.
-
 
 It actually looks like all species have at least a USA designation. But there are some cases where the USA status is *NNR* (equivalent to NA) but IUCN has an actual status. For example:
 

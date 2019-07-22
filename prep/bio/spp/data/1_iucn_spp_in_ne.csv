@@ -124,13 +124,13 @@ iucn_sid,sciname,population,category,common_name
 3852,Carcharhinus obscurus,NA,VU,Dusky Shark
 3853,Carcharhinus plumbeus,NA,VU,Sandbar Shark
 3854,Carcharias taurus,NA,VU,Sand Tiger Shark
-3855,Carcharodon carcharias,NA,VU,Great White Shark
+3855,Carcharodon carcharias,NA,VU,White Shark
 4292,Cetorhinus maximus,NA,VU,Basking Shark
 6229,Dalatias licha,NA,NT,Kitefin Shark
 11200,Lamna nasus,NA,VU,Porbeagle
 19488,Rhincodon typus,NA,EN,Whale Shark
 39336,Odontaspis noronhai,NA,DD,Bigeye Sand Tiger
-39339,Alopias vulpinus,NA,VU,Common Thresher Shark
+39339,Alopias vulpinus,NA,VU,Common Thresher
 39341,Isurus oxyrinchus,NA,VU,Shortfin Mako
 39359,Mustelus canis,NA,NT,Dusky Smoothhound
 39368,Carcharhinus brevipinna,NA,NT,Spinner Shark
@@ -164,7 +164,7 @@ iucn_sid,sciname,population,category,common_name
 60225,Isurus paucus,NA,VU,Longfin Mako
 60233,Scyliorhinus retifer,NA,LC,Chain Catshark
 60242,Etmopterus princeps,NA,DD,Great Lanternshark
-60248,Squatina dumeril,NA,DD,Atlantic Angel Shark
+60248,Squatina dumeril,NA,DD,Atlantic Angelshark
 63123,Hydrolagus affinis,NA,LC,Smalleyed Rabbitfish
 63127,Bathyraja richardsoni,NA,LC,Richardson’s Skate
 63152,Bathytoshia centroura,NA,LC,Roughtail Stingray
@@ -182,8 +182,8 @@ iucn_sid,sciname,population,category,common_name
 161580,Tetronarce nobiliana,NA,DD,Great Torpedo Ray
 161587,Rajella fyllae,NA,LC,Round Skate
 161631,Leucoraja ocellata,NA,EN,Winter Skate
-161658,Raja eglanteria,NA,LC,Clearnose Skate
-161696,Alopias superciliosus,NA,VU,Bigeye Thresher Shark
+161658,Raja eglanteria,NA,LC,Clearnose skate
+161696,Alopias superciliosus,NA,VU,Bigeye Thresher
 161731,Pteroplatytrygon violacea,NA,LC,Pelagic Stingray
 198921,Mobula birostris,NA,VU,Giant Manta Ray
 91209505,Squalus acanthias,NA,VU,Spiny Dogfish
@@ -343,7 +343,7 @@ iucn_sid,sciname,population,category,common_name
 6336,Delphinus delphis,NA,LC,Short-beaked Common Dolphin
 2475,Balaenoptera borealis,NA,EN,Sei Whale
 13241,Mesoplodon bidens,NA,DD,Sowerby's Beaked Whale
-10707,Hyperoodon ampullatus,NA,DD,North Atlantic Bottlenose Whale
+10707,Hyperoodon ampullatus,NA,DD,Northern Bottlenose Whale
 192942,Morone saxatilis,NA,LC,Striped Bass
 135567,Mugil cephalus,NA,LC,Flathead Mullet
 190168,Mugil curema,NA,LC,White Mullet
@@ -599,6 +599,7 @@ iucn_sid,sciname,population,category,common_name
 22697211,Nycticorax nycticorax,NA,LC,Black-crowned Night-heron
 22696453,Falco columbarius,NA,LC,Merlin
 45354964,Falco peregrinus,NA,LC,Peregrine Falcon
+62026481,Gelochelidon nilotica,NA,LC,Common Gull-billed Tern
 22697842,Gavia immer,NA,LC,Common Loon
 22680423,Histrionicus histrionicus,NA,LC,Harlequin Duck
 22735803,Hydrobates castro,NA,LC,Band-rumped Storm-petrel
@@ -634,6 +635,7 @@ iucn_sid,sciname,population,category,common_name
 22694856,Pinguinus impennis,NA,EX,Great Auk
 22693740,Pluvialis dominica,NA,LC,American Golden Plover
 62155296,Rallus crepitans,NA,LC,Clapper Rail
+22694256,Rynchops niger,NA,LC,Black Skimmer
 22694629,Sterna paradisaea,NA,LC,Arctic Tern
 22680405,Somateria mollissima,NA,NT,Common Eider
 22680409,Somateria spectabilis,NA,LC,King Eider
@@ -657,11 +659,13 @@ iucn_sid,sciname,population,category,common_name
 22694542,Thalasseus maximus,NA,LC,Royal Tern
 22694841,Uria aalge,NA,LC,Common Murre
 22694847,Uria lomvia,NA,LC,Thick-billed Murre
+22705993,Corvus ossifragus,NA,LC,Fish Crow
 22711374,Cistothorus palustris,NA,LC,Marsh Wren
 22721836,Geothlypis trichas,NA,LC,Common Yellowthroat
 22696931,Egretta tricolor,NA,LC,Tricolored Heron
 22680364,Aythya valisineria,NA,LC,Canvasback
 22721058,Melospiza melodia,NA,LC,Song Sparrow
+22693644,Haematopus palliatus,NA,LC,American Oystercatcher
 22695144,Haliaeetus leucocephalus,NA,LC,Bald Eagle
 22679946,Branta bernicla,NA,LC,Brent Goose
 22693427,Calidris alpina,NA,LC,Dunlin

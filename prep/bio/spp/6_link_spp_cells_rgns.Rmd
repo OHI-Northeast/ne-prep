@@ -56,9 +56,9 @@ List of dataportal rasters
 portal_list <- list.files(file.path(dir_anx, "bio/portal_spp_rasters"), full.names = T)
 ```
 
-Calculate area of each species in each OHI region. 
+Get regions where species is present. This is not by area - if a species range has 1 cell or 1000 cells in a region, it is counted the same.
 ```{r, eval = F}
-calc_sp_rgn_area_dp <- function(spp){
+get_sp_rgns <- function(spp){
   
   #get SID (species ID)
   sp <- substr(spp, 58, nchar(spp)-4)
@@ -66,20 +66,20 @@ calc_sp_rgn_area_dp <- function(spp){
   #read in raster
   r <- raster(spp)
   
-  #use the raster::zonal() function to get a dataframe that contains the total area of the species range in each of the regions
+  #use the raster::zonal() function to get a dataframe that lists each region where the species is found and a column with the species name
   z <- zonal(r, nergns_rast, na.rm=T, fun = "count") %>%
     as.data.frame() %>%
     rename(rgn_id = zone) %>%
-    mutate(area_km2 = count,
-           species = sp) %>%
+    mutate(species = sp) %>%
     filter(count > 0) %>% 
     select(-count)
+
 }
 
-dp_spp_rgns_area <- purrr::map_df(portal_list, calc_sp_rgn_area_dp)
+dp_spp_rgns <- purrr::map_df(portal_list, get_sp_rgns)
 
 #save to mazu because of file size
-write.csv(dp_spp_rgns_area, file = "data/6_ne_dataportal_spp_area_by_rgn.csv")
+write.csv(dp_spp_rgns, file = "data/6_ne_dataportal_spp_by_rgn.csv")
 ```
 
 We also want to know exactly what cells each species is in. This will primarily be used to create a final map that shows all species risk in the Northeast.
@@ -118,7 +118,7 @@ iucn_list <- iucn_rasters[substr(iucn_rasters, 69, nchar(iucn_rasters)-4) %in% i
 ```
 
 ```{r, eval = F}
-calc_sp_rgn_area_iucn <- function(spp){
+get_sp_rgn_iucn <- function(spp){
   
   # update the progress bar (tick()) and print progress (print())
   pb$tick()$print()
@@ -126,22 +126,23 @@ calc_sp_rgn_area_iucn <- function(spp){
   sid <- as.numeric(substr(spp, 69, nchar(spp)-4))
   
   #read in raster
-  r <- raster(spp)
+  r <- raster(spp) %>%
+    crop(nergns_rast)
   
-  #use the raster::zonal() function to get a dataframe that contains the total area of the species range in each of the regions
+  #use the raster::zonal() function to get a dataframe that lists each region where the species is found and a column with the species name
   z <- zonal(r, nergns_rast, na.rm=T, fun = "count") %>%
     as.data.frame() %>%
     rename(rgn_id = zone) %>%
-    mutate(area_km2 = count,
-           SID = sid) %>%
-    filter(count > 0) %>%
+    mutate(species = sp,
+           iucn_sid = sid) %>%
+    filter(count > 0) %>% 
     select(-count)
 }
 
 pb <- progress_estimated(length(iucn_list)) #progress bar
-iucn_spp_rgns_area <- purrr::map_df(iucn_list, calc_sp_rgn_area_iucn)
+iucn_spp_rgns_area <- purrr::map_df(iucn_list, get_sp_rgn_iucn)
 
-write.csv(iucn_spp_rgns_area, file = "data/6_ne_iucn_spp_area_by_rgn.csv")
+write.csv(iucn_spp_rgns_area, file = "data/6_ne_iucn_spp_by_rgn.csv")
 ```
 
 This function maps each IUCN species presence/absence raster and overlays the cellIDs to return a dataframe of cellIDs where the species is found, and a column with SID (species ID)
@@ -155,7 +156,8 @@ sid_extract <- function(spp){
   sid <- as.numeric(substr(spp, 69, nchar(spp)-4))
   
   #read in raster
-  r <- raster(spp)
+  r <- raster(spp) %>%
+    crop(nergns_rastke)
   
   #swap out 1 for SID simply by multiplying since we have 1 identifying presence (could also use subs but I think this is faster)
   s <- r*sid
@@ -184,9 +186,9 @@ ne_scinames <- read_csv("data/4_ne_dataportal_spp_common_sci.csv") %>%
   select(-X1) %>%
   mutate(sciname = tolower(sciname))
 
-dp_spp_rgns_area <- read_csv("data/6_ne_dataportal_spp_area_by_rgn.csv")
+dp_spp_rgns <- read_csv("data/6_ne_dataportal_spp_by_rgn.csv")
 
-nedp <- dp_spp_rgns_area %>%
+nedp <- dp_spp_rgns %>%
   mutate(sciname = str_replace_all(species, "_", " "),
          species = str_replace_all(sciname, "normalized AEA", ""),
          common  = trimws(tolower(species), "both")) %>%
@@ -196,19 +198,20 @@ nedp <- dp_spp_rgns_area %>%
 #iucn
 iucn_ne_spp_info <- read_csv("data/1_iucn_spp_in_ne.csv")
 
-iucn_spp_rgns_area <- read_csv("data/6_ne_iucn_spp_area_by_rgn.csv")
+iucn_spp_rgns <- read_csv("data/6_ne_iucn_spp_by_rgn.csv")
 
-iucn <- iucn_spp_rgns_area %>%
-  left_join(iucn_ne_spp_info, by = c("SID" = "iucn_sid")) %>%
-  select(rgn_id, area_km2, sciname, common = common_name) %>%
+iucn <- iucn_spp_rgns %>%
+  left_join(iucn_ne_spp_info, by = "iucn_sid") %>%
+  select(rgn_id, sciname, common = common_name) %>%
   mutate(sciname = tolower(sciname),
          common = tolower(common)) 
 
-all_spp_rgn_area <- nedp %>%
+all_spp_rgn <- nedp %>%
   bind_rows(iucn) %>%
-  mutate(year = 2017) #we have to have at least one year for the OHI model calculation to work
+  mutate(year = 2017) %>% #we have to have at least one year for the OHI model calculation to work
+  select(-X1)
 
-write.csv(all_spp_rgn_area, "~/github/ne-scores/region/layers/spp_rgn_areas.csv")
+write_csv(all_spp_rgn, "~/github/ne-scores/region/layers/spp_rgns.csv")
   
 ```
 
