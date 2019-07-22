@@ -11,6 +11,8 @@ Click on a habitat to see data preparation:
 - Without spatial data on where eelgrass beds are *and* how their health and locations have changed over time, we rely on proxy measures to evaluate the status of eelgrass in the Northeast. We use two indicators from the [EPA's National Coastal Condition Assessment Water Quality Index (WQI) data](https://www.epa.gov/national-aquatic-resource-surveys/ncca), specifically the *Dissolved Inorganic Nitrogen* and *Water Clarity* measurements for 2005/2006 and 2010 time periods. This same data is used in our [Clean Waters goal](https://github.com/OHI-Northeast/ne-prep/tree/gh-pages/prep/cw#ocean-health-index---us-northeast-clean-waters-goal).
 
 
+- `eelgrass.Rmd` uses spatial data from the Northeast Ocean Data Portal that identifies current and historic eelgrass beds in the region to create a single spatial dataset that is then used in `eelgrass_layer.Rmd`
+
 
 Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
 

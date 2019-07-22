@@ -87,7 +87,6 @@ lines   <- read_sf(file.path(dir_anx, "hab/line_eelgrass_locations/line_eelgrass
 First get the site info data. This data lists all site IDs, lat, long, and site weights which we use in the analysis.
 
 ```{r get_ncca_site_info}
-
 #load site info for 05/06 time period
 site_info_1 <- readxl::read_excel(file.path(dir_anx, "_raw_data/EPA/nca_siteinformationdata_narschallenge.xlsx")) %>% 
   filter(PSTL_CODE %in% c("MA", "ME", "RI", "NY", "NH", "CT"),
@@ -220,7 +219,7 @@ wqi <- water_old %>%
 
 ## Massachusetts Sites
 
-Now assign OHI region names or ids to each of the sites. For the most part, the State in the WQI data is the region, but for Massachusetts we need to be specific about what region the sites belong to. The best way to do this is manually so I use `mapview::mapview()` to identify sites in MA and assign to either Massachusetts-Gulf of Maine or Massachusetts-Virginian.
+Now assign OHI region names or ids to each of the sites. For the most part, the State in the WQI data is the region, but for Massachusetts we need to be specific about what region the sites belong to. The best way to do this is manually so I use `mapview::mapview()` to identify sites in MA and assign to either Massachusetts-North or Massachusetts-South.
 
 Look first just at sites identified by the `MA` postal code.
 
@@ -256,18 +255,8 @@ miss_gf <- miss %>%
   data.frame() %>%
   mutate(rgn_id = 
            case_when(
-             SITE_ID == "NCCA10-1023" ~ 7,
-             SITE_ID == "MA05-0006" ~ 7,
-             SITE_ID == "MA06-0048" ~ 7,
-             SITE_ID == "MA06-0026" ~ 8,
              SITE_ID == "NCCA10-1008" ~ 8,
-             SITE_ID == "NCCA10-1009" ~ 8,
-             SITE_ID == "MA06-0042" ~ 8,
-             SITE_ID == "NCCA10-1011" ~ 8,
-             SITE_ID == "MA05-0009" ~ 8,
-             SITE_ID == "NCCA10-1001" ~ 8,
-             SITE_ID == "NCCA10-1058" ~ 8,
-             SITE_ID == "NCCA10-2001" ~ 8
+             SITE_ID == "NCCA10-1001" ~ 8
            )) %>%
   select(-geometry)
 ```
@@ -300,9 +289,9 @@ wqi_clean <- wqi %>%
   left_join(rgn_data) %>%
   left_join(ma_df, by = c("SITE_ID", "time_period", "Year", "status", "PSTL_CODE")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.x), rgn_id.y, rgn_id.x)) %>%
-  select(-rgn_id.x, -rgn_id.y, -rgn_name, -state.x, -state.y, -area_km2, -WGT_NCA_56.y, -WGT_NCCA10.y) %>%
-  left_join(rgn_data) %>%
-  select(-area_km2) %>%
+  select(SITE_ID, status, PSTL_CODE, Year, time_period, LON_DD, LAT_DD, WGT_NCA_56.x, WGT_NCCA10.x, state, rgn_id) %>%
+  left_join(rgn_data, by = "rgn_id") %>%
+  select(-area_km2, -state.x, -state.y) %>%
   rename(WGT_NCA_56 = WGT_NCA_56.x,
          WGT_NCCA10 = WGT_NCCA10.x) %>%
   filter(Year > 2004) %>% #remove the early years
