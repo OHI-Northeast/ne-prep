@@ -1092,9 +1092,32 @@ wp_res_metrics <- left_join(dmr_gapfill_submissions, violations, by = c("year", 
          target_submitted = 0.95,
          target_regulation = 1,
          percent_regulation = 1) %>% 
-  select(year, state, percent_regulation, target_regulation, percent_submitted, target_submitted, percent_no_violation,target_no_violations, percent_w_inspections, target_inspections)
+  select(year, state, percent_regulation, target_regulation, percent_submitted, target_submitted, percent_no_violation,target_no_violations, percent_w_inspections, target_inspections) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "MA" ~ "7",
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10"),
+    rgn_id2 = case_when(
+    state == "MA" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+  
 
-#write.csv(wp_res_metrics, "data/wp_res_metrics.csv")
+write.csv(wp_res_metrics, "data/wp_res_metrics.csv")
 
 ```
 
@@ -1118,8 +1141,8 @@ wp_res_score <- wp_res_metrics %>%
          noviolation_score = percent_no_violation/target_no_violations,
          submitted_score = percent_submitted/target_submitted,
          submitted_score = if_else(submitted_score >1, 1, submitted_score)) %>%  # capping the score at 1
-  select(year, state, regulation_score, inspection_score, noviolation_score, submitted_score) %>% 
-  group_by(year, state) %>% 
+  select(year, rgn_name, rgn_id, regulation_score, inspection_score, noviolation_score, submitted_score) %>% 
+  group_by(year, rgn_name, rgn_id) %>% 
   summarise(wp_res_score = sum(inspection_score, submitted_score, noviolation_score, regulation_score)/4)
 
 #write.csv(wp_res_score, file = "wp_res_score")
@@ -1130,7 +1153,7 @@ Visualization
 ```{r}
 
 wp_res_scores_graph <- ggplot(wp_res_score) +
-  geom_line(aes(x=year, y= wp_res_score, color = state))+
+  geom_line(aes(x=year, y= wp_res_score, color = rgn_name))+
   ggtitle("North East Water Pollution Resilience Scores") +
   ylab("Score") +
   xlab("Year") +
