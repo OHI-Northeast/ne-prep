@@ -1,0 +1,207 @@
+---
+title: 'OHI-Northeast: Economic access data layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+#libraries
+library(tidyverse)
+```
+
+#Summary
+Economic access data layer is derived from gas prices compared to median wage.
+
+***
+
+#Data Source 
+**Reference**: BLS wage data
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  Wage data
+
+**Native data resolution**: County level
+
+**Time range**: 2005-2015
+
+**Format**:  Tabular
+
+**Reference**: 
+
+---
+**Reference**: https://www.eia.gov/petroleum/gasdiesel/
+
+**Downloaded**: 
+
+**Description**: Gas price data
+
+**Native data resolution**: County level
+
+**Time range**: 2005-2015
+
+**Format**:  Tabular
+
+***
+  
+# Methods
+
+## Median wage
+
+I'm using the `blscrapeR` package and have my own API access key. We aren't using the NOEP data because we don't want to limit this to only jobs that are tied to the ocean economy.
+
+```{r, results = 'hide'}
+#devtools::install_github("keberwein/blscrapeR")
+library(blscrapeR)
+#read in API access key that is saved on Mazu
+blsKey <- striprtf::read_rtf(file.path(dir_M,'git-annex/neprep/keys/BureauofLaborStatistics.rtf'))
+#set_bls_key(blsKey, overwrite=TRUE)
+```
+
+
+```{r bls_avg_annual_wage_by_state}
+
+# Grab several data sets from the BLS at once.
+# NOTE on series IDs: 
+# Connecticut -- Statewide Average Annual Pay All establishment sizes Total Covered Total, all industries: ENU0900050010
+# Maine -- Statewide Average Annual Pay All establishment sizes Total Covered Total, all industries: ENU2300050010
+# Massachusetts -- Statewide Average Annual Pay All establishment sizes Total Covered Total, all industries: ENU2500050010
+# New Hampshire -- Statewide Average Annual Pay All establishment sizes Total Covered Total, all industries: ENU3300050010
+# New York -- Statewide Average Annual Pay All establishment sizes Total Covered Total, all industries: ENU3600050010
+# Rhode Island -- Statewide Average Annual Pay All establishment sizes Total Covered Total, all industries: ENU4400050010
+bls_data <- bls_api(c("ENU0900050010", "ENU2300050010", "ENU2500050010", "ENU3300050010", "ENU3600050010", "ENU4400050010"),
+              startyear = 2001, endyear = 2017, Sys.getenv("BLS_KEY")) 
+
+avg_pay_by_state <- bls_data %>%
+  mutate(state = case_when(
+    seriesID == "ENU0900050010" ~ "CT",
+    seriesID == "ENU2300050010" ~ "ME",
+    seriesID == "ENU2500050010" ~ "MA",
+    seriesID == "ENU3300050010" ~ "NH",
+    seriesID == "ENU3600050010" ~ "NY",
+    seriesID == "ENU4400050010" ~ "RI"
+  )) %>%
+  select(year, pay = value, state)
+
+ggplot(avg_pay_by_state, aes(x = year, y = pay, color = state)) +
+  geom_line() +
+  labs(x = "Year",
+       y = "Average annual wage") +
+  theme_bw()
+```
+
+
+## Gas price data
+
+The gas price data is loaded but it is provided in $/MMBtu (Millions of British thermal units), which can be converted to approximate dollars per gallon using the heat contents provided by the EIA here. Once multiplied we get dollars per barrel, and then divide by 42 since there are 42 U.S. gallons in a barrel.
+
+```{r load_data}
+raw        <- read_csv(file.path(dir_anx, "_raw_data/EIA/pr_all.csv"))
+conversion <- read_csv(file.path(dir_anx, "_raw_data/EIA/MER_TA3.csv")) %>% #data to convert raw data from Btu to barrels
+  filter(Description == "Motor Gasoline (Finished) Consumption Heat Content") %>%
+  mutate(Year = str_sub(YYYYMM, 1, str_length(YYYYMM)-2),
+         conv_factor = as.numeric(Value)) %>%
+  select(Year, conv_factor)
+```
+
+Clean data and multiply by Btu conversion to get dollars per gallon.
+```{r clean_gas_data}
+clean_gas_data <- raw %>%
+  filter(State %in% c("NY", "CT", "RI", "MA", "NH", "ME"), #filter for just our states
+         MSN == "MGACD") %>% #this is the code for gasoline prices for the transportation sector
+  gather(key = "Year", value = "dollar_per_MMBtu", -Data_Status, -State, -MSN) %>%
+  left_join(conversion) %>%
+  mutate(Year = as.numeric(Year),
+    dollar_per_gallon = dollar_per_MMBtu*conv_factor/42) #multiply $/btu by conversion to get $/barrel, then divide by 42 to get dollar per gallon since there are 42 gallons in a barrel
+
+```
+
+# Visualize
+
+Cost of gas in US Dollars per Gallon for Northeast states.
+
+```{r dollar_per_gallon}
+ggplot(clean_gas_data, aes(x = Year, y = dollar_per_gallon, color = State, group = State)) +
+  geom_line() +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+## Get ratio
+
+Compare wage to gas price each year.
+
+From OHI West Coast: the current ratio of diesel gas price (Gc) to median income IC relative to a reference ratio of gas price (GT) to median income (IT) from 5 years prior, 
+
+```{r ratio_gas_to_salary}
+
+gas_to_income <- clean_gas_data %>%
+  select(year = Year, state = State, dollar_per_gallon) %>%
+  left_join(avg_pay_by_state) %>%
+  filter(!is.na(pay)) %>%
+  mutate(ratio = dollar_per_gallon/pay)
+
+ggplot(gas_to_income, aes(x = year, y = ratio, color = state)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Ratio of $/gallon of gas to average annual pay")
+
+```
+
+
+## Save data
+
+Saving data to the toolbox and to the data folder
+
+```{r save_wage_data}
+write_csv(avg_pay_by_state, "data/avg_pay_by_state.csv")
+```
+
+
+```{r save_gas_layer}
+rgn_data %>%
+  left_join(clean_gas_data, by = c("state_abv" = "State")) %>%
+  group_by(rgn_id) %>%
+  complete(Year = 1970:2017) %>%
+  filter(Year > 2004) %>%
+  select(rgn_id, year = Year, rgn_name, dollar_per_gallon) %>%
+  write_csv("data/gas_prices_by_rgn.csv")
+```
+
+Toolbox layer includes all regions (even offshore) and the ratio of gas to salary
+
+```{r}
+rgn_data %>%
+  left_join(gas_to_income, by = c("state_abv" = "state")) %>%
+  select(rgn_id, rgn_name, year, ratio) %>%
+  group_by(rgn_id, rgn_name) %>%
+  complete(year = 2001:2017) %>%
+  write_csv("~/github/ne-scores/region/layers/rao_gas_to_wage_ratio.csv")
+```
+
+
+
+
+***
+
+#Citation information  
