@@ -1,0 +1,55 @@
+---
+title: "Social Resilience"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+``` {r setup,  message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(dplyr)
+library(tidyverse)
+
+
+```
+
+
+Beacon Hill Institute State Competitiveness Report
+
+"Overall competitiveness scores are based on a simple average of the eight normalized sub-indices (mean=5, SD=1), which is then again normalized to have a mean of 5 and a standard deviation of 1. We then assigned a score to each state, from 0 to 1, where 1 is the maximum possible index score of 7.39 and 0 is the minimum of 2.88
+
+```{r}
+
+raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
+
+bhi <- raw_bhi %>% 
+  filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
+  mutate( score = scales::rescale(index, to = c(0, 1)))
+
+max(bhi$index) #8.1
+min(bhi$index) #4
+
+ggplot(bhi) +
+  geom_line(aes(x=year, y= score, color = state)) +
+  ggtitle("Rescaled scores State Competitivness Report") +
+  ylab("score") +
+  xlab("Year") +
+  theme_classic()
+
+
+
+```
+
+

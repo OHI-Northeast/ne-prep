@@ -62,13 +62,10 @@ all_species_caught_assessment_summary <- read_csv("~/github/ne-prep/prep/fis/dat
 assessed_species_lookup_table <- read_csv("~/github/ne-prep/prep/fis/data/assessed_species_lookup_table.csv")
 nmfs_spatial_catch_by_ohi_rgn <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv")
 
-
-
 catch <- nmfs_spatial_catch_by_ohi_rgn %>% 
   select(species, rgn_id, rgn_name) %>% 
   distinct() %>% 
   rename(nmfs_original_species = species)
-
 
 ```
 
@@ -152,6 +149,43 @@ percent_assesses_graph <- ggplot(percent_assessed_by_region)+
 percent_assesses_graph  
   
 ```
+
+Stock Assessment Score
+```{r}
+
+assessment_score <- percent_assessed_by_region %>% 
+  mutate(target = 1) %>% 
+  mutate(score = percent/target,
+         score = if_else(score > 1, 1, score)) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
+
+assessment_score
+
+#write.csv(assessment_score, file = "data/assessment_score")
+
+```
+
+Visualization
+
+```{r}
+
+assessment_graph <- ggplot(assessment_score)+
+  geom_line(aes(x=year, y= score, color= rgn_name))+
+    ggtitle("Percentage of Fish Landed in Northeast with Stock Assessments") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_light()
+
+assessment_graph  
+
+#ggsave("figs/assessment_graph.jpg", width=7, height=5, dpi=300)
+
+```
+
+
+
 
 ##MPA Coverage in EEZ
 
@@ -283,13 +317,14 @@ protected_score <- inshore_protected %>%
 
 protected_score_graph <- ggplot(protected_score) +
   geom_line(aes(x=year, y= score, color = rgn_id))+
-  ggtitle("North East Water Protected Score") +
+  ggtitle("North East Protected Area Score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
 
 protected_score_graph
 #ggsave("figs/protected_score_graph.jpg", width=7, height=5, dpi=300)
+
 ```
 
 
