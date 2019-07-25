@@ -57,212 +57,264 @@ library(stringi)
 Data
 ```{r}
 
-nmfs_stock_assessment_data <- read_csv("Desktop/fp/data/nmfs_stock_assessment_data.csv")
-ram_stock_assessment_data <- read_csv("Desktop/fp/data/ram_stock_assessment_data.csv")
-nmfs_spatial_catch_by_ohi_rgn <- read_csv("Desktop/fp/data/nmfs_spatial_catch_by_ohi_rgn.csv")
-species_lookup_table_catch_stock_assessments <- read_csv("Desktop/fp/data/species_lookup_table_catch_stock_assessments.csv")
-
-nmfs <- nmfs_stock_assessment_data
-ram <- ram_stock_assessment_data
-nmfs_catch <- nmfs_spatial_catch_by_ohi_rgn 
-ass_locations <- species_lookup_table_catch_stock_assessments 
-
-```
-
-Stock Assesment data and years
-```{r}
-nmfs_clean <- nmfs %>% 
-  separate(stock, into = c("species", "location"), sep = " - ") %>%
-  select(year, species, location) %>%
-  mutate(species = tolower(species),
-         location = str_replace(location, " \\| Asmt & Status", ""),
-         location = str_replace(location, " \\| Asmt", "")) %>%
-  mutate(species = case_when(
-    species == "goosefish" ~ "monkfish",
-    TRUE ~ as.character(species)
-  ))
-
-```
+#figure out how to pick out data from another folder that's not in this RMD workspace
+all_species_caught_assessment_summary <- read_csv("~/github/ne-prep/prep/fis/data/all_species_caught_assessment_summary.csv")
+assessed_species_lookup_table <- read_csv("~/github/ne-prep/prep/fis/data/assessed_species_lookup_table.csv")
+nmfs_spatial_catch_by_ohi_rgn <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv")
 
 
-```{r}
-ram_clean <- ram %>%
-  rename(location = areaname) %>%
-  mutate(species = tolower(commonname),
-         location = str_replace(as.character(location), "/Mid Atlantic", "/ Mid-Atlantic")) %>%
-  select(year, species, location) %>%
-  filter(year > 2000)
 
-```
-
-```{r}
-
-both <- nmfs_clean %>%
-  full_join(ram_clean, by = c("species", "year", "location")) %>% 
-  mutate(species1 = species) %>% 
-  unite(stock, c("location", "species1"), sep = " - ")
-  
-
-```
-
-Locations and region IDs
-```{r}
-
-# Grabbing region IDs for locations
-
-rgnID_loc <- species_lookup_table_catch_stock_assessments
-
-rgnID_loc <- rgnID_loc %>% 
-  select(stock_assessment_species_name, stock_assessment_species_location, source, rgn_id, rgn_name) %>% 
-  unite(stock, c("stock_assessment_species_location", "stock_assessment_species_name"), sep = " - ")
-  
-```
-
-Merging stock assesment year data to stock stock assesment location data
-```{r}
-
-ass_year <- left_join(both, rgnID_loc, by = "stock") %>% 
-  mutate(stock_ass = 1)
-
-##4 stocks without rgn_names or IDs: Guld of Maine - atlantic salmon; Southern New England / Mid-Atlantic - rosette skate; Atlantic Ocean - blue marlin; Western Atlantic - sailfish
-```
-
-
-Tiddying Catch Data
-List of all the species caught each year and where
-```{r}
-
-# Wrangling catch data into a form that can be compared to the stock assesment data
-catch <- nmfs_catch %>% 
-  select(year, species, rgn_name) %>% 
-  filter(year >= "2005" & year <= "2017") %>% 
-  filter(species != "CONFIDENTIAL SPECIES" | species != "UNCLASSIFIED SKATE") %>% 
-      ### removed species that are unidentifiable
-      ### all below tiddying is to get species name right ex: Surf clam; not CLAM, SURF
-  separate(species, c("last", "first"), sep = ", ") %>% 
-  filter(first != "SPECIES NOT SPECIFIED") %>% 
-  replace(., is.na(.), "") %>% 
-  unite(species, c("first", "last"), sep = " ") %>%
-  ### looked at the stock assesment data and chose the common name used there
-      ## DOUBLE CHECK
-  mutate(species = str_trim(species, side = c("left")),
-         species = str_replace(species, "WINTER / BLACKBACK FLOUNDER", "WINTER FLOUNDER"),
-         species = str_replace(species, "SUMMER / FLUKE FLOUNDER", "SUMMER FLOUNDER"),
-         species = str_replace(species, "WITCH / GRAY SOLE FLOUNDER", "WITCH FLOUNDER"),
-         species = str_replace(species, "AMERICAN PLAICE /DAB FLOUNDER", "AMERICAN PLAICE"),
-         species = str_replace(species, "SAND-DAB / WINDOWPANE / BRILL FLOUNDER", "WINDOWPANE"),
-         species = str_replace(species, "SILVER / WHITING HAKE", "SILVER HAKE"),
-         species = str_replace(species, "RED / LING HAKE", "RED HAKE"),
-         species = str_replace(species, "SPOTTED / SPOTTED SEA TROUT WEAKFISH", "WEAKFISH"),
-         species = str_replace(species, "KING / KINGFISH WHITING", "KING WHITING"),
-         species = str_replace(species, "LITTLE \\(SUMMER\\) SKATE WINGS" , "LITTLE SKATE"),
-         species = str_replace(species, "WINTER \\(BIG\\) SKATE WINGS", "WINTER SKATE"),
-         species = str_replace(species, "LITTLE \\(SUMMER\\) SKATE" , "LITTLE SKATE"),
-         species = str_replace(species, "WINTER \\(BIG\\) SKATE", "WINTER SKATE"),
-         species = tolower(species)) %>% 
-   distinct() # this is necesary because some species were under multiple names and they were all changed ot the common name in the NE
- 
-
-```
-
-Merging the stock assesment year data with the catch data
-```{r}
-
-off <- c("Offshore", "1")
-
-regions <- ass_year %>% 
-  select(rgn_name, rgn_id) %>% 
+catch <- nmfs_spatial_catch_by_ohi_rgn %>% 
+  select(species, rgn_id, rgn_name) %>% 
   distinct() %>% 
-  filter(rgn_id > 1) %>% 
-  rbind(off)
+  rename(nmfs_original_species = species)
 
-
-caught_assessed <- left_join(catch, ass_year, by = c("year", "species", "rgn_name")) %>% 
-  select(year, species, stock, rgn_name, rgn_id, stock_ass) %>% 
-  rename(rgn_id_1 = rgn_id) %>% 
-  left_join(regions, by = c("rgn_name")) %>% 
-  select(-rgn_id_1) %>% 
-  distinct() %>%  ### why are there multiples?? look at species siny dogfish for example
-  replace(., is.na(.), "0") # only nas are in the stock assment column from merged
 
 ```
 
-
-Stats
-Percent assessed
+##Percent of species landed that have stock assessments, by NEOHI Region
 ```{r}
 
-num_spec_caught <- caught_assessed %>% 
-  group_by(year, rgn_name, rgn_id) %>% 
-  count() %>% 
-  rename(spec_caught = n)
-num_spec_caught
+#test <- left_join(all_species_caught_assessment_summary, assessed_species_lookup_table, by = c("nmfs_original_species"))
 
-num_spec_ass <- caught_assessed %>% 
-  filter(stock_ass == 0) %>% 
-  group_by(year, rgn_name, rgn_id) %>% 
+assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("nmfs_original_species")) %>% 
+  select(nmfs_original_species, rgn_id, rgn_name, assessed) %>% 
+  filter(nmfs_original_species !="CRAB, SPECIES NOT SPECIFIED", 
+         nmfs_original_species !="DOGFISH, SPECIES NOT SPECIFIED",
+         nmfs_original_species != "EEL, SPECIES NOT SPECIFIED",
+         nmfs_original_species != "HAKE, SPECIES NOT SPECIFIED",
+         nmfs_original_species != "SEATROUT, SPECIES NOT SPECIFIED",
+         nmfs_original_species != "OTHER FOR BAIT",
+         nmfs_original_species != "MONK LIVERS",
+         nmfs_original_species != "SHRIMP, SPECIES NOT SPECIFIED",
+         nmfs_original_species !="SEATROUT, SPECIES NOT SPECIFIED",
+         nmfs_original_species !="SHARK, MAKO, SPECIES NOT SPECIFIED",
+         nmfs_original_species != "SKATE WINGS",
+         nmfs_original_species != "SKATE WINGS, BARNDOOR",
+         nmfs_original_species != "SKATE WINGS, LITTLE (SUMMER)",
+         nmfs_original_species != "SKATE WINGS, LITTLE/WINTER MIXED",
+         nmfs_original_species != "SKATE WINGS, SMOOTH",
+         nmfs_original_species != "SKATE WINGS, THORNY",
+         nmfs_original_species != "SKATE WINGS, LITTLE/WINTER MIXED",
+         nmfs_original_species != "SKATE WINGS, SMOOTH",
+         nmfs_original_species != "SKATE WINGS, THORNY",
+         nmfs_original_species != "SKATE WINGS, WINTER (BIG)",
+         nmfs_original_species != "TUNA, SPECIES NOT SPECIFIED",
+         nmfs_original_species !="AMBERJACK, SPECIES NOT SPECIFIED",
+         nmfs_original_species !="CLAM, SPECIES NOT SPECIFIED",
+         nmfs_original_species != "CONFIDENTIAL SPECIES",
+         nmfs_original_species != "FLOUNDER,NOT SPECIFIED"  ,
+         nmfs_original_species != "OTHER INVERTEBRATES",
+         nmfs_original_species != "MONK HEADS" ,
+         nmfs_original_species != "MONK TAILS",
+         nmfs_original_species != "OTHER FINFISH",
+         nmfs_original_species != "SHARK, NOT SPECIFIED",
+         nmfs_original_species != "SKATE WINGS, BARNDOOR" ,
+         nmfs_original_species != "SKATE WINGS, LITTLE/WINTER MIXED",
+         nmfs_original_species != "SKATE WINGS, THORNY",
+         nmfs_original_species != "SKATE, UNCLASSIFIED",
+         nmfs_original_species != "SQUID, SPECIES NOT SPECIFIED",
+         nmfs_original_species != "WHELK / CONCH, SPECIES NOT SPECIFIED") %>% 
+  mutate(binary_ass = case_when(
+    assessed == "no" ~ 0,
+    assessed == "yes" ~ 1))
+  
+total_species_caught <- assessments %>% 
+  group_by(rgn_id, rgn_name) %>% 
   count() %>% 
-  rename(spec_ass = n)
-num_spec_ass
+  rename(caught = n)
+total_species_caught 
+  
+total_species_assessed <- assessments %>% 
+  filter(binary_ass == 1) %>% 
+  group_by(rgn_id, rgn_name) %>% 
+  count() %>% 
+  rename(assessed = n)
+total_species_assessed
 
-percent_ass <- left_join(num_spec_caught, num_spec_ass, by = c("year", "rgn_name", "rgn_id")) %>% 
-  mutate(spec_caught = as.numeric(spec_caught),
-         spec_ass = as.numeric(spec_ass),
-         percent_ass = spec_ass/spec_caught)
-percent_ass
+percent_assessed_by_region <-left_join(total_species_caught, total_species_assessed, by = c("rgn_id", "rgn_name")) %>% 
+  mutate(percent = assessed/caught)
+percent_assessed_by_region
 
 ```
 
-Frequency Assessed
+Visualization
+```{r}
+
+percent_assesses_graph <- ggplot(percent_assessed_by_region)+
+  geom_point(aes(x=rgn_name, y= percent), size=2)+
+    ggtitle("Percentage of Fish Landed in Northeast with Stock Assessments") +
+  ylab("Percent") +
+  xlab("Region") +
+  theme_light()+
+  theme(axis.text.x = element_text(angle=60, hjust=1))
+
+percent_assesses_graph  
+  
+```
+
+##MPA Coverage in EEZ
+
+Used a lot of the code from the lsp.Rmd
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(tidyverse)
+library(sf)
+library(mapview)
+```
 
 ```{r}
-library(plotly)
-
-freq_13years <- caught_assessed %>% 
-  filter(stock_ass == 1) %>% 
-  group_by(rgn_name, rgn_id, species) %>%
-  mutate(stock_ass = as.numeric(stock_ass)) %>% 
-  count() %>% 
-  mutate(freq_13years = 13/n)  %>% 
-  rename(freq_13yr = n) %>% 
-  ungroup() %>% 
-  mutate(rgn_name = as.factor(rgn_name))
-
-freq_13years  
-
-freq_7years <- caught_assessed %>% 
-  filter(year >= 2011) %>% 
-  filter(stock_ass == 1) %>% 
-  group_by(rgn_name, rgn_id, species) %>%
-  mutate(stock_ass = as.numeric(stock_ass)) %>% 
-  count() %>% 
-  mutate(freq_7years = 7/n)  %>% 
-  rename(freq_7yr = n)
-
-freq_7years  
-
-fre13 <- ggplot(freq_13years)+
-  geom_point(aes(color= rgn_name, y= freq_13years, x=species))
-fre13
-
-fre7 <- ggplot(freq_7years)+
-  geom_point(aes(color= rgn_name, y= freq_7years, x=species))
-fre7
-
+inshore_buffer <- rgns %>% filter(rgn_id <= 4)
 ```
 
 
+Let's look at the available layers in the USGS PADUS database
+
+```{r look_at_gdb_layers}
+st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
+```
 
 
-Visualizing
+For the marine layer, we are going to remove all areas that are designated as fishery/shellfish management areas as well as the Special Area Management Plans. 
+
+```{r load_and_clean_marine_layer}
+marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(inshore_buffer) %>%
+  filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
+         !is.na(Loc_Ds)) %>% 
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
+```
+
+Create and save an interactive .html map to show the different layers.
+Not working, try and figure it out later
+```{r interactive_map, eval = F}
+ #mapview(proc, col.regions = "red") + 
+usgs_data <-mapview(marine, col.regions = "blue") 
+
+## save interactive map
+mapshot(usgs_data_off, url = "usgs_map.html")
+```
+
+
+### Marine areas
+
+First let's combine polygons so we don't double count areas. For example, multiple shipwrecks are included within the larger MA North Shore Sanctuary. 
+
+We are also accounting for the year established
 ```{r}
 
-percent_ass_gr <- ggplot(percent_ass)+
-  geom_line(aes(y= percent_ass, x= year, color=rgn_name))
+marineEEZ_protected_by_rgn <- data.frame()
 
-percent_ass_gr
+for(i in 2005:2017){
+  
+  print(i)
+  
+  s_yr <- filter(marine, Date_Est <= i | is.na(Date_Est)) %>% #all NA included as well
+    group_by(rgn_id) %>%
+    summarise() %>%
+    ungroup() %>%
+    mutate(prot_area_m = st_area(geometry)) %>% #calculate total protected area
+    mutate(prot_area_km2 = as.numeric(prot_area_m)/1000000) %>% 
+    left_join(inshore_buffer %>% st_set_geometry(NULL)) %>% #join to inland buffer 
+    mutate(area_km2 = as.character(area_km2)) %>% 
+    mutate(area_km2 = as.numeric(area_km2)) %>% 
+    mutate(prop_area = prot_area_km2/area_km2 , #calculate proportion of land in 1km region protected
+           type = "marine",
+           year = i) %>%
+    st_set_geometry(NULL)
+  
+  marineEEZ_protected_by_rgn <- bind_rows(s_yr, marineEEZ_protected_by_rgn)
+}
 
 ```
+
+
+# Results
+
+```{r marine_protected_prop_by_rgn}
+
+ggplot(marineEEZ_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Proportion of EEZ waters protected")
+
+```
+
+# Save Layers
+
+```{r save_to_layers}
+
+#save marine
+write.csv(marineEEZ_protected_by_rgn,"data/marineEEZ_protected_by_rgn")
+
+
+```
+
+#Calculate Scores
+
+```{r}
+
+#Load in State protected data
+inshore_protected <- read_csv("~/github/ne-scores/region/layers/lsp_protected_marine.csv") %>% 
+  select(-X1)
+
+offshore_protected <- marineEEZ_protected_by_rgn %>% 
+  select(rgn_id, year, prop_area)
+
+protected_score <- inshore_protected %>% 
+  rbind(offshore_protected) %>% 
+  mutate(target = 0.3) %>% 
+  mutate(score = prop_area/target,
+         score = if_else(score > 1, 1, score)) %>% 
+  mutate(rgn_id = as.character(rgn_id))
+
+#write.csv(protected_score, file = "data/protected_score")
+
+```
+
+#Visualize
+
+```{r}
+
+protected_score_graph <- ggplot(protected_score) +
+  geom_line(aes(x=year, y= score, color = rgn_id))+
+  ggtitle("North East Water Protected Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+
+protected_score_graph
+#ggsave("figs/protected_score_graph.jpg", width=7, height=5, dpi=300)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
