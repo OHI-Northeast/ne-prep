@@ -1,11 +1,40 @@
 ---
-title: "Social Resilience"
-output: html_document
+title: "OHIEC: Resilience -Social"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
+# Summary
+
+This script calculates social resilience values by OHINE region. 
+
+
+# Data
+
+**Reference**:
+
+
+**Downloaded**: July, 2019
+
+**Description**:  
+
+**Time range**: BHI=2005-2017
+
+**Format**:  BHI=CSV file
+
 
 
 ``` {r setup,  message = FALSE, warning = FALSE}
@@ -34,21 +63,23 @@ Beacon Hill Institute State Competitiveness Report
 
 raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
 
-bhi <- raw_bhi %>% 
+bhi_scores <- raw_bhi %>% 
   filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
   mutate( score = scales::rescale(index, to = c(0, 1)))
+
+#write.csv(bhi_scores, "data/bhi_scores.csv")
 
 max(bhi$index) #8.1
 min(bhi$index) #4
 
-ggplot(bhi) +
+bhi_graph <- ggplot(bhi) +
   geom_line(aes(x=year, y= score, color = state)) +
   ggtitle("Rescaled scores State Competitivness Report") +
   ylab("score") +
   xlab("Year") +
   theme_classic()
 
-
+#ggsave("figs/bhi_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
