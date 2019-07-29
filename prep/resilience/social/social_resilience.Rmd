@@ -35,7 +35,7 @@ This script calculates social resilience values by OHINE region.
 
 **Format**:  BHI=CSV file
 
-
+1) Beacon Hill Competitiveness Report
 
 ``` {r setup,  message = FALSE, warning = FALSE}
 
@@ -69,10 +69,10 @@ bhi_scores <- raw_bhi %>%
 
 #write.csv(bhi_scores, "data/bhi_scores.csv")
 
-max(bhi$index) #8.1
-min(bhi$index) #4
+max(bhi_scores$index) #8.1
+min(bhi_scores$index) #4
 
-bhi_graph <- ggplot(bhi) +
+bhi_graph <- ggplot(bhi_scores) +
   geom_line(aes(x=year, y= score, color = state)) +
   ggtitle("Rescaled scores State Competitivness Report") +
   ylab("score") +

@@ -29,10 +29,15 @@ This script calculates fishing pressure resilience values by OHINE region.
 
 **Description**:  
 
-
 **Time range**: 
 
 **Format**:  Excel spreadsheet
+
+Regulations:
+1) Percentage of Fish Landed with Stock Assessments (target = 100%)
+2) Percentage of Protected Area (target = 30%)
+3) Percentage of stocks assessed that are adequatly assessed (targer = at least every 5)
+4) Percentage of species landed with a management plan or some sort of regulation 
 
 
 ``` {r setup,  message = FALSE, warning = FALSE}
@@ -57,9 +62,7 @@ library(stringi)
 Data
 ```{r}
 
-#figure out how to pick out data from another folder that's not in this RMD workspace
 all_species_caught_assessment_summary <- read_csv("~/github/ne-prep/prep/fis/data/all_species_caught_assessment_summary.csv")
-assessed_species_lookup_table <- read_csv("~/github/ne-prep/prep/fis/data/assessed_species_lookup_table.csv")
 nmfs_spatial_catch_by_ohi_rgn <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv")
 
 catch <- nmfs_spatial_catch_by_ohi_rgn %>% 
@@ -70,9 +73,8 @@ catch <- nmfs_spatial_catch_by_ohi_rgn %>%
 ```
 
 ##Percent of species landed that have stock assessments, by NEOHI Region
+not over time
 ```{r}
-
-#test <- left_join(all_species_caught_assessment_summary, assessed_species_lookup_table, by = c("nmfs_original_species"))
 
 assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("nmfs_original_species")) %>% 
   select(nmfs_original_species, rgn_id, rgn_name, assessed) %>% 
@@ -112,7 +114,7 @@ assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("n
          nmfs_original_species != "SKATE, UNCLASSIFIED",
          nmfs_original_species != "SQUID, SPECIES NOT SPECIFIED",
          nmfs_original_species != "WHELK / CONCH, SPECIES NOT SPECIFIED") %>% 
-  mutate(binary_ass = case_when(
+  mutate(binary_assessed = case_when(
     assessed == "no" ~ 0,
     assessed == "yes" ~ 1))
   
@@ -123,7 +125,7 @@ total_species_caught <- assessments %>%
 total_species_caught 
   
 total_species_assessed <- assessments %>% 
-  filter(binary_ass == 1) %>% 
+  filter(binary_assessed == 1) %>% 
   group_by(rgn_id, rgn_name) %>% 
   count() %>% 
   rename(assessed = n)
@@ -185,8 +187,6 @@ assessment_graph
 ```
 
 
-
-
 ##MPA Coverage in EEZ
 
 Used a lot of the code from the lsp.Rmd
@@ -205,6 +205,7 @@ library(mapview)
 ```{r}
 
 inshore_buffer <- rgns %>% filter(rgn_id <= 4)
+
 ```
 
 
@@ -236,17 +237,17 @@ Not working, try and figure it out later
 ```{r interactive_map, eval = F}
 
  #mapview(proc, col.regions = "red") + 
-usgs_data <-mapview(marine, col.regions = "blue") 
+usgs_data_offshore <-mapview(marine, col.regions = "blue") 
 
 ## save interactive map
-mapshot(usgs_data_off, url = "usgs_map.html")
+mapshot(usgs_data_offshore, url = "usgs_map.html")
 
 ```
 
 
 ### Marine areas
 
-First let's combine polygons so we don't double count areas. For example, multiple shipwrecks are included within the larger MA North Shore Sanctuary. 
+First let's combine polygons so we don't double count areas. 
 
 We are also accounting for the year established
 ```{r}
@@ -263,10 +264,10 @@ for(i in 2005:2017){
     ungroup() %>%
     mutate(prot_area_m = st_area(geometry)) %>% #calculate total protected area
     mutate(prot_area_km2 = as.numeric(prot_area_m)/1000000) %>% 
-    left_join(inshore_buffer %>% st_set_geometry(NULL)) %>% #join to inland buffer 
+    left_join(inshore_buffer %>% st_set_geometry(NULL)) %>% #join to inshore buffer 
     mutate(area_km2 = as.character(area_km2)) %>% 
     mutate(area_km2 = as.numeric(area_km2)) %>% 
-    mutate(prop_area = prot_area_km2/area_km2 , #calculate proportion of land in 1km region protected
+    mutate(prop_area = prot_area_km2/area_km2 , #calculate proportion of waters in regions 1-4 that are protected
            type = "marine",
            year = i) %>%
     st_set_geometry(NULL)
@@ -281,10 +282,14 @@ for(i in 2005:2017){
 
 ```{r marine_protected_prop_by_rgn}
 
-ggplot(marineEEZ_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+percent_eezwater_protec <- ggplot(marineEEZ_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
   geom_line() +
-  theme_bw() +
-  labs(y = "Proportion of EEZ waters protected")
+  theme_classic() +
+  geom_hline(yintercept=0.3)+
+  labs(y = "Percentage", x = "Year") +
+  ggtitle("Percentage of EEZ waters protected")
+
+#ggsave("figs/percent_eezwater_protec.jpg", width=7, height=5, dpi=300)
 
 ```
 
@@ -294,7 +299,6 @@ ggplot(marineEEZ_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name
 
 #save marine
 write.csv(marineEEZ_protected_by_rgn,"data/marineEEZ_protected_by_rgn")
-
 
 ```
 
@@ -326,13 +330,13 @@ protected_score <- inshore_protected %>%
 
 protected_score_graph <- ggplot(protected_score) +
   geom_line(aes(x=year, y= score, color = rgn_id))+
-  ggtitle("North East Protected Area Score") +
+  labs(title = "Protected Areas Score: Fisheries Resilience", caption = "Regions 1,7,8 have score of 1")+
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
 
 protected_score_graph
-#ggsave("figs/protected_score_graph.jpg", width=7, height=5, dpi=300)
+ggsave("figs/protected_areas_score_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
@@ -341,7 +345,7 @@ protected_score_graph
 
 Only have SA data back to 2004 for nmfs, will be hard to determine adequatly assessed in 2005-2008
 
-**code below very similar to code in 5_assessed_species_lookuptable
+**code below the same as in 5_assessed_species_lookuptable, except that the year is getting kept throughout**
 ```{r}
 
 nmfs_catch <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv") %>%
@@ -378,7 +382,7 @@ nmfs_catch_sp <- nmfs_catch %>%
          nmfs_species_alternate   = trimws(ifelse(str_detect(nmfs_catch_alternate, "mixed"), NA, 
                                                 tolower(nmfs_catch_alternate)), "both"),
          nmfs_species_alternate_2 = trimws(tolower(nmfs_catch_alternate_2)), "both") %>% 
-  select(species_low, nmfs_species, nmfs_species_alternate, nmfs_species_alternate_2, year) %>%
+  select(year, species_low, nmfs_species, nmfs_species_alternate, nmfs_species_alternate_2) %>%
   mutate(species = nmfs_species)
 
 ```
@@ -388,7 +392,7 @@ Get NMFS stock assessment data species
 ```{r}
 
 nmfs_stock_years <- nmfs_stock_ass %>%
-  select(stock, year) %>%
+  select(year, stock) %>%
   distinct() %>%
   separate(stock, into = c("species", "location"), sep = " - ") %>%
   mutate(species = tolower(species),
@@ -400,7 +404,7 @@ Get RAM stock species
 ```{r}
 
 ram_years <- ram_stock_ass %>%
-  select(commonname, areaname, stockid, year) %>%
+  select(year, commonname, areaname, stockid) %>%
   distinct() %>%
   mutate(species = tolower(commonname),
          source      = "RAM",
@@ -419,6 +423,7 @@ stock_matching <- nmfs_stock_years %>%
 
 
 Now combine catch species with stocks. Lots of data wrangling here to get these species to matchup correctly
+I added this part in in case we wanted to do the percentage of species landed with stock assessments each year instead of ever. But this is not necessary for finding out if stocks are properly assessed
 ```{r}
 
 comb <- stock_matching %>%
@@ -619,8 +624,8 @@ time_series_assessed <- m2 %>%
   filter(year >=2001 & year <= 2019) %>% 
   mutate(ass= 1) %>% 
   group_by(stock_long) %>% 
-  mutate(assesment_sum_5yr = zoo::rollapply(ass, 5, FUN = sum, align = "right", na.rm = F, partial = T),
-         adeq_assessed = if_else(assesment_sum_5yr == 5, 1, 0)) %>% 
+  mutate(assesment_sum_5yr = zoo::rollapply(ass, 5, FUN = sum, na.rm = F, partial = T), # align = "right"
+         adeq_assessed = if_else(assesment_sum_5yr >= 1, 1, 0)) %>% 
   ungroup() 
 
 number_assessed <- time_series_assessed %>% 
@@ -635,6 +640,8 @@ adeq_ass <- time_series_assessed %>%
 
 percent_adeq_ass <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id", "rgn_name") ) %>% 
   mutate(percent_adeq_ass = adeq_assessed/number_stocks)
+
+#write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
  
 ```
 
@@ -644,9 +651,11 @@ Visualize
 adq_graph <- ggplot(percent_adeq_ass)+
   geom_line(aes(x=year, y= percent_adeq_ass, color= rgn_name))
 
+adq_graph
+
 ```
 
-
+#Percentage of Species with Management Plans
 
 
 
