@@ -220,17 +220,25 @@ We apply a three year rolling mean to account for year to year variability.
 
 ```{r 3yr_rolling_mean}
 prod_3yr <- production_df %>%
+  filter(Year > 2000) %>%
   arrange(Year) %>%
   group_by(Region, Species) %>%
-  mutate(prod_avg_3yr = zoo::rollapply(pounds, 3, FUN = mean, align = "right", na.rm = F, partial = T), #calculate the mean for three years
+  complete(Year = 2000:2017) %>%
+  mutate(prod_avg_3yr = zoo::rollapply(pounds, 3, FUN = mean, align = "right", na.rm = T, partial = T), #calculate the mean for three years
          yr_num       = 1:n(), #need to remove the first two years, so add a column that identifies where in the sequence the year is 
-         last_years_prod = lag(prod_avg_3yr, n = 1))
+         last_years_prod = lag(prod_avg_3yr, n = 1)) %>%
+  ungroup()
 ```
 
 ## Save to toolbox
 
-```{r}
-write_csv(prod_3yr, "~/github/ne-scores/region/layers/mar_production.csv")
+```{r save}
+
+out <- prod_3yr %>%
+  left_join(rgn_data, by = c("Region" = "state")) %>%
+  select(year = Year, rgn_id, Species, production = prod_avg_3yr, yr_num, last_years_prod)
+
+write_csv(out, "~/github/ne-scores/region/layers/mar_production.csv")
 ```
 
 

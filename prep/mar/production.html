@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Mon Jul 29 12:34:19 2019 by afflerbach" />
+<meta name="author" content="Compiled on Mon Jul 29 19:05:45 2019 by afflerbach" />
 
 
 <title>OHI-Northeast: Mariculture Production Layer</title>
@@ -1694,7 +1694,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHI-Northeast: Mariculture Production Layer</h1>
-<h4 class="author"><em>Compiled on Mon Jul 29 12:34:19 2019 by afflerbach</em></h4>
+<h4 class="author"><em>Compiled on Mon Jul 29 19:05:45 2019 by afflerbach</em></h4>
 
 </div>
 
@@ -9919,15 +9919,22 @@ NA
 <h2>Get 3 year rolling mean</h2>
 <p>We apply a three year rolling mean to account for year to year variability.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">prod_3yr &lt;-<span class="st"> </span>production_df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(Year) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(Region, Species) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prod_avg_3yr =</span> zoo<span class="op">::</span><span class="kw">rollapply</span>(pounds, <span class="dv">3</span>, <span class="dt">FUN =</span> mean, <span class="dt">align =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">na.rm =</span> F, <span class="dt">partial =</span> T), <span class="co">#calculate the mean for three years</span></a>
-<a class="sourceLine" id="cb10-5" title="5">         <span class="dt">yr_num       =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>(), <span class="co">#need to remove the first two years, so add a column that identifies where in the sequence the year is </span></a>
-<a class="sourceLine" id="cb10-6" title="6">         <span class="dt">last_years_prod =</span> <span class="kw">lag</span>(prod_avg_3yr, <span class="dt">n =</span> <span class="dv">1</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">filter</span>(Year <span class="op">&gt;</span><span class="st"> </span><span class="dv">2000</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">arrange</span>(Year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">group_by</span>(Region, Species) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="st">  </span><span class="kw">complete</span>(<span class="dt">Year =</span> <span class="dv">2000</span><span class="op">:</span><span class="dv">2017</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">prod_avg_3yr =</span> zoo<span class="op">::</span><span class="kw">rollapply</span>(pounds, <span class="dv">3</span>, <span class="dt">FUN =</span> mean, <span class="dt">align =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">na.rm =</span> T, <span class="dt">partial =</span> T), <span class="co">#calculate the mean for three years</span></a>
+<a class="sourceLine" id="cb10-7" title="7">         <span class="dt">yr_num       =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>(), <span class="co">#need to remove the first two years, so add a column that identifies where in the sequence the year is </span></a>
+<a class="sourceLine" id="cb10-8" title="8">         <span class="dt">last_years_prod =</span> <span class="kw">lag</span>(prod_avg_3yr, <span class="dt">n =</span> <span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="st">  </span><span class="kw">ungroup</span>()</a></code></pre></div>
 </div>
 <div id="save-to-toolbox" class="section level2">
 <h2>Save to toolbox</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">write_csv</span>(prod_3yr, <span class="st">&quot;~/github/ne-scores/region/layers/mar_production.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">out &lt;-<span class="st"> </span>prod_3yr <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(rgn_data, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;Region&quot;</span> =<span class="st"> &quot;state&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span><span class="kw">select</span>(<span class="dt">year =</span> Year, rgn_id, Species, <span class="dt">production =</span> prod_avg_3yr, yr_num, last_years_prod)</a>
+<a class="sourceLine" id="cb11-4" title="4"></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="kw">write_csv</span>(out, <span class="st">&quot;~/github/ne-scores/region/layers/mar_production.csv&quot;</span>)</a></code></pre></div>
 </div>
 
 
