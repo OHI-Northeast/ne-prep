@@ -1,0 +1,76 @@
+---
+title: 'OHI-Northeast: Aquaculture Sustainability Layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      echo = TRUE, message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(tidyverse)
+library(kableExtra)
+```
+
+# Summary
+
+This script creates the mariculture sustainability layer. Sustainability scores for each species come from the Seafood Watch program (e.g. [Oysters](https://www.seafoodwatch.org/seafood-recommendations/groups/oysters?q=Oysters&t=Oysters&location=domestic&method=farmed&type=eastern&o=1190987422)) and are used to weight production (i.e. the more production of highly sustainable species will have a more positive impact on final scores).
+
+***
+
+# Scoring sustainability
+
+Seafood watch provides sustainability scores between 0 and 10. We use these scores to weight production by species. For OHI we want these scores to be on a scale from 0 - 1.
+
+
+```{r}
+#sustainability scores from Seafood Watch - this data was created manually by looking at the website
+sfw_sustainability <- read_csv("data/species_sust_scores.csv")
+sfw_sustainability %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover","condensed", full_width = F))
+```
+We need to have a sustainability score for all species produced. Seafood Watch doesn't have Quahog or "Clams" but those are both found in the production data. We will assign those two species the same value as Hard Clam.
+
+```{r}
+extra <- data.frame(species = c("Quahog", "Clams"),
+                    sustainabilityscore = 7.01)
+
+extended <- sfw_sustainability %>%
+  bind_rows(extra)
+  
+```
+
+
+
+Converting into 0 - 1. 
+
+```{r}
+sust_scores <- extended %>%
+  mutate(sust_score = sustainabilityscore/10)
+```
+
+# Save for toolbox
+
+```{r}
+write_csv(sust_scores, "~/github/ne-scores/region/layers/mar_sust_scores.csv")
+```
+
+

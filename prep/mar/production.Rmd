@@ -3,7 +3,7 @@ title: 'OHI-Northeast: Mariculture Production Layer'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -67,7 +67,7 @@ value_only <- data %>%
   filter(!is.na(Value) & is.na(Tons) & is.na(Individuals) & is.na(Bags) & is.na(Bushels) & is.na(Pieces) & is.na(Pounds))
 
 #remove these rows from data_clean
-data<- setdiff(data, value_only)
+data <- setdiff(data, value_only)
 
 data %>%
   kable() %>%
@@ -199,129 +199,46 @@ ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
         legend.title=element_blank())
 ```
 
-## Weight by sustainability scores
+## Gapfilling
 
-Seafood watch provides sustainability scores between 0 and 10. We use these scores to weight production by species.
+We need to gapfill for years where there is no reported production. If there is a year without production between two years of production, we assume there was some. Let's first take a look at what needs gapfilling.
 
-#### Sustainability Scores
-```{r}
-#sustainability scores from Seafood Watch
-sust_scores <- read_csv("data/species_sust_scores.csv")
-sust_scores %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover","condensed", full_width = F))
+```{r missing_years, fig.width = 8}
+ggplot(production_df, aes(x = Year, y = Species)) +
+  geom_point() +
+  facet_wrap(~Region, scales = "free") +
+  theme_bw()
 ```
 
-```{r prod_weighted_by_sust_scores}
-weighted_prod <- production_df %>%
-  left_join(sust_scores, by = c("Species" = "species")) %>%
-  mutate(sustainabilityscore = 
-           ifelse(Species %in% c("Clams", "Quahog"), 7.01, sustainabilityscore), #assign the same sust score for Hard Clam to Clams and Quahog
-         weight_prod = pounds * sustainabilityscore) %>%
-  group_by(Year, Region) %>%
-  summarize(total_prod = sum(weight_prod))
+So Connecticut is missing one year for Hard Clam, Massachusetts is missing 2012 and 2013 for Quahog and Oysters, Rhode Island is missing 2010 for Oysters and Hard Clam. 
 
-ggplot(weighted_prod, aes(x = Year, y = total_prod, color = Region)) +
-  geom_line() +
-  theme_bw() +
-  labs(y = "Production * Sustainability Score",
-       title = "Total production per state, weighted by sustainability scores")
+We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a production of 0. Since we calculate a rolling average of production, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
+
+## Get 3 year rolling mean
+
+We apply a three year rolling mean to account for year to year variability. 
+
+```{r 3yr_rolling_mean}
+prod_3yr <- production_df %>%
+  filter(Year > 2000) %>%
+  arrange(Year) %>%
+  group_by(Region, Species) %>%
+  complete(Year = 2000:2017) %>%
+  mutate(prod_avg_3yr = zoo::rollapply(pounds, 3, FUN = mean, align = "right", na.rm = T, partial = T), #calculate the mean for three years
+         yr_num       = 1:n(), #need to remove the first two years, so add a column that identifies where in the sequence the year is 
+         last_years_prod = lag(prod_avg_3yr, n = 1)) %>%
+  ungroup()
 ```
 
-## Calculate annual growth rates
+## Save to toolbox
 
-Now that we have production weighted by the sustainability scores we calculate annual growth rates in total production over time. All values above 1 indicate an increase in production. The goal is to be at or above 1 in order to be maintaining growth in production.
+```{r save}
 
-```{r prod_growth_rate, fig.width = 6, fig.height = 4}
-gr <- weighted_prod %>%
-  group_by(Region) %>%
-  mutate(prod_avg_3yr = zoo::rollapply(total_prod, 3, FUN = mean, align = "right", na.rm = F, partial = T), #calculate the mean for three years
-         last_years_prod = lag(prod_avg_3yr, n = 1),
-         growth = total_prod/last_years_prod) %>%
-  filter(Year > 2004)
-
-ggplot(gr, aes(x = Year, y = growth, color = Region)) +
-  geom_line() +
-  geom_hline(yintercept = 1, color = "black") +
-  theme_bw() +
-  facet_wrap(~Region) +
-  labs(y = "Growth rate (above 1 indicates increase)",
-       title = "Mariculture production growth") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-```
-
-## Score
-
-To score each state, we compare the current growth rate to a target of 4% annual growth rate. 
-
-```{r mar_status_by_rgn}
-
-target <- 1.04 #4% growth rate target
-
-score_mar <- gr %>%
-  mutate(score = growth/target,
-         final_score = 
-           case_when(
-             score >= 1 ~ 100,
-             score < 1 ~ score*100
-             ))
-
-ggplot(score_mar, aes(x = Year, y = final_score, color = Region)) +
-  geom_line() +
-  theme_bw() +
-  labs(y = "Score",
-       title = "Mariculture scores by state")
-
-```
-
-
-## Alternate - weight by area
-
-An alternate option for scoring this goal is to weight by area. Since These regions have vastly different operational area, we might want to account for "farmable area".
-
-As of now, we do not have farmed area or farmable area estimates by state. Just for proof of concept, we can use the full state waters as weight. So here we still apply the sustainability scores to the production values, and then divide by state waters (km2).
-
-### Apply area weighting
-
-```{r}
-area_weight <- weighted_prod %>%
+out <- prod_3yr %>%
   left_join(rgn_data, by = c("Region" = "state")) %>%
-  mutate(area = as.numeric(as.character(area_km2))) %>%
-  group_by(Region) %>%
-  mutate(area = sum(area)) %>%
-  select(-rgn_name,-rgn_id,-area_km2) %>%
-  ungroup() %>%
-  distinct() %>%
-  mutate(area_wgt_prod = total_prod/area)
+  select(year = Year, rgn_id, Species, production = prod_avg_3yr, yr_num, last_years_prod)
 
-ggplot(area_weight, aes(x = Year, y = area_wgt_prod, color = Region)) +
-  geom_line() +
-  theme_bw() +
-  labs(y = "Area weighted production")
-```
-
-### Score
-
-```{r}
-gr <- area_weight %>%
-  group_by(Region) %>%
-  mutate(prod_avg_3yr = zoo::rollapply(area_wgt_prod, 3, FUN = mean, align = "right", na.rm = F, partial = T), #calculate the mean for three years
-         last_years_prod = lag(prod_avg_3yr, n = 1),
-         growth = area_wgt_prod/last_years_prod) %>%
-  filter(Year > 2004) %>%
-  ungroup() %>%
-  mutate(prod_x_4perc = last_years_prod * 1.04) %>%
-  group_by(Year) %>%
-  mutate(target = max(prod_x_4perc, na.rm = T),
-         score1 = area_wgt_prod/target,
-         score2 = ifelse(score1 >= 1, 100, score1*100))
-
-ggplot(gr, aes(x = Year, y = score2, color = Region)) +
-  geom_line() +
-  theme_bw() +
-  labs(y = "Score",
-       title = "Mariculture scores by state (including area weighting)")
+write_csv(out, "~/github/ne-scores/region/layers/mar_production.csv")
 ```
 
 
