@@ -18,7 +18,7 @@ output:
 
 ## Summary
 
-This layer is derived from [EPA Beach Closure](https://watersgeo.epa.gov/beacon2/) data. We use the number of days a beach is closed per year due to pathogens in the water as a proxy for the impact of pathogens in coastal waters. Data is provided at the beach level, aggregated to county and then again aggregated to the region level. Our reference point is 100 days free of closures, representing the average length of the swimming season for the region.
+This layer is derived from [EPA Beach Closure](https://watersgeo.epa.gov/beacon2/) data. We use the number of days a beach is closed per year due to pathogens in the water as a proxy for the impact of pathogens in coastal waters. Data is provided at the beach level and aggregated to the region level. Our reference point is 100 days free of closures, representing the average length of the swimming season for the region.
 
 
 **NOTE**
@@ -182,8 +182,9 @@ ggplot(df_all, aes(x = rgn_name)) +
 We want to filter out "OTHER" but keep the rest since they indicate beaches are closed due to water quality issues such as elevated bacteria or sewage, or runoff from rainfall.
 
 ## Calculate
-```{r}
-#percent of days beach is closed by county 
+
+Percent of days each beach is closed then take the mean for each region
+```{r calculate_percent_closed}
 perc <- df_all %>%
         filter(`Action Reasons` != "OTHER") %>%
         unique() %>% #some weird duplicates
@@ -191,36 +192,15 @@ perc <- df_all %>%
         summarize(days_closed = sum(`ActionDuration Days`)) %>%
         mutate(perc_closed = days_closed/100) %>%
         ungroup() %>%
-        group_by(County, rgn_id, Year,rgn_name) %>%
-        summarize(perc_closed = mean(perc_closed))
+        group_by(rgn_name, rgn_id, Year) %>%
+        summarize(perc_closed = mean(perc_closed)*100)
 ```
 
 ## Visualize data
-```{r explore}
-library(trelliscopejs)
 
-ggplot(perc, aes(x = Year, y = perc_closed, color = `County`)) +
-  geom_line() +
-  theme_bw() +
-   trelliscopejs::facet_trelliscope(~rgn_name, self_contained = TRUE, scales = "free")
-```
-
-I think taking the average makes the most sense, especially since there are differences in number of sites between regions and years (although not that varied).
-
-```{r site_samples_per_region}
-ggplot(perc, aes(x = Year)) +
-  geom_bar(position = 'dodge') +
-  facet_wrap(~rgn_name) +
-  theme_bw() +
-  labs(y = "Number of sites",
-       title = "Site sampling per region")
-```
 
 ```{r rgn_beach_closure_pathogens}
-ggplot(perc %>%
-      group_by(rgn_name, rgn_id, Year) %>%
-      summarize(perc_closure = mean(perc_closed)*100), 
-      aes(x = Year, y = perc_closure, color = rgn_name)) +
+ggplot(perc, aes(x = Year, y = perc_closed, color = rgn_name)) +
   geom_line() +
   labs(title = "Beach Closures (mean annual proportion any given beach is closed)",
        y = "Proportion (%) of swimming season beaches are closed",
