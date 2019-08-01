@@ -24,7 +24,6 @@ This script calculates fishing pressure resilience values by OHINE region.
 
 **Reference**: 
 
-
 **Downloaded**: July, 2019 insert jamie month/year here
 
 **Description**:  
@@ -226,9 +225,12 @@ marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/P
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
   st_intersection(inshore_buffer) %>%
-  filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
-         !is.na(Loc_Ds)) %>% 
+  filter(!Loc_Ds %in% c("Fishery Management Area", "Fishery Management Areas", "Shellfish Management Area", "Conservation Area","Gear Restricted Area", "Essential Fish Habitat Conservation Area", "Special Area Management Plan", "Closure Area"), #the Conservation Areas are for Mussel Seed
+         !is.na(Loc_Ds),
+!Fish_Rstr %in% c("No Site Restrictions", "Restrictions Unknown"), #only keeping areas with recreational or commercial fishing is restricted or prohibited
+         Constancy == "Year-round")%>% 
   select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
+
 
 ```
 
@@ -628,6 +630,11 @@ time_series_assessed <- m2 %>%
          adeq_assessed = if_else(assesment_sum_5yr >= 1, 1, 0)) %>% 
   ungroup() 
 
+missing_locations <- time_series_assessed %>% 
+  filter(is.na(rgn_id)) %>% 
+  mutate(s2 = stock_long) %>% 
+  separate(stock_long, c("sp", "location"), sep = "-")
+
 number_assessed <- time_series_assessed %>% 
   group_by(year, rgn_id, rgn_name) %>% 
   count() %>% 
@@ -644,6 +651,12 @@ percent_adeq_ass <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id"
 #write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
  
 ```
+
+location of stocks that don't have a locatio
+
+
+
+
 
 Visualize
 ```{r}

@@ -57,8 +57,6 @@ library(tidyverse)
 
 Beacon Hill Institute State Competitiveness Report
 
-"Overall competitiveness scores are based on a simple average of the eight normalized sub-indices (mean=5, SD=1), which is then again normalized to have a mean of 5 and a standard deviation of 1. We then assigned a score to each state, from 0 to 1, where 1 is the maximum possible index score of 7.39 and 0 is the minimum of 2.88
-
 ```{r}
 
 raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
@@ -72,11 +70,10 @@ bhi_scores <- raw_bhi %>%
 
 bhi_graph <- ggplot(bhi_scores) +
   geom_line(aes(x=year, y= score, color = state)) +
-  ggtitle("Rescaled scores State Competitiveness Report") +
+  ggtitle("Scores State Competitiveness Report") +
   ylab("score") +
   xlab("Year") +
   theme_classic()
-
 #ggsave("figs/bhi_graph.jpg", width=7, height=5, dpi=300)
 
 ```

@@ -1,0 +1,217 @@
+---
+title: "OHIEC: Resilience - Climate Change Pressure prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates fishing pressure resilience values by OHINE region. 
+
+# Data
+
+**Reference**: 
+
+**Downloaded**: 
+
+**Description**:  
+
+**Time range**: 
+
+**Format**: 
+
+Regulations:
+1) extract info from America's Pledge Report
+2) American Council for Energy Efficiency:
+Rankings: https://database.aceee.org/state/maine
+
+Effectiveness:
+US. energy information administration:
+1) Total CO2 emissions https://www.eia.gov/environment/emissions/state/analysis/
+2) Total power generation:https://www.eia.gov/electricity/data/state/
+
+
+
+``` {r setup,  message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(tidyverse)
+library(dplyr)
+library(Hmisc)
+library(stringi)
+library(readxl)
+
+```
+
+
+Data
+```{r}
+
+eee <- read_excel(file.path(dir_anx, "_raw_data/EEE/eee_scores.xlsx"))
+raw_gen <- read_excel(file.path(dir_anx, "_raw_data/EIA/eia_annual_generation_state.xls"))
+raw_em <- read_excel(file.path(dir_anx, "_raw_data/EIA/eia_co2_emmisions.xlsx"))
+
+```
+
+
+Energy Efficiency Scores
+```{r}
+
+eee_score <- eee %>% 
+  mutate(score = eee_score/eee_target)
+
+eee_score <-ggplot(eee_score)+
+  geom_point(aes(x=state, y = score), color="green4", size=2)+
+  ggtitle("Energy Efficiency Score") +
+  ylab("Score") +
+  xlab("State") +
+  theme_classic() 
+eee_score   
+
+
+```
+
+
+**Effectivness**
+Power Generation
+```{r}
+
+gen_total <- raw_gen %>% 
+  filter(year >= 2005 & year <=2017) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") %>% 
+  filter(energy_source != "Total") %>%
+  select(year, state, gen_mwh) %>% 
+  group_by(year, state) %>% 
+  dplyr::summarise(total_power = sum(gen_mwh))
+
+gen_clean <- raw_gen %>% 
+  filter(year >= 2005 & year <=2017) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") %>% 
+  filter(energy_source == "Hydroelectric Conventional"| energy_source == "Wind" | energy_source == "Solar Thermal and Photovoltaic" | energy_source == "Pumped Storage") %>%
+  select(year, state, gen_mwh) %>% 
+  group_by(year, state) %>% 
+  dplyr::summarise(total_power = sum(gen_mwh)) %>% 
+  rename(total_power_clean = total_power )
+
+power_gen <- left_join(gen_total, gen_clean, by= c("year", "state")) %>% 
+  mutate(per_clean = total_power_clean/total_power)
+
+graph <-ggplot(power_gen)+
+  geom_line(aes(x=year, y = per_clean, color=state))
+graph
+
+
+power_gen_scores <- left_join(gen_total, gen_clean, by= c("year", "state")) %>% 
+  mutate(per_clean = total_power_clean/total_power,
+         target = case_when(state == "ME" ~ 0.4, #targets for clean energy from Beyond Carbon
+                            state == "NH" ~ 0.252,
+                            state == "CT" ~ 0.44,
+                            state == "MA" ~ 0.35,
+                            state == "NY" ~ 0.5,
+                            state == "RI" ~ 0.385),
+         score = per_clean/target,
+         score = if_else(score >1, 1, score)) 
+  
+graph_score <-ggplot(power_gen_scores)+
+  geom_line(aes(x=year, y = score, color=state))+
+  ggtitle("Clean Energy Score (2005-2017)") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+graph_score         
+
+
+```
+
+Lots of Pumped storage production is negative. What to do about that? Is it when the water gets pumped back up? Seems like the negative values outweigh the positive
+
+
+Types of energy source:
+Coal
+Natural Gas
+Nuclear
+Other
+Other Biomass
+Other Gases
+Petroleum
+Wood and Wood Derived Fuels
+[below I considered clean energy; need to look into the pumped storage because most of it is negative]
+Pumped Storage
+Hydroelectric Conventional
+Wind
+Solar Thermal and Photovoltaic
+
+State Clean Energy Targets (source = Beyond Carbon): 
+Maine: 40% renewable/clean by 2017
+New Hampshire: 25.5% renewable/clean by 2025
+Connecticut: 44% renewable/clean by 2030
+Massachusetts: 35% renewable/clean by 2030
+New York: 50% renewable/clean by 2030
+Rhode Island: 38.5% renewable/clean by 2035
+
+
+Carbon Emmissions
+```{r}
+
+em <- raw_em %>% 
+  select(-Percent, -Absolute) %>% 
+  gather(year, emission, 2:13) %>% 
+  filter(State == "Maine" | State == "New Hampshire" | State == "Mssachusetts" | State == "New Hampshire" | State == "Rhode Island" | State == "Connecticut" | State == "New York") %>% 
+  mutate(year = as.numeric(year))
+
+```
+
+
+```{r}
+
+graph_em <-ggplot(em)+
+  geom_line(aes(x=year, y = emission, color=State))+
+  ggtitle("Total Carbon Emissions (2005-2017)") +
+  ylab("Emissions (million metric tons") +
+  xlab("Year") +
+  theme_classic() 
+
+graph_em  
+
+```
+
+Carbon Emmission Targets
+Maine: 80% reduction below 2003 levels
+New Hampshire: 80% reduction below 1990 levels by 2050
+Connecticut: 80% reduction below 2001 levels by 2050
+Massachusetts: 80% reduction below 1990 levels by 2050
+New York: 80% reduction below 1990 levels by 2050
+Rhode Island: 80% reduction below 1990 levels by 2050
+
+Determine State Targets
+look up what each states emisiosn were in those years
+
+
+
+
+
+
+
+
+
+
