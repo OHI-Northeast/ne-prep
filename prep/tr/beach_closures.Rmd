@@ -1,5 +1,5 @@
 ---
-title: "OHI-Northeast: Pathogens"
+title: "OHI-Northeast: Beach Closures"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,11 +18,13 @@ output:
 
 ## Summary
 
-This layer is derived from [EPA Beach Closure](https://watersgeo.epa.gov/beacon2/) data. We use the number of days a beach is closed per year due to pathogens in the water as a proxy for the impact of pathogens in coastal waters. Data is provided at the beach level and aggregated to the region level. Our reference point is 100 days free of closures, representing the average length of the swimming season for the region.
+This layer is derived from [EPA Beach Closure](https://watersgeo.epa.gov/beacon2/) data. We use the number of days a beach is closed per year due to pathogens in the water as a proxy for the impact of pathogens in coastal waters. Data is provided at the beach level, aggregated to county and then again aggregated to the region level. Our reference point is 100 days free of closures, representing the average length of the swimming season for the region.
 
 
-**NOTE**
-Ideally we would also use the EPA BEACON Beach Days dataset which lists the number of beach days in each swimming season, as well as the number of days closed/opened. We could use the total number of beach days in each swimming season to better calibrate the reference point. But it is clear that the data for Beach Days in the BEACON dataset is not consistent year to year or beach to beach. Many of the beaches list 0 total beach days, which we feel is incorrect. But we can get a general estimate for number of beach days using the beach days dataset.
+**NOTES**
+- This same layer is included in the **Clean Waters** goal. That same script is copied here and slightly tweaked but saved as `beach_closures.Rmd` since it is representing lack of access for tourism/recreation rather than clean waters.
+
+- Ideally we would also use the EPA BEACON Beach Days dataset which lists the number of beach days in each swimming season, as well as the number of days closed/opened. We could use the total number of beach days in each swimming season to better calibrate the reference point. But it is clear that the data for Beach Days in the BEACON dataset is not consistent year to year or beach to beach. Many of the beaches list 0 total beach days, which we feel is incorrect. But we can get a general estimate for number of beach days using the beach days dataset.
 
 ```{r setup, message = F, warning = F, results = 'hide'}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
@@ -113,28 +115,13 @@ ne_beach_days
 
 So it seems that for all 6 states, there are between 98 and 104 beach days. **We will use the number 100** as our reference point for the number of days we want open.
 
-### Split Massachusetts between two regions
+### Massachusetts data
 
-Since Massachussetts has state waters divided into two regions, we have to manually assign counties to the Northern and Southern regions
-
-```{r ma_county_split}
-split <- df %>%
-          filter(County %in% c('BARNSTABLE','PLYMOUTH')) %>%
-          select(State, County, `Beach Name`) %>%
-          unique()
-           
-nrow(split)
-
-write_csv(split, 'data/ma_beaches.csv')
-```
-
-There are `r nrow(split)` beaches in these two counties that require manual matching. Using the [BEACON map viewer](https://watersgeo.epa.gov/beacon2/Beacon.html), I matched each beach in Plymouth and Barnstable Counties to either Region 7 or 8.
-
-Now combine all beaches to rgn_ids
+For Clean Waters, the different beaches in Plymouth and Barnstable county were manually assigned to either region 7 or 8. Here we just load that data from the Clean Waters folder.
 
 ```{r beach_rgn_id}
 #read in the BARNSTABLE/PLYMOUTH beach dataset that identifies what region each beach belongs to
-mass_bch <- read_csv('data/ma_beaches_rgn_id.csv')[, 1:4] %>%
+mass_bch <- read_csv('../cw/data/ma_beaches_rgn_id.csv')[, 1:4] %>%
   mutate(state = "Massachusetts") %>%
   select(-State)
 
@@ -197,9 +184,7 @@ perc <- df_all %>%
 ```
 
 ## Visualize data
-
-
-```{r rgn_beach_closure_pathogens}
+```{r rgn_beach_closure}
 ggplot(perc, aes(x = Year, y = perc_closed, color = rgn_name)) +
   geom_line() +
   labs(title = "Beach Closures (mean annual proportion any given beach is closed)",
@@ -208,11 +193,11 @@ ggplot(perc, aes(x = Year, y = perc_closed, color = rgn_name)) +
   theme_bw()
 ```
 
-## Calculate CW goal layer
+## Calculate TR:Beach Closure goal layer
 
-The Clean Waters goal will use this data to measure how clean the water is. For this layer we want the final values to be the inverse of closures, so the amount of time each year that the region has beaches open due to clean water from pathogens. We need to add in the other offshore regions and assign NA for the toolbox layer.
+The Tourism & Recreation goal will use this data to measure how often beaches are closed, thereby reducing tourism and recreational opportunities. For this layer we want the final values to be the inverse of closures, so the amount of time each year that the region has beaches open. We need to add in the other offshore regions and assign NA for the toolbox layer.
 
-```{r save_cw_layer}
+```{r save_layer}
 other_rgns <- data.frame(year = rep(2005:2017, each = 4),
                          rgn_name = c("Offshore", "Georges Bank", "Gulf of Maine", "Mid-Atlantic Bight"),
                          rgn_id   = c(1,2,3,4),
@@ -223,27 +208,8 @@ perc %>%
     summarize(perc_open = mean(1-perc_closed)) %>%
     rename(year = Year) %>%
     bind_rows(other_rgns) %>%
-    write.csv(file.path(dir_calc, "layers/cw_pathogens.csv")) #save to toolbox
+    write.csv(file.path(dir_calc, "layers/tr_beach_closures.csv")) #save to toolbox
 ```
-
-## Calculate and save pressure
-
-This data is also used as a pressure in the Index. But since pressure values go from 0 (low pressure) to 1 (highest pressure) we want to use the annual average proportion of beach closures with 100% being the highest (and worst) value possible.
-
-```{r save_pressure}
-other_rgns <- data.frame(year = rep(2005:2017, each = 4),
-                         rgn_name = c("Offshore", "Georges Bank", "Gulf of Maine", "Mid-Atlantic Bight"),
-                         rgn_id   = c(1,2,3,4),
-                         perc_closed = NA)
-
-perc %>%
-    group_by(rgn_name, rgn_id, Year) %>%
-    summarize(perc_closed = mean(perc_closed)) %>%
-    select(-rgn_name) %>% #remove rgn_name from layer for toolbox
-    rename(year = Year) %>%
-    write.csv(file.path(dir_calc, "layers/prs_pathogens.csv")) #saved as prs_pathogens b/c this is a pressure
-```
-
 
 
 

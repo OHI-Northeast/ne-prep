@@ -1,69 +1,17 @@
 State,County,Beach Name,rgn_id
-MA,PLYMOUTH,A Street Bay Side,7
-MA,PLYMOUTH,A Street Ocean,7
-MA,PLYMOUTH,Antassawomak East,8
-MA,PLYMOUTH,Bassings Beach,7
-MA,PLYMOUTH,Brant Rock,7
-MA,PLYMOUTH,Briarwood,8
-MA,PLYMOUTH,Converse Point,8
-MA,PLYMOUTH,Darcy's,7
-MA,PLYMOUTH,Duxbury Beach @ Bath House,7
-MA,PLYMOUTH,East Boulevard,8
-MA,PLYMOUTH,Edgewater,7
-MA,PLYMOUTH,Egypt,7
-MA,PLYMOUTH,Fieldston,7
-MA,PLYMOUTH,Gray's,7
-MA,PLYMOUTH,Green Harbor,8
-MA,PLYMOUTH,Gunrock,7
-MA,PLYMOUTH,Harbor Beach 1 (North),8
-MA,PLYMOUTH,Harbor Beach 2 (South),8
-MA,PLYMOUTH,Hingham Town Beach,7
-MA,PLYMOUTH,Humarock,7
-MA,PLYMOUTH,Island Wharf,8
-MA,PLYMOUTH,James Ave.,7
-MA,PLYMOUTH,Kenberma,7
-MA,PLYMOUTH,Landing Road,7
-MA,PLYMOUTH,Little Harbor,8
-MA,PLYMOUTH,Mattapoisett Town Beach,8
-MA,PLYMOUTH,Minot,7
-MA,PLYMOUTH,Ned's Point,8
-MA,PLYMOUTH,Newport,7
-MA,PLYMOUTH,North Boulevard,8
-MA,PLYMOUTH,Oakdale Avenue,8
-MA,PLYMOUTH,Onset,8
-MA,PLYMOUTH,Parkwood,8
-MA,PLYMOUTH,Peggotty,7
-MA,PLYMOUTH,Pinehurst,8
-MA,PLYMOUTH,Planting Island,8
-MA,PLYMOUTH,Plymouth Beach - 1,7
-MA,PLYMOUTH,Plymouth Beach - 3,7
-MA,PLYMOUTH,Point Connett,8
-MA,PLYMOUTH,Point Independence,8
-MA,PLYMOUTH,Residents Beach (Duxbury Beach),7
-MA,PLYMOUTH,Riverside Avenue,8
-MA,PLYMOUTH,Rocky Nook,7
-MA,PLYMOUTH,Sand Hills,7
-MA,PLYMOUTH,Scituate Lighthouse,7
-MA,PLYMOUTH,Shell Point,8
-MA,PLYMOUTH,Shining Tides Reservation,8
-MA,PLYMOUTH,Shipyard Lane,7
-MA,PLYMOUTH,Sunrise,7
-MA,PLYMOUTH,Swift's,8
-MA,PLYMOUTH,Swift's Neck,8
-MA,PLYMOUTH,Tabor Academy,8
-MA,PLYMOUTH,West End,7
-MA,PLYMOUTH,White Horse - Full Sail,7
-MA,PLYMOUTH,White Horse - Hill Top,7
-MA,PLYMOUTH,XYZ,7
 MA,BARNSTABLE,333 Commercial Street,7
 MA,BARNSTABLE,451 Commercial Street,7
 MA,BARNSTABLE,593 Commercial Street,7
 MA,BARNSTABLE,637 Commercial Street,7
+MA,PLYMOUTH,A Street Bay Side,7
+MA,PLYMOUTH,A Street Ocean,7
 MA,BARNSTABLE,Andrew Harding Lane Beach,8
+MA,PLYMOUTH,Antassawomak East,8
 MA,BARNSTABLE,Atkins Lane,7
 MA,BARNSTABLE,Atlantic Avenue,8
 MA,BARNSTABLE,Barlows Landing,8
 MA,BARNSTABLE,Bass River East,8
+MA,PLYMOUTH,Bassings Beach,7
 MA,BARNSTABLE,Baxter Avenue,8
 MA,BARNSTABLE,Bay Road,8
 MA,BARNSTABLE,Bayview,7
@@ -72,7 +20,9 @@ MA,BARNSTABLE,Beach Point Landing,7
 MA,BARNSTABLE,Bikepath Beach (Trunk River) - East,8
 MA,BARNSTABLE,Bikepath Beach (Trunk River) - West,8
 MA,BARNSTABLE,Boat Meadow,7
+MA,PLYMOUTH,Brant Rock,7
 MA,BARNSTABLE,Breakwater Landing,7
+MA,PLYMOUTH,Briarwood,8
 MA,BARNSTABLE,Bristol - East,8
 MA,BARNSTABLE,Bristol - West,8
 MA,BARNSTABLE,Bucks Creek,8
@@ -91,6 +41,7 @@ MA,BARNSTABLE,Cole Road,7
 MA,BARNSTABLE,Colonial Acres East,8
 MA,BARNSTABLE,Colonial Acres West,8
 MA,BARNSTABLE,Columbus Avenue,8
+MA,PLYMOUTH,Converse Point,8
 MA,BARNSTABLE,Cook's Brook,7
 MA,BARNSTABLE,Corporation,7
 MA,BARNSTABLE,Court Street,7
@@ -98,14 +49,20 @@ MA,BARNSTABLE,Covell's,8
 MA,BARNSTABLE,Craigville,8
 MA,BARNSTABLE,Crosby Landing,7
 MA,BARNSTABLE,Cross Street,8
+MA,PLYMOUTH,Darcy's,7
 MA,BARNSTABLE,Dowses,8
+MA,PLYMOUTH,Duxbury Beach @ Bath House,7
 MA,BARNSTABLE,Dyer Prince,7
 MA,BARNSTABLE,Earle Road,8
+MA,PLYMOUTH,East Boulevard,8
 MA,BARNSTABLE,East Sandwich,7
+MA,PLYMOUTH,Edgewater,7
+MA,PLYMOUTH,Egypt,7
 MA,BARNSTABLE,Ellis Landing,7
 MA,BARNSTABLE,Eugenia Fortes,8
 MA,BARNSTABLE,Falmouth Heights East,8
 MA,BARNSTABLE,Falmouth Heights West,8
+MA,PLYMOUTH,Fieldston,7
 MA,BARNSTABLE,First Encounter - Spit River,7
 MA,BARNSTABLE,First Encounter Beach,7
 MA,BARNSTABLE,Follins Pond,8
@@ -113,42 +70,69 @@ MA,BARNSTABLE,Forest Street Beach,8
 MA,BARNSTABLE,Gilder Road Beach,8
 MA,BARNSTABLE,Glendon Road - East,8
 MA,BARNSTABLE,Glendon Road - West,8
+MA,PLYMOUTH,Gray's,7
 MA,BARNSTABLE,Gray's Beach,7
+MA,PLYMOUTH,Green Harbor,8
+MA,PLYMOUTH,Gunrock,7
 MA,BARNSTABLE,Haigis,8
+MA,PLYMOUTH,Harbor Beach 1 (North),8
+MA,PLYMOUTH,Harbor Beach 2 (South),8
 MA,BARNSTABLE,Harborview,7
 MA,BARNSTABLE,Hardings East,8
 MA,BARNSTABLE,Hardings West,8
+MA,PLYMOUTH,Hingham Town Beach,7
 MA,BARNSTABLE,Howes Street,7
+MA,PLYMOUTH,Humarock,7
 MA,BARNSTABLE,Inman Road,8
+MA,PLYMOUTH,Island Wharf,8
+MA,PLYMOUTH,James Ave.,7
 MA,BARNSTABLE,Johnson Street,7
 MA,BARNSTABLE,Kalmus Ocean,8
 MA,BARNSTABLE,Kalmus Yacht,8
+MA,PLYMOUTH,Kenberma,7
 MA,BARNSTABLE,Kendal Lane,7
 MA,BARNSTABLE,Kennedy Memorial/Veterans Beach,8
 MA,BARNSTABLE,Keyes Beach,8
 MA,BARNSTABLE,Kingsbury,7
+MA,PLYMOUTH,Landing Road,7
 MA,BARNSTABLE,Lighthouse,8
 MA,BARNSTABLE,Linnell Landing,7
+MA,PLYMOUTH,Little Harbor,8
 MA,BARNSTABLE,Loops,8
 MA,BARNSTABLE,Malfa Road,8
 MA,BARNSTABLE,Mants,7
 MA,BARNSTABLE,Mashpee Neck Road (Town Landing),8
+MA,PLYMOUTH,Mattapoisett Town Beach,8
 MA,BARNSTABLE,Mayflower,7
 MA,BARNSTABLE,Mayo,7
 MA,BARNSTABLE,Meeting House Pond,7
 MA,BARNSTABLE,Mill Creek,8
 MA,BARNSTABLE,Millway,7
+MA,PLYMOUTH,Minot,7
 MA,BARNSTABLE,Nauset,8
+MA,PLYMOUTH,Ned's Point,8
+MA,PLYMOUTH,Newport,7
 MA,BARNSTABLE,Noon's Landing,7
+MA,PLYMOUTH,North Boulevard,8
+MA,PLYMOUTH,Oakdale Avenue,8
 MA,BARNSTABLE,Old Silver (Public) - North,8
 MA,BARNSTABLE,Old Silver (Public) - South,8
+MA,PLYMOUTH,Onset,8
 MA,BARNSTABLE,Paines Creek,7
 MA,BARNSTABLE,Pamet Harbor,7
 MA,BARNSTABLE,Parkers River East,8
 MA,BARNSTABLE,Parkers River West,8
+MA,PLYMOUTH,Parkwood,8
 MA,BARNSTABLE,Patuisset Beach,8
+MA,PLYMOUTH,Peggotty,7
+MA,PLYMOUTH,Pinehurst,8
+MA,PLYMOUTH,Planting Island,8
 MA,BARNSTABLE,Pleasant Bay,8
 MA,BARNSTABLE,Pleasant Street,8
+MA,PLYMOUTH,Plymouth Beach - 1,7
+MA,PLYMOUTH,Plymouth Beach - 3,7
+MA,PLYMOUTH,Point Connett,8
+MA,PLYMOUTH,Point Independence,8
 MA,BARNSTABLE,Point of Rocks,7
 MA,BARNSTABLE,Provincetown Inn East,7
 MA,BARNSTABLE,Provincetown Inn Rotary,7
@@ -156,29 +140,42 @@ MA,BARNSTABLE,Raycroft,8
 MA,BARNSTABLE,Red River East,8
 MA,BARNSTABLE,Red River Middle,8
 MA,BARNSTABLE,Red River West,8
+MA,PLYMOUTH,Residents Beach (Duxbury Beach),7
+MA,PLYMOUTH,Rexhame,7
 MA,BARNSTABLE,Ridgevale,8
+MA,PLYMOUTH,Riverside Avenue,8
+MA,PLYMOUTH,Rocky Nook,7
 MA,BARNSTABLE,Ropes,8
 MA,BARNSTABLE,Ryder Street,7
 MA,BARNSTABLE,S. Sunken Meadow,7
 MA,BARNSTABLE,Sagamore,7
 MA,BARNSTABLE,Saints Landing,7
 MA,BARNSTABLE,Salt Pond,7
+MA,PLYMOUTH,Sand Hills,7
 MA,BARNSTABLE,Sandy Neck,7
+MA,PLYMOUTH,Scituate Lighthouse,7
 MA,BARNSTABLE,Scusset (DCR),7
 MA,BARNSTABLE,Sea Street (East Dennis),8
 MA,BARNSTABLE,Seagull (Center),8
 MA,BARNSTABLE,Seagull (Left),8
 MA,BARNSTABLE,Seagull (Right),8
 MA,BARNSTABLE,Seaview Ave. Beach,8
+MA,PLYMOUTH,Shell Point,8
+MA,PLYMOUTH,Shining Tides Reservation,8
+MA,PLYMOUTH,Shipyard Lane,7
 MA,BARNSTABLE,Skaket Beach,7
 MA,BARNSTABLE,South Cape Beach (DCR),8
 MA,BARNSTABLE,South Village,8
 MA,BARNSTABLE,Stoney Beach (MBL),8
 MA,BARNSTABLE,Sullivan (Depot St.),8
+MA,PLYMOUTH,Sunrise,7
 MA,BARNSTABLE,Sunset Beach Association,7
 MA,BARNSTABLE,Surf Drive - East,8
 MA,BARNSTABLE,Surf Drive - Pool,8
 MA,BARNSTABLE,Surf Drive - West,8
+MA,PLYMOUTH,Swift's,8
+MA,PLYMOUTH,Swift's Neck,8
+MA,PLYMOUTH,Tabor Academy,8
 MA,BARNSTABLE,Thumpertown,7
 MA,BARNSTABLE,Town Cove,7
 MA,BARNSTABLE,Town Landing - Breakwater,8
@@ -191,8 +188,12 @@ MA,BARNSTABLE,Vernon St.,8
 MA,BARNSTABLE,Wequasett Inn Resort,8
 MA,BARNSTABLE,West Dennis - Residential,8
 MA,BARNSTABLE,West Dennis - West,8
+MA,PLYMOUTH,West End,7
 MA,BARNSTABLE,West End Lot,7
+MA,PLYMOUTH,White Horse - Full Sail,7
+MA,PLYMOUTH,White Horse - Hill Top,7
 MA,BARNSTABLE,Winston Ave,7
 MA,BARNSTABLE,Wood Neck Beach,8
 MA,BARNSTABLE,Wood Neck River,8
+MA,PLYMOUTH,XYZ,7
 MA,BARNSTABLE,Zylpha Road Beach,8

@@ -1,0 +1,298 @@
+---
+title: 'OHI-Northeast: Fisheries access data layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+#libraries
+library(tidyverse)
+library(readxl)
+```
+
+#Summary
+Fisheries access layer is derived from NOAA FSSI data.
+
+***
+
+#Data Source 
+**Reference**: NOAA FSSI
+
+**Downloaded**: Emailed to Jamie Afflerbach on July 29, 2019 by Karen Greene (NOAA)
+
+**Description**:  Fish Stock Sustainability Index
+
+**Native data resolution**: Stock level
+
+**Time range**: 2005-2018
+
+**Format**:  Tabular
+
+**Reference**: 
+
+***
+  
+# Methods
+
+## Load FSSI data
+
+The files were emailed to me individually by year. Unfortunately they are not consistent through time either. But it seems like 2005 - 2010 are in the same format... and have the Table A as the first row.
+
+```{r load_raw_data}
+all_files <- list.files(file.path(dir_anx, "_raw_data/NOAA_FSSI"), full.names = T, pattern = ".xls")
+```
+
+
+```{r clean_early_files}
+early_files <- all_files[str_detect(all_files, paste(c("2005","2006","2007", "2008", "2009", "2010"), collapse = '|'))]
+
+#it looks like 2005-2010 have the same structure so use a loop to iterate through
+
+clean_func <- function(filepath){
+  
+  year <- substr(filepath, 58, 61)
+  
+  d <- read_excel(filepath, skip = 1, col_names = TRUE, sheet = 1) %>%
+    filter(Jurisdiction %in% c("NEFMC", "NEFMC / MAFMC")) %>% #filter for just NE managed stocks
+  select(1:3,ncol(.)) %>%
+    rename(FMP = 1, stock = 2, Jurisdiction = 3, FSSI = 4) %>% #get the first 3 and the very last column
+    mutate(year = as.numeric(year))
+
+return(d)
+  
+}
+
+#use map_df to apply the function to all files and return as single combined dataframe
+early_df <- map_df(early_files, clean_func)
+```
+
+They years 2010-2017 are a little messier
+
+```{r clean_later_files}
+late_files <- all_files[str_detect(all_files, paste(c("2011", "2012", "2013", "2014", "2015", "2016", "2017"), collapse = '|'))]
+
+clean_func <- function(filepath){
+  
+  year <- substr(filepath, 58, 61)
+  
+  if (year == 2014) { #2014 has an extra column on the end after FSSI
+    
+  d <- read_excel(filepath, col_names = TRUE, sheet = 1) %>% #difference here from early files is we don't skip first line
+    filter(Jurisdiction %in% c("NEFMC", "NEFMC / MAFMC")) %>% #filter for just NE managed stocks
+  select(1:3,ncol(.)-1) %>% #get the first 3 and the very last column
+    rename(Jurisdiction = 1, FMP = 2, stock = 3, FSSI = 4) %>%
+    mutate(year = as.numeric(year))
+  
+  }else{
+  
+  d <- read_excel(filepath, col_names = TRUE, sheet = 1) %>% #difference here from early files is we don't skip first line
+    filter(Jurisdiction %in% c("NEFMC", "NEFMC / MAFMC")) %>% #filter for just NE managed stocks
+  select(1:3,ncol(.)) %>% #get the first 3 and the very last column
+    rename(Jurisdiction = 1,  FMP = 2, stock = 3, FSSI = 4) %>%
+    mutate(year = as.numeric(year))
+  }
+return(d)
+  
+}
+
+#use map_df to apply the function to all files and return as single combined dataframe
+late_df <- map_df(late_files, clean_func)
+```
+
+Combine!
+
+```{r combine_early_and_late}
+fssi_data <- early_df %>%
+  bind_rows(late_df)
+```
+
+
+Now link each stock to the region where it is found. We can use the lookup table created in `ne-prep/prep/fis`. This is split into two columns, `stock_assessment_species_name` and `stock_assessment_species_location`. We can use these to link by separating the `stock` column. 
+
+```{r join_fish_lookup_table}
+fish_sp <- read_csv("~/github/ne-prep/prep/fis/data/assessed_species_lookup_table.csv") %>%
+  select(stock = stock_assessment_species_name, 
+         location = stock_assessment_species_location,
+         rgn_id,
+         source) %>%
+  distinct()
+DT::datatable(fish_sp)
+```
+
+## Clean
+
+- clean up some names and locations from the FSSI data to match with `fish_sp`.
+
+The location for silver hake and red hake in 2005-2007 in the FSSI data is listed as "Southern New England / Mid-Atlantic" but in the NMFS stock assessment data, the southern stock is labeled as "Southern Georges Bank / Mid-Atlantic". Those changes are made here
+
+```{r first_clean}
+fssi_data_clean <- fssi_data %>%
+  separate(stock, into = c("stock", "location"), sep = " - ",) %>%
+  mutate(stock = tolower(stock), #change species name to lower to better join
+         location = str_replace_all(location, " \\*", ""),
+         location = str_replace_all(location, "\\*", "")) %>% 
+  mutate(stock = case_when(
+    stock == "atlantic sea scallop" ~ "sea scallop",
+    stock == "cod" ~ "atlantic cod",
+    stock == "windowpane flounder" ~ "windowpane",
+    stock == "redfish" ~ "acadian redfish",
+    stock == "deep-sea red crab" ~ "red deepsea crab",
+    stock == "monkfish" ~ "goosefish",
+    TRUE ~ as.character(stock)
+  ),
+  location = case_when(
+    location %in% c("Southern New England /Middle Atlantic", 
+                    "Southern Georges Bank / Middle Atlantic",
+                    "Southern New England/Middle Atlantic") ~ "Southern New England / Mid-Atlantic",
+    location %in% c("Cape Cod /    Gulf of Maine", 
+                    "Cape Cod /    Gulf Of Maine") ~ "Cape Cod / Gulf of Maine",
+    location == "Gulf Of Maine" ~ "Gulf of Maine",
+    location == "Gulf Of Maine / Georges Bank" ~ "Gulf of Maine / Georges Bank",
+    location %in% c("Gulf Of Maine / Northern Georges Bank", 
+                    "Gulf Of Maine  / Northern Georges Bank", 
+                    "Gulf of Maine  / Northern Georges Bank") ~ "Gulf of Maine / Northern Georges Bank",
+    location == "Southern New England / Middle Atlantic" ~ "Southern New England / Mid-Atlantic",
+    TRUE ~ as.character(location)
+  ),
+  location = case_when(
+    stock %in% c("red hake", "silver hake") & location == "Southern New England / Mid-Atlantic" ~ "Southern Georges Bank / Mid-Atlantic", 
+    stock == "goosefish" & location == "South" ~ "Southern Georges Bank / Mid-Atlantic",
+    stock == "goosefish" & location == "North" ~ "Gulf of Maine / Northern Georges Bank",
+    TRUE ~ as.character(location))) %>%
+  left_join(fish_sp, by = c("stock", "location"))
+```
+
+Some still don't match because they are missing locations from the FSSI data. For these we join on stock only. These are all from 2005-2007
+
+```{r second_clean}
+fssi_data_clean2 <- fssi_data_clean %>%
+  filter(is.na(location)) %>%
+  left_join(fish_sp, by = "stock") %>% 
+  select(FMP, stock, location = location.y, Jurisdiction, FSSI, year, source = source.y, rgn_id = rgn_id.y)
+```
+
+Join back to `fssi_data_clean` and just have to fix offshore hake which isn't in the `fish_sp` but all years >2008 have it identified as Northwestern Atlantic Coast. Need to fill out `rgn_id` where they are NA.
+
+```{r third_clean}
+fssi <- fssi_data_clean %>%
+  filter(!is.na(location)) %>%
+  bind_rows(fssi_data_clean2) %>%
+  mutate(location = ifelse(stock == "offshore hake", "Northwestern Atlantic Coast", location))
+  
+
+a <- filter(fssi, is.na(rgn_id))
+DT::datatable(a)
+```
+
+We are only missing `rgn_id` for offshore hake and rosette skate. We will use the location identifier for these two species, and the associated `rgn_ids` to fill in. 
+
+```{r missing_rgns}
+missing_rgns <- fssi %>%
+  filter(location %in% c("Northwestern Atlantic Coast", "Southern New England / Mid-Atlantic")) %>%
+  select(location, rgn_id) %>%
+  filter(!is.na(rgn_id)) %>%
+  distinct()
+DT::datatable(missing_rgns)
+```
+Now join these region ids back to the rosette skate and offshore hake species.
+
+```{r complete_rosette_offshore_rgns}
+b <- a %>% left_join(missing_rgns, by = "location")%>%
+  select(FMP, stock, location, Jurisdiction, FSSI, year, rgn_id = rgn_id.y)
+```
+
+Now create complete FSSI dataset for use in our layer
+
+```{r full_fssi_dataset}
+fssi_full <- fssi %>%
+  filter(!is.na(rgn_id)) %>%
+  bind_rows(b) %>%
+  mutate(stock_location = paste0(stock, " ", location)) %>%
+  left_join(rgn_data)
+```
+
+
+## Visualize
+
+```{r fssi_stocks_over_time_by_rgn}
+ggplot(fssi_full, aes(x = year, y = FSSI, color = stock_location)) +
+  geom_line() +
+  facet_wrap(~rgn_name) +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+Just look at stocks over time
+
+```{r fssi_stocks_over_time, fig.width = 8, fig.height = 7}
+ggplot(fssi_full, aes(x = year, y = FSSI)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~stock_location, labeller = labeller(stock_location = label_wrap_gen(width = 25))) +
+  theme(strip.text.x = element_text(size = 8))
+```
+
+
+How many stocks per region?
+
+```{r num_fssi_stocks_per_rgn}
+ggplot(fssi_full %>%
+         select(rgn_name, stock_location) %>% distinct()) +
+  geom_bar(aes(x = rgn_name), fill = 'darkblue') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "", y = 'Number of stocks')
+```
+
+# Translate to score
+
+The FSSI scores range from 0 - 4 with 4 being the target. So we want to divide all scores by 4 to get a value between 0 and 1. Then take the average by region and year
+
+```{r fssi_scores_by_rgn}
+fssi_scaled <- fssi_full %>%
+  mutate(scores = FSSI/4) %>%
+  group_by(rgn_id, rgn_name, year) %>%
+  summarize(average_fssi_score = mean(scores)) %>%
+  ungroup()
+
+ggplot(fssi_scaled, aes(x = year, y = average_fssi_score, color = rgn_name)) +
+  geom_line() +
+  theme_bw()
+```
+
+# Save to toolbox
+
+Even though we have data for the 4 offshore regions, the RAO goal is only calculated for coastal regions so we replace scores for rgn_id 1 through 4 with NA
+
+```{r save}
+fssi_layer <- fssi_scaled %>%
+  mutate(score = ifelse(rgn_id %in% c(1:4), NA, average_fssi_score)) %>%
+  select(year, rgn_id, score)
+
+write_csv(fssi_layer, "~/github/ne-scores/region/layers/rao_fssi.csv")
+```
+
+
+
+
+

@@ -1,198 +1,199 @@
-"","state","County","Beach Name"
-"1","Massachusetts","BARNSTABLE","333 Commercial Street"
-"2","Massachusetts","BARNSTABLE","451 Commercial Street"
-"3","Massachusetts","BARNSTABLE","593 Commercial Street"
-"4","Massachusetts","BARNSTABLE","637 Commercial Street"
-"5","Massachusetts","PLYMOUTH","A Street Bay Side"
-"6","Massachusetts","PLYMOUTH","A Street Ocean"
-"7","Massachusetts","BARNSTABLE","Andrew Harding Lane Beach"
-"8","Massachusetts","PLYMOUTH","Antassawomak East"
-"9","Massachusetts","BARNSTABLE","Atkins Lane"
-"10","Massachusetts","BARNSTABLE","Atlantic Avenue"
-"11","Massachusetts","BARNSTABLE","Barlows Landing"
-"12","Massachusetts","BARNSTABLE","Bass River East"
-"13","Massachusetts","PLYMOUTH","Bassings Beach"
-"14","Massachusetts","BARNSTABLE","Baxter Avenue"
-"15","Massachusetts","BARNSTABLE","Bay Road"
-"16","Massachusetts","BARNSTABLE","Bayview"
-"17","Massachusetts","BARNSTABLE","Bayview Street"
-"18","Massachusetts","BARNSTABLE","Beach Point Landing"
-"19","Massachusetts","BARNSTABLE","Bikepath Beach (Trunk River) - East"
-"20","Massachusetts","BARNSTABLE","Bikepath Beach (Trunk River) - West"
-"21","Massachusetts","BARNSTABLE","Boat Meadow"
-"22","Massachusetts","PLYMOUTH","Brant Rock"
-"23","Massachusetts","BARNSTABLE","Breakwater Landing"
-"24","Massachusetts","PLYMOUTH","Briarwood"
-"25","Massachusetts","BARNSTABLE","Bristol - East"
-"26","Massachusetts","BARNSTABLE","Bristol - West"
-"27","Massachusetts","BARNSTABLE","Bucks Creek"
-"28","Massachusetts","BARNSTABLE","Burton Baker"
-"29","Massachusetts","BARNSTABLE","Cahoon Hollow"
-"30","Massachusetts","BARNSTABLE","Campground"
-"31","Massachusetts","BARNSTABLE","Cataumet Harbor"
-"32","Massachusetts","BARNSTABLE","Chapin Memorial"
-"33","Massachusetts","BARNSTABLE","Chapoquoit"
-"34","Massachusetts","BARNSTABLE","Chatham Bars Inn"
-"35","Massachusetts","BARNSTABLE","Clipper Lane"
-"36","Massachusetts","BARNSTABLE","Cockle Cove"
-"37","Massachusetts","BARNSTABLE","Cold Storage"
-"38","Massachusetts","BARNSTABLE","Cold Storage/Pond Village"
-"39","Massachusetts","BARNSTABLE","Cole Road"
-"40","Massachusetts","BARNSTABLE","Colonial Acres East"
-"41","Massachusetts","BARNSTABLE","Colonial Acres West"
-"42","Massachusetts","BARNSTABLE","Columbus Avenue"
-"43","Massachusetts","PLYMOUTH","Converse Point"
-"44","Massachusetts","BARNSTABLE","Cook's Brook"
-"45","Massachusetts","BARNSTABLE","Corporation"
-"46","Massachusetts","BARNSTABLE","Court Street"
-"47","Massachusetts","BARNSTABLE","Covell's"
-"48","Massachusetts","BARNSTABLE","Craigville"
-"49","Massachusetts","BARNSTABLE","Crosby Landing"
-"50","Massachusetts","BARNSTABLE","Cross Street"
-"51","Massachusetts","PLYMOUTH","Darcy's"
-"52","Massachusetts","BARNSTABLE","Dowses"
-"53","Massachusetts","PLYMOUTH","Duxbury Beach @ Bath House"
-"54","Massachusetts","BARNSTABLE","Dyer Prince"
-"55","Massachusetts","BARNSTABLE","Earle Road"
-"56","Massachusetts","PLYMOUTH","East Boulevard"
-"57","Massachusetts","BARNSTABLE","East Sandwich"
-"58","Massachusetts","PLYMOUTH","Edgewater"
-"59","Massachusetts","PLYMOUTH","Egypt"
-"60","Massachusetts","BARNSTABLE","Ellis Landing"
-"61","Massachusetts","BARNSTABLE","Eugenia Fortes"
-"62","Massachusetts","BARNSTABLE","Falmouth Heights East"
-"63","Massachusetts","BARNSTABLE","Falmouth Heights West"
-"64","Massachusetts","PLYMOUTH","Fieldston"
-"65","Massachusetts","BARNSTABLE","First Encounter - Spit River"
-"66","Massachusetts","BARNSTABLE","First Encounter Beach"
-"67","Massachusetts","BARNSTABLE","Follins Pond"
-"68","Massachusetts","BARNSTABLE","Forest Street Beach"
-"69","Massachusetts","BARNSTABLE","Gilder Road Beach"
-"70","Massachusetts","BARNSTABLE","Glendon Road - East"
-"71","Massachusetts","BARNSTABLE","Glendon Road - West"
-"72","Massachusetts","PLYMOUTH","Gray's"
-"73","Massachusetts","BARNSTABLE","Gray's Beach"
-"74","Massachusetts","PLYMOUTH","Green Harbor"
-"75","Massachusetts","PLYMOUTH","Gunrock"
-"76","Massachusetts","BARNSTABLE","Haigis"
-"77","Massachusetts","PLYMOUTH","Harbor Beach 1 (North)"
-"78","Massachusetts","PLYMOUTH","Harbor Beach 2 (South)"
-"79","Massachusetts","BARNSTABLE","Harborview"
-"80","Massachusetts","BARNSTABLE","Hardings East"
-"81","Massachusetts","BARNSTABLE","Hardings West"
-"82","Massachusetts","PLYMOUTH","Hingham Town Beach"
-"83","Massachusetts","BARNSTABLE","Howes Street"
-"84","Massachusetts","PLYMOUTH","Humarock"
-"85","Massachusetts","BARNSTABLE","Inman Road"
-"86","Massachusetts","PLYMOUTH","Island Wharf"
-"87","Massachusetts","PLYMOUTH","James Ave."
-"88","Massachusetts","BARNSTABLE","Johnson Street"
-"89","Massachusetts","BARNSTABLE","Kalmus Ocean"
-"90","Massachusetts","BARNSTABLE","Kalmus Yacht"
-"91","Massachusetts","PLYMOUTH","Kenberma"
-"92","Massachusetts","BARNSTABLE","Kendal Lane"
-"93","Massachusetts","BARNSTABLE","Kennedy Memorial/Veterans Beach"
-"94","Massachusetts","BARNSTABLE","Keyes Beach"
-"95","Massachusetts","BARNSTABLE","Kingsbury"
-"96","Massachusetts","PLYMOUTH","Landing Road"
-"97","Massachusetts","BARNSTABLE","Lighthouse"
-"98","Massachusetts","BARNSTABLE","Linnell Landing"
-"99","Massachusetts","PLYMOUTH","Little Harbor"
-"100","Massachusetts","BARNSTABLE","Loops"
-"101","Massachusetts","BARNSTABLE","Malfa Road"
-"102","Massachusetts","BARNSTABLE","Mants"
-"103","Massachusetts","BARNSTABLE","Mashpee Neck Road (Town Landing)"
-"104","Massachusetts","PLYMOUTH","Mattapoisett Town Beach"
-"105","Massachusetts","BARNSTABLE","Mayflower"
-"106","Massachusetts","BARNSTABLE","Mayo"
-"107","Massachusetts","BARNSTABLE","Meeting House Pond"
-"108","Massachusetts","BARNSTABLE","Mill Creek"
-"109","Massachusetts","BARNSTABLE","Millway"
-"110","Massachusetts","PLYMOUTH","Minot"
-"111","Massachusetts","BARNSTABLE","Nauset"
-"112","Massachusetts","PLYMOUTH","Ned's Point"
-"113","Massachusetts","PLYMOUTH","Newport"
-"114","Massachusetts","BARNSTABLE","Noon's Landing"
-"115","Massachusetts","PLYMOUTH","North Boulevard"
-"116","Massachusetts","PLYMOUTH","Oakdale Avenue"
-"117","Massachusetts","BARNSTABLE","Old Silver (Public) - North"
-"118","Massachusetts","BARNSTABLE","Old Silver (Public) - South"
-"119","Massachusetts","PLYMOUTH","Onset"
-"120","Massachusetts","BARNSTABLE","Paines Creek"
-"121","Massachusetts","BARNSTABLE","Pamet Harbor"
-"122","Massachusetts","BARNSTABLE","Parkers River East"
-"123","Massachusetts","BARNSTABLE","Parkers River West"
-"124","Massachusetts","PLYMOUTH","Parkwood"
-"125","Massachusetts","BARNSTABLE","Patuisset Beach"
-"126","Massachusetts","PLYMOUTH","Peggotty"
-"127","Massachusetts","PLYMOUTH","Pinehurst"
-"128","Massachusetts","PLYMOUTH","Planting Island"
-"129","Massachusetts","BARNSTABLE","Pleasant Bay"
-"130","Massachusetts","BARNSTABLE","Pleasant Street"
-"131","Massachusetts","PLYMOUTH","Plymouth Beach - 1"
-"132","Massachusetts","PLYMOUTH","Plymouth Beach - 3"
-"133","Massachusetts","PLYMOUTH","Point Connett"
-"134","Massachusetts","PLYMOUTH","Point Independence"
-"135","Massachusetts","BARNSTABLE","Point of Rocks"
-"136","Massachusetts","BARNSTABLE","Provincetown Inn East"
-"137","Massachusetts","BARNSTABLE","Provincetown Inn Rotary"
-"138","Massachusetts","BARNSTABLE","Raycroft"
-"139","Massachusetts","BARNSTABLE","Red River East"
-"140","Massachusetts","BARNSTABLE","Red River Middle"
-"141","Massachusetts","BARNSTABLE","Red River West"
-"142","Massachusetts","PLYMOUTH","Residents Beach (Duxbury Beach)"
-"143","Massachusetts","BARNSTABLE","Ridgevale"
-"144","Massachusetts","PLYMOUTH","Riverside Avenue"
-"145","Massachusetts","PLYMOUTH","Rocky Nook"
-"146","Massachusetts","BARNSTABLE","Ropes"
-"147","Massachusetts","BARNSTABLE","Ryder Street"
-"148","Massachusetts","BARNSTABLE","S. Sunken Meadow"
-"149","Massachusetts","BARNSTABLE","Sagamore"
-"150","Massachusetts","BARNSTABLE","Saints Landing"
-"151","Massachusetts","BARNSTABLE","Salt Pond"
-"152","Massachusetts","PLYMOUTH","Sand Hills"
-"153","Massachusetts","BARNSTABLE","Sandy Neck"
-"154","Massachusetts","PLYMOUTH","Scituate Lighthouse"
-"155","Massachusetts","BARNSTABLE","Scusset (DCR)"
-"156","Massachusetts","BARNSTABLE","Sea Street (East Dennis)"
-"157","Massachusetts","BARNSTABLE","Seagull (Center)"
-"158","Massachusetts","BARNSTABLE","Seagull (Left)"
-"159","Massachusetts","BARNSTABLE","Seagull (Right)"
-"160","Massachusetts","BARNSTABLE","Seaview Ave. Beach"
-"161","Massachusetts","PLYMOUTH","Shell Point"
-"162","Massachusetts","PLYMOUTH","Shining Tides Reservation"
-"163","Massachusetts","PLYMOUTH","Shipyard Lane"
-"164","Massachusetts","BARNSTABLE","Skaket Beach"
-"165","Massachusetts","BARNSTABLE","South Cape Beach (DCR)"
-"166","Massachusetts","BARNSTABLE","South Village"
-"167","Massachusetts","BARNSTABLE","Stoney Beach (MBL)"
-"168","Massachusetts","BARNSTABLE","Sullivan (Depot St.)"
-"169","Massachusetts","PLYMOUTH","Sunrise"
-"170","Massachusetts","BARNSTABLE","Sunset Beach Association"
-"171","Massachusetts","BARNSTABLE","Surf Drive - East"
-"172","Massachusetts","BARNSTABLE","Surf Drive - Pool"
-"173","Massachusetts","BARNSTABLE","Surf Drive - West"
-"174","Massachusetts","PLYMOUTH","Swift's"
-"175","Massachusetts","PLYMOUTH","Swift's Neck"
-"176","Massachusetts","PLYMOUTH","Tabor Academy"
-"177","Massachusetts","BARNSTABLE","Thumpertown"
-"178","Massachusetts","BARNSTABLE","Town Cove"
-"179","Massachusetts","BARNSTABLE","Town Landing - Breakwater"
-"180","Massachusetts","BARNSTABLE","Town Landing - Snail Road"
-"181","Massachusetts","BARNSTABLE","Town Landing West of Coast Guard"
-"182","Massachusetts","BARNSTABLE","Town Neck (Hemispheres)"
-"183","Massachusetts","BARNSTABLE","Town Neck Beach"
-"184","Massachusetts","BARNSTABLE","Trotting Park"
-"185","Massachusetts","BARNSTABLE","Vernon St."
-"186","Massachusetts","BARNSTABLE","Wequasett Inn Resort"
-"187","Massachusetts","BARNSTABLE","West Dennis - Residential"
-"188","Massachusetts","BARNSTABLE","West Dennis - West"
-"189","Massachusetts","PLYMOUTH","West End"
-"190","Massachusetts","BARNSTABLE","West End Lot"
-"191","Massachusetts","PLYMOUTH","White Horse - Full Sail"
-"192","Massachusetts","PLYMOUTH","White Horse - Hill Top"
-"193","Massachusetts","BARNSTABLE","Winston Ave"
-"194","Massachusetts","BARNSTABLE","Wood Neck Beach"
-"195","Massachusetts","BARNSTABLE","Wood Neck River"
-"196","Massachusetts","PLYMOUTH","XYZ"
-"197","Massachusetts","BARNSTABLE","Zylpha Road Beach"
+State,County,Beach Name
+MA,BARNSTABLE,333 Commercial Street
+MA,BARNSTABLE,451 Commercial Street
+MA,BARNSTABLE,593 Commercial Street
+MA,BARNSTABLE,637 Commercial Street
+MA,PLYMOUTH,A Street Bay Side
+MA,PLYMOUTH,A Street Ocean
+MA,BARNSTABLE,Andrew Harding Lane Beach
+MA,PLYMOUTH,Antassawomak East
+MA,BARNSTABLE,Atkins Lane
+MA,BARNSTABLE,Atlantic Avenue
+MA,BARNSTABLE,Barlows Landing
+MA,BARNSTABLE,Bass River East
+MA,PLYMOUTH,Bassings Beach
+MA,BARNSTABLE,Baxter Avenue
+MA,BARNSTABLE,Bay Road
+MA,BARNSTABLE,Bayview
+MA,BARNSTABLE,Bayview Street
+MA,BARNSTABLE,Beach Point Landing
+MA,BARNSTABLE,Bikepath Beach (Trunk River) - East
+MA,BARNSTABLE,Bikepath Beach (Trunk River) - West
+MA,BARNSTABLE,Boat Meadow
+MA,PLYMOUTH,Brant Rock
+MA,BARNSTABLE,Breakwater Landing
+MA,PLYMOUTH,Briarwood
+MA,BARNSTABLE,Bristol - East
+MA,BARNSTABLE,Bristol - West
+MA,BARNSTABLE,Bucks Creek
+MA,BARNSTABLE,Burton Baker
+MA,BARNSTABLE,Cahoon Hollow
+MA,BARNSTABLE,Campground
+MA,BARNSTABLE,Cataumet Harbor
+MA,BARNSTABLE,Chapin Memorial
+MA,BARNSTABLE,Chapoquoit
+MA,BARNSTABLE,Chatham Bars Inn
+MA,BARNSTABLE,Clipper Lane
+MA,BARNSTABLE,Cockle Cove
+MA,BARNSTABLE,Cold Storage
+MA,BARNSTABLE,Cold Storage/Pond Village
+MA,BARNSTABLE,Cole Road
+MA,BARNSTABLE,Colonial Acres East
+MA,BARNSTABLE,Colonial Acres West
+MA,BARNSTABLE,Columbus Avenue
+MA,PLYMOUTH,Converse Point
+MA,BARNSTABLE,Cook's Brook
+MA,BARNSTABLE,Corporation
+MA,BARNSTABLE,Court Street
+MA,BARNSTABLE,Covell's
+MA,BARNSTABLE,Craigville
+MA,BARNSTABLE,Crosby Landing
+MA,BARNSTABLE,Cross Street
+MA,PLYMOUTH,Darcy's
+MA,BARNSTABLE,Dowses
+MA,PLYMOUTH,Duxbury Beach @ Bath House
+MA,BARNSTABLE,Dyer Prince
+MA,BARNSTABLE,Earle Road
+MA,PLYMOUTH,East Boulevard
+MA,BARNSTABLE,East Sandwich
+MA,PLYMOUTH,Edgewater
+MA,PLYMOUTH,Egypt
+MA,BARNSTABLE,Ellis Landing
+MA,BARNSTABLE,Eugenia Fortes
+MA,BARNSTABLE,Falmouth Heights East
+MA,BARNSTABLE,Falmouth Heights West
+MA,PLYMOUTH,Fieldston
+MA,BARNSTABLE,First Encounter - Spit River
+MA,BARNSTABLE,First Encounter Beach
+MA,BARNSTABLE,Follins Pond
+MA,BARNSTABLE,Forest Street Beach
+MA,BARNSTABLE,Gilder Road Beach
+MA,BARNSTABLE,Glendon Road - East
+MA,BARNSTABLE,Glendon Road - West
+MA,PLYMOUTH,Gray's
+MA,BARNSTABLE,Gray's Beach
+MA,PLYMOUTH,Green Harbor
+MA,PLYMOUTH,Gunrock
+MA,BARNSTABLE,Haigis
+MA,PLYMOUTH,Harbor Beach 1 (North)
+MA,PLYMOUTH,Harbor Beach 2 (South)
+MA,BARNSTABLE,Harborview
+MA,BARNSTABLE,Hardings East
+MA,BARNSTABLE,Hardings West
+MA,PLYMOUTH,Hingham Town Beach
+MA,BARNSTABLE,Howes Street
+MA,PLYMOUTH,Humarock
+MA,BARNSTABLE,Inman Road
+MA,PLYMOUTH,Island Wharf
+MA,PLYMOUTH,James Ave.
+MA,BARNSTABLE,Johnson Street
+MA,BARNSTABLE,Kalmus Ocean
+MA,BARNSTABLE,Kalmus Yacht
+MA,PLYMOUTH,Kenberma
+MA,BARNSTABLE,Kendal Lane
+MA,BARNSTABLE,Kennedy Memorial/Veterans Beach
+MA,BARNSTABLE,Keyes Beach
+MA,BARNSTABLE,Kingsbury
+MA,PLYMOUTH,Landing Road
+MA,BARNSTABLE,Lighthouse
+MA,BARNSTABLE,Linnell Landing
+MA,PLYMOUTH,Little Harbor
+MA,BARNSTABLE,Loops
+MA,BARNSTABLE,Malfa Road
+MA,BARNSTABLE,Mants
+MA,BARNSTABLE,Mashpee Neck Road (Town Landing)
+MA,PLYMOUTH,Mattapoisett Town Beach
+MA,BARNSTABLE,Mayflower
+MA,BARNSTABLE,Mayo
+MA,BARNSTABLE,Meeting House Pond
+MA,BARNSTABLE,Mill Creek
+MA,BARNSTABLE,Millway
+MA,PLYMOUTH,Minot
+MA,BARNSTABLE,Nauset
+MA,PLYMOUTH,Ned's Point
+MA,PLYMOUTH,Newport
+MA,BARNSTABLE,Noon's Landing
+MA,PLYMOUTH,North Boulevard
+MA,PLYMOUTH,Oakdale Avenue
+MA,BARNSTABLE,Old Silver (Public) - North
+MA,BARNSTABLE,Old Silver (Public) - South
+MA,PLYMOUTH,Onset
+MA,BARNSTABLE,Paines Creek
+MA,BARNSTABLE,Pamet Harbor
+MA,BARNSTABLE,Parkers River East
+MA,BARNSTABLE,Parkers River West
+MA,PLYMOUTH,Parkwood
+MA,BARNSTABLE,Patuisset Beach
+MA,PLYMOUTH,Peggotty
+MA,PLYMOUTH,Pinehurst
+MA,PLYMOUTH,Planting Island
+MA,BARNSTABLE,Pleasant Bay
+MA,BARNSTABLE,Pleasant Street
+MA,PLYMOUTH,Plymouth Beach - 1
+MA,PLYMOUTH,Plymouth Beach - 3
+MA,PLYMOUTH,Point Connett
+MA,PLYMOUTH,Point Independence
+MA,BARNSTABLE,Point of Rocks
+MA,BARNSTABLE,Provincetown Inn East
+MA,BARNSTABLE,Provincetown Inn Rotary
+MA,BARNSTABLE,Raycroft
+MA,BARNSTABLE,Red River East
+MA,BARNSTABLE,Red River Middle
+MA,BARNSTABLE,Red River West
+MA,PLYMOUTH,Residents Beach (Duxbury Beach)
+MA,PLYMOUTH,Rexhame
+MA,BARNSTABLE,Ridgevale
+MA,PLYMOUTH,Riverside Avenue
+MA,PLYMOUTH,Rocky Nook
+MA,BARNSTABLE,Ropes
+MA,BARNSTABLE,Ryder Street
+MA,BARNSTABLE,S. Sunken Meadow
+MA,BARNSTABLE,Sagamore
+MA,BARNSTABLE,Saints Landing
+MA,BARNSTABLE,Salt Pond
+MA,PLYMOUTH,Sand Hills
+MA,BARNSTABLE,Sandy Neck
+MA,PLYMOUTH,Scituate Lighthouse
+MA,BARNSTABLE,Scusset (DCR)
+MA,BARNSTABLE,Sea Street (East Dennis)
+MA,BARNSTABLE,Seagull (Center)
+MA,BARNSTABLE,Seagull (Left)
+MA,BARNSTABLE,Seagull (Right)
+MA,BARNSTABLE,Seaview Ave. Beach
+MA,PLYMOUTH,Shell Point
+MA,PLYMOUTH,Shining Tides Reservation
+MA,PLYMOUTH,Shipyard Lane
+MA,BARNSTABLE,Skaket Beach
+MA,BARNSTABLE,South Cape Beach (DCR)
+MA,BARNSTABLE,South Village
+MA,BARNSTABLE,Stoney Beach (MBL)
+MA,BARNSTABLE,Sullivan (Depot St.)
+MA,PLYMOUTH,Sunrise
+MA,BARNSTABLE,Sunset Beach Association
+MA,BARNSTABLE,Surf Drive - East
+MA,BARNSTABLE,Surf Drive - Pool
+MA,BARNSTABLE,Surf Drive - West
+MA,PLYMOUTH,Swift's
+MA,PLYMOUTH,Swift's Neck
+MA,PLYMOUTH,Tabor Academy
+MA,BARNSTABLE,Thumpertown
+MA,BARNSTABLE,Town Cove
+MA,BARNSTABLE,Town Landing - Breakwater
+MA,BARNSTABLE,Town Landing - Snail Road
+MA,BARNSTABLE,Town Landing West of Coast Guard
+MA,BARNSTABLE,Town Neck (Hemispheres)
+MA,BARNSTABLE,Town Neck Beach
+MA,BARNSTABLE,Trotting Park
+MA,BARNSTABLE,Vernon St.
+MA,BARNSTABLE,Wequasett Inn Resort
+MA,BARNSTABLE,West Dennis - Residential
+MA,BARNSTABLE,West Dennis - West
+MA,PLYMOUTH,West End
+MA,BARNSTABLE,West End Lot
+MA,PLYMOUTH,White Horse - Full Sail
+MA,PLYMOUTH,White Horse - Hill Top
+MA,BARNSTABLE,Winston Ave
+MA,BARNSTABLE,Wood Neck Beach
+MA,BARNSTABLE,Wood Neck River
+MA,PLYMOUTH,XYZ
+MA,BARNSTABLE,Zylpha Road Beach
