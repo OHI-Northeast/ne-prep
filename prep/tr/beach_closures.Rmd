@@ -1,0 +1,216 @@
+---
+title: "OHI-Northeast: Beach Closures"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+## Summary
+
+This layer is derived from [EPA Beach Closure](https://watersgeo.epa.gov/beacon2/) data. We use the number of days a beach is closed per year due to pathogens in the water as a proxy for the impact of pathogens in coastal waters. Data is provided at the beach level, aggregated to county and then again aggregated to the region level. Our reference point is 100 days free of closures, representing the average length of the swimming season for the region.
+
+
+**NOTES**
+- This same layer is included in the **Clean Waters** goal. That same script is copied here and slightly tweaked but saved as `beach_closures.Rmd` since it is representing lack of access for tourism/recreation rather than clean waters.
+
+- Ideally we would also use the EPA BEACON Beach Days dataset which lists the number of beach days in each swimming season, as well as the number of days closed/opened. We could use the total number of beach days in each swimming season to better calibrate the reference point. But it is clear that the data for Beach Days in the BEACON dataset is not consistent year to year or beach to beach. Many of the beaches list 0 total beach days, which we feel is incorrect. But we can get a general estimate for number of beach days using the beach days dataset.
+
+```{r setup, message = F, warning = F, results = 'hide'}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')
+
+library(tidyverse)
+```
+
+## Data Wrangling
+
+### Beach Closure data
+
+The beach action (advisory and closures) data was downloaded for New York separately from the rest of the region since NY is not included in the New England EPA region. 
+
+### New York beaches data
+
+I downloaded the New York beaches dataset on its own.
+
+```{r ny_beaches}
+ny_beach_closures <- read_csv(file.path(dir_anx, ('_raw_data/EPA/beach_actions_(advisories_and_closures)_NY.csv'))) %>%
+      filter(County %in% c('BRONX','QUEENS','KINGS','SUFFOLK','NASSAU','RICHMOND','WESTCHESTER')) %>% #ocean counties
+      mutate(state = "New York",
+             rgn_id = 10) %>% #add OHI region id which is 10 for new york
+   select(state, County, Year, `Beach Name`, ActionStartDate, ActionEndDate, `ActionDuration Days`, rgn_id, `Action Reasons`)
+```
+
+## Beach days dataset
+
+This dataset sseems to have some errors where many beaches have 0 days listed under both "No. of days with Beach Action" and "No. of days not under beach action". A lot of beaches are also repeated in the year 2011 for unknown reasons.
+
+```{r}
+#this dataset tells us the total number of beach days for each beach/year
+ny_beach_days <- read_csv(file.path(dir_anx, ("_raw_data/EPA/beach_days_ny.csv"))) %>%
+  filter(County %in% c('BRONX','QUEENS','KINGS','SUFFOLK','NASSAU','RICHMOND','WESTCHESTER')) #ocean counties
+  
+ny_beach_days %>% filter(`Beach Name` == "BEEKMAN BEACH")  
+```
+
+
+To get an average number of days for NY beach season, I filter to keep only those beaches where the percent of days under a closure and not under a closure adds up to 100 (the assumption is that this data if filled out).
+
+```{r ny_beach_days}
+ny_beach_clean <- ny_beach_days %>%
+  rowwise() %>%
+  mutate(beach_days = sum(`No. of DaysUnderBeach Action`, `No. of DaysNot UnderBeach Action`),
+         perc = sum(`Percent DaysNot Undera BeachAction`, `Percent DaysUndera BeachAction`)) %>%
+  filter(perc == 100) %>%
+  group_by(Year, `Beach Name`, County) %>%
+  summarize(avg_beach_days = mean(beach_days, na.rm = T))
+
+avg_ny_beach_days <- mean(ny_beach_clean$avg_beach_days)
+avg_ny_beach_days
+```
+
+### All other states
+
+Here we load the New England dataset.
+
+```{r read_data}
+# data for all states exept New York
+df <- read_csv(file.path(dir_anx, ('_raw_data/EPA/beach_actions_(advisories_and_closures).csv'))) %>%
+        mutate(state = 
+                   case_when(
+                     State == "MA" ~ "Massachusetts",
+                     State == "CT" ~ "Connecticut",
+                     State == "ME" ~ "Maine",
+                     State == "NH" ~ "New Hampshire",
+                     State == "RI" ~ "Rhode Island"
+                   ))
+```
+
+### Beach Days
+Again we want average number of beach days by state. We will do a similar method to NY.
+
+```{r}
+#this dataset tells us the total number of beach days for each beach/year
+ne_beach_days <- read_csv(file.path(dir_anx, ("_raw_data/EPA/beach_days.csv"))) %>%
+  rowwise() %>%
+  mutate(beach_days = sum(`No. of DaysUnderBeach Action`, `No. of DaysNot UnderBeach Action`),
+         perc = sum(`Percent DaysNot Undera BeachAction`, `Percent DaysUndera BeachAction`)) %>%
+  filter(perc == 100) %>%
+  group_by(State) %>%
+  summarize(avg_beach_days = mean(beach_days))
+
+ne_beach_days
+```
+
+So it seems that for all 6 states, there are between 98 and 104 beach days. **We will use the number 100** as our reference point for the number of days we want open.
+
+### Massachusetts data
+
+For Clean Waters, the different beaches in Plymouth and Barnstable county were manually assigned to either region 7 or 8. Here we just load that data from the Clean Waters folder.
+
+```{r beach_rgn_id}
+#read in the BARNSTABLE/PLYMOUTH beach dataset that identifies what region each beach belongs to
+mass_bch <- read_csv('../cw/data/ma_beaches_rgn_id.csv')[, 1:4] %>%
+  mutate(state = "Massachusetts") %>%
+  select(-State)
+
+#get MA counties
+mass_cnty <- read_csv('~/github/ne-prep/src/tables/MA_counties.csv')[, 2:4]
+mass_cnty$County = toupper(mass_cnty$County)
+
+#get just barnstable and plymouth county data from MA and left join with mass_bch to identify rgn 7 or 8
+df_pb <- df %>%
+         filter(state == 'Massachusetts' & County %in% c('BARNSTABLE', 'PLYMOUTH')) %>%
+         left_join(mass_bch, by = c('state', 'County', 'Beach Name')) %>%
+         select(state, County, Year, `Beach Name`, ActionStartDate, ActionEndDate, `ActionDuration Days`, rgn_id, `Action Reasons`)
+
+#get the rest of the MA data without those two counties and join with the mass_cnty to identify rgn 7 or 8
+df_ma <- df %>%
+        filter(state == 'Massachusetts'&
+               !County %in% c('BARNSTABLE', 'PLYMOUTH')) %>%
+        left_join(mass_cnty, by = 'County') %>%
+        select(state, County, Year, `Beach Name`, ActionStartDate, ActionEndDate, `ActionDuration Days`, rgn_id, `Action Reasons`)
+```
+
+### Combine all
+
+Combine the two MA datasets along with NY
+
+```{r}
+#matching rgn_id to non MASS data
+df_rest <- df %>%
+            filter(state != 'Massachusetts') %>%
+            left_join(rgn_data, by = "state") %>%
+            select(state, County, Year, `Beach Name`, ActionStartDate, ActionEndDate, `ActionDuration Days`, rgn_id, `Action Reasons`)
+
+df_all = rbind(df_pb, df_ma, df_rest, ny_beach_closures) %>%
+          left_join(rgn_data, by = c('rgn_id', 'state')) 
+```
+
+## Look at reasons for beach closure
+
+```{r reasons_for_closures_by_rgn}
+ggplot(df_all, aes(x = rgn_name)) +
+  geom_bar(aes(fill = `Action Reasons`)) +
+  theme_bw()
+```
+
+We want to filter out "OTHER" but keep the rest since they indicate beaches are closed due to water quality issues such as elevated bacteria or sewage, or runoff from rainfall.
+
+## Calculate
+
+Percent of days each beach is closed then take the mean for each region
+```{r calculate_percent_closed}
+perc <- df_all %>%
+        filter(`Action Reasons` != "OTHER") %>%
+        unique() %>% #some weird duplicates
+        group_by(`Beach Name`, Year, County, rgn_id, rgn_name) %>%
+        summarize(days_closed = sum(`ActionDuration Days`)) %>%
+        mutate(perc_closed = days_closed/100) %>%
+        ungroup() %>%
+        group_by(rgn_name, rgn_id, Year) %>%
+        summarize(perc_closed = mean(perc_closed)*100)
+```
+
+## Visualize data
+```{r rgn_beach_closure}
+ggplot(perc, aes(x = Year, y = perc_closed, color = rgn_name)) +
+  geom_line() +
+  labs(title = "Beach Closures (mean annual proportion any given beach is closed)",
+       y = "Proportion (%) of swimming season beaches are closed",
+       color = "Region") +
+  theme_bw()
+```
+
+## Calculate TR:Beach Closure goal layer
+
+The Tourism & Recreation goal will use this data to measure how often beaches are closed, thereby reducing tourism and recreational opportunities. For this layer we want the final values to be the inverse of closures, so the amount of time each year that the region has beaches open. We need to add in the other offshore regions and assign NA for the toolbox layer.
+
+```{r save_layer}
+other_rgns <- data.frame(year = rep(2005:2017, each = 4),
+                         rgn_name = c("Offshore", "Georges Bank", "Gulf of Maine", "Mid-Atlantic Bight"),
+                         rgn_id   = c(1,2,3,4),
+                         perc_open = NA)
+
+perc %>%
+    group_by(rgn_name, rgn_id, Year) %>%
+    summarize(perc_open = mean(1-perc_closed)) %>%
+    rename(year = Year) %>%
+    bind_rows(other_rgns) %>%
+    write.csv(file.path(dir_calc, "layers/tr_beach_closures.csv")) #save to toolbox
+```
+
+
+
+
