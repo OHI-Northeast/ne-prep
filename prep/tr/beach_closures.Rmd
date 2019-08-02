@@ -170,7 +170,7 @@ We want to filter out "OTHER" but keep the rest since they indicate beaches are 
 
 ## Calculate
 
-Percent of days each beach is closed then take the mean for each region
+Percent of days each beach is closed then take the mean for each region. Save this for the dashboard
 ```{r calculate_percent_closed}
 perc <- df_all %>%
         filter(`Action Reasons` != "OTHER") %>%
@@ -180,12 +180,17 @@ perc <- df_all %>%
         mutate(perc_closed = days_closed/100) %>%
         ungroup() %>%
         group_by(rgn_name, rgn_id, Year) %>%
-        summarize(perc_closed = mean(perc_closed)*100)
+        summarize(perc_closed = mean(perc_closed))
+
+dashboard_data <- perc %>%
+  mutate(perc_closed = 100*perc_closed) 
+
+write_csv(dashboard_data, "data/proportion_closed_by_rgn.csv")
 ```
 
 ## Visualize data
 ```{r rgn_beach_closure}
-ggplot(perc, aes(x = Year, y = perc_closed, color = rgn_name)) +
+ggplot(perc, aes(x = Year, y = perc_closed*100, color = rgn_name)) +
   geom_line() +
   labs(title = "Beach Closures (mean annual proportion any given beach is closed)",
        y = "Proportion (%) of swimming season beaches are closed",
@@ -208,7 +213,7 @@ perc %>%
     summarize(perc_open = mean(1-perc_closed)) %>%
     rename(year = Year) %>%
     bind_rows(other_rgns) %>%
-    write.csv(file.path(dir_calc, "layers/tr_beach_closures.csv")) #save to toolbox
+    write_csv(file.path(dir_calc, "layers/tr_beach_closures.csv")) #save to toolbox
 ```
 
 

@@ -193,14 +193,14 @@ perc <- df_all %>%
         mutate(perc_closed = days_closed/100) %>%
         ungroup() %>%
         group_by(rgn_name, rgn_id, Year) %>%
-        summarize(perc_closed = mean(perc_closed)*100)
+        summarize(perc_closed = mean(perc_closed))
 ```
 
 ## Visualize data
 
 
 ```{r rgn_beach_closure_pathogens}
-ggplot(perc, aes(x = Year, y = perc_closed, color = rgn_name)) +
+ggplot(perc, aes(x = Year, y = perc_closed*100, color = rgn_name)) +
   geom_line() +
   labs(title = "Beach Closures (mean annual proportion any given beach is closed)",
        y = "Proportion (%) of swimming season beaches are closed",
