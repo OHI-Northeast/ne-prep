@@ -206,6 +206,49 @@ Rhode Island: 80% reduction below 1990 levels by 2050
 Determine State Targets
 look up what each states emisiosn were in those years
 
+trying pdf to csv convertions
+```{r}
+library(devtools)
+install_github("expersso/pdftables")
+
+library(pdftables)
+
+raw_em <- read_excel(file.path(dir_anx, "_raw_data/EIA/eia_co2_emmisions.xlsx"))
+
+emmisions <- convert_pdf(file.path(dir_anx, "_raw_data/EIA/co2ffc_2015.pdf"), output_file = NULL, format = "csv", message = TRUE, api_key = "insert_API_key")
+
+convert_pdf(input_file = file.path(dir_anx, "_raw_data/EIA/co2ffc_2015.pdf"), output_file = NULL, format = "csv", message = TRUE, api_key = "insert_API_key")
+
+
+library(tabulizer)
+library(dplyr)
+
+location <- 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
+out <- extract_tables(location)
+
+out1 <- out[[1]] %>%  
+  as.data.frame() %>% 
+  rename(state = V1, blank = V2, "1990" = V3, "1991"= V4, "1992"= V5, "1993"=V6, "1994"=V7, "1995"=V8, "1996"=V9, "1997"=V10, "1998"=V11, "1999"=V12, "2000"=V13, "2001"=V14, "2002"=V15, "2003"=V16, "2004"=V17, "2005"=V18, "2006"=V19, "2007"=V20, "2008"=V21, "2009"=V22, "2010"=V23, "2011"=V24, "2012"=V25, "2013"=V26, "2014"=V27, "2015"=V28, "2016"=V29) %>% 
+  filter(state != "State Sector",
+         state != "Commercial",
+         state != "Industrial", 
+         state != "Residential",
+         state != "Transportation",
+         state != "Electric Power")
+  
+  
+out2 <- out[[2]] %>%  as.data.frame()
+out3 <- out[[3]] %>%  as.data.frame()
+out4 <- out[[4]] %>%  as.data.frame()
+out5 <- out[[5]] %>%  as.data.frame()
+
+#tiddying
+
+
+
+```
+
+
 
 
 
