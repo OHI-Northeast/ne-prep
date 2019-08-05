@@ -231,7 +231,6 @@ marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/P
          Constancy == "Year-round")%>% 
   select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
 
-
 ```
 
 Create and save an interactive .html map to show the different layers.
@@ -251,10 +250,10 @@ mapshot(usgs_data_offshore, url = "usgs_map.html")
 
 First let's combine polygons so we don't double count areas. 
 
-We are also accounting for the year established
+We are also accounting for the year established, some were created during our time frame (unlike the inshore protected areas)
 ```{r}
 
-marineEEZ_protected_by_rgn <- data.frame()
+marine_offshore_protected_by_rgn <- data.frame()
 
 for(i in 2005:2017){
   
@@ -274,7 +273,7 @@ for(i in 2005:2017){
            year = i) %>%
     st_set_geometry(NULL)
   
-  marineEEZ_protected_by_rgn <- bind_rows(s_yr, marineEEZ_protected_by_rgn)
+  marine_offshore_protected_by_rgn <- bind_rows(s_yr, marine_offshore_protected_by_rgn)
 }
 
 ```
@@ -284,14 +283,14 @@ for(i in 2005:2017){
 
 ```{r marine_protected_prop_by_rgn}
 
-percent_eezwater_protec <- ggplot(marineEEZ_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+percent_offshore_water_protec <- ggplot(marine_offshore_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
   geom_line() +
   theme_classic() +
   geom_hline(yintercept=0.3)+
   labs(y = "Percentage", x = "Year") +
-  ggtitle("Percentage of EEZ waters protected")
+  ggtitle("Percentage of Offshore waters protected")
 
-#ggsave("figs/percent_eezwater_protec.jpg", width=7, height=5, dpi=300)
+ggsave("figs/percent_offshore_water_protec.jpg", width=7, height=5, dpi=300)
 
 ```
 
@@ -300,7 +299,7 @@ percent_eezwater_protec <- ggplot(marineEEZ_protected_by_rgn, aes(x = year, y = 
 ```{r save_to_layers}
 
 #save marine
-write.csv(marineEEZ_protected_by_rgn,"data/marineEEZ_protected_by_rgn")
+write.csv(marine_offshore_protected_by_rgn,"data/marine_offshore_protected_by_rgn")
 
 ```
 
@@ -312,7 +311,7 @@ write.csv(marineEEZ_protected_by_rgn,"data/marineEEZ_protected_by_rgn")
 inshore_protected <- read_csv("~/github/ne-scores/region/layers/lsp_protected_marine.csv") %>% 
   select(-X1)
 
-offshore_protected <- marineEEZ_protected_by_rgn %>% 
+offshore_protected <- marine_offshore_protected_by_rgn %>% 
   select(rgn_id, year, prop_area)
 
 protected_score <- inshore_protected %>% 
@@ -322,7 +321,7 @@ protected_score <- inshore_protected %>%
          score = if_else(score > 1, 1, score)) %>% 
   mutate(rgn_id = as.character(rgn_id))
 
-#write.csv(protected_score, file = "data/protected_score")
+write.csv(protected_score, file = "data/protected_score")
 
 ```
 

@@ -35,7 +35,7 @@ This script calculates fishing pressure resilience values by OHINE region.
 Regulations:
 1) extract info from America's Pledge Report
 2) American Council for Energy Efficiency:
-Rankings: https://database.aceee.org/state/maine
+Rankings: https://database.aceee.org/state/
 
 Effectiveness:
 US. energy information administration:
@@ -82,10 +82,13 @@ Energy Efficiency Scores
 
 #calculate
 eee_score <- eee %>% 
-  mutate(score = eee_score/eee_target)
+  mutate(score = eee_score/eee_target) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
 
 #save
-#write.csv(eee_score, file = "data/eee_score")
+write.csv(eee_score, file = "data/eee_score")
 
 ```
 
@@ -93,25 +96,27 @@ Visualize
 ```{r}
 
 eee_score_graph <-ggplot(eee_score)+
-  geom_point(aes(x=state, y = score), color="green4", size=2)+
+  geom_line(aes(x=year, y = score, color=state))+
   ggtitle("Energy Efficiency Score") +
   ylab("Score") +
   xlab("State") +
   theme_classic() 
 eee_score_graph
 
+ggsave("figs/eee_score_graph.jpg", width=7, height=5, dpi=300)
+
 ```
 
 
 **Effectivness**
-Clean Power Generation
+
+##Clean Power Generation
 
 Issue: Lots of Pumped storage production is negative. What to do about that? Is it when the water gets pumped back up? 
 
 Types of energy source:
 Coal
 Natural Gas
-Nuclear
 Other
 Other Biomass
 Other Gases
@@ -122,6 +127,7 @@ Pumped Storage
 Hydroelectric Conventional
 Wind
 Solar Thermal and Photovoltaic
+Nuclear
 
 Renewable/Clean Power Targets (Beyond Carbon):
 Maine = 40% by 2017
@@ -140,7 +146,8 @@ gen_total <- raw_gen %>%
   filter(energy_source != "Total") %>%
   select(year, state, gen_mwh) %>% 
   group_by(year, state) %>% 
-  dplyr::summarise(total_power = sum(gen_mwh))
+  dplyr::summarise(total_power = sum(gen_mwh)) %>% 
+  ungroup()
 ```
 
 Calculate total clean/renewable energy production in each state each year
@@ -148,11 +155,12 @@ Calculate total clean/renewable energy production in each state each year
 gen_clean <- raw_gen %>% 
   filter(year >= 2005 & year <=2017) %>% 
   filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") %>% 
-  filter(energy_source == "Hydroelectric Conventional"| energy_source == "Wind" | energy_source == "Solar Thermal and Photovoltaic" | energy_source == "Pumped Storage") %>%
+  filter(energy_source == "Hydroelectric Conventional"| energy_source == "Wind" | energy_source == "Solar Thermal and Photovoltaic" | energy_source == "Pumped Storage" | energy_source == "Nuclear") %>%
   select(year, state, gen_mwh) %>% 
   group_by(year, state) %>% 
   dplyr::summarise(total_power = sum(gen_mwh)) %>% 
-  rename(total_power_clean = total_power )
+  rename(total_power_clean = total_power ) %>% 
+  ungroup()
 ```
 
 Combine data sets and visualize percent of clean energy production
@@ -162,51 +170,236 @@ power_gen <- left_join(gen_total, gen_clean, by= c("year", "state")) %>%
 
 graph_clean_pro <-ggplot(power_gen)+
   geom_line(aes(x=year, y = per_clean, color=state))+
-  ggtitle("Percent of Clean/Renewable Energy Production") +
+  ggtitle("Percent of Clean/Renewable Energy Production (with nuclear") +
   ylab("Percent") +
   xlab("State") +
   theme_classic() 
 graph_clean_pro
 
-#ggsave("figs/graph_clean_pro.jpg", width=7, height=5, dpi=300)
+ggsave("figs/graph_clean_pro_nuclear.jpg", width=7, height=5, dpi=300)
 
 ```
 
+
+Add trend targets using simple regression
+
+Maine
+```{r}
+
+#MA 40% clean by 2017
+me <- power_gen %>% 
+  filter(state == "ME") 
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+me_target <- tribble(
+  ~year, ~per_clean,
+  2005, 0.217,
+  2017, .4
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_me <- lm(per_clean ~ year, data = me_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  me <- me %>% 
+    mutate(target = ( 0.0152*year -30.3592 ))
+}
+
+me <- me %>% 
+  select(year, state, per_clean, target)
+
+```
+
+Massachusets
+```{r}
+
+#MA 35% clean by 2030
+ma <- power_gen %>% 
+  filter(state == "MA") 
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ma_target <- tribble(
+  ~year, ~per_clean,
+  2005, 0.127,
+  2030, .3
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ma <- lm(per_clean ~ year, data = ma_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ma <- ma %>% 
+    mutate(target = (0.00692*year - 13.74760))
+}
+
+ma <- ma %>% 
+  select(year, state, per_clean, target)
+
+```
+
+New Hampshire
+```{r}
+
+#NH 25.2% clean by 2025
+nh <- power_gen %>% 
+  filter(state == "NH") 
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+nh_target <- tribble(
+  ~year, ~per_clean,
+  2005, 0.460,
+  2025, .252
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_nh <- lm(per_clean ~ year, data = nh_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  nh <- nh %>% 
+    mutate(target = (-0.0104*year +21.3120)) # they hit their target from the get go so theres this weird negative trend here. this won't matter when calcualte scores because will cap at 1 anyways
+}
+
+nh <- nh %>% 
+  select(year, state, per_clean, target)
+
+```
+
+
+Rhode Island
+```{r}
+
+#RI 38.5% clean by 2035
+ri <- power_gen %>% 
+  filter(state == "RI") 
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ri_target <- tribble(
+  ~year, ~per_clean,
+  2005, 0.001112,
+  2035, .385
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ri <- lm(per_clean ~ year, data = ri_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ri <- ri %>% 
+    mutate(target = (0.0128 *year  -25.6554)) 
+}
+
+ri <- ri %>% 
+  select(year, state, per_clean, target)
+
+```
+
+
+New York
+```{r}
+
+#NY 50% clean by 2030
+ny <- power_gen %>% 
+  filter(state == "NY") 
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ny_target <- tribble(
+  ~year, ~per_clean,
+  2005, 	0.460,
+  2030, .50
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ny <- lm(per_clean ~ year, data = ny_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ny <- ny %>% 
+    mutate(target = (0.0016*year-2.7480 )) 
+}
+
+ny <- ny %>% 
+  select(year, state, per_clean, target)
+
+```
+
+
+Connecticut
+```{r}
+
+#CT 44% clean by 2030
+ct <- power_gen %>% 
+  filter(state == "CT") 
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ct_target <- tribble(
+  ~year, ~per_clean,
+  2005, 0.478,
+  2030, .44
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ct <- lm(per_clean ~ year, data = ct_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ct <- ct %>% 
+    mutate(target = ( -0.00152*year + 3.52560  )) 
+}
+
+ct <- ct %>% 
+  select(year, state, per_clean, target)
+
+```
+
+
+
+Combine all states df with target
+```{r}
+energy_target <- rbind(me, nh, ma, ri, ct, ny)
+
+```
+
+
 Calculate scores
 ```{r}
-power_gen_scores <- left_join(gen_total, gen_clean, by= c("year", "state")) %>% 
-  mutate(per_clean = total_power_clean/total_power,
-         target = case_when(state == "ME" ~ 0.4, #targets for clean energy from Beyond Carbon
-                            state == "NH" ~ 0.252,
-                            state == "CT" ~ 0.44,
-                            state == "MA" ~ 0.35,
-                            state == "NY" ~ 0.5,
-                            state == "RI" ~ 0.385),
-         score = per_clean/target,
+power_gen_scores <- energy_target %>% 
+  mutate(score = per_clean/target,
          score = if_else(score >1, 1, score)) 
-
 #save
-#write.csv(power_gen_scores, file = "data/power_gen_scores")
+write.csv(power_gen_scores, file = "data/power_gen_scores_nuc")
 
 ```
 
 Visualize scores
 ```{r}  
 
-graph_clean_energy_score <-ggplot(power_gen_scores)+
+graph_clean_energy_score_nuc <-ggplot(power_gen_scores)+
   geom_line(aes(x=year, y = score, color=state))+
-  ggtitle("Clean Energy Score") +
+  ggtitle("Clean Energy Score (with nuclear") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
-graph_clean_energy_score  
-#ggsave("figs/graph_clean_energy_score.jpg", width=7, height=5, dpi=300)
+graph_clean_energy_score_nuc
+ggsave("figs/graph_clean_energy_score_nuc.jpg", width=7, height=5, dpi=300)
 
 ```
 
-
-
-Carbon Emmissions
+##Carbon Emmissions
 
 Carbon Emmission Targets (Beyond Carbon):
 Maine= 80% reduction below 2003 levels
@@ -287,10 +480,16 @@ emissions <- rbind(out1, out2, out3, out4, out5) %>%
   gather(year, emission, 2:28) %>% 
    filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "New Hampshire" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
   mutate(year = as.numeric(year),
-         emission = as.numeric(emission))
+         emission = as.numeric(emission)) %>% 
+  mutate(end_target = case_when(state == "Maine" ~ (23.64 - 0.8*(23.64)), #targets for clean energy from Beyond Carbon
+                            state == "New Hampshire" ~ (14.59 - 0.8*(14.59)),
+                            state == "Connecticut" ~ (41.53 - 0.8*(41.53)),
+                            state == "Massachusetts" ~ (83.09 - 0.8*(83.09)),
+                            state == "New York" ~ (207.82 - 0.8*(207.82)),
+                            state == "Rhode Island" ~ (8.91 - 0.8*(8.91))))
 
 #save
-#write.csv(emissions, file = "data/emissions")
+write.csv(emissions, file = "data/emissions")
 
 ```
 
@@ -309,40 +508,208 @@ graph_em
 
 ```
 
-Calculate Emmisions Scores
+Regressions for trend targets
+
+New Hampshire
 ```{r}
 
-em_scores <- emissions %>% 
-  mutate(target = case_when(state == "Maine" ~ (23.64 - 0.8*(23.64)), #targets for clean energy from Beyond Carbon
-                            state == "New Hampshire" ~ (14.59 - 0.8*(14.59)),
-                            state == "Connecticut" ~ (41.53 - 0.8*(41.53)),
-                            state == "Massachusetts" ~ (83.09 - 0.8*(83.09)),
-                            state == "New York" ~ (207.82 - 0.8*(207.82)),
-                            state == "Rhode Island" ~ (8.91 - 0.8*(8.91))),
-         score = target/emission,
-         score = if_else(score >1, 1, score)) %>% 
+#NH 80% reduction below 1990 levels by 2050
+nh_em <- emissions %>% 
+  filter(state == "New Hampshire") %>% 
   filter(year >= 2005 & year <= 2017)
 
-#write.csv(em_scores, file = "data/em_scores")
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+nh_em_target <- tribble(
+  ~year, ~emission,
+  2005, 21.1,
+  2050, 2.92
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_nh_em <- lm(emission~ year, data = nh_em_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  nh_em <- nh_em %>% 
+    mutate(target = ( -0.404*year +831.120 ))
+}
+
+nh_em <- nh_em %>% 
+  select(year, state, emission, target)
+
+```
+
+Massachusetts
+```{r}
+
+#MA 80% reduction below 1990 levels by 2050
+ma_em <- emissions %>% 
+  filter(state == "Massachusetts") %>% 
+  filter(year >= 2005 & year <= 2017)
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ma_em_target <- tribble(
+  ~year, ~emission,
+  2005, 84.1,
+  2050, 16.6
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ma_em <- lm(emission~ year, data = ma_em_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ma_em <- ma_em %>% 
+    mutate(target = (-1.5 *year + 3091.6))
+}
+
+ma_em <- ma_em %>% 
+  select(year, state, emission, target)
+
+```
+
+Rhode Island
+```{r}
+
+#RI 80% reduction below 1990 levels by 2050
+ri_em <- emissions %>% 
+  filter(state == "Rhode Island") %>% 
+  filter(year >= 2005 & year <= 2017)
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ri_em_target <- tribble(
+  ~year, ~emission,
+  2005, 11.22,
+  2050, 1.78
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ri_em <- lm(emission~ year, data = ri_em_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ri_em <- ri_em %>% 
+    mutate(target = (-0.21*year + 431.82 ))
+}
+
+ri_em <- ri_em %>% 
+  select(year, state, emission, target)
+
+```
+
+
+Connecticut
+```{r}
+
+#CT 80% reduction below 2001 levels by 2050
+ct_em <- emissions %>% 
+  filter(state == "Connecticut") %>% 
+  filter(year >= 2005 & year <= 2017)
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ct_em_target <- tribble(
+  ~year, ~emission,
+  2005, 43.8,
+  2050, 8.31
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ct_em <- lm(emission~ year, data = ct_em_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ct_em <- ct_em %>% 
+    mutate(target = (-0.789  *year + 1625.077))
+}
+
+ct_em <- ct_em %>% 
+  select(year, state, emission, target)
+
+```
+
+
+New York
+```{r}
+
+#NY 80% reduction below 1990 levels by 2050
+ny_em <- emissions %>% 
+  filter(state == "New York") %>% 
+  filter(year >= 2005 & year <= 2017)
+
+#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+ny_em_target <- tribble(
+  ~year, ~emission,
+  2005, 211,
+  2050, 41.6
+)
+
+#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+lm_ny_em <- lm(emission~ year, data = ny_em_target)
+
+for(i in 2005:2017){
+  
+  print(i)
+  
+  ny_em <- ny_em %>% 
+    mutate(target = (-3.76*year + 7758.71))
+}
+
+ny_em <- ny_em %>% 
+  select(year, state, emission, target)
+
+```
+
+Maine
+  NO GOAL YEAR FOR EMISSION REDUCION 
+```{r}
+
+#MA 80% reduction below 2003 levels
+me_em <- emissions %>% 
+  filter(state == "Maine") %>% 
+  filter(year >= 2005 & year <= 2017) %>% 
+  rename(target = end_target)
+
+```
+
+
+Combine all states df with target
+```{r}
+emissions_target <- rbind(nh_em, ma_em, ri_em, ct_em, ny_em, me_em)
+
+```
+
+
+Calculate scores
+```{r}
+emissions_scores <- emissions_target %>% 
+  mutate(score = target/emission,
+         score = if_else(score >1, 1, score)) 
+#save
+write.csv(emissions_scores, file = "data/emissions_scores")
 
 ```
 
 Visualize scores
-```{r}
+```{r}  
 
-graph_em_scores <-ggplot(em_scores)+
+graph_emissions_scores <-ggplot(emissions_scores)+
   geom_line(aes(x=year, y = score, color=state))+
-  ggtitle("Emission Scores") +
+  ggtitle("Carbon emission scores") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
-
-graph_em_scores
-#ggsave("figs/graph_em_scores .jpg", width=7, height=5, dpi=300)
+graph_emissions_scores
+ggsave("figs/graph_emissions_scores.jpg", width=7, height=5, dpi=300)
 
 ```
-
-
 
 
 

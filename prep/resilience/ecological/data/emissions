@@ -1,163 +1,163 @@
-"","state","year","emission"
-"1","Connecticut",1990,40.54
-"2","Maine",1990,18.94
-"3","Massachusetts",1990,83.09
-"4","New Hampshire",1990,14.59
-"5","New York",1990,207.82
-"6","Rhode Island",1990,8.91
-"7","Connecticut",1991,39.74
-"8","Maine",1991,18.44
-"9","Massachusetts",1991,81.89
-"10","New Hampshire",1991,14.25
-"11","New York",1991,200
-"12","Rhode Island",1991,10.81
-"13","Connecticut",1992,40.13
-"14","Maine",1992,19.25
-"15","Massachusetts",1992,83.88
-"16","New Hampshire",1992,14.37
-"17","New York",1992,199.39
-"18","Rhode Island",1992,13.06
-"19","Connecticut",1993,38.22
-"20","Maine",1993,18.83
-"21","Massachusetts",1993,81.14
-"22","New Hampshire",1993,14.85
-"23","New York",1993,193.89
-"24","Rhode Island",1993,10.87
-"25","Connecticut",1994,37.54
-"26","Maine",1994,20.2
-"27","Massachusetts",1994,81.38
-"28","New Hampshire",1994,14.94
-"29","New York",1994,191.99
-"30","Rhode Island",1994,12.85
-"31","Connecticut",1995,36.83
-"32","Maine",1995,18.89
-"33","Massachusetts",1995,78.72
-"34","New Hampshire",1995,15.04
-"35","New York",1995,197.63
-"36","Rhode Island",1995,12.11
-"37","Connecticut",1996,39.57
-"38","Maine",1996,19.4
-"39","Massachusetts",1996,79.37
-"40","New Hampshire",1996,15.27
-"41","New York",1996,200.32
-"42","Rhode Island",1996,13.53
-"43","Connecticut",1997,42.49
-"44","Maine",1997,19.65
-"45","Massachusetts",1997,85.42
-"46","New Hampshire",1997,16.53
-"47","New York",1997,205.05
-"48","Rhode Island",1997,13.63
-"49","Connecticut",1998,40.11
-"50","Maine",1998,19.33
-"51","Massachusetts",1998,83.24
-"52","New Hampshire",1998,16.52
-"53","New York",1998,203.38
-"54","Rhode Island",1998,13.87
-"55","Connecticut",1999,41.41
-"56","Maine",1999,20.3
-"57","Massachusetts",1999,80.85
-"58","New Hampshire",1999,16.7
-"59","New York",1999,206.02
-"60","Rhode Island",1999,13.21
-"61","Connecticut",2000,42.73
-"62","Maine",2000,22.21
-"63","Massachusetts",2000,82.04
-"64","New Hampshire",2000,17.36
-"65","New York",2000,211.71
-"66","Rhode Island",2000,11.76
-"67","Connecticut",2001,41.53
-"68","Maine",2001,22.37
-"69","Massachusetts",2001,81.86
-"70","New Hampshire",2001,16.83
-"71","New York",2001,207.57
-"72","Rhode Island",2001,12.31
-"73","Connecticut",2002,40.04
-"74","Maine",2002,23.89
-"75","Massachusetts",2002,82.78
-"76","New Hampshire",2002,17.55
-"77","New York",2002,201.91
-"78","Rhode Island",2002,11.74
-"79","Connecticut",2003,42.68
-"80","Maine",2003,23.64
-"81","Massachusetts",2003,84.21
-"82","New Hampshire",2003,20.8
-"83","New York",2003,211.9
-"84","Rhode Island",2003,11.54
-"85","Connecticut",2004,44.54
-"86","Maine",2004,24
-"87","Massachusetts",2004,82.6
-"88","New Hampshire",2004,21.79
-"89","New York",2004,214.62
-"90","Rhode Island",2004,10.97
-"91","Connecticut",2005,43.83
-"92","Maine",2005,23.04
-"93","Massachusetts",2005,84.11
-"94","New Hampshire",2005,21.11
-"95","New York",2005,211.17
-"96","Rhode Island",2005,11.22
-"97","Connecticut",2006,40.82
-"98","Maine",2006,21.2
-"99","Massachusetts",2006,76.3
-"100","New Hampshire",2006,19.24
-"101","New York",2006,193.49
-"102","Rhode Island",2006,10.54
-"103","Connecticut",2007,40.12
-"104","Maine",2007,20.91
-"105","Massachusetts",2007,79.69
-"106","New Hampshire",2007,19.05
-"107","New York",2007,199.77
-"108","Rhode Island",2007,11.09
-"109","Connecticut",2008,37.73
-"110","Maine",2008,19.07
-"111","Massachusetts",2008,76.69
-"112","New Hampshire",2008,18.66
-"113","New York",2008,190.31
-"114","Rhode Island",2008,10.7
-"115","Connecticut",2009,36.02
-"116","Maine",2009,18.37
-"117","Massachusetts",2009,70.31
-"118","New Hampshire",2009,16.99
-"119","New York",2009,174.22
-"120","Rhode Island",2009,11.27
-"121","Connecticut",2010,36.36
-"122","Maine",2010,18.1
-"123","Massachusetts",2010,71.94
-"124","New Hampshire",2010,16.56
-"125","New York",2010,174.5
-"126","Rhode Island",2010,11.04
-"127","Connecticut",2011,35.01
-"128","Maine",2011,17.56
-"129","Massachusetts",2011,68.26
-"130","New Hampshire",2011,16.21
-"131","New York",2011,165.13
-"132","Rhode Island",2011,11.07
-"133","Connecticut",2012,34.26
-"134","Maine",2012,15.86
-"135","Massachusetts",2012,61.95
-"136","New Hampshire",2012,14.56
-"137","New York",2012,162.05
-"138","Rhode Island",2012,10.56
-"139","Connecticut",2013,35.02
-"140","Maine",2013,16.61
-"141","Massachusetts",2013,65.81
-"142","New Hampshire",2013,14.3
-"143","New York",2013,163.01
-"144","Rhode Island",2013,10.17
-"145","Connecticut",2014,35.25
-"146","Maine",2014,16.67
-"147","Massachusetts",2014,63.94
-"148","New Hampshire",2014,15.01
-"149","New York",2014,170.4
-"150","Rhode Island",2014,10.66
-"151","Connecticut",2015,36.58
-"152","Maine",2015,16.88
-"153","Massachusetts",2015,65.81
-"154","New Hampshire",2015,15.2
-"155","New York",2015,168.78
-"156","Rhode Island",2015,10.91
-"157","Connecticut",2016,34.4
-"158","Maine",2016,16.5
-"159","Massachusetts",2016,64.39
-"160","New Hampshire",2016,13.78
-"161","New York",2016,164.53
-"162","Rhode Island",2016,9.75
+"","state","year","emission","end_target"
+"1","Connecticut",1990,40.54,8.306
+"2","Maine",1990,18.94,4.728
+"3","Massachusetts",1990,83.09,16.618
+"4","New Hampshire",1990,14.59,2.918
+"5","New York",1990,207.82,41.564
+"6","Rhode Island",1990,8.91,1.782
+"7","Connecticut",1991,39.74,8.306
+"8","Maine",1991,18.44,4.728
+"9","Massachusetts",1991,81.89,16.618
+"10","New Hampshire",1991,14.25,2.918
+"11","New York",1991,200,41.564
+"12","Rhode Island",1991,10.81,1.782
+"13","Connecticut",1992,40.13,8.306
+"14","Maine",1992,19.25,4.728
+"15","Massachusetts",1992,83.88,16.618
+"16","New Hampshire",1992,14.37,2.918
+"17","New York",1992,199.39,41.564
+"18","Rhode Island",1992,13.06,1.782
+"19","Connecticut",1993,38.22,8.306
+"20","Maine",1993,18.83,4.728
+"21","Massachusetts",1993,81.14,16.618
+"22","New Hampshire",1993,14.85,2.918
+"23","New York",1993,193.89,41.564
+"24","Rhode Island",1993,10.87,1.782
+"25","Connecticut",1994,37.54,8.306
+"26","Maine",1994,20.2,4.728
+"27","Massachusetts",1994,81.38,16.618
+"28","New Hampshire",1994,14.94,2.918
+"29","New York",1994,191.99,41.564
+"30","Rhode Island",1994,12.85,1.782
+"31","Connecticut",1995,36.83,8.306
+"32","Maine",1995,18.89,4.728
+"33","Massachusetts",1995,78.72,16.618
+"34","New Hampshire",1995,15.04,2.918
+"35","New York",1995,197.63,41.564
+"36","Rhode Island",1995,12.11,1.782
+"37","Connecticut",1996,39.57,8.306
+"38","Maine",1996,19.4,4.728
+"39","Massachusetts",1996,79.37,16.618
+"40","New Hampshire",1996,15.27,2.918
+"41","New York",1996,200.32,41.564
+"42","Rhode Island",1996,13.53,1.782
+"43","Connecticut",1997,42.49,8.306
+"44","Maine",1997,19.65,4.728
+"45","Massachusetts",1997,85.42,16.618
+"46","New Hampshire",1997,16.53,2.918
+"47","New York",1997,205.05,41.564
+"48","Rhode Island",1997,13.63,1.782
+"49","Connecticut",1998,40.11,8.306
+"50","Maine",1998,19.33,4.728
+"51","Massachusetts",1998,83.24,16.618
+"52","New Hampshire",1998,16.52,2.918
+"53","New York",1998,203.38,41.564
+"54","Rhode Island",1998,13.87,1.782
+"55","Connecticut",1999,41.41,8.306
+"56","Maine",1999,20.3,4.728
+"57","Massachusetts",1999,80.85,16.618
+"58","New Hampshire",1999,16.7,2.918
+"59","New York",1999,206.02,41.564
+"60","Rhode Island",1999,13.21,1.782
+"61","Connecticut",2000,42.73,8.306
+"62","Maine",2000,22.21,4.728
+"63","Massachusetts",2000,82.04,16.618
+"64","New Hampshire",2000,17.36,2.918
+"65","New York",2000,211.71,41.564
+"66","Rhode Island",2000,11.76,1.782
+"67","Connecticut",2001,41.53,8.306
+"68","Maine",2001,22.37,4.728
+"69","Massachusetts",2001,81.86,16.618
+"70","New Hampshire",2001,16.83,2.918
+"71","New York",2001,207.57,41.564
+"72","Rhode Island",2001,12.31,1.782
+"73","Connecticut",2002,40.04,8.306
+"74","Maine",2002,23.89,4.728
+"75","Massachusetts",2002,82.78,16.618
+"76","New Hampshire",2002,17.55,2.918
+"77","New York",2002,201.91,41.564
+"78","Rhode Island",2002,11.74,1.782
+"79","Connecticut",2003,42.68,8.306
+"80","Maine",2003,23.64,4.728
+"81","Massachusetts",2003,84.21,16.618
+"82","New Hampshire",2003,20.8,2.918
+"83","New York",2003,211.9,41.564
+"84","Rhode Island",2003,11.54,1.782
+"85","Connecticut",2004,44.54,8.306
+"86","Maine",2004,24,4.728
+"87","Massachusetts",2004,82.6,16.618
+"88","New Hampshire",2004,21.79,2.918
+"89","New York",2004,214.62,41.564
+"90","Rhode Island",2004,10.97,1.782
+"91","Connecticut",2005,43.83,8.306
+"92","Maine",2005,23.04,4.728
+"93","Massachusetts",2005,84.11,16.618
+"94","New Hampshire",2005,21.11,2.918
+"95","New York",2005,211.17,41.564
+"96","Rhode Island",2005,11.22,1.782
+"97","Connecticut",2006,40.82,8.306
+"98","Maine",2006,21.2,4.728
+"99","Massachusetts",2006,76.3,16.618
+"100","New Hampshire",2006,19.24,2.918
+"101","New York",2006,193.49,41.564
+"102","Rhode Island",2006,10.54,1.782
+"103","Connecticut",2007,40.12,8.306
+"104","Maine",2007,20.91,4.728
+"105","Massachusetts",2007,79.69,16.618
+"106","New Hampshire",2007,19.05,2.918
+"107","New York",2007,199.77,41.564
+"108","Rhode Island",2007,11.09,1.782
+"109","Connecticut",2008,37.73,8.306
+"110","Maine",2008,19.07,4.728
+"111","Massachusetts",2008,76.69,16.618
+"112","New Hampshire",2008,18.66,2.918
+"113","New York",2008,190.31,41.564
+"114","Rhode Island",2008,10.7,1.782
+"115","Connecticut",2009,36.02,8.306
+"116","Maine",2009,18.37,4.728
+"117","Massachusetts",2009,70.31,16.618
+"118","New Hampshire",2009,16.99,2.918
+"119","New York",2009,174.22,41.564
+"120","Rhode Island",2009,11.27,1.782
+"121","Connecticut",2010,36.36,8.306
+"122","Maine",2010,18.1,4.728
+"123","Massachusetts",2010,71.94,16.618
+"124","New Hampshire",2010,16.56,2.918
+"125","New York",2010,174.5,41.564
+"126","Rhode Island",2010,11.04,1.782
+"127","Connecticut",2011,35.01,8.306
+"128","Maine",2011,17.56,4.728
+"129","Massachusetts",2011,68.26,16.618
+"130","New Hampshire",2011,16.21,2.918
+"131","New York",2011,165.13,41.564
+"132","Rhode Island",2011,11.07,1.782
+"133","Connecticut",2012,34.26,8.306
+"134","Maine",2012,15.86,4.728
+"135","Massachusetts",2012,61.95,16.618
+"136","New Hampshire",2012,14.56,2.918
+"137","New York",2012,162.05,41.564
+"138","Rhode Island",2012,10.56,1.782
+"139","Connecticut",2013,35.02,8.306
+"140","Maine",2013,16.61,4.728
+"141","Massachusetts",2013,65.81,16.618
+"142","New Hampshire",2013,14.3,2.918
+"143","New York",2013,163.01,41.564
+"144","Rhode Island",2013,10.17,1.782
+"145","Connecticut",2014,35.25,8.306
+"146","Maine",2014,16.67,4.728
+"147","Massachusetts",2014,63.94,16.618
+"148","New Hampshire",2014,15.01,2.918
+"149","New York",2014,170.4,41.564
+"150","Rhode Island",2014,10.66,1.782
+"151","Connecticut",2015,36.58,8.306
+"152","Maine",2015,16.88,4.728
+"153","Massachusetts",2015,65.81,16.618
+"154","New Hampshire",2015,15.2,2.918
+"155","New York",2015,168.78,41.564
+"156","Rhode Island",2015,10.91,1.782
+"157","Connecticut",2016,34.4,8.306
+"158","Maine",2016,16.5,4.728
+"159","Massachusetts",2016,64.39,16.618
+"160","New Hampshire",2016,13.78,2.918
+"161","New York",2016,164.53,41.564
+"162","Rhode Island",2016,9.75,1.782
