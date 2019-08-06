@@ -168,6 +168,24 @@ ggplot(gas_to_income, aes(x = year, y = ratio, color = state)) +
 
 ```
 
+## Calculate year over year change and score
+
+The target for this goal is to keep the ratio constant year over year. In this case, if it doubles then they get a 0. If the change is negative, indicating a drop in the ratio, they get 100.
+
+```{r calculate_yearly_change}
+change <- gas_to_income %>%
+  arrange(year) %>%
+  group_by(state) %>%
+  mutate(last_years_ratio = lag(ratio, n = 1)) %>%
+  ungroup() %>%
+  mutate(change = ratio-last_years_ratio,
+         score  = ifelse(change < 0, 1, 1-(change/last_years_ratio)))
+  
+ggplot(change, aes(x = year, y = score, color = state)) +
+  geom_line() +
+  theme_bw()
+```
+
 
 ## Save data
 
@@ -191,17 +209,12 @@ rgn_data %>%
 Toolbox layer includes all regions (even offshore) and the ratio of gas to salary
 
 ```{r}
-rgn_data %>%
-  left_join(gas_to_income, by = c("state_abv" = "state")) %>%
-  select(rgn_id, rgn_name, year, ratio) %>%
-  group_by(rgn_id, rgn_name) %>%
-  complete(year = 2001:2017) %>%
-  write_csv("~/github/ne-scores/region/layers/rao_gas_to_wage_ratio.csv")
+out <- change %>%
+  left_join(rgns, by = c("state" = "state_abv")) %>%
+  select(rgn_id, year, score) %>%
+  complete(rgn_id = 1:11, year) %>%
+  filter(year > 2004)
+
+write_csv(out, "~/github/ne-scores/region/layers/rao_econ_access.csv")
 ```
 
-
-
-
-***
-
-#Citation information  
