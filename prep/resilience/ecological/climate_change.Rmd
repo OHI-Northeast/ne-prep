@@ -42,7 +42,7 @@ US. energy information administration:
 1) Total CO2 emissions https://www.epa.gov/statelocalenergy/state-co2-emissions-fossil-fuel-combustion
 2) Total power generation:https://www.eia.gov/electricity/data/state/
 
-Targets for effectiveness from Beyond Carbon https://www.beyondcarbon.org/look-up-your-state/maine
+Targets for effectiveness from Beyond Carbon https://www.beyondcarbon.org/look-up-your-state/
 
 
 ``` {r setup,  message = FALSE, warning = FALSE}
@@ -122,12 +122,12 @@ Other Biomass
 Other Gases
 Petroleum
 Wood and Wood Derived Fuels
+Nuclear
 [below I considered clean energy; need to look into the pumped storage because most of it is negative]
 Pumped Storage
 Hydroelectric Conventional
 Wind
 Solar Thermal and Photovoltaic
-Nuclear
 
 Renewable/Clean Power Targets (Beyond Carbon):
 Maine = 40% by 2017
@@ -155,19 +155,21 @@ Calculate total clean/renewable energy production in each state each year
 gen_clean <- raw_gen %>% 
   filter(year >= 2005 & year <=2017) %>% 
   filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") %>% 
-  filter(energy_source == "Hydroelectric Conventional"| energy_source == "Wind" | energy_source == "Solar Thermal and Photovoltaic" | energy_source == "Pumped Storage" | energy_source == "Nuclear") %>%
+  filter(energy_source == "Hydroelectric Conventional"| energy_source == "Wind" | energy_source == "Solar Thermal and Photovoltaic" | energy_source == "Pumped Storage") %>%
   select(year, state, gen_mwh) %>% 
   group_by(year, state) %>% 
-  dplyr::summarise(total_power = sum(gen_mwh)) %>% 
-  rename(total_power_clean = total_power ) %>% 
+  dplyr::summarise(total_power_clean = sum(gen_mwh))%>% 
   ungroup()
 ```
 
-Combine data sets and visualize percent of clean energy production
+Combine data sets 
 ```{r}
 power_gen <- left_join(gen_total, gen_clean, by= c("year", "state")) %>% 
   mutate(per_clean = total_power_clean/total_power)
+```
 
+Visualize percent of clean energy production
+```{r}
 graph_clean_pro <-ggplot(power_gen)+
   geom_line(aes(x=year, y = per_clean, color=state))+
   ggtitle("Percent of Clean/Renewable Energy Production (with nuclear") +
@@ -177,7 +179,6 @@ graph_clean_pro <-ggplot(power_gen)+
 graph_clean_pro
 
 ggsave("figs/graph_clean_pro_nuclear.jpg", width=7, height=5, dpi=300)
-
 ```
 
 
@@ -188,28 +189,32 @@ Maine
 
 #MA 40% clean by 2017
 me <- power_gen %>% 
-  filter(state == "ME") 
+  filter(state == "ME") %>% 
+  mutate(year_n = seq(1:13))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 me_target <- tribble(
   ~year, ~per_clean,
-  2005, 0.217,
-  2017, .4
+  1, 0.217,
+  13, 0.4
 )
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_me <- lm(per_clean ~ year, data = me_target)
+#intercept = 0.2017 ; coef =0.0152 
+summary(lm_me)
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  me <- me %>% 
-    mutate(target = ( 0.0152*year -30.3592 ))
-}
+plot(per_clean ~ year, data = me_target)
+abline(lm_me)
 
-me <- me %>% 
-  select(year, state, per_clean, target)
+###trying to use equation no loop
+me_clean_target <- me %>% 
+  rowwise() %>% 
+  mutate(target = (0.0152*year_n + 0.2017 ),
+         per_clean = round(per_clean, digits= 2),
+         target = round(target, digits= 2)) %>% 
+  select(year, state, per_clean, target) 
+
 
 ```
 
@@ -218,27 +223,25 @@ Massachusets
 
 #MA 35% clean by 2030
 ma <- power_gen %>% 
-  filter(state == "MA") 
+  filter(state == "MA")  %>% 
+  mutate(year_n = seq(1:13),
+         per_clean = if_else(per_clean <0, 0, per_clean)) 
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ma_target <- tribble(
   ~year, ~per_clean,
-  2005, 0.127,
-  2030, .3
-)
+  1, 0.012213,
+  26, .35)
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ma <- lm(per_clean ~ year, data = ma_target)
+#coef = 0.0135  ; int = -0.0013 
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ma <- ma %>% 
-    mutate(target = (0.00692*year - 13.74760))
-}
-
-ma <- ma %>% 
+ma_clean_target <- ma %>% 
+  rowwise() %>% 
+  mutate(target = (0.0135 *year_n-0.0013 ),
+         per_clean = round(per_clean, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, per_clean, target)
 
 ```
@@ -248,27 +251,24 @@ New Hampshire
 
 #NH 25.2% clean by 2025
 nh <- power_gen %>% 
-  filter(state == "NH") 
+  filter(state == "NH") %>% 
+  mutate(year_n = seq(1:13))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 nh_target <- tribble(
   ~year, ~per_clean,
-  2005, 0.460,
-  2025, .252
+  1, 0.0735,
+  21, .252
 )
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_nh <- lm(per_clean ~ year, data = nh_target)
+#coef=  0.00893 int= 0.06457
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  nh <- nh %>% 
-    mutate(target = (-0.0104*year +21.3120)) # they hit their target from the get go so theres this weird negative trend here. this won't matter when calcualte scores because will cap at 1 anyways
-}
-
-nh <- nh %>% 
+nh_clean_target <- nh %>% 
+  mutate(target = ( 0.00893*year_n +0.06457),
+         per_clean = round(per_clean, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, per_clean, target)
 
 ```
@@ -279,27 +279,23 @@ Rhode Island
 
 #RI 38.5% clean by 2035
 ri <- power_gen %>% 
-  filter(state == "RI") 
+  filter(state == "RI") %>% 
+  mutate(year_n = seq(1:13))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ri_target <- tribble(
   ~year, ~per_clean,
-  2005, 0.001112,
-  2035, .385
-)
+  1, 0.001112,
+  31, .385)
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ri <- lm(per_clean ~ year, data = ri_target)
+#coef=0.0128  , int = -0.0117 
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ri <- ri %>% 
-    mutate(target = (0.0128 *year  -25.6554)) 
-}
-
-ri <- ri %>% 
+ri_clean_target <- ri %>% 
+   mutate(target = ( 0.0128*year_n -0.0117),
+         per_clean = round(per_clean, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, per_clean, target)
 
 ```
@@ -310,27 +306,23 @@ New York
 
 #NY 50% clean by 2030
 ny <- power_gen %>% 
-  filter(state == "NY") 
+  filter(state == "NY") %>% 
+  mutate(year_n = seq(1:13))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ny_target <- tribble(
   ~year, ~per_clean,
-  2005, 	0.460,
-  2030, .50
-)
+  1, 	.17,
+  26, .50)
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ny <- lm(per_clean ~ year, data = ny_target)
+#coef=0.0132   , int =  0.1568 
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ny <- ny %>% 
-    mutate(target = (0.0016*year-2.7480 )) 
-}
-
-ny <- ny %>% 
+ny_clean_target <- ny %>% 
+  mutate(target = (0.0132  *year_n +  0.1568 ),
+         per_clean = round(per_clean, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, per_clean, target)
 
 ```
@@ -341,27 +333,24 @@ Connecticut
 
 #CT 44% clean by 2030
 ct <- power_gen %>% 
-  filter(state == "CT") 
+  filter(state == "CT")  %>% 
+  mutate(year_n = seq(1:13))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ct_target <- tribble(
   ~year, ~per_clean,
-  2005, 0.478,
-  2030, .44
+  1, 0.01420,
+  26, .44
 )
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ct <- lm(per_clean ~ year, data = ct_target)
+#coef= 0.01703, int=-0.00283 
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ct <- ct %>% 
-    mutate(target = ( -0.00152*year + 3.52560  )) 
-}
-
-ct <- ct %>% 
+ct_clean_target <- ct %>% 
+  mutate(target = (0.01703*year_n -0.00283),
+         per_clean = round(per_clean, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, per_clean, target)
 
 ```
@@ -370,7 +359,7 @@ ct <- ct %>%
 
 Combine all states df with target
 ```{r}
-energy_target <- rbind(me, nh, ma, ri, ct, ny)
+energy_target <- rbind(me_clean_target, nh_clean_target, ma_clean_target, ri_clean_target, ct_clean_target, ny_clean_target)
 
 ```
 
@@ -390,12 +379,12 @@ Visualize scores
 
 graph_clean_energy_score_nuc <-ggplot(power_gen_scores)+
   geom_line(aes(x=year, y = score, color=state))+
-  ggtitle("Clean Energy Score (with nuclear") +
+  ggtitle("Clean Energy Score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
 graph_clean_energy_score_nuc
-ggsave("figs/graph_clean_energy_score_nuc.jpg", width=7, height=5, dpi=300)
+ggsave("figs/graph_clean_energy_score.jpg", width=7, height=5, dpi=300)
 
 ```
 
@@ -499,16 +488,17 @@ Visualize emmissions
 graph_em <-ggplot(emissions)+
   geom_line(aes(x=year, y = emission, color=state))+
   ggtitle("Total Carbon Emissions") +
-  ylab("Emissions (million metric tons") +
+  ylab("Emissions (million metric tons)") +
   xlab("Year") +
   theme_classic() 
 
 graph_em 
-#ggsave("figs/graph_em .jpg", width=7, height=5, dpi=300)
+ggsave("figs/graph_em .jpg", width=7, height=5, dpi=300)
 
 ```
 
 Regressions for trend targets
+
 
 New Hampshire
 ```{r}
@@ -516,28 +506,25 @@ New Hampshire
 #NH 80% reduction below 1990 levels by 2050
 nh_em <- emissions %>% 
   filter(state == "New Hampshire") %>% 
-  filter(year >= 2005 & year <= 2017)
+  filter(year >= 2005 & year <= 2017) %>% 
+  mutate(year_n = seq(1:12))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 nh_em_target <- tribble(
   ~year, ~emission,
-  2005, 21.1,
-  2050, 2.92
-)
+  1, 	21.1,
+  46, 2.92)
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_nh_em <- lm(emission~ year, data = nh_em_target)
+#coe = -0.404  ; int= 21.504
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  nh_em <- nh_em %>% 
-    mutate(target = ( -0.404*year +831.120 ))
-}
-
-nh_em <- nh_em %>% 
+nh_em_target <- nh_em %>% 
+  mutate(target = (-0.404 *year_n +21.504),
+         emission = round(emission, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, emission, target)
+
 
 ```
 
@@ -547,27 +534,23 @@ Massachusetts
 #MA 80% reduction below 1990 levels by 2050
 ma_em <- emissions %>% 
   filter(state == "Massachusetts") %>% 
-  filter(year >= 2005 & year <= 2017)
+  filter(year >= 2005 & year <= 2017)%>% 
+  mutate(year_n = seq(1:12))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ma_em_target <- tribble(
   ~year, ~emission,
-  2005, 84.1,
-  2050, 16.6
-)
+  1, 84.1,
+  46, 16.6)
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ma_em <- lm(emission~ year, data = ma_em_target)
+#coe=-1.5 ; int =85.6 
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ma_em <- ma_em %>% 
-    mutate(target = (-1.5 *year + 3091.6))
-}
-
-ma_em <- ma_em %>% 
+ma_em_target <- ma_em %>% 
+  mutate(target = (-1.5 *year_n +85.6 ),
+         emission = round(emission, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, emission, target)
 
 ```
@@ -578,27 +561,24 @@ Rhode Island
 #RI 80% reduction below 1990 levels by 2050
 ri_em <- emissions %>% 
   filter(state == "Rhode Island") %>% 
-  filter(year >= 2005 & year <= 2017)
+  filter(year >= 2005 & year <= 2017)%>% 
+  mutate(year_n = seq(1:12))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ri_em_target <- tribble(
   ~year, ~emission,
-  2005, 11.22,
-  2050, 1.78
+  1, 11.22,
+  46, 1.78
 )
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ri_em <- lm(emission~ year, data = ri_em_target)
+#coe= -0.21; int = 11.43
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ri_em <- ri_em %>% 
-    mutate(target = (-0.21*year + 431.82 ))
-}
-
-ri_em <- ri_em %>% 
+ri_em_target<- ri_em %>% 
+    mutate(target = (-0.21*year_n+11.43),
+         emission = round(emission, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, emission, target)
 
 ```
@@ -610,27 +590,23 @@ Connecticut
 #CT 80% reduction below 2001 levels by 2050
 ct_em <- emissions %>% 
   filter(state == "Connecticut") %>% 
-  filter(year >= 2005 & year <= 2017)
+  filter(year >= 2005 & year <= 2017)%>% 
+  mutate(year_n = seq(1:12))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ct_em_target <- tribble(
   ~year, ~emission,
-  2005, 43.8,
-  2050, 8.31
-)
+  1, 43.8,
+  46, 8.31)
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ct_em <- lm(emission~ year, data = ct_em_target)
+#coef=-0.789  ; int = 44.589 
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ct_em <- ct_em %>% 
-    mutate(target = (-0.789  *year + 1625.077))
-}
-
-ct_em <- ct_em %>% 
+ct_em_target <- ct_em %>% 
+  mutate(target = (-0.789*year_n+44.589 ),
+         emission = round(emission, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, emission, target)
 
 ```
@@ -642,27 +618,23 @@ New York
 #NY 80% reduction below 1990 levels by 2050
 ny_em <- emissions %>% 
   filter(state == "New York") %>% 
-  filter(year >= 2005 & year <= 2017)
+  filter(year >= 2005 & year <= 2017) %>% 
+  mutate(year_n = seq(1:12))
 
 #create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
 ny_em_target <- tribble(
   ~year, ~emission,
-  2005, 211,
-  2050, 41.6
-)
+  1, 211,
+  46, 41.6)
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ny_em <- lm(emission~ year, data = ny_em_target)
+#coe= -3.76  ; int = 214.76
 
-for(i in 2005:2017){
-  
-  print(i)
-  
-  ny_em <- ny_em %>% 
-    mutate(target = (-3.76*year + 7758.71))
-}
-
-ny_em <- ny_em %>% 
+ny_em_target <- ny_em %>% 
+  mutate(target = (-3.76 *year_n+214.76),
+         emission = round(emission, digits= 2),
+         target = round(target, digits= 2)) %>% 
   select(year, state, emission, target)
 
 ```
@@ -672,7 +644,7 @@ Maine
 ```{r}
 
 #MA 80% reduction below 2003 levels
-me_em <- emissions %>% 
+me_em_target <- emissions %>% 
   filter(state == "Maine") %>% 
   filter(year >= 2005 & year <= 2017) %>% 
   rename(target = end_target)
@@ -682,7 +654,7 @@ me_em <- emissions %>%
 
 Combine all states df with target
 ```{r}
-emissions_target <- rbind(nh_em, ma_em, ri_em, ct_em, ny_em, me_em)
+emissions_target <- rbind(nh_em_target, ma_em_target, ri_em_target, ct_em_target, ny_em_target, me_em_target)
 
 ```
 
