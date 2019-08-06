@@ -1,0 +1,282 @@
+---
+title: 'OHI-Northeast: Beach Access Layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+#libraries
+library(tidyverse)
+```
+
+#Summary
+
+
+***
+
+#Data Source [NOTE: can be copied from README.md in rawdata file]
+**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+
+**Downloaded**: [date downloaded or received]
+
+**Description**:  [e.g., surface aragonite state]
+
+**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+
+**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+
+**Format**:  [e.g. NetCDF]
+
+***
+  
+#Methods
+
+## Load Data
+
+Inland buffer
+
+We are going to use the 1 mile inland buffer as well as the rgns to identify coastal points. 
+```{r}
+inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp") %>%
+  filter(rgn_name == "New York") %>%
+  select(rgn_name, rgn_id)
+```
+
+Combine inland buffer with connecticut state waters
+
+```{r}
+ny_shape <- rgns %>%
+  filter(rgn_name == "New York") %>%
+  select(rgn_name, rgn_id) %>%
+  rbind(inland_buffer)
+```
+
+
+Rhode Island, Connecticut, and New York-New Jersey Metropolitan Area*
+*Note this doesn't include Long Island...
+
+2001
+Socioeconomic Resource Points and Lines
+"This data set contains human-use resource data for bridges, state borders, airports, aquaculture sites, beaches, boat ramps, commercial fishing sites, Coast Guard, ferries, historical sites, marinas, water intakes, and wash over sites in Rhode Island, Connecticut, New York, and New Jersey. Vector points in this data set represent human-use site locations. This data set comprises a portion of the Environmental Sensitivity Index (ESI) data for Rhode Island, Connecticut, New York, and New Jersey. ESI data characterize the marine and coastal environments and wildlife by their sensitivity to spilled oil. The ESI data include information for three main components: shoreline habitats, sensitive biological resources, and human-use resources. See also the MGT (Management Area Polygons) data layer, part of the larger Rhode Island, Connecticut, New York, and New Jersey ESI database, for additional human-use information."
+
+TYPE column
+A - AIRPORT
+AQ - AQUACULTURE
+B - BEACH
+BR - BOATRAMP
+CF - COMMERCIAL FISHING
+CG - COAST GUARD
+F - FERRY
+HS - HISTORICAL CSITE
+M - MARINA
+WI - WATER INTAKE
+WO - WASHOVER
+
+```{r load_esi_data}
+socecon_2001 <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/RI_CT_NY_NJ_2001_Shapefiles/shape/soceconp.shp"))
+```
+
+Filter
+
+```{r}
+ny_se_2001 <- socecon_2001 %>% 
+  filter(TYPE %in% c("B", "BR", "M", "F", "HS")) %>% 
+  st_set_crs("+init=epsg:4269")
+```
+
+Select NY after intersecting with our rgns
+
+```{r}
+ny_2001_points <- ny_se_2001 %>%
+  st_transform(us_alb) %>%
+  st_intersection(ny_shape) %>%
+  mutate(year = 2001,
+         TYPE = as.character(TYPE)) %>%
+  select(TYPE, rgn_name, rgn_id, year)
+```
+
+---
+
+### Long Island
+
+Long Island 2009 data
+
+From the metadata:
+
+> This data set contains human-use resource data for aquaculture sites, beaches, commercial fishing, historic sites, marinas, recreational fishing areas, and water intakes for Long Island, New York. Vector points and lines in this data set represent
+the human-use site locations. Location-specific type and source information are stored in relational data tables (described below) designed to be used in conjunction with this spatial data layer. This data set comprises a portion of the Environmental Sensitivity Index (ESI) data for Long Island. ESI data characterize the marine and coastal environments and
+wildlife by their sensitivity to spilled oil. The ESI data include information for three main components: shoreline habitats, sensitive biological resources, and human-use resources. See also the MGT (Management Area Polygons) data layer, part of the larger Long Island ESI database, for additional human-use information.
+
+TYPE column
+AQ - AQUACULTURE
+B - BEACH
+CF - COMMERCIAL FISHING
+RF - RECREATIONAL FISHING
+HS - HISTORICAL SITE
+M - MARINA
+WI - WATER INTAKE
+
+```{r}
+li_2009_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIs_NY_2009_Shapefiles/avproj/shape/soceconp.shp")) %>%
+  st_set_crs("+init=epsg:4269") %>%
+  st_transform(us_alb) %>%
+  st_intersection(ny_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE %in% c("B", "HS", "M")) %>%
+  select(TYPE, rgn_name, rgn_id)
+```
+
+
+Long Island Sound 2016 data. Filter for socioeconomic and managed area point layers.
+
+CODES
+
+Socioeconomic Point
+AV - Abandoned Vessel
+LF - Landfill
+HWR - Historic Wreck
+HS - Historical Site
+B - Beach
+
+```{r}
+li_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "SOCECON_POINT") %>%
+  st_transform(us_alb) %>%
+  st_intersection(ny_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE %in% c("B", "HS")) %>%
+  select(TYPE, rgn_name, rgn_id)
+```
+
+Managed points
+NL = National Landmark
+
+No need to filter here since this layer includes national landmarks
+
+```{r}
+li_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "MANAGED_POINT") %>%
+  st_transform(us_alb) %>%
+  st_intersection(ny_shape) %>%
+  select(TYPE, rgn_name, rgn_id)
+```
+
+Navigational Marine Points
+M = Marina
+F = Ferry
+BR = Boat Ramp
+A2 = Access point
+PT = Port
+
+We consider all of these to be coastal access points
+
+```{r}
+li_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "NAV_MARINE_POINT") %>%
+  st_transform(us_alb) %>%
+  st_intersection(ny_shape) %>%
+  select(TYPE, rgn_name, rgn_id)
+
+```
+
+Combine the 2016 layers
+
+```{r}
+li_2016 <- li_2016_nav %>%
+  rbind(li_2016_mgd) %>%
+  rbind(li_2016_socecon) %>%
+  mutate(year = 2016)
+```
+
+
+---
+
+New York 2016 Data
+
+CODES
+
+Socioeconomic Point
+A = Airport
+AS = Archaeological site
+AV - Abandoned Vessel
+LF - Landfill
+HS - Historical Site
+B = Beach
+RE = Renewable Energy
+S2 = Surfing
+OF = Oil Facility
+C = Campground
+
+```{r}
+ny_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NY_NJ_2016_GDB/NY_NJ_ESI_2016.gdb"), layer = "SOCECON_POINT") %>%
+  st_transform(us_alb) %>%
+  st_intersection(ny_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE %in% c("B", "HS", "C", "S2")) %>%
+  select(TYPE, rgn_name, rgn_id)
+```
+
+
+Navigational Marine Points
+M = Marina*
+F = Ferry*
+BR = Boat Ramp*
+A2 = Access point*
+PT = Port*
+DV = Diving Site*
+AN = Anchorage*
+LD = Lock and Dam
+
+We consider all of these to be coastal access points
+
+```{r}
+ny_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NY_NJ_2016_GDB/NY_NJ_ESI_2016.gdb"), layer = "NAV_MARINE_POINT") %>%
+  st_transform(us_alb) %>%
+  st_intersection(ny_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE != "LD") %>% #keep all but lock and dam
+  select(TYPE, rgn_name, rgn_id)
+```
+
+
+Combine the 2016 layers
+
+```{r}
+ny_2016 <- ny_2016_nav %>%
+  rbind(ny_2016_socecon) %>%
+  mutate(year = 2016)
+```
+
+----
+
+Lets look at the 2016 and 2001 points
+
+
+```{r, fig.width = 10}
+library(mapview)
+mapview(ny_2016, col.regions = "red") + mapview(ny_2001_points, col.regions = "blue") + mapview(li_2016, col.regions = "green") + mapview(li_2009_socecon, col.regions = "orange")
+```
+
+
+
+
+
+
+
