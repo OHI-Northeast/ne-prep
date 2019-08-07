@@ -77,7 +77,7 @@ get_wetland_cells <- function(file){
   
 }
 
-mclapply(files, get_wetland_cells, mc.cores = 6)
+mclapply(files[9:10], get_wetland_cells, mc.cores = 6)
 ```
 
 # Calculate habitat loss over time
@@ -105,7 +105,6 @@ get_cells_over_time <- function(state){
     select(-rowname)
   
   return(vals)
-  
 }
 ```
 
@@ -177,17 +176,28 @@ toolbox_layer <- full_df %>%
   complete(year = 1996:2017) %>%
   mutate(perc_loss = na.locf(perc_loss)) %>% #now we carry forward the 2010 value for all years to 2017
   ungroup() %>%
-  left_join(rgns) %>%
-  select(rgn_id, rgn_name, year, perc_loss)
+  left_join(rgns, by = c("state" = "state_abv")) %>%
+  select(rgn_id, rgn_name, year, perc_loss) 
+```
 
-write_csv(toolbox_layer, file.path(dir_calc, "layers/hab_salt_marsh.csv"))
+# Results
 
+```{r}
 ggplot(toolbox_layer, aes(x = year, y = perc_loss, color = rgn_name)) +
   geom_line() +
   theme_bw() +
   labs(x = "Year",
        y = "Percent (%) lost",
        title = "Salt Marsh")
+```
+
+
+Add in offshore regions with NA then save
+```{r save}
+toolbox_layer %>%
+  complete(rgn_id = 1:11, year) %>%
+  select(rgn_id, year, perc_loss) %>%
+write_csv(file.path(dir_calc, "layers/hab_salt_marsh.csv"))
 ```
 
 
