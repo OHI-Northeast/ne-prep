@@ -201,12 +201,6 @@ library(mapview)
 
 ```
 
-```{r}
-
-inshore_buffer <- rgns %>% filter(rgn_id <= 4)
-
-```
-
 
 Let's look at the available layers in the USGS PADUS database
 
@@ -250,6 +244,8 @@ mapshot(usgs_data, url = "usgs_map.html")
 First let's combine polygons so we don't double count areas. 
 
 We are also accounting for the year established, some were created during our time frame (unlike the inshore protected areas)
+
+
 ```{r}
 
 marine_protected_by_rgn <- data.frame()

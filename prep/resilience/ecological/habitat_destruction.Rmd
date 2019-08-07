@@ -45,6 +45,8 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 library(tidyverse)
 library(sf)
 library(mapview)
+#install.packages("lubridate")
+library(lubridate)
 
 ```
 
@@ -62,16 +64,28 @@ For the marine layer, we are going to remove all areas that are designated as fi
 
 ```{r load_and_clean_marine_layer}
 
-marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
+marine_hab <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
   st_intersection(rgns) %>%
   filter(!is.na(Loc_Ds),
-         d_GAP_Sts == "2 - managed for biodiversity - disturbance events suppressed" ,
-         Constancy == "Year-round") %>% 
-  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
+         d_GAP_Sts == "2 - managed for biodiversity - disturbance events suppressed" | Loc_Ds == "Closed Area" ,
+         Constancy == "Year-round",
+         Date_Est <= "2017") %>% 
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id, area_km2)
 
 ```
+
+
+```{r}
+marine_all <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(rgns) %>%
+  filter(!is.na(Loc_Ds)) 
+```
+
+
 
 Removed this filter !Loc_Ds %in% c("Fishery Management Area", "Fishery Management Areas", "Shellfish Management Area", "Conservation Area","Gear Restricted Area", "Essential Fish Habitat Conservation Area", "Special Area Management Plan", "Closure Area"), #the Conservation Areas are for Mussel Seed
 
@@ -79,7 +93,7 @@ Removed this filter !Loc_Ds %in% c("Fishery Management Area", "Fishery Managemen
 ```{r interactive_map, eval = F}
 
  #mapview(proc, col.regions = "red") + 
-usgs_data_habitat <-mapview(marine, col.regions = "blue") 
+usgs_data_habitat <-mapview(marine_hab, col.regions = "blue") 
 
 usgs_data_habitat 
 
@@ -110,7 +124,11 @@ hab_deg <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Environmental_De
 hab_msb_trawl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/MSB_Bottom_Trawling_Restricted_Areas/MSB_Bottom_Trawling_Restricted_Areas.shp"))
 
 #combine all together
-hab_protect <- rbind(hab_manage, hab_research, hab_frl, hab_deg, hab_msb_trawl)
+hab_protect <- rbind(hab_manage, hab_research, hab_frl, hab_deg, hab_msb_trawl) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(rgns) %>% 
+  filter(EFFECTDATE < "2018-01-01")
 
 hab <- mapview(hab_protect) 
 hab
@@ -118,17 +136,83 @@ hab
 ```
 
 
-grab the data for 100% closures from the marine data set and combine those
-national monuments ? assume no trawling or dredging, havent added them in yet,
 sea scallops don't have any dredging prohibited areas, just dreding allowed areas, figure out if they are allowed to dredge in non predetermined areas
+compare to sasi map
+
+### Combining Polygons
+
+First let's combine polygons so we don't double count areas
+
+```{r}
+
+hab_simple <- hab_protect %>% 
+  select(AREAGROUP, rgn_name, rgn_id, area_km2, geometry) %>% 
+  rename(Loc_Nm = AREAGROUP)
+
+hab_combined <- marine_hab %>% 
+  select(Loc_Nm, rgn_name, rgn_id, area_km2, geometry) %>% 
+  rbind(hab_simple) 
+
+hab_combined_view <- mapview(hab_combined) 
+hab_combined_view
+
+```
 
 
-combine hab_protect and usgs_data_habitat
-combine overlapping polygons
-crop out our regions 
 
 
+All areas included in the Marine layer were established before our time period (or have NA for Date_Est) so we don't need to do this by year. 
+```{r}
 
+hab_protected_by_rgn <- hab_combined %>%
+  select(rgn_id, rgn_name, Loc_Nm) %>%
+  group_by(rgn_id, rgn_name) %>%
+  summarise() %>%
+  ungroup() %>%
+  mutate(area = st_area(geometry)/1000000) %>% #calculate total protected area
+  left_join(rgn_data) %>%
+  mutate(prop_area = as.numeric(area)/area_km2, 
+         type = "marine",
+         year = 2005) %>%
+    st_set_geometry(NULL) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  select(rgn_id, rgn_name, prop_area, year) %>% 
+  mutate(target = 0.3,
+         score = prop_area/target,
+         score = if_else(score >1, 1, score)) 
+         
+```
+
+Percent of Habitat Protected
+```{r}
+
+hab_protected_by_rgn_graph <- ggplot(hab_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+  geom_line() +
+  theme_classic() +
+  geom_hline(yintercept=0.3)+
+  labs(y = "Percentage", x = "Year") +
+  ggtitle("Percentage of habitat protected")
+hab_protected_by_rgn_graph
+
+```
+
+
+Scores Habitat Protected
+```{r}
+
+score_hab_protected_by_rgn_graph <- ggplot(hab_protected_by_rgn, aes(x = year, y = score, color = rgn_name)) +
+  geom_line() +
+  theme_classic() +
+  labs(y = "Score", x = "Year") +
+  ggtitle("Score of habitat protected")
+score_hab_protected_by_rgn_graph
+
+```
+
+
+#Coastal Armoring Scores -> state of the beach
 
 
 
