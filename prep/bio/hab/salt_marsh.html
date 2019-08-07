@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Compiled on Tue Aug 6 17:47:57 2019 by afflerbach" />
+<meta name="author" content="Compiled on Tue Aug 6 17:58:28 2019 by afflerbach" />
 
 
 <title>OHI-Northeast: Salt Marsh Habitat Data</title>
@@ -1685,7 +1685,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHI-Northeast: Salt Marsh Habitat Data</h1>
-<h4 class="author"><em>Compiled on Tue Aug 6 17:47:57 2019 by afflerbach</em></h4>
+<h4 class="author"><em>Compiled on Tue Aug 6 17:58:28 2019 by afflerbach</em></h4>
 
 </div>
 
@@ -1844,7 +1844,8 @@ div.tocify {
 <p>Add in offshore regions with NA then save</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">toolbox_layer <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">complete</span>(<span class="dt">rgn_id =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">11</span>, year) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="kw">write_csv</span>(<span class="kw">file.path</span>(dir_calc, <span class="st">&quot;layers/hab_salt_marsh.csv&quot;</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">select</span>(rgn_id, year, perc_loss) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="kw">write_csv</span>(<span class="kw">file.path</span>(dir_calc, <span class="st">&quot;layers/hab_salt_marsh.csv&quot;</span>))</a></code></pre></div>
 </div>
 
 

@@ -196,6 +196,7 @@ Add in offshore regions with NA then save
 ```{r save}
 toolbox_layer %>%
   complete(rgn_id = 1:11, year) %>%
+  select(rgn_id, year, perc_loss) %>%
 write_csv(file.path(dir_calc, "layers/hab_salt_marsh.csv"))
 ```
 
