@@ -35,7 +35,7 @@ This script calculates fishing pressure resilience values by OHINE region.
 Regulations:
 1) Percentage of Fish Landed with Stock Assessments (target = 100%)
 2) Percentage of Protected Area (target = 30%)
-3) Percentage of stocks assessed that are adequatly assessed (targer = at least every 5)
+3) Percentage of stocks assessed that are adequatly assessed (target = at least every 5)
 4) Percentage of species landed with a management plan or some sort of regulation 
 
 
@@ -224,7 +224,7 @@ For the marine layer, we are going to remove all areas that are designated as fi
 marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
-  st_intersection(inshore_buffer) %>%
+  st_intersection(rgns) %>%
   filter(!Loc_Ds %in% c("Fishery Management Area", "Fishery Management Areas", "Shellfish Management Area", "Conservation Area","Gear Restricted Area", "Essential Fish Habitat Conservation Area", "Special Area Management Plan", "Closure Area"), #the Conservation Areas are for Mussel Seed
          !is.na(Loc_Ds),
 !Fish_Rstr %in% c("No Site Restrictions", "Restrictions Unknown"), #only keeping areas with recreational or commercial fishing is restricted or prohibited
@@ -233,15 +233,14 @@ marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/P
 
 ```
 
-Create and save an interactive .html map to show the different layers.
-Not working, try and figure it out later
+
 ```{r interactive_map, eval = F}
 
  #mapview(proc, col.regions = "red") + 
-usgs_data_offshore <-mapview(marine, col.regions = "blue") 
+usgs_data <-mapview(marine, col.regions = "blue") 
 
 ## save interactive map
-mapshot(usgs_data_offshore, url = "usgs_map.html")
+mapshot(usgs_data, url = "usgs_map.html")
 
 ```
 
@@ -253,7 +252,7 @@ First let's combine polygons so we don't double count areas.
 We are also accounting for the year established, some were created during our time frame (unlike the inshore protected areas)
 ```{r}
 
-marine_offshore_protected_by_rgn <- data.frame()
+marine_protected_by_rgn <- data.frame()
 
 for(i in 2005:2017){
   
@@ -265,7 +264,7 @@ for(i in 2005:2017){
     ungroup() %>%
     mutate(prot_area_m = st_area(geometry)) %>% #calculate total protected area
     mutate(prot_area_km2 = as.numeric(prot_area_m)/1000000) %>% 
-    left_join(inshore_buffer %>% st_set_geometry(NULL)) %>% #join to inshore buffer 
+    left_join(rgns %>% st_set_geometry(NULL)) %>% #join to inshore buffer 
     mutate(area_km2 = as.character(area_km2)) %>% 
     mutate(area_km2 = as.numeric(area_km2)) %>% 
     mutate(prop_area = prot_area_km2/area_km2 , #calculate proportion of waters in regions 1-4 that are protected
@@ -273,7 +272,7 @@ for(i in 2005:2017){
            year = i) %>%
     st_set_geometry(NULL)
   
-  marine_offshore_protected_by_rgn <- bind_rows(s_yr, marine_offshore_protected_by_rgn)
+  marine_protected_by_rgn <- bind_rows(s_yr, marine_protected_by_rgn)
 }
 
 ```
@@ -283,7 +282,7 @@ for(i in 2005:2017){
 
 ```{r marine_protected_prop_by_rgn}
 
-percent_offshore_water_protec <- ggplot(marine_offshore_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+percent_water_protec <- ggplot(marine_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
   geom_line() +
   theme_classic() +
   geom_hline(yintercept=0.3)+
@@ -299,7 +298,7 @@ ggsave("figs/percent_offshore_water_protec.jpg", width=7, height=5, dpi=300)
 ```{r save_to_layers}
 
 #save marine
-write.csv(marine_offshore_protected_by_rgn,"data/marine_offshore_protected_by_rgn")
+write.csv(marine_protected_by_rgn,"data/marine_protected_by_rgn")
 
 ```
 
@@ -307,15 +306,9 @@ write.csv(marine_offshore_protected_by_rgn,"data/marine_offshore_protected_by_rg
 
 ```{r}
 
-#Load in State protected data
-inshore_protected <- read_csv("~/github/ne-scores/region/layers/lsp_protected_marine.csv") %>% 
-  select(-X1)
 
-offshore_protected <- marine_offshore_protected_by_rgn %>% 
-  select(rgn_id, year, prop_area)
-
-protected_score <- inshore_protected %>% 
-  rbind(offshore_protected) %>% 
+protected_score <- marine_protected_by_rgn %>% 
+  select(rgn_id, year, prop_area) %>% 
   mutate(target = 0.3) %>% 
   mutate(score = prop_area/target,
          score = if_else(score > 1, 1, score)) %>% 
@@ -331,7 +324,7 @@ write.csv(protected_score, file = "data/protected_score")
 
 protected_score_graph <- ggplot(protected_score) +
   geom_line(aes(x=year, y= score, color = rgn_id))+
-  labs(title = "Protected Areas Score: Fisheries Resilience", caption = "Regions 1,7,8 have score of 1")+
+  labs(title = "Protected Areas Score: Fisheries Resilience")+
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
