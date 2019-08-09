@@ -20,6 +20,11 @@ toc: true
 
 This script calculates habitat resilience values by OHINE region. 
 
+NOAA layers for habitat and fishing rules
+USGS layers
+
+surfrider state of the beach report 2017
+
 # Data
 
 **Reference**: 
@@ -127,8 +132,9 @@ hab_msb_trawl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/MSB_Bottom
 hab_protect <- rbind(hab_manage, hab_research, hab_frl, hab_deg, hab_msb_trawl) %>%
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
-  st_intersection(rgns) %>% 
-  filter(EFFECTDATE < "2018-01-01")
+  st_intersection(rgns)
+#%>% 
+ # filter(EFFECTDATE < "2018-01-01") # this includes ammednments, not the OG date, so unsure how to deal with that
 
 hab <- mapview(hab_protect) 
 hab
@@ -212,9 +218,36 @@ score_hab_protected_by_rgn_graph
 ```
 
 
-#Coastal Armoring Scores -> state of the beach
+#State of the Beach Scorecard
 
+```{r}
 
+raw_sob <- read_xlsx(file.path(dir_anx, "_raw_data/Surfrider/state_of_the_beach_2017.xlsx"))
+
+```
+
+Scores
+```{r}
+
+sob_scores <- raw_sob %>% 
+  mutate(target = 12,
+         score = over_all/target)%>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
+  
+```
+
+Graph
+```{r}
+
+sob_score_graph <- ggplot(sob_scores, aes(x = year, y = score, color = state)) +
+  geom_line() +
+  theme_classic() +
+  labs(y = "Score", x = "Year") +
+  ggtitle("State of the Beach Score")
+sob_score_graph 
+```
 
 
 
