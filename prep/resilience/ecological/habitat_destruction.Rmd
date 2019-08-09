@@ -236,6 +236,8 @@ sob_scores <- raw_sob %>%
   mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
   select(-n)
   
+write.csv(sob_scores, file = "data/sob_scores")
+
 ```
 
 Graph
@@ -247,6 +249,8 @@ sob_score_graph <- ggplot(sob_scores, aes(x = year, y = score, color = state)) +
   labs(y = "Score", x = "Year") +
   ggtitle("State of the Beach Score")
 sob_score_graph 
+
+ggsave("figs/sob_score_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 
