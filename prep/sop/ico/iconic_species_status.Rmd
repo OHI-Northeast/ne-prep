@@ -183,6 +183,100 @@ DT::datatable(table_df)
 write.csv(table_df, "data/table_ico_sp_status_by_rgn.csv")
 ```
 
+Need to create a df for background of heat map so that missing values are not blank. DF below has every iconic species in every region
+
+##MAYBE DELETE
+```{r}
+
+possible_sp <- table_df %>% 
+  ungroup() %>% 
+  select(common, sciname) %>% 
+  distinct() %>% 
+  uncount(11, .id = "n", .remove = F) %>% 
+  mutate(as.numeric(n))
+
+regions <- table_df %>% 
+  ungroup() %>% 
+  select(rgn_id, rgn_name) %>% 
+  distinct() %>% 
+  mutate( n = rgn_id)
+  
+heatmap_background <- left_join(possible_sp, regions, by = c("n")) %>% 
+  select(common, sciname, rgn_id, rgn_name) 
+
+```
+
+
+
+##Heatmap
+```{r}
+#install.packages("viridis")
+library(viridis)
+#install.packages("plotly")
+#library(plotly)
+
+
+table_df2 <- table_df %>% 
+  mutate(present = TRUE) %>% 
+  right_join(heatmap_background, by = c("rgn_id", "rgn_name", "common", "sciname")) %>% 
+  mutate(present = ifelse(is.na(present), FALSE, present)) %>% 
+  group_by(common) %>% 
+  mutate(av_score = mean(score, na.rm=TRUE)) %>% 
+  ungroup() %>% 
+  arrange( desc(av_score), common) %>% 
+  mutate(rgn_name = as.factor(rgn_name)) %>% 
+  transform(common = reorder(common, desc(av_score))) %>% 
+  transform(id=as.numeric(factor(common))) %>% 
+  transform(common = reorder(common, desc(id))) 
+
+
+```
+
+
+
+```{r}
+
+ico_heatmap <- ggplot(data = table_df2, aes(x = rgn_name, y = common)) +
+# geom_tile(fill ='grey90')  +
+  geom_tile(aes(fill = score, alpha = present)) + 
+  scale_fill_viridis(direction = -1, ) +
+  scale_alpha_discrete(guide = 'none') +
+  theme_dark()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title = element_blank(),
+        panel.grid =element_blank() )+
+  coord_cartesian(expand=FALSE)
+  
+ico_heatmap
+
+ggplotly(ico_heatmap)
+
+#ggsave("figs/ico_heatmap.jpg", width=7, height=5, dpi=300)
+
+
+```
+
+```{r}
+
+ico_heatmap_status <- ggplot(data = heatmap_data, aes(x = rgn_name, y = common)) +
+# geom_tile(fill ='grey90')  +
+  geom_tile(aes(fill = status, alpha = present)) + 
+  scale_fill_viridis_d(direction = -1, ) +
+  scale_alpha_discrete(guide = 'none') +
+  theme_dark()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.title = element_blank(),
+        panel.grid =element_blank() )+
+  coord_cartesian(expand=FALSE)
+  
+ico_heatmap_status
+
+ggplotly(ico_heatmap_status)
+
+```
+
+
+
 
 # Save layer to toolbox
 
