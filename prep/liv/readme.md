@@ -13,6 +13,9 @@ The `data` folder holds the cleaned up NOEP data (`clean_noep_data.csv`).
 
 The `int` folder holds intermediate data for jobs and wages that may be useful to examine how the layers are created. These are mainly saved here for possible use in the dashboard.
 
+### [Jobs data prep](https://ohi-northeast.github.io/ne-prep/prep/liv/jobs.html)    
+### [Wages data prep](https://ohi-northeast.github.io/ne-prep/prep/liv/wages.html)
+
 Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
 
 Thank you!

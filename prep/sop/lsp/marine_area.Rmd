@@ -74,7 +74,7 @@ We are also going to remove all areas that are designated as fishery/shellfish m
 marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
-  st_intersection(offshore_buffer) %>%
+  st_intersection(state_waters) %>%
   filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
          !is.na(Loc_Ds)) 
 ```

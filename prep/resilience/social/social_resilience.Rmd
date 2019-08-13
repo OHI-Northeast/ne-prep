@@ -36,14 +36,20 @@ This script calculates social resilience values by OHINE region.
 **Format**:  BHI=CSV file
 
 1) Beacon Hill Competitiveness Report
+2) Opportunity Index Scores
+3) Noaa Social Vulnerability (waiting)
+4) LCV scores (waiting)
+5) Grading the States Report (waiting), or can use 2018?
 
 ``` {r setup,  message = FALSE, warning = FALSE}
-
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+```
 
+
+``` {r setup,  message = FALSE, warning = FALSE}
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
@@ -56,7 +62,6 @@ library(tidyverse)
 
 
 Beacon Hill Institute State Competitiveness Report
-
 ```{r}
 
 raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
@@ -77,5 +82,60 @@ bhi_graph <- ggplot(bhi_scores) +
 #ggsave("figs/bhi_graph.jpg", width=7, height=5, dpi=300)
 
 ```
+
+
+Opportunity Index Scores
+
+```{r}
+
+raw_oi <- read_xlsx(file.path(dir_anx, "_raw_data/OpportunityIndex/opportunity_index_scores.xlsx")) %>% 
+  rename(oi_score = score)
+
+```
+
+```{r}
+
+oi_score <- raw_oi %>% 
+  group_by(state) %>% 
+  mutate(year_n = seq(1:7)) %>% 
+  ungroup() %>% 
+  mutate(oi_score = if_else(is.na(oi_score) & state == "Connecticut", 57.4, oi_score), #gapfilling for 2011 and 2013. using 2012 values
+         oi_score = if_else(is.na(oi_score) & state == "Maine", 56.7, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "Massachusetts", 59.1, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "New Hampshire", 60.4, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "New York", 53.9	, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "Rhode Island", 50.9	, oi_score),
+         score = oi_score/target)
+
+write.csv(oi_score, "data/oi_score.csv")
+```
+
+
+visualize
+```{r}
+oi_graph <- ggplot(oi_score) +
+  geom_line(aes(x=year, y= score, color = state)) +
+  ggtitle("Opportunity Index Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+oi_graph
+
+ggsave("figs/oi_graph.jpg", width=7, height=5, dpi=300)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
