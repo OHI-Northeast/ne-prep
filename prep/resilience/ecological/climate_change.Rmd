@@ -70,11 +70,9 @@ Data
 
 eee <- read_excel(file.path(dir_anx, "_raw_data/EEE/eee_scores.xlsx"))
 raw_gen <- read_excel(file.path(dir_anx, "_raw_data/EIA/eia_annual_generation_state.xls"))
+raw_clim_act <- read_excel(file.path(dir_anx, "_raw_data/Americas_Pledge/states_climate_regs_summary.xlsx"), skip=2, sheet = 2)
 
 ```
-
-
-I am pretty sure we're going to use the pdf file from EPA of EIA emmisisons data from 1990 so if thats the case delete this file from the server "_raw_data/EIA/eia_co2_emmisions.xlsx" 
 
 **Regualtions**
 Energy Efficiency Scores
@@ -105,6 +103,72 @@ eee_score_graph
 
 ggsave("figs/eee_score_graph.jpg", width=7, height=5, dpi=300)
 
+```
+
+Climate Friendly Actions
+total of 30 possible actions to be taken. 
+Set target as 30. A state would need to have taken some sort of action in each of the following categories to get 100%
+
+1) Integrating transportation & land-use in comprehensive plans	
+2) Dedicated funding streams for public transit
+3) Adopting legislation in line with Complete Streets objectives
+4) Financial incentives for high efficiency vehicles
+5) Conservation easement tax credits
+6) California’s vehicle emission standards
+7) Rules and incentives to reduce food waste
+8) Most recent building energy codes
+9) Appliance and equipment energy efficiency standards
+10) Carbon pricing	
+11) Zero Emission Vehicle mandate
+12) Cost-sharing programs to improve forest systems
+13) Wildfire protection incentives
+14) Coal mine methane standards
+15) Low carbon fuel standard
+16) Methane standards for existing oil and natural gas facilities
+17) Setting methane emission reduction targets
+18) Freight-specific energy efficiency performance metrics
+19) HFC management program requiring all leaks to be repaired
+20) Financial incentives for CCS
+21) Zero-emission credits for nuclear
+22) GHG Emission Targets
+23) Renewable energy portfolio standards or goals
+24) Property Assessed Clean Energy
+25) Combined heat and power financing and incentives
+26) Landfill gas energy project bond, grant, loan, or rebate programs
+27) Energy efficiency resource standard or goals
+28) Property tax programs to support sustainable forests
+29) Efficient vehicle requirement for public fleet procurement
+31) Freight plan  with multimodal freight strategies
+
+
+```{r}
+
+clim_act <- raw_clim_act %>% 
+  filter(State == "Maine" | State == "Massachusetts" | State == "New Hampshire" | State == "Rhode Island" | State == "Connecticut" | State == "New York" | State == "Total # of actions considered") %>% 
+  select(-"Energy efficiency", -"Total") %>% 
+  mutate(target = 23,
+         total = rowSums(.[2:9]),
+         score = total/target) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  filter(State != "Total # of actions considered")
+
+write.csv(clim_act, file = "data/clim_act")
+
+```
+
+```{r}
+
+clim_act_graph <-ggplot(clim_act)+
+  geom_line(aes(x=year, y = score, color=State))+
+  ggtitle("Climate Friendly Actions Score") +
+  ylab("Score") +
+  xlab("State") +
+  theme_classic() 
+clim_act_graph
+
+ggsave("figs/clim_act_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 

@@ -251,7 +251,7 @@ facilities_inspected <- left_join(num_fac, num_fac_inspec, by = c("year", "state
          year = as.numeric(year))
 
 ##save file
-#write.csv(facilities_inspected, "data/facilities_inspected.csv")
+write.csv(facilities_inspected, "data/facilities_inspected.csv")
 
 ```
 
@@ -268,7 +268,7 @@ inspections_graph <- ggplot(facilities_inspected) +
 inspections_graph
 
 ##save fig
-#ggsave("figs/inspections_graph.jpg", width=7, height=5, dpi=300)
+ggsave("figs/inspections_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
@@ -972,7 +972,7 @@ dmr_submissions <- rbind(dmr_2009, dmr_2010, dmr_2011, dmr_2012, dmr_2013, dmr_2
   mutate(percent_submitted = as.numeric(percent_submitted))
 
 #save data
-#write.csv(dmr_submissions,"data/dmr_submissions.csv")
+write.csv(dmr_submissions,"data/dmr_submissions.csv")
 
 ```
 
@@ -990,7 +990,7 @@ dmr_sub_graph <- ggplot(dmr_submissions) +
 dmr_sub_graph
 
 ##save fig
-#ggsave("figs/dmr_sub_graph.jpg", width=7, height=5, dpi=300)
+ggsave("figs/dmr_sub_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
@@ -1022,7 +1022,7 @@ gapfill <- cbind(year, state) %>%
 dmr_gapfill_submissions <- rbind(gapfill, dmr_submissions)  %>% 
   mutate(year = as.numeric(year))
 
-#write.csv(dmr_gapfilled,"data/dmr_gapfill_submissions.csv")
+write.csv(dmr_gapfilled,"data/dmr_gapfill_submissions.csv")
 
 ```
 
@@ -1058,7 +1058,7 @@ violations <- left_join(num_fac, violations_hist, by = c("year", "state"))%>%
   mutate(year = as.numeric(year))
 
 #save data
-#write.csv(violations, "data/violations.csv")
+write.csv(violations, "data/violations.csv")
 ```
 
 Visualization
@@ -1073,7 +1073,7 @@ violations_graph <- ggplot(violations) +
 
 violations_graph
 ##save fig
-#ggsave("figs/violations_graph.jpg", width=7, height=5, dpi=300)
+ggsave("figs/violations_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
@@ -1145,7 +1145,7 @@ wp_res_score <- wp_res_metrics %>%
   group_by(year, rgn_name, rgn_id) %>% 
   summarise(wp_res_score = sum(inspection_score, submitted_score, noviolation_score, regulation_score)/4)
 
-#write.csv(wp_res_score, file = "wp_res_score")
+write.csv(wp_res_score, "data/wp_res_score.csv")
 
 ```
 
@@ -1160,7 +1160,7 @@ wp_res_scores_graph <- ggplot(wp_res_score) +
   theme_classic() 
 
 wp_res_scores_graph
-#ggsave("figs/wp_res_scores_graph.jpg", width=7, height=5, dpi=300)
+ggsave("figs/wp_res_scores_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 

@@ -54,6 +54,9 @@ library(tidyverse)
 library(dplyr)
 library(Hmisc)
 library(stringi)
+library(tidyverse)
+library(sf)
+library(mapview)
 
 ```
 
@@ -164,7 +167,7 @@ assessment_score <- percent_assessed_by_region %>%
 
 assessment_score
 
-#write.csv(assessment_score, file = "data/assessment_score")
+write.csv(assessment_score, file = "data/assessment_score")
 
 ```
 
@@ -181,25 +184,12 @@ assessment_graph <- ggplot(assessment_score)+
 
 assessment_graph  
 
-#ggsave("figs/assessment_graph.jpg", width=7, height=5, dpi=300)
+ggsave("figs/assessment_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
 
 ##MPA Coverage in EEZ
-
-Used a lot of the code from the lsp.Rmd
-``` {r setup, message = FALSE, warning = FALSE}
-
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
-
-source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
-
-library(tidyverse)
-library(sf)
-library(mapview)
-
-```
 
 
 Let's look at the available layers in the USGS PADUS database
@@ -636,7 +626,7 @@ adeq_ass <- time_series_assessed %>%
 percent_adeq_ass <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id", "rgn_name") ) %>% 
   mutate(percent_adeq_ass = adeq_assessed/number_stocks)
 
-#write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
+write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
  
 ```
 
