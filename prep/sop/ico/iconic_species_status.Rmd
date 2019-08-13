@@ -260,6 +260,8 @@ table_status <-  table_df %>%
   rename(Status = status_long) %>% 
   mutate(Status = factor(Status, levels = order_status)) 
 
+write.csv(table_status, "data/heatmap_df.csv")
+
 ```
 
 Heatmap with scores
