@@ -29,8 +29,18 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 library(tidyverse)
 ```
 
-  
-#Methods
+# Data Source
+**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
+
+**Downloaded**: August, 2019
+
+**Description**:  Spatial point data identifying biological and human use resources. 
+
+**Native data resolution**: Point data
+
+**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
+
+**Format**:  Geodatabase/shapefile/point file
 
 ## Load Data
 
@@ -38,7 +48,7 @@ Inland buffer
 
 We are going to use the 1 mile inland buffer as well as the rgns to identify coastal points. 
 ```{r}
-inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp") %>%
+inland_buffer <- st_read("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp", quiet = T) %>%
   filter(rgn_name == "Rhode Island") %>%
   select(rgn_name, rgn_id)
 ```
@@ -55,19 +65,17 @@ ri_shape <- rgns %>%
 
 ### Rhode Island 2016
 
-**Socioeconomic Point Layer**
-
-CODES
-HWR - HISTORICAL WRECK
-HS - HISTORICAL SITE
-B - BEACH
-A - AIRPORT
-AS - ARCHAEOLOGICAL SITE
-F3 - FACILITY
+**Socioeconomic Point Layer**    
+HWR - HISTORICAL WRECK  
+HS - HISTORICAL SITE*
+B - BEACH*  
+A - AIRPORT  
+AS - ARCHAEOLOGICAL SITE  
+F3 - FACILITY  
 
 
 ```{r}
-ri_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "SOCECON_POINT") %>%
+ri_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "SOCECON_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ri_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
@@ -76,18 +84,16 @@ ri_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsla
   mutate(year = 2016)
 ```
 
-**Navigational Marine Point layer**
-
-CODES
-A2 - ACCESS POINT
-BR - BOAT RAMP
-LD - LOCK AND DAM
-M - MARINA
-F - FERRY
-PT - PORT
+**Navigational Marine Point layer**  
+A2 - ACCESS POINT*  
+BR - BOAT RAMP*  
+LD - LOCK AND DAM  
+M - MARINA*  
+F - FERRY*  
+PT - PORT*  
 
 ```{r}
-ri_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "NAV_MARINE_POINT") %>%
+ri_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "NAV_MARINE_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ri_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
@@ -99,7 +105,7 @@ ri_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsla
 **Managed Point layer**
 
 ```{r}
-ri_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "MANAGED_POINT") %>%
+ri_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "MANAGED_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ri_shape) 
 ```
@@ -120,33 +126,27 @@ ri_2016 <- ri_2016_nav %>%
 
 **Socioeconomic Points**
 
-
 Metadata: https://response.restoration.noaa.gov/sites/default/files/esimaps/gisdata/Mass_2001_Meta.pdf
-**NOTE**: There was no associated code data for this layer 
 
-CODES
-M - MARINA/ANCHORAGE
-BR - BOAT RAMP
-B - BEACH
-WI - WATER INTAKE
-CF - COMMERCIAL FISHING
-AQ - AQUACULTURE
-F - FERRY  
-WO - WASHOVER
-HS - HISTORICAL SITE
-A - AIRPORT
-
+M - MARINA/ANCHORAGE*  
+BR - BOAT RAMP*  
+B - BEACH*  
+WI - WATER INTAKE  
+CF - COMMERCIAL FISHING  
+AQ - AQUACULTURE  
+F - FERRY*   
+WO - WASHOVER  
+HS - HISTORICAL SITE*  
+A - AIRPORT  
 
 ```{r}
-ri_2001_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/RI_CT_NY_NJ_2001_Shapefiles/shape/soceconp.shp")) %>% 
+ri_2001_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/RI_CT_NY_NJ_2001_Shapefiles/shape/soceconp.shp"), quiet = T) %>% 
   st_set_crs("+init=epsg:4269") %>%
   st_transform(us_alb) %>%
   st_intersection(ri_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
   filter(TYPE %in% c("M", "HS", "BR", "B", "F"))
 ```
-
-
 
 ----
 
@@ -158,9 +158,16 @@ mapview(ri_2016, col.regions = "blue") + mapview(ri_2001_soc, col.regions = "red
 ```
 
 
+# Combine and Save
 
+We are going to combine all points from each layer and then save as a single Massachusetts coastal access shapefile
 
+```{r}
+all <-ri_2001_soc %>%
+  select(TYPE, rgn_name, rgn_id) %>%
+  mutate(year = 2001) %>%
+  rename(SHAPE = geometry) %>%
+  rbind(ri_2016)
 
-
-
-
+write_sf(all, "data/coastal_access_shapefiles/ri_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
+```

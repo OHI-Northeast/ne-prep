@@ -29,16 +29,31 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 library(tidyverse)
 ```
 
-  
-#Methods
+---
 
-## Load Data
+# Data Source 
+
+**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
+
+**Downloaded**: August, 2019
+
+**Description**:  Spatial point data identifying biological and human use resources. 
+
+**Native data resolution**: Point data
+
+**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
+
+**Format**:  Geodatabase/shapefile/point file
+---
+
+
+# Load Data
 
 Inland buffer
 
 We are going to use the 1 mile inland buffer as well as the rgns to identify coastal points. 
 ```{r}
-inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp") %>%
+inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp", quiet = T) %>%
   filter(rgn_name == "Maine") %>%
   select(rgn_name, rgn_id)
 ```
@@ -55,21 +70,19 @@ me_shape <- rgns %>%
 
 ### Maine 2016
 
-**Socioeconomic Point Layer**
-
-CODES
-A - AIRPORT
+**Socioeconomic Point Layer**  
+A - AIRPORT  
 AV - ABANDONED VESSEL
-B - BEACH
-C - CAMPGROUND
-RE - RENEWABLE ENERGY
-HWR  HISTORICAL WRECK
-HP - HELIPORT
-NOAA - NOAA FACILITY
-EPAF - EPA FACILITY
+B - BEACH*  
+C - CAMPGROUND*  
+RE - RENEWABLE ENERGY  
+HWR  HISTORICAL WRECK  
+HP - HELIPORT  
+NOAA - NOAA FACILITY  
+EPAF - EPA FACILITY  
 
 ```{r}
-me_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "SOCECON_POINT") %>%
+me_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "SOCECON_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(me_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
@@ -78,18 +91,16 @@ me_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB
   mutate(year = 2016)
 ```
 
-**Navigational Marine Point layer**
-
-CODES
-A2 - ACCESS POINT
-BR - BOAT RAMP
-LD - LOCK AND DAM
-M - MARINA
-PT - PORT
-RM - RM
+**Navigational Marine Point layer**  
+A2 - ACCESS POINT*  
+BR - BOAT RAMP*  
+LD - LOCK AND DAM  
+M - MARINA*  
+PT - PORT*  
+RM - RM  
 
 ```{r}
-me_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "NAV_MARINE_POINT") %>%
+me_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "NAV_MARINE_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(me_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
@@ -98,14 +109,12 @@ me_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB
   mutate(year = 2016)
 ```
 
-**Managed Point layer**
-CODES
-NL = National Landmark
-NG = National Guard
-
+**Managed Point layer**  
+NL = National Landmark*  
+NG = National Guard  
 
 ```{r}
-me_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "MANAGED_POINT") %>%
+me_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "MANAGED_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(me_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
@@ -131,9 +140,11 @@ library(mapview)
 mapview(me_2016, zcol = "TYPE")
 ```
 
+# Save
 
-
-
+```{r save}
+write_sf(me_2016, "data/coastal_access_shapefiles/me_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
+```
 
 
 

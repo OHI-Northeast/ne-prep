@@ -1,0 +1,246 @@
+---
+title: 'OHI-Northeast: Coastal Access'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+#libraries
+library(tidyverse)
+library(sf)
+#install.packages("gmapsdistance")
+library(gmapsdistance)  # for getting info from the API
+```
+
+---
+
+#Data Source 
+
+**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
+
+**Downloaded**: August, 2019
+
+**Description**:  Spatial point data identifying biological and human use resources. 
+
+**Native data resolution**: Point data
+
+**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
+
+**Format**:  Geodatabase/shapefile/point file
+
+***
+
+# Load Data
+
+Load all the individual state point shapefiles
+```{r}
+nh <- read_sf("state_coastal_access/data/coastal_access_shapefiles/nh_coast_access.shp")
+me <- read_sf("state_coastal_access/data/coastal_access_shapefiles/me_coast_access.shp")
+ny <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ny_coast_access.shp")
+ri <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ri_coast_access.shp")
+ma <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ma_coast_access.shp")
+ct <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ct_coast_access.shp")
+```
+
+# Buffer points
+
+Applying a 2 mile buffer to each point
+
+```{r}
+nh_buff <- st_buffer(nh, dist = 3218.69) #there are 3218.69 meters in 2 miles
+ny_buff <- st_buffer(ny, dist = 3218.69)
+me_buff <- st_buffer(me, dist = 3218.69)
+ma_buff <- st_buffer(ma, dist = 3218.69)
+ri_buff <- st_buffer(ri, dist = 3218.69)
+ct_buff <- st_buffer(ct, dist = 3218.69)
+```
+
+# Combine
+
+We are going to combine all points from each layer
+
+```{r}
+all <- nh_buff %>%
+  mutate(rgn_name = "New Hampshire") %>%
+  rbind(ny_buff) %>%
+  rbind(me_buff) %>%
+  rbind(ma_buff) %>%
+  rbind(ct_buff) %>%
+  rbind(ri_buff)
+```
+
+# Try gmapsdistance
+
+Results:
+Time (seconds)
+Distance (metres)
+Status (i.e. could the calculation be made?)
+
+```{r, echo = F}
+set.api.key(Sys.getenv("GOOGLE_ACCESS_TOKEN"))
+```
+
+
+```{r}
+small <- ny[1:10,]
+
+#try st_distance
+st_distance(small) #this is in meters
+
+#try gmapsdistance
+
+#first convert to latlong
+
+small_lat_long <- small %>%
+  st_transform("+init=epsg:4326") %>%
+  mutate(id = row_number(),
+         long = unlist(map(.$geometry,1)),
+         lat = unlist(map(.$geometry,2)),
+         point = paste0(lat, "+",long))
+
+out <- data.frame()
+
+for(i in 1:(nrow(small_lat_long)-1)){
+ 
+  o = filter(small_lat_long, id == i) %>% .$point 
+
+  out2 <- data.frame()
+  for(j in 1:(nrow(small_lat_long)-1)){
+    
+    d = filter(small_lat_long, id == j+1) %>% .$point
+    
+     r <- gmapsdistance(origin = o, destination = d, mode = "driving")
+     
+     dist <- r$Distance/1609.34
+     
+     df <- data.frame(miles = dist,
+                       start = i,
+                       end = j+1)
+     
+     out2 <- rbind(df, out2)
+     }
+  
+      df2 <- out2 %>% 
+           filter(start != end) %>%
+           group_by(start) %>%
+           summarize(min_dist = min(miles))
+    
+      out <- rbind(df2, out) 
+}
+```
+
+Do it for New Hampshire
+```{r}
+#function to calculate minimum distance for each point in each state
+get_dist_bw_points <- function(state, name){
+  
+  #transform to lat long and create a point column that will be used for origin and destination
+  #in gmapsdistance
+  state_df <- state %>%
+    st_transform("+init=epsg:4326") %>%
+    mutate(id = row_number(),
+           long = unlist(map(.$geometry,1)),
+           lat = unlist(map(.$geometry,2)),
+           point = paste0(lat, "+",long))
+
+  #create empty dataframe
+  out <- data.frame()
+
+    for(i in 1:(nrow(state_df)-1)){
+      print(paste("i =", i))
+     
+      #get origin
+      o = filter(state_df, id == i) %>% .$point 
+      
+        #create another empty dataframe for this forloop
+        out2 <- data.frame()
+        for(j in 1:(nrow(state_df)-1)){
+          print(paste("j =", j))
+          
+          #get destination
+          d = filter(state_df, id == j+1) %>% .$point
+          
+          #get distance between two points
+          r <- gmapsdistance(origin = o, destination = d, mode = "driving")
+           
+          #convert distance to miles
+          dist <- r$Distance/1609.34
+          
+          #store info in dataframe 
+          df <- data.frame(miles = dist,
+                           start = i,
+                           end = j+1)
+       
+          out2 <- rbind(df, out2)
+        }
+  
+      df2 <- out2 %>% 
+           filter(start != end) %>%
+           group_by(start) %>%
+           summarize(min_dist = min(miles))
+    
+      out <- rbind(df2, out) 
+    }
+  
+    return(out)
+}
+
+nh_data <- get_dist_bw_points(nh, "New Hampshire")
+
+write.csv(nh_data, "data/nh_min_dist_per_point.csv")
+```
+
+
+
+# Calculate score
+
+We want each point to be overlapping with at least two other points. This would indicate that there are access points every two miles.
+
+```{r}
+ny_pts <- ny[1:3,]
+
+
+distances <- gmapsdistance::gmapsdistance(
+  origin = cam_pcd,  # start point of journey
+  destination = cum_pcd,  # end point of journey
+  mode = "driving",  # driving time
+  shape = "long"  # format of output data (origin and destination as cols)
+)
+```
+
+
+#Save
+
+```{r}
+write_sf(all, "data/coastal_access_shapefiles/nh_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
+```
+
+
+
+
+
+
+
+
+
+

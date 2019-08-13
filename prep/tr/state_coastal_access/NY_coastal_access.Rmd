@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Beach Access Layer'
+title: 'OHI-Northeast: NY Beach Access Layer'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -31,27 +31,26 @@ library(tidyverse)
 
 #Summary
 
+---
 
-***
+#Data Source 
 
-#Data Source [NOTE: can be copied from README.md in rawdata file]
-**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
+**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
 
-**Downloaded**: [date downloaded or received]
+**Downloaded**: August, 2019
 
-**Description**:  [e.g., surface aragonite state]
+**Description**:  Spatial point data identifying biological and human use resources. 
 
-**Native data resolution**: [e.g., 1 degree, 30 m, etc.]   
+**Native data resolution**: Point data
 
-**Time range**: [e.g., 1880-1899, monthly data provided for each year] 
+**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
 
-**Format**:  [e.g. NetCDF]
+**Format**:  Geodatabase/shapefile/point file
 
 ***
   
-#Methods
 
-## Load Data
+# Load Data
 
 Inland buffer
 
@@ -72,7 +71,7 @@ ny_shape <- rgns %>%
 ```
 
 
-Rhode Island, Connecticut, and New York-New Jersey Metropolitan Area*
+### Rhode Island, Connecticut, and New York-New Jersey Metropolitan Area*
 *Note this doesn't include Long Island...
 
 2001
@@ -93,7 +92,7 @@ WI - WATER INTAKE
 WO - WASHOVER
 
 ```{r load_esi_data}
-socecon_2001 <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/RI_CT_NY_NJ_2001_Shapefiles/shape/soceconp.shp"))
+socecon_2001 <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/RI_CT_NY_NJ_2001_Shapefiles/shape/soceconp.shp"), quiet = T)
 ```
 
 Filter
@@ -137,7 +136,7 @@ M - MARINA
 WI - WATER INTAKE
 
 ```{r}
-li_2009_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIs_NY_2009_Shapefiles/avproj/shape/soceconp.shp")) %>%
+li_2009_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIs_NY_2009_Shapefiles/avproj/shape/soceconp.shp"), quiet = T) %>%
   st_set_crs("+init=epsg:4269") %>%
   st_transform(us_alb) %>%
   st_intersection(ny_shape) %>%
@@ -151,15 +150,15 @@ Long Island Sound 2016 data. Filter for socioeconomic and managed area point lay
 
 CODES
 
-Socioeconomic Point
-AV - Abandoned Vessel
-LF - Landfill
-HWR - Historic Wreck
-HS - Historical Site
-B - Beach
+Socioeconomic Point (those with * are what we use)  
+AV - Abandoned Vessel  
+LF - Landfill  
+HWR - Historic Wreck  
+HS - Historical Site*  
+B - Beach*  
 
 ```{r}
-li_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "SOCECON_POINT") %>%
+li_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "SOCECON_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ny_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
@@ -167,33 +166,32 @@ li_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIsland
   select(TYPE, rgn_name, rgn_id)
 ```
 
-Managed points
-NL = National Landmark
+Managed points  
+NL = National Landmark  
 
 No need to filter here since this layer includes national landmarks
 
 ```{r}
-li_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "MANAGED_POINT") %>%
+li_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "MANAGED_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ny_shape) %>%
   select(TYPE, rgn_name, rgn_id)
 ```
 
-Navigational Marine Points
-M = Marina
-F = Ferry
-BR = Boat Ramp
-A2 = Access point
-PT = Port
+**Navigational Marine Points** 
+M = Marina  
+F = Ferry  
+BR = Boat Ramp  
+A2 = Access point  
+PT = Port  
 
 We consider all of these to be coastal access points
 
 ```{r}
-li_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "NAV_MARINE_POINT") %>%
+li_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "NAV_MARINE_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ny_shape) %>%
   select(TYPE, rgn_name, rgn_id)
-
 ```
 
 Combine the 2016 layers
@@ -208,24 +206,22 @@ li_2016 <- li_2016_nav %>%
 
 ---
 
-New York 2016 Data
+## New York 2016 Data
 
-CODES
-
-Socioeconomic Point
-A = Airport
-AS = Archaeological site
-AV - Abandoned Vessel
-LF - Landfill
-HS - Historical Site
-B = Beach
-RE = Renewable Energy
-S2 = Surfing
-OF = Oil Facility
-C = Campground
+**Socioeconomic Point Codes** we only use those marked with *
+A = Airport  
+AS = Archaeological site  
+AV - Abandoned Vessel  
+LF - Landfill  
+HS - Historical Site*  
+B = Beach*  
+RE = Renewable Energy  
+S2 = Surfing*  
+OF = Oil Facility  
+C = Campground*  
 
 ```{r}
-ny_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NY_NJ_2016_GDB/NY_NJ_ESI_2016.gdb"), layer = "SOCECON_POINT") %>%
+ny_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NY_NJ_2016_GDB/NY_NJ_ESI_2016.gdb"), layer = "SOCECON_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ny_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
@@ -234,24 +230,22 @@ ny_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NY_NJ_2016
 ```
 
 
-Navigational Marine Points
-M = Marina*
-F = Ferry*
-BR = Boat Ramp*
-A2 = Access point*
-PT = Port*
-DV = Diving Site*
-AN = Anchorage*
-LD = Lock and Dam
-
-We consider all of these to be coastal access points
+**Navigational Marine Points**  
+M = Marina*  
+F = Ferry*  
+BR = Boat Ramp*  
+A2 = Access point*  
+PT = Port*  
+DV = Diving Site  
+AN = Anchorage*  
+LD = Lock and Dam  
 
 ```{r}
-ny_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NY_NJ_2016_GDB/NY_NJ_ESI_2016.gdb"), layer = "NAV_MARINE_POINT") %>%
+ny_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NY_NJ_2016_GDB/NY_NJ_ESI_2016.gdb"), layer = "NAV_MARINE_POINT", quiet = T) %>%
   st_transform(us_alb) %>%
   st_intersection(ny_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
-  filter(TYPE != "LD") %>% #keep all but lock and dam
+  filter(!TYPE %in% c("DV", "LD")) %>% #keep all but lock and dam
   select(TYPE, rgn_name, rgn_id)
 ```
 
@@ -269,9 +263,21 @@ ny_2016 <- ny_2016_nav %>%
 Lets look at the 2016 and 2001 points
 
 
-```{r, fig.width = 10}
+```{r, fig.width = 8}
 library(mapview)
 mapview(ny_2016, col.regions = "red") + mapview(ny_2001_points, col.regions = "blue") + mapview(li_2016, col.regions = "green") + mapview(li_2009_socecon, col.regions = "orange")
+```
+
+# Combine and Save
+
+We are going to combine all points from each layer and then save as a single New York coastal access shapefile
+
+```{r}
+all <- ny_2016 %>% 
+  rename(Shape = SHAPE) %>%
+  rbind(li_2016)
+
+write_sf(all, "data/coastal_access_shapefiles/ny_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
 ```
 
 

@@ -30,9 +30,22 @@ library(tidyverse)
 ```
 
   
-#Methods
+# Data Source 
 
-## Load Data
+**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
+
+**Downloaded**: August, 2019
+
+**Description**:  Spatial point data identifying biological and human use resources. 
+
+**Native data resolution**: Point data
+
+**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
+
+**Format**:  Geodatabase/shapefile/point file
+---
+
+# Load Data
 
 Inland buffer
 
@@ -55,11 +68,9 @@ ma_shape <- rgns %>%
 
 ### Massachusetts 2016
 
-**Socioeconomic Point Layer**
-
-CODES
-HWR  HISTORICAL WRECK
-HS - HISTORICAL SITE
+**Socioeconomic Point Layer**  
+HWR  HISTORICAL WRECK  
+HS - HISTORICAL SITE*  
 
 These are the only two codes in this file after subsetting just to MA. No beaches!?
 
@@ -73,23 +84,21 @@ ma_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsla
   mutate(year = 2016)
 ```
 
-**Navigational Marine Point layer**
-
-CODES
-A2 - ACCESS POINT
-BR - BOAT RAMP
-LD - LOCK AND DAM
-M - MARINA
-F - FERRY
-PT - PORT
-DV - DIVING
+**Navigational Marine Point layer**  
+A2 - ACCESS POINT*  
+BR - BOAT RAMP*  
+LD - LOCK AND DAM  
+M - MARINA*  
+F - FERRY*  
+PT - PORT*  
+DV - DIVING  
 
 ```{r}
 ma_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "NAV_MARINE_POINT") %>%
   st_transform(us_alb) %>%
   st_intersection(ma_shape) %>%
   mutate(TYPE = as.character(TYPE)) %>%
-  filter(TYPE != "LD") %>%
+  filter(!TYPE %in% c("DV", "LD")) %>%
   select(TYPE, rgn_name, rgn_id) %>%
   mutate(year = 2016)
 ```
@@ -115,29 +124,25 @@ ma_2016 <- ma_2016_nav %>%
 
 ### Massachusetts 2001 points
 
-
 **Socioeconomic Points**
 
-
 Metadata: https://response.restoration.noaa.gov/sites/default/files/esimaps/gisdata/Mass_2001_Meta.pdf
-**NOTE**: There was no associated code data for this layer 
 
-CODES
-M - MARINA/ANCHORAGE
-HS - HISTORICAL SITE
-BR - BOAT RAMP
-B - BEACH
-RF - RECREATIONAL FISHING
-CG - COAST GUARD
-WI - WATER INTAKE
-LD - LOCK AND DAM
-CF - COMMERCIAL FISHING
-AQ - AQUACULTURE
-A2 - ACCESS POINT
-F - FERRY  
-WO - WASHOVER
-MA - MANAGEMENT AREA
-P - PARK
+M - MARINA/ANCHORAGE*  
+HS - HISTORICAL SITE*  
+BR - BOAT RAMP*  
+B - BEACH*  
+RF - RECREATIONAL FISHING  
+CG - COAST GUARD  
+WI - WATER INTAKE  
+LD - LOCK AND DAM  
+CF - COMMERCIAL FISHING  
+AQ - AQUACULTURE  
+A2 - ACCESS POINT*  
+F - FERRY*  
+WO - WASHOVER  
+MA - MANAGEMENT AREA  
+P - PARK*  
 
 ```{r}
 ma_2001_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_2001_Shapefiles/SHAPE/SOCECONP.SHP")) %>% 
@@ -148,20 +153,28 @@ ma_2001_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_2001_Shap
   filter(TYPE %in% c("M", "HS", "BR", "B", "A2", "F", "P"))
 ```
 
-
-
 ----
 
 Lets look at the 2016 and 2001 points
 
-```{r, fig.width = 10, fig.height = 10}
+```{r}
 library(mapview)
 mapview(ma_2016, col.regions = "blue") + mapview(ma_2001_soc, col.regions = "red")
 ```
 
-Theres no beach in this whole dataset. All of cape cod national seashore is not included in the points layer.
+# Combine and Save
 
+We are going to combine all points from each layer and then save as a single Massachusetts coastal access shapefile
 
+```{r}
+all <- ma_2001_soc %>%
+  select(TYPE, rgn_name, rgn_id) %>%
+  mutate(year = 2001) %>%
+  rename(SHAPE = geometry) %>%
+  rbind(ma_2016)
+
+write_sf(all, "data/coastal_access_shapefiles/ma_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
+```
 
 
 
