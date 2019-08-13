@@ -1,0 +1,201 @@
+---
+title: 'OHI-Northeast: New Hampshire Coastal Access'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+#libraries
+library(tidyverse)
+```
+
+---
+
+#Data Source 
+
+**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
+
+**Downloaded**: August, 2019
+
+**Description**:  Spatial point data identifying biological and human use resources. 
+
+**Native data resolution**: Point data
+
+**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
+
+**Format**:  Geodatabase/shapefile/point file
+
+***
+
+## Load Data
+
+Inland buffer
+
+We are going to use the 1 mile inland buffer as well as the rgns to identify coastal points. 
+```{r}
+inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp", quiet = T) %>%
+  filter(rgn_name == "New Hampshire") %>%
+  select(rgn_name, rgn_id)
+```
+
+Combine inland buffer with connecticut state waters
+
+```{r}
+nh_shape <- rgns %>%
+  filter(rgn_name == "New Hampshire") %>%
+  select(rgn_name, rgn_id) %>%
+  rbind(inland_buffer)
+```
+
+
+### New Hampshire 2016
+
+**Socioeconomic Point Layer**
+
+CODES
+A - AIRPORT
+AV - ABANDONED VESSEL
+B - BEACH
+C - CAMPGROUND
+RE - RENEWABLE ENERGY
+HWR  HISTORICAL WRECK
+HP - HELIPORT
+NOAA - NOAA FACILITY
+EPAF - EPA FACILITY
+
+```{r}
+nh_2016_soc <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "SOCECON_POINT", quiet = T) %>%
+  st_transform(us_alb) %>%
+  st_intersection(nh_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE %in% c("B", "C")) %>%
+  select(TYPE, rgn_name, rgn_id) %>%
+  mutate(year = 2016)
+```
+
+**Navigational Marine Point layer**
+
+CODES
+A2 - ACCESS POINT
+BR - BOAT RAMP
+LD - LOCK AND DAM
+M - MARINA
+PT - PORT
+RM - RM
+
+```{r}
+nh_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "NAV_MARINE_POINT", quiet = T) %>%
+  st_transform(us_alb) %>%
+  st_intersection(nh_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE %in% c("A2", "BR", "M", "PT")) %>%
+  select(TYPE, rgn_name, rgn_id) %>%
+  mutate(year = 2016)
+```
+
+**Managed Point layer**
+CODES
+NL = National Landmark
+NG = National Guard
+
+
+```{r}
+nh_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/ME_NH_2016_GDB/Maine_NewHampshire_2016_ESI.gdb"), layer = "MANAGED_POINT", quiet = T) %>%
+  st_transform(us_alb) %>%
+  st_intersection(nh_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE == "NL") %>%
+  select(TYPE, rgn_name, rgn_id) %>%
+  mutate(year = 2016)
+```
+
+## New Hampshire 2004 
+
+> This data set contains human-use resource data for airports, aquaculture sites, archaeological and historic sites, the U.S. Coast Guard station location, groundwater well sites, lock and dam locations, marinas, recreational beaches, recreational fishing, staging (access) areas, popular surfing locations, water intake sites, bridges, and state borders in New Hampshire. Vector points in this data set represent human-use site locations. Vector lines in this data set represent bridges and state borders. Location specific type and source information are stored in relational data tables (described below) designed to be used in conjunction with this spatial data layer. This data set comprises a portion of the Environmental Sensitivity Index (ESI). 
+
+TYPE column  
+A - AIRPORT  
+HP - HELIPORT  
+LD - LOCK OR DAM  
+AQ - AQUACULTURE  
+B - BEACH*  
+RF - RECREATIONAL FISHING  
+CG - COAST GUARD  
+HS - HISTORICAL SITE*  
+M - MARINA*  
+WI - WATER INTAKE  
+W - WELL  
+ST - STAGING SITE  
+S2 - SURFING*  
+
+```{r}
+nh_2004 <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/NewHamp_2004_Shapefiles/AVPROJ/shape/soceconp.shp"), quiet = T) %>% 
+  filter(TYPE %in% c("B", "HS", "M", "S2")) %>% 
+  st_set_crs("+init=epsg:4269") %>%
+  st_transform(us_alb)
+```
+
+
+Combine the layers
+
+```{r}
+nh_2016 <- nh_2016_nav %>%
+  rbind(nh_2016_mgd) %>%
+  rbind(nh_2016_soc) %>%
+  select(-rgn_name)
+```
+
+----
+
+Lets look at the 2016 and 2004 points
+
+```{r}
+library(mapview)
+mapview(nh_2016, zcol = "TYPE") + mapview(nh_2004, zcol = "TYPE")
+```
+
+
+# Combine and Save
+
+We are going to combine all points from each layer and then save as a single Connecticu coastal access shapefile
+
+```{r}
+all <- nh_2004 %>%
+  mutate(rgn_id = 9,
+         year = 2004) %>%
+  select(TYPE, rgn_id, year) %>%
+  rename(SHAPE = geometry) %>%
+  rbind(nh_2016)
+
+write_sf(all, "data/coastal_access_shapefiles/nh_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
+```
+
+
+
+
+
+
+
+
+
+

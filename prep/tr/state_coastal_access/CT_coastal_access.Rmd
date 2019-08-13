@@ -1,0 +1,200 @@
+---
+title: 'OHI-Northeast: Connecticut Coastal Access Layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+#libraries
+library(tidyverse)
+```
+
+---
+
+#Data Source 
+
+**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
+
+**Downloaded**: August, 2019
+
+**Description**:  Spatial point data identifying biological and human use resources. 
+
+**Native data resolution**: Point data
+
+**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
+
+**Format**:  Geodatabase/shapefile/point file
+
+***
+  
+
+## Load Data
+
+Inland buffer
+
+We are going to use the 1 mile inland buffer as well as the rgns to identify coastal points. 
+```{r}
+inland_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp", quiet = T) %>%
+  filter(rgn_name == "Connecticut") %>%
+  select(rgn_name, rgn_id)
+```
+
+Combine inland buffer with connecticut state waters
+
+```{r}
+ct_shape <- rgns %>%
+  filter(rgn_name == "Connecticut") %>%
+  select(rgn_name, rgn_id) %>%
+  rbind(inland_buffer)
+```
+
+
+### Rhode Island, Connecticut, and New York-New Jersey Metropolitan Area*
+
+2001
+**Socioeconomic Resource Points and Lines**
+> "This data set contains human-use resource data for bridges, state borders, airports, aquaculture sites, beaches, boat ramps, commercial fishing sites, Coast Guard, ferries, historical sites, marinas, water intakes, and wash over sites in Rhode Island, Connecticut, New York, and New Jersey. Vector points in this data set represent human-use site locations. This data set comprises a portion of the Environmental Sensitivity Index (ESI) data for Rhode Island, Connecticut, New York, and New Jersey. ESI data characterize the marine and coastal environments and wildlife by their sensitivity to spilled oil. The ESI data include information for three main components: shoreline habitats, sensitive biological resources, and human-use resources. See also the MGT (Management Area Polygons) data layer, part of the larger Rhode Island, Connecticut, New York, and New Jersey ESI database, for additional human-use information."
+
+TYPE column  
+A - AIRPORT  
+AQ - AQUACULTURE  
+B - BEACH  
+BR - BOATRAMP  
+CF - COMMERCIAL FISHING  
+CG - COAST GUARD  
+F - FERRY  
+HS - HISTORICAL SITE  
+M - MARINA  
+WI - WATER INTAKE  
+WO - WASHOVER  
+
+```{r load_esi_data}
+socecon_2001 <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/RI_CT_NY_NJ_2001_Shapefiles/shape/soceconp.shp"), quiet = T)
+```
+
+
+Filter
+
+```{r}
+ct_se_2001 <- socecon_2001 %>% 
+  filter(TYPE %in% c("B", "BR", "M", "F", "HS")) %>% 
+  st_set_crs("+init=epsg:4269")
+```
+
+Select CT after intersecting with our rgns
+
+```{r}
+ct_2001_points <- ct_se_2001 %>%
+  st_transform(us_alb) %>%
+  st_intersection(ct_shape) %>%
+  mutate(year = 2001,
+         TYPE = as.character(TYPE)) %>%
+  select(TYPE, rgn_name, rgn_id, year)
+```
+
+---
+
+Long Island Sound 2016 data. Filter for socioeconomic and managed area point layers.
+
+**Socioeconomic Point**  
+AV - Abandoned Vessel  
+LF - Landfill  
+HWR - Historic Wreck  
+HS - Historical Site  
+LF = Landfill  
+B = Beach  
+
+```{r}
+li_2016_socecon <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "SOCECON_POINT", quiet = T) %>%
+  st_transform(us_alb) %>%
+  st_intersection(ct_shape) %>%
+  mutate(TYPE = as.character(TYPE)) %>%
+  filter(TYPE %in% c("B", "HS")) %>%
+  select(TYPE, rgn_name, rgn_id)
+```
+
+**Managed points**
+NL = National Landmark
+
+No need to filter here since this layer includes national landmarks
+
+```{r}
+li_2016_mgd <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb" ), layer = "MANAGED_POINT", quiet = T) %>%
+  st_transform(us_alb) %>%
+  st_intersection(ct_shape) %>%
+  select(TYPE, rgn_name, rgn_id)
+```
+
+**Navigational Marine Points**  
+M = Marina  
+F = Ferry 
+BR = Boat Ramp  
+A2 = Access point  
+PT = Port  
+
+We consider all of these to be coastal access points
+
+```{r}
+li_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/LongIslandSound_2016_GDB/LongIslandSound_ESI_2016.gdb"), layer = "NAV_MARINE_POINT", quiet = T) %>%
+  st_transform(us_alb) %>%
+  st_intersection(ct_shape) %>%
+  select(TYPE, rgn_name, rgn_id)
+
+```
+
+Combine the 2016 layers
+
+```{r}
+ct_2016 <- li_2016_nav %>%
+  rbind(li_2016_mgd) %>%
+  rbind(li_2016_socecon) %>%
+  mutate(year = 2016)
+```
+
+Lets look at the 2016 and 2001 points
+
+
+```{r}
+mapview::mapview(ct_2016, col.regions = "red") + mapview::mapview(ct_2001_points, col.regions = "blue") 
+```
+
+# Combine and Save
+
+We are going to combine all points from each layer and then save as a single Connecticu coastal access shapefile
+
+```{r}
+all <- ct_2016 %>% 
+  rename(geometry = Shape) %>%
+  rbind(ct_2001_points)
+
+write_sf(all, "data/coastal_access_shapefiles/ct_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
+```
+
+
+
+
+
+
+
+
+

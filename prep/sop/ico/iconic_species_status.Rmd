@@ -20,6 +20,11 @@ output:
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+#install.packages("viridis")
+library(viridis)
+#install.packages("plotly")
+library(plotly)
 ```
 
 # Summary
@@ -157,7 +162,8 @@ We need to add all years even though we dont have any information that tells us 
 ico_layer <- spp_rgns_scores %>%
   group_by(common, sciname, rgn_id, score) %>%
   complete(year = 2005:2017) %>%
-  left_join(rgn_data)
+  ungroup() %>%
+  left_join(rgn_data) 
 
 ggplot(ico_layer, aes(x = year, y = score, color = common)) +
   geom_line() +
@@ -175,7 +181,8 @@ Since we see no changes over time let's just look at 2017 in table form
 ```{r}
 table_df <- ico_layer %>%
   filter(year == 2017) %>%
-  select(common, sciname, rgn_name, score)
+  mutate(common = str_to_sentence(common)) %>%
+  select(rgn_id, common, sciname, rgn_name, score)
 
 DT::datatable(table_df)
 
@@ -183,40 +190,32 @@ DT::datatable(table_df)
 write.csv(table_df, "data/table_ico_sp_status_by_rgn.csv")
 ```
 
-Need to create a df for background of heat map so that missing values are not blank. DF below has every iconic species in every region
+## Heatmap
+
+Need to create a dataframe for background of heat map so that missing values are not blank. Dataframe below has every iconic species in every region
 
 ```{r}
 
 possible_sp <- table_df %>% 
-  ungroup() %>% 
   select(common, sciname) %>% 
   distinct() %>% 
   uncount(11, .id = "n", .remove = F) %>% 
   mutate(as.numeric(n))
 
 regions <- table_df %>% 
-  ungroup() %>% 
   select(rgn_id, rgn_name) %>% 
   distinct() %>% 
-  mutate( n = rgn_id)
+  mutate(n = rgn_id)
   
 heatmap_background <- left_join(possible_sp, regions, by = c("n")) %>% 
   select(common, sciname, rgn_id, rgn_name) 
 
 ```
 
-##Heatmap
-
-with scores
+Create dataframe that matches scores with status
 ```{r}
-#install.packages("viridis")
-library(viridis)
-#install.packages("plotly")
-#library(plotly)
-
 status_num <- read.csv("data/status_numbers.csv") %>% 
   select(-X)
-
 
 table_df2 <- table_df %>% 
   mutate(present = TRUE) %>% 
@@ -225,13 +224,11 @@ table_df2 <- table_df %>%
   group_by(common) %>% 
   mutate(av_score = mean(score, na.rm=TRUE)) %>% 
   ungroup() %>% 
-  arrange( desc(av_score), common) %>% 
+  arrange(desc(av_score), common) %>% 
   mutate(rgn_name = as.factor(rgn_name)) %>% 
   transform(common = reorder(common, desc(av_score))) %>% 
-  transform(id=as.numeric(factor(common))) %>% 
+  transform(id = as.numeric(factor(common))) %>% 
   transform(common = reorder(common, desc(id))) 
-
-
 ```
 
 with status label
@@ -248,25 +245,26 @@ table_status <-  table_df %>%
   mutate(present = TRUE) %>% 
   left_join(status_num, by = c("score")) %>% 
   right_join(heatmap_background, by = c("rgn_id", "rgn_name", "common", "sciname")) %>% 
-  mutate(present = ifelse(is.na(present), FALSE, present),
-         status_long =as.character(status_long),
+  mutate(present     = ifelse(is.na(present), FALSE, present),
+         status_long = as.character(status_long),
          status_long = if_else(common == "atlantic salmon", "Critically Endangered/Extinct", status_long),
-         status_long =as.factor(status_long)) %>% 
+         status_long = as.factor(status_long)) %>% 
   group_by(common) %>% 
   mutate(av_score = mean(score, na.rm=TRUE)) %>% 
   ungroup() %>% 
   arrange(desc(av_score), common) %>% 
   mutate(rgn_name = as.factor(rgn_name)) %>% 
   transform(common = reorder(common, desc(av_score))) %>% 
-  transform(id=as.numeric(factor(common))) %>% 
+  transform(id = as.numeric(factor(common))) %>% 
   transform(common = reorder(common, desc(id))) %>% 
-  rename(Status =status_long) %>% 
+  rename(Status = status_long) %>% 
   mutate(Status = factor(Status, levels = order_status)) 
 
 ```
 
-graph heatmap wtih scores
-```{r}
+Heatmap with scores
+
+```{r heatmap}
 
 ico_heatmap_score <- ggplot(data = table_df2, aes(x = rgn_name, y = common)) +
 # geom_tile(fill ='grey90')  +
@@ -276,20 +274,16 @@ ico_heatmap_score <- ggplot(data = table_df2, aes(x = rgn_name, y = common)) +
   theme_dark()+
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.title = element_blank(),
-        panel.grid =element_blank() )+
+        panel.grid = element_blank(),
+        legend.title = element_blank()) +
   coord_cartesian(expand=FALSE)
-  
-ico_heatmap_score
 
-ggplotly(ico_heatmap_score)
-
-ggsave("figs/ico_heatmap_score.jpg", width=7, height=5, dpi=300)
-
-
+ggsave("figs/ico_heatmap_score.jpg", width=7, height=6, dpi=300)
 ```
 
 
-graph heatmap with status label
+Heatmap with status level
+
 ```{r}
 
 ico_heatmap <- ggplot(data = table_status, aes(x = rgn_name, y = common)) +
@@ -308,11 +302,9 @@ ico_heatmap <- ggplot(data = table_status, aes(x = rgn_name, y = common)) +
     
 ico_heatmap
 
-ggplotly(ico_heatmap)
+#ggplotly(ico_heatmap)
 
-ggsave("figs/ico_heatmap.jpg", width=7, height=5, dpi=300)
-
-
+ggsave("figs/ico_heatmap.jpg", width=8, height=6, dpi=300)
 ```
 
 
