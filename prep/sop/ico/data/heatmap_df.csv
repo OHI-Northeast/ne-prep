@@ -296,14 +296,14 @@
 "295",9,"North atlantic right whale","eubalaena glacialis","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
 "296",10,"North atlantic right whale","eubalaena glacialis","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
 "297",11,"North atlantic right whale","eubalaena glacialis","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"298",1,"Atlantic salmon","Salmo salar","Offshore",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"299",2,"Atlantic salmon","Salmo salar","Georges Bank",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"300",3,"Atlantic salmon","Salmo salar","Gulf of Maine",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"301",4,"Atlantic salmon","Salmo salar","Mid-Atlantic Bight",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"302",5,"Atlantic salmon","Salmo salar","Connecticut",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"303",6,"Atlantic salmon","Salmo salar","Maine",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"304",7,"Atlantic salmon","Salmo salar","Massachusetts-North",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"305",8,"Atlantic salmon","Salmo salar","Massachusetts-South",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"306",9,"Atlantic salmon","Salmo salar","New Hampshire",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"307",10,"Atlantic salmon","Salmo salar","New York",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
-"308",11,"Atlantic salmon","Salmo salar","Rhode Island",0.146999999880791,TRUE,NA,NA,NA,0.146999999880791,28
+"298",1,"Atlantic salmon","Salmo salar","Offshore",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"299",2,"Atlantic salmon","Salmo salar","Georges Bank",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"300",3,"Atlantic salmon","Salmo salar","Gulf of Maine",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"301",4,"Atlantic salmon","Salmo salar","Mid-Atlantic Bight",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"302",5,"Atlantic salmon","Salmo salar","Connecticut",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"303",6,"Atlantic salmon","Salmo salar","Maine",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"304",7,"Atlantic salmon","Salmo salar","Massachusetts-North",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"305",8,"Atlantic salmon","Salmo salar","Massachusetts-South",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"306",9,"Atlantic salmon","Salmo salar","New Hampshire",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"307",10,"Atlantic salmon","Salmo salar","New York",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"308",11,"Atlantic salmon","Salmo salar","Rhode Island",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28

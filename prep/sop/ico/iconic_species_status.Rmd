@@ -247,7 +247,7 @@ table_status <-  table_df %>%
   right_join(heatmap_background, by = c("rgn_id", "rgn_name", "common", "sciname")) %>% 
   mutate(present     = ifelse(is.na(present), FALSE, present),
          status_long = as.character(status_long),
-         status_long = if_else(common == "atlantic salmon", "Critically Endangered/Extinct", status_long),
+         status_long = if_else(common == "Atlantic salmon", "Critically Endangered/Extinct", status_long),
          status_long = as.factor(status_long)) %>% 
   group_by(common) %>% 
   mutate(av_score = mean(score, na.rm=TRUE)) %>% 
@@ -290,7 +290,7 @@ Heatmap with status level
 
 ico_heatmap <- ggplot(data = table_status, aes(x = rgn_name, y = common)) +
  #geom_tile(fill ='grey90')  +
-  geom_tile(aes(fill = Status, alpha = present ))+ #alpha = present 
+  geom_tile(aes(fill = Status)) +
   scale_fill_viridis_d(direction = 1, ) +
   scale_alpha_discrete(guide = 'none') +
   theme_dark()+
