@@ -630,9 +630,7 @@ write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
  
 ```
 
-location of stocks that don't have a locatio
-
-
+location of stocks that don't have a location
 
 
 
