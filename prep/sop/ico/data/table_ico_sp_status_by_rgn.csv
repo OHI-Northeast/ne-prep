@@ -1,248 +1,151 @@
 "","rgn_id","common","sciname","rgn_name","score"
-"1",1,"Alewife","alosa pseudoharengus","Offshore",1
-"2",2,"Alewife","alosa pseudoharengus","Georges Bank",1
-"3",3,"Alewife","alosa pseudoharengus","Gulf of Maine",1
-"4",4,"Alewife","alosa pseudoharengus","Mid-Atlantic Bight",1
-"5",6,"Alewife","alosa pseudoharengus","Maine",1
-"6",7,"Alewife","alosa pseudoharengus","Massachusetts-North",0.7
-"7",8,"Alewife","alosa pseudoharengus","Massachusetts-South",0.7
-"8",9,"Alewife","alosa pseudoharengus","New Hampshire",1
-"9",10,"Alewife","alosa pseudoharengus","New York",1
-"10",11,"Alewife","alosa pseudoharengus","Rhode Island",0.6
-"11",1,"American lobster","homarus americanus","Offshore",1
-"12",2,"American lobster","homarus americanus","Georges Bank",1
-"13",3,"American lobster","homarus americanus","Gulf of Maine",1
-"14",4,"American lobster","homarus americanus","Mid-Atlantic Bight",1
-"15",6,"American lobster","homarus americanus","Maine",1
-"16",7,"American lobster","homarus americanus","Massachusetts-North",1
-"17",8,"American lobster","homarus americanus","Massachusetts-South",1
-"18",9,"American lobster","homarus americanus","New Hampshire",1
-"19",10,"American lobster","homarus americanus","New York",1
-"20",11,"American lobster","homarus americanus","Rhode Island",1
-"21",1,"American shad","alosa sapidissima","Offshore",1
-"22",2,"American shad","alosa sapidissima","Georges Bank",1
-"23",3,"American shad","alosa sapidissima","Gulf of Maine",1
-"24",4,"American shad","alosa sapidissima","Mid-Atlantic Bight",1
-"25",6,"American shad","alosa sapidissima","Maine",1
-"26",7,"American shad","alosa sapidissima","Massachusetts-North",0.7
-"27",8,"American shad","alosa sapidissima","Massachusetts-South",0.7
-"28",9,"American shad","alosa sapidissima","New Hampshire",0.6
-"29",10,"American shad","alosa sapidissima","New York",0.8
-"30",11,"American shad","alosa sapidissima","Rhode Island",0.2
-"31",1,"Arctic tern","sterna paradisaea","Offshore",1
-"32",2,"Arctic tern","sterna paradisaea","Georges Bank",1
-"33",3,"Arctic tern","sterna paradisaea","Gulf of Maine",1
-"34",4,"Arctic tern","sterna paradisaea","Mid-Atlantic Bight",1
-"35",6,"Arctic tern","sterna paradisaea","Maine",0.4
-"36",7,"Arctic tern","sterna paradisaea","Massachusetts-North",0.2
-"37",8,"Arctic tern","sterna paradisaea","Massachusetts-South",0.2
-"38",9,"Arctic tern","sterna paradisaea","New Hampshire",0.2
-"39",10,"Arctic tern","sterna paradisaea","New York",1
-"40",11,"Arctic tern","sterna paradisaea","Rhode Island",1
-"41",1,"Atlantic bluefin tuna","thunnus thynnus","Offshore",0.4
-"42",2,"Atlantic bluefin tuna","thunnus thynnus","Georges Bank",0.4
-"43",3,"Atlantic bluefin tuna","thunnus thynnus","Gulf of Maine",0.4
-"44",4,"Atlantic bluefin tuna","thunnus thynnus","Mid-Atlantic Bight",0.4
-"45",5,"Atlantic bluefin tuna","thunnus thynnus","Connecticut",0.4
-"46",6,"Atlantic bluefin tuna","thunnus thynnus","Maine",0.4
-"47",7,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-North",0.4
-"48",8,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-South",0.4
-"49",9,"Atlantic bluefin tuna","thunnus thynnus","New Hampshire",0.4
-"50",10,"Atlantic bluefin tuna","thunnus thynnus","New York",0.4
-"51",11,"Atlantic bluefin tuna","thunnus thynnus","Rhode Island",0.4
-"52",2,"Atlantic cod","gadus morhua","Georges Bank",0.6
-"53",3,"Atlantic cod","gadus morhua","Gulf of Maine",0.6
-"54",4,"Atlantic cod","gadus morhua","Mid-Atlantic Bight",0.6
-"55",6,"Atlantic cod","gadus morhua","Maine",0.6
-"56",7,"Atlantic cod","gadus morhua","Massachusetts-North",0.6
-"57",9,"Atlantic cod","gadus morhua","New Hampshire",0.6
-"58",11,"Atlantic cod","gadus morhua","Rhode Island",0.6
-"59",1,"Atlantic herring","clupea harengus","Offshore",1
-"60",2,"Atlantic herring","clupea harengus","Georges Bank",1
-"61",3,"Atlantic herring","clupea harengus","Gulf of Maine",1
-"62",4,"Atlantic herring","clupea harengus","Mid-Atlantic Bight",1
-"63",6,"Atlantic herring","clupea harengus","Maine",1
-"64",7,"Atlantic herring","clupea harengus","Massachusetts-North",1
-"65",8,"Atlantic herring","clupea harengus","Massachusetts-South",1
-"66",9,"Atlantic herring","clupea harengus","New Hampshire",1
-"67",10,"Atlantic herring","clupea harengus","New York",1
-"68",11,"Atlantic herring","clupea harengus","Rhode Island",1
-"69",1,"Atlantic puffin","fratercula arctica","Offshore",0.2
-"70",2,"Atlantic puffin","fratercula arctica","Georges Bank",0.2
-"71",3,"Atlantic puffin","fratercula arctica","Gulf of Maine",0.2
-"72",4,"Atlantic puffin","fratercula arctica","Mid-Atlantic Bight",0.2
-"73",6,"Atlantic puffin","fratercula arctica","Maine",0.4
-"74",7,"Atlantic puffin","fratercula arctica","Massachusetts-North",0.4
-"75",8,"Atlantic puffin","fratercula arctica","Massachusetts-South",0.4
-"76",9,"Atlantic puffin","fratercula arctica","New Hampshire",0.2
-"77",10,"Atlantic puffin","fratercula arctica","New York",0.2
-"78",11,"Atlantic puffin","fratercula arctica","Rhode Island",0.2
-"79",1,"Atlantic salmon","Salmo salar","Offshore",0.146999999880791
-"80",2,"Atlantic salmon","Salmo salar","Georges Bank",0.146999999880791
-"81",3,"Atlantic salmon","Salmo salar","Gulf of Maine",0.146999999880791
-"82",4,"Atlantic salmon","Salmo salar","Mid-Atlantic Bight",0.146999999880791
-"83",5,"Atlantic salmon","Salmo salar","Connecticut",0.146999999880791
-"84",6,"Atlantic salmon","Salmo salar","Maine",0.146999999880791
-"85",7,"Atlantic salmon","Salmo salar","Massachusetts-North",0.146999999880791
-"86",8,"Atlantic salmon","Salmo salar","Massachusetts-South",0.146999999880791
-"87",9,"Atlantic salmon","Salmo salar","New Hampshire",0.146999999880791
-"88",10,"Atlantic salmon","Salmo salar","New York",0.146999999880791
-"89",11,"Atlantic salmon","Salmo salar","Rhode Island",0.146999999880791
-"90",4,"Atlantic sturgeon","acipenser oxyrinchus","Mid-Atlantic Bight",0.6
-"91",10,"Atlantic sturgeon","acipenser oxyrinchus","New York",0.2
-"92",1,"Atlantic surfclam","Spissula solidissima","Offshore",1
-"93",2,"Atlantic surfclam","Spissula solidissima","Georges Bank",1
-"94",3,"Atlantic surfclam","Spissula solidissima","Gulf of Maine",1
-"95",4,"Atlantic surfclam","Spissula solidissima","Mid-Atlantic Bight",1
-"96",5,"Atlantic surfclam","Spissula solidissima","Connecticut",1
-"97",6,"Atlantic surfclam","Spissula solidissima","Maine",1
-"98",7,"Atlantic surfclam","Spissula solidissima","Massachusetts-North",1
-"99",8,"Atlantic surfclam","Spissula solidissima","Massachusetts-South",1
-"100",9,"Atlantic surfclam","Spissula solidissima","New Hampshire",1
-"101",10,"Atlantic surfclam","Spissula solidissima","New York",1
-"102",11,"Atlantic surfclam","Spissula solidissima","Rhode Island",1
-"103",4,"Bald eagle","haliaeetus leucocephalus","Mid-Atlantic Bight",1
-"104",5,"Bald eagle","haliaeetus leucocephalus","Connecticut",0.2
-"105",6,"Bald eagle","haliaeetus leucocephalus","Maine",0.8
-"106",7,"Bald eagle","haliaeetus leucocephalus","Massachusetts-North",0.4
-"107",8,"Bald eagle","haliaeetus leucocephalus","Massachusetts-South",0.4
-"108",9,"Bald eagle","haliaeetus leucocephalus","New Hampshire",0.4
-"109",10,"Bald eagle","haliaeetus leucocephalus","New York",0.5
-"110",11,"Bald eagle","haliaeetus leucocephalus","Rhode Island",0.2
-"111",1,"Bottlenose dolphin","tursiops truncatus","Offshore",0.9
-"112",2,"Bottlenose dolphin","tursiops truncatus","Georges Bank",0.9
-"113",3,"Bottlenose dolphin","tursiops truncatus","Gulf of Maine",0.9
-"114",4,"Bottlenose dolphin","tursiops truncatus","Mid-Atlantic Bight",0.9
-"115",6,"Bottlenose dolphin","tursiops truncatus","Maine",0.9
-"116",7,"Bottlenose dolphin","tursiops truncatus","Massachusetts-North",0.4
-"117",8,"Bottlenose dolphin","tursiops truncatus","Massachusetts-South",0.4
-"118",9,"Bottlenose dolphin","tursiops truncatus","New Hampshire",0.9
-"119",10,"Bottlenose dolphin","tursiops truncatus","New York",0.6
-"120",11,"Bottlenose dolphin","tursiops truncatus","Rhode Island",0.9
-"121",1,"Common tern","sterna hirundo","Offshore",1
-"122",2,"Common tern","sterna hirundo","Georges Bank",1
-"123",3,"Common tern","sterna hirundo","Gulf of Maine",1
-"124",4,"Common tern","sterna hirundo","Mid-Atlantic Bight",1
-"125",6,"Common tern","sterna hirundo","Maine",0.8
-"126",7,"Common tern","sterna hirundo","Massachusetts-North",0.6
-"127",8,"Common tern","sterna hirundo","Massachusetts-South",0.6
-"128",9,"Common tern","sterna hirundo","New Hampshire",0.4
-"129",10,"Common tern","sterna hirundo","New York",0.6
-"130",11,"Common tern","sterna hirundo","Rhode Island",0.6
-"131",1,"Fin whale","balaenoptera physalus","Offshore",0.4
-"132",2,"Fin whale","balaenoptera physalus","Georges Bank",0.4
-"133",3,"Fin whale","balaenoptera physalus","Gulf of Maine",0.4
-"134",4,"Fin whale","balaenoptera physalus","Mid-Atlantic Bight",0.4
-"135",6,"Fin whale","balaenoptera physalus","Maine",0.4
-"136",7,"Fin whale","balaenoptera physalus","Massachusetts-North",0.4
-"137",8,"Fin whale","balaenoptera physalus","Massachusetts-South",0.4
-"138",9,"Fin whale","balaenoptera physalus","New Hampshire",0.4
-"139",1,"Great white shark","carcharodon carcharias","Offshore",0.6
-"140",2,"Great white shark","carcharodon carcharias","Georges Bank",0.6
-"141",3,"Great white shark","carcharodon carcharias","Gulf of Maine",0.6
-"142",4,"Great white shark","carcharodon carcharias","Mid-Atlantic Bight",0.6
-"143",5,"Great white shark","carcharodon carcharias","Connecticut",0.6
-"144",6,"Great white shark","carcharodon carcharias","Maine",0.6
-"145",7,"Great white shark","carcharodon carcharias","Massachusetts-North",0.6
-"146",8,"Great white shark","carcharodon carcharias","Massachusetts-South",0.6
-"147",9,"Great white shark","carcharodon carcharias","New Hampshire",0.6
-"148",10,"Great white shark","carcharodon carcharias","New York",0.6
-"149",11,"Great white shark","carcharodon carcharias","Rhode Island",0.6
-"150",1,"Haddock","melanogrammus aeglefinus","Offshore",0.6
-"151",2,"Haddock","melanogrammus aeglefinus","Georges Bank",0.6
-"152",3,"Haddock","melanogrammus aeglefinus","Gulf of Maine",0.6
-"153",4,"Haddock","melanogrammus aeglefinus","Mid-Atlantic Bight",0.6
-"154",6,"Haddock","melanogrammus aeglefinus","Maine",0.6
-"155",7,"Haddock","melanogrammus aeglefinus","Massachusetts-North",0.6
-"156",9,"Haddock","melanogrammus aeglefinus","New Hampshire",0.6
-"157",3,"Horseshoe crab","limulus polyphemus","Gulf of Maine",1
-"158",4,"Horseshoe crab","limulus polyphemus","Mid-Atlantic Bight",1
-"159",7,"Horseshoe crab","limulus polyphemus","Massachusetts-North",1
-"160",10,"Horseshoe crab","limulus polyphemus","New York",1
-"161",1,"Humpback whale","megaptera novaeangliae","Offshore",0.6
-"162",2,"Humpback whale","megaptera novaeangliae","Georges Bank",0.6
-"163",3,"Humpback whale","megaptera novaeangliae","Gulf of Maine",0.6
-"164",4,"Humpback whale","megaptera novaeangliae","Mid-Atlantic Bight",0.6
-"165",5,"Humpback whale","megaptera novaeangliae","Connecticut",0.6
-"166",6,"Humpback whale","megaptera novaeangliae","Maine",0.6
-"167",7,"Humpback whale","megaptera novaeangliae","Massachusetts-North",0.4
-"168",8,"Humpback whale","megaptera novaeangliae","Massachusetts-South",0.4
-"169",9,"Humpback whale","megaptera novaeangliae","New Hampshire",0.6
-"170",10,"Humpback whale","megaptera novaeangliae","New York",0.6
-"171",11,"Humpback whale","megaptera novaeangliae","Rhode Island",0.6
-"172",2,"Least tern","sternula antillarum","Georges Bank",0.8
-"173",3,"Least tern","sternula antillarum","Gulf of Maine",0.8
-"174",4,"Least tern","sternula antillarum","Mid-Atlantic Bight",0.8
-"175",6,"Least tern","sternula antillarum","Maine",0.2
-"176",7,"Least tern","sternula antillarum","Massachusetts-North",0.4
-"177",8,"Least tern","sternula antillarum","Massachusetts-South",0.4
-"178",9,"Least tern","sternula antillarum","New Hampshire",0
-"179",10,"Least tern","sternula antillarum","New York",0.6
-"180",11,"Least tern","sternula antillarum","Rhode Island",0.4
-"181",1,"Minke whale","balaenoptera acutorostrata","Offshore",0.4
-"182",2,"Minke whale","balaenoptera acutorostrata","Georges Bank",0.4
-"183",3,"Minke whale","balaenoptera acutorostrata","Gulf of Maine",0.4
-"184",4,"Minke whale","balaenoptera acutorostrata","Mid-Atlantic Bight",0.4
-"185",6,"Minke whale","balaenoptera acutorostrata","Maine",0.4
-"186",7,"Minke whale","balaenoptera acutorostrata","Massachusetts-North",0.6
-"187",8,"Minke whale","balaenoptera acutorostrata","Massachusetts-South",0.6
-"188",9,"Minke whale","balaenoptera acutorostrata","New Hampshire",0.4
-"189",10,"Minke whale","balaenoptera acutorostrata","New York",0.4
-"190",1,"North atlantic right whale","eubalaena glacialis","Offshore",0.2
-"191",2,"North atlantic right whale","eubalaena glacialis","Georges Bank",0.2
-"192",3,"North atlantic right whale","eubalaena glacialis","Gulf of Maine",0.2
-"193",4,"North atlantic right whale","eubalaena glacialis","Mid-Atlantic Bight",0.2
-"194",5,"North atlantic right whale","eubalaena glacialis","Connecticut",0.2
-"195",6,"North atlantic right whale","eubalaena glacialis","Maine",0.2
-"196",7,"North atlantic right whale","eubalaena glacialis","Massachusetts-North",0.2
-"197",8,"North atlantic right whale","eubalaena glacialis","Massachusetts-South",0.2
-"198",9,"North atlantic right whale","eubalaena glacialis","New Hampshire",0.2
-"199",10,"North atlantic right whale","eubalaena glacialis","New York",0.2
-"200",11,"North atlantic right whale","eubalaena glacialis","Rhode Island",0.2
-"201",4,"Osprey","pandion haliaetus","Mid-Atlantic Bight",1
-"202",5,"Osprey","pandion haliaetus","Connecticut",0.8
-"203",6,"Osprey","pandion haliaetus","Maine",1
-"204",7,"Osprey","pandion haliaetus","Massachusetts-North",0.8
-"205",8,"Osprey","pandion haliaetus","Massachusetts-South",0.8
-"206",9,"Osprey","pandion haliaetus","New Hampshire",0.6
-"207",10,"Osprey","pandion haliaetus","New York",0.8
-"208",11,"Osprey","pandion haliaetus","Rhode Island",0.4
-"209",1,"Roseate tern","sterna dougallii","Offshore",0.6
-"210",2,"Roseate tern","sterna dougallii","Georges Bank",0.6
-"211",3,"Roseate tern","sterna dougallii","Gulf of Maine",0.6
-"212",4,"Roseate tern","sterna dougallii","Mid-Atlantic Bight",0.6
-"213",6,"Roseate tern","sterna dougallii","Maine",0.4
-"214",7,"Roseate tern","sterna dougallii","Massachusetts-North",0.4
-"215",8,"Roseate tern","sterna dougallii","Massachusetts-South",0.4
-"216",9,"Roseate tern","sterna dougallii","New Hampshire",0
-"217",10,"Roseate tern","sterna dougallii","New York",0.2
-"218",11,"Roseate tern","sterna dougallii","Rhode Island",0
-"219",1,"Sandbar shark","carcharhinus plumbeus","Offshore",0.6
-"220",2,"Sandbar shark","carcharhinus plumbeus","Georges Bank",0.6
-"221",4,"Sandbar shark","carcharhinus plumbeus","Mid-Atlantic Bight",0.6
-"222",5,"Sandbar shark","carcharhinus plumbeus","Connecticut",0.6
-"223",7,"Sandbar shark","carcharhinus plumbeus","Massachusetts-North",0.6
-"224",8,"Sandbar shark","carcharhinus plumbeus","Massachusetts-South",0.6
-"225",10,"Sandbar shark","carcharhinus plumbeus","New York",0.6
-"226",11,"Sandbar shark","carcharhinus plumbeus","Rhode Island",0.6
-"227",1,"Sea scallop","placopecten magellanicus","Offshore",1
-"228",2,"Sea scallop","placopecten magellanicus","Georges Bank",1
-"229",3,"Sea scallop","placopecten magellanicus","Gulf of Maine",1
-"230",4,"Sea scallop","placopecten magellanicus","Mid-Atlantic Bight",1
-"231",6,"Sea scallop","placopecten magellanicus","Maine",1
-"232",7,"Sea scallop","placopecten magellanicus","Massachusetts-North",1
-"233",8,"Sea scallop","placopecten magellanicus","Massachusetts-South",1
-"234",9,"Sea scallop","placopecten magellanicus","New Hampshire",1
-"235",10,"Sea scallop","placopecten magellanicus","New York",1
-"236",11,"Sea scallop","placopecten magellanicus","Rhode Island",1
-"237",1,"Sperm whale","physeter macrocephalus","Offshore",0.6
-"238",2,"Sperm whale","physeter macrocephalus","Georges Bank",0.6
-"239",3,"Sperm whale","physeter macrocephalus","Gulf of Maine",0.6
-"240",4,"Sperm whale","physeter macrocephalus","Mid-Atlantic Bight",0.6
-"241",2,"Striped bass","morone saxatilis","Georges Bank",1
-"242",3,"Striped bass","morone saxatilis","Gulf of Maine",1
-"243",4,"Striped bass","morone saxatilis","Mid-Atlantic Bight",1
-"244",7,"Striped bass","morone saxatilis","Massachusetts-North",1
-"245",8,"Striped bass","morone saxatilis","Massachusetts-South",1
-"246",10,"Striped bass","morone saxatilis","New York",0.8
-"247",11,"Striped bass","morone saxatilis","Rhode Island",1
+"1",6,"Alewife","alosa pseudoharengus","Maine",1
+"2",7,"Alewife","alosa pseudoharengus","Massachusetts-North",0.7
+"3",8,"Alewife","alosa pseudoharengus","Massachusetts-South",0.7
+"4",9,"Alewife","alosa pseudoharengus","New Hampshire",1
+"5",10,"Alewife","alosa pseudoharengus","New York",1
+"6",11,"Alewife","alosa pseudoharengus","Rhode Island",0.6
+"7",6,"American lobster","homarus americanus","Maine",1
+"8",7,"American lobster","homarus americanus","Massachusetts-North",1
+"9",8,"American lobster","homarus americanus","Massachusetts-South",1
+"10",9,"American lobster","homarus americanus","New Hampshire",1
+"11",10,"American lobster","homarus americanus","New York",1
+"12",11,"American lobster","homarus americanus","Rhode Island",1
+"13",6,"American shad","alosa sapidissima","Maine",1
+"14",7,"American shad","alosa sapidissima","Massachusetts-North",0.7
+"15",8,"American shad","alosa sapidissima","Massachusetts-South",0.7
+"16",9,"American shad","alosa sapidissima","New Hampshire",0.6
+"17",10,"American shad","alosa sapidissima","New York",0.8
+"18",11,"American shad","alosa sapidissima","Rhode Island",0.2
+"19",6,"Arctic tern","sterna paradisaea","Maine",0.4
+"20",7,"Arctic tern","sterna paradisaea","Massachusetts-North",0.2
+"21",8,"Arctic tern","sterna paradisaea","Massachusetts-South",0.2
+"22",9,"Arctic tern","sterna paradisaea","New Hampshire",0.2
+"23",10,"Arctic tern","sterna paradisaea","New York",1
+"24",11,"Arctic tern","sterna paradisaea","Rhode Island",1
+"25",5,"Atlantic bluefin tuna","thunnus thynnus","Connecticut",0.4
+"26",6,"Atlantic bluefin tuna","thunnus thynnus","Maine",0.4
+"27",7,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-North",0.4
+"28",8,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-South",0.4
+"29",9,"Atlantic bluefin tuna","thunnus thynnus","New Hampshire",0.4
+"30",10,"Atlantic bluefin tuna","thunnus thynnus","New York",0.4
+"31",11,"Atlantic bluefin tuna","thunnus thynnus","Rhode Island",0.4
+"32",6,"Atlantic cod","gadus morhua","Maine",0.6
+"33",7,"Atlantic cod","gadus morhua","Massachusetts-North",0.6
+"34",9,"Atlantic cod","gadus morhua","New Hampshire",0.6
+"35",11,"Atlantic cod","gadus morhua","Rhode Island",0.6
+"36",6,"Atlantic herring","clupea harengus","Maine",1
+"37",7,"Atlantic herring","clupea harengus","Massachusetts-North",1
+"38",8,"Atlantic herring","clupea harengus","Massachusetts-South",1
+"39",9,"Atlantic herring","clupea harengus","New Hampshire",1
+"40",10,"Atlantic herring","clupea harengus","New York",1
+"41",11,"Atlantic herring","clupea harengus","Rhode Island",1
+"42",6,"Atlantic puffin","fratercula arctica","Maine",0.4
+"43",7,"Atlantic puffin","fratercula arctica","Massachusetts-North",0.4
+"44",8,"Atlantic puffin","fratercula arctica","Massachusetts-South",0.4
+"45",9,"Atlantic puffin","fratercula arctica","New Hampshire",0.2
+"46",10,"Atlantic puffin","fratercula arctica","New York",0.2
+"47",11,"Atlantic puffin","fratercula arctica","Rhode Island",0.2
+"48",5,"Atlantic salmon","Salmo salar","Connecticut",0.146999999880791
+"49",6,"Atlantic salmon","Salmo salar","Maine",0.146999999880791
+"50",7,"Atlantic salmon","Salmo salar","Massachusetts-North",0.146999999880791
+"51",8,"Atlantic salmon","Salmo salar","Massachusetts-South",0.146999999880791
+"52",9,"Atlantic salmon","Salmo salar","New Hampshire",0.146999999880791
+"53",10,"Atlantic salmon","Salmo salar","New York",0.146999999880791
+"54",11,"Atlantic salmon","Salmo salar","Rhode Island",0.146999999880791
+"55",10,"Atlantic sturgeon","acipenser oxyrinchus","New York",0.2
+"56",5,"Atlantic surfclam","Spissula solidissima","Connecticut",1
+"57",6,"Atlantic surfclam","Spissula solidissima","Maine",1
+"58",7,"Atlantic surfclam","Spissula solidissima","Massachusetts-North",1
+"59",8,"Atlantic surfclam","Spissula solidissima","Massachusetts-South",1
+"60",9,"Atlantic surfclam","Spissula solidissima","New Hampshire",1
+"61",10,"Atlantic surfclam","Spissula solidissima","New York",1
+"62",11,"Atlantic surfclam","Spissula solidissima","Rhode Island",1
+"63",5,"Bald eagle","haliaeetus leucocephalus","Connecticut",0.2
+"64",6,"Bald eagle","haliaeetus leucocephalus","Maine",0.8
+"65",7,"Bald eagle","haliaeetus leucocephalus","Massachusetts-North",0.4
+"66",8,"Bald eagle","haliaeetus leucocephalus","Massachusetts-South",0.4
+"67",9,"Bald eagle","haliaeetus leucocephalus","New Hampshire",0.4
+"68",10,"Bald eagle","haliaeetus leucocephalus","New York",0.5
+"69",11,"Bald eagle","haliaeetus leucocephalus","Rhode Island",0.2
+"70",6,"Bottlenose dolphin","tursiops truncatus","Maine",0.9
+"71",7,"Bottlenose dolphin","tursiops truncatus","Massachusetts-North",0.4
+"72",8,"Bottlenose dolphin","tursiops truncatus","Massachusetts-South",0.4
+"73",9,"Bottlenose dolphin","tursiops truncatus","New Hampshire",0.9
+"74",10,"Bottlenose dolphin","tursiops truncatus","New York",0.6
+"75",11,"Bottlenose dolphin","tursiops truncatus","Rhode Island",0.9
+"76",6,"Common tern","sterna hirundo","Maine",0.8
+"77",7,"Common tern","sterna hirundo","Massachusetts-North",0.6
+"78",8,"Common tern","sterna hirundo","Massachusetts-South",0.6
+"79",9,"Common tern","sterna hirundo","New Hampshire",0.4
+"80",10,"Common tern","sterna hirundo","New York",0.6
+"81",11,"Common tern","sterna hirundo","Rhode Island",0.6
+"82",6,"Fin whale","balaenoptera physalus","Maine",0.4
+"83",7,"Fin whale","balaenoptera physalus","Massachusetts-North",0.4
+"84",8,"Fin whale","balaenoptera physalus","Massachusetts-South",0.4
+"85",9,"Fin whale","balaenoptera physalus","New Hampshire",0.4
+"86",5,"Great white shark","carcharodon carcharias","Connecticut",0.6
+"87",6,"Great white shark","carcharodon carcharias","Maine",0.6
+"88",7,"Great white shark","carcharodon carcharias","Massachusetts-North",0.6
+"89",8,"Great white shark","carcharodon carcharias","Massachusetts-South",0.6
+"90",9,"Great white shark","carcharodon carcharias","New Hampshire",0.6
+"91",10,"Great white shark","carcharodon carcharias","New York",0.6
+"92",11,"Great white shark","carcharodon carcharias","Rhode Island",0.6
+"93",6,"Haddock","melanogrammus aeglefinus","Maine",0.6
+"94",7,"Haddock","melanogrammus aeglefinus","Massachusetts-North",0.6
+"95",9,"Haddock","melanogrammus aeglefinus","New Hampshire",0.6
+"96",7,"Horseshoe crab","limulus polyphemus","Massachusetts-North",1
+"97",10,"Horseshoe crab","limulus polyphemus","New York",1
+"98",5,"Humpback whale","megaptera novaeangliae","Connecticut",0.6
+"99",6,"Humpback whale","megaptera novaeangliae","Maine",0.6
+"100",7,"Humpback whale","megaptera novaeangliae","Massachusetts-North",0.4
+"101",8,"Humpback whale","megaptera novaeangliae","Massachusetts-South",0.4
+"102",9,"Humpback whale","megaptera novaeangliae","New Hampshire",0.6
+"103",10,"Humpback whale","megaptera novaeangliae","New York",0.6
+"104",11,"Humpback whale","megaptera novaeangliae","Rhode Island",0.6
+"105",6,"Least tern","sternula antillarum","Maine",0.2
+"106",7,"Least tern","sternula antillarum","Massachusetts-North",0.4
+"107",8,"Least tern","sternula antillarum","Massachusetts-South",0.4
+"108",9,"Least tern","sternula antillarum","New Hampshire",0
+"109",10,"Least tern","sternula antillarum","New York",0.6
+"110",11,"Least tern","sternula antillarum","Rhode Island",0.4
+"111",6,"Minke whale","balaenoptera acutorostrata","Maine",0.4
+"112",7,"Minke whale","balaenoptera acutorostrata","Massachusetts-North",0.6
+"113",8,"Minke whale","balaenoptera acutorostrata","Massachusetts-South",0.6
+"114",9,"Minke whale","balaenoptera acutorostrata","New Hampshire",0.4
+"115",10,"Minke whale","balaenoptera acutorostrata","New York",0.4
+"116",5,"North atlantic right whale","eubalaena glacialis","Connecticut",0.2
+"117",6,"North atlantic right whale","eubalaena glacialis","Maine",0.2
+"118",7,"North atlantic right whale","eubalaena glacialis","Massachusetts-North",0.2
+"119",8,"North atlantic right whale","eubalaena glacialis","Massachusetts-South",0.2
+"120",9,"North atlantic right whale","eubalaena glacialis","New Hampshire",0.2
+"121",10,"North atlantic right whale","eubalaena glacialis","New York",0.2
+"122",11,"North atlantic right whale","eubalaena glacialis","Rhode Island",0.2
+"123",5,"Osprey","pandion haliaetus","Connecticut",0.8
+"124",6,"Osprey","pandion haliaetus","Maine",1
+"125",7,"Osprey","pandion haliaetus","Massachusetts-North",0.8
+"126",8,"Osprey","pandion haliaetus","Massachusetts-South",0.8
+"127",9,"Osprey","pandion haliaetus","New Hampshire",0.6
+"128",10,"Osprey","pandion haliaetus","New York",0.8
+"129",11,"Osprey","pandion haliaetus","Rhode Island",0.4
+"130",6,"Roseate tern","sterna dougallii","Maine",0.4
+"131",7,"Roseate tern","sterna dougallii","Massachusetts-North",0.4
+"132",8,"Roseate tern","sterna dougallii","Massachusetts-South",0.4
+"133",9,"Roseate tern","sterna dougallii","New Hampshire",0
+"134",10,"Roseate tern","sterna dougallii","New York",0.2
+"135",11,"Roseate tern","sterna dougallii","Rhode Island",0
+"136",5,"Sandbar shark","carcharhinus plumbeus","Connecticut",0.6
+"137",7,"Sandbar shark","carcharhinus plumbeus","Massachusetts-North",0.6
+"138",8,"Sandbar shark","carcharhinus plumbeus","Massachusetts-South",0.6
+"139",10,"Sandbar shark","carcharhinus plumbeus","New York",0.6
+"140",11,"Sandbar shark","carcharhinus plumbeus","Rhode Island",0.6
+"141",6,"Sea scallop","placopecten magellanicus","Maine",1
+"142",7,"Sea scallop","placopecten magellanicus","Massachusetts-North",1
+"143",8,"Sea scallop","placopecten magellanicus","Massachusetts-South",1
+"144",9,"Sea scallop","placopecten magellanicus","New Hampshire",1
+"145",10,"Sea scallop","placopecten magellanicus","New York",1
+"146",11,"Sea scallop","placopecten magellanicus","Rhode Island",1
+"147",7,"Striped bass","morone saxatilis","Massachusetts-North",1
+"148",8,"Striped bass","morone saxatilis","Massachusetts-South",1
+"149",10,"Striped bass","morone saxatilis","New York",0.8
+"150",11,"Striped bass","morone saxatilis","Rhode Island",1

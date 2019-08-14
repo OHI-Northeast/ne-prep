@@ -1,309 +1,190 @@
 "","rgn_id","common","sciname","rgn_name","score","present","status_abb","Status","icun_score","av_score","id"
-"1",1,"American lobster","homarus americanus","Offshore",1,TRUE,"LC","Least Concern",0,1,1
-"2",2,"American lobster","homarus americanus","Georges Bank",1,TRUE,"LC","Least Concern",0,1,1
-"3",3,"American lobster","homarus americanus","Gulf of Maine",1,TRUE,"LC","Least Concern",0,1,1
-"4",4,"American lobster","homarus americanus","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,1,1
-"5",5,"American lobster","homarus americanus","Connecticut",NA,FALSE,NA,NA,NA,1,1
-"6",6,"American lobster","homarus americanus","Maine",1,TRUE,"LC","Least Concern",0,1,1
-"7",7,"American lobster","homarus americanus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,1
-"8",8,"American lobster","homarus americanus","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,1
-"9",9,"American lobster","homarus americanus","New Hampshire",1,TRUE,"LC","Least Concern",0,1,1
-"10",10,"American lobster","homarus americanus","New York",1,TRUE,"LC","Least Concern",0,1,1
-"11",11,"American lobster","homarus americanus","Rhode Island",1,TRUE,"LC","Least Concern",0,1,1
-"12",1,"Atlantic herring","clupea harengus","Offshore",1,TRUE,"LC","Least Concern",0,1,2
-"13",2,"Atlantic herring","clupea harengus","Georges Bank",1,TRUE,"LC","Least Concern",0,1,2
-"14",3,"Atlantic herring","clupea harengus","Gulf of Maine",1,TRUE,"LC","Least Concern",0,1,2
-"15",4,"Atlantic herring","clupea harengus","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,1,2
-"16",5,"Atlantic herring","clupea harengus","Connecticut",NA,FALSE,NA,NA,NA,1,2
-"17",6,"Atlantic herring","clupea harengus","Maine",1,TRUE,"LC","Least Concern",0,1,2
-"18",7,"Atlantic herring","clupea harengus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,2
-"19",8,"Atlantic herring","clupea harengus","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,2
-"20",9,"Atlantic herring","clupea harengus","New Hampshire",1,TRUE,"LC","Least Concern",0,1,2
-"21",10,"Atlantic herring","clupea harengus","New York",1,TRUE,"LC","Least Concern",0,1,2
-"22",11,"Atlantic herring","clupea harengus","Rhode Island",1,TRUE,"LC","Least Concern",0,1,2
-"23",1,"Atlantic surfclam","Spissula solidissima","Offshore",1,TRUE,"LC","Least Concern",0,1,3
-"24",2,"Atlantic surfclam","Spissula solidissima","Georges Bank",1,TRUE,"LC","Least Concern",0,1,3
-"25",3,"Atlantic surfclam","Spissula solidissima","Gulf of Maine",1,TRUE,"LC","Least Concern",0,1,3
-"26",4,"Atlantic surfclam","Spissula solidissima","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,1,3
-"27",5,"Atlantic surfclam","Spissula solidissima","Connecticut",1,TRUE,"LC","Least Concern",0,1,3
-"28",6,"Atlantic surfclam","Spissula solidissima","Maine",1,TRUE,"LC","Least Concern",0,1,3
-"29",7,"Atlantic surfclam","Spissula solidissima","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,3
-"30",8,"Atlantic surfclam","Spissula solidissima","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,3
-"31",9,"Atlantic surfclam","Spissula solidissima","New Hampshire",1,TRUE,"LC","Least Concern",0,1,3
-"32",10,"Atlantic surfclam","Spissula solidissima","New York",1,TRUE,"LC","Least Concern",0,1,3
-"33",11,"Atlantic surfclam","Spissula solidissima","Rhode Island",1,TRUE,"LC","Least Concern",0,1,3
-"34",1,"Horseshoe crab","limulus polyphemus","Offshore",NA,FALSE,NA,NA,NA,1,4
-"35",2,"Horseshoe crab","limulus polyphemus","Georges Bank",NA,FALSE,NA,NA,NA,1,4
-"36",3,"Horseshoe crab","limulus polyphemus","Gulf of Maine",1,TRUE,"LC","Least Concern",0,1,4
-"37",4,"Horseshoe crab","limulus polyphemus","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,1,4
-"38",5,"Horseshoe crab","limulus polyphemus","Connecticut",NA,FALSE,NA,NA,NA,1,4
-"39",6,"Horseshoe crab","limulus polyphemus","Maine",NA,FALSE,NA,NA,NA,1,4
-"40",7,"Horseshoe crab","limulus polyphemus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,4
-"41",8,"Horseshoe crab","limulus polyphemus","Massachusetts-South",NA,FALSE,NA,NA,NA,1,4
-"42",9,"Horseshoe crab","limulus polyphemus","New Hampshire",NA,FALSE,NA,NA,NA,1,4
-"43",10,"Horseshoe crab","limulus polyphemus","New York",1,TRUE,"LC","Least Concern",0,1,4
-"44",11,"Horseshoe crab","limulus polyphemus","Rhode Island",NA,FALSE,NA,NA,NA,1,4
-"45",1,"Sea scallop","placopecten magellanicus","Offshore",1,TRUE,"LC","Least Concern",0,1,5
-"46",2,"Sea scallop","placopecten magellanicus","Georges Bank",1,TRUE,"LC","Least Concern",0,1,5
-"47",3,"Sea scallop","placopecten magellanicus","Gulf of Maine",1,TRUE,"LC","Least Concern",0,1,5
-"48",4,"Sea scallop","placopecten magellanicus","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,1,5
-"49",5,"Sea scallop","placopecten magellanicus","Connecticut",NA,FALSE,NA,NA,NA,1,5
-"50",6,"Sea scallop","placopecten magellanicus","Maine",1,TRUE,"LC","Least Concern",0,1,5
-"51",7,"Sea scallop","placopecten magellanicus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,5
-"52",8,"Sea scallop","placopecten magellanicus","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,5
-"53",9,"Sea scallop","placopecten magellanicus","New Hampshire",1,TRUE,"LC","Least Concern",0,1,5
-"54",10,"Sea scallop","placopecten magellanicus","New York",1,TRUE,"LC","Least Concern",0,1,5
-"55",11,"Sea scallop","placopecten magellanicus","Rhode Island",1,TRUE,"LC","Least Concern",0,1,5
-"56",1,"Striped bass","morone saxatilis","Offshore",NA,FALSE,NA,NA,NA,0.971428571428571,6
-"57",2,"Striped bass","morone saxatilis","Georges Bank",1,TRUE,"LC","Least Concern",0,0.971428571428571,6
-"58",3,"Striped bass","morone saxatilis","Gulf of Maine",1,TRUE,"LC","Least Concern",0,0.971428571428571,6
-"59",4,"Striped bass","morone saxatilis","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,0.971428571428571,6
-"60",5,"Striped bass","morone saxatilis","Connecticut",NA,FALSE,NA,NA,NA,0.971428571428571,6
-"61",6,"Striped bass","morone saxatilis","Maine",NA,FALSE,NA,NA,NA,0.971428571428571,6
-"62",7,"Striped bass","morone saxatilis","Massachusetts-North",1,TRUE,"LC","Least Concern",0,0.971428571428571,6
-"63",8,"Striped bass","morone saxatilis","Massachusetts-South",1,TRUE,"LC","Least Concern",0,0.971428571428571,6
-"64",9,"Striped bass","morone saxatilis","New Hampshire",NA,FALSE,NA,NA,NA,0.971428571428571,6
-"65",10,"Striped bass","morone saxatilis","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.971428571428571,6
-"66",11,"Striped bass","morone saxatilis","Rhode Island",1,TRUE,"LC","Least Concern",0,0.971428571428571,6
-"67",1,"Alewife","alosa pseudoharengus","Offshore",1,TRUE,"LC","Least Concern",0,0.9,7
-"68",2,"Alewife","alosa pseudoharengus","Georges Bank",1,TRUE,"LC","Least Concern",0,0.9,7
-"69",3,"Alewife","alosa pseudoharengus","Gulf of Maine",1,TRUE,"LC","Least Concern",0,0.9,7
-"70",4,"Alewife","alosa pseudoharengus","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,0.9,7
-"71",5,"Alewife","alosa pseudoharengus","Connecticut",NA,FALSE,NA,NA,NA,0.9,7
-"72",6,"Alewife","alosa pseudoharengus","Maine",1,TRUE,"LC","Least Concern",0,0.9,7
-"73",7,"Alewife","alosa pseudoharengus","Massachusetts-North",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.9,7
-"74",8,"Alewife","alosa pseudoharengus","Massachusetts-South",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.9,7
-"75",9,"Alewife","alosa pseudoharengus","New Hampshire",1,TRUE,"LC","Least Concern",0,0.9,7
-"76",10,"Alewife","alosa pseudoharengus","New York",1,TRUE,"LC","Least Concern",0,0.9,7
-"77",11,"Alewife","alosa pseudoharengus","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.9,7
-"78",1,"American shad","alosa sapidissima","Offshore",1,TRUE,"LC","Least Concern",0,0.8,8
-"79",2,"American shad","alosa sapidissima","Georges Bank",1,TRUE,"LC","Least Concern",0,0.8,8
-"80",3,"American shad","alosa sapidissima","Gulf of Maine",1,TRUE,"LC","Least Concern",0,0.8,8
-"81",4,"American shad","alosa sapidissima","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,0.8,8
-"82",5,"American shad","alosa sapidissima","Connecticut",NA,FALSE,NA,NA,NA,0.8,8
-"83",6,"American shad","alosa sapidissima","Maine",1,TRUE,"LC","Least Concern",0,0.8,8
-"84",7,"American shad","alosa sapidissima","Massachusetts-North",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.8,8
-"85",8,"American shad","alosa sapidissima","Massachusetts-South",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.8,8
-"86",9,"American shad","alosa sapidissima","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.8,8
-"87",10,"American shad","alosa sapidissima","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.8,8
-"88",11,"American shad","alosa sapidissima","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.8,8
-"89",1,"Osprey","pandion haliaetus","Offshore",NA,FALSE,NA,NA,NA,0.775,9
-"90",2,"Osprey","pandion haliaetus","Georges Bank",NA,FALSE,NA,NA,NA,0.775,9
-"91",3,"Osprey","pandion haliaetus","Gulf of Maine",NA,FALSE,NA,NA,NA,0.775,9
-"92",4,"Osprey","pandion haliaetus","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,0.775,9
-"93",5,"Osprey","pandion haliaetus","Connecticut",0.8,TRUE,"NT","Not Threatened",0.2,0.775,9
-"94",6,"Osprey","pandion haliaetus","Maine",1,TRUE,"LC","Least Concern",0,0.775,9
-"95",7,"Osprey","pandion haliaetus","Massachusetts-North",0.8,TRUE,"NT","Not Threatened",0.2,0.775,9
-"96",8,"Osprey","pandion haliaetus","Massachusetts-South",0.8,TRUE,"NT","Not Threatened",0.2,0.775,9
-"97",9,"Osprey","pandion haliaetus","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.775,9
-"98",10,"Osprey","pandion haliaetus","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.775,9
-"99",11,"Osprey","pandion haliaetus","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.775,9
-"100",1,"Bottlenose dolphin","tursiops truncatus","Offshore",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.77,10
-"101",2,"Bottlenose dolphin","tursiops truncatus","Georges Bank",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.77,10
-"102",3,"Bottlenose dolphin","tursiops truncatus","Gulf of Maine",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.77,10
-"103",4,"Bottlenose dolphin","tursiops truncatus","Mid-Atlantic Bight",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.77,10
-"104",5,"Bottlenose dolphin","tursiops truncatus","Connecticut",NA,FALSE,NA,NA,NA,0.77,10
-"105",6,"Bottlenose dolphin","tursiops truncatus","Maine",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.77,10
-"106",7,"Bottlenose dolphin","tursiops truncatus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.77,10
-"107",8,"Bottlenose dolphin","tursiops truncatus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.77,10
-"108",9,"Bottlenose dolphin","tursiops truncatus","New Hampshire",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.77,10
-"109",10,"Bottlenose dolphin","tursiops truncatus","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.77,10
-"110",11,"Bottlenose dolphin","tursiops truncatus","Rhode Island",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.77,10
-"111",1,"Common tern","sterna hirundo","Offshore",1,TRUE,"LC","Least Concern",0,0.76,11
-"112",2,"Common tern","sterna hirundo","Georges Bank",1,TRUE,"LC","Least Concern",0,0.76,11
-"113",3,"Common tern","sterna hirundo","Gulf of Maine",1,TRUE,"LC","Least Concern",0,0.76,11
-"114",4,"Common tern","sterna hirundo","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,0.76,11
-"115",5,"Common tern","sterna hirundo","Connecticut",NA,FALSE,NA,NA,NA,0.76,11
-"116",6,"Common tern","sterna hirundo","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.76,11
-"117",7,"Common tern","sterna hirundo","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.76,11
-"118",8,"Common tern","sterna hirundo","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.76,11
-"119",9,"Common tern","sterna hirundo","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.76,11
-"120",10,"Common tern","sterna hirundo","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.76,11
-"121",11,"Common tern","sterna hirundo","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.76,11
-"122",1,"Arctic tern","sterna paradisaea","Offshore",1,TRUE,"LC","Least Concern",0,0.7,12
-"123",2,"Arctic tern","sterna paradisaea","Georges Bank",1,TRUE,"LC","Least Concern",0,0.7,12
-"124",3,"Arctic tern","sterna paradisaea","Gulf of Maine",1,TRUE,"LC","Least Concern",0,0.7,12
-"125",4,"Arctic tern","sterna paradisaea","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,0.7,12
-"126",5,"Arctic tern","sterna paradisaea","Connecticut",NA,FALSE,NA,NA,NA,0.7,12
-"127",6,"Arctic tern","sterna paradisaea","Maine",0.4,TRUE,"EN","Endangered",0.6,0.7,12
-"128",7,"Arctic tern","sterna paradisaea","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.7,12
-"129",8,"Arctic tern","sterna paradisaea","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.7,12
-"130",9,"Arctic tern","sterna paradisaea","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.7,12
-"131",10,"Arctic tern","sterna paradisaea","New York",1,TRUE,"LC","Least Concern",0,0.7,12
-"132",11,"Arctic tern","sterna paradisaea","Rhode Island",1,TRUE,"LC","Least Concern",0,0.7,12
-"133",1,"Atlantic cod","gadus morhua","Offshore",NA,FALSE,NA,NA,NA,0.6,13
-"134",2,"Atlantic cod","gadus morhua","Georges Bank",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"135",3,"Atlantic cod","gadus morhua","Gulf of Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"136",4,"Atlantic cod","gadus morhua","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"137",5,"Atlantic cod","gadus morhua","Connecticut",NA,FALSE,NA,NA,NA,0.6,13
-"138",6,"Atlantic cod","gadus morhua","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"139",7,"Atlantic cod","gadus morhua","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"140",8,"Atlantic cod","gadus morhua","Massachusetts-South",NA,FALSE,NA,NA,NA,0.6,13
-"141",9,"Atlantic cod","gadus morhua","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"142",10,"Atlantic cod","gadus morhua","New York",NA,FALSE,NA,NA,NA,0.6,13
-"143",11,"Atlantic cod","gadus morhua","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"144",1,"Great white shark","carcharodon carcharias","Offshore",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"145",2,"Great white shark","carcharodon carcharias","Georges Bank",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"146",3,"Great white shark","carcharodon carcharias","Gulf of Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"147",4,"Great white shark","carcharodon carcharias","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"148",5,"Great white shark","carcharodon carcharias","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"149",6,"Great white shark","carcharodon carcharias","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"150",7,"Great white shark","carcharodon carcharias","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"151",8,"Great white shark","carcharodon carcharias","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"152",9,"Great white shark","carcharodon carcharias","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"153",10,"Great white shark","carcharodon carcharias","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"154",11,"Great white shark","carcharodon carcharias","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"155",1,"Haddock","melanogrammus aeglefinus","Offshore",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
-"156",2,"Haddock","melanogrammus aeglefinus","Georges Bank",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
-"157",3,"Haddock","melanogrammus aeglefinus","Gulf of Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
-"158",4,"Haddock","melanogrammus aeglefinus","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
-"159",5,"Haddock","melanogrammus aeglefinus","Connecticut",NA,FALSE,NA,NA,NA,0.6,15
-"160",6,"Haddock","melanogrammus aeglefinus","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
-"161",7,"Haddock","melanogrammus aeglefinus","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
-"162",8,"Haddock","melanogrammus aeglefinus","Massachusetts-South",NA,FALSE,NA,NA,NA,0.6,15
-"163",9,"Haddock","melanogrammus aeglefinus","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
-"164",10,"Haddock","melanogrammus aeglefinus","New York",NA,FALSE,NA,NA,NA,0.6,15
-"165",11,"Haddock","melanogrammus aeglefinus","Rhode Island",NA,FALSE,NA,NA,NA,0.6,15
-"166",1,"Sandbar shark","carcharhinus plumbeus","Offshore",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"167",2,"Sandbar shark","carcharhinus plumbeus","Georges Bank",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"168",3,"Sandbar shark","carcharhinus plumbeus","Gulf of Maine",NA,FALSE,NA,NA,NA,0.6,16
-"169",4,"Sandbar shark","carcharhinus plumbeus","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"170",5,"Sandbar shark","carcharhinus plumbeus","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"171",6,"Sandbar shark","carcharhinus plumbeus","Maine",NA,FALSE,NA,NA,NA,0.6,16
-"172",7,"Sandbar shark","carcharhinus plumbeus","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"173",8,"Sandbar shark","carcharhinus plumbeus","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"174",9,"Sandbar shark","carcharhinus plumbeus","New Hampshire",NA,FALSE,NA,NA,NA,0.6,16
-"175",10,"Sandbar shark","carcharhinus plumbeus","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"176",11,"Sandbar shark","carcharhinus plumbeus","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,16
-"177",1,"Sperm whale","physeter macrocephalus","Offshore",0.6,TRUE,"VU","Vulnerable",0.4,0.6,17
-"178",2,"Sperm whale","physeter macrocephalus","Georges Bank",0.6,TRUE,"VU","Vulnerable",0.4,0.6,17
-"179",3,"Sperm whale","physeter macrocephalus","Gulf of Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,17
-"180",4,"Sperm whale","physeter macrocephalus","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.6,17
-"181",5,"Sperm whale","physeter macrocephalus","Connecticut",NA,FALSE,NA,NA,NA,0.6,17
-"182",6,"Sperm whale","physeter macrocephalus","Maine",NA,FALSE,NA,NA,NA,0.6,17
-"183",7,"Sperm whale","physeter macrocephalus","Massachusetts-North",NA,FALSE,NA,NA,NA,0.6,17
-"184",8,"Sperm whale","physeter macrocephalus","Massachusetts-South",NA,FALSE,NA,NA,NA,0.6,17
-"185",9,"Sperm whale","physeter macrocephalus","New Hampshire",NA,FALSE,NA,NA,NA,0.6,17
-"186",10,"Sperm whale","physeter macrocephalus","New York",NA,FALSE,NA,NA,NA,0.6,17
-"187",11,"Sperm whale","physeter macrocephalus","Rhode Island",NA,FALSE,NA,NA,NA,0.6,17
-"188",1,"Humpback whale","megaptera novaeangliae","Offshore",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"189",2,"Humpback whale","megaptera novaeangliae","Georges Bank",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"190",3,"Humpback whale","megaptera novaeangliae","Gulf of Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"191",4,"Humpback whale","megaptera novaeangliae","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"192",5,"Humpback whale","megaptera novaeangliae","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"193",6,"Humpback whale","megaptera novaeangliae","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"194",7,"Humpback whale","megaptera novaeangliae","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.563636363636364,18
-"195",8,"Humpback whale","megaptera novaeangliae","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.563636363636364,18
-"196",9,"Humpback whale","megaptera novaeangliae","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"197",10,"Humpback whale","megaptera novaeangliae","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"198",11,"Humpback whale","megaptera novaeangliae","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.563636363636364,18
-"199",1,"Least tern","sternula antillarum","Offshore",NA,FALSE,NA,NA,NA,0.488888888888889,19
-"200",2,"Least tern","sternula antillarum","Georges Bank",0.8,TRUE,"NT","Not Threatened",0.2,0.488888888888889,19
-"201",3,"Least tern","sternula antillarum","Gulf of Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.488888888888889,19
-"202",4,"Least tern","sternula antillarum","Mid-Atlantic Bight",0.8,TRUE,"NT","Not Threatened",0.2,0.488888888888889,19
-"203",5,"Least tern","sternula antillarum","Connecticut",NA,FALSE,NA,NA,NA,0.488888888888889,19
-"204",6,"Least tern","sternula antillarum","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.488888888888889,19
-"205",7,"Least tern","sternula antillarum","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.488888888888889,19
-"206",8,"Least tern","sternula antillarum","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.488888888888889,19
-"207",9,"Least tern","sternula antillarum","New Hampshire",0,TRUE,"EX","Extinct",1,0.488888888888889,19
-"208",10,"Least tern","sternula antillarum","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.488888888888889,19
-"209",11,"Least tern","sternula antillarum","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.488888888888889,19
-"210",1,"Bald eagle","haliaeetus leucocephalus","Offshore",NA,FALSE,NA,NA,NA,0.4875,20
-"211",2,"Bald eagle","haliaeetus leucocephalus","Georges Bank",NA,FALSE,NA,NA,NA,0.4875,20
-"212",3,"Bald eagle","haliaeetus leucocephalus","Gulf of Maine",NA,FALSE,NA,NA,NA,0.4875,20
-"213",4,"Bald eagle","haliaeetus leucocephalus","Mid-Atlantic Bight",1,TRUE,"LC","Least Concern",0,0.4875,20
-"214",5,"Bald eagle","haliaeetus leucocephalus","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.4875,20
-"215",6,"Bald eagle","haliaeetus leucocephalus","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.4875,20
-"216",7,"Bald eagle","haliaeetus leucocephalus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.4875,20
-"217",8,"Bald eagle","haliaeetus leucocephalus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.4875,20
-"218",9,"Bald eagle","haliaeetus leucocephalus","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.4875,20
-"219",10,"Bald eagle","haliaeetus leucocephalus","New York",0.5,TRUE,"VU/EN","Vulnerable/Endangered",0.5,0.4875,20
-"220",11,"Bald eagle","haliaeetus leucocephalus","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.4875,20
-"221",1,"Minke whale","balaenoptera acutorostrata","Offshore",0.4,TRUE,"EN","Endangered",0.6,0.444444444444444,21
-"222",2,"Minke whale","balaenoptera acutorostrata","Georges Bank",0.4,TRUE,"EN","Endangered",0.6,0.444444444444444,21
-"223",3,"Minke whale","balaenoptera acutorostrata","Gulf of Maine",0.4,TRUE,"EN","Endangered",0.6,0.444444444444444,21
-"224",4,"Minke whale","balaenoptera acutorostrata","Mid-Atlantic Bight",0.4,TRUE,"EN","Endangered",0.6,0.444444444444444,21
-"225",5,"Minke whale","balaenoptera acutorostrata","Connecticut",NA,FALSE,NA,NA,NA,0.444444444444444,21
-"226",6,"Minke whale","balaenoptera acutorostrata","Maine",0.4,TRUE,"EN","Endangered",0.6,0.444444444444444,21
-"227",7,"Minke whale","balaenoptera acutorostrata","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.444444444444444,21
-"228",8,"Minke whale","balaenoptera acutorostrata","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.444444444444444,21
-"229",9,"Minke whale","balaenoptera acutorostrata","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.444444444444444,21
-"230",10,"Minke whale","balaenoptera acutorostrata","New York",0.4,TRUE,"EN","Endangered",0.6,0.444444444444444,21
-"231",11,"Minke whale","balaenoptera acutorostrata","Rhode Island",NA,FALSE,NA,NA,NA,0.444444444444444,21
-"232",1,"Atlantic bluefin tuna","thunnus thynnus","Offshore",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"233",2,"Atlantic bluefin tuna","thunnus thynnus","Georges Bank",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"234",3,"Atlantic bluefin tuna","thunnus thynnus","Gulf of Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"235",4,"Atlantic bluefin tuna","thunnus thynnus","Mid-Atlantic Bight",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"236",5,"Atlantic bluefin tuna","thunnus thynnus","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"237",6,"Atlantic bluefin tuna","thunnus thynnus","Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"238",7,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"239",8,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"240",9,"Atlantic bluefin tuna","thunnus thynnus","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"241",10,"Atlantic bluefin tuna","thunnus thynnus","New York",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"242",11,"Atlantic bluefin tuna","thunnus thynnus","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.4,22
-"243",1,"Fin whale","balaenoptera physalus","Offshore",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"244",2,"Fin whale","balaenoptera physalus","Georges Bank",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"245",3,"Fin whale","balaenoptera physalus","Gulf of Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"246",4,"Fin whale","balaenoptera physalus","Mid-Atlantic Bight",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"247",5,"Fin whale","balaenoptera physalus","Connecticut",NA,FALSE,NA,NA,NA,0.4,23
-"248",6,"Fin whale","balaenoptera physalus","Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"249",7,"Fin whale","balaenoptera physalus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"250",8,"Fin whale","balaenoptera physalus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"251",9,"Fin whale","balaenoptera physalus","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.4,23
-"252",10,"Fin whale","balaenoptera physalus","New York",NA,FALSE,NA,NA,NA,0.4,23
-"253",11,"Fin whale","balaenoptera physalus","Rhode Island",NA,FALSE,NA,NA,NA,0.4,23
-"254",1,"Atlantic sturgeon","acipenser oxyrinchus","Offshore",NA,FALSE,NA,NA,NA,0.4,24
-"255",2,"Atlantic sturgeon","acipenser oxyrinchus","Georges Bank",NA,FALSE,NA,NA,NA,0.4,24
-"256",3,"Atlantic sturgeon","acipenser oxyrinchus","Gulf of Maine",NA,FALSE,NA,NA,NA,0.4,24
-"257",4,"Atlantic sturgeon","acipenser oxyrinchus","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.4,24
-"258",5,"Atlantic sturgeon","acipenser oxyrinchus","Connecticut",NA,FALSE,NA,NA,NA,0.4,24
-"259",6,"Atlantic sturgeon","acipenser oxyrinchus","Maine",NA,FALSE,NA,NA,NA,0.4,24
-"260",7,"Atlantic sturgeon","acipenser oxyrinchus","Massachusetts-North",NA,FALSE,NA,NA,NA,0.4,24
-"261",8,"Atlantic sturgeon","acipenser oxyrinchus","Massachusetts-South",NA,FALSE,NA,NA,NA,0.4,24
-"262",9,"Atlantic sturgeon","acipenser oxyrinchus","New Hampshire",NA,FALSE,NA,NA,NA,0.4,24
-"263",10,"Atlantic sturgeon","acipenser oxyrinchus","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.4,24
-"264",11,"Atlantic sturgeon","acipenser oxyrinchus","Rhode Island",NA,FALSE,NA,NA,NA,0.4,24
-"265",1,"Roseate tern","sterna dougallii","Offshore",0.6,TRUE,"VU","Vulnerable",0.4,0.38,25
-"266",2,"Roseate tern","sterna dougallii","Georges Bank",0.6,TRUE,"VU","Vulnerable",0.4,0.38,25
-"267",3,"Roseate tern","sterna dougallii","Gulf of Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.38,25
-"268",4,"Roseate tern","sterna dougallii","Mid-Atlantic Bight",0.6,TRUE,"VU","Vulnerable",0.4,0.38,25
-"269",5,"Roseate tern","sterna dougallii","Connecticut",NA,FALSE,NA,NA,NA,0.38,25
-"270",6,"Roseate tern","sterna dougallii","Maine",0.4,TRUE,"EN","Endangered",0.6,0.38,25
-"271",7,"Roseate tern","sterna dougallii","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.38,25
-"272",8,"Roseate tern","sterna dougallii","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.38,25
-"273",9,"Roseate tern","sterna dougallii","New Hampshire",0,TRUE,"EX","Extinct",1,0.38,25
-"274",10,"Roseate tern","sterna dougallii","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.38,25
-"275",11,"Roseate tern","sterna dougallii","Rhode Island",0,TRUE,"EX","Extinct",1,0.38,25
-"276",1,"Atlantic puffin","fratercula arctica","Offshore",0.2,TRUE,"CR","Critically Endangered",0.8,0.26,26
-"277",2,"Atlantic puffin","fratercula arctica","Georges Bank",0.2,TRUE,"CR","Critically Endangered",0.8,0.26,26
-"278",3,"Atlantic puffin","fratercula arctica","Gulf of Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.26,26
-"279",4,"Atlantic puffin","fratercula arctica","Mid-Atlantic Bight",0.2,TRUE,"CR","Critically Endangered",0.8,0.26,26
-"280",5,"Atlantic puffin","fratercula arctica","Connecticut",NA,FALSE,NA,NA,NA,0.26,26
-"281",6,"Atlantic puffin","fratercula arctica","Maine",0.4,TRUE,"EN","Endangered",0.6,0.26,26
-"282",7,"Atlantic puffin","fratercula arctica","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.26,26
-"283",8,"Atlantic puffin","fratercula arctica","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.26,26
-"284",9,"Atlantic puffin","fratercula arctica","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.26,26
-"285",10,"Atlantic puffin","fratercula arctica","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.26,26
-"286",11,"Atlantic puffin","fratercula arctica","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.26,26
-"287",1,"North atlantic right whale","eubalaena glacialis","Offshore",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"288",2,"North atlantic right whale","eubalaena glacialis","Georges Bank",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"289",3,"North atlantic right whale","eubalaena glacialis","Gulf of Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"290",4,"North atlantic right whale","eubalaena glacialis","Mid-Atlantic Bight",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"291",5,"North atlantic right whale","eubalaena glacialis","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"292",6,"North atlantic right whale","eubalaena glacialis","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"293",7,"North atlantic right whale","eubalaena glacialis","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"294",8,"North atlantic right whale","eubalaena glacialis","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"295",9,"North atlantic right whale","eubalaena glacialis","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"296",10,"North atlantic right whale","eubalaena glacialis","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"297",11,"North atlantic right whale","eubalaena glacialis","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"298",1,"Atlantic salmon","Salmo salar","Offshore",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"299",2,"Atlantic salmon","Salmo salar","Georges Bank",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"300",3,"Atlantic salmon","Salmo salar","Gulf of Maine",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"301",4,"Atlantic salmon","Salmo salar","Mid-Atlantic Bight",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"302",5,"Atlantic salmon","Salmo salar","Connecticut",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"303",6,"Atlantic salmon","Salmo salar","Maine",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"304",7,"Atlantic salmon","Salmo salar","Massachusetts-North",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"305",8,"Atlantic salmon","Salmo salar","Massachusetts-South",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"306",9,"Atlantic salmon","Salmo salar","New Hampshire",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"307",10,"Atlantic salmon","Salmo salar","New York",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"308",11,"Atlantic salmon","Salmo salar","Rhode Island",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
+"1",5,"American lobster","homarus americanus","Connecticut",NA,FALSE,NA,NA,NA,1,1
+"2",6,"American lobster","homarus americanus","Maine",1,TRUE,"LC","Least Concern",0,1,1
+"3",7,"American lobster","homarus americanus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,1
+"4",8,"American lobster","homarus americanus","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,1
+"5",9,"American lobster","homarus americanus","New Hampshire",1,TRUE,"LC","Least Concern",0,1,1
+"6",10,"American lobster","homarus americanus","New York",1,TRUE,"LC","Least Concern",0,1,1
+"7",11,"American lobster","homarus americanus","Rhode Island",1,TRUE,"LC","Least Concern",0,1,1
+"8",5,"Atlantic herring","clupea harengus","Connecticut",NA,FALSE,NA,NA,NA,1,2
+"9",6,"Atlantic herring","clupea harengus","Maine",1,TRUE,"LC","Least Concern",0,1,2
+"10",7,"Atlantic herring","clupea harengus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,2
+"11",8,"Atlantic herring","clupea harengus","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,2
+"12",9,"Atlantic herring","clupea harengus","New Hampshire",1,TRUE,"LC","Least Concern",0,1,2
+"13",10,"Atlantic herring","clupea harengus","New York",1,TRUE,"LC","Least Concern",0,1,2
+"14",11,"Atlantic herring","clupea harengus","Rhode Island",1,TRUE,"LC","Least Concern",0,1,2
+"15",5,"Atlantic surfclam","Spissula solidissima","Connecticut",1,TRUE,"LC","Least Concern",0,1,3
+"16",6,"Atlantic surfclam","Spissula solidissima","Maine",1,TRUE,"LC","Least Concern",0,1,3
+"17",7,"Atlantic surfclam","Spissula solidissima","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,3
+"18",8,"Atlantic surfclam","Spissula solidissima","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,3
+"19",9,"Atlantic surfclam","Spissula solidissima","New Hampshire",1,TRUE,"LC","Least Concern",0,1,3
+"20",10,"Atlantic surfclam","Spissula solidissima","New York",1,TRUE,"LC","Least Concern",0,1,3
+"21",11,"Atlantic surfclam","Spissula solidissima","Rhode Island",1,TRUE,"LC","Least Concern",0,1,3
+"22",5,"Horseshoe crab","limulus polyphemus","Connecticut",NA,FALSE,NA,NA,NA,1,4
+"23",6,"Horseshoe crab","limulus polyphemus","Maine",NA,FALSE,NA,NA,NA,1,4
+"24",7,"Horseshoe crab","limulus polyphemus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,4
+"25",8,"Horseshoe crab","limulus polyphemus","Massachusetts-South",NA,FALSE,NA,NA,NA,1,4
+"26",9,"Horseshoe crab","limulus polyphemus","New Hampshire",NA,FALSE,NA,NA,NA,1,4
+"27",10,"Horseshoe crab","limulus polyphemus","New York",1,TRUE,"LC","Least Concern",0,1,4
+"28",11,"Horseshoe crab","limulus polyphemus","Rhode Island",NA,FALSE,NA,NA,NA,1,4
+"29",5,"Sea scallop","placopecten magellanicus","Connecticut",NA,FALSE,NA,NA,NA,1,5
+"30",6,"Sea scallop","placopecten magellanicus","Maine",1,TRUE,"LC","Least Concern",0,1,5
+"31",7,"Sea scallop","placopecten magellanicus","Massachusetts-North",1,TRUE,"LC","Least Concern",0,1,5
+"32",8,"Sea scallop","placopecten magellanicus","Massachusetts-South",1,TRUE,"LC","Least Concern",0,1,5
+"33",9,"Sea scallop","placopecten magellanicus","New Hampshire",1,TRUE,"LC","Least Concern",0,1,5
+"34",10,"Sea scallop","placopecten magellanicus","New York",1,TRUE,"LC","Least Concern",0,1,5
+"35",11,"Sea scallop","placopecten magellanicus","Rhode Island",1,TRUE,"LC","Least Concern",0,1,5
+"36",5,"Striped bass","morone saxatilis","Connecticut",NA,FALSE,NA,NA,NA,0.95,6
+"37",6,"Striped bass","morone saxatilis","Maine",NA,FALSE,NA,NA,NA,0.95,6
+"38",7,"Striped bass","morone saxatilis","Massachusetts-North",1,TRUE,"LC","Least Concern",0,0.95,6
+"39",8,"Striped bass","morone saxatilis","Massachusetts-South",1,TRUE,"LC","Least Concern",0,0.95,6
+"40",9,"Striped bass","morone saxatilis","New Hampshire",NA,FALSE,NA,NA,NA,0.95,6
+"41",10,"Striped bass","morone saxatilis","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.95,6
+"42",11,"Striped bass","morone saxatilis","Rhode Island",1,TRUE,"LC","Least Concern",0,0.95,6
+"43",5,"Alewife","alosa pseudoharengus","Connecticut",NA,FALSE,NA,NA,NA,0.833333333333333,7
+"44",6,"Alewife","alosa pseudoharengus","Maine",1,TRUE,"LC","Least Concern",0,0.833333333333333,7
+"45",7,"Alewife","alosa pseudoharengus","Massachusetts-North",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.833333333333333,7
+"46",8,"Alewife","alosa pseudoharengus","Massachusetts-South",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.833333333333333,7
+"47",9,"Alewife","alosa pseudoharengus","New Hampshire",1,TRUE,"LC","Least Concern",0,0.833333333333333,7
+"48",10,"Alewife","alosa pseudoharengus","New York",1,TRUE,"LC","Least Concern",0,0.833333333333333,7
+"49",11,"Alewife","alosa pseudoharengus","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.833333333333333,7
+"50",5,"Osprey","pandion haliaetus","Connecticut",0.8,TRUE,"NT","Not Threatened",0.2,0.742857142857143,8
+"51",6,"Osprey","pandion haliaetus","Maine",1,TRUE,"LC","Least Concern",0,0.742857142857143,8
+"52",7,"Osprey","pandion haliaetus","Massachusetts-North",0.8,TRUE,"NT","Not Threatened",0.2,0.742857142857143,8
+"53",8,"Osprey","pandion haliaetus","Massachusetts-South",0.8,TRUE,"NT","Not Threatened",0.2,0.742857142857143,8
+"54",9,"Osprey","pandion haliaetus","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.742857142857143,8
+"55",10,"Osprey","pandion haliaetus","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.742857142857143,8
+"56",11,"Osprey","pandion haliaetus","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.742857142857143,8
+"57",5,"Bottlenose dolphin","tursiops truncatus","Connecticut",NA,FALSE,NA,NA,NA,0.683333333333333,9
+"58",6,"Bottlenose dolphin","tursiops truncatus","Maine",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.683333333333333,9
+"59",7,"Bottlenose dolphin","tursiops truncatus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.683333333333333,9
+"60",8,"Bottlenose dolphin","tursiops truncatus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.683333333333333,9
+"61",9,"Bottlenose dolphin","tursiops truncatus","New Hampshire",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.683333333333333,9
+"62",10,"Bottlenose dolphin","tursiops truncatus","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.683333333333333,9
+"63",11,"Bottlenose dolphin","tursiops truncatus","Rhode Island",0.9,TRUE,"LC/VU","Least Concern/Not Threatened",0.1,0.683333333333333,9
+"64",5,"American shad","alosa sapidissima","Connecticut",NA,FALSE,NA,NA,NA,0.666666666666667,10
+"65",6,"American shad","alosa sapidissima","Maine",1,TRUE,"LC","Least Concern",0,0.666666666666667,10
+"66",7,"American shad","alosa sapidissima","Massachusetts-North",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.666666666666667,10
+"67",8,"American shad","alosa sapidissima","Massachusetts-South",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.666666666666667,10
+"68",9,"American shad","alosa sapidissima","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.666666666666667,10
+"69",10,"American shad","alosa sapidissima","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.666666666666667,10
+"70",11,"American shad","alosa sapidissima","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.666666666666667,10
+"71",5,"Atlantic cod","gadus morhua","Connecticut",NA,FALSE,NA,NA,NA,0.6,11
+"72",6,"Atlantic cod","gadus morhua","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,11
+"73",7,"Atlantic cod","gadus morhua","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,11
+"74",8,"Atlantic cod","gadus morhua","Massachusetts-South",NA,FALSE,NA,NA,NA,0.6,11
+"75",9,"Atlantic cod","gadus morhua","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,11
+"76",10,"Atlantic cod","gadus morhua","New York",NA,FALSE,NA,NA,NA,0.6,11
+"77",11,"Atlantic cod","gadus morhua","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,11
+"78",5,"Common tern","sterna hirundo","Connecticut",NA,FALSE,NA,NA,NA,0.6,12
+"79",6,"Common tern","sterna hirundo","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.6,12
+"80",7,"Common tern","sterna hirundo","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,12
+"81",8,"Common tern","sterna hirundo","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,12
+"82",9,"Common tern","sterna hirundo","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.6,12
+"83",10,"Common tern","sterna hirundo","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,12
+"84",11,"Common tern","sterna hirundo","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,12
+"85",5,"Great white shark","carcharodon carcharias","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"86",6,"Great white shark","carcharodon carcharias","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"87",7,"Great white shark","carcharodon carcharias","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"88",8,"Great white shark","carcharodon carcharias","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"89",9,"Great white shark","carcharodon carcharias","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"90",10,"Great white shark","carcharodon carcharias","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"91",11,"Great white shark","carcharodon carcharias","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"92",5,"Haddock","melanogrammus aeglefinus","Connecticut",NA,FALSE,NA,NA,NA,0.6,14
+"93",6,"Haddock","melanogrammus aeglefinus","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
+"94",7,"Haddock","melanogrammus aeglefinus","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
+"95",8,"Haddock","melanogrammus aeglefinus","Massachusetts-South",NA,FALSE,NA,NA,NA,0.6,14
+"96",9,"Haddock","melanogrammus aeglefinus","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
+"97",10,"Haddock","melanogrammus aeglefinus","New York",NA,FALSE,NA,NA,NA,0.6,14
+"98",11,"Haddock","melanogrammus aeglefinus","Rhode Island",NA,FALSE,NA,NA,NA,0.6,14
+"99",5,"Sandbar shark","carcharhinus plumbeus","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"100",6,"Sandbar shark","carcharhinus plumbeus","Maine",NA,FALSE,NA,NA,NA,0.6,15
+"101",7,"Sandbar shark","carcharhinus plumbeus","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"102",8,"Sandbar shark","carcharhinus plumbeus","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"103",9,"Sandbar shark","carcharhinus plumbeus","New Hampshire",NA,FALSE,NA,NA,NA,0.6,15
+"104",10,"Sandbar shark","carcharhinus plumbeus","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"105",11,"Sandbar shark","carcharhinus plumbeus","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"106",5,"Humpback whale","megaptera novaeangliae","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.542857142857143,16
+"107",6,"Humpback whale","megaptera novaeangliae","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.542857142857143,16
+"108",7,"Humpback whale","megaptera novaeangliae","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.542857142857143,16
+"109",8,"Humpback whale","megaptera novaeangliae","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.542857142857143,16
+"110",9,"Humpback whale","megaptera novaeangliae","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.542857142857143,16
+"111",10,"Humpback whale","megaptera novaeangliae","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.542857142857143,16
+"112",11,"Humpback whale","megaptera novaeangliae","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.542857142857143,16
+"113",5,"Arctic tern","sterna paradisaea","Connecticut",NA,FALSE,NA,NA,NA,0.5,17
+"114",6,"Arctic tern","sterna paradisaea","Maine",0.4,TRUE,"EN","Endangered",0.6,0.5,17
+"115",7,"Arctic tern","sterna paradisaea","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.5,17
+"116",8,"Arctic tern","sterna paradisaea","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.5,17
+"117",9,"Arctic tern","sterna paradisaea","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.5,17
+"118",10,"Arctic tern","sterna paradisaea","New York",1,TRUE,"LC","Least Concern",0,0.5,17
+"119",11,"Arctic tern","sterna paradisaea","Rhode Island",1,TRUE,"LC","Least Concern",0,0.5,17
+"120",5,"Minke whale","balaenoptera acutorostrata","Connecticut",NA,FALSE,NA,NA,NA,0.48,18
+"121",6,"Minke whale","balaenoptera acutorostrata","Maine",0.4,TRUE,"EN","Endangered",0.6,0.48,18
+"122",7,"Minke whale","balaenoptera acutorostrata","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.48,18
+"123",8,"Minke whale","balaenoptera acutorostrata","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.48,18
+"124",9,"Minke whale","balaenoptera acutorostrata","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.48,18
+"125",10,"Minke whale","balaenoptera acutorostrata","New York",0.4,TRUE,"EN","Endangered",0.6,0.48,18
+"126",11,"Minke whale","balaenoptera acutorostrata","Rhode Island",NA,FALSE,NA,NA,NA,0.48,18
+"127",5,"Bald eagle","haliaeetus leucocephalus","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.414285714285714,19
+"128",6,"Bald eagle","haliaeetus leucocephalus","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.414285714285714,19
+"129",7,"Bald eagle","haliaeetus leucocephalus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,19
+"130",8,"Bald eagle","haliaeetus leucocephalus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,19
+"131",9,"Bald eagle","haliaeetus leucocephalus","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,19
+"132",10,"Bald eagle","haliaeetus leucocephalus","New York",0.5,TRUE,"VU/EN","Vulnerable/Endangered",0.5,0.414285714285714,19
+"133",11,"Bald eagle","haliaeetus leucocephalus","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.414285714285714,19
+"134",5,"Atlantic bluefin tuna","thunnus thynnus","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"135",6,"Atlantic bluefin tuna","thunnus thynnus","Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"136",7,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"137",8,"Atlantic bluefin tuna","thunnus thynnus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"138",9,"Atlantic bluefin tuna","thunnus thynnus","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"139",10,"Atlantic bluefin tuna","thunnus thynnus","New York",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"140",11,"Atlantic bluefin tuna","thunnus thynnus","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"141",5,"Fin whale","balaenoptera physalus","Connecticut",NA,FALSE,NA,NA,NA,0.4,21
+"142",6,"Fin whale","balaenoptera physalus","Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,21
+"143",7,"Fin whale","balaenoptera physalus","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.4,21
+"144",8,"Fin whale","balaenoptera physalus","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.4,21
+"145",9,"Fin whale","balaenoptera physalus","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.4,21
+"146",10,"Fin whale","balaenoptera physalus","New York",NA,FALSE,NA,NA,NA,0.4,21
+"147",11,"Fin whale","balaenoptera physalus","Rhode Island",NA,FALSE,NA,NA,NA,0.4,21
+"148",5,"Least tern","sternula antillarum","Connecticut",NA,FALSE,NA,NA,NA,0.333333333333333,22
+"149",6,"Least tern","sternula antillarum","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.333333333333333,22
+"150",7,"Least tern","sternula antillarum","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.333333333333333,22
+"151",8,"Least tern","sternula antillarum","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.333333333333333,22
+"152",9,"Least tern","sternula antillarum","New Hampshire",0,TRUE,"EX","Extinct",1,0.333333333333333,22
+"153",10,"Least tern","sternula antillarum","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.333333333333333,22
+"154",11,"Least tern","sternula antillarum","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.333333333333333,22
+"155",5,"Atlantic puffin","fratercula arctica","Connecticut",NA,FALSE,NA,NA,NA,0.3,23
+"156",6,"Atlantic puffin","fratercula arctica","Maine",0.4,TRUE,"EN","Endangered",0.6,0.3,23
+"157",7,"Atlantic puffin","fratercula arctica","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.3,23
+"158",8,"Atlantic puffin","fratercula arctica","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.3,23
+"159",9,"Atlantic puffin","fratercula arctica","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,23
+"160",10,"Atlantic puffin","fratercula arctica","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,23
+"161",11,"Atlantic puffin","fratercula arctica","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,23
+"162",5,"Roseate tern","sterna dougallii","Connecticut",NA,FALSE,NA,NA,NA,0.233333333333333,24
+"163",6,"Roseate tern","sterna dougallii","Maine",0.4,TRUE,"EN","Endangered",0.6,0.233333333333333,24
+"164",7,"Roseate tern","sterna dougallii","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.233333333333333,24
+"165",8,"Roseate tern","sterna dougallii","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.233333333333333,24
+"166",9,"Roseate tern","sterna dougallii","New Hampshire",0,TRUE,"EX","Extinct",1,0.233333333333333,24
+"167",10,"Roseate tern","sterna dougallii","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.233333333333333,24
+"168",11,"Roseate tern","sterna dougallii","Rhode Island",0,TRUE,"EX","Extinct",1,0.233333333333333,24
+"169",5,"Atlantic sturgeon","acipenser oxyrinchus","Connecticut",NA,FALSE,NA,NA,NA,0.2,25
+"170",6,"Atlantic sturgeon","acipenser oxyrinchus","Maine",NA,FALSE,NA,NA,NA,0.2,25
+"171",7,"Atlantic sturgeon","acipenser oxyrinchus","Massachusetts-North",NA,FALSE,NA,NA,NA,0.2,25
+"172",8,"Atlantic sturgeon","acipenser oxyrinchus","Massachusetts-South",NA,FALSE,NA,NA,NA,0.2,25
+"173",9,"Atlantic sturgeon","acipenser oxyrinchus","New Hampshire",NA,FALSE,NA,NA,NA,0.2,25
+"174",10,"Atlantic sturgeon","acipenser oxyrinchus","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,25
+"175",11,"Atlantic sturgeon","acipenser oxyrinchus","Rhode Island",NA,FALSE,NA,NA,NA,0.2,25
+"176",5,"North atlantic right whale","eubalaena glacialis","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,26
+"177",6,"North atlantic right whale","eubalaena glacialis","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,26
+"178",7,"North atlantic right whale","eubalaena glacialis","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,26
+"179",8,"North atlantic right whale","eubalaena glacialis","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,26
+"180",9,"North atlantic right whale","eubalaena glacialis","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,26
+"181",10,"North atlantic right whale","eubalaena glacialis","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,26
+"182",11,"North atlantic right whale","eubalaena glacialis","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,26
+"183",5,"Atlantic salmon","Salmo salar","Connecticut",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,27
+"184",6,"Atlantic salmon","Salmo salar","Maine",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,27
+"185",7,"Atlantic salmon","Salmo salar","Massachusetts-North",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,27
+"186",8,"Atlantic salmon","Salmo salar","Massachusetts-South",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,27
+"187",9,"Atlantic salmon","Salmo salar","New Hampshire",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,27
+"188",10,"Atlantic salmon","Salmo salar","New York",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,27
+"189",11,"Atlantic salmon","Salmo salar","Rhode Island",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,27
