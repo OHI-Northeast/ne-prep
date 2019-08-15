@@ -630,9 +630,7 @@ write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
  
 ```
 
-location of stocks that don't have a locatio
-
-
+location of stocks that don't have a location
 
 
 
@@ -649,13 +647,76 @@ adq_graph
 #Percentage of Species with Management Plans
 
 
+**Implementation/ Enforcement
 
+1. Fisheries Observer Data
 
+Score is calculated by taking the number of actual seadays/allocated sea days.
+Actual seadays data from Debra NOAA
+Allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
+(total number of sea days allocated each year based on the agency budget amd the compensation rate analysis by funding source for ex:(April 2016-March 2017))
 
+There is an 8% target coverage of ships (in report https://www.nefsc.noaa.gov/fsb/SBRM/2011/2011_SBRM_3Year_Report.pdf)
 
+```{r}
 
+fish_ob_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fisheries_observer.xlsx"), sheet=1)
+ob_alloc_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fishob_seaday_alloc.xlsx"), sheet=1) %>% 
+  rename(YEAR = year)
 
+```
 
+```{r}
+
+fish_ob_score <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>% 
+  mutate(score = TOTDAYS/seadays) %>% 
+#  fill(score, .direction = "up") %>%  #back gap filled using the 1st year allocated sea days are avaliable
+  filter(YEAR <= 2017) %>% 
+  select(YEAR, score) %>% 
+  rename(year = YEAR) %>% 
+  rename(enforcement_score_obser= score)
+
+```
+
+Things to think about:
+- more information on allocated sea days prior to 2013
+- Score overestimating because allocated sea days do not include at-sea ground fish monitoring but the observer data does
+
+2. NOAA OLE Data
+
+```{r}
+ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))
+```
+
+```{r}
+
+ole <- ole_raw %>% 
+  mutate(compliance_score = 1- (enforcement_action/(inspections+investigations)),
+         staff_score = staffing/33,
+         num_patrols_score = num_patrols/537,
+         out_reach_num_score = out_reach_num/453) %>% 
+  rowwise() %>% 
+  mutate(enforcement_score_OLE=mean(c(staff_score, num_patrols_score, out_reach_num_score), na.rm=F) )
+        
+```
+
+```{r}
+
+enforcement_compliance_scores <- ole %>% 
+  select(year, enforcement_score_OLE, compliance_score) %>% 
+  right_join(fish_ob_score, by = c("year")) %>% 
+  rowwise() %>% 
+  mutate(enforcement_score= mean(c(enforcement_score_OLE, enforcement_score_obser), na.rm=F))
+
+```
+
+```{r}
+
+enforcement_scores_graph <- ggplot(enforcement_compliance_scores)+
+  geom_line(aes(x= year, y= enforcement_score))
+enforcement_scores_graph
+
+```
 
 
 

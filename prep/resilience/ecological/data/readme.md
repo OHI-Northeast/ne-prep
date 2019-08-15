@@ -5,7 +5,7 @@
 ******************************************************************
 Data created in the `water_pollution.Rmd`
 
-All peices of this resilience layer come from the raw data from the ECHO database. 
+All pieces of this resilience layer come from the raw data from the ECHO database. 
 
 **ECHO** is a data portal by the EPA that details water discharge facilities activities.
 
@@ -42,5 +42,43 @@ All water pollution layers in one file with the their respective targets
 
 `wp_res_score.csv` 
 Water pollution metrics converted into scores based on targets
+
+******************************************************************
+Data created in the `fishing_pressure.Rmd`
+
+`assessment_score.csv` Contains scores for percent of species landed that have stock assessments, by NEOHI Region not over time
+
+`marine_protected_by_rgn.csv` Contains spatial data for areas in all 11 regions that have regulations that will prevent fish biomass extraction. Used USGS data 
+
+Filter out:
+
+A. Location Designations (Loc_Ds)
+1. Fishery Management Area
+2. Fishery Management Areas
+3. Shellfish Management Area
+4. Conservation Area
+5. Gear Restricted Area
+6. Essential Fish Habitat Conservation Area
+7. Special Area Management Plan
+8. Closure Area")
+
+B. Fishing Restrictions (Fish_Rstr)
+1. No Site Restrictions
+2. Restrictions Unknown #only keeping areas with recreational or commercial fishing is restricted or prohibited
+
+C. Keep Constancy == Year-round
+
+`protected_score.csv` Scores for protected areas preventing fish biomass. Used a target of 30% protection
+
+`percent_adeq_ass.csv` Calculates species with stocks assessment that are adequately assessed by region (ie: assessed every 5 or less years) 
+
+
+
+
+
+
+
+
+
 
 
