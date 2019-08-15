@@ -1,1381 +1,386 @@
-year,rgn_id,rgn_name,layer,value
-2006,5,Connecticut,Water Quality,56.14276674257839
-2007,5,Connecticut,Water Quality,57.57511740691409
-2008,5,Connecticut,Water Quality,59.00746807124979
-2009,5,Connecticut,Water Quality,60.43981873558549
-2010,5,Connecticut,Water Quality,61.87216939992119
-2006,6,Maine,Water Quality,98.91607487970478
-2007,6,Maine,Water Quality,97.30467830327756
-2008,6,Maine,Water Quality,95.69328172685033
-2009,6,Maine,Water Quality,94.08188515042309
-2010,6,Maine,Water Quality,92.47048857399587
-2006,7,Massachusetts-Gulf of Maine,Water Quality,92.64705882352942
-2007,7,Massachusetts-Gulf of Maine,Water Quality,93.74168504635364
-2008,7,Massachusetts-Gulf of Maine,Water Quality,94.83631126917786
-2009,7,Massachusetts-Gulf of Maine,Water Quality,95.93093749200209
-2010,7,Massachusetts-Gulf of Maine,Water Quality,97.0255637148263
-2006,8,Massachusetts-Virginian,Water Quality,88.30766388927441
-2007,8,Massachusetts-Virginian,Water Quality,90.07500624264684
-2008,8,Massachusetts-Virginian,Water Quality,91.84234859601926
-2009,8,Massachusetts-Virginian,Water Quality,93.6096909493917
-2010,8,Massachusetts-Virginian,Water Quality,95.37703330276413
-2006,9,New Hampshire,Water Quality,71.2962962962963
-2007,9,New Hampshire,Water Quality,70.07802272885115
-2008,9,New Hampshire,Water Quality,68.859749161406
-2009,9,New Hampshire,Water Quality,67.64147559396085
-2010,9,New Hampshire,Water Quality,66.4232020265157
-2006,10,New York,Water Quality,68.6947771205414
-2007,10,New York,Water Quality,68.93455451450677
-2008,10,New York,Water Quality,69.17433190847214
-2009,10,New York,Water Quality,69.41410930243751
-2010,10,New York,Water Quality,69.65388669640288
-2006,11,Rhode Island,Water Quality,76.3099068314533
-2007,11,Rhode Island,Water Quality,80.08723672502593
-2008,11,Rhode Island,Water Quality,83.86456661859856
-2009,11,Rhode Island,Water Quality,87.64189651217117
-2010,11,Rhode Island,Water Quality,91.4192264057438
-2006,1,Offshore,Water Quality,NA
-2006,2,Georges Bank,Water Quality,NA
-2006,3,Gulf of Maine,Water Quality,NA
-2006,4,Mid-Atlantic Bight,Water Quality,NA
-2007,1,Offshore,Water Quality,NA
-2007,2,Georges Bank,Water Quality,NA
-2007,3,Gulf of Maine,Water Quality,NA
-2007,4,Mid-Atlantic Bight,Water Quality,NA
-2008,1,Offshore,Water Quality,NA
-2008,2,Georges Bank,Water Quality,NA
-2008,3,Gulf of Maine,Water Quality,NA
-2008,4,Mid-Atlantic Bight,Water Quality,NA
-2009,1,Offshore,Water Quality,NA
-2009,2,Georges Bank,Water Quality,NA
-2009,3,Gulf of Maine,Water Quality,NA
-2009,4,Mid-Atlantic Bight,Water Quality,NA
-2010,1,Offshore,Water Quality,NA
-2010,2,Georges Bank,Water Quality,NA
-2010,3,Gulf of Maine,Water Quality,NA
-2010,4,Mid-Atlantic Bight,Water Quality,NA
-2011,1,NA,Water Quality,NA
-2012,1,NA,Water Quality,NA
-2013,1,NA,Water Quality,NA
-2014,1,NA,Water Quality,NA
-2015,1,NA,Water Quality,NA
-2016,1,NA,Water Quality,NA
-2017,1,NA,Water Quality,NA
-2011,2,NA,Water Quality,NA
-2012,2,NA,Water Quality,NA
-2013,2,NA,Water Quality,NA
-2014,2,NA,Water Quality,NA
-2015,2,NA,Water Quality,NA
-2016,2,NA,Water Quality,NA
-2017,2,NA,Water Quality,NA
-2011,3,NA,Water Quality,NA
-2012,3,NA,Water Quality,NA
-2013,3,NA,Water Quality,NA
-2014,3,NA,Water Quality,NA
-2015,3,NA,Water Quality,NA
-2016,3,NA,Water Quality,NA
-2017,3,NA,Water Quality,NA
-2011,4,NA,Water Quality,NA
-2012,4,NA,Water Quality,NA
-2013,4,NA,Water Quality,NA
-2014,4,NA,Water Quality,NA
-2015,4,NA,Water Quality,NA
-2016,4,NA,Water Quality,NA
-2017,4,NA,Water Quality,NA
-2011,5,NA,Water Quality,NA
-2012,5,NA,Water Quality,NA
-2013,5,NA,Water Quality,NA
-2014,5,NA,Water Quality,NA
-2015,5,NA,Water Quality,NA
-2016,5,NA,Water Quality,NA
-2017,5,NA,Water Quality,NA
-2011,6,NA,Water Quality,NA
-2012,6,NA,Water Quality,NA
-2013,6,NA,Water Quality,NA
-2014,6,NA,Water Quality,NA
-2015,6,NA,Water Quality,NA
-2016,6,NA,Water Quality,NA
-2017,6,NA,Water Quality,NA
-2011,7,NA,Water Quality,NA
-2012,7,NA,Water Quality,NA
-2013,7,NA,Water Quality,NA
-2014,7,NA,Water Quality,NA
-2015,7,NA,Water Quality,NA
-2016,7,NA,Water Quality,NA
-2017,7,NA,Water Quality,NA
-2011,8,NA,Water Quality,NA
-2012,8,NA,Water Quality,NA
-2013,8,NA,Water Quality,NA
-2014,8,NA,Water Quality,NA
-2015,8,NA,Water Quality,NA
-2016,8,NA,Water Quality,NA
-2017,8,NA,Water Quality,NA
-2011,9,NA,Water Quality,NA
-2012,9,NA,Water Quality,NA
-2013,9,NA,Water Quality,NA
-2014,9,NA,Water Quality,NA
-2015,9,NA,Water Quality,NA
-2016,9,NA,Water Quality,NA
-2017,9,NA,Water Quality,NA
-2011,10,NA,Water Quality,NA
-2012,10,NA,Water Quality,NA
-2013,10,NA,Water Quality,NA
-2014,10,NA,Water Quality,NA
-2015,10,NA,Water Quality,NA
-2016,10,NA,Water Quality,NA
-2017,10,NA,Water Quality,NA
-2011,11,NA,Water Quality,NA
-2012,11,NA,Water Quality,NA
-2013,11,NA,Water Quality,NA
-2014,11,NA,Water Quality,NA
-2015,11,NA,Water Quality,NA
-2016,11,NA,Water Quality,NA
-2017,11,NA,Water Quality,NA
-2005,5,Connecticut,Water Quality,NA
-2011,5,Connecticut,Water Quality,NA
-2012,5,Connecticut,Water Quality,NA
-2013,5,Connecticut,Water Quality,NA
-2014,5,Connecticut,Water Quality,NA
-2015,5,Connecticut,Water Quality,NA
-2016,5,Connecticut,Water Quality,NA
-2017,5,Connecticut,Water Quality,NA
-2005,6,Maine,Water Quality,NA
-2011,6,Maine,Water Quality,NA
-2012,6,Maine,Water Quality,NA
-2013,6,Maine,Water Quality,NA
-2014,6,Maine,Water Quality,NA
-2015,6,Maine,Water Quality,NA
-2016,6,Maine,Water Quality,NA
-2017,6,Maine,Water Quality,NA
-2005,7,Massachusetts-North,Water Quality,NA
-2006,7,Massachusetts-North,Water Quality,NA
-2007,7,Massachusetts-North,Water Quality,NA
-2008,7,Massachusetts-North,Water Quality,NA
-2009,7,Massachusetts-North,Water Quality,NA
-2010,7,Massachusetts-North,Water Quality,NA
-2011,7,Massachusetts-North,Water Quality,NA
-2012,7,Massachusetts-North,Water Quality,NA
-2013,7,Massachusetts-North,Water Quality,NA
-2014,7,Massachusetts-North,Water Quality,NA
-2015,7,Massachusetts-North,Water Quality,NA
-2016,7,Massachusetts-North,Water Quality,NA
-2017,7,Massachusetts-North,Water Quality,NA
-2005,8,Massachusetts-South,Water Quality,NA
-2006,8,Massachusetts-South,Water Quality,NA
-2007,8,Massachusetts-South,Water Quality,NA
-2008,8,Massachusetts-South,Water Quality,NA
-2009,8,Massachusetts-South,Water Quality,NA
-2010,8,Massachusetts-South,Water Quality,NA
-2011,8,Massachusetts-South,Water Quality,NA
-2012,8,Massachusetts-South,Water Quality,NA
-2013,8,Massachusetts-South,Water Quality,NA
-2014,8,Massachusetts-South,Water Quality,NA
-2015,8,Massachusetts-South,Water Quality,NA
-2016,8,Massachusetts-South,Water Quality,NA
-2017,8,Massachusetts-South,Water Quality,NA
-2005,9,New Hampshire,Water Quality,NA
-2011,9,New Hampshire,Water Quality,NA
-2012,9,New Hampshire,Water Quality,NA
-2013,9,New Hampshire,Water Quality,NA
-2014,9,New Hampshire,Water Quality,NA
-2015,9,New Hampshire,Water Quality,NA
-2016,9,New Hampshire,Water Quality,NA
-2017,9,New Hampshire,Water Quality,NA
-2005,10,New York,Water Quality,NA
-2011,10,New York,Water Quality,NA
-2012,10,New York,Water Quality,NA
-2013,10,New York,Water Quality,NA
-2014,10,New York,Water Quality,NA
-2015,10,New York,Water Quality,NA
-2016,10,New York,Water Quality,NA
-2017,10,New York,Water Quality,NA
-2005,11,Rhode Island,Water Quality,NA
-2011,11,Rhode Island,Water Quality,NA
-2012,11,Rhode Island,Water Quality,NA
-2013,11,Rhode Island,Water Quality,NA
-2014,11,Rhode Island,Water Quality,NA
-2015,11,Rhode Island,Water Quality,NA
-2016,11,Rhode Island,Water Quality,NA
-2017,11,Rhode Island,Water Quality,NA
-2005,1,Offshore,Water Quality,NA
-2005,2,Georges Bank,Water Quality,NA
-2005,3,Gulf of Maine,Water Quality,NA
-2005,4,Mid-Atlantic Bight,Water Quality,NA
-2011,1,Offshore,Water Quality,NA
-2011,2,Georges Bank,Water Quality,NA
-2011,3,Gulf of Maine,Water Quality,NA
-2011,4,Mid-Atlantic Bight,Water Quality,NA
-2012,1,Offshore,Water Quality,NA
-2012,2,Georges Bank,Water Quality,NA
-2012,3,Gulf of Maine,Water Quality,NA
-2012,4,Mid-Atlantic Bight,Water Quality,NA
-2013,1,Offshore,Water Quality,NA
-2013,2,Georges Bank,Water Quality,NA
-2013,3,Gulf of Maine,Water Quality,NA
-2013,4,Mid-Atlantic Bight,Water Quality,NA
-2014,1,Offshore,Water Quality,NA
-2014,2,Georges Bank,Water Quality,NA
-2014,3,Gulf of Maine,Water Quality,NA
-2014,4,Mid-Atlantic Bight,Water Quality,NA
-2015,1,Offshore,Water Quality,NA
-2015,2,Georges Bank,Water Quality,NA
-2015,3,Gulf of Maine,Water Quality,NA
-2015,4,Mid-Atlantic Bight,Water Quality,NA
-2016,1,Offshore,Water Quality,NA
-2016,2,Georges Bank,Water Quality,NA
-2016,3,Gulf of Maine,Water Quality,NA
-2016,4,Mid-Atlantic Bight,Water Quality,NA
-2017,1,Offshore,Water Quality,NA
-2017,2,Georges Bank,Water Quality,NA
-2017,3,Gulf of Maine,Water Quality,NA
-2017,4,Mid-Atlantic Bight,Water Quality,NA
-2006,5,Connecticut,Sediment Quality,66.80721365676837
-2007,5,Connecticut,Sediment Quality,67.4501005402961
-2008,5,Connecticut,Sediment Quality,68.09298742382384
-2009,5,Connecticut,Sediment Quality,68.73587430735157
-2010,5,Connecticut,Sediment Quality,69.3787611908793
-2006,6,Maine,Sediment Quality,93.38537529229909
-2007,6,Maine,Sediment Quality,89.12974460139795
-2008,6,Maine,Sediment Quality,84.87411391049679
-2009,6,Maine,Sediment Quality,80.61848321959565
-2010,6,Maine,Sediment Quality,76.3628525286945
-2006,7,Massachusetts-Gulf of Maine,Sediment Quality,83.33333333333333
-2007,7,Massachusetts-Gulf of Maine,Sediment Quality,81.75039166131361
-2008,7,Massachusetts-Gulf of Maine,Sediment Quality,80.1674499892939
-2009,7,Massachusetts-Gulf of Maine,Sediment Quality,78.58450831727419
-2010,7,Massachusetts-Gulf of Maine,Sediment Quality,77.00156664525447
-2006,8,Massachusetts-Virginian,Sediment Quality,98.66201772217201
-2007,8,Massachusetts-Virginian,Sediment Quality,84.6202841516694
-2008,8,Massachusetts-Virginian,Sediment Quality,70.57855058116678
-2009,8,Massachusetts-Virginian,Sediment Quality,56.536817010664166
-2010,8,Massachusetts-Virginian,Sediment Quality,42.49508344016155
-2006,9,New Hampshire,Sediment Quality,76.47058823529412
-2007,9,New Hampshire,Sediment Quality,78.07986136333186
-2008,9,New Hampshire,Sediment Quality,79.6891344913696
-2009,9,New Hampshire,Sediment Quality,81.29840761940736
-2010,9,New Hampshire,Sediment Quality,82.9076807474451
-2006,10,New York,Sediment Quality,77.14645569611903
-2007,10,New York,Sediment Quality,76.03648202501009
-2008,10,New York,Sediment Quality,74.92650835390114
-2009,10,New York,Sediment Quality,73.81653468279218
-2010,10,New York,Sediment Quality,72.70656101168323
-2006,11,Rhode Island,Sediment Quality,80.0572925020384
-2007,11,Rhode Island,Sediment Quality,72.16439839906243
-2008,11,Rhode Island,Sediment Quality,64.27150429608646
-2009,11,Rhode Island,Sediment Quality,56.3786101931105
-2010,11,Rhode Island,Sediment Quality,48.48571609013453
-2006,1,Offshore,Sediment Quality,NA
-2006,2,Georges Bank,Sediment Quality,NA
-2006,3,Gulf of Maine,Sediment Quality,NA
-2006,4,Mid-Atlantic Bight,Sediment Quality,NA
-2007,1,Offshore,Sediment Quality,NA
-2007,2,Georges Bank,Sediment Quality,NA
-2007,3,Gulf of Maine,Sediment Quality,NA
-2007,4,Mid-Atlantic Bight,Sediment Quality,NA
-2008,1,Offshore,Sediment Quality,NA
-2008,2,Georges Bank,Sediment Quality,NA
-2008,3,Gulf of Maine,Sediment Quality,NA
-2008,4,Mid-Atlantic Bight,Sediment Quality,NA
-2009,1,Offshore,Sediment Quality,NA
-2009,2,Georges Bank,Sediment Quality,NA
-2009,3,Gulf of Maine,Sediment Quality,NA
-2009,4,Mid-Atlantic Bight,Sediment Quality,NA
-2010,1,Offshore,Sediment Quality,NA
-2010,2,Georges Bank,Sediment Quality,NA
-2010,3,Gulf of Maine,Sediment Quality,NA
-2010,4,Mid-Atlantic Bight,Sediment Quality,NA
-2011,1,NA,Sediment Quality,NA
-2012,1,NA,Sediment Quality,NA
-2013,1,NA,Sediment Quality,NA
-2014,1,NA,Sediment Quality,NA
-2015,1,NA,Sediment Quality,NA
-2016,1,NA,Sediment Quality,NA
-2017,1,NA,Sediment Quality,NA
-2011,2,NA,Sediment Quality,NA
-2012,2,NA,Sediment Quality,NA
-2013,2,NA,Sediment Quality,NA
-2014,2,NA,Sediment Quality,NA
-2015,2,NA,Sediment Quality,NA
-2016,2,NA,Sediment Quality,NA
-2017,2,NA,Sediment Quality,NA
-2011,3,NA,Sediment Quality,NA
-2012,3,NA,Sediment Quality,NA
-2013,3,NA,Sediment Quality,NA
-2014,3,NA,Sediment Quality,NA
-2015,3,NA,Sediment Quality,NA
-2016,3,NA,Sediment Quality,NA
-2017,3,NA,Sediment Quality,NA
-2011,4,NA,Sediment Quality,NA
-2012,4,NA,Sediment Quality,NA
-2013,4,NA,Sediment Quality,NA
-2014,4,NA,Sediment Quality,NA
-2015,4,NA,Sediment Quality,NA
-2016,4,NA,Sediment Quality,NA
-2017,4,NA,Sediment Quality,NA
-2011,5,NA,Sediment Quality,NA
-2012,5,NA,Sediment Quality,NA
-2013,5,NA,Sediment Quality,NA
-2014,5,NA,Sediment Quality,NA
-2015,5,NA,Sediment Quality,NA
-2016,5,NA,Sediment Quality,NA
-2017,5,NA,Sediment Quality,NA
-2011,6,NA,Sediment Quality,NA
-2012,6,NA,Sediment Quality,NA
-2013,6,NA,Sediment Quality,NA
-2014,6,NA,Sediment Quality,NA
-2015,6,NA,Sediment Quality,NA
-2016,6,NA,Sediment Quality,NA
-2017,6,NA,Sediment Quality,NA
-2011,7,NA,Sediment Quality,NA
-2012,7,NA,Sediment Quality,NA
-2013,7,NA,Sediment Quality,NA
-2014,7,NA,Sediment Quality,NA
-2015,7,NA,Sediment Quality,NA
-2016,7,NA,Sediment Quality,NA
-2017,7,NA,Sediment Quality,NA
-2011,8,NA,Sediment Quality,NA
-2012,8,NA,Sediment Quality,NA
-2013,8,NA,Sediment Quality,NA
-2014,8,NA,Sediment Quality,NA
-2015,8,NA,Sediment Quality,NA
-2016,8,NA,Sediment Quality,NA
-2017,8,NA,Sediment Quality,NA
-2011,9,NA,Sediment Quality,NA
-2012,9,NA,Sediment Quality,NA
-2013,9,NA,Sediment Quality,NA
-2014,9,NA,Sediment Quality,NA
-2015,9,NA,Sediment Quality,NA
-2016,9,NA,Sediment Quality,NA
-2017,9,NA,Sediment Quality,NA
-2011,10,NA,Sediment Quality,NA
-2012,10,NA,Sediment Quality,NA
-2013,10,NA,Sediment Quality,NA
-2014,10,NA,Sediment Quality,NA
-2015,10,NA,Sediment Quality,NA
-2016,10,NA,Sediment Quality,NA
-2017,10,NA,Sediment Quality,NA
-2011,11,NA,Sediment Quality,NA
-2012,11,NA,Sediment Quality,NA
-2013,11,NA,Sediment Quality,NA
-2014,11,NA,Sediment Quality,NA
-2015,11,NA,Sediment Quality,NA
-2016,11,NA,Sediment Quality,NA
-2017,11,NA,Sediment Quality,NA
-2005,5,Connecticut,Sediment Quality,NA
-2011,5,Connecticut,Sediment Quality,NA
-2012,5,Connecticut,Sediment Quality,NA
-2013,5,Connecticut,Sediment Quality,NA
-2014,5,Connecticut,Sediment Quality,NA
-2015,5,Connecticut,Sediment Quality,NA
-2016,5,Connecticut,Sediment Quality,NA
-2017,5,Connecticut,Sediment Quality,NA
-2005,6,Maine,Sediment Quality,NA
-2011,6,Maine,Sediment Quality,NA
-2012,6,Maine,Sediment Quality,NA
-2013,6,Maine,Sediment Quality,NA
-2014,6,Maine,Sediment Quality,NA
-2015,6,Maine,Sediment Quality,NA
-2016,6,Maine,Sediment Quality,NA
-2017,6,Maine,Sediment Quality,NA
-2005,7,Massachusetts-North,Sediment Quality,NA
-2006,7,Massachusetts-North,Sediment Quality,NA
-2007,7,Massachusetts-North,Sediment Quality,NA
-2008,7,Massachusetts-North,Sediment Quality,NA
-2009,7,Massachusetts-North,Sediment Quality,NA
-2010,7,Massachusetts-North,Sediment Quality,NA
-2011,7,Massachusetts-North,Sediment Quality,NA
-2012,7,Massachusetts-North,Sediment Quality,NA
-2013,7,Massachusetts-North,Sediment Quality,NA
-2014,7,Massachusetts-North,Sediment Quality,NA
-2015,7,Massachusetts-North,Sediment Quality,NA
-2016,7,Massachusetts-North,Sediment Quality,NA
-2017,7,Massachusetts-North,Sediment Quality,NA
-2005,8,Massachusetts-South,Sediment Quality,NA
-2006,8,Massachusetts-South,Sediment Quality,NA
-2007,8,Massachusetts-South,Sediment Quality,NA
-2008,8,Massachusetts-South,Sediment Quality,NA
-2009,8,Massachusetts-South,Sediment Quality,NA
-2010,8,Massachusetts-South,Sediment Quality,NA
-2011,8,Massachusetts-South,Sediment Quality,NA
-2012,8,Massachusetts-South,Sediment Quality,NA
-2013,8,Massachusetts-South,Sediment Quality,NA
-2014,8,Massachusetts-South,Sediment Quality,NA
-2015,8,Massachusetts-South,Sediment Quality,NA
-2016,8,Massachusetts-South,Sediment Quality,NA
-2017,8,Massachusetts-South,Sediment Quality,NA
-2005,9,New Hampshire,Sediment Quality,NA
-2011,9,New Hampshire,Sediment Quality,NA
-2012,9,New Hampshire,Sediment Quality,NA
-2013,9,New Hampshire,Sediment Quality,NA
-2014,9,New Hampshire,Sediment Quality,NA
-2015,9,New Hampshire,Sediment Quality,NA
-2016,9,New Hampshire,Sediment Quality,NA
-2017,9,New Hampshire,Sediment Quality,NA
-2005,10,New York,Sediment Quality,NA
-2011,10,New York,Sediment Quality,NA
-2012,10,New York,Sediment Quality,NA
-2013,10,New York,Sediment Quality,NA
-2014,10,New York,Sediment Quality,NA
-2015,10,New York,Sediment Quality,NA
-2016,10,New York,Sediment Quality,NA
-2017,10,New York,Sediment Quality,NA
-2005,11,Rhode Island,Sediment Quality,NA
-2011,11,Rhode Island,Sediment Quality,NA
-2012,11,Rhode Island,Sediment Quality,NA
-2013,11,Rhode Island,Sediment Quality,NA
-2014,11,Rhode Island,Sediment Quality,NA
-2015,11,Rhode Island,Sediment Quality,NA
-2016,11,Rhode Island,Sediment Quality,NA
-2017,11,Rhode Island,Sediment Quality,NA
-2005,1,Offshore,Sediment Quality,NA
-2005,2,Georges Bank,Sediment Quality,NA
-2005,3,Gulf of Maine,Sediment Quality,NA
-2005,4,Mid-Atlantic Bight,Sediment Quality,NA
-2011,1,Offshore,Sediment Quality,NA
-2011,2,Georges Bank,Sediment Quality,NA
-2011,3,Gulf of Maine,Sediment Quality,NA
-2011,4,Mid-Atlantic Bight,Sediment Quality,NA
-2012,1,Offshore,Sediment Quality,NA
-2012,2,Georges Bank,Sediment Quality,NA
-2012,3,Gulf of Maine,Sediment Quality,NA
-2012,4,Mid-Atlantic Bight,Sediment Quality,NA
-2013,1,Offshore,Sediment Quality,NA
-2013,2,Georges Bank,Sediment Quality,NA
-2013,3,Gulf of Maine,Sediment Quality,NA
-2013,4,Mid-Atlantic Bight,Sediment Quality,NA
-2014,1,Offshore,Sediment Quality,NA
-2014,2,Georges Bank,Sediment Quality,NA
-2014,3,Gulf of Maine,Sediment Quality,NA
-2014,4,Mid-Atlantic Bight,Sediment Quality,NA
-2015,1,Offshore,Sediment Quality,NA
-2015,2,Georges Bank,Sediment Quality,NA
-2015,3,Gulf of Maine,Sediment Quality,NA
-2015,4,Mid-Atlantic Bight,Sediment Quality,NA
-2016,1,Offshore,Sediment Quality,NA
-2016,2,Georges Bank,Sediment Quality,NA
-2016,3,Gulf of Maine,Sediment Quality,NA
-2016,4,Mid-Atlantic Bight,Sediment Quality,NA
-2017,1,Offshore,Sediment Quality,NA
-2017,2,Georges Bank,Sediment Quality,NA
-2017,3,Gulf of Maine,Sediment Quality,NA
-2017,4,Mid-Atlantic Bight,Sediment Quality,NA
-2006,5,Connecticut,score,0.0561791075495324
-2007,5,Connecticut,score,0.0561791075495324
-2008,5,Connecticut,score,0.0770075765658025
-2009,5,Connecticut,score,0.0631670468364851
-2010,5,Connecticut,score,0.068176913278674
-2006,6,Maine,score,0.0413239993194548
-2007,6,Maine,score,0.0413239993194548
-2008,6,Maine,score,0.0795504853018354
-2009,6,Maine,score,0.0544588853804334
-2010,6,Maine,score,0.0555402119330438
-2006,7,Massachusetts-Gulf of Maine,score,0.0911788382575004
-2007,7,Massachusetts-Gulf of Maine,score,0.0911788382575004
-2008,7,Massachusetts-Gulf of Maine,score,0.0698309012030395
-2009,7,Massachusetts-Gulf of Maine,score,0.100409845795538
-2010,7,Massachusetts-Gulf of Maine,score,0.0672618889217683
-2006,8,Massachusetts-Virginian,score,0.0911788382575004
-2007,8,Massachusetts-Virginian,score,0.0911788382575004
-2008,8,Massachusetts-Virginian,score,0.0698309012030395
-2009,8,Massachusetts-Virginian,score,0.100409845795538
-2010,8,Massachusetts-Virginian,score,0.0672618889217683
-2006,9,New Hampshire,score,0.052203971530277
-2007,9,New Hampshire,score,0.052203971530277
-2008,9,New Hampshire,score,0.0471249115991535
-2009,9,New Hampshire,score,0.0691479713806855
-2010,9,New Hampshire,score,0.0621398315017857
-2006,10,New York,score,0.146367138808004
-2007,10,New York,score,0.146367138808004
-2008,10,New York,score,0.122773782026318
-2009,10,New York,score,0.133510835133623
-2010,10,New York,score,0.194153802080123
-2006,11,Rhode Island,score,0.111295776057822
-2007,11,Rhode Island,score,0.111295776057822
-2008,11,Rhode Island,score,0.0700346152294331
-2009,11,Rhode Island,score,0.090864953684223
-2010,11,Rhode Island,score,0.119018831189647
-2006,1,Offshore,score,NA
-2006,2,Georges Bank,score,NA
-2006,3,Gulf of Maine,score,NA
-2006,4,Mid-Atlantic Bight,score,NA
-2007,1,Offshore,score,NA
-2007,2,Georges Bank,score,NA
-2007,3,Gulf of Maine,score,NA
-2007,4,Mid-Atlantic Bight,score,NA
-2008,1,Offshore,score,NA
-2008,2,Georges Bank,score,NA
-2008,3,Gulf of Maine,score,NA
-2008,4,Mid-Atlantic Bight,score,NA
-2009,1,Offshore,score,NA
-2009,2,Georges Bank,score,NA
-2009,3,Gulf of Maine,score,NA
-2009,4,Mid-Atlantic Bight,score,NA
-2010,1,Offshore,score,NA
-2010,2,Georges Bank,score,NA
-2010,3,Gulf of Maine,score,NA
-2010,4,Mid-Atlantic Bight,score,NA
-2011,1,NA,score,NA
-2012,1,NA,score,NA
-2013,1,NA,score,NA
-2014,1,NA,score,NA
-2015,1,NA,score,NA
-2016,1,NA,score,NA
-2017,1,NA,score,NA
-2011,2,NA,score,NA
-2012,2,NA,score,NA
-2013,2,NA,score,NA
-2014,2,NA,score,NA
-2015,2,NA,score,NA
-2016,2,NA,score,NA
-2017,2,NA,score,NA
-2011,3,NA,score,NA
-2012,3,NA,score,NA
-2013,3,NA,score,NA
-2014,3,NA,score,NA
-2015,3,NA,score,NA
-2016,3,NA,score,NA
-2017,3,NA,score,NA
-2011,4,NA,score,NA
-2012,4,NA,score,NA
-2013,4,NA,score,NA
-2014,4,NA,score,NA
-2015,4,NA,score,NA
-2016,4,NA,score,NA
-2017,4,NA,score,NA
-2011,5,NA,score,0.109191525651312
-2012,5,NA,score,0.0546451672284442
-2013,5,NA,score,0.059224978634465
-2014,5,NA,score,0.155186633511917
-2015,5,NA,score,0.0979842681221681
-2016,5,NA,score,0.046710787430525
-2017,5,NA,score,0.0975980603086622
-2011,6,NA,score,0.0811111918296059
-2012,6,NA,score,0.0983969452092657
-2013,6,NA,score,0.0328740021438242
-2014,6,NA,score,0.0484835625931237
-2015,6,NA,score,0.15941200841577
-2016,6,NA,score,0.0346518179508198
-2017,6,NA,score,0.0445467780184721
-2011,7,NA,score,0.0770119997810882
-2012,7,NA,score,0.0541699091899264
-2013,7,NA,score,0.205479310657691
-2014,7,NA,score,0.18385457411772901
-2015,7,NA,score,0.232407430370739
-2016,7,NA,score,0.0516595512950766
-2017,7,NA,score,0.274715430294641
-2011,8,NA,score,0.0770119997810882
-2012,8,NA,score,0.0541699091899264
-2013,8,NA,score,0.205479310657691
-2014,8,NA,score,0.18385457411772901
-2015,8,NA,score,0.232407430370739
-2016,8,NA,score,0.0516595512950766
-2017,8,NA,score,0.274715430294641
-2011,9,NA,score,0.0699214569912737
-2012,9,NA,score,0.0285008654816154
-2013,9,NA,score,0.0202080850027468
-2014,9,NA,score,0.0499068946371528
-2015,9,NA,score,0.0715219049685454
-2016,9,NA,score,0.0505842007986834
-2017,9,NA,score,0.0639431333347913
-2011,10,NA,score,0.140950329357071
-2012,10,NA,score,0.102390262732963
-2013,10,NA,score,0.0926460341856739
-2014,10,NA,score,0.129148259395601
-2015,10,NA,score,0.156145106297117
-2016,10,NA,score,0.0931534080534765
-2017,10,NA,score,0.0509049604930487
-2011,11,NA,score,0.113528406218044
-2012,11,NA,score,0.0889219194471322
-2013,11,NA,score,0.0964293640830697
-2014,11,NA,score,0.0748656534144998
-2015,11,NA,score,0.0856918408755281
-2016,11,NA,score,0.0641362627564647
-2017,11,NA,score,0.0601823328985841
-2005,5,Connecticut,score,NA
-2011,5,Connecticut,score,NA
-2012,5,Connecticut,score,NA
-2013,5,Connecticut,score,NA
-2014,5,Connecticut,score,NA
-2015,5,Connecticut,score,NA
-2016,5,Connecticut,score,NA
-2017,5,Connecticut,score,NA
-2005,6,Maine,score,NA
-2011,6,Maine,score,NA
-2012,6,Maine,score,NA
-2013,6,Maine,score,NA
-2014,6,Maine,score,NA
-2015,6,Maine,score,NA
-2016,6,Maine,score,NA
-2017,6,Maine,score,NA
-2005,7,Massachusetts-North,score,NA
-2006,7,Massachusetts-North,score,NA
-2007,7,Massachusetts-North,score,NA
-2008,7,Massachusetts-North,score,NA
-2009,7,Massachusetts-North,score,NA
-2010,7,Massachusetts-North,score,NA
-2011,7,Massachusetts-North,score,NA
-2012,7,Massachusetts-North,score,NA
-2013,7,Massachusetts-North,score,NA
-2014,7,Massachusetts-North,score,NA
-2015,7,Massachusetts-North,score,NA
-2016,7,Massachusetts-North,score,NA
-2017,7,Massachusetts-North,score,NA
-2005,8,Massachusetts-South,score,NA
-2006,8,Massachusetts-South,score,NA
-2007,8,Massachusetts-South,score,NA
-2008,8,Massachusetts-South,score,NA
-2009,8,Massachusetts-South,score,NA
-2010,8,Massachusetts-South,score,NA
-2011,8,Massachusetts-South,score,NA
-2012,8,Massachusetts-South,score,NA
-2013,8,Massachusetts-South,score,NA
-2014,8,Massachusetts-South,score,NA
-2015,8,Massachusetts-South,score,NA
-2016,8,Massachusetts-South,score,NA
-2017,8,Massachusetts-South,score,NA
-2005,9,New Hampshire,score,NA
-2011,9,New Hampshire,score,NA
-2012,9,New Hampshire,score,NA
-2013,9,New Hampshire,score,NA
-2014,9,New Hampshire,score,NA
-2015,9,New Hampshire,score,NA
-2016,9,New Hampshire,score,NA
-2017,9,New Hampshire,score,NA
-2005,10,New York,score,NA
-2011,10,New York,score,NA
-2012,10,New York,score,NA
-2013,10,New York,score,NA
-2014,10,New York,score,NA
-2015,10,New York,score,NA
-2016,10,New York,score,NA
-2017,10,New York,score,NA
-2005,11,Rhode Island,score,NA
-2011,11,Rhode Island,score,NA
-2012,11,Rhode Island,score,NA
-2013,11,Rhode Island,score,NA
-2014,11,Rhode Island,score,NA
-2015,11,Rhode Island,score,NA
-2016,11,Rhode Island,score,NA
-2017,11,Rhode Island,score,NA
-2005,1,Offshore,score,NA
-2005,2,Georges Bank,score,NA
-2005,3,Gulf of Maine,score,NA
-2005,4,Mid-Atlantic Bight,score,NA
-2011,1,Offshore,score,NA
-2011,2,Georges Bank,score,NA
-2011,3,Gulf of Maine,score,NA
-2011,4,Mid-Atlantic Bight,score,NA
-2012,1,Offshore,score,NA
-2012,2,Georges Bank,score,NA
-2012,3,Gulf of Maine,score,NA
-2012,4,Mid-Atlantic Bight,score,NA
-2013,1,Offshore,score,NA
-2013,2,Georges Bank,score,NA
-2013,3,Gulf of Maine,score,NA
-2013,4,Mid-Atlantic Bight,score,NA
-2014,1,Offshore,score,NA
-2014,2,Georges Bank,score,NA
-2014,3,Gulf of Maine,score,NA
-2014,4,Mid-Atlantic Bight,score,NA
-2015,1,Offshore,score,NA
-2015,2,Georges Bank,score,NA
-2015,3,Gulf of Maine,score,NA
-2015,4,Mid-Atlantic Bight,score,NA
-2016,1,Offshore,score,NA
-2016,2,Georges Bank,score,NA
-2016,3,Gulf of Maine,score,NA
-2016,4,Mid-Atlantic Bight,score,NA
-2017,1,Offshore,score,NA
-2017,2,Georges Bank,score,NA
-2017,3,Gulf of Maine,score,NA
-2017,4,Mid-Atlantic Bight,score,NA
-2006,5,Connecticut,Trash,94.38208924504676
-2007,5,Connecticut,Trash,94.38208924504676
-2008,5,Connecticut,Trash,92.29924234341975
-2009,5,Connecticut,Trash,93.68329531635149
-2010,5,Connecticut,Trash,93.18230867213259
-2006,6,Maine,Trash,95.86760006805451
-2007,6,Maine,Trash,95.86760006805451
-2008,6,Maine,Trash,92.04495146981645
-2009,6,Maine,Trash,94.55411146195665
-2010,6,Maine,Trash,94.44597880669562
-2006,7,Massachusetts-Gulf of Maine,Trash,90.88211617424996
-2007,7,Massachusetts-Gulf of Maine,Trash,90.88211617424996
-2008,7,Massachusetts-Gulf of Maine,Trash,93.01690987969606
-2009,7,Massachusetts-Gulf of Maine,Trash,89.95901542044619
-2010,7,Massachusetts-Gulf of Maine,Trash,93.27381110782316
-2006,8,Massachusetts-Virginian,Trash,90.88211617424996
-2007,8,Massachusetts-Virginian,Trash,90.88211617424996
-2008,8,Massachusetts-Virginian,Trash,93.01690987969606
-2009,8,Massachusetts-Virginian,Trash,89.95901542044619
-2010,8,Massachusetts-Virginian,Trash,93.27381110782316
-2006,9,New Hampshire,Trash,94.7796028469723
-2007,9,New Hampshire,Trash,94.7796028469723
-2008,9,New Hampshire,Trash,95.28750884008464
-2009,9,New Hampshire,Trash,93.08520286193145
-2010,9,New Hampshire,Trash,93.78601684982144
-2006,10,New York,Trash,85.3632861191996
-2007,10,New York,Trash,85.3632861191996
-2008,10,New York,Trash,87.7226217973682
-2009,10,New York,Trash,86.6489164866377
-2010,10,New York,Trash,80.5846197919877
-2006,11,Rhode Island,Trash,88.8704223942178
-2007,11,Rhode Island,Trash,88.8704223942178
-2008,11,Rhode Island,Trash,92.99653847705669
-2009,11,Rhode Island,Trash,90.9135046315777
-2010,11,Rhode Island,Trash,88.09811688103531
-2006,1,Offshore,Trash,NA
-2006,2,Georges Bank,Trash,NA
-2006,3,Gulf of Maine,Trash,NA
-2006,4,Mid-Atlantic Bight,Trash,NA
-2007,1,Offshore,Trash,NA
-2007,2,Georges Bank,Trash,NA
-2007,3,Gulf of Maine,Trash,NA
-2007,4,Mid-Atlantic Bight,Trash,NA
-2008,1,Offshore,Trash,NA
-2008,2,Georges Bank,Trash,NA
-2008,3,Gulf of Maine,Trash,NA
-2008,4,Mid-Atlantic Bight,Trash,NA
-2009,1,Offshore,Trash,NA
-2009,2,Georges Bank,Trash,NA
-2009,3,Gulf of Maine,Trash,NA
-2009,4,Mid-Atlantic Bight,Trash,NA
-2010,1,Offshore,Trash,NA
-2010,2,Georges Bank,Trash,NA
-2010,3,Gulf of Maine,Trash,NA
-2010,4,Mid-Atlantic Bight,Trash,NA
-2011,1,NA,Trash,NA
-2012,1,NA,Trash,NA
-2013,1,NA,Trash,NA
-2014,1,NA,Trash,NA
-2015,1,NA,Trash,NA
-2016,1,NA,Trash,NA
-2017,1,NA,Trash,NA
-2011,2,NA,Trash,NA
-2012,2,NA,Trash,NA
-2013,2,NA,Trash,NA
-2014,2,NA,Trash,NA
-2015,2,NA,Trash,NA
-2016,2,NA,Trash,NA
-2017,2,NA,Trash,NA
-2011,3,NA,Trash,NA
-2012,3,NA,Trash,NA
-2013,3,NA,Trash,NA
-2014,3,NA,Trash,NA
-2015,3,NA,Trash,NA
-2016,3,NA,Trash,NA
-2017,3,NA,Trash,NA
-2011,4,NA,Trash,NA
-2012,4,NA,Trash,NA
-2013,4,NA,Trash,NA
-2014,4,NA,Trash,NA
-2015,4,NA,Trash,NA
-2016,4,NA,Trash,NA
-2017,4,NA,Trash,NA
-2011,5,NA,Trash,89.0808474348688
-2012,5,NA,Trash,94.53548327715558
-2013,5,NA,Trash,94.0775021365535
-2014,5,NA,Trash,84.48133664880831
-2015,5,NA,Trash,90.2015731877832
-2016,5,NA,Trash,95.3289212569475
-2017,5,NA,Trash,90.24019396913378
-2011,6,NA,Trash,91.88888081703941
-2012,6,NA,Trash,90.16030547907343
-2013,6,NA,Trash,96.71259978561758
-2014,6,NA,Trash,95.15164374068763
-2015,6,NA,Trash,84.058799158423
-2016,6,NA,Trash,96.53481820491801
-2017,6,NA,Trash,95.54532219815279
-2011,7,NA,Trash,92.29880002189118
-2012,7,NA,Trash,94.58300908100736
-2013,7,NA,Trash,79.45206893423091
-2014,7,NA,Trash,81.6145425882271
-2015,7,NA,Trash,76.7592569629261
-2016,7,NA,Trash,94.83404487049233
-2017,7,NA,Trash,72.5284569705359
-2011,8,NA,Trash,92.29880002189118
-2012,8,NA,Trash,94.58300908100736
-2013,8,NA,Trash,79.45206893423091
-2014,8,NA,Trash,81.6145425882271
-2015,8,NA,Trash,76.7592569629261
-2016,8,NA,Trash,94.83404487049233
-2017,8,NA,Trash,72.5284569705359
-2011,9,NA,Trash,93.00785430087262
-2012,9,NA,Trash,97.14991345183846
-2013,9,NA,Trash,97.97919149972532
-2014,9,NA,Trash,95.00931053628472
-2015,9,NA,Trash,92.84780950314546
-2016,9,NA,Trash,94.94157992013166
-2017,9,NA,Trash,93.60568666652087
-2011,10,NA,Trash,85.9049670642929
-2012,10,NA,Trash,89.7609737267037
-2013,10,NA,Trash,90.73539658143261
-2014,10,NA,Trash,87.0851740604399
-2015,10,NA,Trash,84.3854893702883
-2016,10,NA,Trash,90.68465919465235
-2017,10,NA,Trash,94.90950395069513
-2011,11,NA,Trash,88.64715937819561
-2012,11,NA,Trash,91.10780805528678
-2013,11,NA,Trash,90.35706359169303
-2014,11,NA,Trash,92.51343465855003
-2015,11,NA,Trash,91.4308159124472
-2016,11,NA,Trash,93.58637372435354
-2017,11,NA,Trash,93.981766710141585
-2005,5,Connecticut,Trash,NA
-2011,5,Connecticut,Trash,NA
-2012,5,Connecticut,Trash,NA
-2013,5,Connecticut,Trash,NA
-2014,5,Connecticut,Trash,NA
-2015,5,Connecticut,Trash,NA
-2016,5,Connecticut,Trash,NA
-2017,5,Connecticut,Trash,NA
-2005,6,Maine,Trash,NA
-2011,6,Maine,Trash,NA
-2012,6,Maine,Trash,NA
-2013,6,Maine,Trash,NA
-2014,6,Maine,Trash,NA
-2015,6,Maine,Trash,NA
-2016,6,Maine,Trash,NA
-2017,6,Maine,Trash,NA
-2005,7,Massachusetts-North,Trash,NA
-2006,7,Massachusetts-North,Trash,NA
-2007,7,Massachusetts-North,Trash,NA
-2008,7,Massachusetts-North,Trash,NA
-2009,7,Massachusetts-North,Trash,NA
-2010,7,Massachusetts-North,Trash,NA
-2011,7,Massachusetts-North,Trash,NA
-2012,7,Massachusetts-North,Trash,NA
-2013,7,Massachusetts-North,Trash,NA
-2014,7,Massachusetts-North,Trash,NA
-2015,7,Massachusetts-North,Trash,NA
-2016,7,Massachusetts-North,Trash,NA
-2017,7,Massachusetts-North,Trash,NA
-2005,8,Massachusetts-South,Trash,NA
-2006,8,Massachusetts-South,Trash,NA
-2007,8,Massachusetts-South,Trash,NA
-2008,8,Massachusetts-South,Trash,NA
-2009,8,Massachusetts-South,Trash,NA
-2010,8,Massachusetts-South,Trash,NA
-2011,8,Massachusetts-South,Trash,NA
-2012,8,Massachusetts-South,Trash,NA
-2013,8,Massachusetts-South,Trash,NA
-2014,8,Massachusetts-South,Trash,NA
-2015,8,Massachusetts-South,Trash,NA
-2016,8,Massachusetts-South,Trash,NA
-2017,8,Massachusetts-South,Trash,NA
-2005,9,New Hampshire,Trash,NA
-2011,9,New Hampshire,Trash,NA
-2012,9,New Hampshire,Trash,NA
-2013,9,New Hampshire,Trash,NA
-2014,9,New Hampshire,Trash,NA
-2015,9,New Hampshire,Trash,NA
-2016,9,New Hampshire,Trash,NA
-2017,9,New Hampshire,Trash,NA
-2005,10,New York,Trash,NA
-2011,10,New York,Trash,NA
-2012,10,New York,Trash,NA
-2013,10,New York,Trash,NA
-2014,10,New York,Trash,NA
-2015,10,New York,Trash,NA
-2016,10,New York,Trash,NA
-2017,10,New York,Trash,NA
-2005,11,Rhode Island,Trash,NA
-2011,11,Rhode Island,Trash,NA
-2012,11,Rhode Island,Trash,NA
-2013,11,Rhode Island,Trash,NA
-2014,11,Rhode Island,Trash,NA
-2015,11,Rhode Island,Trash,NA
-2016,11,Rhode Island,Trash,NA
-2017,11,Rhode Island,Trash,NA
-2005,1,Offshore,Trash,NA
-2005,2,Georges Bank,Trash,NA
-2005,3,Gulf of Maine,Trash,NA
-2005,4,Mid-Atlantic Bight,Trash,NA
-2011,1,Offshore,Trash,NA
-2011,2,Georges Bank,Trash,NA
-2011,3,Gulf of Maine,Trash,NA
-2011,4,Mid-Atlantic Bight,Trash,NA
-2012,1,Offshore,Trash,NA
-2012,2,Georges Bank,Trash,NA
-2012,3,Gulf of Maine,Trash,NA
-2012,4,Mid-Atlantic Bight,Trash,NA
-2013,1,Offshore,Trash,NA
-2013,2,Georges Bank,Trash,NA
-2013,3,Gulf of Maine,Trash,NA
-2013,4,Mid-Atlantic Bight,Trash,NA
-2014,1,Offshore,Trash,NA
-2014,2,Georges Bank,Trash,NA
-2014,3,Gulf of Maine,Trash,NA
-2014,4,Mid-Atlantic Bight,Trash,NA
-2015,1,Offshore,Trash,NA
-2015,2,Georges Bank,Trash,NA
-2015,3,Gulf of Maine,Trash,NA
-2015,4,Mid-Atlantic Bight,Trash,NA
-2016,1,Offshore,Trash,NA
-2016,2,Georges Bank,Trash,NA
-2016,3,Gulf of Maine,Trash,NA
-2016,4,Mid-Atlantic Bight,Trash,NA
-2017,1,Offshore,Trash,NA
-2017,2,Georges Bank,Trash,NA
-2017,3,Gulf of Maine,Trash,NA
-2017,4,Mid-Atlantic Bight,Trash,NA
-2006,5,Connecticut,perc_open,0.943589743589744
-2007,5,Connecticut,perc_open,0.965806451612903
-2008,5,Connecticut,perc_open,0.954347826086957
-2009,5,Connecticut,perc_open,0.964
-2010,5,Connecticut,perc_open,0.962432432432432
-2006,6,Maine,perc_open,0.925882352941176
-2007,6,Maine,perc_open,0.937586206896552
-2008,6,Maine,perc_open,0.9335
-2009,6,Maine,perc_open,0.936060606060606
-2010,6,Maine,perc_open,0.925185185185185
-2006,7,Massachusetts-Gulf of Maine,perc_open,NA
-2007,7,Massachusetts-Gulf of Maine,perc_open,NA
-2008,7,Massachusetts-Gulf of Maine,perc_open,NA
-2009,7,Massachusetts-Gulf of Maine,perc_open,NA
-2010,7,Massachusetts-Gulf of Maine,perc_open,NA
-2006,8,Massachusetts-Virginian,perc_open,NA
-2007,8,Massachusetts-Virginian,perc_open,NA
-2008,8,Massachusetts-Virginian,perc_open,NA
-2009,8,Massachusetts-Virginian,perc_open,NA
-2010,8,Massachusetts-Virginian,perc_open,NA
-2006,9,New Hampshire,perc_open,0.954
-2007,9,New Hampshire,perc_open,0.98
-2008,9,New Hampshire,perc_open,0.9675
-2009,9,New Hampshire,perc_open,0.976
-2010,9,New Hampshire,perc_open,0.968
-2006,10,New York,perc_open,0.880733944954128
-2007,10,New York,perc_open,0.891440677966102
-2008,10,New York,perc_open,0.89140350877193
-2009,10,New York,perc_open,0.87983606557377
-2010,10,New York,perc_open,0.94
-2006,11,Rhode Island,perc_open,0.638
-2007,11,Rhode Island,perc_open,0.954285714285714
-2008,11,Rhode Island,perc_open,0.938095238095238
-2009,11,Rhode Island,perc_open,0.894444444444444
-2010,11,Rhode Island,perc_open,0.961428571428571
-2006,1,Offshore,perc_open,NA
-2006,2,Georges Bank,perc_open,NA
-2006,3,Gulf of Maine,perc_open,NA
-2006,4,Mid-Atlantic Bight,perc_open,NA
-2007,1,Offshore,perc_open,NA
-2007,2,Georges Bank,perc_open,NA
-2007,3,Gulf of Maine,perc_open,NA
-2007,4,Mid-Atlantic Bight,perc_open,NA
-2008,1,Offshore,perc_open,NA
-2008,2,Georges Bank,perc_open,NA
-2008,3,Gulf of Maine,perc_open,NA
-2008,4,Mid-Atlantic Bight,perc_open,NA
-2009,1,Offshore,perc_open,NA
-2009,2,Georges Bank,perc_open,NA
-2009,3,Gulf of Maine,perc_open,NA
-2009,4,Mid-Atlantic Bight,perc_open,NA
-2010,1,Offshore,perc_open,NA
-2010,2,Georges Bank,perc_open,NA
-2010,3,Gulf of Maine,perc_open,NA
-2010,4,Mid-Atlantic Bight,perc_open,NA
-2011,1,NA,perc_open,NA
-2012,1,NA,perc_open,NA
-2013,1,NA,perc_open,NA
-2014,1,NA,perc_open,NA
-2015,1,NA,perc_open,NA
-2016,1,NA,perc_open,NA
-2017,1,NA,perc_open,NA
-2011,2,NA,perc_open,NA
-2012,2,NA,perc_open,NA
-2013,2,NA,perc_open,NA
-2014,2,NA,perc_open,NA
-2015,2,NA,perc_open,NA
-2016,2,NA,perc_open,NA
-2017,2,NA,perc_open,NA
-2011,3,NA,perc_open,NA
-2012,3,NA,perc_open,NA
-2013,3,NA,perc_open,NA
-2014,3,NA,perc_open,NA
-2015,3,NA,perc_open,NA
-2016,3,NA,perc_open,NA
-2017,3,NA,perc_open,NA
-2011,4,NA,perc_open,NA
-2012,4,NA,perc_open,NA
-2013,4,NA,perc_open,NA
-2014,4,NA,perc_open,NA
-2015,4,NA,perc_open,NA
-2016,4,NA,perc_open,NA
-2017,4,NA,perc_open,NA
-2011,5,NA,perc_open,NA
-2012,5,NA,perc_open,NA
-2013,5,NA,perc_open,NA
-2014,5,NA,perc_open,NA
-2015,5,NA,perc_open,NA
-2016,5,NA,perc_open,NA
-2017,5,NA,perc_open,NA
-2011,6,NA,perc_open,NA
-2012,6,NA,perc_open,NA
-2013,6,NA,perc_open,NA
-2014,6,NA,perc_open,NA
-2015,6,NA,perc_open,NA
-2016,6,NA,perc_open,NA
-2017,6,NA,perc_open,NA
-2011,7,NA,perc_open,NA
-2012,7,NA,perc_open,NA
-2013,7,NA,perc_open,NA
-2014,7,NA,perc_open,NA
-2015,7,NA,perc_open,NA
-2016,7,NA,perc_open,NA
-2017,7,NA,perc_open,NA
-2011,8,NA,perc_open,NA
-2012,8,NA,perc_open,NA
-2013,8,NA,perc_open,NA
-2014,8,NA,perc_open,NA
-2015,8,NA,perc_open,NA
-2016,8,NA,perc_open,NA
-2017,8,NA,perc_open,NA
-2011,9,NA,perc_open,NA
-2012,9,NA,perc_open,NA
-2013,9,NA,perc_open,NA
-2014,9,NA,perc_open,NA
-2015,9,NA,perc_open,NA
-2016,9,NA,perc_open,NA
-2017,9,NA,perc_open,NA
-2011,10,NA,perc_open,NA
-2012,10,NA,perc_open,NA
-2013,10,NA,perc_open,NA
-2014,10,NA,perc_open,NA
-2015,10,NA,perc_open,NA
-2016,10,NA,perc_open,NA
-2017,10,NA,perc_open,NA
-2011,11,NA,perc_open,NA
-2012,11,NA,perc_open,NA
-2013,11,NA,perc_open,NA
-2014,11,NA,perc_open,NA
-2015,11,NA,perc_open,NA
-2016,11,NA,perc_open,NA
-2017,11,NA,perc_open,NA
-2005,5,Connecticut,perc_open,0.948
-2011,5,Connecticut,perc_open,0.92156862745098
-2012,5,Connecticut,perc_open,0.958333333333333
-2013,5,Connecticut,perc_open,0.971351351351351
-2014,5,Connecticut,perc_open,0.964545454545455
-2015,5,Connecticut,perc_open,0.97448275862069
-2016,5,Connecticut,perc_open,0.94875
-2017,5,Connecticut,perc_open,0.951875
-2005,6,Maine,perc_open,0.9325
-2011,6,Maine,perc_open,0.937222222222222
-2012,6,Maine,perc_open,0.953809523809524
-2013,6,Maine,perc_open,0.898148148148148
-2014,6,Maine,perc_open,0.932647058823529
-2015,6,Maine,perc_open,0.932972972972973
-2016,6,Maine,perc_open,0.964857142857143
-2017,6,Maine,perc_open,0.970625
-2005,7,Massachusetts-North,perc_open,0.952816901408451
-2006,7,Massachusetts-North,perc_open,0.895
-2007,7,Massachusetts-North,perc_open,0.952753623188406
-2008,7,Massachusetts-North,perc_open,0.937763157894737
-2009,7,Massachusetts-North,perc_open,0.934336283185841
-2010,7,Massachusetts-North,perc_open,0.937093023255814
-2011,7,Massachusetts-North,perc_open,0.929438202247191
-2012,7,Massachusetts-North,perc_open,0.937
-2013,7,Massachusetts-North,perc_open,0.932650602409639
-2014,7,Massachusetts-North,perc_open,0.936938775510204
-2015,7,Massachusetts-North,perc_open,0.893571428571429
-2016,7,Massachusetts-North,perc_open,0.932
-2017,7,Massachusetts-North,perc_open,0.94093023255814
-2005,8,Massachusetts-South,perc_open,0.978
-2006,8,Massachusetts-South,perc_open,0.937741935483871
-2007,8,Massachusetts-South,perc_open,0.967741935483871
-2008,8,Massachusetts-South,perc_open,0.975
-2009,8,Massachusetts-South,perc_open,0.959183673469388
-2010,8,Massachusetts-South,perc_open,0.957931034482759
-2011,8,Massachusetts-South,perc_open,0.960625
-2012,8,Massachusetts-South,perc_open,0.956470588235294
-2013,8,Massachusetts-South,perc_open,0.962361111111111
-2014,8,Massachusetts-South,perc_open,0.949642857142857
-2015,8,Massachusetts-South,perc_open,0.949166666666667
-2016,8,Massachusetts-South,perc_open,0.962352941176471
-2017,8,Massachusetts-South,perc_open,0.956875
-2005,9,New Hampshire,perc_open,0.99
-2011,9,New Hampshire,perc_open,0.97
-2012,9,New Hampshire,perc_open,0.98
-2013,9,New Hampshire,perc_open,0.955
-2014,9,New Hampshire,perc_open,0.9625
-2015,9,New Hampshire,perc_open,0.98
-2016,9,New Hampshire,perc_open,0.94
-2017,9,New Hampshire,perc_open,0.97
-2005,10,New York,perc_open,0.922823529411765
-2011,10,New York,perc_open,0.910782122905028
-2012,10,New York,perc_open,0.872661290322581
-2013,10,New York,perc_open,0.897457627118644
-2014,10,New York,perc_open,0.889237288135593
-2015,10,New York,perc_open,0.876525423728814
-2016,10,New York,perc_open,0.911794871794872
-2017,10,New York,perc_open,0.839541984732824
-2005,11,Rhode Island,perc_open,0.912
-2011,11,Rhode Island,perc_open,0.956666666666667
-2012,11,Rhode Island,perc_open,0.971538461538462
-2013,11,Rhode Island,perc_open,0.932666666666667
-2014,11,Rhode Island,perc_open,0.973125
-2015,11,Rhode Island,perc_open,0.961666666666667
-2016,11,Rhode Island,perc_open,0.964285714285714
-2017,11,Rhode Island,perc_open,0.938
-2005,1,Offshore,perc_open,NA
-2005,2,Georges Bank,perc_open,NA
-2005,3,Gulf of Maine,perc_open,NA
-2005,4,Mid-Atlantic Bight,perc_open,NA
-2011,1,Offshore,perc_open,NA
-2011,2,Georges Bank,perc_open,NA
-2011,3,Gulf of Maine,perc_open,NA
-2011,4,Mid-Atlantic Bight,perc_open,NA
-2012,1,Offshore,perc_open,NA
-2012,2,Georges Bank,perc_open,NA
-2012,3,Gulf of Maine,perc_open,NA
-2012,4,Mid-Atlantic Bight,perc_open,NA
-2013,1,Offshore,perc_open,NA
-2013,2,Georges Bank,perc_open,NA
-2013,3,Gulf of Maine,perc_open,NA
-2013,4,Mid-Atlantic Bight,perc_open,NA
-2014,1,Offshore,perc_open,NA
-2014,2,Georges Bank,perc_open,NA
-2014,3,Gulf of Maine,perc_open,NA
-2014,4,Mid-Atlantic Bight,perc_open,NA
-2015,1,Offshore,perc_open,NA
-2015,2,Georges Bank,perc_open,NA
-2015,3,Gulf of Maine,perc_open,NA
-2015,4,Mid-Atlantic Bight,perc_open,NA
-2016,1,Offshore,perc_open,NA
-2016,2,Georges Bank,perc_open,NA
-2016,3,Gulf of Maine,perc_open,NA
-2016,4,Mid-Atlantic Bight,perc_open,NA
-2017,1,Offshore,perc_open,NA
-2017,2,Georges Bank,perc_open,NA
-2017,3,Gulf of Maine,perc_open,NA
-2017,4,Mid-Atlantic Bight,perc_open,NA
-2006,5,Connecticut,Pathogens,94.35897435897441
-2007,5,Connecticut,Pathogens,96.5806451612903
-2008,5,Connecticut,Pathogens,95.4347826086957
-2009,5,Connecticut,Pathogens,96.39999999999999
-2010,5,Connecticut,Pathogens,96.2432432432432
-2006,6,Maine,Pathogens,92.58823529411761
-2007,6,Maine,Pathogens,93.7586206896552
-2008,6,Maine,Pathogens,93.35
-2009,6,Maine,Pathogens,93.60606060606061
-2010,6,Maine,Pathogens,92.5185185185185
-2006,7,Massachusetts-Gulf of Maine,Pathogens,NA
-2007,7,Massachusetts-Gulf of Maine,Pathogens,NA
-2008,7,Massachusetts-Gulf of Maine,Pathogens,NA
-2009,7,Massachusetts-Gulf of Maine,Pathogens,NA
-2010,7,Massachusetts-Gulf of Maine,Pathogens,NA
-2006,8,Massachusetts-Virginian,Pathogens,NA
-2007,8,Massachusetts-Virginian,Pathogens,NA
-2008,8,Massachusetts-Virginian,Pathogens,NA
-2009,8,Massachusetts-Virginian,Pathogens,NA
-2010,8,Massachusetts-Virginian,Pathogens,NA
-2006,9,New Hampshire,Pathogens,95.39999999999999
-2007,9,New Hampshire,Pathogens,98
-2008,9,New Hampshire,Pathogens,96.75
-2009,9,New Hampshire,Pathogens,97.6
-2010,9,New Hampshire,Pathogens,96.8
-2006,10,New York,Pathogens,88.0733944954128
-2007,10,New York,Pathogens,89.1440677966102
-2008,10,New York,Pathogens,89.140350877193
-2009,10,New York,Pathogens,87.983606557377
-2010,10,New York,Pathogens,94
-2006,11,Rhode Island,Pathogens,63.800000000000004
-2007,11,Rhode Island,Pathogens,95.4285714285714
-2008,11,Rhode Island,Pathogens,93.8095238095238
-2009,11,Rhode Island,Pathogens,89.4444444444444
-2010,11,Rhode Island,Pathogens,96.1428571428571
-2006,1,Offshore,Pathogens,NA
-2006,2,Georges Bank,Pathogens,NA
-2006,3,Gulf of Maine,Pathogens,NA
-2006,4,Mid-Atlantic Bight,Pathogens,NA
-2007,1,Offshore,Pathogens,NA
-2007,2,Georges Bank,Pathogens,NA
-2007,3,Gulf of Maine,Pathogens,NA
-2007,4,Mid-Atlantic Bight,Pathogens,NA
-2008,1,Offshore,Pathogens,NA
-2008,2,Georges Bank,Pathogens,NA
-2008,3,Gulf of Maine,Pathogens,NA
-2008,4,Mid-Atlantic Bight,Pathogens,NA
-2009,1,Offshore,Pathogens,NA
-2009,2,Georges Bank,Pathogens,NA
-2009,3,Gulf of Maine,Pathogens,NA
-2009,4,Mid-Atlantic Bight,Pathogens,NA
-2010,1,Offshore,Pathogens,NA
-2010,2,Georges Bank,Pathogens,NA
-2010,3,Gulf of Maine,Pathogens,NA
-2010,4,Mid-Atlantic Bight,Pathogens,NA
-2011,1,NA,Pathogens,NA
-2012,1,NA,Pathogens,NA
-2013,1,NA,Pathogens,NA
-2014,1,NA,Pathogens,NA
-2015,1,NA,Pathogens,NA
-2016,1,NA,Pathogens,NA
-2017,1,NA,Pathogens,NA
-2011,2,NA,Pathogens,NA
-2012,2,NA,Pathogens,NA
-2013,2,NA,Pathogens,NA
-2014,2,NA,Pathogens,NA
-2015,2,NA,Pathogens,NA
-2016,2,NA,Pathogens,NA
-2017,2,NA,Pathogens,NA
-2011,3,NA,Pathogens,NA
-2012,3,NA,Pathogens,NA
-2013,3,NA,Pathogens,NA
-2014,3,NA,Pathogens,NA
-2015,3,NA,Pathogens,NA
-2016,3,NA,Pathogens,NA
-2017,3,NA,Pathogens,NA
-2011,4,NA,Pathogens,NA
-2012,4,NA,Pathogens,NA
-2013,4,NA,Pathogens,NA
-2014,4,NA,Pathogens,NA
-2015,4,NA,Pathogens,NA
-2016,4,NA,Pathogens,NA
-2017,4,NA,Pathogens,NA
-2011,5,NA,Pathogens,NA
-2012,5,NA,Pathogens,NA
-2013,5,NA,Pathogens,NA
-2014,5,NA,Pathogens,NA
-2015,5,NA,Pathogens,NA
-2016,5,NA,Pathogens,NA
-2017,5,NA,Pathogens,NA
-2011,6,NA,Pathogens,NA
-2012,6,NA,Pathogens,NA
-2013,6,NA,Pathogens,NA
-2014,6,NA,Pathogens,NA
-2015,6,NA,Pathogens,NA
-2016,6,NA,Pathogens,NA
-2017,6,NA,Pathogens,NA
-2011,7,NA,Pathogens,NA
-2012,7,NA,Pathogens,NA
-2013,7,NA,Pathogens,NA
-2014,7,NA,Pathogens,NA
-2015,7,NA,Pathogens,NA
-2016,7,NA,Pathogens,NA
-2017,7,NA,Pathogens,NA
-2011,8,NA,Pathogens,NA
-2012,8,NA,Pathogens,NA
-2013,8,NA,Pathogens,NA
-2014,8,NA,Pathogens,NA
-2015,8,NA,Pathogens,NA
-2016,8,NA,Pathogens,NA
-2017,8,NA,Pathogens,NA
-2011,9,NA,Pathogens,NA
-2012,9,NA,Pathogens,NA
-2013,9,NA,Pathogens,NA
-2014,9,NA,Pathogens,NA
-2015,9,NA,Pathogens,NA
-2016,9,NA,Pathogens,NA
-2017,9,NA,Pathogens,NA
-2011,10,NA,Pathogens,NA
-2012,10,NA,Pathogens,NA
-2013,10,NA,Pathogens,NA
-2014,10,NA,Pathogens,NA
-2015,10,NA,Pathogens,NA
-2016,10,NA,Pathogens,NA
-2017,10,NA,Pathogens,NA
-2011,11,NA,Pathogens,NA
-2012,11,NA,Pathogens,NA
-2013,11,NA,Pathogens,NA
-2014,11,NA,Pathogens,NA
-2015,11,NA,Pathogens,NA
-2016,11,NA,Pathogens,NA
-2017,11,NA,Pathogens,NA
-2005,5,Connecticut,Pathogens,94.8
-2011,5,Connecticut,Pathogens,92.156862745098
-2012,5,Connecticut,Pathogens,95.8333333333333
-2013,5,Connecticut,Pathogens,97.1351351351351
-2014,5,Connecticut,Pathogens,96.45454545454551
-2015,5,Connecticut,Pathogens,97.448275862069
-2016,5,Connecticut,Pathogens,94.875
-2017,5,Connecticut,Pathogens,95.1875
-2005,6,Maine,Pathogens,93.25
-2011,6,Maine,Pathogens,93.7222222222222
-2012,6,Maine,Pathogens,95.3809523809524
-2013,6,Maine,Pathogens,89.81481481481481
-2014,6,Maine,Pathogens,93.2647058823529
-2015,6,Maine,Pathogens,93.2972972972973
-2016,6,Maine,Pathogens,96.4857142857143
-2017,6,Maine,Pathogens,97.0625
-2005,7,Massachusetts-North,Pathogens,95.2816901408451
-2006,7,Massachusetts-North,Pathogens,89.5
-2007,7,Massachusetts-North,Pathogens,95.27536231884059
-2008,7,Massachusetts-North,Pathogens,93.7763157894737
-2009,7,Massachusetts-North,Pathogens,93.43362831858411
-2010,7,Massachusetts-North,Pathogens,93.7093023255814
-2011,7,Massachusetts-North,Pathogens,92.9438202247191
-2012,7,Massachusetts-North,Pathogens,93.7
-2013,7,Massachusetts-North,Pathogens,93.2650602409639
-2014,7,Massachusetts-North,Pathogens,93.69387755102039
-2015,7,Massachusetts-North,Pathogens,89.3571428571429
-2016,7,Massachusetts-North,Pathogens,93.2
-2017,7,Massachusetts-North,Pathogens,94.093023255814
-2005,8,Massachusetts-South,Pathogens,97.8
-2006,8,Massachusetts-South,Pathogens,93.7741935483871
-2007,8,Massachusetts-South,Pathogens,96.7741935483871
-2008,8,Massachusetts-South,Pathogens,97.5
-2009,8,Massachusetts-South,Pathogens,95.91836734693881
-2010,8,Massachusetts-South,Pathogens,95.7931034482759
-2011,8,Massachusetts-South,Pathogens,96.0625
-2012,8,Massachusetts-South,Pathogens,95.64705882352939
-2013,8,Massachusetts-South,Pathogens,96.2361111111111
-2014,8,Massachusetts-South,Pathogens,94.9642857142857
-2015,8,Massachusetts-South,Pathogens,94.9166666666667
-2016,8,Massachusetts-South,Pathogens,96.2352941176471
-2017,8,Massachusetts-South,Pathogens,95.6875
-2005,9,New Hampshire,Pathogens,99
-2011,9,New Hampshire,Pathogens,97
-2012,9,New Hampshire,Pathogens,98
-2013,9,New Hampshire,Pathogens,95.5
-2014,9,New Hampshire,Pathogens,96.25
-2015,9,New Hampshire,Pathogens,98
-2016,9,New Hampshire,Pathogens,94
-2017,9,New Hampshire,Pathogens,97
-2005,10,New York,Pathogens,92.2823529411765
-2011,10,New York,Pathogens,91.0782122905028
-2012,10,New York,Pathogens,87.2661290322581
-2013,10,New York,Pathogens,89.7457627118644
-2014,10,New York,Pathogens,88.9237288135593
-2015,10,New York,Pathogens,87.6525423728814
-2016,10,New York,Pathogens,91.1794871794872
-2017,10,New York,Pathogens,83.9541984732824
-2005,11,Rhode Island,Pathogens,91.2
-2011,11,Rhode Island,Pathogens,95.6666666666667
-2012,11,Rhode Island,Pathogens,97.1538461538462
-2013,11,Rhode Island,Pathogens,93.2666666666667
-2014,11,Rhode Island,Pathogens,97.3125
-2015,11,Rhode Island,Pathogens,96.1666666666667
-2016,11,Rhode Island,Pathogens,96.4285714285714
-2017,11,Rhode Island,Pathogens,93.8
-2005,1,Offshore,Pathogens,NA
-2005,2,Georges Bank,Pathogens,NA
-2005,3,Gulf of Maine,Pathogens,NA
-2005,4,Mid-Atlantic Bight,Pathogens,NA
-2011,1,Offshore,Pathogens,NA
-2011,2,Georges Bank,Pathogens,NA
-2011,3,Gulf of Maine,Pathogens,NA
-2011,4,Mid-Atlantic Bight,Pathogens,NA
-2012,1,Offshore,Pathogens,NA
-2012,2,Georges Bank,Pathogens,NA
-2012,3,Gulf of Maine,Pathogens,NA
-2012,4,Mid-Atlantic Bight,Pathogens,NA
-2013,1,Offshore,Pathogens,NA
-2013,2,Georges Bank,Pathogens,NA
-2013,3,Gulf of Maine,Pathogens,NA
-2013,4,Mid-Atlantic Bight,Pathogens,NA
-2014,1,Offshore,Pathogens,NA
-2014,2,Georges Bank,Pathogens,NA
-2014,3,Gulf of Maine,Pathogens,NA
-2014,4,Mid-Atlantic Bight,Pathogens,NA
-2015,1,Offshore,Pathogens,NA
-2015,2,Georges Bank,Pathogens,NA
-2015,3,Gulf of Maine,Pathogens,NA
-2015,4,Mid-Atlantic Bight,Pathogens,NA
-2016,1,Offshore,Pathogens,NA
-2016,2,Georges Bank,Pathogens,NA
-2016,3,Gulf of Maine,Pathogens,NA
-2016,4,Mid-Atlantic Bight,Pathogens,NA
-2017,1,Offshore,Pathogens,NA
-2017,2,Georges Bank,Pathogens,NA
-2017,3,Gulf of Maine,Pathogens,NA
-2017,4,Mid-Atlantic Bight,Pathogens,NA
+rgn_name,rgn_id,year,score,layer
+Connecticut,5,2006,56.14276674257839,Water Quality
+Connecticut,5,2007,57.57511740691409,Water Quality
+Connecticut,5,2008,59.00746807124979,Water Quality
+Connecticut,5,2009,60.43981873558549,Water Quality
+Connecticut,5,2010,61.87216939992119,Water Quality
+Maine,6,2006,98.91607487970478,Water Quality
+Maine,6,2007,97.30467830327756,Water Quality
+Maine,6,2008,95.69328172685033,Water Quality
+Maine,6,2009,94.08188515042309,Water Quality
+Maine,6,2010,92.47048857399587,Water Quality
+Massachusetts-Gulf of Maine,7,2006,92.64705882352942,Water Quality
+Massachusetts-Gulf of Maine,7,2007,93.74168504635364,Water Quality
+Massachusetts-Gulf of Maine,7,2008,94.83631126917786,Water Quality
+Massachusetts-Gulf of Maine,7,2009,95.93093749200209,Water Quality
+Massachusetts-Gulf of Maine,7,2010,97.0255637148263,Water Quality
+Massachusetts-Virginian,8,2006,88.30766388927441,Water Quality
+Massachusetts-Virginian,8,2007,90.07500624264684,Water Quality
+Massachusetts-Virginian,8,2008,91.84234859601926,Water Quality
+Massachusetts-Virginian,8,2009,93.6096909493917,Water Quality
+Massachusetts-Virginian,8,2010,95.37703330276413,Water Quality
+New Hampshire,9,2006,71.2962962962963,Water Quality
+New Hampshire,9,2007,70.07802272885115,Water Quality
+New Hampshire,9,2008,68.859749161406,Water Quality
+New Hampshire,9,2009,67.64147559396085,Water Quality
+New Hampshire,9,2010,66.4232020265157,Water Quality
+New York,10,2006,68.6947771205414,Water Quality
+New York,10,2007,68.93455451450677,Water Quality
+New York,10,2008,69.17433190847214,Water Quality
+New York,10,2009,69.41410930243751,Water Quality
+New York,10,2010,69.65388669640288,Water Quality
+Rhode Island,11,2006,76.3099068314533,Water Quality
+Rhode Island,11,2007,80.08723672502593,Water Quality
+Rhode Island,11,2008,83.86456661859856,Water Quality
+Rhode Island,11,2009,87.64189651217117,Water Quality
+Rhode Island,11,2010,91.4192264057438,Water Quality
+Offshore,1,2006,NA,Water Quality
+Georges Bank,2,2006,NA,Water Quality
+Gulf of Maine,3,2006,NA,Water Quality
+Mid-Atlantic Bight,4,2006,NA,Water Quality
+Offshore,1,2007,NA,Water Quality
+Georges Bank,2,2007,NA,Water Quality
+Gulf of Maine,3,2007,NA,Water Quality
+Mid-Atlantic Bight,4,2007,NA,Water Quality
+Offshore,1,2008,NA,Water Quality
+Georges Bank,2,2008,NA,Water Quality
+Gulf of Maine,3,2008,NA,Water Quality
+Mid-Atlantic Bight,4,2008,NA,Water Quality
+Offshore,1,2009,NA,Water Quality
+Georges Bank,2,2009,NA,Water Quality
+Gulf of Maine,3,2009,NA,Water Quality
+Mid-Atlantic Bight,4,2009,NA,Water Quality
+Offshore,1,2010,NA,Water Quality
+Georges Bank,2,2010,NA,Water Quality
+Gulf of Maine,3,2010,NA,Water Quality
+Mid-Atlantic Bight,4,2010,NA,Water Quality
+Connecticut,5,2006,66.80721365676837,Sediment Quality
+Connecticut,5,2007,67.4501005402961,Sediment Quality
+Connecticut,5,2008,68.09298742382384,Sediment Quality
+Connecticut,5,2009,68.73587430735157,Sediment Quality
+Connecticut,5,2010,69.3787611908793,Sediment Quality
+Maine,6,2006,93.38537529229909,Sediment Quality
+Maine,6,2007,89.12974460139795,Sediment Quality
+Maine,6,2008,84.87411391049679,Sediment Quality
+Maine,6,2009,80.61848321959565,Sediment Quality
+Maine,6,2010,76.3628525286945,Sediment Quality
+Massachusetts-Gulf of Maine,7,2006,83.33333333333333,Sediment Quality
+Massachusetts-Gulf of Maine,7,2007,81.75039166131361,Sediment Quality
+Massachusetts-Gulf of Maine,7,2008,80.1674499892939,Sediment Quality
+Massachusetts-Gulf of Maine,7,2009,78.58450831727419,Sediment Quality
+Massachusetts-Gulf of Maine,7,2010,77.00156664525447,Sediment Quality
+Massachusetts-Virginian,8,2006,98.66201772217201,Sediment Quality
+Massachusetts-Virginian,8,2007,84.6202841516694,Sediment Quality
+Massachusetts-Virginian,8,2008,70.57855058116678,Sediment Quality
+Massachusetts-Virginian,8,2009,56.536817010664166,Sediment Quality
+Massachusetts-Virginian,8,2010,42.49508344016155,Sediment Quality
+New Hampshire,9,2006,76.47058823529412,Sediment Quality
+New Hampshire,9,2007,78.07986136333186,Sediment Quality
+New Hampshire,9,2008,79.6891344913696,Sediment Quality
+New Hampshire,9,2009,81.29840761940736,Sediment Quality
+New Hampshire,9,2010,82.9076807474451,Sediment Quality
+New York,10,2006,77.14645569611903,Sediment Quality
+New York,10,2007,76.03648202501009,Sediment Quality
+New York,10,2008,74.92650835390114,Sediment Quality
+New York,10,2009,73.81653468279218,Sediment Quality
+New York,10,2010,72.70656101168323,Sediment Quality
+Rhode Island,11,2006,80.0572925020384,Sediment Quality
+Rhode Island,11,2007,72.16439839906243,Sediment Quality
+Rhode Island,11,2008,64.27150429608646,Sediment Quality
+Rhode Island,11,2009,56.3786101931105,Sediment Quality
+Rhode Island,11,2010,48.48571609013453,Sediment Quality
+Offshore,1,2006,NA,Sediment Quality
+Georges Bank,2,2006,NA,Sediment Quality
+Gulf of Maine,3,2006,NA,Sediment Quality
+Mid-Atlantic Bight,4,2006,NA,Sediment Quality
+Offshore,1,2007,NA,Sediment Quality
+Georges Bank,2,2007,NA,Sediment Quality
+Gulf of Maine,3,2007,NA,Sediment Quality
+Mid-Atlantic Bight,4,2007,NA,Sediment Quality
+Offshore,1,2008,NA,Sediment Quality
+Georges Bank,2,2008,NA,Sediment Quality
+Gulf of Maine,3,2008,NA,Sediment Quality
+Mid-Atlantic Bight,4,2008,NA,Sediment Quality
+Offshore,1,2009,NA,Sediment Quality
+Georges Bank,2,2009,NA,Sediment Quality
+Gulf of Maine,3,2009,NA,Sediment Quality
+Mid-Atlantic Bight,4,2009,NA,Sediment Quality
+Offshore,1,2010,NA,Sediment Quality
+Georges Bank,2,2010,NA,Sediment Quality
+Gulf of Maine,3,2010,NA,Sediment Quality
+Mid-Atlantic Bight,4,2010,NA,Sediment Quality
+Offshore,1,2006,NA,Trash
+Offshore,1,2007,NA,Trash
+Offshore,1,2008,NA,Trash
+Offshore,1,2009,NA,Trash
+Offshore,1,2010,NA,Trash
+Offshore,1,2011,NA,Trash
+Offshore,1,2012,NA,Trash
+Offshore,1,2013,NA,Trash
+Offshore,1,2014,NA,Trash
+Offshore,1,2015,NA,Trash
+Offshore,1,2016,NA,Trash
+Offshore,1,2017,NA,Trash
+Georges Bank,2,2006,NA,Trash
+Georges Bank,2,2007,NA,Trash
+Georges Bank,2,2008,NA,Trash
+Georges Bank,2,2009,NA,Trash
+Georges Bank,2,2010,NA,Trash
+Georges Bank,2,2011,NA,Trash
+Georges Bank,2,2012,NA,Trash
+Georges Bank,2,2013,NA,Trash
+Georges Bank,2,2014,NA,Trash
+Georges Bank,2,2015,NA,Trash
+Georges Bank,2,2016,NA,Trash
+Georges Bank,2,2017,NA,Trash
+Gulf of Maine,3,2006,NA,Trash
+Gulf of Maine,3,2007,NA,Trash
+Gulf of Maine,3,2008,NA,Trash
+Gulf of Maine,3,2009,NA,Trash
+Gulf of Maine,3,2010,NA,Trash
+Gulf of Maine,3,2011,NA,Trash
+Gulf of Maine,3,2012,NA,Trash
+Gulf of Maine,3,2013,NA,Trash
+Gulf of Maine,3,2014,NA,Trash
+Gulf of Maine,3,2015,NA,Trash
+Gulf of Maine,3,2016,NA,Trash
+Gulf of Maine,3,2017,NA,Trash
+Mid-Atlantic Bight,4,2006,NA,Trash
+Mid-Atlantic Bight,4,2007,NA,Trash
+Mid-Atlantic Bight,4,2008,NA,Trash
+Mid-Atlantic Bight,4,2009,NA,Trash
+Mid-Atlantic Bight,4,2010,NA,Trash
+Mid-Atlantic Bight,4,2011,NA,Trash
+Mid-Atlantic Bight,4,2012,NA,Trash
+Mid-Atlantic Bight,4,2013,NA,Trash
+Mid-Atlantic Bight,4,2014,NA,Trash
+Mid-Atlantic Bight,4,2015,NA,Trash
+Mid-Atlantic Bight,4,2016,NA,Trash
+Mid-Atlantic Bight,4,2017,NA,Trash
+Connecticut,5,2006,94.38208924504676,Trash
+Connecticut,5,2007,94.38208924504676,Trash
+Connecticut,5,2008,92.29924234341975,Trash
+Connecticut,5,2009,93.68329531635149,Trash
+Connecticut,5,2010,93.18230867213259,Trash
+Connecticut,5,2011,89.0808474348688,Trash
+Connecticut,5,2012,94.53548327715558,Trash
+Connecticut,5,2013,94.0775021365535,Trash
+Connecticut,5,2014,84.48133664880831,Trash
+Connecticut,5,2015,90.2015731877832,Trash
+Connecticut,5,2016,95.3289212569475,Trash
+Connecticut,5,2017,90.24019396913378,Trash
+Maine,6,2006,95.86760006805451,Trash
+Maine,6,2007,95.86760006805451,Trash
+Maine,6,2008,92.04495146981645,Trash
+Maine,6,2009,94.55411146195665,Trash
+Maine,6,2010,94.44597880669562,Trash
+Maine,6,2011,91.88888081703941,Trash
+Maine,6,2012,90.16030547907343,Trash
+Maine,6,2013,96.71259978561758,Trash
+Maine,6,2014,95.15164374068763,Trash
+Maine,6,2015,84.058799158423,Trash
+Maine,6,2016,96.53481820491801,Trash
+Maine,6,2017,95.54532219815279,Trash
+Massachusetts-North,7,2006,90.88211617424996,Trash
+Massachusetts-North,7,2007,90.88211617424996,Trash
+Massachusetts-North,7,2008,93.01690987969606,Trash
+Massachusetts-North,7,2009,89.95901542044619,Trash
+Massachusetts-North,7,2010,93.27381110782316,Trash
+Massachusetts-North,7,2011,92.29880002189118,Trash
+Massachusetts-North,7,2012,94.58300908100736,Trash
+Massachusetts-North,7,2013,79.45206893423091,Trash
+Massachusetts-North,7,2014,81.6145425882271,Trash
+Massachusetts-North,7,2015,76.7592569629261,Trash
+Massachusetts-North,7,2016,94.83404487049233,Trash
+Massachusetts-North,7,2017,72.5284569705359,Trash
+Massachusetts-South,8,2006,90.88211617424996,Trash
+Massachusetts-South,8,2007,90.88211617424996,Trash
+Massachusetts-South,8,2008,93.01690987969606,Trash
+Massachusetts-South,8,2009,89.95901542044619,Trash
+Massachusetts-South,8,2010,93.27381110782316,Trash
+Massachusetts-South,8,2011,92.29880002189118,Trash
+Massachusetts-South,8,2012,94.58300908100736,Trash
+Massachusetts-South,8,2013,79.45206893423091,Trash
+Massachusetts-South,8,2014,81.6145425882271,Trash
+Massachusetts-South,8,2015,76.7592569629261,Trash
+Massachusetts-South,8,2016,94.83404487049233,Trash
+Massachusetts-South,8,2017,72.5284569705359,Trash
+New Hampshire,9,2006,94.7796028469723,Trash
+New Hampshire,9,2007,94.7796028469723,Trash
+New Hampshire,9,2008,95.28750884008464,Trash
+New Hampshire,9,2009,93.08520286193145,Trash
+New Hampshire,9,2010,93.78601684982144,Trash
+New Hampshire,9,2011,93.00785430087262,Trash
+New Hampshire,9,2012,97.14991345183846,Trash
+New Hampshire,9,2013,97.97919149972532,Trash
+New Hampshire,9,2014,95.00931053628472,Trash
+New Hampshire,9,2015,92.84780950314546,Trash
+New Hampshire,9,2016,94.94157992013166,Trash
+New Hampshire,9,2017,93.60568666652087,Trash
+New York,10,2006,85.3632861191996,Trash
+New York,10,2007,85.3632861191996,Trash
+New York,10,2008,87.7226217973682,Trash
+New York,10,2009,86.6489164866377,Trash
+New York,10,2010,80.5846197919877,Trash
+New York,10,2011,85.9049670642929,Trash
+New York,10,2012,89.7609737267037,Trash
+New York,10,2013,90.73539658143261,Trash
+New York,10,2014,87.0851740604399,Trash
+New York,10,2015,84.3854893702883,Trash
+New York,10,2016,90.68465919465235,Trash
+New York,10,2017,94.90950395069513,Trash
+Rhode Island,11,2006,88.8704223942178,Trash
+Rhode Island,11,2007,88.8704223942178,Trash
+Rhode Island,11,2008,92.99653847705669,Trash
+Rhode Island,11,2009,90.9135046315777,Trash
+Rhode Island,11,2010,88.09811688103531,Trash
+Rhode Island,11,2011,88.64715937819561,Trash
+Rhode Island,11,2012,91.10780805528678,Trash
+Rhode Island,11,2013,90.35706359169303,Trash
+Rhode Island,11,2014,92.51343465855003,Trash
+Rhode Island,11,2015,91.4308159124472,Trash
+Rhode Island,11,2016,93.58637372435354,Trash
+Rhode Island,11,2017,93.981766710141585,Trash
+Connecticut,5,2005,94.8,Pathogens
+Connecticut,5,2006,94.35897435897441,Pathogens
+Connecticut,5,2007,96.5806451612903,Pathogens
+Connecticut,5,2008,95.4347826086957,Pathogens
+Connecticut,5,2009,96.39999999999999,Pathogens
+Connecticut,5,2010,96.2432432432432,Pathogens
+Connecticut,5,2011,92.156862745098,Pathogens
+Connecticut,5,2012,95.8333333333333,Pathogens
+Connecticut,5,2013,97.1351351351351,Pathogens
+Connecticut,5,2014,96.45454545454551,Pathogens
+Connecticut,5,2015,97.448275862069,Pathogens
+Connecticut,5,2016,94.875,Pathogens
+Connecticut,5,2017,95.1875,Pathogens
+Maine,6,2005,93.25,Pathogens
+Maine,6,2006,92.58823529411761,Pathogens
+Maine,6,2007,93.7586206896552,Pathogens
+Maine,6,2008,93.35,Pathogens
+Maine,6,2009,93.60606060606061,Pathogens
+Maine,6,2010,92.5185185185185,Pathogens
+Maine,6,2011,93.7222222222222,Pathogens
+Maine,6,2012,95.3809523809524,Pathogens
+Maine,6,2013,89.81481481481481,Pathogens
+Maine,6,2014,93.2647058823529,Pathogens
+Maine,6,2015,93.2972972972973,Pathogens
+Maine,6,2016,96.4857142857143,Pathogens
+Maine,6,2017,97.0625,Pathogens
+Massachusetts-North,7,2005,95.2816901408451,Pathogens
+Massachusetts-North,7,2006,89.5,Pathogens
+Massachusetts-North,7,2007,95.27536231884059,Pathogens
+Massachusetts-North,7,2008,93.7763157894737,Pathogens
+Massachusetts-North,7,2009,93.43362831858411,Pathogens
+Massachusetts-North,7,2010,93.7093023255814,Pathogens
+Massachusetts-North,7,2011,92.9438202247191,Pathogens
+Massachusetts-North,7,2012,93.7,Pathogens
+Massachusetts-North,7,2013,93.2650602409639,Pathogens
+Massachusetts-North,7,2014,93.69387755102039,Pathogens
+Massachusetts-North,7,2015,89.3571428571429,Pathogens
+Massachusetts-North,7,2016,93.2,Pathogens
+Massachusetts-North,7,2017,94.093023255814,Pathogens
+Massachusetts-South,8,2005,97.8,Pathogens
+Massachusetts-South,8,2006,93.7741935483871,Pathogens
+Massachusetts-South,8,2007,96.7741935483871,Pathogens
+Massachusetts-South,8,2008,97.5,Pathogens
+Massachusetts-South,8,2009,95.91836734693881,Pathogens
+Massachusetts-South,8,2010,95.7931034482759,Pathogens
+Massachusetts-South,8,2011,96.0625,Pathogens
+Massachusetts-South,8,2012,95.64705882352939,Pathogens
+Massachusetts-South,8,2013,96.2361111111111,Pathogens
+Massachusetts-South,8,2014,94.9642857142857,Pathogens
+Massachusetts-South,8,2015,94.9166666666667,Pathogens
+Massachusetts-South,8,2016,96.2352941176471,Pathogens
+Massachusetts-South,8,2017,95.6875,Pathogens
+New Hampshire,9,2005,99,Pathogens
+New Hampshire,9,2006,95.39999999999999,Pathogens
+New Hampshire,9,2007,98,Pathogens
+New Hampshire,9,2008,96.75,Pathogens
+New Hampshire,9,2009,97.6,Pathogens
+New Hampshire,9,2010,96.8,Pathogens
+New Hampshire,9,2011,97,Pathogens
+New Hampshire,9,2012,98,Pathogens
+New Hampshire,9,2013,95.5,Pathogens
+New Hampshire,9,2014,96.25,Pathogens
+New Hampshire,9,2015,98,Pathogens
+New Hampshire,9,2016,94,Pathogens
+New Hampshire,9,2017,97,Pathogens
+New York,10,2005,92.2823529411765,Pathogens
+New York,10,2006,88.0733944954128,Pathogens
+New York,10,2007,89.1440677966102,Pathogens
+New York,10,2008,89.140350877193,Pathogens
+New York,10,2009,87.983606557377,Pathogens
+New York,10,2010,94,Pathogens
+New York,10,2011,91.0782122905028,Pathogens
+New York,10,2012,87.2661290322581,Pathogens
+New York,10,2013,89.7457627118644,Pathogens
+New York,10,2014,88.9237288135593,Pathogens
+New York,10,2015,87.6525423728814,Pathogens
+New York,10,2016,91.1794871794872,Pathogens
+New York,10,2017,83.9541984732824,Pathogens
+Rhode Island,11,2005,91.2,Pathogens
+Rhode Island,11,2006,63.800000000000004,Pathogens
+Rhode Island,11,2007,95.4285714285714,Pathogens
+Rhode Island,11,2008,93.8095238095238,Pathogens
+Rhode Island,11,2009,89.4444444444444,Pathogens
+Rhode Island,11,2010,96.1428571428571,Pathogens
+Rhode Island,11,2011,95.6666666666667,Pathogens
+Rhode Island,11,2012,97.1538461538462,Pathogens
+Rhode Island,11,2013,93.2666666666667,Pathogens
+Rhode Island,11,2014,97.3125,Pathogens
+Rhode Island,11,2015,96.1666666666667,Pathogens
+Rhode Island,11,2016,96.4285714285714,Pathogens
+Rhode Island,11,2017,93.8,Pathogens
+Offshore,1,2005,NA,Pathogens
+Georges Bank,2,2005,NA,Pathogens
+Gulf of Maine,3,2005,NA,Pathogens
+Mid-Atlantic Bight,4,2005,NA,Pathogens
+Offshore,1,2006,NA,Pathogens
+Georges Bank,2,2006,NA,Pathogens
+Gulf of Maine,3,2006,NA,Pathogens
+Mid-Atlantic Bight,4,2006,NA,Pathogens
+Offshore,1,2007,NA,Pathogens
+Georges Bank,2,2007,NA,Pathogens
+Gulf of Maine,3,2007,NA,Pathogens
+Mid-Atlantic Bight,4,2007,NA,Pathogens
+Offshore,1,2008,NA,Pathogens
+Georges Bank,2,2008,NA,Pathogens
+Gulf of Maine,3,2008,NA,Pathogens
+Mid-Atlantic Bight,4,2008,NA,Pathogens
+Offshore,1,2009,NA,Pathogens
+Georges Bank,2,2009,NA,Pathogens
+Gulf of Maine,3,2009,NA,Pathogens
+Mid-Atlantic Bight,4,2009,NA,Pathogens
+Offshore,1,2010,NA,Pathogens
+Georges Bank,2,2010,NA,Pathogens
+Gulf of Maine,3,2010,NA,Pathogens
+Mid-Atlantic Bight,4,2010,NA,Pathogens
+Offshore,1,2011,NA,Pathogens
+Georges Bank,2,2011,NA,Pathogens
+Gulf of Maine,3,2011,NA,Pathogens
+Mid-Atlantic Bight,4,2011,NA,Pathogens
+Offshore,1,2012,NA,Pathogens
+Georges Bank,2,2012,NA,Pathogens
+Gulf of Maine,3,2012,NA,Pathogens
+Mid-Atlantic Bight,4,2012,NA,Pathogens
+Offshore,1,2013,NA,Pathogens
+Georges Bank,2,2013,NA,Pathogens
+Gulf of Maine,3,2013,NA,Pathogens
+Mid-Atlantic Bight,4,2013,NA,Pathogens
+Offshore,1,2014,NA,Pathogens
+Georges Bank,2,2014,NA,Pathogens
+Gulf of Maine,3,2014,NA,Pathogens
+Mid-Atlantic Bight,4,2014,NA,Pathogens
+Offshore,1,2015,NA,Pathogens
+Georges Bank,2,2015,NA,Pathogens
+Gulf of Maine,3,2015,NA,Pathogens
+Mid-Atlantic Bight,4,2015,NA,Pathogens
+Offshore,1,2016,NA,Pathogens
+Georges Bank,2,2016,NA,Pathogens
+Gulf of Maine,3,2016,NA,Pathogens
+Mid-Atlantic Bight,4,2016,NA,Pathogens
+Offshore,1,2017,NA,Pathogens
+Georges Bank,2,2017,NA,Pathogens
+Gulf of Maine,3,2017,NA,Pathogens
+Mid-Atlantic Bight,4,2017,NA,Pathogens

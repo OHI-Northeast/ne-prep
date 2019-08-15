@@ -37,27 +37,32 @@ library(DT)
 
   ## Water quality index. The higher the better
   wqi <- read_csv("~/github/ne-scores/region/layers/cw_wqi.csv") %>%
-    rename(`Water Quality` = score)
+    mutate(layer = "Water Quality") %>%
+    select(rgn_name, rgn_id, year, score, layer)
 
   ## Sediment quality index. The higher the better
   sqi <- read_csv("~/github/ne-scores/region/layers/cw_sqi.csv") %>%
-    rename(`Sediment Quality` = score) 
+    mutate(layer = "Sediment Quality") %>%
+    select(rgn_name, rgn_id, year, score, layer)
 
   ## trash calculated from pounds per person. The lower the better so here I inverse the values.
   trash <- read_csv("~/github/ne-scores/region/layers/cw_trash.csv") %>%
-    select(-X1) %>%
-    mutate(Trash = (1-score)*100)
+    mutate(score = (1-score)*100,
+           layer = "Trash") %>%
+    left_join(rgn_data) %>%
+    select(rgn_name, rgn_id, year, score, layer)
 
   path <- read_csv("~/github/ne-scores/region/layers/cw_pathogens.csv") %>%
     select(-X1) %>%
-    mutate(Pathogens = perc_open * 100)
+    mutate(score = perc_open * 100,
+           layer = "Pathogens") %>%
+    select(rgn_name, rgn_id, year, score, layer)
 
   ## combine layers
   cw_data <- wqi %>%
-    full_join(sqi) %>%
-    full_join(trash) %>%
-    full_join(path) %>%
-    gather(key = layer, value = value, -rgn_id, -rgn_name, -year)
+    bind_rows(sqi) %>%
+    bind_rows(trash) %>%
+    bind_rows(path)
 
   ## saving cw_data for dashboard -- CONSIDER DOING THIS IN PREP
   write_csv(cw_data, "data/region_layer_scores.csv")
