@@ -1,573 +1,1381 @@
-"","region_id","year","layer","value"
-"1",5,2005,"wqi_score",0.561427667425784
-"2",6,2005,"wqi_score",0.989160748797048
-"3",7,2005,"wqi_score",0.926470588235294
-"4",8,2005,"wqi_score",0.883076638892744
-"5",9,2005,"wqi_score",0.712962962962963
-"6",10,2005,"wqi_score",0.686947771205414
-"7",11,2005,"wqi_score",0.763099068314533
-"8",1,2005,"wqi_score",NA
-"9",2,2005,"wqi_score",NA
-"10",3,2005,"wqi_score",NA
-"11",4,2005,"wqi_score",NA
-"12",5,2006,"wqi_score",0.561427667425784
-"13",6,2006,"wqi_score",0.989160748797048
-"14",7,2006,"wqi_score",0.926470588235294
-"15",8,2006,"wqi_score",0.883076638892744
-"16",9,2006,"wqi_score",0.712962962962963
-"17",10,2006,"wqi_score",0.686947771205414
-"18",11,2006,"wqi_score",0.763099068314533
-"19",1,2006,"wqi_score",NA
-"20",2,2006,"wqi_score",NA
-"21",3,2006,"wqi_score",NA
-"22",4,2006,"wqi_score",NA
-"23",5,2007,"wqi_score",0.575751174069141
-"24",6,2007,"wqi_score",0.973046783032776
-"25",7,2007,"wqi_score",0.937416850463536
-"26",8,2007,"wqi_score",0.900750062426468
-"27",9,2007,"wqi_score",0.700780227288512
-"28",10,2007,"wqi_score",0.689345545145068
-"29",11,2007,"wqi_score",0.800872367250259
-"30",1,2007,"wqi_score",NA
-"31",2,2007,"wqi_score",NA
-"32",3,2007,"wqi_score",NA
-"33",4,2007,"wqi_score",NA
-"34",5,2008,"wqi_score",0.590074680712498
-"35",6,2008,"wqi_score",0.956932817268503
-"36",7,2008,"wqi_score",0.948363112691779
-"37",8,2008,"wqi_score",0.918423485960193
-"38",9,2008,"wqi_score",0.68859749161406
-"39",10,2008,"wqi_score",0.691743319084721
-"40",11,2008,"wqi_score",0.838645666185986
-"41",1,2008,"wqi_score",NA
-"42",2,2008,"wqi_score",NA
-"43",3,2008,"wqi_score",NA
-"44",4,2008,"wqi_score",NA
-"45",5,2009,"wqi_score",0.604398187355855
-"46",6,2009,"wqi_score",0.940818851504231
-"47",7,2009,"wqi_score",0.959309374920021
-"48",8,2009,"wqi_score",0.936096909493917
-"49",9,2009,"wqi_score",0.676414755939609
-"50",10,2009,"wqi_score",0.694141093024375
-"51",11,2009,"wqi_score",0.876418965121712
-"52",1,2009,"wqi_score",NA
-"53",2,2009,"wqi_score",NA
-"54",3,2009,"wqi_score",NA
-"55",4,2009,"wqi_score",NA
-"56",5,2010,"wqi_score",0.618721693999212
-"57",6,2010,"wqi_score",0.924704885739959
-"58",7,2010,"wqi_score",0.970255637148263
-"59",8,2010,"wqi_score",0.953770333027641
-"60",9,2010,"wqi_score",0.664232020265157
-"61",10,2010,"wqi_score",0.696538866964029
-"62",11,2010,"wqi_score",0.914192264057438
-"63",1,2010,"wqi_score",NA
-"64",2,2010,"wqi_score",NA
-"65",3,2010,"wqi_score",NA
-"66",4,2010,"wqi_score",NA
-"67",5,2011,"wqi_score",0.618721693999212
-"68",6,2011,"wqi_score",0.924704885739959
-"69",7,2011,"wqi_score",0.970255637148263
-"70",8,2011,"wqi_score",0.953770333027641
-"71",9,2011,"wqi_score",0.664232020265157
-"72",10,2011,"wqi_score",0.696538866964029
-"73",11,2011,"wqi_score",0.914192264057438
-"74",1,2011,"wqi_score",NA
-"75",2,2011,"wqi_score",NA
-"76",3,2011,"wqi_score",NA
-"77",4,2011,"wqi_score",NA
-"78",5,2012,"wqi_score",0.618721693999212
-"79",6,2012,"wqi_score",0.924704885739959
-"80",7,2012,"wqi_score",0.970255637148263
-"81",8,2012,"wqi_score",0.953770333027641
-"82",9,2012,"wqi_score",0.664232020265157
-"83",10,2012,"wqi_score",0.696538866964029
-"84",11,2012,"wqi_score",0.914192264057438
-"85",1,2012,"wqi_score",NA
-"86",2,2012,"wqi_score",NA
-"87",3,2012,"wqi_score",NA
-"88",4,2012,"wqi_score",NA
-"89",5,2013,"wqi_score",0.618721693999212
-"90",6,2013,"wqi_score",0.924704885739959
-"91",7,2013,"wqi_score",0.970255637148263
-"92",8,2013,"wqi_score",0.953770333027641
-"93",9,2013,"wqi_score",0.664232020265157
-"94",10,2013,"wqi_score",0.696538866964029
-"95",11,2013,"wqi_score",0.914192264057438
-"96",1,2013,"wqi_score",NA
-"97",2,2013,"wqi_score",NA
-"98",3,2013,"wqi_score",NA
-"99",4,2013,"wqi_score",NA
-"100",5,2014,"wqi_score",0.618721693999212
-"101",6,2014,"wqi_score",0.924704885739959
-"102",7,2014,"wqi_score",0.970255637148263
-"103",8,2014,"wqi_score",0.953770333027641
-"104",9,2014,"wqi_score",0.664232020265157
-"105",10,2014,"wqi_score",0.696538866964029
-"106",11,2014,"wqi_score",0.914192264057438
-"107",1,2014,"wqi_score",NA
-"108",2,2014,"wqi_score",NA
-"109",3,2014,"wqi_score",NA
-"110",4,2014,"wqi_score",NA
-"111",5,2015,"wqi_score",0.618721693999212
-"112",6,2015,"wqi_score",0.924704885739959
-"113",7,2015,"wqi_score",0.970255637148263
-"114",8,2015,"wqi_score",0.953770333027641
-"115",9,2015,"wqi_score",0.664232020265157
-"116",10,2015,"wqi_score",0.696538866964029
-"117",11,2015,"wqi_score",0.914192264057438
-"118",1,2015,"wqi_score",NA
-"119",2,2015,"wqi_score",NA
-"120",3,2015,"wqi_score",NA
-"121",4,2015,"wqi_score",NA
-"122",5,2016,"wqi_score",0.618721693999212
-"123",6,2016,"wqi_score",0.924704885739959
-"124",7,2016,"wqi_score",0.970255637148263
-"125",8,2016,"wqi_score",0.953770333027641
-"126",9,2016,"wqi_score",0.664232020265157
-"127",10,2016,"wqi_score",0.696538866964029
-"128",11,2016,"wqi_score",0.914192264057438
-"129",1,2016,"wqi_score",NA
-"130",2,2016,"wqi_score",NA
-"131",3,2016,"wqi_score",NA
-"132",4,2016,"wqi_score",NA
-"133",5,2017,"wqi_score",0.618721693999212
-"134",6,2017,"wqi_score",0.924704885739959
-"135",7,2017,"wqi_score",0.970255637148263
-"136",8,2017,"wqi_score",0.953770333027641
-"137",9,2017,"wqi_score",0.664232020265157
-"138",10,2017,"wqi_score",0.696538866964029
-"139",11,2017,"wqi_score",0.914192264057438
-"140",1,2017,"wqi_score",NA
-"141",2,2017,"wqi_score",NA
-"142",3,2017,"wqi_score",NA
-"143",4,2017,"wqi_score",NA
-"144",5,2005,"sqi_score",0.668072136567684
-"145",6,2005,"sqi_score",0.933853752922991
-"146",7,2005,"sqi_score",0.833333333333333
-"147",8,2005,"sqi_score",0.98662017722172
-"148",9,2005,"sqi_score",0.764705882352941
-"149",10,2005,"sqi_score",0.77146455696119
-"150",11,2005,"sqi_score",0.800572925020384
-"151",1,2005,"sqi_score",NA
-"152",2,2005,"sqi_score",NA
-"153",3,2005,"sqi_score",NA
-"154",4,2005,"sqi_score",NA
-"155",5,2006,"sqi_score",0.668072136567684
-"156",6,2006,"sqi_score",0.933853752922991
-"157",7,2006,"sqi_score",0.833333333333333
-"158",8,2006,"sqi_score",0.98662017722172
-"159",9,2006,"sqi_score",0.764705882352941
-"160",10,2006,"sqi_score",0.77146455696119
-"161",11,2006,"sqi_score",0.800572925020384
-"162",1,2006,"sqi_score",NA
-"163",2,2006,"sqi_score",NA
-"164",3,2006,"sqi_score",NA
-"165",4,2006,"sqi_score",NA
-"166",5,2007,"sqi_score",0.674501005402961
-"167",6,2007,"sqi_score",0.891297446013979
-"168",7,2007,"sqi_score",0.817503916613136
-"169",8,2007,"sqi_score",0.846202841516694
-"170",9,2007,"sqi_score",0.780798613633319
-"171",10,2007,"sqi_score",0.760364820250101
-"172",11,2007,"sqi_score",0.721643983990624
-"173",1,2007,"sqi_score",NA
-"174",2,2007,"sqi_score",NA
-"175",3,2007,"sqi_score",NA
-"176",4,2007,"sqi_score",NA
-"177",5,2008,"sqi_score",0.680929874238238
-"178",6,2008,"sqi_score",0.848741139104968
-"179",7,2008,"sqi_score",0.801674499892939
-"180",8,2008,"sqi_score",0.705785505811668
-"181",9,2008,"sqi_score",0.796891344913696
-"182",10,2008,"sqi_score",0.749265083539011
-"183",11,2008,"sqi_score",0.642715042960865
-"184",1,2008,"sqi_score",NA
-"185",2,2008,"sqi_score",NA
-"186",3,2008,"sqi_score",NA
-"187",4,2008,"sqi_score",NA
-"188",5,2009,"sqi_score",0.687358743073516
-"189",6,2009,"sqi_score",0.806184832195956
-"190",7,2009,"sqi_score",0.785845083172742
-"191",8,2009,"sqi_score",0.565368170106642
-"192",9,2009,"sqi_score",0.812984076194074
-"193",10,2009,"sqi_score",0.738165346827922
-"194",11,2009,"sqi_score",0.563786101931105
-"195",1,2009,"sqi_score",NA
-"196",2,2009,"sqi_score",NA
-"197",3,2009,"sqi_score",NA
-"198",4,2009,"sqi_score",NA
-"199",5,2010,"sqi_score",0.693787611908793
-"200",6,2010,"sqi_score",0.763628525286945
-"201",7,2010,"sqi_score",0.770015666452545
-"202",8,2010,"sqi_score",0.424950834401616
-"203",9,2010,"sqi_score",0.829076807474451
-"204",10,2010,"sqi_score",0.727065610116832
-"205",11,2010,"sqi_score",0.484857160901345
-"206",1,2010,"sqi_score",NA
-"207",2,2010,"sqi_score",NA
-"208",3,2010,"sqi_score",NA
-"209",4,2010,"sqi_score",NA
-"210",5,2011,"sqi_score",0.693787611908793
-"211",6,2011,"sqi_score",0.763628525286945
-"212",7,2011,"sqi_score",0.770015666452545
-"213",8,2011,"sqi_score",0.424950834401616
-"214",9,2011,"sqi_score",0.829076807474451
-"215",10,2011,"sqi_score",0.727065610116832
-"216",11,2011,"sqi_score",0.484857160901345
-"217",1,2011,"sqi_score",NA
-"218",2,2011,"sqi_score",NA
-"219",3,2011,"sqi_score",NA
-"220",4,2011,"sqi_score",NA
-"221",5,2012,"sqi_score",0.693787611908793
-"222",6,2012,"sqi_score",0.763628525286945
-"223",7,2012,"sqi_score",0.770015666452545
-"224",8,2012,"sqi_score",0.424950834401616
-"225",9,2012,"sqi_score",0.829076807474451
-"226",10,2012,"sqi_score",0.727065610116832
-"227",11,2012,"sqi_score",0.484857160901345
-"228",1,2012,"sqi_score",NA
-"229",2,2012,"sqi_score",NA
-"230",3,2012,"sqi_score",NA
-"231",4,2012,"sqi_score",NA
-"232",5,2013,"sqi_score",0.693787611908793
-"233",6,2013,"sqi_score",0.763628525286945
-"234",7,2013,"sqi_score",0.770015666452545
-"235",8,2013,"sqi_score",0.424950834401616
-"236",9,2013,"sqi_score",0.829076807474451
-"237",10,2013,"sqi_score",0.727065610116832
-"238",11,2013,"sqi_score",0.484857160901345
-"239",1,2013,"sqi_score",NA
-"240",2,2013,"sqi_score",NA
-"241",3,2013,"sqi_score",NA
-"242",4,2013,"sqi_score",NA
-"243",5,2014,"sqi_score",0.693787611908793
-"244",6,2014,"sqi_score",0.763628525286945
-"245",7,2014,"sqi_score",0.770015666452545
-"246",8,2014,"sqi_score",0.424950834401616
-"247",9,2014,"sqi_score",0.829076807474451
-"248",10,2014,"sqi_score",0.727065610116832
-"249",11,2014,"sqi_score",0.484857160901345
-"250",1,2014,"sqi_score",NA
-"251",2,2014,"sqi_score",NA
-"252",3,2014,"sqi_score",NA
-"253",4,2014,"sqi_score",NA
-"254",5,2015,"sqi_score",0.693787611908793
-"255",6,2015,"sqi_score",0.763628525286945
-"256",7,2015,"sqi_score",0.770015666452545
-"257",8,2015,"sqi_score",0.424950834401616
-"258",9,2015,"sqi_score",0.829076807474451
-"259",10,2015,"sqi_score",0.727065610116832
-"260",11,2015,"sqi_score",0.484857160901345
-"261",1,2015,"sqi_score",NA
-"262",2,2015,"sqi_score",NA
-"263",3,2015,"sqi_score",NA
-"264",4,2015,"sqi_score",NA
-"265",5,2016,"sqi_score",0.693787611908793
-"266",6,2016,"sqi_score",0.763628525286945
-"267",7,2016,"sqi_score",0.770015666452545
-"268",8,2016,"sqi_score",0.424950834401616
-"269",9,2016,"sqi_score",0.829076807474451
-"270",10,2016,"sqi_score",0.727065610116832
-"271",11,2016,"sqi_score",0.484857160901345
-"272",1,2016,"sqi_score",NA
-"273",2,2016,"sqi_score",NA
-"274",3,2016,"sqi_score",NA
-"275",4,2016,"sqi_score",NA
-"276",5,2017,"sqi_score",0.693787611908793
-"277",6,2017,"sqi_score",0.763628525286945
-"278",7,2017,"sqi_score",0.770015666452545
-"279",8,2017,"sqi_score",0.424950834401616
-"280",9,2017,"sqi_score",0.829076807474451
-"281",10,2017,"sqi_score",0.727065610116832
-"282",11,2017,"sqi_score",0.484857160901345
-"283",1,2017,"sqi_score",NA
-"284",2,2017,"sqi_score",NA
-"285",3,2017,"sqi_score",NA
-"286",4,2017,"sqi_score",NA
-"287",5,2005,"trash_score",0.943820892450468
-"288",6,2005,"trash_score",0.958676000680545
-"289",7,2005,"trash_score",0.9088211617425
-"290",8,2005,"trash_score",0.9088211617425
-"291",9,2005,"trash_score",0.947796028469723
-"292",10,2005,"trash_score",0.853632861191996
-"293",11,2005,"trash_score",0.888704223942178
-"294",1,2005,"trash_score",NA
-"295",2,2005,"trash_score",NA
-"296",3,2005,"trash_score",NA
-"297",4,2005,"trash_score",NA
-"298",5,2006,"trash_score",0.943820892450468
-"299",6,2006,"trash_score",0.958676000680545
-"300",7,2006,"trash_score",0.9088211617425
-"301",8,2006,"trash_score",0.9088211617425
-"302",9,2006,"trash_score",0.947796028469723
-"303",10,2006,"trash_score",0.853632861191996
-"304",11,2006,"trash_score",0.888704223942178
-"305",1,2006,"trash_score",NA
-"306",2,2006,"trash_score",NA
-"307",3,2006,"trash_score",NA
-"308",4,2006,"trash_score",NA
-"309",5,2007,"trash_score",0.943820892450468
-"310",6,2007,"trash_score",0.958676000680545
-"311",7,2007,"trash_score",0.9088211617425
-"312",8,2007,"trash_score",0.9088211617425
-"313",9,2007,"trash_score",0.947796028469723
-"314",10,2007,"trash_score",0.853632861191996
-"315",11,2007,"trash_score",0.888704223942178
-"316",1,2007,"trash_score",NA
-"317",2,2007,"trash_score",NA
-"318",3,2007,"trash_score",NA
-"319",4,2007,"trash_score",NA
-"320",5,2008,"trash_score",0.922992423434198
-"321",6,2008,"trash_score",0.920449514698165
-"322",7,2008,"trash_score",0.930169098796961
-"323",8,2008,"trash_score",0.930169098796961
-"324",9,2008,"trash_score",0.952875088400846
-"325",10,2008,"trash_score",0.877226217973682
-"326",11,2008,"trash_score",0.929965384770567
-"327",1,2008,"trash_score",NA
-"328",2,2008,"trash_score",NA
-"329",3,2008,"trash_score",NA
-"330",4,2008,"trash_score",NA
-"331",5,2009,"trash_score",0.936832953163515
-"332",6,2009,"trash_score",0.945541114619567
-"333",7,2009,"trash_score",0.899590154204462
-"334",8,2009,"trash_score",0.899590154204462
-"335",9,2009,"trash_score",0.930852028619314
-"336",10,2009,"trash_score",0.866489164866377
-"337",11,2009,"trash_score",0.909135046315777
-"338",1,2009,"trash_score",NA
-"339",2,2009,"trash_score",NA
-"340",3,2009,"trash_score",NA
-"341",4,2009,"trash_score",NA
-"342",5,2010,"trash_score",0.931823086721326
-"343",6,2010,"trash_score",0.944459788066956
-"344",7,2010,"trash_score",0.932738111078232
-"345",8,2010,"trash_score",0.932738111078232
-"346",9,2010,"trash_score",0.937860168498214
-"347",10,2010,"trash_score",0.805846197919877
-"348",11,2010,"trash_score",0.880981168810353
-"349",1,2010,"trash_score",NA
-"350",2,2010,"trash_score",NA
-"351",3,2010,"trash_score",NA
-"352",4,2010,"trash_score",NA
-"353",5,2011,"trash_score",0.890808474348688
-"354",6,2011,"trash_score",0.918888808170394
-"355",7,2011,"trash_score",0.922988000218912
-"356",8,2011,"trash_score",0.922988000218912
-"357",9,2011,"trash_score",0.930078543008726
-"358",10,2011,"trash_score",0.859049670642929
-"359",11,2011,"trash_score",0.886471593781956
-"360",1,2011,"trash_score",NA
-"361",2,2011,"trash_score",NA
-"362",3,2011,"trash_score",NA
-"363",4,2011,"trash_score",NA
-"364",5,2012,"trash_score",0.945354832771556
-"365",6,2012,"trash_score",0.901603054790734
-"366",7,2012,"trash_score",0.945830090810074
-"367",8,2012,"trash_score",0.945830090810074
-"368",9,2012,"trash_score",0.971499134518385
-"369",10,2012,"trash_score",0.897609737267037
-"370",11,2012,"trash_score",0.911078080552868
-"371",1,2012,"trash_score",NA
-"372",2,2012,"trash_score",NA
-"373",3,2012,"trash_score",NA
-"374",4,2012,"trash_score",NA
-"375",5,2013,"trash_score",0.940775021365535
-"376",6,2013,"trash_score",0.967125997856176
-"377",7,2013,"trash_score",0.794520689342309
-"378",8,2013,"trash_score",0.794520689342309
-"379",9,2013,"trash_score",0.979791914997253
-"380",10,2013,"trash_score",0.907353965814326
-"381",11,2013,"trash_score",0.90357063591693
-"382",1,2013,"trash_score",NA
-"383",2,2013,"trash_score",NA
-"384",3,2013,"trash_score",NA
-"385",4,2013,"trash_score",NA
-"386",5,2014,"trash_score",0.844813366488083
-"387",6,2014,"trash_score",0.951516437406876
-"388",7,2014,"trash_score",0.816145425882271
-"389",8,2014,"trash_score",0.816145425882271
-"390",9,2014,"trash_score",0.950093105362847
-"391",10,2014,"trash_score",0.870851740604399
-"392",11,2014,"trash_score",0.9251343465855
-"393",1,2014,"trash_score",NA
-"394",2,2014,"trash_score",NA
-"395",3,2014,"trash_score",NA
-"396",4,2014,"trash_score",NA
-"397",5,2015,"trash_score",0.902015731877832
-"398",6,2015,"trash_score",0.84058799158423
-"399",7,2015,"trash_score",0.767592569629261
-"400",8,2015,"trash_score",0.767592569629261
-"401",9,2015,"trash_score",0.928478095031455
-"402",10,2015,"trash_score",0.843854893702883
-"403",11,2015,"trash_score",0.914308159124472
-"404",1,2015,"trash_score",NA
-"405",2,2015,"trash_score",NA
-"406",3,2015,"trash_score",NA
-"407",4,2015,"trash_score",NA
-"408",5,2016,"trash_score",0.953289212569475
-"409",6,2016,"trash_score",0.96534818204918
-"410",7,2016,"trash_score",0.948340448704923
-"411",8,2016,"trash_score",0.948340448704923
-"412",9,2016,"trash_score",0.949415799201317
-"413",10,2016,"trash_score",0.906846591946524
-"414",11,2016,"trash_score",0.935863737243535
-"415",1,2016,"trash_score",NA
-"416",2,2016,"trash_score",NA
-"417",3,2016,"trash_score",NA
-"418",4,2016,"trash_score",NA
-"419",5,2017,"trash_score",0.902401939691338
-"420",6,2017,"trash_score",0.955453221981528
-"421",7,2017,"trash_score",0.725284569705359
-"422",8,2017,"trash_score",0.725284569705359
-"423",9,2017,"trash_score",0.936056866665209
-"424",10,2017,"trash_score",0.949095039506951
-"425",11,2017,"trash_score",0.939817667101416
-"426",1,2017,"trash_score",NA
-"427",2,2017,"trash_score",NA
-"428",3,2017,"trash_score",NA
-"429",4,2017,"trash_score",NA
-"430",5,2005,"perc_open",0.948
-"431",6,2005,"perc_open",0.9325
-"432",7,2005,"perc_open",0.952816901408451
-"433",8,2005,"perc_open",0.978
-"434",9,2005,"perc_open",0.99
-"435",10,2005,"perc_open",0.922823529411765
-"436",11,2005,"perc_open",0.912
-"437",1,2005,"perc_open",NA
-"438",2,2005,"perc_open",NA
-"439",3,2005,"perc_open",NA
-"440",4,2005,"perc_open",NA
-"441",5,2006,"perc_open",0.943589743589744
-"442",6,2006,"perc_open",0.925882352941176
-"443",7,2006,"perc_open",0.895
-"444",8,2006,"perc_open",0.937741935483871
-"445",9,2006,"perc_open",0.954
-"446",10,2006,"perc_open",0.880733944954128
-"447",11,2006,"perc_open",0.638
-"448",1,2006,"perc_open",NA
-"449",2,2006,"perc_open",NA
-"450",3,2006,"perc_open",NA
-"451",4,2006,"perc_open",NA
-"452",5,2007,"perc_open",0.965806451612903
-"453",6,2007,"perc_open",0.937586206896552
-"454",7,2007,"perc_open",0.952753623188406
-"455",8,2007,"perc_open",0.967741935483871
-"456",9,2007,"perc_open",0.98
-"457",10,2007,"perc_open",0.891440677966102
-"458",11,2007,"perc_open",0.954285714285714
-"459",1,2007,"perc_open",NA
-"460",2,2007,"perc_open",NA
-"461",3,2007,"perc_open",NA
-"462",4,2007,"perc_open",NA
-"463",5,2008,"perc_open",0.954347826086957
-"464",6,2008,"perc_open",0.9335
-"465",7,2008,"perc_open",0.937763157894737
-"466",8,2008,"perc_open",0.975
-"467",9,2008,"perc_open",0.9675
-"468",10,2008,"perc_open",0.89140350877193
-"469",11,2008,"perc_open",0.938095238095238
-"470",1,2008,"perc_open",NA
-"471",2,2008,"perc_open",NA
-"472",3,2008,"perc_open",NA
-"473",4,2008,"perc_open",NA
-"474",5,2009,"perc_open",0.964
-"475",6,2009,"perc_open",0.936060606060606
-"476",7,2009,"perc_open",0.934336283185841
-"477",8,2009,"perc_open",0.959183673469388
-"478",9,2009,"perc_open",0.976
-"479",10,2009,"perc_open",0.87983606557377
-"480",11,2009,"perc_open",0.894444444444444
-"481",1,2009,"perc_open",NA
-"482",2,2009,"perc_open",NA
-"483",3,2009,"perc_open",NA
-"484",4,2009,"perc_open",NA
-"485",5,2010,"perc_open",0.962432432432432
-"486",6,2010,"perc_open",0.925185185185185
-"487",7,2010,"perc_open",0.937093023255814
-"488",8,2010,"perc_open",0.957931034482759
-"489",9,2010,"perc_open",0.968
-"490",10,2010,"perc_open",0.94
-"491",11,2010,"perc_open",0.961428571428571
-"492",1,2010,"perc_open",NA
-"493",2,2010,"perc_open",NA
-"494",3,2010,"perc_open",NA
-"495",4,2010,"perc_open",NA
-"496",5,2011,"perc_open",0.92156862745098
-"497",6,2011,"perc_open",0.937222222222222
-"498",7,2011,"perc_open",0.929438202247191
-"499",8,2011,"perc_open",0.960625
-"500",9,2011,"perc_open",0.97
-"501",10,2011,"perc_open",0.910782122905028
-"502",11,2011,"perc_open",0.956666666666667
-"503",1,2011,"perc_open",NA
-"504",2,2011,"perc_open",NA
-"505",3,2011,"perc_open",NA
-"506",4,2011,"perc_open",NA
-"507",5,2012,"perc_open",0.958333333333333
-"508",6,2012,"perc_open",0.953809523809524
-"509",7,2012,"perc_open",0.937
-"510",8,2012,"perc_open",0.956470588235294
-"511",9,2012,"perc_open",0.98
-"512",10,2012,"perc_open",0.872661290322581
-"513",11,2012,"perc_open",0.971538461538462
-"514",1,2012,"perc_open",NA
-"515",2,2012,"perc_open",NA
-"516",3,2012,"perc_open",NA
-"517",4,2012,"perc_open",NA
-"518",5,2013,"perc_open",0.971351351351351
-"519",6,2013,"perc_open",0.898148148148148
-"520",7,2013,"perc_open",0.932650602409639
-"521",8,2013,"perc_open",0.962361111111111
-"522",9,2013,"perc_open",0.955
-"523",10,2013,"perc_open",0.897457627118644
-"524",11,2013,"perc_open",0.932666666666667
-"525",1,2013,"perc_open",NA
-"526",2,2013,"perc_open",NA
-"527",3,2013,"perc_open",NA
-"528",4,2013,"perc_open",NA
-"529",5,2014,"perc_open",0.964545454545455
-"530",6,2014,"perc_open",0.932647058823529
-"531",7,2014,"perc_open",0.936938775510204
-"532",8,2014,"perc_open",0.949642857142857
-"533",9,2014,"perc_open",0.9625
-"534",10,2014,"perc_open",0.889237288135593
-"535",11,2014,"perc_open",0.973125
-"536",1,2014,"perc_open",NA
-"537",2,2014,"perc_open",NA
-"538",3,2014,"perc_open",NA
-"539",4,2014,"perc_open",NA
-"540",5,2015,"perc_open",0.97448275862069
-"541",6,2015,"perc_open",0.932972972972973
-"542",7,2015,"perc_open",0.893571428571429
-"543",8,2015,"perc_open",0.949166666666667
-"544",9,2015,"perc_open",0.98
-"545",10,2015,"perc_open",0.876525423728814
-"546",11,2015,"perc_open",0.961666666666667
-"547",1,2015,"perc_open",NA
-"548",2,2015,"perc_open",NA
-"549",3,2015,"perc_open",NA
-"550",4,2015,"perc_open",NA
-"551",5,2016,"perc_open",0.94875
-"552",6,2016,"perc_open",0.964857142857143
-"553",7,2016,"perc_open",0.932
-"554",8,2016,"perc_open",0.962352941176471
-"555",9,2016,"perc_open",0.94
-"556",10,2016,"perc_open",0.911794871794872
-"557",11,2016,"perc_open",0.964285714285714
-"558",1,2016,"perc_open",NA
-"559",2,2016,"perc_open",NA
-"560",3,2016,"perc_open",NA
-"561",4,2016,"perc_open",NA
-"562",5,2017,"perc_open",0.951875
-"563",6,2017,"perc_open",0.970625
-"564",7,2017,"perc_open",0.94093023255814
-"565",8,2017,"perc_open",0.956875
-"566",9,2017,"perc_open",0.97
-"567",10,2017,"perc_open",0.839541984732824
-"568",11,2017,"perc_open",0.938
-"569",1,2017,"perc_open",NA
-"570",2,2017,"perc_open",NA
-"571",3,2017,"perc_open",NA
-"572",4,2017,"perc_open",NA
+year,rgn_id,rgn_name,layer,value
+2006,5,Connecticut,Water Quality,56.14276674257839
+2007,5,Connecticut,Water Quality,57.57511740691409
+2008,5,Connecticut,Water Quality,59.00746807124979
+2009,5,Connecticut,Water Quality,60.43981873558549
+2010,5,Connecticut,Water Quality,61.87216939992119
+2006,6,Maine,Water Quality,98.91607487970478
+2007,6,Maine,Water Quality,97.30467830327756
+2008,6,Maine,Water Quality,95.69328172685033
+2009,6,Maine,Water Quality,94.08188515042309
+2010,6,Maine,Water Quality,92.47048857399587
+2006,7,Massachusetts-Gulf of Maine,Water Quality,92.64705882352942
+2007,7,Massachusetts-Gulf of Maine,Water Quality,93.74168504635364
+2008,7,Massachusetts-Gulf of Maine,Water Quality,94.83631126917786
+2009,7,Massachusetts-Gulf of Maine,Water Quality,95.93093749200209
+2010,7,Massachusetts-Gulf of Maine,Water Quality,97.0255637148263
+2006,8,Massachusetts-Virginian,Water Quality,88.30766388927441
+2007,8,Massachusetts-Virginian,Water Quality,90.07500624264684
+2008,8,Massachusetts-Virginian,Water Quality,91.84234859601926
+2009,8,Massachusetts-Virginian,Water Quality,93.6096909493917
+2010,8,Massachusetts-Virginian,Water Quality,95.37703330276413
+2006,9,New Hampshire,Water Quality,71.2962962962963
+2007,9,New Hampshire,Water Quality,70.07802272885115
+2008,9,New Hampshire,Water Quality,68.859749161406
+2009,9,New Hampshire,Water Quality,67.64147559396085
+2010,9,New Hampshire,Water Quality,66.4232020265157
+2006,10,New York,Water Quality,68.6947771205414
+2007,10,New York,Water Quality,68.93455451450677
+2008,10,New York,Water Quality,69.17433190847214
+2009,10,New York,Water Quality,69.41410930243751
+2010,10,New York,Water Quality,69.65388669640288
+2006,11,Rhode Island,Water Quality,76.3099068314533
+2007,11,Rhode Island,Water Quality,80.08723672502593
+2008,11,Rhode Island,Water Quality,83.86456661859856
+2009,11,Rhode Island,Water Quality,87.64189651217117
+2010,11,Rhode Island,Water Quality,91.4192264057438
+2006,1,Offshore,Water Quality,NA
+2006,2,Georges Bank,Water Quality,NA
+2006,3,Gulf of Maine,Water Quality,NA
+2006,4,Mid-Atlantic Bight,Water Quality,NA
+2007,1,Offshore,Water Quality,NA
+2007,2,Georges Bank,Water Quality,NA
+2007,3,Gulf of Maine,Water Quality,NA
+2007,4,Mid-Atlantic Bight,Water Quality,NA
+2008,1,Offshore,Water Quality,NA
+2008,2,Georges Bank,Water Quality,NA
+2008,3,Gulf of Maine,Water Quality,NA
+2008,4,Mid-Atlantic Bight,Water Quality,NA
+2009,1,Offshore,Water Quality,NA
+2009,2,Georges Bank,Water Quality,NA
+2009,3,Gulf of Maine,Water Quality,NA
+2009,4,Mid-Atlantic Bight,Water Quality,NA
+2010,1,Offshore,Water Quality,NA
+2010,2,Georges Bank,Water Quality,NA
+2010,3,Gulf of Maine,Water Quality,NA
+2010,4,Mid-Atlantic Bight,Water Quality,NA
+2011,1,NA,Water Quality,NA
+2012,1,NA,Water Quality,NA
+2013,1,NA,Water Quality,NA
+2014,1,NA,Water Quality,NA
+2015,1,NA,Water Quality,NA
+2016,1,NA,Water Quality,NA
+2017,1,NA,Water Quality,NA
+2011,2,NA,Water Quality,NA
+2012,2,NA,Water Quality,NA
+2013,2,NA,Water Quality,NA
+2014,2,NA,Water Quality,NA
+2015,2,NA,Water Quality,NA
+2016,2,NA,Water Quality,NA
+2017,2,NA,Water Quality,NA
+2011,3,NA,Water Quality,NA
+2012,3,NA,Water Quality,NA
+2013,3,NA,Water Quality,NA
+2014,3,NA,Water Quality,NA
+2015,3,NA,Water Quality,NA
+2016,3,NA,Water Quality,NA
+2017,3,NA,Water Quality,NA
+2011,4,NA,Water Quality,NA
+2012,4,NA,Water Quality,NA
+2013,4,NA,Water Quality,NA
+2014,4,NA,Water Quality,NA
+2015,4,NA,Water Quality,NA
+2016,4,NA,Water Quality,NA
+2017,4,NA,Water Quality,NA
+2011,5,NA,Water Quality,NA
+2012,5,NA,Water Quality,NA
+2013,5,NA,Water Quality,NA
+2014,5,NA,Water Quality,NA
+2015,5,NA,Water Quality,NA
+2016,5,NA,Water Quality,NA
+2017,5,NA,Water Quality,NA
+2011,6,NA,Water Quality,NA
+2012,6,NA,Water Quality,NA
+2013,6,NA,Water Quality,NA
+2014,6,NA,Water Quality,NA
+2015,6,NA,Water Quality,NA
+2016,6,NA,Water Quality,NA
+2017,6,NA,Water Quality,NA
+2011,7,NA,Water Quality,NA
+2012,7,NA,Water Quality,NA
+2013,7,NA,Water Quality,NA
+2014,7,NA,Water Quality,NA
+2015,7,NA,Water Quality,NA
+2016,7,NA,Water Quality,NA
+2017,7,NA,Water Quality,NA
+2011,8,NA,Water Quality,NA
+2012,8,NA,Water Quality,NA
+2013,8,NA,Water Quality,NA
+2014,8,NA,Water Quality,NA
+2015,8,NA,Water Quality,NA
+2016,8,NA,Water Quality,NA
+2017,8,NA,Water Quality,NA
+2011,9,NA,Water Quality,NA
+2012,9,NA,Water Quality,NA
+2013,9,NA,Water Quality,NA
+2014,9,NA,Water Quality,NA
+2015,9,NA,Water Quality,NA
+2016,9,NA,Water Quality,NA
+2017,9,NA,Water Quality,NA
+2011,10,NA,Water Quality,NA
+2012,10,NA,Water Quality,NA
+2013,10,NA,Water Quality,NA
+2014,10,NA,Water Quality,NA
+2015,10,NA,Water Quality,NA
+2016,10,NA,Water Quality,NA
+2017,10,NA,Water Quality,NA
+2011,11,NA,Water Quality,NA
+2012,11,NA,Water Quality,NA
+2013,11,NA,Water Quality,NA
+2014,11,NA,Water Quality,NA
+2015,11,NA,Water Quality,NA
+2016,11,NA,Water Quality,NA
+2017,11,NA,Water Quality,NA
+2005,5,Connecticut,Water Quality,NA
+2011,5,Connecticut,Water Quality,NA
+2012,5,Connecticut,Water Quality,NA
+2013,5,Connecticut,Water Quality,NA
+2014,5,Connecticut,Water Quality,NA
+2015,5,Connecticut,Water Quality,NA
+2016,5,Connecticut,Water Quality,NA
+2017,5,Connecticut,Water Quality,NA
+2005,6,Maine,Water Quality,NA
+2011,6,Maine,Water Quality,NA
+2012,6,Maine,Water Quality,NA
+2013,6,Maine,Water Quality,NA
+2014,6,Maine,Water Quality,NA
+2015,6,Maine,Water Quality,NA
+2016,6,Maine,Water Quality,NA
+2017,6,Maine,Water Quality,NA
+2005,7,Massachusetts-North,Water Quality,NA
+2006,7,Massachusetts-North,Water Quality,NA
+2007,7,Massachusetts-North,Water Quality,NA
+2008,7,Massachusetts-North,Water Quality,NA
+2009,7,Massachusetts-North,Water Quality,NA
+2010,7,Massachusetts-North,Water Quality,NA
+2011,7,Massachusetts-North,Water Quality,NA
+2012,7,Massachusetts-North,Water Quality,NA
+2013,7,Massachusetts-North,Water Quality,NA
+2014,7,Massachusetts-North,Water Quality,NA
+2015,7,Massachusetts-North,Water Quality,NA
+2016,7,Massachusetts-North,Water Quality,NA
+2017,7,Massachusetts-North,Water Quality,NA
+2005,8,Massachusetts-South,Water Quality,NA
+2006,8,Massachusetts-South,Water Quality,NA
+2007,8,Massachusetts-South,Water Quality,NA
+2008,8,Massachusetts-South,Water Quality,NA
+2009,8,Massachusetts-South,Water Quality,NA
+2010,8,Massachusetts-South,Water Quality,NA
+2011,8,Massachusetts-South,Water Quality,NA
+2012,8,Massachusetts-South,Water Quality,NA
+2013,8,Massachusetts-South,Water Quality,NA
+2014,8,Massachusetts-South,Water Quality,NA
+2015,8,Massachusetts-South,Water Quality,NA
+2016,8,Massachusetts-South,Water Quality,NA
+2017,8,Massachusetts-South,Water Quality,NA
+2005,9,New Hampshire,Water Quality,NA
+2011,9,New Hampshire,Water Quality,NA
+2012,9,New Hampshire,Water Quality,NA
+2013,9,New Hampshire,Water Quality,NA
+2014,9,New Hampshire,Water Quality,NA
+2015,9,New Hampshire,Water Quality,NA
+2016,9,New Hampshire,Water Quality,NA
+2017,9,New Hampshire,Water Quality,NA
+2005,10,New York,Water Quality,NA
+2011,10,New York,Water Quality,NA
+2012,10,New York,Water Quality,NA
+2013,10,New York,Water Quality,NA
+2014,10,New York,Water Quality,NA
+2015,10,New York,Water Quality,NA
+2016,10,New York,Water Quality,NA
+2017,10,New York,Water Quality,NA
+2005,11,Rhode Island,Water Quality,NA
+2011,11,Rhode Island,Water Quality,NA
+2012,11,Rhode Island,Water Quality,NA
+2013,11,Rhode Island,Water Quality,NA
+2014,11,Rhode Island,Water Quality,NA
+2015,11,Rhode Island,Water Quality,NA
+2016,11,Rhode Island,Water Quality,NA
+2017,11,Rhode Island,Water Quality,NA
+2005,1,Offshore,Water Quality,NA
+2005,2,Georges Bank,Water Quality,NA
+2005,3,Gulf of Maine,Water Quality,NA
+2005,4,Mid-Atlantic Bight,Water Quality,NA
+2011,1,Offshore,Water Quality,NA
+2011,2,Georges Bank,Water Quality,NA
+2011,3,Gulf of Maine,Water Quality,NA
+2011,4,Mid-Atlantic Bight,Water Quality,NA
+2012,1,Offshore,Water Quality,NA
+2012,2,Georges Bank,Water Quality,NA
+2012,3,Gulf of Maine,Water Quality,NA
+2012,4,Mid-Atlantic Bight,Water Quality,NA
+2013,1,Offshore,Water Quality,NA
+2013,2,Georges Bank,Water Quality,NA
+2013,3,Gulf of Maine,Water Quality,NA
+2013,4,Mid-Atlantic Bight,Water Quality,NA
+2014,1,Offshore,Water Quality,NA
+2014,2,Georges Bank,Water Quality,NA
+2014,3,Gulf of Maine,Water Quality,NA
+2014,4,Mid-Atlantic Bight,Water Quality,NA
+2015,1,Offshore,Water Quality,NA
+2015,2,Georges Bank,Water Quality,NA
+2015,3,Gulf of Maine,Water Quality,NA
+2015,4,Mid-Atlantic Bight,Water Quality,NA
+2016,1,Offshore,Water Quality,NA
+2016,2,Georges Bank,Water Quality,NA
+2016,3,Gulf of Maine,Water Quality,NA
+2016,4,Mid-Atlantic Bight,Water Quality,NA
+2017,1,Offshore,Water Quality,NA
+2017,2,Georges Bank,Water Quality,NA
+2017,3,Gulf of Maine,Water Quality,NA
+2017,4,Mid-Atlantic Bight,Water Quality,NA
+2006,5,Connecticut,Sediment Quality,66.80721365676837
+2007,5,Connecticut,Sediment Quality,67.4501005402961
+2008,5,Connecticut,Sediment Quality,68.09298742382384
+2009,5,Connecticut,Sediment Quality,68.73587430735157
+2010,5,Connecticut,Sediment Quality,69.3787611908793
+2006,6,Maine,Sediment Quality,93.38537529229909
+2007,6,Maine,Sediment Quality,89.12974460139795
+2008,6,Maine,Sediment Quality,84.87411391049679
+2009,6,Maine,Sediment Quality,80.61848321959565
+2010,6,Maine,Sediment Quality,76.3628525286945
+2006,7,Massachusetts-Gulf of Maine,Sediment Quality,83.33333333333333
+2007,7,Massachusetts-Gulf of Maine,Sediment Quality,81.75039166131361
+2008,7,Massachusetts-Gulf of Maine,Sediment Quality,80.1674499892939
+2009,7,Massachusetts-Gulf of Maine,Sediment Quality,78.58450831727419
+2010,7,Massachusetts-Gulf of Maine,Sediment Quality,77.00156664525447
+2006,8,Massachusetts-Virginian,Sediment Quality,98.66201772217201
+2007,8,Massachusetts-Virginian,Sediment Quality,84.6202841516694
+2008,8,Massachusetts-Virginian,Sediment Quality,70.57855058116678
+2009,8,Massachusetts-Virginian,Sediment Quality,56.536817010664166
+2010,8,Massachusetts-Virginian,Sediment Quality,42.49508344016155
+2006,9,New Hampshire,Sediment Quality,76.47058823529412
+2007,9,New Hampshire,Sediment Quality,78.07986136333186
+2008,9,New Hampshire,Sediment Quality,79.6891344913696
+2009,9,New Hampshire,Sediment Quality,81.29840761940736
+2010,9,New Hampshire,Sediment Quality,82.9076807474451
+2006,10,New York,Sediment Quality,77.14645569611903
+2007,10,New York,Sediment Quality,76.03648202501009
+2008,10,New York,Sediment Quality,74.92650835390114
+2009,10,New York,Sediment Quality,73.81653468279218
+2010,10,New York,Sediment Quality,72.70656101168323
+2006,11,Rhode Island,Sediment Quality,80.0572925020384
+2007,11,Rhode Island,Sediment Quality,72.16439839906243
+2008,11,Rhode Island,Sediment Quality,64.27150429608646
+2009,11,Rhode Island,Sediment Quality,56.3786101931105
+2010,11,Rhode Island,Sediment Quality,48.48571609013453
+2006,1,Offshore,Sediment Quality,NA
+2006,2,Georges Bank,Sediment Quality,NA
+2006,3,Gulf of Maine,Sediment Quality,NA
+2006,4,Mid-Atlantic Bight,Sediment Quality,NA
+2007,1,Offshore,Sediment Quality,NA
+2007,2,Georges Bank,Sediment Quality,NA
+2007,3,Gulf of Maine,Sediment Quality,NA
+2007,4,Mid-Atlantic Bight,Sediment Quality,NA
+2008,1,Offshore,Sediment Quality,NA
+2008,2,Georges Bank,Sediment Quality,NA
+2008,3,Gulf of Maine,Sediment Quality,NA
+2008,4,Mid-Atlantic Bight,Sediment Quality,NA
+2009,1,Offshore,Sediment Quality,NA
+2009,2,Georges Bank,Sediment Quality,NA
+2009,3,Gulf of Maine,Sediment Quality,NA
+2009,4,Mid-Atlantic Bight,Sediment Quality,NA
+2010,1,Offshore,Sediment Quality,NA
+2010,2,Georges Bank,Sediment Quality,NA
+2010,3,Gulf of Maine,Sediment Quality,NA
+2010,4,Mid-Atlantic Bight,Sediment Quality,NA
+2011,1,NA,Sediment Quality,NA
+2012,1,NA,Sediment Quality,NA
+2013,1,NA,Sediment Quality,NA
+2014,1,NA,Sediment Quality,NA
+2015,1,NA,Sediment Quality,NA
+2016,1,NA,Sediment Quality,NA
+2017,1,NA,Sediment Quality,NA
+2011,2,NA,Sediment Quality,NA
+2012,2,NA,Sediment Quality,NA
+2013,2,NA,Sediment Quality,NA
+2014,2,NA,Sediment Quality,NA
+2015,2,NA,Sediment Quality,NA
+2016,2,NA,Sediment Quality,NA
+2017,2,NA,Sediment Quality,NA
+2011,3,NA,Sediment Quality,NA
+2012,3,NA,Sediment Quality,NA
+2013,3,NA,Sediment Quality,NA
+2014,3,NA,Sediment Quality,NA
+2015,3,NA,Sediment Quality,NA
+2016,3,NA,Sediment Quality,NA
+2017,3,NA,Sediment Quality,NA
+2011,4,NA,Sediment Quality,NA
+2012,4,NA,Sediment Quality,NA
+2013,4,NA,Sediment Quality,NA
+2014,4,NA,Sediment Quality,NA
+2015,4,NA,Sediment Quality,NA
+2016,4,NA,Sediment Quality,NA
+2017,4,NA,Sediment Quality,NA
+2011,5,NA,Sediment Quality,NA
+2012,5,NA,Sediment Quality,NA
+2013,5,NA,Sediment Quality,NA
+2014,5,NA,Sediment Quality,NA
+2015,5,NA,Sediment Quality,NA
+2016,5,NA,Sediment Quality,NA
+2017,5,NA,Sediment Quality,NA
+2011,6,NA,Sediment Quality,NA
+2012,6,NA,Sediment Quality,NA
+2013,6,NA,Sediment Quality,NA
+2014,6,NA,Sediment Quality,NA
+2015,6,NA,Sediment Quality,NA
+2016,6,NA,Sediment Quality,NA
+2017,6,NA,Sediment Quality,NA
+2011,7,NA,Sediment Quality,NA
+2012,7,NA,Sediment Quality,NA
+2013,7,NA,Sediment Quality,NA
+2014,7,NA,Sediment Quality,NA
+2015,7,NA,Sediment Quality,NA
+2016,7,NA,Sediment Quality,NA
+2017,7,NA,Sediment Quality,NA
+2011,8,NA,Sediment Quality,NA
+2012,8,NA,Sediment Quality,NA
+2013,8,NA,Sediment Quality,NA
+2014,8,NA,Sediment Quality,NA
+2015,8,NA,Sediment Quality,NA
+2016,8,NA,Sediment Quality,NA
+2017,8,NA,Sediment Quality,NA
+2011,9,NA,Sediment Quality,NA
+2012,9,NA,Sediment Quality,NA
+2013,9,NA,Sediment Quality,NA
+2014,9,NA,Sediment Quality,NA
+2015,9,NA,Sediment Quality,NA
+2016,9,NA,Sediment Quality,NA
+2017,9,NA,Sediment Quality,NA
+2011,10,NA,Sediment Quality,NA
+2012,10,NA,Sediment Quality,NA
+2013,10,NA,Sediment Quality,NA
+2014,10,NA,Sediment Quality,NA
+2015,10,NA,Sediment Quality,NA
+2016,10,NA,Sediment Quality,NA
+2017,10,NA,Sediment Quality,NA
+2011,11,NA,Sediment Quality,NA
+2012,11,NA,Sediment Quality,NA
+2013,11,NA,Sediment Quality,NA
+2014,11,NA,Sediment Quality,NA
+2015,11,NA,Sediment Quality,NA
+2016,11,NA,Sediment Quality,NA
+2017,11,NA,Sediment Quality,NA
+2005,5,Connecticut,Sediment Quality,NA
+2011,5,Connecticut,Sediment Quality,NA
+2012,5,Connecticut,Sediment Quality,NA
+2013,5,Connecticut,Sediment Quality,NA
+2014,5,Connecticut,Sediment Quality,NA
+2015,5,Connecticut,Sediment Quality,NA
+2016,5,Connecticut,Sediment Quality,NA
+2017,5,Connecticut,Sediment Quality,NA
+2005,6,Maine,Sediment Quality,NA
+2011,6,Maine,Sediment Quality,NA
+2012,6,Maine,Sediment Quality,NA
+2013,6,Maine,Sediment Quality,NA
+2014,6,Maine,Sediment Quality,NA
+2015,6,Maine,Sediment Quality,NA
+2016,6,Maine,Sediment Quality,NA
+2017,6,Maine,Sediment Quality,NA
+2005,7,Massachusetts-North,Sediment Quality,NA
+2006,7,Massachusetts-North,Sediment Quality,NA
+2007,7,Massachusetts-North,Sediment Quality,NA
+2008,7,Massachusetts-North,Sediment Quality,NA
+2009,7,Massachusetts-North,Sediment Quality,NA
+2010,7,Massachusetts-North,Sediment Quality,NA
+2011,7,Massachusetts-North,Sediment Quality,NA
+2012,7,Massachusetts-North,Sediment Quality,NA
+2013,7,Massachusetts-North,Sediment Quality,NA
+2014,7,Massachusetts-North,Sediment Quality,NA
+2015,7,Massachusetts-North,Sediment Quality,NA
+2016,7,Massachusetts-North,Sediment Quality,NA
+2017,7,Massachusetts-North,Sediment Quality,NA
+2005,8,Massachusetts-South,Sediment Quality,NA
+2006,8,Massachusetts-South,Sediment Quality,NA
+2007,8,Massachusetts-South,Sediment Quality,NA
+2008,8,Massachusetts-South,Sediment Quality,NA
+2009,8,Massachusetts-South,Sediment Quality,NA
+2010,8,Massachusetts-South,Sediment Quality,NA
+2011,8,Massachusetts-South,Sediment Quality,NA
+2012,8,Massachusetts-South,Sediment Quality,NA
+2013,8,Massachusetts-South,Sediment Quality,NA
+2014,8,Massachusetts-South,Sediment Quality,NA
+2015,8,Massachusetts-South,Sediment Quality,NA
+2016,8,Massachusetts-South,Sediment Quality,NA
+2017,8,Massachusetts-South,Sediment Quality,NA
+2005,9,New Hampshire,Sediment Quality,NA
+2011,9,New Hampshire,Sediment Quality,NA
+2012,9,New Hampshire,Sediment Quality,NA
+2013,9,New Hampshire,Sediment Quality,NA
+2014,9,New Hampshire,Sediment Quality,NA
+2015,9,New Hampshire,Sediment Quality,NA
+2016,9,New Hampshire,Sediment Quality,NA
+2017,9,New Hampshire,Sediment Quality,NA
+2005,10,New York,Sediment Quality,NA
+2011,10,New York,Sediment Quality,NA
+2012,10,New York,Sediment Quality,NA
+2013,10,New York,Sediment Quality,NA
+2014,10,New York,Sediment Quality,NA
+2015,10,New York,Sediment Quality,NA
+2016,10,New York,Sediment Quality,NA
+2017,10,New York,Sediment Quality,NA
+2005,11,Rhode Island,Sediment Quality,NA
+2011,11,Rhode Island,Sediment Quality,NA
+2012,11,Rhode Island,Sediment Quality,NA
+2013,11,Rhode Island,Sediment Quality,NA
+2014,11,Rhode Island,Sediment Quality,NA
+2015,11,Rhode Island,Sediment Quality,NA
+2016,11,Rhode Island,Sediment Quality,NA
+2017,11,Rhode Island,Sediment Quality,NA
+2005,1,Offshore,Sediment Quality,NA
+2005,2,Georges Bank,Sediment Quality,NA
+2005,3,Gulf of Maine,Sediment Quality,NA
+2005,4,Mid-Atlantic Bight,Sediment Quality,NA
+2011,1,Offshore,Sediment Quality,NA
+2011,2,Georges Bank,Sediment Quality,NA
+2011,3,Gulf of Maine,Sediment Quality,NA
+2011,4,Mid-Atlantic Bight,Sediment Quality,NA
+2012,1,Offshore,Sediment Quality,NA
+2012,2,Georges Bank,Sediment Quality,NA
+2012,3,Gulf of Maine,Sediment Quality,NA
+2012,4,Mid-Atlantic Bight,Sediment Quality,NA
+2013,1,Offshore,Sediment Quality,NA
+2013,2,Georges Bank,Sediment Quality,NA
+2013,3,Gulf of Maine,Sediment Quality,NA
+2013,4,Mid-Atlantic Bight,Sediment Quality,NA
+2014,1,Offshore,Sediment Quality,NA
+2014,2,Georges Bank,Sediment Quality,NA
+2014,3,Gulf of Maine,Sediment Quality,NA
+2014,4,Mid-Atlantic Bight,Sediment Quality,NA
+2015,1,Offshore,Sediment Quality,NA
+2015,2,Georges Bank,Sediment Quality,NA
+2015,3,Gulf of Maine,Sediment Quality,NA
+2015,4,Mid-Atlantic Bight,Sediment Quality,NA
+2016,1,Offshore,Sediment Quality,NA
+2016,2,Georges Bank,Sediment Quality,NA
+2016,3,Gulf of Maine,Sediment Quality,NA
+2016,4,Mid-Atlantic Bight,Sediment Quality,NA
+2017,1,Offshore,Sediment Quality,NA
+2017,2,Georges Bank,Sediment Quality,NA
+2017,3,Gulf of Maine,Sediment Quality,NA
+2017,4,Mid-Atlantic Bight,Sediment Quality,NA
+2006,5,Connecticut,score,0.0561791075495324
+2007,5,Connecticut,score,0.0561791075495324
+2008,5,Connecticut,score,0.0770075765658025
+2009,5,Connecticut,score,0.0631670468364851
+2010,5,Connecticut,score,0.068176913278674
+2006,6,Maine,score,0.0413239993194548
+2007,6,Maine,score,0.0413239993194548
+2008,6,Maine,score,0.0795504853018354
+2009,6,Maine,score,0.0544588853804334
+2010,6,Maine,score,0.0555402119330438
+2006,7,Massachusetts-Gulf of Maine,score,0.0911788382575004
+2007,7,Massachusetts-Gulf of Maine,score,0.0911788382575004
+2008,7,Massachusetts-Gulf of Maine,score,0.0698309012030395
+2009,7,Massachusetts-Gulf of Maine,score,0.100409845795538
+2010,7,Massachusetts-Gulf of Maine,score,0.0672618889217683
+2006,8,Massachusetts-Virginian,score,0.0911788382575004
+2007,8,Massachusetts-Virginian,score,0.0911788382575004
+2008,8,Massachusetts-Virginian,score,0.0698309012030395
+2009,8,Massachusetts-Virginian,score,0.100409845795538
+2010,8,Massachusetts-Virginian,score,0.0672618889217683
+2006,9,New Hampshire,score,0.052203971530277
+2007,9,New Hampshire,score,0.052203971530277
+2008,9,New Hampshire,score,0.0471249115991535
+2009,9,New Hampshire,score,0.0691479713806855
+2010,9,New Hampshire,score,0.0621398315017857
+2006,10,New York,score,0.146367138808004
+2007,10,New York,score,0.146367138808004
+2008,10,New York,score,0.122773782026318
+2009,10,New York,score,0.133510835133623
+2010,10,New York,score,0.194153802080123
+2006,11,Rhode Island,score,0.111295776057822
+2007,11,Rhode Island,score,0.111295776057822
+2008,11,Rhode Island,score,0.0700346152294331
+2009,11,Rhode Island,score,0.090864953684223
+2010,11,Rhode Island,score,0.119018831189647
+2006,1,Offshore,score,NA
+2006,2,Georges Bank,score,NA
+2006,3,Gulf of Maine,score,NA
+2006,4,Mid-Atlantic Bight,score,NA
+2007,1,Offshore,score,NA
+2007,2,Georges Bank,score,NA
+2007,3,Gulf of Maine,score,NA
+2007,4,Mid-Atlantic Bight,score,NA
+2008,1,Offshore,score,NA
+2008,2,Georges Bank,score,NA
+2008,3,Gulf of Maine,score,NA
+2008,4,Mid-Atlantic Bight,score,NA
+2009,1,Offshore,score,NA
+2009,2,Georges Bank,score,NA
+2009,3,Gulf of Maine,score,NA
+2009,4,Mid-Atlantic Bight,score,NA
+2010,1,Offshore,score,NA
+2010,2,Georges Bank,score,NA
+2010,3,Gulf of Maine,score,NA
+2010,4,Mid-Atlantic Bight,score,NA
+2011,1,NA,score,NA
+2012,1,NA,score,NA
+2013,1,NA,score,NA
+2014,1,NA,score,NA
+2015,1,NA,score,NA
+2016,1,NA,score,NA
+2017,1,NA,score,NA
+2011,2,NA,score,NA
+2012,2,NA,score,NA
+2013,2,NA,score,NA
+2014,2,NA,score,NA
+2015,2,NA,score,NA
+2016,2,NA,score,NA
+2017,2,NA,score,NA
+2011,3,NA,score,NA
+2012,3,NA,score,NA
+2013,3,NA,score,NA
+2014,3,NA,score,NA
+2015,3,NA,score,NA
+2016,3,NA,score,NA
+2017,3,NA,score,NA
+2011,4,NA,score,NA
+2012,4,NA,score,NA
+2013,4,NA,score,NA
+2014,4,NA,score,NA
+2015,4,NA,score,NA
+2016,4,NA,score,NA
+2017,4,NA,score,NA
+2011,5,NA,score,0.109191525651312
+2012,5,NA,score,0.0546451672284442
+2013,5,NA,score,0.059224978634465
+2014,5,NA,score,0.155186633511917
+2015,5,NA,score,0.0979842681221681
+2016,5,NA,score,0.046710787430525
+2017,5,NA,score,0.0975980603086622
+2011,6,NA,score,0.0811111918296059
+2012,6,NA,score,0.0983969452092657
+2013,6,NA,score,0.0328740021438242
+2014,6,NA,score,0.0484835625931237
+2015,6,NA,score,0.15941200841577
+2016,6,NA,score,0.0346518179508198
+2017,6,NA,score,0.0445467780184721
+2011,7,NA,score,0.0770119997810882
+2012,7,NA,score,0.0541699091899264
+2013,7,NA,score,0.205479310657691
+2014,7,NA,score,0.18385457411772901
+2015,7,NA,score,0.232407430370739
+2016,7,NA,score,0.0516595512950766
+2017,7,NA,score,0.274715430294641
+2011,8,NA,score,0.0770119997810882
+2012,8,NA,score,0.0541699091899264
+2013,8,NA,score,0.205479310657691
+2014,8,NA,score,0.18385457411772901
+2015,8,NA,score,0.232407430370739
+2016,8,NA,score,0.0516595512950766
+2017,8,NA,score,0.274715430294641
+2011,9,NA,score,0.0699214569912737
+2012,9,NA,score,0.0285008654816154
+2013,9,NA,score,0.0202080850027468
+2014,9,NA,score,0.0499068946371528
+2015,9,NA,score,0.0715219049685454
+2016,9,NA,score,0.0505842007986834
+2017,9,NA,score,0.0639431333347913
+2011,10,NA,score,0.140950329357071
+2012,10,NA,score,0.102390262732963
+2013,10,NA,score,0.0926460341856739
+2014,10,NA,score,0.129148259395601
+2015,10,NA,score,0.156145106297117
+2016,10,NA,score,0.0931534080534765
+2017,10,NA,score,0.0509049604930487
+2011,11,NA,score,0.113528406218044
+2012,11,NA,score,0.0889219194471322
+2013,11,NA,score,0.0964293640830697
+2014,11,NA,score,0.0748656534144998
+2015,11,NA,score,0.0856918408755281
+2016,11,NA,score,0.0641362627564647
+2017,11,NA,score,0.0601823328985841
+2005,5,Connecticut,score,NA
+2011,5,Connecticut,score,NA
+2012,5,Connecticut,score,NA
+2013,5,Connecticut,score,NA
+2014,5,Connecticut,score,NA
+2015,5,Connecticut,score,NA
+2016,5,Connecticut,score,NA
+2017,5,Connecticut,score,NA
+2005,6,Maine,score,NA
+2011,6,Maine,score,NA
+2012,6,Maine,score,NA
+2013,6,Maine,score,NA
+2014,6,Maine,score,NA
+2015,6,Maine,score,NA
+2016,6,Maine,score,NA
+2017,6,Maine,score,NA
+2005,7,Massachusetts-North,score,NA
+2006,7,Massachusetts-North,score,NA
+2007,7,Massachusetts-North,score,NA
+2008,7,Massachusetts-North,score,NA
+2009,7,Massachusetts-North,score,NA
+2010,7,Massachusetts-North,score,NA
+2011,7,Massachusetts-North,score,NA
+2012,7,Massachusetts-North,score,NA
+2013,7,Massachusetts-North,score,NA
+2014,7,Massachusetts-North,score,NA
+2015,7,Massachusetts-North,score,NA
+2016,7,Massachusetts-North,score,NA
+2017,7,Massachusetts-North,score,NA
+2005,8,Massachusetts-South,score,NA
+2006,8,Massachusetts-South,score,NA
+2007,8,Massachusetts-South,score,NA
+2008,8,Massachusetts-South,score,NA
+2009,8,Massachusetts-South,score,NA
+2010,8,Massachusetts-South,score,NA
+2011,8,Massachusetts-South,score,NA
+2012,8,Massachusetts-South,score,NA
+2013,8,Massachusetts-South,score,NA
+2014,8,Massachusetts-South,score,NA
+2015,8,Massachusetts-South,score,NA
+2016,8,Massachusetts-South,score,NA
+2017,8,Massachusetts-South,score,NA
+2005,9,New Hampshire,score,NA
+2011,9,New Hampshire,score,NA
+2012,9,New Hampshire,score,NA
+2013,9,New Hampshire,score,NA
+2014,9,New Hampshire,score,NA
+2015,9,New Hampshire,score,NA
+2016,9,New Hampshire,score,NA
+2017,9,New Hampshire,score,NA
+2005,10,New York,score,NA
+2011,10,New York,score,NA
+2012,10,New York,score,NA
+2013,10,New York,score,NA
+2014,10,New York,score,NA
+2015,10,New York,score,NA
+2016,10,New York,score,NA
+2017,10,New York,score,NA
+2005,11,Rhode Island,score,NA
+2011,11,Rhode Island,score,NA
+2012,11,Rhode Island,score,NA
+2013,11,Rhode Island,score,NA
+2014,11,Rhode Island,score,NA
+2015,11,Rhode Island,score,NA
+2016,11,Rhode Island,score,NA
+2017,11,Rhode Island,score,NA
+2005,1,Offshore,score,NA
+2005,2,Georges Bank,score,NA
+2005,3,Gulf of Maine,score,NA
+2005,4,Mid-Atlantic Bight,score,NA
+2011,1,Offshore,score,NA
+2011,2,Georges Bank,score,NA
+2011,3,Gulf of Maine,score,NA
+2011,4,Mid-Atlantic Bight,score,NA
+2012,1,Offshore,score,NA
+2012,2,Georges Bank,score,NA
+2012,3,Gulf of Maine,score,NA
+2012,4,Mid-Atlantic Bight,score,NA
+2013,1,Offshore,score,NA
+2013,2,Georges Bank,score,NA
+2013,3,Gulf of Maine,score,NA
+2013,4,Mid-Atlantic Bight,score,NA
+2014,1,Offshore,score,NA
+2014,2,Georges Bank,score,NA
+2014,3,Gulf of Maine,score,NA
+2014,4,Mid-Atlantic Bight,score,NA
+2015,1,Offshore,score,NA
+2015,2,Georges Bank,score,NA
+2015,3,Gulf of Maine,score,NA
+2015,4,Mid-Atlantic Bight,score,NA
+2016,1,Offshore,score,NA
+2016,2,Georges Bank,score,NA
+2016,3,Gulf of Maine,score,NA
+2016,4,Mid-Atlantic Bight,score,NA
+2017,1,Offshore,score,NA
+2017,2,Georges Bank,score,NA
+2017,3,Gulf of Maine,score,NA
+2017,4,Mid-Atlantic Bight,score,NA
+2006,5,Connecticut,Trash,94.38208924504676
+2007,5,Connecticut,Trash,94.38208924504676
+2008,5,Connecticut,Trash,92.29924234341975
+2009,5,Connecticut,Trash,93.68329531635149
+2010,5,Connecticut,Trash,93.18230867213259
+2006,6,Maine,Trash,95.86760006805451
+2007,6,Maine,Trash,95.86760006805451
+2008,6,Maine,Trash,92.04495146981645
+2009,6,Maine,Trash,94.55411146195665
+2010,6,Maine,Trash,94.44597880669562
+2006,7,Massachusetts-Gulf of Maine,Trash,90.88211617424996
+2007,7,Massachusetts-Gulf of Maine,Trash,90.88211617424996
+2008,7,Massachusetts-Gulf of Maine,Trash,93.01690987969606
+2009,7,Massachusetts-Gulf of Maine,Trash,89.95901542044619
+2010,7,Massachusetts-Gulf of Maine,Trash,93.27381110782316
+2006,8,Massachusetts-Virginian,Trash,90.88211617424996
+2007,8,Massachusetts-Virginian,Trash,90.88211617424996
+2008,8,Massachusetts-Virginian,Trash,93.01690987969606
+2009,8,Massachusetts-Virginian,Trash,89.95901542044619
+2010,8,Massachusetts-Virginian,Trash,93.27381110782316
+2006,9,New Hampshire,Trash,94.7796028469723
+2007,9,New Hampshire,Trash,94.7796028469723
+2008,9,New Hampshire,Trash,95.28750884008464
+2009,9,New Hampshire,Trash,93.08520286193145
+2010,9,New Hampshire,Trash,93.78601684982144
+2006,10,New York,Trash,85.3632861191996
+2007,10,New York,Trash,85.3632861191996
+2008,10,New York,Trash,87.7226217973682
+2009,10,New York,Trash,86.6489164866377
+2010,10,New York,Trash,80.5846197919877
+2006,11,Rhode Island,Trash,88.8704223942178
+2007,11,Rhode Island,Trash,88.8704223942178
+2008,11,Rhode Island,Trash,92.99653847705669
+2009,11,Rhode Island,Trash,90.9135046315777
+2010,11,Rhode Island,Trash,88.09811688103531
+2006,1,Offshore,Trash,NA
+2006,2,Georges Bank,Trash,NA
+2006,3,Gulf of Maine,Trash,NA
+2006,4,Mid-Atlantic Bight,Trash,NA
+2007,1,Offshore,Trash,NA
+2007,2,Georges Bank,Trash,NA
+2007,3,Gulf of Maine,Trash,NA
+2007,4,Mid-Atlantic Bight,Trash,NA
+2008,1,Offshore,Trash,NA
+2008,2,Georges Bank,Trash,NA
+2008,3,Gulf of Maine,Trash,NA
+2008,4,Mid-Atlantic Bight,Trash,NA
+2009,1,Offshore,Trash,NA
+2009,2,Georges Bank,Trash,NA
+2009,3,Gulf of Maine,Trash,NA
+2009,4,Mid-Atlantic Bight,Trash,NA
+2010,1,Offshore,Trash,NA
+2010,2,Georges Bank,Trash,NA
+2010,3,Gulf of Maine,Trash,NA
+2010,4,Mid-Atlantic Bight,Trash,NA
+2011,1,NA,Trash,NA
+2012,1,NA,Trash,NA
+2013,1,NA,Trash,NA
+2014,1,NA,Trash,NA
+2015,1,NA,Trash,NA
+2016,1,NA,Trash,NA
+2017,1,NA,Trash,NA
+2011,2,NA,Trash,NA
+2012,2,NA,Trash,NA
+2013,2,NA,Trash,NA
+2014,2,NA,Trash,NA
+2015,2,NA,Trash,NA
+2016,2,NA,Trash,NA
+2017,2,NA,Trash,NA
+2011,3,NA,Trash,NA
+2012,3,NA,Trash,NA
+2013,3,NA,Trash,NA
+2014,3,NA,Trash,NA
+2015,3,NA,Trash,NA
+2016,3,NA,Trash,NA
+2017,3,NA,Trash,NA
+2011,4,NA,Trash,NA
+2012,4,NA,Trash,NA
+2013,4,NA,Trash,NA
+2014,4,NA,Trash,NA
+2015,4,NA,Trash,NA
+2016,4,NA,Trash,NA
+2017,4,NA,Trash,NA
+2011,5,NA,Trash,89.0808474348688
+2012,5,NA,Trash,94.53548327715558
+2013,5,NA,Trash,94.0775021365535
+2014,5,NA,Trash,84.48133664880831
+2015,5,NA,Trash,90.2015731877832
+2016,5,NA,Trash,95.3289212569475
+2017,5,NA,Trash,90.24019396913378
+2011,6,NA,Trash,91.88888081703941
+2012,6,NA,Trash,90.16030547907343
+2013,6,NA,Trash,96.71259978561758
+2014,6,NA,Trash,95.15164374068763
+2015,6,NA,Trash,84.058799158423
+2016,6,NA,Trash,96.53481820491801
+2017,6,NA,Trash,95.54532219815279
+2011,7,NA,Trash,92.29880002189118
+2012,7,NA,Trash,94.58300908100736
+2013,7,NA,Trash,79.45206893423091
+2014,7,NA,Trash,81.6145425882271
+2015,7,NA,Trash,76.7592569629261
+2016,7,NA,Trash,94.83404487049233
+2017,7,NA,Trash,72.5284569705359
+2011,8,NA,Trash,92.29880002189118
+2012,8,NA,Trash,94.58300908100736
+2013,8,NA,Trash,79.45206893423091
+2014,8,NA,Trash,81.6145425882271
+2015,8,NA,Trash,76.7592569629261
+2016,8,NA,Trash,94.83404487049233
+2017,8,NA,Trash,72.5284569705359
+2011,9,NA,Trash,93.00785430087262
+2012,9,NA,Trash,97.14991345183846
+2013,9,NA,Trash,97.97919149972532
+2014,9,NA,Trash,95.00931053628472
+2015,9,NA,Trash,92.84780950314546
+2016,9,NA,Trash,94.94157992013166
+2017,9,NA,Trash,93.60568666652087
+2011,10,NA,Trash,85.9049670642929
+2012,10,NA,Trash,89.7609737267037
+2013,10,NA,Trash,90.73539658143261
+2014,10,NA,Trash,87.0851740604399
+2015,10,NA,Trash,84.3854893702883
+2016,10,NA,Trash,90.68465919465235
+2017,10,NA,Trash,94.90950395069513
+2011,11,NA,Trash,88.64715937819561
+2012,11,NA,Trash,91.10780805528678
+2013,11,NA,Trash,90.35706359169303
+2014,11,NA,Trash,92.51343465855003
+2015,11,NA,Trash,91.4308159124472
+2016,11,NA,Trash,93.58637372435354
+2017,11,NA,Trash,93.981766710141585
+2005,5,Connecticut,Trash,NA
+2011,5,Connecticut,Trash,NA
+2012,5,Connecticut,Trash,NA
+2013,5,Connecticut,Trash,NA
+2014,5,Connecticut,Trash,NA
+2015,5,Connecticut,Trash,NA
+2016,5,Connecticut,Trash,NA
+2017,5,Connecticut,Trash,NA
+2005,6,Maine,Trash,NA
+2011,6,Maine,Trash,NA
+2012,6,Maine,Trash,NA
+2013,6,Maine,Trash,NA
+2014,6,Maine,Trash,NA
+2015,6,Maine,Trash,NA
+2016,6,Maine,Trash,NA
+2017,6,Maine,Trash,NA
+2005,7,Massachusetts-North,Trash,NA
+2006,7,Massachusetts-North,Trash,NA
+2007,7,Massachusetts-North,Trash,NA
+2008,7,Massachusetts-North,Trash,NA
+2009,7,Massachusetts-North,Trash,NA
+2010,7,Massachusetts-North,Trash,NA
+2011,7,Massachusetts-North,Trash,NA
+2012,7,Massachusetts-North,Trash,NA
+2013,7,Massachusetts-North,Trash,NA
+2014,7,Massachusetts-North,Trash,NA
+2015,7,Massachusetts-North,Trash,NA
+2016,7,Massachusetts-North,Trash,NA
+2017,7,Massachusetts-North,Trash,NA
+2005,8,Massachusetts-South,Trash,NA
+2006,8,Massachusetts-South,Trash,NA
+2007,8,Massachusetts-South,Trash,NA
+2008,8,Massachusetts-South,Trash,NA
+2009,8,Massachusetts-South,Trash,NA
+2010,8,Massachusetts-South,Trash,NA
+2011,8,Massachusetts-South,Trash,NA
+2012,8,Massachusetts-South,Trash,NA
+2013,8,Massachusetts-South,Trash,NA
+2014,8,Massachusetts-South,Trash,NA
+2015,8,Massachusetts-South,Trash,NA
+2016,8,Massachusetts-South,Trash,NA
+2017,8,Massachusetts-South,Trash,NA
+2005,9,New Hampshire,Trash,NA
+2011,9,New Hampshire,Trash,NA
+2012,9,New Hampshire,Trash,NA
+2013,9,New Hampshire,Trash,NA
+2014,9,New Hampshire,Trash,NA
+2015,9,New Hampshire,Trash,NA
+2016,9,New Hampshire,Trash,NA
+2017,9,New Hampshire,Trash,NA
+2005,10,New York,Trash,NA
+2011,10,New York,Trash,NA
+2012,10,New York,Trash,NA
+2013,10,New York,Trash,NA
+2014,10,New York,Trash,NA
+2015,10,New York,Trash,NA
+2016,10,New York,Trash,NA
+2017,10,New York,Trash,NA
+2005,11,Rhode Island,Trash,NA
+2011,11,Rhode Island,Trash,NA
+2012,11,Rhode Island,Trash,NA
+2013,11,Rhode Island,Trash,NA
+2014,11,Rhode Island,Trash,NA
+2015,11,Rhode Island,Trash,NA
+2016,11,Rhode Island,Trash,NA
+2017,11,Rhode Island,Trash,NA
+2005,1,Offshore,Trash,NA
+2005,2,Georges Bank,Trash,NA
+2005,3,Gulf of Maine,Trash,NA
+2005,4,Mid-Atlantic Bight,Trash,NA
+2011,1,Offshore,Trash,NA
+2011,2,Georges Bank,Trash,NA
+2011,3,Gulf of Maine,Trash,NA
+2011,4,Mid-Atlantic Bight,Trash,NA
+2012,1,Offshore,Trash,NA
+2012,2,Georges Bank,Trash,NA
+2012,3,Gulf of Maine,Trash,NA
+2012,4,Mid-Atlantic Bight,Trash,NA
+2013,1,Offshore,Trash,NA
+2013,2,Georges Bank,Trash,NA
+2013,3,Gulf of Maine,Trash,NA
+2013,4,Mid-Atlantic Bight,Trash,NA
+2014,1,Offshore,Trash,NA
+2014,2,Georges Bank,Trash,NA
+2014,3,Gulf of Maine,Trash,NA
+2014,4,Mid-Atlantic Bight,Trash,NA
+2015,1,Offshore,Trash,NA
+2015,2,Georges Bank,Trash,NA
+2015,3,Gulf of Maine,Trash,NA
+2015,4,Mid-Atlantic Bight,Trash,NA
+2016,1,Offshore,Trash,NA
+2016,2,Georges Bank,Trash,NA
+2016,3,Gulf of Maine,Trash,NA
+2016,4,Mid-Atlantic Bight,Trash,NA
+2017,1,Offshore,Trash,NA
+2017,2,Georges Bank,Trash,NA
+2017,3,Gulf of Maine,Trash,NA
+2017,4,Mid-Atlantic Bight,Trash,NA
+2006,5,Connecticut,perc_open,0.943589743589744
+2007,5,Connecticut,perc_open,0.965806451612903
+2008,5,Connecticut,perc_open,0.954347826086957
+2009,5,Connecticut,perc_open,0.964
+2010,5,Connecticut,perc_open,0.962432432432432
+2006,6,Maine,perc_open,0.925882352941176
+2007,6,Maine,perc_open,0.937586206896552
+2008,6,Maine,perc_open,0.9335
+2009,6,Maine,perc_open,0.936060606060606
+2010,6,Maine,perc_open,0.925185185185185
+2006,7,Massachusetts-Gulf of Maine,perc_open,NA
+2007,7,Massachusetts-Gulf of Maine,perc_open,NA
+2008,7,Massachusetts-Gulf of Maine,perc_open,NA
+2009,7,Massachusetts-Gulf of Maine,perc_open,NA
+2010,7,Massachusetts-Gulf of Maine,perc_open,NA
+2006,8,Massachusetts-Virginian,perc_open,NA
+2007,8,Massachusetts-Virginian,perc_open,NA
+2008,8,Massachusetts-Virginian,perc_open,NA
+2009,8,Massachusetts-Virginian,perc_open,NA
+2010,8,Massachusetts-Virginian,perc_open,NA
+2006,9,New Hampshire,perc_open,0.954
+2007,9,New Hampshire,perc_open,0.98
+2008,9,New Hampshire,perc_open,0.9675
+2009,9,New Hampshire,perc_open,0.976
+2010,9,New Hampshire,perc_open,0.968
+2006,10,New York,perc_open,0.880733944954128
+2007,10,New York,perc_open,0.891440677966102
+2008,10,New York,perc_open,0.89140350877193
+2009,10,New York,perc_open,0.87983606557377
+2010,10,New York,perc_open,0.94
+2006,11,Rhode Island,perc_open,0.638
+2007,11,Rhode Island,perc_open,0.954285714285714
+2008,11,Rhode Island,perc_open,0.938095238095238
+2009,11,Rhode Island,perc_open,0.894444444444444
+2010,11,Rhode Island,perc_open,0.961428571428571
+2006,1,Offshore,perc_open,NA
+2006,2,Georges Bank,perc_open,NA
+2006,3,Gulf of Maine,perc_open,NA
+2006,4,Mid-Atlantic Bight,perc_open,NA
+2007,1,Offshore,perc_open,NA
+2007,2,Georges Bank,perc_open,NA
+2007,3,Gulf of Maine,perc_open,NA
+2007,4,Mid-Atlantic Bight,perc_open,NA
+2008,1,Offshore,perc_open,NA
+2008,2,Georges Bank,perc_open,NA
+2008,3,Gulf of Maine,perc_open,NA
+2008,4,Mid-Atlantic Bight,perc_open,NA
+2009,1,Offshore,perc_open,NA
+2009,2,Georges Bank,perc_open,NA
+2009,3,Gulf of Maine,perc_open,NA
+2009,4,Mid-Atlantic Bight,perc_open,NA
+2010,1,Offshore,perc_open,NA
+2010,2,Georges Bank,perc_open,NA
+2010,3,Gulf of Maine,perc_open,NA
+2010,4,Mid-Atlantic Bight,perc_open,NA
+2011,1,NA,perc_open,NA
+2012,1,NA,perc_open,NA
+2013,1,NA,perc_open,NA
+2014,1,NA,perc_open,NA
+2015,1,NA,perc_open,NA
+2016,1,NA,perc_open,NA
+2017,1,NA,perc_open,NA
+2011,2,NA,perc_open,NA
+2012,2,NA,perc_open,NA
+2013,2,NA,perc_open,NA
+2014,2,NA,perc_open,NA
+2015,2,NA,perc_open,NA
+2016,2,NA,perc_open,NA
+2017,2,NA,perc_open,NA
+2011,3,NA,perc_open,NA
+2012,3,NA,perc_open,NA
+2013,3,NA,perc_open,NA
+2014,3,NA,perc_open,NA
+2015,3,NA,perc_open,NA
+2016,3,NA,perc_open,NA
+2017,3,NA,perc_open,NA
+2011,4,NA,perc_open,NA
+2012,4,NA,perc_open,NA
+2013,4,NA,perc_open,NA
+2014,4,NA,perc_open,NA
+2015,4,NA,perc_open,NA
+2016,4,NA,perc_open,NA
+2017,4,NA,perc_open,NA
+2011,5,NA,perc_open,NA
+2012,5,NA,perc_open,NA
+2013,5,NA,perc_open,NA
+2014,5,NA,perc_open,NA
+2015,5,NA,perc_open,NA
+2016,5,NA,perc_open,NA
+2017,5,NA,perc_open,NA
+2011,6,NA,perc_open,NA
+2012,6,NA,perc_open,NA
+2013,6,NA,perc_open,NA
+2014,6,NA,perc_open,NA
+2015,6,NA,perc_open,NA
+2016,6,NA,perc_open,NA
+2017,6,NA,perc_open,NA
+2011,7,NA,perc_open,NA
+2012,7,NA,perc_open,NA
+2013,7,NA,perc_open,NA
+2014,7,NA,perc_open,NA
+2015,7,NA,perc_open,NA
+2016,7,NA,perc_open,NA
+2017,7,NA,perc_open,NA
+2011,8,NA,perc_open,NA
+2012,8,NA,perc_open,NA
+2013,8,NA,perc_open,NA
+2014,8,NA,perc_open,NA
+2015,8,NA,perc_open,NA
+2016,8,NA,perc_open,NA
+2017,8,NA,perc_open,NA
+2011,9,NA,perc_open,NA
+2012,9,NA,perc_open,NA
+2013,9,NA,perc_open,NA
+2014,9,NA,perc_open,NA
+2015,9,NA,perc_open,NA
+2016,9,NA,perc_open,NA
+2017,9,NA,perc_open,NA
+2011,10,NA,perc_open,NA
+2012,10,NA,perc_open,NA
+2013,10,NA,perc_open,NA
+2014,10,NA,perc_open,NA
+2015,10,NA,perc_open,NA
+2016,10,NA,perc_open,NA
+2017,10,NA,perc_open,NA
+2011,11,NA,perc_open,NA
+2012,11,NA,perc_open,NA
+2013,11,NA,perc_open,NA
+2014,11,NA,perc_open,NA
+2015,11,NA,perc_open,NA
+2016,11,NA,perc_open,NA
+2017,11,NA,perc_open,NA
+2005,5,Connecticut,perc_open,0.948
+2011,5,Connecticut,perc_open,0.92156862745098
+2012,5,Connecticut,perc_open,0.958333333333333
+2013,5,Connecticut,perc_open,0.971351351351351
+2014,5,Connecticut,perc_open,0.964545454545455
+2015,5,Connecticut,perc_open,0.97448275862069
+2016,5,Connecticut,perc_open,0.94875
+2017,5,Connecticut,perc_open,0.951875
+2005,6,Maine,perc_open,0.9325
+2011,6,Maine,perc_open,0.937222222222222
+2012,6,Maine,perc_open,0.953809523809524
+2013,6,Maine,perc_open,0.898148148148148
+2014,6,Maine,perc_open,0.932647058823529
+2015,6,Maine,perc_open,0.932972972972973
+2016,6,Maine,perc_open,0.964857142857143
+2017,6,Maine,perc_open,0.970625
+2005,7,Massachusetts-North,perc_open,0.952816901408451
+2006,7,Massachusetts-North,perc_open,0.895
+2007,7,Massachusetts-North,perc_open,0.952753623188406
+2008,7,Massachusetts-North,perc_open,0.937763157894737
+2009,7,Massachusetts-North,perc_open,0.934336283185841
+2010,7,Massachusetts-North,perc_open,0.937093023255814
+2011,7,Massachusetts-North,perc_open,0.929438202247191
+2012,7,Massachusetts-North,perc_open,0.937
+2013,7,Massachusetts-North,perc_open,0.932650602409639
+2014,7,Massachusetts-North,perc_open,0.936938775510204
+2015,7,Massachusetts-North,perc_open,0.893571428571429
+2016,7,Massachusetts-North,perc_open,0.932
+2017,7,Massachusetts-North,perc_open,0.94093023255814
+2005,8,Massachusetts-South,perc_open,0.978
+2006,8,Massachusetts-South,perc_open,0.937741935483871
+2007,8,Massachusetts-South,perc_open,0.967741935483871
+2008,8,Massachusetts-South,perc_open,0.975
+2009,8,Massachusetts-South,perc_open,0.959183673469388
+2010,8,Massachusetts-South,perc_open,0.957931034482759
+2011,8,Massachusetts-South,perc_open,0.960625
+2012,8,Massachusetts-South,perc_open,0.956470588235294
+2013,8,Massachusetts-South,perc_open,0.962361111111111
+2014,8,Massachusetts-South,perc_open,0.949642857142857
+2015,8,Massachusetts-South,perc_open,0.949166666666667
+2016,8,Massachusetts-South,perc_open,0.962352941176471
+2017,8,Massachusetts-South,perc_open,0.956875
+2005,9,New Hampshire,perc_open,0.99
+2011,9,New Hampshire,perc_open,0.97
+2012,9,New Hampshire,perc_open,0.98
+2013,9,New Hampshire,perc_open,0.955
+2014,9,New Hampshire,perc_open,0.9625
+2015,9,New Hampshire,perc_open,0.98
+2016,9,New Hampshire,perc_open,0.94
+2017,9,New Hampshire,perc_open,0.97
+2005,10,New York,perc_open,0.922823529411765
+2011,10,New York,perc_open,0.910782122905028
+2012,10,New York,perc_open,0.872661290322581
+2013,10,New York,perc_open,0.897457627118644
+2014,10,New York,perc_open,0.889237288135593
+2015,10,New York,perc_open,0.876525423728814
+2016,10,New York,perc_open,0.911794871794872
+2017,10,New York,perc_open,0.839541984732824
+2005,11,Rhode Island,perc_open,0.912
+2011,11,Rhode Island,perc_open,0.956666666666667
+2012,11,Rhode Island,perc_open,0.971538461538462
+2013,11,Rhode Island,perc_open,0.932666666666667
+2014,11,Rhode Island,perc_open,0.973125
+2015,11,Rhode Island,perc_open,0.961666666666667
+2016,11,Rhode Island,perc_open,0.964285714285714
+2017,11,Rhode Island,perc_open,0.938
+2005,1,Offshore,perc_open,NA
+2005,2,Georges Bank,perc_open,NA
+2005,3,Gulf of Maine,perc_open,NA
+2005,4,Mid-Atlantic Bight,perc_open,NA
+2011,1,Offshore,perc_open,NA
+2011,2,Georges Bank,perc_open,NA
+2011,3,Gulf of Maine,perc_open,NA
+2011,4,Mid-Atlantic Bight,perc_open,NA
+2012,1,Offshore,perc_open,NA
+2012,2,Georges Bank,perc_open,NA
+2012,3,Gulf of Maine,perc_open,NA
+2012,4,Mid-Atlantic Bight,perc_open,NA
+2013,1,Offshore,perc_open,NA
+2013,2,Georges Bank,perc_open,NA
+2013,3,Gulf of Maine,perc_open,NA
+2013,4,Mid-Atlantic Bight,perc_open,NA
+2014,1,Offshore,perc_open,NA
+2014,2,Georges Bank,perc_open,NA
+2014,3,Gulf of Maine,perc_open,NA
+2014,4,Mid-Atlantic Bight,perc_open,NA
+2015,1,Offshore,perc_open,NA
+2015,2,Georges Bank,perc_open,NA
+2015,3,Gulf of Maine,perc_open,NA
+2015,4,Mid-Atlantic Bight,perc_open,NA
+2016,1,Offshore,perc_open,NA
+2016,2,Georges Bank,perc_open,NA
+2016,3,Gulf of Maine,perc_open,NA
+2016,4,Mid-Atlantic Bight,perc_open,NA
+2017,1,Offshore,perc_open,NA
+2017,2,Georges Bank,perc_open,NA
+2017,3,Gulf of Maine,perc_open,NA
+2017,4,Mid-Atlantic Bight,perc_open,NA
+2006,5,Connecticut,Pathogens,94.35897435897441
+2007,5,Connecticut,Pathogens,96.5806451612903
+2008,5,Connecticut,Pathogens,95.4347826086957
+2009,5,Connecticut,Pathogens,96.39999999999999
+2010,5,Connecticut,Pathogens,96.2432432432432
+2006,6,Maine,Pathogens,92.58823529411761
+2007,6,Maine,Pathogens,93.7586206896552
+2008,6,Maine,Pathogens,93.35
+2009,6,Maine,Pathogens,93.60606060606061
+2010,6,Maine,Pathogens,92.5185185185185
+2006,7,Massachusetts-Gulf of Maine,Pathogens,NA
+2007,7,Massachusetts-Gulf of Maine,Pathogens,NA
+2008,7,Massachusetts-Gulf of Maine,Pathogens,NA
+2009,7,Massachusetts-Gulf of Maine,Pathogens,NA
+2010,7,Massachusetts-Gulf of Maine,Pathogens,NA
+2006,8,Massachusetts-Virginian,Pathogens,NA
+2007,8,Massachusetts-Virginian,Pathogens,NA
+2008,8,Massachusetts-Virginian,Pathogens,NA
+2009,8,Massachusetts-Virginian,Pathogens,NA
+2010,8,Massachusetts-Virginian,Pathogens,NA
+2006,9,New Hampshire,Pathogens,95.39999999999999
+2007,9,New Hampshire,Pathogens,98
+2008,9,New Hampshire,Pathogens,96.75
+2009,9,New Hampshire,Pathogens,97.6
+2010,9,New Hampshire,Pathogens,96.8
+2006,10,New York,Pathogens,88.0733944954128
+2007,10,New York,Pathogens,89.1440677966102
+2008,10,New York,Pathogens,89.140350877193
+2009,10,New York,Pathogens,87.983606557377
+2010,10,New York,Pathogens,94
+2006,11,Rhode Island,Pathogens,63.800000000000004
+2007,11,Rhode Island,Pathogens,95.4285714285714
+2008,11,Rhode Island,Pathogens,93.8095238095238
+2009,11,Rhode Island,Pathogens,89.4444444444444
+2010,11,Rhode Island,Pathogens,96.1428571428571
+2006,1,Offshore,Pathogens,NA
+2006,2,Georges Bank,Pathogens,NA
+2006,3,Gulf of Maine,Pathogens,NA
+2006,4,Mid-Atlantic Bight,Pathogens,NA
+2007,1,Offshore,Pathogens,NA
+2007,2,Georges Bank,Pathogens,NA
+2007,3,Gulf of Maine,Pathogens,NA
+2007,4,Mid-Atlantic Bight,Pathogens,NA
+2008,1,Offshore,Pathogens,NA
+2008,2,Georges Bank,Pathogens,NA
+2008,3,Gulf of Maine,Pathogens,NA
+2008,4,Mid-Atlantic Bight,Pathogens,NA
+2009,1,Offshore,Pathogens,NA
+2009,2,Georges Bank,Pathogens,NA
+2009,3,Gulf of Maine,Pathogens,NA
+2009,4,Mid-Atlantic Bight,Pathogens,NA
+2010,1,Offshore,Pathogens,NA
+2010,2,Georges Bank,Pathogens,NA
+2010,3,Gulf of Maine,Pathogens,NA
+2010,4,Mid-Atlantic Bight,Pathogens,NA
+2011,1,NA,Pathogens,NA
+2012,1,NA,Pathogens,NA
+2013,1,NA,Pathogens,NA
+2014,1,NA,Pathogens,NA
+2015,1,NA,Pathogens,NA
+2016,1,NA,Pathogens,NA
+2017,1,NA,Pathogens,NA
+2011,2,NA,Pathogens,NA
+2012,2,NA,Pathogens,NA
+2013,2,NA,Pathogens,NA
+2014,2,NA,Pathogens,NA
+2015,2,NA,Pathogens,NA
+2016,2,NA,Pathogens,NA
+2017,2,NA,Pathogens,NA
+2011,3,NA,Pathogens,NA
+2012,3,NA,Pathogens,NA
+2013,3,NA,Pathogens,NA
+2014,3,NA,Pathogens,NA
+2015,3,NA,Pathogens,NA
+2016,3,NA,Pathogens,NA
+2017,3,NA,Pathogens,NA
+2011,4,NA,Pathogens,NA
+2012,4,NA,Pathogens,NA
+2013,4,NA,Pathogens,NA
+2014,4,NA,Pathogens,NA
+2015,4,NA,Pathogens,NA
+2016,4,NA,Pathogens,NA
+2017,4,NA,Pathogens,NA
+2011,5,NA,Pathogens,NA
+2012,5,NA,Pathogens,NA
+2013,5,NA,Pathogens,NA
+2014,5,NA,Pathogens,NA
+2015,5,NA,Pathogens,NA
+2016,5,NA,Pathogens,NA
+2017,5,NA,Pathogens,NA
+2011,6,NA,Pathogens,NA
+2012,6,NA,Pathogens,NA
+2013,6,NA,Pathogens,NA
+2014,6,NA,Pathogens,NA
+2015,6,NA,Pathogens,NA
+2016,6,NA,Pathogens,NA
+2017,6,NA,Pathogens,NA
+2011,7,NA,Pathogens,NA
+2012,7,NA,Pathogens,NA
+2013,7,NA,Pathogens,NA
+2014,7,NA,Pathogens,NA
+2015,7,NA,Pathogens,NA
+2016,7,NA,Pathogens,NA
+2017,7,NA,Pathogens,NA
+2011,8,NA,Pathogens,NA
+2012,8,NA,Pathogens,NA
+2013,8,NA,Pathogens,NA
+2014,8,NA,Pathogens,NA
+2015,8,NA,Pathogens,NA
+2016,8,NA,Pathogens,NA
+2017,8,NA,Pathogens,NA
+2011,9,NA,Pathogens,NA
+2012,9,NA,Pathogens,NA
+2013,9,NA,Pathogens,NA
+2014,9,NA,Pathogens,NA
+2015,9,NA,Pathogens,NA
+2016,9,NA,Pathogens,NA
+2017,9,NA,Pathogens,NA
+2011,10,NA,Pathogens,NA
+2012,10,NA,Pathogens,NA
+2013,10,NA,Pathogens,NA
+2014,10,NA,Pathogens,NA
+2015,10,NA,Pathogens,NA
+2016,10,NA,Pathogens,NA
+2017,10,NA,Pathogens,NA
+2011,11,NA,Pathogens,NA
+2012,11,NA,Pathogens,NA
+2013,11,NA,Pathogens,NA
+2014,11,NA,Pathogens,NA
+2015,11,NA,Pathogens,NA
+2016,11,NA,Pathogens,NA
+2017,11,NA,Pathogens,NA
+2005,5,Connecticut,Pathogens,94.8
+2011,5,Connecticut,Pathogens,92.156862745098
+2012,5,Connecticut,Pathogens,95.8333333333333
+2013,5,Connecticut,Pathogens,97.1351351351351
+2014,5,Connecticut,Pathogens,96.45454545454551
+2015,5,Connecticut,Pathogens,97.448275862069
+2016,5,Connecticut,Pathogens,94.875
+2017,5,Connecticut,Pathogens,95.1875
+2005,6,Maine,Pathogens,93.25
+2011,6,Maine,Pathogens,93.7222222222222
+2012,6,Maine,Pathogens,95.3809523809524
+2013,6,Maine,Pathogens,89.81481481481481
+2014,6,Maine,Pathogens,93.2647058823529
+2015,6,Maine,Pathogens,93.2972972972973
+2016,6,Maine,Pathogens,96.4857142857143
+2017,6,Maine,Pathogens,97.0625
+2005,7,Massachusetts-North,Pathogens,95.2816901408451
+2006,7,Massachusetts-North,Pathogens,89.5
+2007,7,Massachusetts-North,Pathogens,95.27536231884059
+2008,7,Massachusetts-North,Pathogens,93.7763157894737
+2009,7,Massachusetts-North,Pathogens,93.43362831858411
+2010,7,Massachusetts-North,Pathogens,93.7093023255814
+2011,7,Massachusetts-North,Pathogens,92.9438202247191
+2012,7,Massachusetts-North,Pathogens,93.7
+2013,7,Massachusetts-North,Pathogens,93.2650602409639
+2014,7,Massachusetts-North,Pathogens,93.69387755102039
+2015,7,Massachusetts-North,Pathogens,89.3571428571429
+2016,7,Massachusetts-North,Pathogens,93.2
+2017,7,Massachusetts-North,Pathogens,94.093023255814
+2005,8,Massachusetts-South,Pathogens,97.8
+2006,8,Massachusetts-South,Pathogens,93.7741935483871
+2007,8,Massachusetts-South,Pathogens,96.7741935483871
+2008,8,Massachusetts-South,Pathogens,97.5
+2009,8,Massachusetts-South,Pathogens,95.91836734693881
+2010,8,Massachusetts-South,Pathogens,95.7931034482759
+2011,8,Massachusetts-South,Pathogens,96.0625
+2012,8,Massachusetts-South,Pathogens,95.64705882352939
+2013,8,Massachusetts-South,Pathogens,96.2361111111111
+2014,8,Massachusetts-South,Pathogens,94.9642857142857
+2015,8,Massachusetts-South,Pathogens,94.9166666666667
+2016,8,Massachusetts-South,Pathogens,96.2352941176471
+2017,8,Massachusetts-South,Pathogens,95.6875
+2005,9,New Hampshire,Pathogens,99
+2011,9,New Hampshire,Pathogens,97
+2012,9,New Hampshire,Pathogens,98
+2013,9,New Hampshire,Pathogens,95.5
+2014,9,New Hampshire,Pathogens,96.25
+2015,9,New Hampshire,Pathogens,98
+2016,9,New Hampshire,Pathogens,94
+2017,9,New Hampshire,Pathogens,97
+2005,10,New York,Pathogens,92.2823529411765
+2011,10,New York,Pathogens,91.0782122905028
+2012,10,New York,Pathogens,87.2661290322581
+2013,10,New York,Pathogens,89.7457627118644
+2014,10,New York,Pathogens,88.9237288135593
+2015,10,New York,Pathogens,87.6525423728814
+2016,10,New York,Pathogens,91.1794871794872
+2017,10,New York,Pathogens,83.9541984732824
+2005,11,Rhode Island,Pathogens,91.2
+2011,11,Rhode Island,Pathogens,95.6666666666667
+2012,11,Rhode Island,Pathogens,97.1538461538462
+2013,11,Rhode Island,Pathogens,93.2666666666667
+2014,11,Rhode Island,Pathogens,97.3125
+2015,11,Rhode Island,Pathogens,96.1666666666667
+2016,11,Rhode Island,Pathogens,96.4285714285714
+2017,11,Rhode Island,Pathogens,93.8
+2005,1,Offshore,Pathogens,NA
+2005,2,Georges Bank,Pathogens,NA
+2005,3,Gulf of Maine,Pathogens,NA
+2005,4,Mid-Atlantic Bight,Pathogens,NA
+2011,1,Offshore,Pathogens,NA
+2011,2,Georges Bank,Pathogens,NA
+2011,3,Gulf of Maine,Pathogens,NA
+2011,4,Mid-Atlantic Bight,Pathogens,NA
+2012,1,Offshore,Pathogens,NA
+2012,2,Georges Bank,Pathogens,NA
+2012,3,Gulf of Maine,Pathogens,NA
+2012,4,Mid-Atlantic Bight,Pathogens,NA
+2013,1,Offshore,Pathogens,NA
+2013,2,Georges Bank,Pathogens,NA
+2013,3,Gulf of Maine,Pathogens,NA
+2013,4,Mid-Atlantic Bight,Pathogens,NA
+2014,1,Offshore,Pathogens,NA
+2014,2,Georges Bank,Pathogens,NA
+2014,3,Gulf of Maine,Pathogens,NA
+2014,4,Mid-Atlantic Bight,Pathogens,NA
+2015,1,Offshore,Pathogens,NA
+2015,2,Georges Bank,Pathogens,NA
+2015,3,Gulf of Maine,Pathogens,NA
+2015,4,Mid-Atlantic Bight,Pathogens,NA
+2016,1,Offshore,Pathogens,NA
+2016,2,Georges Bank,Pathogens,NA
+2016,3,Gulf of Maine,Pathogens,NA
+2016,4,Mid-Atlantic Bight,Pathogens,NA
+2017,1,Offshore,Pathogens,NA
+2017,2,Georges Bank,Pathogens,NA
+2017,3,Gulf of Maine,Pathogens,NA
+2017,4,Mid-Atlantic Bight,Pathogens,NA

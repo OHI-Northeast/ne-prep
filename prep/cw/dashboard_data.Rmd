@@ -1,5 +1,5 @@
 ---
-title: "Prep clean waters data layers for dashboard"
+title: "Clean Waters Dashboard Data"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ output:
 
 ## Summary
 
-The trash layer is derived from [Ocean Conservancy data](https://oceanconservancy.org/trash-free-seas/international-coastal-cleanup/annual-data-release/)) on the pounds of trash collected on International Coastal Cleanup Day.
+Create data for the Clean Waters goal page on the OHI Dashboard. This includes the data information table, and individual layer scores.
 
 ```{r setup, message = F, warning = F, reslts = 'hide'}
 
@@ -26,14 +26,61 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', messag
 
 source('~/github/ne-prep/src/R/common.R')
 
+library(readr)
 library(tidyverse)
+library(DT)
 ```
 
 ## Data Wrangling
 
 ```{r}
 
+  ## Water quality index. The higher the better
+  wqi <- read_csv("~/github/ne-scores/region/layers/cw_wqi.csv") %>%
+    rename(`Water Quality` = score)
 
+  ## Sediment quality index. The higher the better
+  sqi <- read_csv("~/github/ne-scores/region/layers/cw_sqi.csv") %>%
+    rename(`Sediment Quality` = score) 
+
+  ## trash calculated from pounds per person. The lower the better so here I inverse the values.
+  trash <- read_csv("~/github/ne-scores/region/layers/cw_trash.csv") %>%
+    select(-X1) %>%
+    mutate(Trash = (1-score)*100)
+
+  path <- read_csv("~/github/ne-scores/region/layers/cw_pathogens.csv") %>%
+    select(-X1) %>%
+    mutate(Pathogens = perc_open * 100)
+
+  ## combine layers
+  cw_data <- wqi %>%
+    full_join(sqi) %>%
+    full_join(trash) %>%
+    full_join(path) %>%
+    gather(key = layer, value = value, -rgn_id, -rgn_name, -year)
+
+  ## saving cw_data for dashboard -- CONSIDER DOING THIS IN PREP
+  write_csv(cw_data, "data/region_layer_scores.csv")
+```
+
+## Data Information table
+
+```{r}
+cw_data_info <- data.frame(
+  Layer = c("Pathogens", "Trash", "Water Quality", "Sediment Quality"),
+  Description = c("Number of beach day closures as recorded by the EPA Beach Closure Data",
+                  "Pounds of trash collected per person at the Ocean Conservancy’s International coastal cleanup day data",
+                  "EPA's National Coastal Condition Assessment Water Quality Index status classifications",
+                  "EPA's National Coastal Condition Assessment Sediment Quality Index status classifications"),
+  Target = c("100 days free of any beach closures, representing the average length of the swimming season for the region",
+             "Zero pounds of trash collected on all beaches on International Coastal Cleanup Day",
+             "All monitoring sites classified as in “Good” water quality condition",
+             "All monitoring sites classified as in “Good” sediment quality condition")
+)
+
+write_csv(cw_data_info, "data/cw_data_info.csv")
+
+DT::datatable(cw_data_info)
 ```
 
 
