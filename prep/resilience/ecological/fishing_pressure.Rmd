@@ -61,23 +61,25 @@ library(mapview)
 ```
 
 
-Data
+Load Data
 ```{r}
-
 all_species_caught_assessment_summary <- read_csv("~/github/ne-prep/prep/fis/data/all_species_caught_assessment_summary.csv")
 nmfs_spatial_catch_by_ohi_rgn <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv")
+nmfs_stock_ass <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_assessment_data.csv")%>% select(-X1)
+ram_stock_ass  <- read_csv("~/github/ne-prep/prep/fis/data/ram_stock_assessment_data.csv")%>% select(-X1)
+```
 
+
+Create dataframe of all species ever caught
+```{r}
 catch <- nmfs_spatial_catch_by_ohi_rgn %>% 
   select(species, rgn_id, rgn_name) %>% 
   distinct() %>% 
   rename(nmfs_original_species = species)
-
 ```
 
-##Percent of species landed that have stock assessments, by NEOHI Region
-not over time
+Create dataframe of all species that have ever had a stock assessment done
 ```{r}
-
 assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("nmfs_original_species")) %>% 
   select(nmfs_original_species, rgn_id, rgn_name, assessed) %>% 
   filter(nmfs_original_species !="CRAB, SPECIES NOT SPECIFIED", 
@@ -120,6 +122,10 @@ assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("n
     assessed == "no" ~ 0,
     assessed == "yes" ~ 1))
   
+```
+
+Percent of species landed that have stock assessments, by NEOHI Region (not over time)
+```{r}
 total_species_caught <- assessments %>% 
   group_by(rgn_id, rgn_name) %>% 
   count() %>% 
@@ -136,12 +142,10 @@ total_species_assessed
 percent_assessed_by_region <-left_join(total_species_caught, total_species_assessed, by = c("rgn_id", "rgn_name")) %>% 
   mutate(percent = assessed/caught)
 percent_assessed_by_region
-
 ```
 
 Visualization
 ```{r}
-
 percent_assesses_graph <- ggplot(percent_assessed_by_region)+
   geom_point(aes(x=rgn_name, y= percent), size=2)+
     ggtitle("Percentage of Fish Landed in Northeast with Stock Assessments") +
@@ -151,10 +155,9 @@ percent_assesses_graph <- ggplot(percent_assessed_by_region)+
   theme(axis.text.x = element_text(angle=60, hjust=1))
 
 percent_assesses_graph  
-  
 ```
 
-Stock Assessment Score
+Calculate score for havingStock Assessment Score
 ```{r}
 
 assessment_score <- percent_assessed_by_region %>% 
@@ -334,8 +337,6 @@ nmfs_catch <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi
   select(nmfs_original_species, species_low, year) %>%
   distinct()
 
-nmfs_stock_ass <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_assessment_data.csv")%>% select(-X1)
-ram_stock_ass  <- read_csv("~/github/ne-prep/prep/fis/data/ram_stock_assessment_data.csv")%>% select(-X1)
 
 ```
 
