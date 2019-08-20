@@ -282,7 +282,7 @@ write.csv(marine_protected_by_rgn,"data/marine_protected_by_rgn")
 Calculate Scores
 ```{r}
 protected_score <- marine_protected_by_rgn %>% 
-  select(rgn_id, year, prop_area) %>% 
+  select(rgn_id, rgn_name, year, prop_area) %>% 
   mutate(target = 0.3) %>% 
   mutate(score = prop_area/target,
          score = if_else(score > 1, 1, score)) %>% 
@@ -563,9 +563,8 @@ comp_dataset <- m2 %>%
 
 
 End of where mostly copied code
-lots of data tiddying/wrangling here for location of species that don't have a region associtated with them
-```{r}
 
+```{r}
 time_series_assessed <- m2 %>%
   left_join(comp_dataset, by =  c("year", "nmfs_original_species", "stock_assessment_species_name", "stock_assessment_species_location", "stockid", "source", "stock")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
@@ -574,53 +573,274 @@ time_series_assessed <- m2 %>%
   filter(!is.na(year)) %>%   #peices of skates andmonk fish, and both golden and bluelined tilefish
   unite(stock_long, stock_assessment_species_name, stock_assessment_species_location, sep = "-") %>% 
   select(year, stock_long, rgn_id, rgn_name) %>%
-  filter(year >=2001 & year <= 2019) %>% 
+  filter(year >=2001 & year <= 2017) %>% 
   mutate(ass= 1) %>% 
-  group_by(stock_long) %>% 
-  #mutate(assesment_sum_5yr = zoo::rollapply(ass, 5, FUN = sum, na.rm = F, partial = T), # align = "right"
-  #       adeq_assessed = if_else(assesment_sum_5yr >= 1, 1, 0)) %>% 
-  ungroup() %>% 
-  
+  group_by(stock_long)
+  ungroup() 
+```
 
-%>% 
-  mutate(rgn_name = case_when(stock_long == "skipjack tuna-Western Atlantic" ~ rep(11)))
+Some species have a stock assessment done but not landed so the region shows up as NA. when joining regions and fish caught, it is only by NNMFS original species name so the location information did not transfer. After looking back through the code and trying to find a place upstream to fix this, I decided to change it here.
 
+blurb about how assumed when a fish caught has no region assinseg to it that its everywher. they are all Atalntic so seems like a logical train of thought
 
-
-
-
+```{r}
 noloc <- time_series_assessed %>% 
   filter(is.na(rgn_name))
 
 unique(noloc$stock_long)
 
+#create df of just the regions
+regions <- time_series_assessed %>% 
+  select(rgn_name, rgn_id) %>% 
+  distinct() %>% 
+  filter(!is.na(rgn_name))
 
+
+```
+
+sea scallop-Northwestern Atlantic Coast
+```{r}
+regions_scal <- regions %>% 
+  rbind(regions)
+
+scallop <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "sea scallop-Northwestern Atlantic Coast") %>% 
+  slice(rep(1:n(), each = 11)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_scal)
+```
+
+tilefish-Mid-Atlantic Coast
+```{r}
+regions_tile <- regions %>% 
+  rbind(regions)
+
+tile <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "tilefish-Mid-Atlantic Coast") %>% 
+  slice(rep(1:n(), each = 11)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_tile)
+```
+
+rosette skate-Southern New England / Mid-Atlantic
+```{r}
+regions_ros <- regions %>% 
+  slice(rep(row_number(), 10)) # 10 is the number years
+
+ros <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "rosette skate-Southern New England / Mid-Atlantic") %>% 
+  slice(rep(1:n(), each = 11)) %>% # 11 is the number of regions that this fish is 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_ros)
+```
+
+thorny skate-Gulf of Maine
+```{r}
+regions_th_sk <- regions %>% 
+  slice(rep(row_number(), 3)) %>% 
+  filter(rgn_id == 2 | rgn_id == 3 | rgn_id == 6 | rgn_id == 7 | rgn_id == 8 | rgn_id == 9)
+
+th_sk <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "thorny skate-Gulf of Maine"  ) %>% 
+  slice(rep(1:n(), each = 6)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_th_sk)
+```
+
+blue marlin-Atlantic Ocean
+```{r}
+regions_blue_marlin <- regions %>% 
+  slice(rep(row_number(), 10)) 
+
+blue_marlin <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "blue marlin-Atlantic Ocean" ) %>% 
+  slice(rep(1:n(), each = 11)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_blue_marlin)
+```
+
+skipjack tuna-Western Atlantic
+```{r}
+regions_skip_tuna <- regions %>% 
+  slice(rep(row_number(), 8)) %>% 
+  filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 5 |rgn_id == 8 | rgn_id == 10 | rgn_id == 11)
+
+skip_tuna <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "skipjack tuna-Western Atlantic" ) %>% 
+  slice(rep(1:n(), each = 7)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_skip_tuna)
+```
+
+white marlin-Atlantic Ocean
+```{r}
+regions_white_marlin <- regions %>% 
+  slice(rep(row_number(), 10))
+
+white_marlin <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "white marlin-Atlantic Ocean" ) %>% 
+  slice(rep(1:n(), each = 11)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_white_marlin)
+```
+
+atlantic salmon-Gulf of Maine
+```{r}
+regions_salmon <- regions %>% 
+  slice(rep(row_number(), 2)) %>% 
+  filter(rgn_name == "Gulf of Maine")
+
+salmon <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "atlantic salmon-Gulf of Maine")  # assuming only caught in te GOM because don't have more info
+  select(year, stock_long, ass) %>% 
+  cbind(regions_salmon)
+```
+
+clearnose skate-Southern New England / Mid-Atlantic
+```{r}
+regions_clear_sk <- regions %>% 
+  slice(rep(row_number(), 7))%>% 
+  filter(rgn_id == 2 | rgn_id == 4 |rgn_id == 5 | rgn_id == 8 |rgn_id == 10 | rgn_id == 11 )
+
+clear_sk <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "clearnose skate-Southern New England / Mid-Atlantic" ) %>% 
+  slice(rep(1:n(), each = 6)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_clear_sk)
+```
+
+smooth skate-Gulf of Maine
+```{r}
+regions_smooth_sk <- regions %>% 
+  slice(rep(row_number(), 5))%>% 
+  filter(rgn_id == 3 | rgn_id == 4 |rgn_id == 7 | rgn_id == 10)
+
+smooth_sk <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "smooth skate-Gulf of Maine" ) %>% 
+  slice(rep(1:n(), each = 4)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_smooth_sk )
+```
+
+bigeye tuna-Atlantic Ocean
+```{r}
+regions_big_tuna <- regions %>% 
+  slice(rep(row_number(), 6))%>% 
+  filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 10 | rgn_id == 8)
+
+big_tuna <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "bigeye tuna-Atlantic Ocean" ) %>% 
+  slice(rep(1:n(), each = 5)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_big_tuna )
+```
+
+sailfish-Western Atlantic
+```{r}
+regions_sail <- regions %>% 
+  slice(rep(row_number(), 8))
+
+sail <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "sailfish-Western Atlantic" ) %>% 
+  slice(rep(1:n(), each = 11)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_sail)
+```
+
+swordfish-Northern Atlantic
+```{r}
+regions_sword <- regions %>% 
+  slice(rep(row_number(), 4))%>% 
+  filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 8)
+
+sword <- time_series_assessed %>% 
+  filter(is.na(rgn_name),
+         stock_long == "swordfish-Northern Atlantic" ) %>% 
+  slice(rep(1:n(), each = 4)) %>% 
+  select(year, stock_long, ass) %>% 
+  cbind(regions_sword)
+```
+
+combine all together!
+```{r}
+missing_locations <- rbind(scallop, tile, ros, th_sk, blue_marlin, skip_tuna, white_marlin, salmon, clear_sk, smooth_sk, big_tuna, sail, sword)
+```
+
+
+take all the unknown locations out and bind the new df that has that info
+```{r}
+
+time_series_assessed_2 <- time_series_assessed %>% 
+  filter(stock_long != "sea scallop-Northwestern Atlantic Coast" & !is.na(rgn_id),
+         stock_long != "tilefish-Mid-Atlantic Coast" & !is.na(rgn_id),
+         stock_long != "rosette skate-Southern New England / Mid-Atlantic" & !is.na(rgn_id),
+         stock_long != "thorny skate-Gulf of Maine" & !is.na(rgn_id),
+         stock_long != "blue marlin-Atlantic Ocean" & !is.na(rgn_id),
+         stock_long != "skipjack tuna-Western Atlantic" & !is.na(rgn_id),
+         stock_long != "white marlin-Atlantic Ocean" & !is.na(rgn_id),
+         stock_long != "atlantic salmon-Gulf of Maine" & !is.na(rgn_id),
+         stock_long != "clearnose skate-Southern New England / Mid-Atlantic" & !is.na(rgn_id),
+         stock_long != "smooth skate-Gulf of Maine" & !is.na(rgn_id),
+         stock_long != "bigeye tuna-Atlantic Ocean" & !is.na(rgn_id),
+         stock_long != "sailfish-Western Atlantic" & !is.na(rgn_id),
+         stock_long != "swordfish-Northern Atlantic" & !is.na(rgn_id)) %>% 
+  rbind(missing_locations)
+  
+```
+
+create df for all areas adn all years to fill in for years wit no assessments later
+```{r}
+all_fish<- time_series_assessed_2 %>% 
+  select(stock_long, rgn_id, rgn_name) %>% 
+  distinct() %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
+```
+combining
+```{r}
+assessment_frq  <- all_fish %>% 
+  left_join(time_series_assessed_2, by = c("year", "rgn_name", "rgn_id", "stock_long")) %>% 
+  distinct() %>% 
+  replace(., is.na(.), "0") %>% 
+  mutate(ass = as.numeric(ass)) %>% 
+  group_by(stock_long) %>% 
+  mutate(assesment_sum_5yr = zoo::rollapply(ass, 5, FUN = sum, na.rm = F, partial = T, align = "right"), 
+         adeq_assessed = if_else(assesment_sum_5yr >= 1, 1, 0)) %>% 
+  ungroup() 
 ```
 
 
 ```{r}
-missing_locations <- time_series_assessed %>% 
-  filter(is.na(rgn_id)) %>% 
-  mutate(s2 = stock_long) %>% 
-  separate(stock_long, c("sp", "location"), sep = "-")
-
-number_assessed <- time_series_assessed %>% 
+number_assessed <- assessment_frq %>% 
+  select(stock_long, rgn_id, rgn_name, year) %>% 
   group_by(year, rgn_id, rgn_name) %>% 
   count() %>% 
   rename(number_stocks=n)
   
-adeq_ass <- time_series_assessed %>% 
+adeq_ass <- assessment_frq %>% 
+  select(stock_long, rgn_id, rgn_name, year, adeq_assessed) %>% 
   group_by(year, rgn_id, rgn_name) %>% 
   dplyr::summarise(adeq_assessed = sum(adeq_assessed))
   
-
 percent_adeq_ass <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id", "rgn_name") ) %>% 
   mutate(percent_adeq_ass = adeq_assessed/number_stocks)
 
 write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
 ```
 
-location of stocks that don't have a location
 
 Visualize
 ```{r}
@@ -631,6 +851,52 @@ adq_graph
 ```
 
 ###4) Percentage of species landed with a management plan or some sort of regulation 
+
+
+Calculate score for regulations
+```{r}
+
+add_ass <- percent_adeq_ass %>% 
+  ungroup() %>% 
+  select(year, rgn_id, rgn_name, percent_adeq_ass) %>% 
+  rename(score3 = percent_adeq_ass) %>% 
+  mutate(rgn_id = as.character(rgn_id))
+
+protect <- protected_score %>% 
+  select(rgn_id, rgn_name, year, score) %>% 
+  rename(score2 = score) %>% 
+  mutate(rgn_id = as.character(rgn_id))
+
+ass <- assessment_score %>% 
+  ungroup() %>% 
+  select(rgn_id, rgn_name, year, score) %>% 
+  rename(score1 = score) %>% 
+  mutate(rgn_id = as.character(rgn_id))
+
+fisheries_reg_score <- left_join(add_ass, protect, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(ass, by = c("year", "rgn_id", "rgn_name")) %>% 
+  rowwise() %>% 
+  mutate(reg_score = mean(c(score1, score2, score3))) %>% 
+  select(year, rgn_name, rgn_id, reg_score)
+
+
+write.csv(fisheries_reg_score, file = "data/fisheries_reg_score")
+```
+
+Visualize
+```{r}
+fisheries_reg_graph <- ggplot(fisheries_reg_score)+
+  geom_line(aes(x=year, y= score, color= rgn_name))+
+ ggtitle("Fisheries Regulations Scores") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+fisheries_reg_graph
+
+##save fig
+ggsave("figs/fisheries_reg_graph.jpg", width=7, height=5, dpi=300)
+```
 
 
 ##Implementation/ Enforcement
@@ -685,7 +951,7 @@ enforcement_compliance_scores <- ole %>%
   select(year, enforcement_score_OLE, compliance_score) %>% 
   right_join(fish_ob_score, by = c("year")) %>% 
   rowwise() %>% 
-  mutate(enforcement_score= mean(c(enforcement_score_OLE, enforcement_score_obser), na.rm=F))
+  mutate(enforcement_score= mean(c(enforcement_score_OLE, enforcement_score_obser), na.rm=T))
 
 ```
 
@@ -697,6 +963,60 @@ enforcement_scores_graph <- ggplot(enforcement_compliance_scores)+
   geom_line(aes(x= year, y= enforcement_score))
 enforcement_scores_graph
 ```
+
+
+Apply the same scores to every region
+```{r}
+enfor_com_allregions_scores <- enforcement_compliance_scores%>% 
+  uncount(11, .id = "n", .remove = F) %>%
+  mutate(rgn_name = ifelse(n == 1, "Offshore", 
+                       ifelse(n==2, "Georges Bank",
+                               ifelse(n==3, "Gulf of Maine",
+                                      ifelse(n==4, "Mid-Atlantic Bight",
+                                             ifelse(n==5, "Connecticut",
+                                                    ifelse(n==6, "Maine",
+                                                           ifelse(n==7, "Massachusetts-North",
+                                                                  ifelse(n==8, "Massachusetts-South",
+                                                                         ifelse(n==9, "New Hampshire",
+                                                                                ifelse(n==10, "New York",
+                                                                                       "Rhode Island"))))))))))) %>%
+  rename(rgn_id=n) %>% 
+  mutate(rgn_id = as.character(rgn_id)) %>% 
+  select(-enforcement_score_OLE, -enforcement_score_obser)
+```
+
+
+Calculate Fisheries Resilience Score
+```{r}
+fish_res_score <- left_join(fisheries_reg_score, enfor_com_allregions_scores, by = c("year", "rgn_id", "rgn_name")) %>% 
+  rowwise() %>% 
+  mutate(score= mean(c(enforcement_score, compliance_score, reg_score), na.rm=T))
+
+write.csv(fish_res_score, file = "data/fish_res_score")
+
+```
+
+
+Visualize
+```{r}
+fisheries_res_graph <- ggplot(fish_res_score)+
+  geom_line(aes(x=year, y= score, color= rgn_name))+
+ ggtitle("Fisheries Resilience Scores") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+fisheries_res_graph
+
+##save fig
+ggsave("figs/fisheries_res_graph.jpg", width=7, height=5, dpi=300)
+```
+
+
+
+
+NEED TO GAP FILL FOR ENFORCEMENT SO IT DOESNT LOOK LIKE IT JUST GETS A MILLION TIME BETTER ONCE WE HAVE THE DATA FOR THAT
+
 
 
 
