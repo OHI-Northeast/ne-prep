@@ -38,6 +38,13 @@ Regulations:
 3) Percentage of stocks assessed that are adequatly assessed (target = at least every 5)
 4) Percentage of species landed with a management plan or some sort of regulation 
 
+Implementation/Enforcement:
+1) Total number of sea days with fisheries observer/ alloted number of sea days 
+2) Number of staff, number of patrols, number of outreach events OLE
+
+Effectiveness/Compliance:
+1) number of investigations/number of enforcement actions OLE
+
 
 ``` {r setup,  message = FALSE, warning = FALSE}
 
@@ -48,7 +55,10 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
+```
 
+Load Packages
+```{r}
 library(csv)
 library(tidyverse)
 library(dplyr)
@@ -57,7 +67,6 @@ library(stringi)
 library(tidyverse)
 library(sf)
 library(mapview)
-
 ```
 
 
@@ -69,6 +78,8 @@ nmfs_stock_ass <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_assessment
 ram_stock_ass  <- read_csv("~/github/ne-prep/prep/fis/data/ram_stock_assessment_data.csv")%>% select(-X1)
 ```
 
+##Regulations:
+###1) Percentage of Fish Landed with Stock Assessments (target = 100%)
 
 Create dataframe of all species ever caught
 ```{r}
@@ -157,9 +168,8 @@ percent_assesses_graph <- ggplot(percent_assessed_by_region)+
 percent_assesses_graph  
 ```
 
-Calculate score for havingStock Assessment Score
+Calculate score for having a stock assessment score
 ```{r}
-
 assessment_score <- percent_assessed_by_region %>% 
   mutate(target = 1) %>% 
   mutate(score = percent/target,
@@ -171,13 +181,10 @@ assessment_score <- percent_assessed_by_region %>%
 assessment_score
 
 write.csv(assessment_score, file = "data/assessment_score")
-
 ```
 
 Visualization
-
 ```{r}
-
 assessment_graph <- ggplot(assessment_score)+
   geom_line(aes(x=year, y= score, color= rgn_name))+
     ggtitle("Percentage of Fish Landed in Northeast with Stock Assessments") +
@@ -188,26 +195,20 @@ assessment_graph <- ggplot(assessment_score)+
 assessment_graph  
 
 ggsave("figs/assessment_graph.jpg", width=7, height=5, dpi=300)
-
 ```
 
 
-##MPA Coverage in EEZ
+###2) Percentage of Protected Area (target = 30%)
 
-
+Note: Used a lot of same code from sense of place layer
 Let's look at the available layers in the USGS PADUS database
-
 ```{r look_at_gdb_layers}
-
 st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
-
 ```
 
 
 For the marine layer, we are going to remove all areas that are designated as fishery/shellfish management areas as well as the Special Area Management Plans. 
-
 ```{r load_and_clean_marine_layer}
-
 marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
@@ -217,30 +218,22 @@ marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/P
 !Fish_Rstr %in% c("No Site Restrictions", "Restrictions Unknown"), #only keeping areas with recreational or commercial fishing is restricted or prohibited
          Constancy == "Year-round")%>% 
   select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
-
 ```
 
-
+Map it!
 ```{r interactive_map, eval = F}
-
  #mapview(proc, col.regions = "red") + 
 usgs_data <-mapview(marine, col.regions = "blue") 
 
 ## save interactive map
 mapshot(usgs_data, url = "usgs_map.html")
-
 ```
 
 
-### Marine areas
-
 First let's combine polygons so we don't double count areas. 
-
-We are also accounting for the year established, some were created during our time frame (unlike the inshore protected areas)
-
+We are also accounting for the year established, some were created during our time frame 
 
 ```{r}
-
 marine_protected_by_rgn <- data.frame()
 
 for(i in 2005:2017){
@@ -263,14 +256,11 @@ for(i in 2005:2017){
   
   marine_protected_by_rgn <- bind_rows(s_yr, marine_protected_by_rgn)
 }
-
 ```
 
 
-# Results
-
+Percent of marine area protected
 ```{r marine_protected_prop_by_rgn}
-
 percent_water_protec <- ggplot(marine_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
   geom_line() +
   theme_classic() +
@@ -279,11 +269,9 @@ percent_water_protec <- ggplot(marine_protected_by_rgn, aes(x = year, y = prop_a
   ggtitle("Percentage of Offshore waters protected")
 
 ggsave("figs/percent_offshore_water_protec.jpg", width=7, height=5, dpi=300)
-
 ```
 
-# Save Layers
-
+Save
 ```{r save_to_layers}
 
 #save marine
@@ -291,11 +279,8 @@ write.csv(marine_protected_by_rgn,"data/marine_protected_by_rgn")
 
 ```
 
-#Calculate Scores
-
+Calculate Scores
 ```{r}
-
-
 protected_score <- marine_protected_by_rgn %>% 
   select(rgn_id, year, prop_area) %>% 
   mutate(target = 0.3) %>% 
@@ -304,13 +289,10 @@ protected_score <- marine_protected_by_rgn %>%
   mutate(rgn_id = as.character(rgn_id))
 
 write.csv(protected_score, file = "data/protected_score")
-
 ```
 
-#Visualize
-
+Visualize
 ```{r}
-
 protected_score_graph <- ggplot(protected_score) +
   geom_line(aes(x=year, y= score, color = rgn_id))+
   labs(title = "Protected Areas Score: Fisheries Resilience")+
@@ -320,30 +302,23 @@ protected_score_graph <- ggplot(protected_score) +
 
 protected_score_graph
 ggsave("figs/protected_areas_score_graph.jpg", width=7, height=5, dpi=300)
-
 ```
 
-
-# Percentage of stocks Adequetly Assessed
+###3) Percentage of stocks assessed that are adequatly assessed (target = at least every 5)
 
 Only have SA data back to 2004 for nmfs, will be hard to determine adequatly assessed in 2005-2008
 
 **code below the same as in 5_assessed_species_lookuptable, except that the year is getting kept throughout**
 ```{r}
-
 nmfs_catch <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv") %>%
   mutate(nmfs_original_species = as.character(species),
          species_low = tolower(species)) %>%
   select(nmfs_original_species, species_low, year) %>%
   distinct()
-
-
 ```
 
 Grab all species from NMFS catch data and get them, as well as their alternative names, cleaned up
-
 ```{r}
-
 nmfs_catch_sp <- nmfs_catch %>%
   separate(species_low, into = c("species1", "species2", "species3"), sep = ",", remove = FALSE) %>%
   mutate(species2 = trimws(gsub("\\/.*","", species2))) %>%
@@ -365,13 +340,10 @@ nmfs_catch_sp <- nmfs_catch %>%
          nmfs_species_alternate_2 = trimws(tolower(nmfs_catch_alternate_2)), "both") %>% 
   select(year, species_low, nmfs_species, nmfs_species_alternate, nmfs_species_alternate_2) %>%
   mutate(species = nmfs_species)
-
 ```
-
 
 Get NMFS stock assessment data species
 ```{r}
-
 nmfs_stock_years <- nmfs_stock_ass %>%
   select(year, stock) %>%
   distinct() %>%
@@ -383,7 +355,6 @@ nmfs_stock_years <- nmfs_stock_ass %>%
 
 Get RAM stock species
 ```{r}
-
 ram_years <- ram_stock_ass %>%
   select(year, commonname, areaname, stockid) %>%
   distinct() %>%
@@ -391,22 +362,17 @@ ram_years <- ram_stock_ass %>%
          source      = "RAM",
          location = as.character(areaname)) %>%
   select(-commonname, -areaname) #create a duplicate column "species" to match with noaa
-
 ```
 
 First I want to combine the RAM and NMFS Stock assessment data since they have location data too
 ```{r}
-
 stock_matching <- nmfs_stock_years %>%
   bind_rows(ram_years)
-
 ```
-
 
 Now combine catch species with stocks. Lots of data wrangling here to get these species to matchup correctly
 I added this part in in case we wanted to do the percentage of species landed with stock assessments each year instead of ever. But this is not necessary for finding out if stocks are properly assessed
 ```{r}
-
 comb <- stock_matching %>%
   left_join(nmfs_catch_sp) %>%
   select(species_low, species, location, source, nmfs_species, stockid, year) %>%
@@ -466,7 +432,6 @@ select(year, nmfs_original_species, stock_assessment_species_name, stock_assessm
 
 Fixing the skate wings and monk fish pieces matching. Skates and Monkfish are reported in NMFS catch as full fish as well as pieces (wings, livers, heads). I'm sure there is a nice way to incorporate these species names into the data above but I'm doing it manually here...
 ```{r}
-
 add_species <- data.frame(stock_assessment_species_name = c("little skate", "winter skate", "smooth skate", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "tilefish", "tilefish"),
                           stock_assessment_species_location = c("Georges Bank / Southern New England", 
                                                                 "Georges Bank / Southern New England",
@@ -483,7 +448,6 @@ add_species <- data.frame(stock_assessment_species_name = c("little skate", "win
                           nmfs_original_species = c("SKATE WINGS, LITTLE (SUMMER)", "SKATE WINGS, WINTER (BIG)", "SKATE, SMOOTH", 
                                                     "MONK HEADS", "MONK LIVERS", "MONK TAILS", "MONK HEADS", "MONK LIVERS", "MONK TAILS", "TILEFISH, BLUELINE", "TILEFISH, GOLDEN"),
                           stockid = NA)
-
 ```
 
 Combine the two datasets to get the full lookup table
@@ -539,7 +503,6 @@ m <- full_df %>%
 ```
 
 There are still species with stock assessments that do not have `stockid` in the NMFS catch dataset.
-
 ```{r}
 filter(m, is.na(stockid)) %>% .$stock_assessment_species_name %>% unique()
 ```
@@ -590,12 +553,21 @@ leftovers_catch <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_b
   distinct()
 ```
 
-End of where mostly copied code
+```{r}
+comp_dataset <- m2 %>%
+  left_join(leftovers_catch, by = c("nmfs_original_species" = "species")) %>%
+  mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
+         rgn_name = ifelse(is.na(rgn_name.y), rgn_name.x, rgn_name.y)) %>%
+  select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x)
+```
 
+
+End of where mostly copied code
+lots of data tiddying/wrangling here for location of species that don't have a region associtated with them
 ```{r}
 
 time_series_assessed <- m2 %>%
-  left_join(leftovers_catch, by = c("nmfs_original_species" = "species")) %>%
+  left_join(comp_dataset, by =  c("year", "nmfs_original_species", "stock_assessment_species_name", "stock_assessment_species_location", "stockid", "source", "stock")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
          rgn_name = ifelse(is.na(rgn_name.y), rgn_name.x, rgn_name.y)) %>%
   select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x) %>% 
@@ -605,10 +577,28 @@ time_series_assessed <- m2 %>%
   filter(year >=2001 & year <= 2019) %>% 
   mutate(ass= 1) %>% 
   group_by(stock_long) %>% 
-  mutate(assesment_sum_5yr = zoo::rollapply(ass, 5, FUN = sum, na.rm = F, partial = T), # align = "right"
-         adeq_assessed = if_else(assesment_sum_5yr >= 1, 1, 0)) %>% 
-  ungroup() 
+  #mutate(assesment_sum_5yr = zoo::rollapply(ass, 5, FUN = sum, na.rm = F, partial = T), # align = "right"
+  #       adeq_assessed = if_else(assesment_sum_5yr >= 1, 1, 0)) %>% 
+  ungroup() %>% 
+  
 
+%>% 
+  mutate(rgn_name = case_when(stock_long == "skipjack tuna-Western Atlantic" ~ rep(11)))
+
+
+
+
+
+noloc <- time_series_assessed %>% 
+  filter(is.na(rgn_name))
+
+unique(noloc$stock_long)
+
+
+```
+
+
+```{r}
 missing_locations <- time_series_assessed %>% 
   filter(is.na(rgn_id)) %>% 
   mutate(s2 = stock_long) %>% 
@@ -628,29 +618,24 @@ percent_adeq_ass <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id"
   mutate(percent_adeq_ass = adeq_assessed/number_stocks)
 
 write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
- 
 ```
 
 location of stocks that don't have a location
 
-
-
 Visualize
 ```{r}
-
 adq_graph <- ggplot(percent_adeq_ass)+
   geom_line(aes(x=year, y= percent_adeq_ass, color= rgn_name))
 
 adq_graph
-
 ```
 
-#Percentage of Species with Management Plans
+###4) Percentage of species landed with a management plan or some sort of regulation 
 
 
-**Implementation/ Enforcement
+##Implementation/ Enforcement
 
-1. Fisheries Observer Data
+###1) Total number of sea days with fisheries observer/ alloted number of sea days 
 
 Score is calculated by taking the number of actual seadays/allocated sea days.
 Actual seadays data from Debra NOAA
@@ -660,15 +645,12 @@ Allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
 There is an 8% target coverage of ships (in report https://www.nefsc.noaa.gov/fsb/SBRM/2011/2011_SBRM_3Year_Report.pdf)
 
 ```{r}
-
 fish_ob_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fisheries_observer.xlsx"), sheet=1)
 ob_alloc_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fishob_seaday_alloc.xlsx"), sheet=1) %>% 
   rename(YEAR = year)
-
 ```
 
 ```{r}
-
 fish_ob_score <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>% 
   mutate(score = TOTDAYS/seadays) %>% 
 #  fill(score, .direction = "up") %>%  #back gap filled using the 1st year allocated sea days are avaliable
@@ -676,21 +658,18 @@ fish_ob_score <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>%
   select(YEAR, score) %>% 
   rename(year = YEAR) %>% 
   rename(enforcement_score_obser= score)
-
 ```
 
 Things to think about:
 - more information on allocated sea days prior to 2013
 - Score overestimating because allocated sea days do not include at-sea ground fish monitoring but the observer data does
 
-2. NOAA OLE Data
-
+###2) Number of staff, number of patrols, number of outreach events OLE
 ```{r}
 ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))
 ```
 
 ```{r}
-
 ole <- ole_raw %>% 
   mutate(compliance_score = 1- (enforcement_action/(inspections+investigations)),
          staff_score = staffing/33,
@@ -698,7 +677,6 @@ ole <- ole_raw %>%
          out_reach_num_score = out_reach_num/453) %>% 
   rowwise() %>% 
   mutate(enforcement_score_OLE=mean(c(staff_score, num_patrols_score, out_reach_num_score), na.rm=F) )
-        
 ```
 
 ```{r}
@@ -711,14 +689,14 @@ enforcement_compliance_scores <- ole %>%
 
 ```
 
-```{r}
+##Effectiveness/Compliance:
+###1) number of investigations/number of enforcement actions OLE
 
+```{r}
 enforcement_scores_graph <- ggplot(enforcement_compliance_scores)+
   geom_line(aes(x= year, y= enforcement_score))
 enforcement_scores_graph
-
 ```
-
 
 
 
