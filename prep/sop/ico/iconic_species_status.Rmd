@@ -158,7 +158,7 @@ spp_rgns_scores <- iconic_species_status %>%
 
 We need to add all years even though we dont have any information that tells us status changes. So these scores will all be the same over the entire time period
 
-We only assess Sense of Place for coastal regions so we need to set offshore re
+We only assess Sense of Place for coastal regions so we need to set offshore replace all offshore region scores with NA.
 
 
 ```{r iconic_spp_status_by_rgn, fig.width = 8, fig.height = 5}
@@ -166,13 +166,15 @@ ico_layer <- spp_rgns_scores %>%
   group_by(common, sciname, rgn_id, score) %>%
   complete(year = 2005:2017) %>%
   ungroup() %>%
-  left_join(rgn_data) 
+  left_join(rgn_data) %>%
+  mutate(score = ifelse(rgn_id %in% c(1:4), NA, score))
 ```
 
 # Results
 
 ```{r}
-ggplot(ico_layer, aes(x = year, y = score, color = common)) +
+ggplot(ico_layer %>%
+          filter(!is.na(score)), aes(x = year, y = score, color = common)) +
   geom_line() +
   theme_bw() +
   facet_wrap(~rgn_name) +
@@ -187,7 +189,8 @@ Since we see no changes over time let's just look at 2017 in table form
 
 ```{r}
 table_df <- ico_layer %>%
-  filter(year == 2017) %>%
+  filter(year == 2017,
+         !is.na(score)) %>%
   mutate(common = str_to_sentence(common)) %>%
   select(rgn_id, common, sciname, rgn_name, score)
 
@@ -207,7 +210,8 @@ possible_sp <- table_df %>%
   select(common, sciname) %>% 
   distinct() %>% 
   uncount(11, .id = "n", .remove = F) %>% 
-  mutate(as.numeric(n))
+  mutate(as.numeric(n)) %>%
+  filter(n > 4) #only want coastal regions
 
 regions <- table_df %>% 
   select(rgn_id, rgn_name) %>% 
@@ -268,7 +272,6 @@ table_status <-  table_df %>%
   mutate(Status = factor(Status, levels = order_status)) 
 
 write.csv(table_status, "data/heatmap_df.csv")
-
 ```
 
 Heatmap with scores
