@@ -765,22 +765,145 @@ power_gen_scores
 
 Tidy each piece so can combine
 ```{r}
-
-library(stringi)
-
+##eee scores
 eee_score_t <- eee_score %>% 
-  totitle(state)
+  mutate(state = str_to_title(gsub(",", " ", state)),
+         rgn_id1 = case_when(state == "Maine" ~ 6,
+                            state == "New Hampshire" ~ 9,
+                            state == "Massachusetts" ~ 7,
+                            state == "Rhode Island" ~ 11,
+                            state == "Connecticut" ~ 5,
+                            state == "New York" ~ 10),
+         rgn_id8 = case_when(state == "Massachusetts" ~ 8)) %>% 
+  rename(rgn_name = state) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id8, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  rename(score_eee = score) %>% 
+  mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id == 7, "Massachusetts-North",
+                           ifelse(rgn_name == "Massachusetts" & rgn_id == 8, "Massachusetts-South", rgn_name))) 
 
+##emmissions scores
+#create a seperate df to bind to the main one for year 2017 beacuse no data for that
+em_2017<- tribble(
+  ~year, ~rgn_name, ~rgn_id,
+  2017, "Maine", 6,  
+  2017, "New Hampshire", 9,  
+  2017, "Massachusetts-North", 7, 
+  2017, "Rhode Island", 11,  
+  2017, "Connecticut", 5,  
+  2017, "New York", 10,  
+  2017, "Massachusetts-South", 8
+  ) %>% 
+  as.data.frame() %>% 
+  add_column(score= NA)
+
+emissions_scores_t <- emissions_scores %>% 
+  mutate(rgn_id1 = case_when(state == "Maine" ~ 6,
+                            state == "New Hampshire" ~ 9,
+                            state == "Massachusetts" ~ 7,
+                            state == "Rhode Island" ~ 11,
+                            state == "Connecticut" ~ 5,
+                            state == "New York" ~ 10),
+         rgn_id8 = case_when(state == "Massachusetts" ~ 8)) %>% 
+  rename(rgn_name = state) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id8, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  mutate(rgn_name = ifelse(rgn_id == 1, "Offshore", 
+                       ifelse(rgn_id==2, "Georges Bank",
+                               ifelse(rgn_id==3, "Gulf of Maine",
+                                      ifelse(rgn_id==4, "Mid-Atlantic Bight",
+                                             ifelse(rgn_id==5, "Connecticut",
+                                                    ifelse(rgn_id==6, "Maine",
+                                                           ifelse(rgn_id==7, "Massachusetts-North",
+                                                                  ifelse(rgn_id==8, "Massachusetts-South",
+                                                                         ifelse(rgn_id==9, "New Hampshire",
+                                                                                ifelse(rgn_id==10, "New York",
+                                                                                       "Rhode Island")))))))))))%>% 
+  rbind(em_2017) %>% 
+  arrange(rgn_name) %>% 
+  fill(score, .direction = "down") %>% 
+  rename(score_em = score) 
+
+##power generation scores
+power_gen_scores_t <- power_gen_scores %>% 
+  mutate(rgn_id1 = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "MA" ~ "7",
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10"),
+    rgn_id2 = case_when(
+    state == "MA" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  rename(score_power = score) 
+
+##climate actions scores
+clim_act_t <- clim_act %>% 
+  select(year, State, score) %>% 
+  rename(state=State) %>% 
+  mutate(rgn_id1 = case_when(state == "Maine" ~ 6,
+                            state == "New Hampshire" ~ 9,
+                            state == "Massachusetts" ~ 7,
+                            state == "Rhode Island" ~ 11,
+                            state == "Connecticut" ~ 5,
+                            state == "New York" ~ 10),
+         rgn_id8 = case_when(state == "Massachusetts" ~ 8)) %>% 
+  rename(rgn_name = state) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id8, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+   mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id == 7, "Massachusetts-North",
+                           ifelse(rgn_name == "Massachusetts" & rgn_id == 8, "Massachusetts-South", rgn_name))) %>% 
+  rename(score_act = score) 
   
-  mutate(rgn_name = ifelse(state == "maine", "Maine", 
-                           ifelse(state == "new hampshire", "New ",
-                       
+```
 
+Combine all scores!
+```{r}
+cc_res_score <- left_join(emissions_scores_t, clim_act_t, by = c("year", "rgn_name", "rgn_id")) %>% 
+  left_join(power_gen_scores_t, by = c("year", "rgn_name", "rgn_id")) %>% 
+  left_join(eee_score_t, by = c("year", "rgn_name", "rgn_id"))%>% 
+  rowwise() %>% 
+  mutate(score = mean(c(score_power, score_act, score_em, score_eee))) %>% 
+  select(year, rgn_name, rgn_id, score)
+
+write.csv(cc_res_score, file = "data/cc_res_score")
 ```
 
 
+Visualize
+```{r}
+cc_res_graph <- ggplot(cc_res_score)+
+  geom_line(aes(x=year, y= score, color= rgn_name))+
+ ggtitle("Climate Change Resilience Scores") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
 
+cc_res_graph
 
+##save fig
+ggsave("figs/cc_res_graph.jpg", width=7, height=5, dpi=300)
+```
 
 
 
