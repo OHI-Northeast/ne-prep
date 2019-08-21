@@ -92,7 +92,6 @@ write.csv(eee_score, file = "data/eee_score")
 
 Visualize
 ```{r}
-
 eee_score_graph <-ggplot(eee_score)+
   geom_line(aes(x=year, y = score, color=state))+
   ggtitle("Energy Efficiency Score") +
@@ -102,7 +101,6 @@ eee_score_graph <-ggplot(eee_score)+
 eee_score_graph
 
 ggsave("figs/eee_score_graph.jpg", width=7, height=5, dpi=300)
-
 ```
 
 Climate Friendly Actions
@@ -757,6 +755,30 @@ graph_emissions_scores
 ggsave("figs/graph_emissions_scores.jpg", width=7, height=5, dpi=300)
 
 ```
+
+Calculate Climate Change Resilience Score
+
+eee_score
+emissions_scores
+clim_act
+power_gen_scores
+
+Tidy each piece so can combine
+```{r}
+
+library(stringi)
+
+eee_score_t <- eee_score %>% 
+  totitle(state)
+
+  
+  mutate(rgn_name = ifelse(state == "maine", "Maine", 
+                           ifelse(state == "new hampshire", "New ",
+                       
+
+```
+
+
 
 
 

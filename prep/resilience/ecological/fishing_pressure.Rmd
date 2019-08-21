@@ -950,6 +950,9 @@ ole <- ole_raw %>%
 enforcement_compliance_scores <- ole %>% 
   select(year, enforcement_score_OLE, compliance_score) %>% 
   right_join(fish_ob_score, by = c("year")) %>% 
+  fill(enforcement_score_OLE, .direction = c("up")) %>% 
+  fill(compliance_score, .direction = c("up")) %>% 
+  fill(enforcement_score_obser, .direction = c("up")) %>% 
   rowwise() %>% 
   mutate(enforcement_score= mean(c(enforcement_score_OLE, enforcement_score_obser), na.rm=T))
 
@@ -1014,8 +1017,6 @@ ggsave("figs/fisheries_res_graph.jpg", width=7, height=5, dpi=300)
 
 
 
-
-NEED TO GAP FILL FOR ENFORCEMENT SO IT DOESNT LOOK LIKE IT JUST GETS A MILLION TIME BETTER ONCE WE HAVE THE DATA FOR THAT
 
 
 
