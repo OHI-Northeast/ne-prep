@@ -906,5 +906,81 @@ ggsave("figs/cc_res_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 
+## Data exploration of energy consumption data instead of production
+
+```{r}
+raw_codes <- read_excel(file.path(dir_anx, "_raw_data/EIA/Codes_and_Descriptions.xlsx"), skip=10, sheet = 2)
+
+raw_consum<- read_csv(file.path(dir_anx, "_raw_data/EIA/use_all_phy.csv"))
+
+raw_consum2<- read_csv(file.path(dir_anx, "_raw_data/EIA/use_all_btu.csv"))
+```
+
+```{r}
+consum <- left_join(raw_consum, raw_codes, by =c("MSN")) %>% 
+  select(-Data_Status) %>% 
+  filter(State == "ME" | State == "MA" | State == "NH" | State == "RI" | State == "CT" | State == "NY") %>% 
+  select(State, MSN, "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017") %>% 
+  gather(key = "year", value = "consumed", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017" )
+```
+
+```{r}
+consum2 <- left_join(raw_consum2, raw_codes, by =c("MSN")) %>% 
+  select(-Data_Status) %>% 
+  filter(State == "ME" | State == "MA" | State == "NH" | State == "RI" | State == "CT" | State == "NY") %>% 
+  select(State, MSN, "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017") %>% 
+  gather(key = "year", value = "consumed", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017" )
+```
+
+```{r}
+codes2 <- raw_codes %>% 
+  mutate(source_ab = substr(MSN, start = 1, stop = 2),
+         tot_com = str_extract(Description, "total consumption"),
+         ad = str_extract(Description, "adjusted"),
+         ex = str_extract(Description, "excluding")) %>% 
+  filter(Unit == "Billion Btu" & tot_com == "total consumption") %>% 
+  replace(., is.na(.), "0") %>% 
+  filter(ad == "0" & ex == "0") %>% 
+  select(-ad, -ex)
+  
+  
+
+```
+
+
+Going to use total consumption, not end use consumption. Total= includes the energy used to produce it, and the heat energy lost during production. Will be calculating a percentage, so theoretically it shouldnt make a difference if we use end or total
+
+Looking at this data now instead
+https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
+
+all numbers are in Billion Btu
+```{r}
+ct_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/ct_consumption.csv"), skip = 1)
+
+raw_consum<- read_csv(file.path(dir_anx, "_raw_data/EIA/use_all_phy.csv"))
+
+raw_consum2<- read_csv(file.path(dir_anx, "_raw_data/EIA/use_all_btu.csv"))
+```
+
+```{r}
+
+ct_con <- ct_con_raw %>% 
+  select(-"Series Name_1",-"Series Name_2",-"Series Name_3",-"Series Name_4",-"Series Name_5",-"Series Name_6") %>% 
+  rename(year = "Series Name",
+         coal = "Coal total consumption, Connecticut",
+         nat_gas = "Natural gas total consumption (excluding supplemental gaseous fuels), Connecticut",
+         nuc = "Nuclear energy consumed for electricity generation, total, Connecticut",
+         petrol = "All petroleum products total consumption, excluding fuel ethanol blended into motor gasoline, Connecticut",
+         renew = "Renewable energy total consumption, Connecticut",
+         net_elec_flow = "Net interstate flow of electricity and associated losses (negative indicates flow out of state), Connecticut",
+         net_elec_import = "Net imports of electricity into the United States, Connecticut") %>% 
+  mutate(state = "Connecticut") %>% 
+  filter(year <= "2017") %>% 
+  select(-net_elec_flow, -net_elec_import)
+```
+
+finish this up for the rest of the states
+compare with what was doing before
+delete code for waht we're not gonan use
 
 
