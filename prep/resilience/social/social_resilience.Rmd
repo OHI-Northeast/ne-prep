@@ -56,8 +56,6 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 library(csv)
 library(dplyr)
 library(tidyverse)
-
-
 ```
 
 
@@ -126,11 +124,306 @@ ggsave("figs/oi_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
+NOAA Social Vulnerability Index
+```{r}
+raw_svi_2009 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=1)
+raw_svi_2010 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=2)
+raw_svi_2011 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=3)
+raw_svi_2012 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=4)
+raw_svi_2013 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=5)
+raw_svi_2014 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=6)
+raw_svi_2015 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=7)
+raw_svi_2016 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=8)
+raw_svi_categories <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=11)
+```
+
+Data Tidying!
+
+Variable Definitions:
+LabFrc_ct	Labor Force categorical ranking
+HsChr_ct	Housing Characteristics categorical ranking
+Pvrty_ct	Poverty categorical ranking
+PopCom_ct	Population Composition categorical ranking
+PerDis_ct	Personal Disruption categorical ranking
+HsDis_ct	Housing Disruption categorical ranking
+RetMig_ct	Retiree Migration categorical ranking
+UrbSpl_ct	Urban Sprawl categorical ranking
+ComEng_ct	Commercial Fishing Engagement categorical ranking
+ComRel_ct	Commercial Reliance categorical ranking
+RecEng_ct	Recreational Engagement categorical ranking
+RecRel_ct	Recreational Reliance categorical ranking
+SLR_ct	Inundation Risk categorical ranking
+SS_ct	Storm Surge Risk categorical Ranking (2015 and 2016 only)
+
+group and average by the three categories in the paper
+
+Do the same data tidying for every year (2009-2016)
+```{r}
+svi_2009 <- raw_svi_2009 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = SLR_ct) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
+
+ 
+#  select(year, state, vulnerability_score) %>% 
+#  group_by(state, year) %>% 
+#  summarise(mean = mean(vulnerability_score))
+  
+```
+
+```{r}
+svi_2010 <- raw_svi_2010 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = SLR_ct) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
+
+ 
+#  select(year, state, vulnerability_score) %>% 
+#  group_by(state, year) %>% 
+#  summarise(mean = mean(vulnerability_score))
+  
+```
+
+```{r}
+svi_2011 <- raw_svi_2011 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = SLR_ct) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+ 
+#  select(year, state, vulnerability_score) %>% 
+ # group_by(state, year) %>% 
+#  summarise(mean = mean(vulnerability_score))
+  
+```
+
+```{r}
+svi_2012 <- raw_svi_2012 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = SLR_ct) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+ 
+#  select(year, state, vulnerability_score) %>% 
+#  group_by(state, year) %>% 
+ # summarise(mean = mean(vulnerability_score))
+  
+```
+
+```{r}
+svi_2013 <- raw_svi_2013 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = SLR_ct) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
+
+ 
+#  select(year, state, vulnerability_score) %>% 
+#  group_by(state, year) %>% 
+ # summarise(mean = mean(vulnerability_score))
+  
+```
+
+```{r}
+svi_2014 <- raw_svi_2014 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = SLR_ct) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+
+#  select(year, state, vulnerability_score) %>% 
+# group_by(state, year) %>% 
+#  summarise(mean = mean(vulnerability_score))
+  
+```
+
+```{r}
+svi_2015 <- raw_svi_2015 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = mean(SLR_ct)) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+
+# select(year, state, vulnerability_score) %>% 
+ # group_by(state, year) %>% 
+  #summarise(mean = mean(vulnerability_score))
+  
+```
+
+
+```{r}
+svi_2016 <- raw_svi_2016 %>% 
+  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
+  rename(state = STATEABBR) %>% 
+  rowwise() %>% 
+  mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
+         gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
+         fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
+         inundation_risk = mean(SLR_ct)) %>% 
+  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+# select(year, state, vulnerability_score) %>% 
+ # group_by(state, year) %>% 
+  #summarise(score = mean(vulnerability_score))
+```
+
+Combine and add the rgn_name and rgn_id bits
+```{r}
+svi <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_2014, svi_2015, svi_2015, svi_2016) %>%
+  mutate(rgn_id1 = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "MA" ~ "7",
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10"),
+    rgn_id2 = case_when(
+    state == "MA" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) 
+
+svi_social <- svi %>% 
+  group_by(rgn_name, year) %>% 
+  summarise(score_social = mean(social_vul))
+
+svi_gen <- svi %>% 
+  group_by(rgn_name, year) %>% 
+  summarise(score_gen = mean(gentrification_vul))
+
+svi_fish <- svi %>% 
+  group_by(rgn_name, year) %>% 
+  summarise(score_fish = mean(fishing_vul))
+
+svi_inund <- svi %>% 
+  group_by(rgn_name, year) %>% 
+  summarise(score_inund = mean(inundation_risk))
+
+svi_overall_scores <- svi %>% 
+  select(year, rgn_name, vulnerability_score) %>% 
+  group_by(rgn_name, year) %>% 
+  summarise(score = mean(vulnerability_score))
+
+
+```
+
+Visulalize
+
+```{r}
+
+library(gridExtra)
+
+svi_social_vul_graph <- ggplot(svi_social) +
+  geom_line(aes(x=year, y= score_social, color = rgn_name)) +
+  ggtitle("Social Vulnerability Indices") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+svi_gen_vul_graph <- ggplot(svi_gen) +
+  geom_line(aes(x=year, y= score_gen, color = rgn_name)) +
+  ggtitle("Gentrification Vulnerability Indices") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+svi_fish_vul_graph <- ggplot(svi_fish) +
+  geom_line(aes(x=year, y= score_fish, color = rgn_name)) +
+  ggtitle("Fishing Vulnerability Indices") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+svi_inun_vul_graph <- ggplot(svi_inund) +
+  geom_line(aes(x=year, y= score_inund, color = rgn_name)) +
+  ggtitle("Inundation Risk") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+
+svi_social_vul_graph
+svi_gen_vul_graph
+svi_fish_vul_graph
+svi_inun_vul_graph
+
+
+```
 
 
 
+```{r}
 
+svi_scores_graph <- ggplot(svi_overall_scores) +
+  geom_line(aes(x=year, y= score, color = rgn_name)) +
+  ggtitle("Social Vulnerability Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
 
+svi_scores_graph
+
+```
 
 
 
