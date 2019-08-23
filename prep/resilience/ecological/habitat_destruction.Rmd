@@ -207,15 +207,41 @@ hab_protected_by_rgn_graph
 
 Scores Habitat Protected
 ```{r}
-
 score_hab_protected_by_rgn_graph <- ggplot(hab_protected_by_rgn, aes(x = year, y = score, color = rgn_name)) +
   geom_line() +
   theme_classic() +
   labs(y = "Score", x = "Year") +
   ggtitle("Score of habitat protected")
 score_hab_protected_by_rgn_graph
-
 ```
+
+Looking at only groundfish and the coral protected areas
+
+```{r}
+#2
+hab_ground <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Groundfish_Closure_Areas/Groundfish_Closure_Areas.shp"))
+
+look <-mapview(hab_ground, col.regions = "blue") 
+
+look
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #State of the Beach Scorecard
