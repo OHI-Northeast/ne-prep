@@ -37,9 +37,10 @@ This script calculates social resilience values by OHINE region.
 
 1) Beacon Hill Competitiveness Report
 2) Opportunity Index Scores
-3) Noaa Social Vulnerability (waiting)
-4) LCV scores (waiting)
-5) Grading the States Report (waiting), or can use 2018?
+3) NOAA Social Vulnerability
+4) Grading the States Report 
+5) LCV scores 
+
 
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
@@ -103,7 +104,31 @@ oi_score <- raw_oi %>%
          oi_score = if_else(is.na(oi_score) & state == "New Hampshire", 60.4, oi_score),
          oi_score = if_else(is.na(oi_score) & state == "New York", 53.9	, oi_score),
          oi_score = if_else(is.na(oi_score) & state == "Rhode Island", 50.9	, oi_score),
-         score = oi_score/target)
+         score = oi_score/target) %>% 
+  select(year, state, score) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  rename(oi_score= score)
 
 write.csv(oi_score, "data/oi_score.csv")
 ```
@@ -168,7 +193,6 @@ svi_2009 <- raw_svi_2009 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
 
  
@@ -188,7 +212,6 @@ svi_2010 <- raw_svi_2010 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
 
  
@@ -208,7 +231,6 @@ svi_2011 <- raw_svi_2011 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
  
@@ -228,7 +250,6 @@ svi_2012 <- raw_svi_2012 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
  
@@ -248,7 +269,6 @@ svi_2013 <- raw_svi_2013 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
 
  
@@ -268,7 +288,6 @@ svi_2014 <- raw_svi_2014 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
 
@@ -288,7 +307,6 @@ svi_2015 <- raw_svi_2015 %>%
          fishing_vul = mean(c(ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct )),
          inundation_risk = mean(SLR_ct)) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
 
@@ -309,7 +327,6 @@ svi_2016 <- raw_svi_2016 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = mean(SLR_ct)) %>% 
   select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
 # select(year, state, vulnerability_score) %>% 
@@ -319,7 +336,46 @@ svi_2016 <- raw_svi_2016 %>%
 
 Combine and add the rgn_name and rgn_id bits
 ```{r}
-svi <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_2014, svi_2015, svi_2015, svi_2016) %>%
+svi_bind <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_2014, svi_2015, svi_2015, svi_2016)
+
+svi_social <- svi_bind %>% 
+  group_by(state, year) %>% 
+  summarise(score_social = mean(social_vul)) %>% 
+  ungroup() %>% 
+  mutate(social_score_scale = scales::rescale(score_social, to = c(0,1)),
+         res_social_score = (1-social_score_scale)) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") 
+
+svi_gen <- svi_bind %>% 
+  group_by(state, year) %>% 
+  summarise(score_gen = mean(gentrification_vul)) %>% 
+  ungroup() %>% 
+  mutate(gen_score_scale = scales::rescale(score_gen, to = c(0,1)),
+         res_gen_score = (1-gen_score_scale)) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY")
+
+svi_fish <- svi_bind %>% 
+  group_by(state, year) %>% 
+  summarise(score_fish = mean(fishing_vul)) %>% 
+  ungroup() %>% 
+  mutate(fish_score_scale = scales::rescale(score_fish, to = c(0,1)),
+         res_fish_score = (1-fish_score_scale)) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") 
+
+svi_inund <- svi_bind %>% 
+  group_by(state, year) %>% 
+  summarise(score_inund = mean(inundation_risk))%>% 
+  ungroup() %>% 
+  mutate(score_inund_scale = scales::rescale(score_inund, to = c(0,1)),
+         res_inund_score = (1-score_inund_scale)) %>% 
+  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") 
+
+svi_overall <- left_join(svi_social, svi_gen, by = c("year", "state")) %>% 
+  left_join(svi_inund, by = c("year", "state")) %>% 
+  left_join(svi_fish, by = c("year", "state")) %>% 
+  select(year, state, res_inund_score,res_fish_score, res_social_score, res_gen_score) %>% 
+  rowwise() %>% 
+  mutate(res_score = mean(c(res_inund_score, res_fish_score, res_social_score, res_gen_score))) %>%
   mutate(rgn_id1 = case_when(
     state == "ME" ~ "6", 
     state == "NH" ~ "9", 
@@ -341,34 +397,13 @@ svi <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_201
     rgn_id == "8" ~ "Massachusetts-South",
     rgn_id == "11" ~ "Rhode Island",
     rgn_id == "5" ~ "Connecticut",
-    rgn_id == "10" ~ "New York")) 
-
-svi_social <- svi %>% 
-  group_by(rgn_name, year) %>% 
-  summarise(score_social = mean(social_vul))
-
-svi_gen <- svi %>% 
-  group_by(rgn_name, year) %>% 
-  summarise(score_gen = mean(gentrification_vul))
-
-svi_fish <- svi %>% 
-  group_by(rgn_name, year) %>% 
-  summarise(score_fish = mean(fishing_vul))
-
-svi_inund <- svi %>% 
-  group_by(rgn_name, year) %>% 
-  summarise(score_inund = mean(inundation_risk))
-
-svi_overall_scores <- svi %>% 
-  select(year, rgn_name, vulnerability_score) %>% 
-  group_by(rgn_name, year) %>% 
-  summarise(score = mean(vulnerability_score))
-
-
+    rgn_id == "10" ~ "New York")) %>% 
+  select(year, rgn_id, rgn_name, res_score) %>% 
+  rename(svi_score = res_score)
 ```
 
-Visulalize
 
+Visulalize
 ```{r}
 
 library(gridExtra)
@@ -403,20 +438,25 @@ svi_inun_vul_graph <- ggplot(svi_inund) +
 
 
 svi_social_vul_graph
+ggsave("figs/svi_social_vul_graph.jpg", width=7, height=5, dpi=300)
+
 svi_gen_vul_graph
+ggsave("figs/svi_gen_vul_graph.jpg", width=7, height=5, dpi=300)
+
 svi_fish_vul_graph
+ggsave("figs/svi_fish_vul_graph.jpg", width=7, height=5, dpi=300)
+
 svi_inun_vul_graph
+ggsave("figs/svi_inun_vul_graph.jpg", width=7, height=5, dpi=300)
 
 
 ```
 
-
-
 ```{r}
 
-svi_scores_graph <- ggplot(svi_overall_scores) +
-  geom_line(aes(x=year, y= score, color = rgn_name)) +
-  ggtitle("Social Vulnerability Score") +
+svi_scores_graph <- ggplot(svi_overall) +
+  geom_line(aes(x=year, y= res_score, color = rgn_name)) +
+  ggtitle("Social Resilience Score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic()
@@ -426,6 +466,421 @@ svi_scores_graph
 ```
 
 
+Grading the States 
+
+```{r}
+raw_gs <- read_excel(file.path(dir_anx, "_raw_data/GradingTheStates/grading_states.xlsx"))
+```
+
+```{r}
+library(scales)
+gs <- raw_gs %>% 
+  select(state, overall_grade) %>% 
+  rename(rgn_name = state) %>% 
+  mutate(raw_score = case_when(overall_grade == "A+" ~ 15,
+                           overall_grade == "C" ~ 8,
+                           overall_grade == "C+" ~ 9,
+                           overall_grade == "D+" ~ 6,
+                           overall_grade == "D" ~ 5,
+                           overall_grade == "F" ~ 2),
+         score = scales::rescale(raw_score, to = c(0,1), from=c(1,15)),
+         rgn_id = case_when(
+           rgn_name == "Maine" ~ "6", 
+           rgn_name == "New Hampshire" ~ "9", 
+           rgn_name == "Massachusetts-North" ~ "7",
+           rgn_name == "Massachusetts-South" ~ "8",
+           rgn_name == "Rhode Island" ~"11",
+           rgn_name == "Connecticut" ~ "5",
+           rgn_name == "New York"~ "10"))  %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
+```
+
+
+```{r}
+gs_graph <- ggplot(gs) +
+  geom_line(aes(x=year, y= score, color = rgn_name)) +
+  ggtitle("Grading the States Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+gs_graph
+```
+
+
+League of Conservation Voters (LCV)
+
+Load in and tidy house of representative scores
+```{r}
+house_05 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2005-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2005 Score") %>% 
+  mutate(congress = "house",
+         year = 2005,
+         district = District) %>% 
+  rename(score = "2005 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_06 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2006-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2006 Score") %>% 
+  mutate(congress = "house",
+         year = 2006,
+         district = District) %>% 
+  rename(score = "2006 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_07 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2007-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2007 Score") %>% 
+  mutate(congress = "house",
+         year = 2007,
+         district = District) %>% 
+  rename(score = "2007 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_08 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2008-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2008 Score") %>% 
+  mutate(congress = "house",
+         year = 2008,
+         district = District) %>% 
+  rename(score = "2008 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_09 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2009-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2009 Score") %>% 
+  mutate(congress = "house",
+         year = 2009,
+         district = District) %>% 
+  rename(score = "2009 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_10 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2010-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2010 Score") %>% 
+  mutate(congress = "house",
+         year = 2010,
+         district = District) %>% 
+  rename(score = "2010 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_11 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2011-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2011 Score") %>% 
+  mutate(congress = "house",
+         year = 2011,
+         district = District) %>% 
+  rename(score = "2011 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_12 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2012-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2012 Score") %>% 
+  mutate(congress = "house",
+         year = 2012,
+         district = District) %>% 
+  rename(score = "2012 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_13 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2013-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2013 Score") %>% 
+  mutate(congress = "house",
+         year = 2013,
+         district = District) %>% 
+  rename(score = "2013 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_14 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2014-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2014 Score") %>% 
+  mutate(congress = "house",
+         year = 2014,
+         district = District) %>% 
+  rename(score = "2014 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_15 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2015-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2015 Score") %>% 
+  mutate(congress = "house",
+         year = 2015,
+         district = District) %>% 
+  rename(score = "2015 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_16 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2016-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2016 Score") %>% 
+  mutate(congress = "house",
+         year = 2016,
+         district = District) %>% 
+  rename(score = "2016 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+
+house_17 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2017-house-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(District, Party, "Member of Congress", "2017 Score") %>% 
+  mutate(congress = "house",
+         year = 2017,
+         district = District) %>% 
+  rename(score = "2017 Score",
+         party = Party,
+         name = "Member of Congress") %>% 
+  separate(District, c("state", "dis_num"), sep = "-")
+```
+
+
+** will need to go back to here and separate north/south ma
+although, need to think about how we cant do this for the senate
+Combine
+```{r}
+house <- rbind(house_05, house_06, house_07, house_08, house_09, house_10, house_11, house_12, house_13, house_14, house_15, house_16, house_17) %>% 
+  select(-dis_num, -district) %>% 
+  group_by(year, state) %>% 
+  mutate(score= as.numeric(score)) %>% 
+  dplyr::summarise(house_score = mean(score, na.rm=TRUE)) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") 
+```
+
+Load in and tidy senate scores
+```{r}
+senate_05 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2005-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2005 Score") %>% 
+  mutate(congress = "senate",
+         year = 2005) %>% 
+  rename(score = "2005 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_06 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2006-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2006 Score") %>% 
+  mutate(congress = "senate",
+         year = 2006) %>% 
+  rename(score = "2006 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_06 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2006-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2006 Score") %>% 
+  mutate(congress = "senate",
+         year = 2006) %>% 
+  rename(score = "2006 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_07 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2007-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2007 Score") %>% 
+  mutate(congress = "senate",
+         year = 2007) %>% 
+  rename(score = "2007 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_08 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2008-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2008 Score") %>% 
+  mutate(congress = "senate",
+         year = 2008) %>% 
+  rename(score = "2008 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_09 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2009-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2009 Score") %>% 
+  mutate(congress = "senate",
+         year = 2009) %>% 
+  rename(score = "2009 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_10 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2010-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2010 Score") %>% 
+  mutate(congress = "senate",
+         year = 2010) %>% 
+  rename(score = "2010 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_11 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2011-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2011 Score") %>% 
+  mutate(congress = "senate",
+         year = 2011) %>% 
+  rename(score = "2011 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_12 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2012-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2012 Score") %>% 
+  mutate(congress = "senate",
+         year = 2012) %>% 
+  rename(score = "2012 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_13 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2013-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2013 Score") %>% 
+  mutate(congress = "senate",
+         year = 2013) %>% 
+  rename(score = "2013 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_14 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2014-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2014 Score") %>% 
+  mutate(congress = "senate",
+         year = 2014) %>% 
+  rename(score = "2014 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_15 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2015-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2015 Score") %>% 
+  mutate(congress = "senate",
+         year = 2015) %>% 
+  rename(score = "2015 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_16 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2016-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2016 Score") %>% 
+  mutate(congress = "senate",
+         year = 2016) %>% 
+  rename(score = "2016 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+
+senate_17 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2017-senate-scorecard-grid-export.csv"), skip = 6) %>% 
+  select(State, Party, "Member of Congress", "2017 Score") %>% 
+  mutate(congress = "senate",
+         year = 2017) %>% 
+  rename(score = "2017 Score",
+         party = Party,
+         name = "Member of Congress",
+         state = State) 
+```
+
+Combine senate
+```{r}
+senate <- rbind(senate_05, senate_06, senate_07, senate_08, senate_09, senate_10, senate_11, senate_12, senate_13, senate_14, senate_15, senate_16, senate_17) %>% 
+  group_by(year, state) %>% 
+  mutate(score= as.numeric(score)) %>% 
+  dplyr::summarise(senate_score = mean(score, na.rm=TRUE)) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") 
+```
+
+Combine all congress and tidy
+```{r}
+congress <- left_join(senate, house, by = c("year", "state")) %>% 
+  rowwise() %>% 
+  mutate(score = mean(senate_score,house_score))
+```
+
+Visualize
+```{r}
+congress_graph <- ggplot(congress) +
+  geom_line(aes(x=year, y= score, color = state)) +
+  ggtitle("LCV Raw Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+congress_graph
+```
+
+Convert to Scores
+```{r}
+lcv_scores <- congress %>% 
+   mutate(score_lcv = scales::rescale(score, to = c(0,1), from=c(0,100)),
+         rgn_id1 = case_when(
+           state == "ME" ~ "6", 
+           state == "NH" ~ "9", 
+           state == "MA" ~ "7",
+           state == "RI" ~ "11",
+           state == "CT" ~ "5",
+           state == "NY" ~ "10"),
+         rgn_id2 = case_when(
+           state == "MA" ~ "8")) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  select(year, rgn_id, rgn_name, score_lcv)
+
+#write csv
+  
+```
+
+
+Visualize
+```{r}
+lcv_score_graph <- ggplot(lcv_scores) +
+  geom_line(aes(x=year, y= score_lcv, color = rgn_name)) +
+  ggtitle("LCV Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+lcv_score_graph
+```
+
+Combine all scores (except grading the states) to calculate overall social resilience
+need to gap fill for missing years in some datasets
+
+```{r}
+social_resilience_scores <- left_join(lcv_scores, svi_overall, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(oi_score, by = c("year", "rgn_id", "rgn_name")) %>% 
+  rowwise() %>% 
+  mutate(social_score = mean(c(score_lcv,svi_score,oi_score), na.rm= TRUE))
+```
+
+
+Visualize
+```{r}
+social_score_graph <- ggplot(social_resilience_scores) +
+  geom_line(aes(x=year, y= social_score, color = rgn_name)) +
+  ggtitle("Social Resilience Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+social_score_graph
+```
 
 
 
