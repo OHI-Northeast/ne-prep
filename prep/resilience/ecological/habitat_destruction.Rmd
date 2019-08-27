@@ -77,7 +77,7 @@ marine_hab <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefil
          d_GAP_Sts == "2 - managed for biodiversity - disturbance events suppressed" | Loc_Ds == "Closed Area" ,
          Constancy == "Year-round",
          Date_Est <= "2017") %>% 
-  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id, area_km2)
+  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id, area_km2) 
 
 ```
 

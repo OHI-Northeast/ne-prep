@@ -160,6 +160,11 @@ raw_svi_2014 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_N
 raw_svi_2015 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=7)
 raw_svi_2016 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=8)
 raw_svi_categories <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=11)
+
+MA_counties <- read.csv("~/github/ne-prep/src/tables/MA_counties.csv") %>% 
+  select(-X)
+MA_cities <- read_csv(file.path(dir_anx, "_raw_data/MA_gov/list-cities-massachusetts.csv")) %>% select(Name, County) %>% 
+  rename(city = Name)
 ```
 
 Data Tidying!
@@ -182,17 +187,54 @@ SS_ct	Storm Surge Risk categorical Ranking (2015 and 2016 only)
 
 group and average by the three categories in the paper
 
+
+look at Masachusetts "counties" in the SVI and see if they match up with the actual counties
+```{r}
+ma_communities <- raw_svi_2009 %>% 
+  select(GEO_NAME) %>% 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
+  filter(state == "MA") %>% 
+  left_join(MA_cities, by = c("city")) %>% 
+  rename(city_community = city)
+
+#pull out the communities with NA for county
+
+county_missing <- ma_communities %>% 
+  filter(is.na(County))
+
+write.csv(county_missing, file = "data/county_missing.csv")
+
+#this file is the above file with the counties filled in
+MA_counties_missing <- read.csv(file.path(dir_anx, "_raw_data/MA_gov/county_missing_filled.csv"))
+
+```
+
+```{r}
+regions_map <- ggplot(rgns) +
+  geom_sf(aes(fill= rgn_name))
+regions_map
+```
+
+combine 
+```{r}
+ma_rgns_by_counties <- ma_communities %>% 
+  filter(!is.na(County)) %>% 
+  left_join(MA_counties, by =c("County")) %>% 
+  rbind(MA_counties_missing)
+```
+
+
 Do the same data tidying for every year (2009-2016)
 ```{r}
 svi_2009 <- raw_svi_2009 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
 
  
@@ -204,14 +246,14 @@ svi_2009 <- raw_svi_2009 %>%
 
 ```{r}
 svi_2010 <- raw_svi_2010 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
 
  
@@ -223,14 +265,14 @@ svi_2010 <- raw_svi_2010 %>%
 
 ```{r}
 svi_2011 <- raw_svi_2011 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
  
@@ -242,14 +284,14 @@ svi_2011 <- raw_svi_2011 %>%
 
 ```{r}
 svi_2012 <- raw_svi_2012 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
  
@@ -261,14 +303,14 @@ svi_2012 <- raw_svi_2012 %>%
 
 ```{r}
 svi_2013 <- raw_svi_2013 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
 
  
@@ -280,14 +322,14 @@ svi_2013 <- raw_svi_2013 %>%
 
 ```{r}
 svi_2014 <- raw_svi_2014 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
 
@@ -299,14 +341,14 @@ svi_2014 <- raw_svi_2014 %>%
 
 ```{r}
 svi_2015 <- raw_svi_2015 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct )),
          inundation_risk = mean(SLR_ct)) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
 
@@ -319,14 +361,14 @@ svi_2015 <- raw_svi_2015 %>%
 
 ```{r}
 svi_2016 <- raw_svi_2016 %>% 
-  select(year, STATEABBR, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
-  rename(state = STATEABBR) %>% 
+  select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
   rowwise() %>% 
   mutate(social_vul = mean(c(PerDis_ct, PopCom_ct, Pvrty_ct, LabFrc_ct, HsChr_ct, HsDis_ct)),
          gentrification_vul = mean(c(RetMig_ct, UrbSpl_ct)), #missing Natural Amenities, will ask Lisa about this
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = mean(SLR_ct)) %>% 
-  select(year, state, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
+  select(year, state, city, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
   mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
 
 # select(year, state, vulnerability_score) %>% 
@@ -335,6 +377,9 @@ svi_2016 <- raw_svi_2016 %>%
 ```
 
 Combine and add the rgn_name and rgn_id bits
+
+pick up here for the distiction of north and south mass
+
 ```{r}
 svi_bind <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_2014, svi_2015, svi_2015, svi_2016)
 
