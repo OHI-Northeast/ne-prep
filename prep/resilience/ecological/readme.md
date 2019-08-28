@@ -1,8 +1,8 @@
-## Ocean Health Index - US Northeast: Resilience
+## Ocean Health Index - US Northeast: Ecological Resilience
 
 This folder describes the methods used to prepare data for the ecological resilience layer for the US Northeast OHI assessment. 
 
-Categories of resilience layers:
+Categories of ecological resilience layers:
 1) Water Pollution
 2) Fishing Pressure (biomass removal)
 3) Climate Change

@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Change Pressure prep"
+title: "OHIEC: Resilience - Climate Change Pressure Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,35 +18,74 @@ toc: true
 
 # Summary
 
-This script calculates fishing pressure resilience values by OHINE region. 
+This script calculates climate change resilience values by OHINE region. 
 
 # Data
+1. American Council for Energy-Efficient Economy (EEE) state and local policy rankings
+2. America's Pledge Phase 1 Report
+3. US Energy Information Administration Energy Consumption Data
+4. EPA CO2 Emissions from Fossil Fuel Combustion Data
 
-**Reference**: 
+**1. EEE**
+**Downloaded**: August, 2019
 
-**Downloaded**: 
+**Description**: Rankings of states' energy efficiency policy and program efforts. https://database.aceee.org/state-scorecard-rank
 
-**Description**:  
+**Time range**: 2006-2018
+
+**Format**: PDF
+
+
+**2. America's Pledge**
+**Downloaded**: August, 2019
+
+**Description**: Got the raw data for Figure 2-3 Climate Friendly Actions by U.S States: Types and Numbers in the America's Pledge Report: Phase 1 (https://www.bbhub.io/dotorg/sites/28/2017/11/AmericasPledgePhaseOneReportWeb.pdf) from Tom Cyrs tom.cyrs@wri.org 
+
+**Time range**: 2006-2018
+
+**Format**: Tabular
+
+FINISH 3 AND 4
+**3. EIA Consumption Data**
+**Downloaded**: August, 2019
+
+**Description**: 
 
 **Time range**: 
 
-**Format**: 
+**Format**: Tabular
 
+**3. EPA Carbon Emissions**
+**Downloaded**: August, 2019
+
+**Description**: 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
+
+**Time range**: 
+
+**Format**: Tabular
+
+FIX BELOW TO MAKE IT A BLURB ABOUT HOW EACH DATA WAS USED 
+FIX EEE BY DOWNLOADING PAST YEARS
+FIX THE DOCUMENTATION FOR EEE, REKNIT
+
+##Using the Data
 Regulations:
-1) extract info from America's Pledge Report
-2) American Council for Energy Efficiency:
-Rankings: https://database.aceee.org/state/
+1. America's Pledge Report: 
+2. American Council for Energy Efficiency Rankings: https://database.aceee.org/state/
 
 Effectiveness:
-US. energy information administration:
-1) Total CO2 emissions https://www.epa.gov/statelocalenergy/state-co2-emissions-fossil-fuel-combustion
-2) Total power generation:https://www.eia.gov/electricity/data/state/
+1. Take the total CO2 emissions each year and compare to the target, which is calcualted by the state set goals
+a. Carbon Emmission Targets:
+Targets pulled from https://www.c2es.org/document/greenhouse-gas-emissions-targets/
+Rhode Island is missing from this map so pulled from http://www.planning.ri.gov/documents/LU/energy/energy15.pdf
 
-Targets for effectiveness from Beyond Carbon https://www.beyondcarbon.org/look-up-your-state/
+2. Total clean power consumption: https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
+a. Renewable/Clean Energy Targets:
+Drawn from http://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx#me
+note: all targets are part os "renewable energy portfolio standards" so I won't be including nuclear energy into calcualting if states are on track for targets
 
 
 ``` {r setup,  message = FALSE, warning = FALSE}
-
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
 
@@ -61,22 +100,19 @@ library(dplyr)
 library(Hmisc)
 library(stringi)
 library(readxl)
-
+library(tabulizer)
 ```
 
 
-Data
+Load Data
 ```{r}
-
 eee <- read_excel(file.path(dir_anx, "_raw_data/EEE/eee_scores.xlsx"))
 raw_clim_act <- read_excel(file.path(dir_anx, "_raw_data/Americas_Pledge/states_climate_regs_summary.xlsx"), skip=2, sheet = 2)
-
 ```
 
-**Regualtions**
+**Regulations**
 Energy Efficiency Scores
 ```{r}
-
 #calculate
 eee_score <- eee %>% 
   mutate(score = eee_score/eee_target) %>% 
@@ -86,7 +122,6 @@ eee_score <- eee %>%
 
 #save
 write.csv(eee_score, file = "data/eee_score")
-
 ```
 
 Visualize
@@ -173,18 +208,12 @@ ggsave("figs/clim_act_graph.jpg", width=7, height=5, dpi=300)
 
 ##Clean Energy Cosumption
 
-**Renewable/Clean Energy Targets:**
-Drawn from http://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx#me
-note: all targets are part os "renewable energy portfolio standards" so I won't be including nuclear energy into calcualting if states are on track for targets
-
 1. Maine = 40% by 2017
 2. New Hampshire = 25.2% by 2025
 3. Connecticut = 44% by 2030
 4. Massachusetts = 35% 2030
 5. New York = 50% by 2030
 6. Rhode Island = 38.5% by 2035
-
-https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
 
 Load in the energy consumption data for each state. All numbers are in Billion Btu
 ```{r}
@@ -548,11 +577,7 @@ ggsave("figs/graph_clean_energy_score.jpg", width=7, height=5, dpi=300)
 ```
 
 ##Carbon Emmissions
-
-**Carbon Emmission Targets:**
-Targets pulled from https://www.c2es.org/document/greenhouse-gas-emissions-targets/
-Rhode Island is missing from this map so pulled from http://www.planning.ri.gov/documents/LU/energy/energy15.pdf
-
+Targets:
 Maine= 80% reduction below 1990 levels by 2050
 New Hampshire= 80% reduction below 1990 levels by 2050
 Connecticut= 80% reduction below 2001 levels by 2050
@@ -562,10 +587,6 @@ Rhode Island= 80% reduction below 1990 levels by 2050
 
 Converting table from a pdf from EPA website to a df
 ```{r}
-
-library(tabulizer)
-library(dplyr)
-
 location <- 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
 out <- extract_tables(location)
 

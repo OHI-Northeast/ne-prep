@@ -16,84 +16,107 @@ output:
 toc: true
 ---
 
-
 # Summary
 
 This script calculates social resilience values by OHINE region. 
 
-
 # Data
-
-**Reference**:
-
-
-**Downloaded**: July, 2019
-
-**Description**:  
-
-**Time range**: BHI=2005-2017
-
-**Format**:  BHI=CSV file
-
 1) Beacon Hill Competitiveness Report
-2) Opportunity Index Scores
+2) Opportunity Index 
 3) NOAA Social Vulnerability
-4) Grading the States Report 
-5) LCV scores 
+4) LCV scores 
 
+**1. Beacon Hill Competitiveness Report**
+**Downloaded**: July 2019
+
+**Description**:  Report assesses each states competivieness by assessing "if it has in place the policies and conditions that ensure and sustain a high level of per capita income and its continued growth" http://beaconhill.org/economic-competitiveness/)
+
+**Time range**: 2005-2017
+
+**Format**: PDF
+
+
+**2. Opportunity Index**
+**Downloaded**: July 2019
+
+**Description**:  Calculates opportunity in each state based on economy, education, health, community
+
+**Time range**: 2012, 2014-2017
+
+**Format**:  PDF
+
+
+**3. NOAA Social Vulnerability**
+**Downloaded**: August 2019
+
+**Description**: Calculates Social Vulnerability based on social vulnerability, fishing vulnerability, inundation risk, and gentrification vulnerability  
+
+**Time range**: 2009-2016
+
+**Format**: Tabular
+
+**3. League of Conservation Voters Scorecards**
+**Downloaded**: August
+
+**Description**: Scores the actions of senate and house members based on how they vote on environmentally related topics.
+
+**Time range**: 1971-2018
+
+**Format**:  Tabular
 
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
-```
-
-
-``` {r setup,  message = FALSE, warning = FALSE}
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
+```
+
+Load Libraries
+``` {r}
 library(csv)
 library(dplyr)
 library(tidyverse)
+library(readxl)
+library(gridExtra)
+library(scales)
 ```
+
+Read in Data
+```{r}
+raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
+raw_oi <- read_xlsx(file.path(dir_anx, "_raw_data/OpportunityIndex/opportunity_index_scores.xlsx")) %>% 
+  rename(oi_score = score)
+```
+
 
 
 Beacon Hill Institute State Competitiveness Report
 ```{r}
-
-raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
-
 bhi_scores <- raw_bhi %>% 
   filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
   mutate(target = 10,
          score = index/target)
 
-#write.csv(bhi_scores, "data/bhi_scores.csv")
+write.csv(bhi_scores, "data/bhi_scores.csv")
+```
 
+Visualize
+```{r}
 bhi_graph <- ggplot(bhi_scores) +
   geom_line(aes(x=year, y= score, color = state)) +
   ggtitle("Scores State Competitiveness Report") +
   ylab("score") +
   xlab("Year") +
   theme_classic()
-#ggsave("figs/bhi_graph.jpg", width=7, height=5, dpi=300)
 
+ggsave("figs/bhi_graph.jpg", width=7, height=5, dpi=300)
 ```
-
 
 Opportunity Index Scores
-
 ```{r}
-
-raw_oi <- read_xlsx(file.path(dir_anx, "_raw_data/OpportunityIndex/opportunity_index_scores.xlsx")) %>% 
-  rename(oi_score = score)
-
-```
-
-```{r}
-
 oi_score <- raw_oi %>% 
   group_by(state) %>% 
   mutate(year_n = seq(1:7)) %>% 
@@ -133,11 +156,10 @@ oi_score <- raw_oi %>%
 write.csv(oi_score, "data/oi_score.csv")
 ```
 
-
-visualize
+Visualize
 ```{r}
 oi_graph <- ggplot(oi_score) +
-  geom_line(aes(x=year, y= score, color = state)) +
+  geom_line(aes(x=year, y= oi_score, color = state)) +
   ggtitle("Opportunity Index Score") +
   ylab("Score") +
   xlab("Year") +
@@ -146,7 +168,6 @@ oi_graph <- ggplot(oi_score) +
 oi_graph
 
 ggsave("figs/oi_graph.jpg", width=7, height=5, dpi=300)
-
 ```
 
 NOAA Social Vulnerability Index
@@ -167,8 +188,9 @@ MA_cities <- read_csv(file.path(dir_anx, "_raw_data/MA_gov/list-cities-massachus
   rename(city = Name)
 ```
 
-Data Tidying!
+Time for data tidying!
 
+Here I group and average by each region by the four categories (Social Vulnerability, Gentrification Pressure, Sea Level Rise Vulnerability, Fishing Engagement and Reliance). The variable definitions are below.
 Variable Definitions:
 LabFrc_ct	Labor Force categorical ranking
 HsChr_ct	Housing Characteristics categorical ranking
@@ -185,10 +207,10 @@ RecRel_ct	Recreational Reliance categorical ranking
 SLR_ct	Inundation Risk categorical ranking
 SS_ct	Storm Surge Risk categorical Ranking (2015 and 2016 only)
 
-group and average by the three categories in the paper
 
+First however, I need to divide out The regions of Massachusetts North and South. The vulnerability index looked at communities not counties, but most of them do match up to counties. For the rest I manually went and and looked where they were and assigned the community to a region 
 
-look at Masachusetts "counties" in the SVI and see if they match up with the actual counties
+Look at Masachusetts "counties" in the SVI and see if they match up with the actual counties
 ```{r}
 ma_communities <- raw_svi_2009 %>% 
   select(GEO_NAME) %>% 
@@ -198,24 +220,25 @@ ma_communities <- raw_svi_2009 %>%
   rename(city_community = city)
 
 #pull out the communities with NA for county
-
 county_missing <- ma_communities %>% 
   filter(is.na(County))
 
 write.csv(county_missing, file = "data/county_missing.csv")
 
+#between this line and above I manually went in and assigned North/South to the NA communitites.
 #this file is the above file with the counties filled in
 MA_counties_missing <- read.csv(file.path(dir_anx, "_raw_data/MA_gov/county_missing_filled.csv"))
 
 ```
 
+Look to see where the division of north and south massachusetts is on the cape
 ```{r}
 regions_map <- ggplot(rgns) +
   geom_sf(aes(fill= rgn_name))
 regions_map
 ```
 
-combine 
+Combine 
 ```{r}
 ma_rgns_by_counties <- ma_communities %>% 
   filter(!is.na(County)) %>% 
@@ -223,6 +246,7 @@ ma_rgns_by_counties <- ma_communities %>%
   rbind(MA_counties_missing)
 ```
 
+Now that the communities have the proper regions associated with them, we can calculate the score of the 4 indices (Social Vulnerability, Gentrification Pressure, Sea Level Rise Vulnerability, Fishing Engagement and Reliance)
 
 Do the same data tidying for every year (2009-2016)
 ```{r}
@@ -298,7 +322,6 @@ svi_2012 <- raw_svi_2012 %>%
 #  select(year, state, vulnerability_score) %>% 
 #  group_by(state, year) %>% 
  # summarise(mean = mean(vulnerability_score))
-  
 ```
 
 ```{r}
@@ -445,14 +468,12 @@ svi_overall <- left_join(svi_social, svi_gen, by = c("year", "state")) %>%
     rgn_id == "10" ~ "New York")) %>% 
   select(year, rgn_id, rgn_name, res_score) %>% 
   rename(svi_score = res_score)
-```
 
+write.csv(svi_overall, file = "data/csvi_overall.csv")
+```
 
 Visulalize
 ```{r}
-
-library(gridExtra)
-
 svi_social_vul_graph <- ggplot(svi_social) +
   geom_line(aes(x=year, y= score_social, color = rgn_name)) +
   ggtitle("Social Vulnerability Indices") +
@@ -481,7 +502,6 @@ svi_inun_vul_graph <- ggplot(svi_inund) +
   xlab("Year") +
   theme_classic()
 
-
 svi_social_vul_graph
 ggsave("figs/svi_social_vul_graph.jpg", width=7, height=5, dpi=300)
 
@@ -493,67 +513,18 @@ ggsave("figs/svi_fish_vul_graph.jpg", width=7, height=5, dpi=300)
 
 svi_inun_vul_graph
 ggsave("figs/svi_inun_vul_graph.jpg", width=7, height=5, dpi=300)
-
-
 ```
 
 ```{r}
-
 svi_scores_graph <- ggplot(svi_overall) +
   geom_line(aes(x=year, y= res_score, color = rgn_name)) +
-  ggtitle("Social Resilience Score") +
+  ggtitle("NOAA Vul Social Resilience Score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic()
 
 svi_scores_graph
-
 ```
-
-
-Grading the States 
-
-```{r}
-raw_gs <- read_excel(file.path(dir_anx, "_raw_data/GradingTheStates/grading_states.xlsx"))
-```
-
-```{r}
-library(scales)
-gs <- raw_gs %>% 
-  select(state, overall_grade) %>% 
-  rename(rgn_name = state) %>% 
-  mutate(raw_score = case_when(overall_grade == "A+" ~ 15,
-                           overall_grade == "C" ~ 8,
-                           overall_grade == "C+" ~ 9,
-                           overall_grade == "D+" ~ 6,
-                           overall_grade == "D" ~ 5,
-                           overall_grade == "F" ~ 2),
-         score = scales::rescale(raw_score, to = c(0,1), from=c(1,15)),
-         rgn_id = case_when(
-           rgn_name == "Maine" ~ "6", 
-           rgn_name == "New Hampshire" ~ "9", 
-           rgn_name == "Massachusetts-North" ~ "7",
-           rgn_name == "Massachusetts-South" ~ "8",
-           rgn_name == "Rhode Island" ~"11",
-           rgn_name == "Connecticut" ~ "5",
-           rgn_name == "New York"~ "10"))  %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n)
-```
-
-
-```{r}
-gs_graph <- ggplot(gs) +
-  geom_line(aes(x=year, y= score, color = rgn_name)) +
-  ggtitle("Grading the States Score") +
-  ylab("Score") +
-  xlab("Year") +
-  theme_classic()
-
-gs_graph
-```
-
 
 League of Conservation Voters (LCV)
 
@@ -689,7 +660,6 @@ house_17 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2017
          name = "Member of Congress") %>% 
   separate(District, c("state", "dis_num"), sep = "-")
 ```
-
 
 ** will need to go back to here and separate north/south ma
 although, need to think about how we cant do this for the senate
@@ -887,10 +857,8 @@ lcv_scores <- congress %>%
     rgn_id == "10" ~ "New York")) %>% 
   select(year, rgn_id, rgn_name, score_lcv)
 
-#write csv
-  
+write.csv(lcv_scores, file = "data/lcv_scores.csv")
 ```
-
 
 Visualize
 ```{r}
@@ -912,8 +880,9 @@ social_resilience_scores <- left_join(lcv_scores, svi_overall, by = c("year", "r
   left_join(oi_score, by = c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
   mutate(social_score = mean(c(score_lcv,svi_score,oi_score), na.rm= TRUE))
-```
 
+write.csv(social_resilience_scores, file = "data/social_resilience_scores.csv")
+```
 
 Visualize
 ```{r}
@@ -925,9 +894,55 @@ social_score_graph <- ggplot(social_resilience_scores) +
   theme_classic()
 
 social_score_graph
+
+ggsave("figs/social_score_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 
+
+Probably won't use grading the states
+
+Grading the States 
+
+```{r}
+raw_gs <- read_excel(file.path(dir_anx, "_raw_data/GradingTheStates/grading_states.xlsx"))
+```
+
+```{r}
+gs <- raw_gs %>% 
+  select(state, overall_grade) %>% 
+  rename(rgn_name = state) %>% 
+  mutate(raw_score = case_when(overall_grade == "A+" ~ 15,
+                           overall_grade == "C" ~ 8,
+                           overall_grade == "C+" ~ 9,
+                           overall_grade == "D+" ~ 6,
+                           overall_grade == "D" ~ 5,
+                           overall_grade == "F" ~ 2),
+         score = scales::rescale(raw_score, to = c(0,1), from=c(1,15)),
+         rgn_id = case_when(
+           rgn_name == "Maine" ~ "6", 
+           rgn_name == "New Hampshire" ~ "9", 
+           rgn_name == "Massachusetts-North" ~ "7",
+           rgn_name == "Massachusetts-South" ~ "8",
+           rgn_name == "Rhode Island" ~"11",
+           rgn_name == "Connecticut" ~ "5",
+           rgn_name == "New York"~ "10"))  %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n)
+```
+
+
+```{r}
+gs_graph <- ggplot(gs) +
+  geom_line(aes(x=year, y= score, color = rgn_name)) +
+  ggtitle("Grading the States Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+gs_graph
+```
 
 
 
