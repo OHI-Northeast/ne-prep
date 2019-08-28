@@ -15,6 +15,7 @@ Categories of resilience layers:
 #### [Fishing Pressure Resilience](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/fishing_pressure.html)
 - The stock layers are derived from NOAA stock assessment data and the [RAM legacy database](https://www.ramlegacy.org/)
 - The protected areas layers are derived from [USGS Protected Area Database](https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/gap/science/pad-us-data-overview?qt-science_center_objects=0#qt-science_center_objects)
+- The enforcement and compliance layers are derrived from NOAA Office of Law Enforcement Annual Reports and NOAA Fisheries Observer Program data 
 
 **Note** 
 

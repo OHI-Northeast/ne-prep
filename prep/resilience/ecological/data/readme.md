@@ -44,8 +44,10 @@ All water pollution layers in one file with the their respective targets
 Water pollution metrics converted into scores based on targets
 
 ******************************************************************
+
 Data created in the `fishing_pressure.Rmd`
 
+Regulation:
 `assessment_score.csv` Contains scores for percent of species landed that have stock assessments, by NEOHI Region not over time
 
 `marine_protected_by_rgn.csv` Contains spatial data for areas in all 11 regions that have regulations that will prevent fish biomass extraction. Used USGS data 
@@ -70,7 +72,21 @@ C. Keep Constancy == Year-round
 
 `protected_score.csv` Scores for protected areas preventing fish biomass. Used a target of 30% protection
 
+`percent_assessed_by_region.csv` Calculates the percent of species that are caught that have stock assessments
+
 `percent_adeq_ass.csv` Calculates species with stocks assessment that are adequately assessed by region (ie: assessed every 5 or less years) 
+
+`fisheries_reg_score` Consolidates scores from `protected_score.csv`, `percent_assessed_by_region.csv`, `percent_adeq_ass.csv` and calculates a fisheries regulation score
+
+Implementation/ Enforcement and Effectiveness/Compliance::
+
+`fish_ob_score.csv` Uses fisheries observer data to calculate enforcement scores by taking the number of actual seadays/ number of allocated seadays
+
+`ole_scores.csv` Uses OLE data to calculate implementation/enforcement and effectiveness/compliance scores. Enforcement uses Number of staff, number of patrols, number of outreach events OLE and compares each year to the maximum value over time. Compliance uses number of investigations/number of enforcement actions OLE and compares each year to the maximum value over time
+
+`fish_res_score.csv` Consolidates scores from regulation, implementation/enforcement, and effectiveness/compliance for one overall fisheries resilience score
+
+******************************************************************
 
 
 
