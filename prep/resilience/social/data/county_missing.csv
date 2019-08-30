@@ -1,38 +1,35 @@
-city_community,state,County,rgn_name,rgn_id
-Amesbury Town,MA,Essex,Massachusetts-North,7
-Braintree Town,MA,Norfolk,Massachusetts-North,7
-Buzzards Bay,MA,Barnstable,Massachusetts-South,8
-Dennis Port,MA,Barnstable,Massachusetts-South,8
-East Dennis,MA,Barnstable,Massachusetts-North,7
-East Falmouth,MA,Barnstable,Massachusetts-South,8
-East Harwich,MA,Barnstable,Massachusetts-South,8
-Franklin Town,MA,Norfolk,Massachusetts-North,7
-Harwich Center,MA,Barnstable,Massachusetts-South,8
-Harwich Port,MA,Barnstable,Massachusetts-South,8
-Monument Beach,MA,Barnstable,Massachusetts-South,8
-North Falmouth,MA,Barnstable,Massachusetts-South,8
-Northwest Harwich,MA,Barnstable,Massachusetts-South,8
-Pocasset,MA,Barnstable,Massachusetts-South,8
-Sagamore,MA,Barnstable,Massachusetts-North,7
-South Dennis,MA,Barnstable,Massachusetts-South,8
-South Dennis,MA,Barnstable,Massachusetts-North,7
-South Duxbury,MA,Plymouth,Massachusetts-North,7
-Teaticket,MA,Barnstable,Massachusetts-South,8
-West Chatham,MA,Barnstable,Massachusetts-South,8
-West Dennis,MA,Barnstable,Massachusetts-South,8
-West Falmouth,MA,Barnstable,Massachusetts-South,8
-Weymouth Town,MA,Norfolk,Massachusetts-North,7
-Winthrop Town,MA,Suffolk,Massachusetts-North,8
-Woods Hole,MA,Barnstable ,Massachusetts-South,8
-Barnstable Town,MA,Barnstable ,Massachusetts-South,8
-Barnstable Town,MA,Barnstable ,Massachusetts-North,7
-Eastham/North Eastham,MA,Barnstable ,Massachusetts-North,7
-Sandwich/East Sandwich/Forestdale,MA,Barnstable,Massachusetts-North,7
-Yarmouth/South Yarmouth/West Yarmouth/Yarmouth Port,MA,Barnstable ,Massachusetts-South,8
-Yarmouth/South Yarmouth/West Yarmouth/Yarmouth Port,MA,Barnstable ,Massachusetts-North,7
-Tisbury/Vineyard Haven,MA,Dukes,Massachusetts-South,8
-Manchester-By-The-Sea,MA,Essex,Massachusetts-North,7
-Marshfield/Green Harbor-Cedar Crest/Marshfield Hills/Ocean Bluff-Brant Rock,MA,Plymouth,Massachusetts-North,7
-Pembroke/North Pembroke,MA,Plymouth,Massachusetts-North,7
-Scituate/North Scituate,MA,Plymouth,Massachusetts-North,7
-Wareham/West Wareham/Onset,MA,Plymouth,Massachusetts-South,8
+"","city_community","state","County"
+"1","Amesbury Town","MA",NA
+"2","Braintree Town","MA",NA
+"3","Buzzards Bay","MA",NA
+"4","Dennis Port","MA",NA
+"5","East Dennis","MA",NA
+"6","East Falmouth","MA",NA
+"7","East Harwich","MA",NA
+"8","Franklin Town","MA",NA
+"9","Harwich Center","MA",NA
+"10","Harwich Port","MA",NA
+"11","Monument Beach","MA",NA
+"12","North Falmouth","MA",NA
+"13","Northwest Harwich","MA",NA
+"14","Pocasset","MA",NA
+"15","Sagamore","MA",NA
+"16","South Dennis","MA",NA
+"17","South Duxbury","MA",NA
+"18","Teaticket","MA",NA
+"19","West Chatham","MA",NA
+"20","West Dennis","MA",NA
+"21","West Falmouth","MA",NA
+"22","Weymouth Town","MA",NA
+"23","Winthrop Town","MA",NA
+"24","Woods Hole","MA",NA
+"25","Barnstable Town","MA",NA
+"26","Eastham/North Eastham","MA",NA
+"27","Sandwich/East Sandwich/Forestdale","MA",NA
+"28","Yarmouth/South Yarmouth/West Yarmouth/Yarmouth Port","MA",NA
+"29","Tisbury/Vineyard Haven","MA",NA
+"30","Manchester-By-The-Sea","MA",NA
+"31","Marshfield/Green Harbor-Cedar Crest/Marshfield Hills/Ocean Bluff-Brant Rock","MA",NA
+"32","Pembroke/North Pembroke","MA",NA
+"33","Scituate/North Scituate","MA",NA
+"34","Wareham/West Wareham/Onset","MA",NA

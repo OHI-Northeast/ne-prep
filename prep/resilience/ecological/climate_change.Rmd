@@ -45,44 +45,41 @@ This script calculates climate change resilience values by OHINE region.
 
 **Format**: Tabular
 
-FINISH 3 AND 4
+
 **3. EIA Consumption Data**
 **Downloaded**: August, 2019
 
-**Description**: 
+**Description**: Energy consumption by energy source.  https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
 
-**Time range**: 
+**Time range**: 1960-2017
 
 **Format**: Tabular
 
-**3. EPA Carbon Emissions**
+
+**4. EPA Carbon Emissions**
 **Downloaded**: August, 2019
 
-**Description**: 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
+**Description**: Carbon emissions from each state from fossil fuels. 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
 
-**Time range**: 
+**Time range**: 1990-2016
 
 **Format**: Tabular
-
-FIX BELOW TO MAKE IT A BLURB ABOUT HOW EACH DATA WAS USED 
-FIX EEE BY DOWNLOADING PAST YEARS
-FIX THE DOCUMENTATION FOR EEE, REKNIT
 
 ##Using the Data
 Regulations:
-1. America's Pledge Report: 
-2. American Council for Energy Efficiency Rankings: https://database.aceee.org/state/
+1. America's Pledge Report: There are 33 differnet cateogies of environmental friendly actions each state can make. A state will get a perfect score if they have an action in each of these categories 
+2. American Council for Energy Efficiency Rankings: Each state is scored out of 50 (except in 2006 it's out of 44) on their policies in place for energy efficiency etc. 50 would be a perfect score
 
 Effectiveness:
-1. Take the total CO2 emissions each year and compare to the target, which is calcualted by the state set goals
-a. Carbon Emmission Targets:
+1. Take the total CO2 emissions each year and compare to the target, which is calculated by the state set goals
+a. Carbon Emission Targets:
 Targets pulled from https://www.c2es.org/document/greenhouse-gas-emissions-targets/
 Rhode Island is missing from this map so pulled from http://www.planning.ri.gov/documents/LU/energy/energy15.pdf
 
-2. Total clean power consumption: https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
+2. Take the percent of clean power consumption each year and compare to the target, which is calculated by the state set goals
 a. Renewable/Clean Energy Targets:
 Drawn from http://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx#me
-note: all targets are part os "renewable energy portfolio standards" so I won't be including nuclear energy into calcualting if states are on track for targets
+note: all targets are part os "renewable energy portfolio standards" so I won't be including nuclear energy into calculating if states are on track for targets
 
 
 ``` {r setup,  message = FALSE, warning = FALSE}
@@ -99,6 +96,7 @@ library(tidyverse)
 library(dplyr)
 library(Hmisc)
 library(stringi)
+library(stringr)
 library(readxl)
 library(tabulizer)
 ```
@@ -106,7 +104,7 @@ library(tabulizer)
 
 Load Data
 ```{r}
-eee <- read_excel(file.path(dir_anx, "_raw_data/EEE/eee_scores.xlsx"))
+eee <- read_excel(file.path(dir_anx, "_raw_data/EEE/aceee_2006_2018.xlsx"))
 raw_clim_act <- read_excel(file.path(dir_anx, "_raw_data/Americas_Pledge/states_climate_regs_summary.xlsx"), skip=2, sheet = 2)
 ```
 
@@ -115,10 +113,7 @@ Energy Efficiency Scores
 ```{r}
 #calculate
 eee_score <- eee %>% 
-  mutate(score = eee_score/eee_target) %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n)
+  mutate(score_eee = score/target)
 
 #save
 write.csv(eee_score, file = "data/eee_score")
@@ -585,9 +580,9 @@ Massachusetts= 80% reduction below 1990 levels by 2050
 New York= 100% reduction below 1990 levels by 2050
 Rhode Island= 80% reduction below 1990 levels by 2050
 
-Converting table from a pdf from EPA website to a df
+Converting table from a pdf to a df
 ```{r}
-location <- 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
+location <- file.path(dir_anx, "_raw_data/EPA/co2_emmissions_EPA.pdf")
 out <- extract_tables(location)
 
 #page 1
@@ -798,7 +793,6 @@ ct_em_target <- ct_em %>%
 
 ```
 
-* fix new york and maine
 New York
 ```{r}
 
@@ -887,11 +881,6 @@ ggsave("figs/graph_emissions_scores.jpg", width=7, height=5, dpi=300)
 
 Calculate Climate Change Resilience Score
 
-eee_score
-emissions_scores
-clim_act
-power_gen_scores
-
 Tidy each piece so can combine
 ```{r}
 ##eee scores
@@ -957,7 +946,7 @@ emissions_scores_t <- emissions_scores %>%
   fill(score, .direction = "down") %>% 
   rename(score_em = score) 
 
-##power generation scores
+##power consumption scores
 energy_consump_scores_t <- energy_consump_scores %>% 
   mutate(rgn_id1 = case_when(
     state == "Maine" ~ "6", 
@@ -1288,10 +1277,4 @@ graph_clean_energy_score_nuc
 ggsave("figs/graph_clean_generation_energy_score.jpg", width=7, height=5, dpi=300)
 
 ```
-
-
-
-
-
-
 
