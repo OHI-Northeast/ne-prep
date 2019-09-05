@@ -38,6 +38,9 @@ surfrider state of the beach report 2017
 **Format**: 
 
 
+reference for noaa shapefiles:
+NOAA Fisheries Service. NMFS Regulated Areas in Northeast and Mid-Atlantic Waters.  {SHAPEFILE TITLE} [Shapefile]. Gloucester, MA: National Oceanic and Atmospheric Administration (NOAA), National Marine Fisheries Service (NMFS), Greater Atlantic Regional Fisheries Office (GARFO) [producer] {SHAPEFILE PUBLICATION DATE}. http://www.nero.noaa.gov/gis.
+
 ##Protected Areas Benefical to Habitat
 
 Used a lot of the code from the lsp.Rmd
@@ -108,28 +111,42 @@ NOAA Habitat Management Area Data
 
 data from habitat tab on https://www.greateratlantic.fisheries.noaa.gov/educational_resources/gis/data/index.html
 1) Habitat Management Area
+  - Cashes ledge and Fippennies ledge habitat management areas,
+  - Ammen rock habitat management area
+  - Eastern Maine HMA and Jeffrey’s Bank HMA
+  - Closed Area II Habitat Closure
+  - Great South Channel Habitat Management Area
 2) Habitat Research Area
+  - George’s Bank DHRA
 3) Frank R. Lautenberg Deep-Sea Coral Protection Area
-4) Environmental Degradation Closures
+4) Groundfish Closures
+  - Closed Area II 
+  - Western gulf of maine habitat closure
 5) MSB Bottom Trawling Restricted Areas
-
+  - Oceanographer Canyon
+  - Lydonia Canyon
 
 ```{r}
 #1
 hab_manage <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Habitat_Management_Areas/Habitat_Management_Areas.shp")) %>% 
-  filter(DESCRIBE != "Exemption area")
+  filter(DESCRIBE != "Exemption area") %>% 
+  mutate(start_year= 2018)
+
 #2
-hab_research <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Dedicated_Habitat_Research_Area/Dedicated_Habitat_Research_Area.shp"))
+hab_research <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Dedicated_Habitat_Research_Area/Dedicated_Habitat_Research_Area.shp")) %>% 
+  filter(AREANAME == "Georges Bank Dedicated Habitat Research Area") %>% # Stellwagen allows surf clam. quahog dredge gear
+  mutate(start_year= 2018)
+  
 #3
-hab_frl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Frank_R_Lautenberg_Deep_Sea_Coral_Protection_Areas/Frank_R_Lautenberg_Deep_Sea_Coral_Protection_Areas.shp"))
+hab_frl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Frank_R_Lautenberg_Deep_Sea_Coral_Protection_Areas/Frank_R_Lautenberg_Deep_Sea_Coral_Protection_Areas.shp"))%>% 
+  mutate(start_year= 2018)
+
 #4
-hab_deg <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Environmental_Degradation_Closures/Environmental_Degradation_Closures.shp")) %>% 
-  filter(DESCRIBE != "Area closed to surfclam and ocean quahog harvest because of environmental degradation.")
-#5
-hab_msb_trawl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/MSB_Bottom_Trawling_Restricted_Areas/MSB_Bottom_Trawling_Restricted_Areas.shp"))
+hab_msb_trawl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/MSB_Bottom_Trawling_Restricted_Areas/MSB_Bottom_Trawling_Restricted_Areas.shp"))%>% 
+  mutate(start_year= 2008)
 
 #combine all together
-hab_protect <- rbind(hab_manage, hab_research, hab_frl, hab_deg, hab_msb_trawl) %>%
+hab_protect <- rbind(hab_manage, hab_research, hab_frl, hab_msb_trawl) %>%
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
   st_intersection(rgns)

@@ -91,14 +91,36 @@ raw_oi <- read_xlsx(file.path(dir_anx, "_raw_data/OpportunityIndex/opportunity_i
   rename(oi_score = score)
 ```
 
-
-
 Beacon Hill Institute State Competitiveness Report
 ```{r}
 bhi_scores <- raw_bhi %>% 
   filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
   mutate(target = 10,
-         score = index/target)
+         score = index/target) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  rename(bhi_score = score)
 
 write.csv(bhi_scores, "data/bhi_scores.csv")
 ```
@@ -106,7 +128,7 @@ write.csv(bhi_scores, "data/bhi_scores.csv")
 Visualize
 ```{r}
 bhi_graph <- ggplot(bhi_scores) +
-  geom_line(aes(x=year, y= score, color = state)) +
+  geom_line(aes(x=year, y= bhi_score, color = rgn_name)) +
   ggtitle("Scores State Competitiveness Report") +
   ylab("score") +
   xlab("Year") +
@@ -116,6 +138,27 @@ ggsave("figs/bhi_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 Opportunity Index Scores
+
+Create a df with years 2005-2008 to be added to and gap filled 
+back filling from last year
+```{r}
+gapfil <- c("6", "9", "7", "8", "11", "5", "10") %>% 
+  as.data.frame() %>% 
+  rename(rgn_id = ".") %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  uncount(6, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(oi_score = NA)
+```
+
 ```{r}
 oi_score <- raw_oi %>% 
   group_by(state) %>% 
@@ -151,7 +194,11 @@ oi_score <- raw_oi %>%
     rgn_id == "11" ~ "Rhode Island",
     rgn_id == "5" ~ "Connecticut",
     rgn_id == "10" ~ "New York")) %>% 
-  rename(oi_score= score)
+  rename(oi_score= score) %>% 
+  rbind(gapfil) %>% 
+  group_by(rgn_name) %>% 
+  arrange(year) %>% 
+  fill(oi_score, .direction = "up") 
 
 write.csv(oi_score, "data/oi_score.csv")
 ```
@@ -159,7 +206,7 @@ write.csv(oi_score, "data/oi_score.csv")
 Visualize
 ```{r}
 oi_graph <- ggplot(oi_score) +
-  geom_line(aes(x=year, y= oi_score, color = state)) +
+  geom_line(aes(x=year, y= oi_score, color = rgn_name)) +
   ggtitle("Opportunity Index Score") +
   ylab("Score") +
   xlab("Year") +
@@ -208,7 +255,7 @@ SLR_ct	Inundation Risk categorical ranking
 SS_ct	Storm Surge Risk categorical Ranking (2015 and 2016 only)
 
 
-First however, I need to divide out The regions of Massachusetts North and South. The vulnerability index looked at communities not counties, but most of them do match up to counties. For the rest I manually went and and looked where they were and assigned the community to a region 
+First however, I need to divide out the regions of Massachusetts North and South. The vulnerability index looked at communities not counties, but most of them do match up to counties. For the rest I manually went and and looked where they were and assigned the community to a region 
 
 Look at Masachusetts "counties" in the SVI and see if they match up with the actual counties
 ```{r}
@@ -228,7 +275,6 @@ write.csv(county_missing, file = "data/county_missing.csv")
 #between this line and above I manually went in and assigned North/South to the NA communitites.
 #this file is the above file with the counties filled in
 MA_counties_missing <- read.csv(file.path(dir_anx, "_raw_data/MA_gov/county_missing_filled.csv"))
-
 ```
 
 Look to see where the division of north and south massachusetts is on the cape
@@ -243,14 +289,16 @@ Combine
 ma_rgns_by_counties <- ma_communities %>% 
   filter(!is.na(County)) %>% 
   left_join(MA_counties, by =c("County")) %>% 
-  rbind(MA_counties_missing) %>% 
+  rbind(MA_counties_missing) 
 ```
 
 Now that the communities have the proper regions associated with them, we can calculate the score of the 4 indices (Social Vulnerability, Gentrification Pressure, Sea Level Rise Vulnerability, Fishing Engagement and Reliance)
 
+
 Do the same data tidying for every year (2009-2016)
 ```{r}
-svi_2009 <- raw_svi_2009 %>% 
+# tidy and find score averages
+calc_09 <- raw_svi_2009 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -259,12 +307,33 @@ svi_2009 <- raw_svi_2009 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) %>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+noMA_09 <- calc_09%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_09 <- calc_09 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2009 <- rbind(MA_09,noMA_09)
 ```
 
 ```{r}
-svi_2010 <- raw_svi_2010 %>% 
+calc_10 <- raw_svi_2010 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -273,12 +342,33 @@ svi_2010 <- raw_svi_2010 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) %>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
+
+noMA_10 <- calc_10%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_10 <- calc_10 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2010 <- rbind(MA_10,noMA_10)
 ```
 
 ```{r}
-svi_2011 <- raw_svi_2011 %>% 
+calc_11 <- raw_svi_2011 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -287,12 +377,33 @@ svi_2011 <- raw_svi_2011 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) %>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+noMA_11 <- calc_11%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_11 <- calc_11 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2011 <- rbind(MA_11,noMA_11)
 ```
 
 ```{r}
-svi_2012 <- raw_svi_2012 %>% 
+calc_12 <- raw_svi_2012 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -301,12 +412,33 @@ svi_2012 <- raw_svi_2012 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))%>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+noMA_12 <- calc_12%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_12 <- calc_12 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2012 <- rbind(MA_12,noMA_12)
 ```
 
 ```{r}
-svi_2013 <- raw_svi_2013 %>% 
+calc_13 <- raw_svi_2013 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -315,12 +447,33 @@ svi_2013 <- raw_svi_2013 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) %>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk))) 
+
+noMA_13 <- calc_13%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_13 <- calc_13 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2013 <- rbind(MA_13,noMA_13)
 ```
 
 ```{r}
-svi_2014 <- raw_svi_2014 %>% 
+calc_14 <- raw_svi_2014 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -329,12 +482,33 @@ svi_2014 <- raw_svi_2014 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = SLR_ct) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))%>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+noMA_14 <- calc_14%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_14 <- calc_14 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2014 <- rbind(MA_14, noMA_14)
 ```
 
 ```{r}
-svi_2015 <- raw_svi_2015 %>% 
+calc_15 <- raw_svi_2015 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -343,13 +517,34 @@ svi_2015 <- raw_svi_2015 %>%
          fishing_vul = mean(c(ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct )),
          inundation_risk = mean(SLR_ct)) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))%>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+noMA_15 <- calc_15%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_15 <- calc_15 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2015 <- rbind(MA_15, noMA_15)
 ```
 
 
 ```{r}
-svi_2016 <- raw_svi_2016 %>% 
+calc_16 <- raw_svi_2016 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
   rowwise() %>% 
@@ -358,18 +553,60 @@ svi_2016 <- raw_svi_2016 %>%
          fishing_vul = mean(c(ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct )),
          inundation_risk = mean(SLR_ct)) %>% 
   select(year, state, city_community, social_vul, gentrification_vul, fishing_vul, inundation_risk) %>% 
-  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))%>% 
-  left_join(ma_rgns_by_counties, by = c("city_community", "state")) 
+  mutate(vulnerability_score = mean(c(social_vul, gentrification_vul, fishing_vul, inundation_risk)))
+
+noMA_16 <- calc_16%>% 
+  filter( state != "MA") %>%  #add rgn_id and rgn_name to rbind with MA later
+   mutate(rgn_id = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10")) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+
+MA_16 <- calc_16 %>% 
+  filter(state == "MA") %>% 
+  right_join(ma_rgns_by_counties) %>% 
+  select(-County)
+
+svi_2016 <- rbind(MA_16,noMA_16)
 ```
 
-Combine and add the rgn_name and rgn_id bits
-
-pick up here for the distiction of north and south mass
-  WHY ARE THERE NAS?
-
+Create a df with years 2005-2008 to be added to and gap filled 
 ```{r}
-svi_bind <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_2014, svi_2015, svi_2015, svi_2016) %>% 
-  select(-County)
+gapfil <- c("6", "9", "7", "8", "11", "5", "10") %>% 
+  as.data.frame() %>% 
+  rename(rgn_id = ".") %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  uncount(4, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(state = NA,
+         city_community = NA,
+         social_vul = NA,
+         gentrification_vul = NA,
+         fishing_vul = NA,
+         inundation_risk =NA,
+         vulnerability_score= NA)
+```
+
+
+Combine all years together and calculate the resilinece scores for this data
+```{r}
+svi_bind <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_2014, svi_2015, svi_2015, svi_2016, gapfil)
 
 svi_social <- svi_bind %>% 
   group_by(state, year, rgn_id, rgn_name) %>% 
@@ -377,8 +614,11 @@ svi_social <- svi_bind %>%
   ungroup() %>% 
   mutate(social_score_scale = scales::rescale(score_social, to = c(0,1)),
          res_social_score = (1-social_score_scale)) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
-  replace(., is.na(.), "0") 
+  select(-state) %>% 
+  filter(rgn_id != is.na(rgn_id)) %>% 
+  group_by(rgn_name) %>% 
+  arrange(year) %>% 
+  fill(res_social_score, .direction = "up") 
 
 svi_gen <- svi_bind %>% 
   group_by(state, year, rgn_id, rgn_name) %>% 
@@ -386,8 +626,11 @@ svi_gen <- svi_bind %>%
   ungroup() %>% 
   mutate(gen_score_scale = scales::rescale(score_gen, to = c(0,1)),
          res_gen_score = (1-gen_score_scale)) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY")%>% 
-  replace(., is.na(.), "0")
+  select(-state) %>% 
+  filter(rgn_id != is.na(rgn_id))%>% 
+  group_by(rgn_name) %>% 
+  arrange(year) %>% 
+  fill(res_gen_score, .direction = "up") 
 
 svi_fish <- svi_bind %>% 
   group_by(state, year, rgn_id, rgn_name) %>% 
@@ -395,77 +638,61 @@ svi_fish <- svi_bind %>%
   ungroup() %>% 
   mutate(fish_score_scale = scales::rescale(score_fish, to = c(0,1)),
          res_fish_score = (1-fish_score_scale)) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
-  replace(., is.na(.), "0")
+  select(-state) %>% 
+  filter(rgn_id != is.na(rgn_id))%>% 
+  group_by(rgn_name) %>% 
+  arrange(year) %>% 
+  fill(res_fish_score, .direction = "up") 
 
 svi_inund <- svi_bind %>% 
   group_by(state, year, rgn_id, rgn_name) %>% 
   summarise(score_inund = mean(inundation_risk))%>% 
   ungroup() %>% 
   mutate(score_inund_scale = scales::rescale(score_inund, to = c(0,1)),
-         res_inund_score = (1-score_inund_scale)) %>% 
-  filter(state == "ME" | state == "MA" | state == "NH" | state == "RI"| state == "CT" | state == "NY") %>% 
-  replace(., is.na(.), "0")
+         res_inund_score = (1-score_inund_scale))%>% 
+  select(-state) %>% 
+  filter(rgn_id != is.na(rgn_id))%>% 
+  group_by(rgn_name) %>% 
+  arrange(year) %>% 
+  fill(res_inund_score, .direction = "up") 
 
-svi_overall <- left_join(svi_social, svi_gen, by = c("year", "state","rgn_id", "rgn_name")) %>% 
-  left_join(svi_inund, by = c("year", "state", "rgn_id", "rgn_name")) %>% 
-  left_join(svi_fish, by = c("year", "state", "rgn_id", "rgn_name")) %>% 
-  select(year, state, rgn_id, rgn_name, res_inund_score,res_fish_score, res_social_score, res_gen_score) %>% 
+svi_overall <- left_join(svi_social, svi_gen, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(svi_inund, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(svi_fish, by = c("year", "rgn_id", "rgn_name")) %>% 
+  select(year, rgn_id, rgn_name, res_inund_score,res_fish_score, res_social_score, res_gen_score) %>% 
   rowwise() %>% 
-  mutate(res_score = mean(c(res_inund_score, res_fish_score, res_social_score, res_gen_score))) %>%
-  mutate(rgn_id = case_when(
-    state == "ME" ~ "6", 
-    state == "NH" ~ "9", 
-    state == "RI" ~ "11",
-    state == "CT" ~ "5",
-    state == "NY" ~ "10",
-    state == "MA" & rgn_name == "Massachusetts-North" ~ "7",
-    state == "MA" & rgn_name == "Massachusetts-South" ~ "8")) %>% 
-  select(- state) %>% 
-  mutate(rgn_name = case_when(
-    rgn_id == "6" ~ "Maine", 
-    rgn_id == "9" ~ "New Hampshire", 
-    rgn_id == "11" ~ "Rhode Island",
-    rgn_id == "5" ~ "Connecticut",
-    rgn_id == "10" ~ "New York",
-    rgn_id == "7" ~ "Massachusetts-North",
-    rgn_id == "8" ~ "Massachusetts-South"
-    )) %>% 
-  select(year, rgn_id, rgn_name, res_score) %>% 
-  rename(svi_score = res_score) %>% 
-  filter(!is.na(rgn_id))
+  mutate(svi_score = mean(c(res_inund_score, res_fish_score, res_social_score, res_gen_score))) %>%
+  select(year, rgn_id, rgn_name, svi_score) 
 
 write.csv(svi_overall, file = "data/csvi_overall.csv")
 ```
 
 Visulalize
 
-FIX:
-This is all wonky now cause ma is represented twice and he other states dont have their region ids yet. decide if want to keep this
 ```{r}
 svi_social_vul_graph <- ggplot(svi_social) +
-  geom_line(aes(x=year, y= score_social, color = state)) +
+  geom_line(aes(x=year, y= res_social_score, color = rgn_name)) +
   ggtitle("Social Vulnerability Indices") +
   ylab("Score") +
   xlab("Year") +
   theme_classic()
 
 svi_gen_vul_graph <- ggplot(svi_gen) +
-  geom_line(aes(x=year, y= score_gen, color = rgn_name)) +
+  geom_line(aes(x=year, y= res_gen_score, color = rgn_name)) +
   ggtitle("Gentrification Vulnerability Indices") +
   ylab("Score") +
   xlab("Year") +
   theme_classic()
 
 svi_fish_vul_graph <- ggplot(svi_fish) +
-  geom_line(aes(x=year, y= score_fish, color = rgn_name)) +
+  geom_line(aes(x=year, y= res_fish_score, color = rgn_name)) +
   ggtitle("Fishing Vulnerability Indices") +
   ylab("Score") +
   xlab("Year") +
   theme_classic()
 
 svi_inun_vul_graph <- ggplot(svi_inund) +
-  geom_line(aes(x=year, y= score_inund, color = rgn_name)) +
+  geom_line(aes(x=year, y= res_inund_score, color = rgn_name)) +
   ggtitle("Inundation Risk") +
   ylab("Score") +
   xlab("Year") +
@@ -493,6 +720,7 @@ svi_scores_graph <- ggplot(svi_overall) +
   theme_classic()
 
 svi_scores_graph
+ggsave("figs/svi_scores_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 League of Conservation Voters (LCV)
@@ -847,8 +1075,9 @@ need to gap fill for missing years in some datasets
 ```{r}
 social_resilience_scores <- left_join(lcv_scores, svi_overall, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(oi_score, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(bhi_scores, by =c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
-  mutate(social_score = mean(c(score_lcv,svi_score,oi_score), na.rm= TRUE))
+  mutate(social_score = mean(c(score_lcv,svi_score,oi_score, bhi_score), na.rm= TRUE)) # can remove NA part when all back filled
 
 write.csv(social_resilience_scores, file = "data/social_resilience_scores.csv")
 ```
@@ -869,49 +1098,6 @@ ggsave("figs/social_score_graph.jpg", width=7, height=5, dpi=300)
 
 
 
-Probably won't use grading the states
-
-Grading the States 
-
-```{r}
-raw_gs <- read_excel(file.path(dir_anx, "_raw_data/GradingTheStates/grading_states.xlsx"))
-```
-
-```{r}
-gs <- raw_gs %>% 
-  select(state, overall_grade) %>% 
-  rename(rgn_name = state) %>% 
-  mutate(raw_score = case_when(overall_grade == "A+" ~ 15,
-                           overall_grade == "C" ~ 8,
-                           overall_grade == "C+" ~ 9,
-                           overall_grade == "D+" ~ 6,
-                           overall_grade == "D" ~ 5,
-                           overall_grade == "F" ~ 2),
-         score = scales::rescale(raw_score, to = c(0,1), from=c(1,15)),
-         rgn_id = case_when(
-           rgn_name == "Maine" ~ "6", 
-           rgn_name == "New Hampshire" ~ "9", 
-           rgn_name == "Massachusetts-North" ~ "7",
-           rgn_name == "Massachusetts-South" ~ "8",
-           rgn_name == "Rhode Island" ~"11",
-           rgn_name == "Connecticut" ~ "5",
-           rgn_name == "New York"~ "10"))  %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n)
-```
-
-
-```{r}
-gs_graph <- ggplot(gs) +
-  geom_line(aes(x=year, y= score, color = rgn_name)) +
-  ggtitle("Grading the States Score") +
-  ylab("Score") +
-  xlab("Year") +
-  theme_classic()
-
-gs_graph
-```
 
 
 

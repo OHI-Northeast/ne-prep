@@ -71,7 +71,7 @@ The main R libraries needed for this analysis are the `raster`, and `ncdf4` pack
 
 knitr::opts_chunk$set(fig.width = 8, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
-source('~/github/ohi-northeast/src/R/common.R') ### an OHINE specific version of common.R
+source('~/github/ne-prep/src/R/common.R') ### an OHINE specific version of common.R
 
 #libraries
 
@@ -97,29 +97,33 @@ cols      = colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color sch
 
 
   nc = nc_open(file.path(raw_dir,'NOAA_OA/Aragonite.nc'))
-            
+
+names(nc$var) # names for lat/long are different, so double check
+
 # longitude values are stored in the variable 'TLONG'
 
-      long <- ncvar_get(nc,varid='TLONG')
+      long <- ncvar_get(nc,varid='Longitude')
 
 # latitude values are stored in the variable 'TLAT'
 
-      lat <- ncvar_get(nc,varid='TLAT')
+      lat <- ncvar_get(nc,varid='Latitude')
+      
+      
 ```
 
 ## using data from global (sent by WHOI)
 ```{r}
 
 #read in data, crop to ne region
-
+# might want to go in and change these files. not quite sure what the equivilant os 2017 is, different folder structure and it has more file years 
 files <- c(list.files(file.path(glob_dir,'v2015/working/annualmean_2005-2014/moll'),recursive=T,full.names = T),
            list.files(file.path(glob_dir,'v2016/int'),pattern = 'global_arag',recursive=T,full.names = T))[1:12]
 
 ne_stack <- files%>%
             stack()%>%
-            projectRaster(crs = us_alb)%>%
+            projectRaster(crs = us_alb) %>%
             crop(ne_ext)%>%
-            resample(ocean_ne)%>% #note here I'm not doing nearest neighbor - bilinear instead....might want to change?
+            resample(ocean_ne) %>% #note here I'm not doing nearest neighbor - bilinear instead....might want to change?
             mask(ocean_ne)
 
 names(ne_stack) <- paste0("Year",(substr(names(ne_stack),22,25)))
@@ -142,8 +146,7 @@ saveGIF({
 ```{r plot_2016_raster}
 
 #Here is the output for 2015
-
-r_2015 <- raster(file.path(oagit_dir,'v2016/int/global_arag_avg_moll_2015.tif'))
+r_2015 <- raster(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/global_arag_avg_moll_2016.tif'))
 
 plot(r_2015,box=F,axes=F,main="Mean Ωaragonite saturation state 2015", col=cols)
  
@@ -183,7 +186,10 @@ The `oaRescale` function rescales each of the annual rasters. If the current val
 
 #Get 2011-2015 rasters
 
-files = c(list.files(file.path(oagit_dir,'v2015/working/annualmean_2005-2014/moll'),full.names = T)[7:10],file.path(oagit_dir,'v2016/int/global_arag_avg_moll_2015.tif'))
+#calling past years data, need to double check that what I am actually doing is hte right information, the file strucutre changed this past year
+#files = c(list.files(file.path(oagit_dir,'v2015/working/annualmean_2005-2014/moll'),full.names = T)[7:10],file.path(oagit_dir,'v2016/int/global_arag_avg_moll_2015.tif'))
+
+files = c(list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/annual_avg_moll'),full.names = T)[7:10])
 
 
 #for each layer, all values <=1 are assigned a 1, otherwise old-new/(old-1)
@@ -203,12 +209,12 @@ oaRescale <- function(file){
 
 #  sapply(files,oaRescale)
 
-  rescaled = list.files(file.path(oagit_dir,'v2016/int/annual_oa_rescaled'),full.names=T)
+  rescaled = list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/annual_avg_moll_rescaled'),full.names=T)
 ```
 
 ```{r plot rescale}
-r <- raster(rescaled[5])
-plot(r,col=cols,box=F,axes=F, main = 'Rescaled Ωaragonite layer for 2015')
+r <- raster(rescaled[59])
+plot(r,col=cols,box=F,axes=F, main = 'Rescaled Ωaragonite layer for 2016')
 ```
 
 
@@ -219,9 +225,10 @@ Since there are oceanic cells with no information in the raw data, we need to fi
 
 ```{r interpolate}
 
-int_files <- list.files(file.path(oagit_dir,'v2016/int/annual_oa_rescaled_int'),full.names=T)
+int_files <- list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/annual_avg_moll_rescaled_int'),full.names=T)
 
-plot(raster(int_files[5]),col=cols,box=F,axes=F,main='Rescaled and Interpolated Ωaragonite layer for 2015')
+#something weird is happening here, land is not croped out
+plot(raster(int_files[5]),col=cols,box=F,axes=F,main='Rescaled and Interpolated Ωaragonite layer for 2016')
 
 ```
 
@@ -233,19 +240,19 @@ All pressure layers need to be resampled to 1km cell resolution. We have a templ
 ```{r resample}
 
 #ocean is a raster with all land clipped out - at 1km with value of 1. This is used as a mask
-ocean = raster(file.path(oagit_dir,'v2016/int/ocean.tif'))
+ocean = raster(file.path(dir_M,'git-annex/globalprep/prs_oa/v2016/int/ocean.tif'))
 
 resample = function(file){
   
         yr  = substr(file,91,94)
         r   = raster(file)%>%raster::resample(ocean,method='ngb',progress='text') # resample r to the resolution of 'ocean' (~1km)
     
-       writeRaster(r,filename=paste0(oagit_dir,'/v2016/int/annual_oa_rescaled_int_1km/annual_oa_rescaled_int_1km_',yr,sep=''),format='GTiff',overwrite=T)
+       writeRaster(r,filename=paste0(dir_M,'git-annex/globalprep/v2016/int/annual_oa_rescaled_int_1km/annual_oa_rescaled_int_1km_',yr,sep=''),format='GTiff',overwrite=T)
 }
 
 #sapply(int_files,resample)
 
-resampled = list.files(file.path(oagit_dir,'v2016/int/annual_oa_rescaled_int_1km'),full.names=T)
+resampled = list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2016/int/annual_oa_rescaled_int_1km'),full.names=T)
 
 plot(raster(resampled[5]),col=cols,box=F,axes=F,main='Resampled, rescaled and interpolated \nΩaragonite layer for 2015')
 

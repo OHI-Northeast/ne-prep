@@ -24,11 +24,14 @@ Objective: Compare different methods of deriving SST pressure layer. For the Oce
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = FALSE, message = FALSE, warning = FALSE)
 
-source('~/github/ohi-northeast/src/R/common.R') ### an OHINE specific version of common.R
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
 library(sp)
 library(rgdal)
 library(raster)
+library(foreach)
+library(doParallel)
 
 ssta         = stack(file.path(dir_M,'git-annex/globalprep/prs_sst/data/cortadv5_SSTA.nc'),varname='SSTA')
 weekly_sst   = stack(file.path(dir_M,'git-annex/globalprep/prs_sst/data/cortadv5_WeeklySST.nc'),varname='WeeklySST')
@@ -68,6 +71,8 @@ foreach(i = 1982:2012) %dopar%{
                                   i, '.tif'), overwrite=T)
   
 }
+
+
 ```
 
 ```{r mean_SSTA, eval=F}
@@ -93,6 +98,7 @@ foreach(i = 1988:2012) %dopar% {
                 filename = paste0(dir_anx, '/prs_sst/output/ssta_annual_means_ne/ssta_annual_mean_', i,'.tif'), overwrite=T)
   
 }
+
 ```
 
 ```{r ssta_boxplot}

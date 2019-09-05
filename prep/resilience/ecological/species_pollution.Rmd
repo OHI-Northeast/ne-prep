@@ -5,12 +5,31 @@ date: "8/23/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
 ```
 
 
 
 To be filled out!!!
+
+Trying to open a .mdb file
+```{r}
+library(Hmisc)
+
+d <- mdb.get(file.path(dir_anx, "_raw_data/TNC/TNC_MarineInvasionsDb_18feb08.mdb")) 
+
+scores <- d[[29]]
+ecoregions <- d[[30]]
+occurances <- d[[3]]
+
+
+```
 
 

@@ -20,6 +20,10 @@ output:
 knitr::opts_chunk$set(fig.width = 8, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
 source('~/github/ne-prep/src/R/common.R') ### an OHINE specific version of common.R
+
+library(raster)
+library(doParallel)
+library(foreach)
 ```
 
 # Summary
