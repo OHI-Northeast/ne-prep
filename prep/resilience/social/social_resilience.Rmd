@@ -862,12 +862,26 @@ house_17 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2017
 although, need to think about how we cant do this for the senate
 Combine
 ```{r}
-house <- rbind(house_05, house_06, house_07, house_08, house_09, house_10, house_11, house_12, house_13, house_14, house_15, house_16, house_17) %>% 
-  select(-dis_num, -district) %>% 
-  group_by(year, state) %>% 
-  mutate(score= as.numeric(score)) %>% 
-  dplyr::summarise(house_score = mean(score, na.rm=TRUE)) %>% 
-  filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") 
+house <- rbind(house_05, house_06, house_07, house_08, house_09, house_10, house_11, house_12, house_13, house_14, house_15, house_16, house_17)
+#%>% 
+ # select(-dis_num, -district) %>% 
+ # group_by(year, state) %>% 
+ # mutate(score= as.numeric(score)) %>% 
+  #dplyr::summarise(house_score = mean(score, na.rm=TRUE)) %>% 
+  #filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") 
+
+hma <- house %>% 
+  filter(state == "MA") %>% 
+  mutate(score = as.numeric(score))
+
+g <- ggplot(hma) +
+  geom_line(aes(x=year, y= score, color = dis_num)) +
+  ggtitle("LCV Raw Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+g
+
 ```
 
 Load in and tidy senate scores

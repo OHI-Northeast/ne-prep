@@ -44,7 +44,7 @@ The sea level rise pressure layer is derived from monthly data of gridded sea le
 
 knitr::opts_chunk$set(fig.width = 10, fig.height = 8, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
-source('~/github/ohi-northeast/src/R/common.R')  ### an OHI-NE specific version of common.R
+source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
 
 library(rasterVis)
 library(foreach)
@@ -114,16 +114,15 @@ nc_files <- list.files(file.path(dir_anx_aviso, 'msla_monthly_mean'),
                        full.names = TRUE,pattern='.nc')
 
 ## resampling raw data to smaller cell size, then create a raster of all coastal cells. The resampling needs to be done
-## first to ensure we get the small islands that would otherwise be ignored at larger cell sizes
 
 ## read in three_nm mask
-r_3nm_mask <- raster('~/github/ohi-northeast/spatial/ocean_rasters/rast_3nm_mask.tif')
+r_3nm_mask <- raster('~/github/ne-prep/spatial/ocean_rasters/rast_3nm_mask.tif')
     
 # function that rasterizes the nc file, rotates, crops, projects and masks
     
 months_coast <- function(x){
   
-  m_yr <- substr(x, 108, 115)
+  m_yr <- substr(x, 108, 116) #i think it needs to be 116, double check
     
   #read in month raster
    r <- raster(x) %>%
@@ -132,8 +131,10 @@ months_coast <- function(x){
      projectRaster(ocean_ne) %>%
      mask(r_3nm_mask)
   
-  writeRaster(r, filename=paste0(dir_anx,'/prs_slr/output/msla_monthly_coast/msla_monthly_coast_',m_yr,'.tif'), overwrite=T)
+  writeRaster(r, filename=paste0(dir_anx,'/prep/pressures/slr/v2016/out/msla_monthly_coast/msla_monthly_coast_',m_yr,'.tif'), overwrite=T)
 }
+
+'/prs_slr/output/msla_monthly_coast/msla_monthly_coast_'
 
 #register 10 cores
 registerDoParallel(10)

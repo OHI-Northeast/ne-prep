@@ -1,0 +1,216 @@
+---
+title: 'OHI-Northeast: Sea Level Rise Pressure Layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohi-northeast/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+#Summary  
+The sea level rise pressure layer is derived from monthly data of gridded sea level anomalies from 1993 to present. The gridded data is clipped to three nautical miles of the coastline in the US Northeast region and aggregated to annual means. All data is rescaled from 0 to 1 using the maximum annual anomaly across the time series as the reference point.
+
+***
+
+#Data Source  
+**Reference**: AVISO [Monthly mean Maps of Sea Level Anomaly](http://www.aviso.altimetry.fr/en/data/products/sea-surface-height-products/global/msla-mean-climatology.html#c10358)
+
+**Downloaded**: September 16, 2016
+
+**Description**:  Mean Sea Level Anomaly (m above a climatological mean)
+
+**Native data resolution**: 0.25 degree cells
+
+**Time range**: 1993 - 2015, monthly data provided for each year
+
+**Format**:  NetCDF
+
+***
+  
+#Methods
+
+## Setup
+
+``` {r setup, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 8, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+setwd("~/github/ne-prep/prep/pressures/slr") 
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
+
+## setting up provenance
+# devtools::install_github('oharac/provRmd')
+# library(provRmd)
+# prov_setup()
+
+#if we want to include the loading of all these packages into the markdown
+#pkg <- c( "httr", "R.utils", "raster", "tidyverse", "sf", "RColorBrewer", "ggplot2", "googleVis",
+#          "maps", "parallel", "foreach", "doParallel", "fasterize", "rasterVis")
+#new.pkg <- pkg[!(pkg %in% installed.packages())]
+#if (length(new.pkg)){install.packages(new.pkg)}
+#lapply(pkg, require, character.only = TRUE)
+
+
+library(httr)
+library(R.utils)
+library(raster)
+library(tidyverse)
+library(sf)
+library(RColorBrewer)
+library(ggplot2)
+library(googleVis)
+library(maps)
+library(parallel)
+library(foreach)
+library(doParallel)
+library(fasterize)
+library(rasterVis)
+library(here)
+```
+
+
+```{r}
+## define paths and variables to use throughout data prep
+ 
+#scen_year <- 2019 # change to reflect assessment year!
+#dir_anx_aviso <- file.path(dir_M, "git-annex/globalprep/_raw_data/AVISO_slr") # raw data file path
+#dir_prs_slr <-  sprintf("%s/git-annex/globalprep/prs_slr/v%s", dir_M, scen_year)
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+p4s_wgs84 <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" # proj4string
+cols <- rev(colorRampPalette(brewer.pal(9, "Spectral"))(255)) # rainbow color scheme for maps
+us_albersCRS <- CRS("+proj=aea") # us albers projection, double check
+
+## read in ocean raster with cells at 1km -- template for resampling (held on an NCEAS server)
+ocean <- raster(file.path(dir_M, "git-annex/globalprep/spatial/v2017/ocean.tif"))
+ne_ext <- raster::extent(1750000, 2550000,300000,1200000)
+
+```
+
+
+#data_prep
+
+Don't need to download the data again, because it's already been downloaded for the most recent year of global
+
+Grab the NetCDF files from the global folder.
+```{r}
+## d2016/msla_monthly_mean has data for 1993-2015
+## then include list.files for d2017 through the data folder for current scenario year
+nc_files <- c(list.files(file.path(dir_M, "git-annex/globalprep/_raw_data/AVISO_slr/d2019"),
+                       full.names = TRUE, pattern = ".nc"),
+              list.files(file.path(dir_M, "git-annex/globalprep/_raw_data/AVISO_slr/d2018"),
+                       full.names = TRUE, pattern = ".nc"),
+              list.files(file.path(dir_M, "git-annex/globalprep/_raw_data/AVISO_slr/d2017"),
+                       full.names = TRUE, pattern = ".nc"),
+              list.files(file.path(dir_M, "git-annex/globalprep/_raw_data/AVISO_slr/d2016/msla_monthly_mean"),
+                      full.names = TRUE, pattern = ".nc"))
+
+nc_files <- nc_files[-1:-2] # double check this, but it since the first two files are zip files I am confident in removing them. However, I did grab it directly from the most recent version of global so I so still want to make sure it's correct
+```
+
+A peak into what the monthly data looks like
+```{r}
+plot(raster(nc_files[3]), col = cols, axes = F, 
+     main = paste("Year", substr(nc_files[3], 90, 93), "Month", substr(nc_files[3], 96, 97)))
+```
+
+
+The following code is used to:
+
+1. Rasterize each monthly NetCDF file
+2. Rotate each raster so that the Atlantic Ocean is centered in the raster
+
+The output is saved in the folder int/msla_monthly
+
+```{r}
+## parallel forloop function that rotates each monthly file, sets the long/lat projection, and keeps only coastal cells - saved to GitHub
+foreach(file = nc_files) %dopar% {
+  
+  m_yr <- substr(file, nchar(file)-10, nchar(file)-3) 
+  
+  ## read in month raster
+  r <- raster(file) %>%
+    rotate()
+  
+  ## define projection of the raster before reprojecting; double check projection (USA Contiguous albers equal area)
+  projection(r) <-   '+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0'
+  
+  r <- raster::crop(r, wgs_ext)
+  
+  ## write raster to int folder in prs_slr
+  fp <- sprintf("%s/int/msla_monthly/msla_monthly_%s.tif", file.path(dir_git, "prep/pressures/slr"), m_yr)
+  writeRaster(r, filename = fp, overwrite = TRUE)
+}
+```
+
+Calculate the annual mean sea level anomalies
+Annual mean sea level anomaly rasters are calculated from the monthly data.
+
+```{r}
+## will need to create 'msla_annual_mean' folder in 'int' (also 'msla_annual_mol' and 'msla_monthly' folders)
+
+msla_files <- list.files(sprintf("%s/int/msla_monthly", file.path(dir_git, "prep/pressures/slr")), 
+                         full.names = TRUE)
+maxyr <- substr(msla_files, 80, 83) %>% as.numeric() %>% max()
+
+## stack all rasters for this year, and calc annual mean, then write as raster
+registerDoParallel(6)
+foreach(yr = c(1993:maxyr)) %dopar% {
+  
+  files <- msla_files[str_detect(msla_files, as.character(yr))]
+  
+  rast_annual_mean <- stack(files) %>%
+    calc(mean, na.rm = TRUE) %>%
+    writeRaster(filename = sprintf("%s/int/msla_annual_mean/msla_annual_%s.tif", file.path(dir_git, "prep/pressures/slr"), yr), 
+                overwrite = TRUE)
+}
+```
+
+
+Changing the projection and masking
+Since we are only interested in the increase in sea level near the coasts, we apply a mask to the raster layers that removes all cells farther than 3nm offshore. This mask was created previously for the OHI global 2016 assessment.
+
+```{r}
+## 3nm offshore raster to select only nearshore cells
+#ocean_mask_prev <- sprintf("%s/int/ocean_mask.tif", dir_prs_slr, scen_year-1) 
+ocean_mask_prev <- raster(three_nm)
+
+if(file.exists(ocean_mask_prev)){
+  file.copy(ocean_mask_prev, file.path(dir_git, "prep/pressures/slr/int"))
+} else {
+  poly_3nm <- read_sf(file.path(dir_M, "git-annex/Global/NCEAS-Regions_v2014/data"), "rgn_offshore3nm_mol")
+  poly_3nm[duplicated(poly_3nm$rgn_id), ] # check to make sure there are no duplicated regions
+  
+  ## create rasterize 3 nautical miles offshore rasters if cannot copy from previous assessment folder
+  s <- fasterize(poly_3nm, ocean, field = "rgn_id")
+  s <- calc(s, fun = function(x) {ifelse(x > 0, 1, NA)})
+  writeRaster(s, sprintf("%s/int/ocean_mask.tif", dir_prs_slr, scen_year))
+}
+s <- raster(sprintf("%s/int/ocean_mask.tif", dir_prs_slr, scen_year))
+plot(s, col = "red")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
