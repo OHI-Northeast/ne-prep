@@ -93,7 +93,9 @@ data_clean <- data %>%
              Species == "American Oyster" ~ "Oysters",
              Species == "Eastern Oyster" ~ "Oysters",
              Species == "bay scallops" ~ "Scallops",
-             Species == "soft shell clams" ~ "Soft Shell Clams"
+             Species == "soft shell clams" ~ "Soft Shell Clams",
+             Species == "Quahog" ~ "Hard Clam",
+             Species == "Clams" ~ "Hard Clam"
            )) %>%
   mutate(Species_name_to_use = ifelse(is.na(species), Species, species),
          pounds = Tons*2000,
@@ -152,12 +154,10 @@ sp_conv <- filter(conv, Species == sp)
 
 hclam <- convert_to_pounds("Hard Clam")
 oyster <- convert_to_pounds("Oysters")
-quahog <- convert_to_pounds("Quahog")
 scallop <- convert_to_pounds("Scallops")
 ss_clams <- convert_to_pounds("Soft Shell Clams")
-clams <- convert_to_pounds("Clams")
 
-combo <- bind_rows(hclam, oyster, quahog, scallop, ss_clams, clams)
+combo <- bind_rows(hclam, oyster, scallop, ss_clams)
 ```
 
 ### Fix Maine finfish data
@@ -210,7 +210,7 @@ ggplot(production_df, aes(x = Year, y = Species)) +
   theme_bw()
 ```
 
-So Connecticut is missing one year for Hard Clam, Massachusetts is missing 2012 and 2013 for Quahog and Oysters, Rhode Island is missing 2010 for Oysters and Hard Clam. 
+So Connecticut is missing one year for Hard Clam, Massachusetts is missing 2012 and 2013 for Hard Clam and Oysters, Rhode Island is missing 2010 for Oysters and Hard Clam. 
 
 We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a production of 0. Since we calculate a rolling average of production, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
