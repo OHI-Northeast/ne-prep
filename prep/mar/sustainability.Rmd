@@ -27,6 +27,7 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 library(tidyverse)
 library(kableExtra)
+library(readxl)
 ```
 
 # Summary
@@ -41,30 +42,131 @@ Seafood watch provides sustainability scores between 0 and 10. We use these scor
 
 
 ```{r}
-#sustainability scores from Seafood Watch - this data was created manually by looking at the website
-sfw_sustainability <- read_csv("data/species_sust_scores.csv")
-sfw_sustainability %>%
-  kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover","condensed", full_width = F))
+#sustainability scores from Seafood Watch
+sfw_sustainability <- read_excel(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
 ```
-We need to have a sustainability score for all species produced. Seafood Watch doesn't have Quahog or "Clams" but those are both found in the production data. We will assign those two species the same value as Hard Clam.
+
+This is aquaculture data for the entire United States. What species does this include? We will need to filter just for the species in our data (`data/production.csv`).
 
 ```{r}
-extra <- data.frame(species = c("Quahog", "Clams"),
-                    sustainabilityscore = 7.01)
+spp <- unique(sfw_sustainability$`Common name`)
+spp
+```
 
-extended <- sfw_sustainability %>%
-  bind_rows(extra)
+### Oysters
+
+We know that Eastern Oysters and American Oysters are farmed in the region. 
+
+
+```{r oyster_score}
+oysters <- spp[str_detect(spp, "yster")] #left off the o to get capital and lowercase
+oysters
+```
+
+Looks like they have Eastern oyster but not American oyster (not sure if this is different than Eastern).
+
+Scores for all oyster species
+
+```{r}
+oyst_scores <- sfw_sustainability %>%
+  filter(`Common name` %in% oysters) %>%
+  select(`Common name`,`Overall Score`)
+
+oyst_scores %>%
+  DT::datatable(.)
+```
+Ok since they are all given a score of **7.98** then we use that value.
+
+### Atlantic salmon
+
+```{r}
+salm <- sfw_sustainability %>%
+  filter(`Common name` == "Atlantic salmon")  %>%
+  select(`Common name`, Method, `Overall Score`)
+
+salm %>%
+  DT::datatable(.)
+```
+
+
+The score for Atlantic salmon grown by Indoor recirculating tank was updated at one point. But for our purposes, we are only interested in the Marine net pen data. Since this score has not been updated, we will use the value **4.82** for Atlantic salmon sustainability.
+
+### Scallops
+
+We have bay scallops and scallops in our production data.
+
+```{r}
+scallops <- spp[str_detect(spp, "callop")] 
+scallops
+```
+
+```{r}
+sfw_sustainability %>%
+  filter(`Common name` %in% scallops)  %>%
+  select(`Common name`, Method, `Overall Score`) %>%
+  DT::datatable(.)
+```
+
+Again, we see that all scallop species have the same overall score of **8.86**. We will use that value.
+
+### Mussels
+
+We have mussels and blue mussels in our production data.
+
+```{r}
+mussels <- spp[str_detect(spp, "ussel")] 
+mussels
+```
+
+```{r}
+sfw_sustainability %>%
+  filter(`Common name` %in% mussels) %>%
+  select(`Common name`, Method, `Overall Score`) %>%
+  DT::datatable(.)
+```
+Again, we see that all mussel species have the same overall score of **8.11**. We will use that value.
+
+### Clams
+
+We have production values for Hard Clams/Quahogs and soft shell Clams.
+
+```{r}
+clams <- spp[str_detect(spp, "lam")] 
+clams
+```
+
+```{r}
+sfw_sustainability %>%
+  filter(`Common name` %in% clams) %>%
+  select(`Common name`, Method, `Overall Score`) %>%
+  DT::datatable(.)
+```
+
+
+Seafood Watch doesn't have Quahog or "Clams" but those are both found in the production data. We will assign those two species the same value as Hard Clam.
+
+```{r}
+clam_scores <-  sfw_sustainability %>%
+  filter(`Common name` %in% c("Hard clam (unspecified)", "Softshell clam")) %>%
+  select(`Common name`, Method, `Overall Score`, `Report Status`, `Publish Date`, `Inactive Date`, `Start year`)
+
+DT::datatable(clam_scores)
   
 ```
 
+It looks like the sustainability scores for Hard clams were updated in 2018. Since this is outside of our time period, we will use the values **8.39** for Hard clams/quahogs, and **7** for Softshell clams.
 
-
-Converting into 0 - 1. 
+# Combine sustainability scores
 
 ```{r}
-sust_scores <- extended %>%
-  mutate(sust_score = sustainabilityscore/10)
+sust_scores <- data.frame(species = c("Hard Clam", "Soft Shell Clam", "Blue Mussel", "Oysters", "Scallops", "Atlantic Salmon", "Trout"),
+                          sustainabilityscore = c(8.39, 7, 8.11, 7.98, 8.86, 4.82, 4.82)) %>%
+  mutate(rescaled = sustainabilityscore/10)
+
+DT::datatable(sust_scores)
+
+#save to data folder
+write_csv(sust_scores, "data/species_sust_scores.csv")
 ```
 
 # Save for toolbox
