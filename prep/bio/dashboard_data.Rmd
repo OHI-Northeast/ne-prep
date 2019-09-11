@@ -54,7 +54,7 @@ DT::datatable(bio_data_info, escape = FALSE)
 
 
 ```{r}
-spp_data_info <- data.frame(
+hab_data_info <- data.frame(
   Layer = c("Salt Marsh", "Eelgrass", "Seabed habitats"),
   Description = c("Salt Marsh land cover change through time from NOAA's Coastal Change Analysis Program (C-CAP)",
                   "Eelgrass habitat coverage from the Past Eelgrass Surveys data layer from the Northeast Data Portal plus Water quality index values for all eelgrass beds from the EPA's National Coastal Condition Assessment Water Quality Index data",
@@ -68,14 +68,14 @@ spp_data_info <- data.frame(
              '<a href="http://archive.nefmc.org/habitat/council_mtg_docs/June2009/Doc4_SASI_summary.pdf">NEFSC Fishing Effects Model</a>')
 )
 
-write_csv(spp_data_info, "data/spp_data_info.csv")
+write_csv(hab_data_info, "data/hab_data_info.csv")
 
-DT::datatable(spp_data_info, escape = FALSE)
+DT::datatable(hab_data_info, escape = FALSE)
 ```
 
 
 ```{r}
-hab_data_info <- data.frame(
+spp_data_info <- data.frame(
   Layer = c("Species location", "Species status"),
   Description = c("Species range maps from the Northeast Data Portal and International Union for Conservation of Nature’s (IUCN)", 
                   "Species conservation status from NatureServe and IUCN"),
@@ -86,7 +86,7 @@ hab_data_info <- data.frame(
              <a href="https://www.iucnredlist.org/">IUCN Red List</a>')
 )
 
-write_csv(hab_data_info, "data/hab_data_info.csv")
+write_csv(spp_data_info, "data/spp_data_info.csv")
 
-DT::datatable(hab_data_info, escape = FALSE)
+DT::datatable(spp_data_info, escape = FALSE)
 ```
