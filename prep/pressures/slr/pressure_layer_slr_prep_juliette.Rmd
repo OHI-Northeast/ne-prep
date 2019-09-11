@@ -60,7 +60,6 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of com
 #if (length(new.pkg)){install.packages(new.pkg)}
 #lapply(pkg, require, character.only = TRUE)
 
-
 library(httr)
 library(R.utils)
 library(raster)
@@ -76,6 +75,7 @@ library(doParallel)
 library(fasterize)
 library(rasterVis)
 library(here)
+library(raster)
 ```
 
 
@@ -96,8 +96,14 @@ cols <- rev(colorRampPalette(brewer.pal(9, "Spectral"))(255)) # rainbow color sc
 us_albersCRS <- CRS("+proj=aea") # us albers projection, double check
 
 ## read in ocean raster with cells at 1km -- template for resampling (held on an NCEAS server)
-ocean <- raster(file.path(dir_M, "git-annex/globalprep/spatial/v2017/ocean.tif"))
-ne_ext <- raster::extent(1750000, 2550000,300000,1200000)
+## need to reproject to us albers and crop to our region 
+#ocean <- raster(file.path(dir_M, "git-annex/globalprep/spatial/v2017/ocean.tif")) %>% 
+#  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+#  raster::crop(ne_ext)
+#plot(ocean) #check that it worked
+#WRITE RASTER SO I DONT HAVE TO DO THIS AGAIN
+
+#ne_ext <- raster::extent(1750000, 2550000,300000,1200000) #shouldn't need this here, it should be in source(common.R)
 
 ```
 
@@ -163,8 +169,6 @@ Calculate the annual mean sea level anomalies
 Annual mean sea level anomaly rasters are calculated from the monthly data.
 
 ```{r}
-## will need to create 'msla_annual_mean' folder in 'int' (also 'msla_annual_mol' and 'msla_monthly' folders)
-
 msla_files <- list.files(sprintf("%s/int/msla_monthly", file.path(dir_anx, "prs_slr")), 
                          full.names = TRUE)
 maxyr <- substr(msla_files, 73, 76) %>% as.numeric() %>% max()
@@ -196,48 +200,85 @@ plot(three_nm)
 annual_means <- list.files(file.path(dir_anx, "prs_slr/int/msla_annual_mean"), full = TRUE)
 foreach(file = annual_means) %dopar% {  
   
-  #file = annual_means[1]
+ # file = annual_means[26]
   yr <- str_sub(file, -8, -5)
   
   rast_data <- raster(file) %>%
-    projectRaster(crs = us_alb, over = TRUE, progress="text") %>%
-    raster::resample(ocean, method = "ngb", 
+    projectRaster(crs = us_alb, over = FALSE, progress="text") %>%
+    raster::resample(three_nm, method = "ngb", 
              filename = sprintf("%s/prs_slr/int/msla_annual_us_albers/mlsa_annual_us_albers_%s.tif", 
                                 dir_anx, yr), overwrite = TRUE) %>% 
-    raster::crop(ne_ext)
+    mask(three_nm, filename = sprintf("%s/prs_slr/int/msla_annual_us_albers_coastal/msla_annual_us_albers_coastal_%s.tif", dir_anx, yr), overwrite = TRUE)
+}
+
+plot(raster(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers_coastal/msla_annual_us_albers_coastal_2010.tif")))
+```
+
+Reference Point
+The reference point is the 99.99th quantile of the entire data distribution from 1993 - 2018. (This value has been updated due to changes in the source data, previously was 0.246225 m, currently is 0.3359385 m).
+
+Here we are calculating a reference point specific to the Northeast. Will need to discuss if we want that, or use global's reference point (however I can't find the reference_points_pressures.csv it's in)
+
+```{r}
+coastal_rasts <- list.files(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers_coastal"), pattern = "tif", full.names = TRUE)
+
+registerDoParallel(8)
+
+vals <- foreach(i = 1993:2018, .combine = c) %dopar% { 
+  
+  i=2018
+  coastal_rasts[which(str_sub(coastal_rasts, -8, -5) == i)] %>%
+    raster() %>%
+    getValues() %>%
+    na.omit()
+  
+}
+
+ref <- quantile(vals, 0.9999)
+
+```
+
+
+Rescale
+```{r}
+registerDoParallel(10) 
+
+foreach(file = coastal_rasts) %dopar% { #file = coastal_rasts[10]
+  yr <- str_sub(file, -8,-5)
+
+    raster::raster(file) %>%
+    calc(fun = function(x){ifelse(x < 0, 0, x)}) %>% # set all negative values to 0
+    calc(fun = function(x){ifelse(x > ref, 1, x/ref)}, # set equal to one if greater than ref, otherwise scale
+         filename = sprintf("%s/prs_slr/output/slr_%s.tif", dir_anx, yr), overwrite = TRUE)
     
 }
+```
+
+Results
+```{r}
+rasts <- list.files(file.path(dir_anx, "prs_slr/output"), full.names = TRUE) %>% str_subset(pattern = ".tif$")
+stack_slr <- stack(rasts) # read in raster files
+#zones <- raster(rgns) #might be able to just use the polygon
+#plot(zones$rgn_name)
+
+#just copied this in
+rgn_data <- read_sf(file.path(dir_M, "git-annex/globalprep/spatial/v2017"), "regions_2017_update") %>%
+  st_set_geometry(NULL) %>%
+  dplyr::filter(rgn_type == "eez") %>%
+  dplyr::select(rgn_id = rgn_ant_id, rgn_name)
 
 
-annual_us_albers <- list.files(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers"), full = TRUE)
-foreach(file = annual_us_albers) %dopar% { 
-  
-  #file = annual_us_albers[1]
-  yr <- str_sub(file,-8,-5)
-  
-  rast <- raster(file)%>% 
-    projectRaster(crs = us_alb, over = TRUE, progress="text") %>%
-    raster::crop(ne_ext)
-  
-  raster::mask(rast, three_nm, filename = sprintf("%s/prs_slr/int/msla_annual_us_albers_coastal/msla_annual_us_albersl_coastal_%s.tif", dir_anx, yr), overwrite = TRUE)
-  
-  
-}
 
-#plot(raster(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers_coastal/msla_annual_us_albersl_coastal_2010.tif")))
-
-#plot(rast_data)
-#plot(rast)
-#plot(three_nm)
 
 ```
 
 
 
 
-
-
-
+To do:
+Double check this markdown, and make sure it's all good
+delete markdown "pressure_layer_slr_prep.Rmd" and rename this one that
+delete output folders "msl_annual_mean, msla_annual_rescaled, msla_montly_coast" those are in an int folder now
 
 
 
