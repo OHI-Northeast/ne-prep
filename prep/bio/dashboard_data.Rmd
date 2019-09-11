@@ -1,0 +1,92 @@
+---
+title: "Biodiversity dashboard data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+## Summary
+
+Create data for the Biodiversity goal and sub goals page on the OHI Dashboard. This includes the data information table, and individual layer scores.
+
+```{r}
+library(tidyverse)
+```
+
+
+## Data Information tables
+
+```{r}
+bio_data_info <- data.frame(
+  Layer = c("Salt Marsh", "Eelgrass", "Seabed habitats", "Species"),
+  Description = c("Salt Marsh land cover change through time from NOAA's Coastal Change Analysis Program (C-CAP)",
+                  "Eelgrass habitat coverage from the Past Eelgrass Surveys data layer from the Northeast Data Portal plus Water quality index values for all eelgrass beds from the EPA's National Coastal Condition Assessment Water Quality Index data",
+                  "Percent disturbance from fishing efforts across 18 different seabed habitats types as calculated the the Fishing Effects model developed by the New England Fishery Management Council",
+                  "Species range maps from the Northeast Data Portal and International Union for Conservation of Nature’s (IUCN) and Species conservation status from NatureServe and IUCN"),
+  Target = c("No loss of salt marsh habitat from historical reference year (~1850’s)",
+             "Water Quality Index in all eelgrass beds is classified as “Good” by the EPA",
+             "No habitat disturbance from fishing effort across all seabed habitat types",
+             "No marine species are at risk of extinction and all are classified as of Least Concern using The International Union for Conservation of Nature’s (IUCN) Red List of Threatened Species criteria"),
+  Source = c('<a href="https://coast.noaa.gov/digitalcoast/data/ccapregional.html">NOAA Coastal Change Analysis Program (C-CAP)</a>',
+             '<a href="https://www.northeastoceandata.org/eelgrass/past-eelgrass-surveys/">NE Ocean Data Portal</a>
+             <a href="https://www.epa.gov/national-aquatic-resource-surveys/ncca">EPA National Coastal Condition Assessment</a>',
+             '<a href="http://archive.nefmc.org/habitat/council_mtg_docs/June2009/Doc4_SASI_summary.pdf">NEFSC Fishing Effects Model</a>',
+             '<a href="https://www.northeastoceandata.org/data-explorer/?mammals-turtles">NE Ocean Data Portal</a>
+             <a href="https://www.natureserve.org/">NatureServe</a>
+             <a href="https://www.iucnredlist.org/">IUCN Red List</a>')
+)
+
+write_csv(bio_data_info, "data/bio_data_info.csv")
+
+DT::datatable(bio_data_info, escape = FALSE)
+```
+
+
+```{r}
+spp_data_info <- data.frame(
+  Layer = c("Salt Marsh", "Eelgrass", "Seabed habitats"),
+  Description = c("Salt Marsh land cover change through time from NOAA's Coastal Change Analysis Program (C-CAP)",
+                  "Eelgrass habitat coverage from the Past Eelgrass Surveys data layer from the Northeast Data Portal plus Water quality index values for all eelgrass beds from the EPA's National Coastal Condition Assessment Water Quality Index data",
+                  "Percent disturbance from fishing efforts across 18 different seabed habitats types as calculated the the Fishing Effects model developed by the New England Fishery Management Council"),
+  Target = c("No loss of salt marsh habitat from historical reference year (~1850’s)",
+             "Water Quality Index in all eelgrass beds is classified as “Good” by the EPA",
+             "No habitat disturbance from fishing effort across all seabed habitat types"),
+  Source = c('<a href="https://coast.noaa.gov/digitalcoast/data/ccapregional.html">NOAA Coastal Change Analysis Program (C-CAP)</a>',
+             '<a href="https://www.northeastoceandata.org/eelgrass/past-eelgrass-surveys/">NE Ocean Data Portal</a>
+             <a href="https://www.epa.gov/national-aquatic-resource-surveys/ncca">EPA National Coastal Condition Assessment</a>',
+             '<a href="http://archive.nefmc.org/habitat/council_mtg_docs/June2009/Doc4_SASI_summary.pdf">NEFSC Fishing Effects Model</a>')
+)
+
+write_csv(spp_data_info, "data/spp_data_info.csv")
+
+DT::datatable(spp_data_info, escape = FALSE)
+```
+
+
+```{r}
+hab_data_info <- data.frame(
+  Layer = c("Species location", "Species status"),
+  Description = c("Species range maps from the Northeast Data Portal and International Union for Conservation of Nature’s (IUCN)", 
+                  "Species conservation status from NatureServe and IUCN"),
+  Target = c("NA", "No marine species are at risk of extinction and all are classified as of Least Concern using The International Union for Conservation of Nature’s (IUCN) Red List of Threatened Species criteria"),
+  Source = c('<a href="https://www.northeastoceandata.org/data-explorer/?mammals-turtles">NE Ocean Data Portal</a>
+  <a href="https://www.iucnredlist.org/">IUCN Red List</a>',
+             '<a href="https://www.natureserve.org/">NatureServe</a>
+             <a href="https://www.iucnredlist.org/">IUCN Red List</a>')
+)
+
+write_csv(hab_data_info, "data/hab_data_info.csv")
+
+DT::datatable(hab_data_info, escape = FALSE)
+```

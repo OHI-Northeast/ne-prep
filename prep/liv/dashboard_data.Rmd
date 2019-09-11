@@ -70,3 +70,20 @@ noep_fix %>%
   write.csv("data/gdp_sector.csv")
 ```
 
+## Data Information table
+
+```{r}
+liv_data_info <- data.frame(
+  Layer = c("Jobs", "Wages"),
+  Description = c("National Ocean Economics Program (NOEP) Ocean Economy data for number of jobs that directly or indirectly depend upon the ocean",
+                  "National Ocean Economics Program (NOEP) Ocean Economy data for average wages associated with jobs that directly or indirectly depend upon the ocean"),
+  Target = c("Annual job growth in ocean related sectors is equal to or greater than the national annual average job growth",
+             "Ocean related sectors’ wages are growing at least 3.5% per year in accordance with the Nominal Wage Growth Target set by the US Federal Reserve "),
+  Source = c('<a href="http://www.oceaneconomics.org/">National Ocean Economics Program</a>',
+             '<a href="http://www.oceaneconomics.org/">National Ocean Economics Program</a>')
+)
+
+write_csv(liv_data_info, "data/liv_data_info.csv")
+
+DT::datatable(liv_data_info, escape = FALSE)
+```

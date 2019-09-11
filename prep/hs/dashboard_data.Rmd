@@ -1,0 +1,45 @@
+---
+title: "Habitat Services dashboard data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+## Summary
+
+Create data for the Biodiversity goal and sub goals page on the OHI Dashboard. This includes the data information table, and individual layer scores.
+
+```{r}
+library(tidyverse)
+```
+
+
+## Data Information tables
+
+```{r}
+hs_data_info <- data.frame(
+  Layer = c("Salt Marsh", "Eelgrass"),
+  Description = c("Salt Marsh land cover change through time from NOAA's Coastal Change Analysis Program (C-CAP)",
+                  "Eelgrass habitat coverage from the Past Eelgrass Surveys data layer from the Northeast Data Portal plus Water quality index values for all eelgrass beds from the EPA's National Coastal Condition Assessment Water Quality Index data"),
+  Target = c("No loss of salt marsh habitat from historical reference year (~1850’s)",
+             "Water Quality Index in all eelgrass beds is classified as “Good” by the EPA"),
+  Source = c('<a href="https://coast.noaa.gov/digitalcoast/data/ccapregional.html">NOAA Coastal Change Analysis Program (C-CAP)</a>',
+             '<a href="https://www.northeastoceandata.org/eelgrass/past-eelgrass-surveys/">NE Ocean Data Portal</a>
+             <a href="https://www.epa.gov/national-aquatic-resource-surveys/ncca">EPA National Coastal Condition Assessment</a>')
+)
+
+write_csv(hs_data_info, "data/hs_data_info.csv")
+
+DT::datatable(hs_data_info, escape = FALSE)
+```
