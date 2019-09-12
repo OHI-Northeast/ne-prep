@@ -1,0 +1,287 @@
+"rgn_id","rgn_name","state_abv","state_name","state","year","pressure_score"
+1,"Offshore",NA,NA,"Offshore",1993,NA
+2,"Georges Bank",NA,NA,"Georges Bank",1993,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",1993,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",1993,NA
+5,"Connecticut","CT","Connecticut","Connecticut",1993,0.00383485234426477
+6,"Maine","ME","Maine","Maine",1993,0.12347981397122
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",1993,0.000972456994162851
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",1993,0.0466552356335009
+9,"New Hampshire","NH","New Hampshire","New Hampshire",1993,0
+10,"New York","NY","New York","New York",1993,0.0522657957448906
+11,"Rhode Island","RI","Rhode Island","Rhode Island",1993,0.0581261032375502
+1,"Offshore",NA,NA,"Offshore",1994,NA
+2,"Georges Bank",NA,NA,"Georges Bank",1994,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",1994,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",1994,NA
+5,"Connecticut","CT","Connecticut","Connecticut",1994,0
+6,"Maine","ME","Maine","Maine",1994,0
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",1994,0
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",1994,0
+9,"New Hampshire","NH","New Hampshire","New Hampshire",1994,0
+10,"New York","NY","New York","New York",1994,0
+11,"Rhode Island","RI","Rhode Island","Rhode Island",1994,0
+1,"Offshore",NA,NA,"Offshore",1995,NA
+2,"Georges Bank",NA,NA,"Georges Bank",1995,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",1995,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",1995,NA
+5,"Connecticut","CT","Connecticut","Connecticut",1995,0.144579093306533
+6,"Maine","ME","Maine","Maine",1995,0.0554603845303167
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",1995,0
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",1995,0
+9,"New Hampshire","NH","New Hampshire","New Hampshire",1995,0
+10,"New York","NY","New York","New York",1995,0.122839049733002
+11,"Rhode Island","RI","Rhode Island","Rhode Island",1995,0.0269061561803368
+1,"Offshore",NA,NA,"Offshore",1996,NA
+2,"Georges Bank",NA,NA,"Georges Bank",1996,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",1996,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",1996,NA
+5,"Connecticut","CT","Connecticut","Connecticut",1996,0.115067998053255
+6,"Maine","ME","Maine","Maine",1996,0.245451651821627
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",1996,0.226746446398844
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",1996,0.305436860550852
+9,"New Hampshire","NH","New Hampshire","New Hampshire",1996,0.206027781193176
+10,"New York","NY","New York","New York",1996,0.202045720838624
+11,"Rhode Island","RI","Rhode Island","Rhode Island",1996,0.20913655516059
+1,"Offshore",NA,NA,"Offshore",1997,NA
+2,"Georges Bank",NA,NA,"Georges Bank",1997,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",1997,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",1997,NA
+5,"Connecticut","CT","Connecticut","Connecticut",1997,0.178394585444841
+6,"Maine","ME","Maine","Maine",1997,0.27209039056466
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",1997,0.188327945991043
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",1997,0.207245725403281
+9,"New Hampshire","NH","New Hampshire","New Hampshire",1997,0.329445575060469
+10,"New York","NY","New York","New York",1997,0.187563542615284
+11,"Rhode Island","RI","Rhode Island","Rhode Island",1997,0.297048717551265
+1,"Offshore",NA,NA,"Offshore",1998,NA
+2,"Georges Bank",NA,NA,"Georges Bank",1998,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",1998,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",1998,NA
+5,"Connecticut","CT","Connecticut","Connecticut",1998,0.487464364003209
+6,"Maine","ME","Maine","Maine",1998,0.400608638586704
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",1998,0.493696169964751
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",1998,0.561085829307406
+9,"New Hampshire","NH","New Hampshire","New Hampshire",1998,0.407539995533697
+10,"New York","NY","New York","New York",1998,0.544342905309601
+11,"Rhode Island","RI","Rhode Island","Rhode Island",1998,0.553901750295557
+1,"Offshore",NA,NA,"Offshore",1999,NA
+2,"Georges Bank",NA,NA,"Georges Bank",1999,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",1999,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",1999,NA
+5,"Connecticut","CT","Connecticut","Connecticut",1999,0.28162835267645
+6,"Maine","ME","Maine","Maine",1999,0.323389026512439
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",1999,0.193099431449558
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",1999,0.1518800634827
+9,"New Hampshire","NH","New Hampshire","New Hampshire",1999,0.368786343028036
+10,"New York","NY","New York","New York",1999,0.251834599982289
+11,"Rhode Island","RI","Rhode Island","Rhode Island",1999,0.23860007772843
+1,"Offshore",NA,NA,"Offshore",2000,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2000,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2000,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2000,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2000,0.428326272600732
+6,"Maine","ME","Maine","Maine",2000,0.13484768510422
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2000,0.00659215643944774
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2000,0.0344916406303938
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2000,0.0196186013812764
+10,"New York","NY","New York","New York",2000,0.330167831644592
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2000,0.168165076182036
+1,"Offshore",NA,NA,"Offshore",2001,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2001,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2001,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2001,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2001,0.264882255981104
+6,"Maine","ME","Maine","Maine",2001,0.191829450011024
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2001,0.280617020998085
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2001,0.210018330329248
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2001,0.285794384024116
+10,"New York","NY","New York","New York",2001,0.244222759451615
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2001,0.24826069651653
+1,"Offshore",NA,NA,"Offshore",2002,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2002,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2002,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2002,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2002,0.111880219853438
+6,"Maine","ME","Maine","Maine",2002,0.0942475950731921
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2002,0.054588225419083
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2002,0.0670507126775579
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2002,0.0741443225088414
+10,"New York","NY","New York","New York",2002,0.0592106795833988
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2002,0.00594641177528231
+1,"Offshore",NA,NA,"Offshore",2003,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2003,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2003,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2003,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2003,0
+6,"Maine","ME","Maine","Maine",2003,0.0414401855644918
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2003,0.0101734313787076
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2003,0.00561902434818241
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2003,0.12501680532868
+10,"New York","NY","New York","New York",2003,0.00831531961310155
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2003,0
+1,"Offshore",NA,NA,"Offshore",2004,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2004,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2004,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2004,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2004,0.00704467911292617
+6,"Maine","ME","Maine","Maine",2004,0.0729089443769576
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2004,0.174394091170782
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2004,0.14003134682242
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2004,0.173202782534481
+10,"New York","NY","New York","New York",2004,0.0237533987509343
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2004,0.0852980909440766
+1,"Offshore",NA,NA,"Offshore",2005,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2005,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2005,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2005,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2005,0.441357383119581
+6,"Maine","ME","Maine","Maine",2005,0.406993385309809
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2005,0.500804954749799
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2005,0.475984537903267
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2005,0.448068396428998
+10,"New York","NY","New York","New York",2005,0.485883560215546
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2005,0.495571162053608
+1,"Offshore",NA,NA,"Offshore",2006,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2006,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2006,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2006,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2006,0.427894957890623
+6,"Maine","ME","Maine","Maine",2006,0.292737689327065
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2006,0.385226144079576
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2006,0.208715104193538
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2006,0.334314640988125
+10,"New York","NY","New York","New York",2006,0.387178551978982
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2006,0.367731193276438
+1,"Offshore",NA,NA,"Offshore",2007,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2007,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2007,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2007,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2007,0
+6,"Maine","ME","Maine","Maine",2007,0.0641325354234749
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2007,0.0241006420249915
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2007,0.0257236853065781
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2007,0.0235506369826499
+10,"New York","NY","New York","New York",2007,0.00909290714482724
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2007,0.00465915742398318
+1,"Offshore",NA,NA,"Offshore",2008,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2008,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2008,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2008,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2008,0.379732985374997
+6,"Maine","ME","Maine","Maine",2008,0.193626533531976
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2008,0.428419296360678
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2008,0.393807968861206
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2008,0.242869607183371
+10,"New York","NY","New York","New York",2008,0.335658499331567
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2008,0.385841230737334
+1,"Offshore",NA,NA,"Offshore",2009,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2009,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2009,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2009,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2009,0.496224098083216
+6,"Maine","ME","Maine","Maine",2009,0.50302747997984
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2009,0.589833244751071
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2009,0.538935747261111
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2009,0.592051124974583
+10,"New York","NY","New York","New York",2009,0.517254929903871
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2009,0.5060792333727
+1,"Offshore",NA,NA,"Offshore",2010,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2010,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2010,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2010,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2010,0.606384000814573
+6,"Maine","ME","Maine","Maine",2010,0.76209415423588
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2010,0.853768038488271
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2010,0.8631305371925
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2010,0.735856204890133
+10,"New York","NY","New York","New York",2010,0.622586855471387
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2010,0.689506684501328
+1,"Offshore",NA,NA,"Offshore",2011,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2011,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2011,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2011,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2011,0.777316331739399
+6,"Maine","ME","Maine","Maine",2011,0.735624149739147
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2011,0.874016027161252
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2011,0.847905585882119
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2011,0.826409059294154
+10,"New York","NY","New York","New York",2011,0.774463549332878
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2011,0.83923468094671
+1,"Offshore",NA,NA,"Offshore",2012,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2012,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2012,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2012,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2012,0.845519667607571
+6,"Maine","ME","Maine","Maine",2012,0.708966608371427
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2012,0.837072640674853
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2012,0.753244076570467
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2012,0.813046668352706
+10,"New York","NY","New York","New York",2012,0.825385842880874
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2012,0.770865630922896
+1,"Offshore",NA,NA,"Offshore",2013,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2013,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2013,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2013,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2013,0.554853605537904
+6,"Maine","ME","Maine","Maine",2013,0.722882683974982
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2013,0.700543672334381
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2013,0.666578799774641
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2013,0.65771490402436
+10,"New York","NY","New York","New York",2013,0.540438149952319
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2013,0.536508659946727
+1,"Offshore",NA,NA,"Offshore",2014,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2014,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2014,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2014,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2014,0.787627910112706
+6,"Maine","ME","Maine","Maine",2014,0.7351399749254
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2014,0.786729893018628
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2014,0.68903850883312
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2014,0.839777645770084
+10,"New York","NY","New York","New York",2014,0.757652720902843
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2014,0.730606709625207
+1,"Offshore",NA,NA,"Offshore",2015,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2015,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2015,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2015,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2015,0.754102332540755
+6,"Maine","ME","Maine","Maine",2015,0.619754917781544
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2015,0.458670751837611
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2015,0.425103473290524
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2015,0.459235914302676
+10,"New York","NY","New York","New York",2015,0.669925483424189
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2015,0.44615736561238
+1,"Offshore",NA,NA,"Offshore",2016,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2016,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2016,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2016,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2016,0.998530828175697
+6,"Maine","ME","Maine","Maine",2016,0.880718928245795
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2016,0.930313938716699
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2016,0.895180776859519
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2016,0.883128728089708
+10,"New York","NY","New York","New York",2016,0.978904642322805
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2016,0.878845813811994
+1,"Offshore",NA,NA,"Offshore",2017,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2017,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2017,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2017,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2017,0.52442680627893
+6,"Maine","ME","Maine","Maine",2017,0.759167711670867
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2017,0.636986308976224
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2017,0.62016894281665
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2017,0.732301300831055
+10,"New York","NY","New York","New York",2017,0.546333566757353
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2017,0.542215966232745
+1,"Offshore",NA,NA,"Offshore",2018,NA
+2,"Georges Bank",NA,NA,"Georges Bank",2018,NA
+3,"Gulf of Maine",NA,NA,"Gulf of Maine",2018,NA
+4,"Mid-Atlantic Bight",NA,NA,"Mid-Atlantic Bight",2018,NA
+5,"Connecticut","CT","Connecticut","Connecticut",2018,0.681001769479535
+6,"Maine","ME","Maine","Maine",2018,0.762581825630258
+7,"Massachusetts-North","MA","Massachusetts","Massachusetts",2018,0.617788314810622
+8,"Massachusetts-South","MA","Massachusetts","Massachusetts",2018,0.665972791761937
+9,"New Hampshire","NH","New Hampshire","New Hampshire",2018,0.729763687326667
+10,"New York","NY","New York","New York",2018,0.722142419659029
+11,"Rhode Island","RI","Rhode Island","Rhode Island",2018,0.602714402152893
