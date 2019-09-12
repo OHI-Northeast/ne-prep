@@ -140,11 +140,24 @@ rgns <- rgn_data %>%
 
 trash_resc %>%
   left_join(rgns) %>%
+  mutate(score = 1-score) %>% #inverse because low trash is a good score
   select(year, rgn_id, score) %>%
   complete(rgn_id = 1:11, #this adds in regions 1-4 with NA values for pounds_pp
            year) %>%
   write.csv(file.path(dir_calc, "layers/cw_trash.csv"))
 ```
+
+We also use trash as a pressure layer. For pressures, we need to inverse the scores (0 is best, 1 is worst).
+
+```{r}
+trash_prs <- trash_resc %>%
+  left_join(rgns) %>%
+  select(year, rgn_id, score) %>%
+  complete(rgn_id = 1:11, #this adds in regions 1-4 with NA values for pounds_pp
+           year) %>%
+  write.csv(file.path(dir_calc, "layers/prs_trash.csv"))
+```
+
 
 
 

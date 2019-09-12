@@ -1,0 +1,41 @@
+---
+title: "Economies dashboard data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+## Summary
+
+Create data for the Economies sub goal page on the OHI Dashboard. This includes the data information table, and individual layer scores.
+
+```{r}
+library(tidyverse)
+```
+
+
+## Data Information tables
+
+```{r}
+eco_data_info <- data.frame(
+  Layer = c("Gross Domestic Product"),
+  Description = c("National Ocean Economics Program (NOEP) Ocean Economy data for average GDP associated with jobs that directly or indirectly depend upon the ocean"),
+  Target = c("Annual growth in ocean related sectors’ GDP is at least 3%"),
+  Source = c('<a href="http://www.oceaneconomics.org/">National Ocean Economics Program</a>')
+)
+
+write_csv(eco_data_info, "data/eco_data_info.csv")
+
+DT::datatable(eco_data_info, escape = FALSE)
+```

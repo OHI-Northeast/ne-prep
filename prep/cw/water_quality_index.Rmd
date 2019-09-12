@@ -176,11 +176,11 @@ wqi_clean <- wqi %>%
   left_join(ma_df, by = c("siteID", "time_period", "Year", "status", "PSTL_CODE")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.x), rgn_id.y, rgn_id.x)) %>%
   select(-rgn_id.x, -rgn_id.y, -rgn_name, -area_km2, -WGT_NCA_56.y, -WGT_NCCA10.y) %>%
-  left_join(rgn_data) %>%
-  select(-area_km2) %>%
+  left_join(rgn_data, by = "rgn_id") %>%
   filter(rgn_name != "Georges Bank") %>%
   rename(WGT_NCA_56 = WGT_NCA_56.x,
          WGT_NCCA10 = WGT_NCCA10.x) %>%
+  select(-state_abv.x, -state_abv.y, -state_name.x, -state.x, -state_name.y, -state.y, -area_km2) %>%
   filter(Year > 2004) %>% #remove the early years
   as.data.frame()
 ```
@@ -284,7 +284,7 @@ ggplot(wqi_rgns, aes(x = year, y = wqi_score, color = rgn_name)) +
 
 The plot has guessed the values between 2006 and 2010 but we need to actually assign these before saving this layer. We will assume a simple linear interpolation between years.
 
-```{r gapfill, eval = F}
+```{r gapfill}
 df_gf <- wqi_rgns %>%
   complete(year = 2006:2010) %>%
   group_by(rgn_name) %>%
@@ -298,18 +298,30 @@ write.csv(df_gf, file = "data/wqi_score_rgns_gf.csv")
 
 I need to attach region ID's to each row. I also add the offshore regions 1:4 with NA values for the toolbox to run. 
 
-```{r save_layer, eval = F}
+```{r save_layer}
 other_rgns <- data.frame(year     = rep(2006:2010, each = 4),
                          rgn_id   = c(1,2,3,4),
                          rgn_name = c("Offshore", "Georges Bank", "Gulf of Maine", "Mid-Atlantic Bight"),
                          score = NA)
 
-out <- df_gf %>%
+df_gf %>%
   left_join(rgn_data) %>%
   select(year, rgn_id, rgn_name, score) %>%
   bind_rows(other_rgns) %>%
   write_csv(file.path(dir_calc, "layers/cw_wqi.csv"))
 ```
+
+Save as a pressure layer as well (inverse)
+
+```{r}
+df_gf %>%
+  left_join(rgn_data) %>%
+  mutate(score = 1-score/100) %>%
+  select(year, rgn_id, rgn_name, score) %>%
+  bind_rows(other_rgns) %>%
+  write_csv(file.path(dir_calc, "layers/prs_wqi.csv"))
+```
+
 
 ## Citation
 
