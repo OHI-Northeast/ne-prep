@@ -115,7 +115,7 @@ eee_score <- eee %>%
   mutate(score_eee = score/target)
 
 #save
-write.csv(eee_score, file = "data/eee_score")
+write.csv(eee_score, file = "data/eee_score.csv")
 ```
 
 Visualize
@@ -179,7 +179,7 @@ clim_act <- raw_clim_act %>%
   select(-n) %>% 
   filter(State != "Total # of actions considered")
 
-write.csv(clim_act, file = "data/clim_act")
+write.csv(clim_act, file = "data/clim_act.csv")
 ```
 
 ```{r}
@@ -549,7 +549,7 @@ energy_consump_scores <- energy_target %>%
   mutate(score = per_renew/target,
          score = if_else(score >1, 1, score)) 
 #save
-write.csv(energy_consump_scores, file = "data/power_gen_scores_nuc")
+write.csv(energy_consump_scores, file = "data/power_gen_scores_nuc.csv")
 ```
 
 Visualize scores
@@ -649,7 +649,7 @@ emissions <- rbind(out1, out2, out3, out4, out5) %>%
                             state == "Rhode Island" ~ (8.91 - 0.8*(8.91))))
 
 #save
-write.csv(emissions, file = "data/emissions")
+write.csv(emissions, file = "data/emissions.csv")
 ```
 
 Visualize emmissions
@@ -837,7 +837,7 @@ emissions_scores <- emissions_target %>%
   mutate(score = target/emission,
          score = if_else(score >1, 1, score)) 
 #save
-write.csv(emissions_scores, file = "data/emissions_scores")
+write.csv(emissions_scores, file = "data/emissions_scores.csv")
 ```
 
 Visualize scores
@@ -965,7 +965,7 @@ cc_res_score <- left_join(emissions_scores_t, clim_act_t, by = c("year", "rgn_na
   mutate(score = mean(c(score_power, score_act, score_em, score_eee))) %>% 
   select(year, rgn_name, rgn_id, score)
 
-write.csv(cc_res_score, file = "data/cc_res_score")
+write.csv(cc_res_score, file = "data/cc_res_score.csv")
 ```
 
 Visualize

@@ -279,7 +279,7 @@ sob_scores <- raw_sob %>%
   mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
   select(-n)
   
-write.csv(sob_scores, file = "data/sob_scores")
+write.csv(sob_scores, file = "data/sob_scores.csv")
 
 ```
 

@@ -1022,7 +1022,7 @@ gapfill <- cbind(year, state) %>%
 dmr_gapfill_submissions <- rbind(gapfill, dmr_submissions)  %>% 
   mutate(year = as.numeric(year))
 
-write.csv(dmr_gapfilled,"data/dmr_gapfill_submissions.csv")
+write.csv(dmr_gapfill_submissions,"data/dmr_gapfill_submissions.csv")
 
 ```
 
@@ -1132,9 +1132,28 @@ For the water pollution resilience scores (wp_res_scores) a score of 1 would be 
 3. Score between 0-1 for discharge facilitiy violations. Calculated by taking the percent of facilities that had no violations/ the EPA's target of 100% no violations. If reached target a score of 1 would be acheived
 4. Score between 0-1 for submissions of discharge monitoring reports (DMR). Calculated by taking the percent of DMRs submitted/ % the EPA's target of 95% submission of expected DMRs. If reached target a score of 1 would be acheived
 
+```{r missing_rgns_df}
+
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
+
+
+
 
 ```{r}
-
 wp_res_score <- wp_res_metrics %>% 
   mutate(regulation_score = percent_regulation/target_regulation,
          inspection_score = percent_w_inspections/target_inspections,
@@ -1143,10 +1162,12 @@ wp_res_score <- wp_res_metrics %>%
          submitted_score = if_else(submitted_score >1, 1, submitted_score)) %>%  # capping the score at 1
   select(year, rgn_name, rgn_id, regulation_score, inspection_score, noviolation_score, submitted_score) %>% 
   group_by(year, rgn_name, rgn_id) %>% 
-  summarise(wp_res_score = sum(inspection_score, submitted_score, noviolation_score, regulation_score)/4)
+  summarise(wp_res_score = sum(inspection_score, submitted_score, noviolation_score, regulation_score)/4) %>% 
+  ungroup() %>% 
+  rename(score = wp_res_score) %>% 
+  rbind(miss_rgns)
 
 write.csv(wp_res_score, "data/wp_res_score.csv")
-
 ```
 
 Visualization
@@ -1164,6 +1185,10 @@ ggsave("figs/wp_res_scores_graph.jpg", width=7, height=5, dpi=300)
 
 ```
 
+Write as a pressure layer to ne-scores
+```{r}
+
+```
 
 
 

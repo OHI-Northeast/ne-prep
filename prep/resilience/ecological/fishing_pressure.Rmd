@@ -213,7 +213,7 @@ total_species_assessed
 percent_assessed_by_region <-left_join(total_species_caught, total_species_assessed, by = c("rgn_id", "rgn_name")) %>% 
   mutate(percent = assessed/caught)
 percent_assessed_by_region
-write.csv(percent_assessed_by_region, file = "data/percent_assessed_by_region")
+write.csv(percent_assessed_by_region, file = "data/percent_assessed_by_region.csv")
 ```
 
 Visualization
@@ -241,7 +241,7 @@ assessment_score <- percent_assessed_by_region %>%
 
 assessment_score
 
-write.csv(assessment_score, file = "data/assessment_score")
+write.csv(assessment_score, file = "data/assessment_score.csv")
 ```
 
 Visualization
@@ -332,7 +332,7 @@ ggsave("figs/percent_offshore_water_protec.jpg", width=7, height=5, dpi=300)
 Save data
 ```{r save_to_layers}
 #save marine
-write.csv(marine_protected_by_rgn,"data/marine_protected_by_rgn")
+write.csv(marine_protected_by_rgn,"data/marine_protected_by_rgn.csv")
 ```
 
 Calculate the protected area scores
@@ -344,7 +344,7 @@ protected_score <- marine_protected_by_rgn %>%
          score = if_else(score > 1, 1, score)) %>% 
   mutate(rgn_id = as.character(rgn_id))
 
-write.csv(protected_score, file = "data/protected_score")
+write.csv(protected_score, file = "data/protected_score.csv")
 ```
 
 Visualize
@@ -879,7 +879,7 @@ adeq_ass <- assessment_frq %>%
 percent_adeq_ass <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id", "rgn_name") ) %>% 
   mutate(percent_adeq_ass = adeq_assessed/number_stocks)
 
-write.csv(percent_adeq_ass, file = "data/percent_adeq_ass")
+write.csv(percent_adeq_ass, file = "data/percent_adeq_ass.csv")
 ```
 
 Visualize
@@ -920,7 +920,7 @@ fisheries_reg_score <- left_join(add_ass, protect, by = c("year", "rgn_id", "rgn
   mutate(reg_score = mean(c(score1, score2, score3))) %>% 
   select(year, rgn_name, rgn_id, reg_score)
 
-write.csv(fisheries_reg_score, file = "data/fisheries_reg_score")
+write.csv(fisheries_reg_score, file = "data/fisheries_reg_score.csv")
 ```
 
 Visualize
@@ -965,7 +965,7 @@ fish_ob_score <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>%
   rename(year = YEAR) %>% 
   rename(enforcement_score_obser= score)
 
-write.csv(fish_ob_score, file = "data/fish_ob_score")
+write.csv(fish_ob_score, file = "data/fish_ob_score.csv")
 ```
 
 Things to think about:
@@ -999,7 +999,7 @@ enforcement_compliance_scores <- ole_score %>%
   rowwise() %>% 
   mutate(enforcement_score= mean(c(enforcement_score_OLE, enforcement_score_obser), na.rm=T))
 
-write.csv(enforcement_compliance_scores, file = "data/enforcement_compliance_scores")
+write.csv(enforcement_compliance_scores, file = "data/enforcement_compliance_scores.csv")
 ```
 
 ```{r}
@@ -1037,7 +1037,7 @@ fish_res_score <- left_join(fisheries_reg_score, ole_scores, by = c("year", "rgn
   rowwise() %>% 
   mutate(score= mean(c(enforcement_score, compliance_score, reg_score), na.rm=T))
 
-write.csv(fish_res_score, file = "data/fish_res_score")
+write.csv(fish_res_score, file = "data/fish_res_score.csv")
 ```
 
 Visualize
