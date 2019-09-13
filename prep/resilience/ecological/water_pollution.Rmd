@@ -1132,8 +1132,8 @@ For the water pollution resilience scores (wp_res_scores) a score of 1 would be 
 3. Score between 0-1 for discharge facilitiy violations. Calculated by taking the percent of facilities that had no violations/ the EPA's target of 100% no violations. If reached target a score of 1 would be acheived
 4. Score between 0-1 for submissions of discharge monitoring reports (DMR). Calculated by taking the percent of DMRs submitted/ % the EPA's target of 95% submission of expected DMRs. If reached target a score of 1 would be acheived
 
+Creating a df to add on to the water pollution scores to have the missing regions there 
 ```{r missing_rgns_df}
-
 miss_rgns <- tribble(
   ~rgn_id, ~rgn_name,
   3, "Gulf of Maine",
@@ -1148,10 +1148,6 @@ miss_rgns <- miss_rgns %>%
   mutate(score = NA) %>% 
   unique()
 ```
-
-
-
-
 
 ```{r}
 wp_res_score <- wp_res_metrics %>% 
@@ -1174,7 +1170,7 @@ Visualization
 ```{r}
 
 wp_res_scores_graph <- ggplot(wp_res_score) +
-  geom_line(aes(x=year, y= wp_res_score, color = rgn_name))+
+  geom_line(aes(x=year, y= score, color = rgn_name))+
   ggtitle("North East Water Pollution Resilience Scores") +
   ylab("Score") +
   xlab("Year") +
@@ -1187,7 +1183,7 @@ ggsave("figs/wp_res_scores_graph.jpg", width=7, height=5, dpi=300)
 
 Write as a pressure layer to ne-scores
 ```{r}
-
+write.csv(wp_res_score, file.path(dir_calc, "layers/res_water_pollution.csv"))
 ```
 
 

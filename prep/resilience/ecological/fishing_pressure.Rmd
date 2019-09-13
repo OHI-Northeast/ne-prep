@@ -1055,6 +1055,14 @@ fisheries_res_graph
 ggsave("figs/fisheries_res_graph.jpg", width=7, height=5, dpi=300)
 ```
 
+Write as a pressure layer to ne-scores
+```{r}
+write.csv(fish_res_score, file.path(dir_calc, "layers/res_fishing.csv"))
+```
+
+
+
+
 
 
 

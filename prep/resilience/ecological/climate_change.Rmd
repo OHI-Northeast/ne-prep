@@ -956,6 +956,23 @@ clim_act_t <- clim_act %>%
   rename(score_act = score) 
 ```
 
+Creating a df to add on to the water pollution scores to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
 Combine all scores!
 ```{r}
 cc_res_score <- left_join(emissions_scores_t, clim_act_t, by = c("year", "rgn_name", "rgn_id")) %>% 
@@ -963,7 +980,8 @@ cc_res_score <- left_join(emissions_scores_t, clim_act_t, by = c("year", "rgn_na
   left_join(eee_score_t, by = c("year", "rgn_name", "rgn_id"))%>% 
   rowwise() %>% 
   mutate(score = mean(c(score_power, score_act, score_em, score_eee))) %>% 
-  select(year, rgn_name, rgn_id, score)
+  select(year, rgn_name, rgn_id, score) %>% 
+  rbind(miss_rgns)
 
 write.csv(cc_res_score, file = "data/cc_res_score.csv")
 ```
@@ -982,6 +1000,24 @@ cc_res_graph
 ##save fig
 ggsave("figs/cc_res_graph.jpg", width=7, height=5, dpi=300)
 ```
+
+
+Write as a pressure layer to ne-scores
+```{r}
+write.csv(cc_res_score, file.path(dir_calc, "layers/res_climate_change.csv"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

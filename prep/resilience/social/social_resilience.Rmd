@@ -858,30 +858,15 @@ house_17 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2017
   separate(District, c("state", "dis_num"), sep = "-")
 ```
 
-** will need to go back to here and separate north/south ma
-although, need to think about how we cant do this for the senate
+
 Combine
 ```{r}
-house <- rbind(house_05, house_06, house_07, house_08, house_09, house_10, house_11, house_12, house_13, house_14, house_15, house_16, house_17)
-#%>% 
- # select(-dis_num, -district) %>% 
- # group_by(year, state) %>% 
- # mutate(score= as.numeric(score)) %>% 
-  #dplyr::summarise(house_score = mean(score, na.rm=TRUE)) %>% 
-  #filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") 
-
-hma <- house %>% 
-  filter(state == "MA") %>% 
-  mutate(score = as.numeric(score))
-
-g <- ggplot(hma) +
-  geom_line(aes(x=year, y= score, color = dis_num)) +
-  ggtitle("LCV Raw Score") +
-  ylab("Score") +
-  xlab("Year") +
-  theme_classic()
-g
-
+house <- rbind(house_05, house_06, house_07, house_08, house_09, house_10, house_11, house_12, house_13, house_14, house_15, house_16, house_17)%>% 
+  select(-dis_num, -district) %>% 
+  group_by(year, state) %>% 
+  mutate(score= as.numeric(score)) %>% 
+  dplyr::summarise(house_score = mean(score, na.rm=TRUE)) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") 
 ```
 
 Load in and tidy senate scores
@@ -1066,7 +1051,7 @@ lcv_scores <- congress %>%
     rgn_id == "11" ~ "Rhode Island",
     rgn_id == "5" ~ "Connecticut",
     rgn_id == "10" ~ "New York")) %>% 
-  select(year, rgn_id, rgn_name, score_lcv)
+  select(year, rgn_id, rgn_name, score_lcv) 
 
 write.csv(lcv_scores, file = "data/lcv_scores.csv")
 ```
@@ -1083,6 +1068,23 @@ lcv_score_graph <- ggplot(lcv_scores) +
 lcv_score_graph
 ```
 
+Creating a df to add on to the water pollution scores to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
 Combine all scores (except grading the states) to calculate overall social resilience
 need to gap fill for missing years in some datasets
 
@@ -1091,7 +1093,10 @@ social_resilience_scores <- left_join(lcv_scores, svi_overall, by = c("year", "r
   left_join(oi_score, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(bhi_scores, by =c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
-  mutate(social_score = mean(c(score_lcv,svi_score,oi_score, bhi_score), na.rm= TRUE)) # can remove NA part when all back filled
+  mutate(social_score = mean(c(score_lcv,svi_score,oi_score, bhi_score), na.rm= TRUE)) %>% 
+  select(year, rgn_id, rgn_name, social_score) %>% 
+  rename(score = social_score) %>% 
+  rbind(miss_rgns)
 
 write.csv(social_resilience_scores, file = "data/social_resilience_scores.csv")
 ```
@@ -1109,6 +1114,14 @@ social_score_graph
 
 ggsave("figs/social_score_graph.jpg", width=7, height=5, dpi=300)
 ```
+
+
+Write as a pressure layer to ne-scores
+```{r}
+write.csv(social_resilience_scores, file.path(dir_calc, "layers/res_social.csv"))
+```
+
+
 
 
 
