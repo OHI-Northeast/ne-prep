@@ -167,12 +167,10 @@ foreach(file = nc_files) %dopar% {
     raster::resample(ocean_ne, method = "ngb", 
              filename = sprintf("%s/prs_oa/int/noaa/oa_annual_noaa_%s.tif", 
                                 dir_anx, yr), overwrite = TRUE) %>% 
-    mask(three_nm, filename = sprintf("%s/prs_oa/int/noaa/oa_annual_noaa_%s.tif", 
+    mask(three_nm, filename = sprintf("%s/prs_oa/int/noaa_reprojected/oa_annual_noaa_repro_%s.tif", 
                                 dir_anx, yr), overwrite = TRUE)
 
-  ## write raster to int folder in prs_slr
-  fp <- sprintf("%s/int/noaa/oa_annual_noaa_%s.tif", file.path(dir_anx, "prs_oa"), yr)
-  writeRaster(r, filename = fp, overwrite = TRUE)
+
 }
 
 
