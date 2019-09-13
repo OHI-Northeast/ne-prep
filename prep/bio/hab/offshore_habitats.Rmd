@@ -153,9 +153,19 @@ ggplot(rgn_sasi_scores, aes(x = year, y = score, color = rgn_name)) +
 I need to attach region ID's to each row. I also add the offshore regions 1:4 with NA values for the toolbox to run. 
 
 ```{r save_layer}
-
 write_csv(rgn_sasi_scores, "~/github/ne-scores/region/layers/hab_sasi.csv")
 ```
 
+We also use the SASI data as a pressure. The higher the impact the higher the pressure so we don't inverse scores for this layer.
+
+```{r}
+rgn_sasi_prs <- rgn_sasi_out %>%
+  mutate(score = sasi) %>% #invert scores so high impact = low score
+  left_join(rgn_data) %>%
+  select(-area_km2, -state)
+
+
+write_csv(rgn_sasi_prs, "~/github/ne-scores/region/layers/prs_sasi.csv")
+```
 
 
