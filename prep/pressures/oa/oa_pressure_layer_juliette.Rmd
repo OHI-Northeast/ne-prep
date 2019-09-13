@@ -1,0 +1,180 @@
+---
+title: 'OHI-Northeast: Ocean Acidification Pressure Layer'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    fig_caption: true
+    number_sections: true
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ohi-northeast/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+#Summary
+
+This script takes the raw netCDF data and does the following:
+
+   a. Calculates the annual mean for each of the 5 years in 2011-2015 (5 raster layers as output)  
+   - change this to 2012-2017; but why 5 years? are these the historic years? look to see if the data starts in 2011, and if so calcualte the mean for 2011-2017?
+   - basically figure out if the global method of baseline is what we want to do
+   
+   b. Rescales each annual raster layer from 0 to 1 based on a biological threshold (&#937; <= 1) and the proportional change compared to a historical mean
+   c. Interpolates the data to gap-fill for cells where there is no data
+   d. Resamples the rescaled raster layer to 1km cell resolution
+   e. Mask the resampled data to select only those cells within the ocean
+  
+
+#Updates from previous assessment
+
+Added one more year of data (2015) and rescaled values greater than 1 based on how close the value is to the threshold of 1. This was done by using the following equation:
+- were not adding, we are doing the whole thing from stratch. see if the global way of adding includes past files
+
+$$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
+
+Note that current is subtracted from the baseline; this way, a reduction in $\Omega$ becomes a positive pressure value. It is then normalized by the current mean state; so a decrease in $\Omega$ while the current state is high indicates less pressure than the same decrease when the current state is near 1. 
+
+$\Delta \Omega_{year}$ is then modified to account for increases in aragonite saturation state (pressure = 0) and arag sat state less than 1 (pressure = 1).
+
+***
+
+#Data Source
+
+- i only changed a few of these below
+
+**Reference**: [Feely et al.(2009)](https://darchive.mblwhoilibrary.org/bitstream/handle/1912/3180/22-4_feely.pdf?sequence=1&isAllowed=y)
+- we have a new data source : https://www.coral.noaa.gov/accrete/east-coast-oaps.html
+
+**Downloaded**: September 12, 2019
+
+**Description**:  Aragonite Saturation State  $\Omega_{arg}$
+
+**Native data resolution**: 1 degree cells
+
+**Time range**: 1880-1889 and 2005-2015, monthly data provided for each year
+
+**Format**:  NetCDF
+
+  
+**Notes about the data**:  
+
+
+***
+
+# Methods
+
+
+##Setup  
+
+The main R libraries needed for this analysis are the `raster`, and `ncdf4` packages.
+``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 8, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R') ### an OHINE specific version of common.R
+
+#libraries
+
+library(raster)
+library(ncdf4)
+library(maps)
+library(RColorBrewer)
+
+#define paths for the raw data and OA folder held on git-annex on our NCEAS server, Mazu
+raw_dir     = file.path(dir_M,'git-annex/neprep/_raw_data')
+glob_dir    = file.path(dir_M,'git-annex/globalprep/prs_oa')
+ne_dir  = file.path(dir_M,'git-annex/neprep/prs_oa')
+
+cols      = colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
+
+```
+  
+## Load raw data  
+
+New NOAA data
+There doesn't seem to be lat/long data 
+figure out how to write a loop to rasterize all files we have and then reproject and resample and add the coastline? make gif of the years 2014-2017
+```{r,message=FALSE,warning=FALSE,eval=FALSE}
+
+## getting aragonite data from https://www.coral.noaa.gov/accrete/east-coast-oaps.html
+
+nc_new = nc_open(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2014.nc'))
+names(nc_new$var) # only variable name here is OmegaAr
+print(nc_new) #lat long are stored in the dimensions: 3 dims (time, lat, lon)
+
+#grab the lat and longs
+lat <- ncvar_get(nc_new,varid='lat')
+long <- ncvar_get(nc_new,varid='lon')
+
+test <- raster(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2014.nc'))
+print(test)
+
+world.outlines <- map("world", plot=FALSE)
+world.outlines.sp <- map2SpatialLines(world.outlines, proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")) #had to check what projection the data is in
+
+tplot <- levelplot
+tplot+ layer(sp.lines(world.outlines.sp, col = "black", lwd = 0.5))
+
+```
+
+```{r}
+nc_files <- c(list.files(file.path(raw_dir,'NOAA_OA'),
+                       full.names = TRUE, pattern = ".nc"))
+```
+
+A peak into what the monthly data looks like
+is this an annual mean? the .nc file says it has it by month, need to figure out how to pull that out of the file to do the proper average
+```{r explore}
+plot(raster(nc_files[1]), col = cols, axes = F)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Global Data
+
+```{r,message=FALSE,warning=FALSE,eval=FALSE}
+
+## getting aragonite data from https://catalog.data.gov/dataset/aragonite-saturation-state-calculated-from-ocean-station-data-with-dissolved-inorganic-carbon-d
+
+nc_old = nc_open(file.path(dir_M,'git-annex/globalprep/_raw_data/WHOI/cesm_co2sys_1958-2016.1x1d.nc'))
+#the only variables in this file are "PH"   "OARG" "OCAL"
+
+print(nc_old)
+
+nc_05 = nc_open(file.path(dir_M,'git-annex/globalprep/_raw_data/WHOI/annual/cesm_co2sys_2005.nc'))
+
+names(nc_05$var) # names for lat/long are different, so double check
+#variables here are "TLAT"         "TLONG"        "PH"           "OARG"         "OCAL"         "ECOSYS_IFRAC"
+
+# longitude values are stored in the variable 'TLONG'
+
+      long <- ncvar_get(nc,varid='Longitude')
+
+# latitude values are stored in the variable 'TLAT'
+
+      lat <- ncvar_get(nc,varid='Latitude')
+```
+
+
+
+
+
