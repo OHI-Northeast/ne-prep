@@ -85,6 +85,15 @@ library(raster)
 library(ncdf4)
 library(maps)
 library(RColorBrewer)
+library(googleVis)
+library(maps)
+library(parallel)
+library(foreach)
+library(doParallel)
+library(fasterize)
+library(rasterVis)
+library(here)
+library(raster)
 
 #define paths for the raw data and OA folder held on git-annex on our NCEAS server, Mazu
 raw_dir     = file.path(dir_M,'git-annex/neprep/_raw_data')
@@ -112,14 +121,12 @@ print(nc_new) #lat long are stored in the dimensions: 3 dims (time, lat, lon)
 lat <- ncvar_get(nc_new,varid='lat')
 long <- ncvar_get(nc_new,varid='lon')
 
-test <- raster(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2014.nc'))
-print(test)
+#code for looking at the NetCDF files directly
+#world.outlines <- map("world", plot=FALSE)
+#world.outlines.sp <- map2SpatialLines(world.outlines, proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")) #had to check what projection the data is in
 
-world.outlines <- map("world", plot=FALSE)
-world.outlines.sp <- map2SpatialLines(world.outlines, proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")) #had to check what projection the data is in
-
-tplot <- levelplot
-tplot+ layer(sp.lines(world.outlines.sp, col = "black", lwd = 0.5))
+#tplot <- levelplot
+#tplot+ layer(sp.lines(world.outlines.sp, col = "black", lwd = 0.5))
 
 ```
 
@@ -128,11 +135,59 @@ nc_files <- c(list.files(file.path(raw_dir,'NOAA_OA'),
                        full.names = TRUE, pattern = ".nc"))
 ```
 
-A peak into what the monthly data looks like
-is this an annual mean? the .nc file says it has it by month, need to figure out how to pull that out of the file to do the proper average
+A peak into what the data looks like.
+Is this an annual mean? Find the meta data for it
+the .nc file says has monthly .nc files in the global attributes history so it makes me think that its annual mean
 ```{r explore}
 plot(raster(nc_files[1]), col = cols, axes = F)
 ```
+
+Rasterize the annual oa means
+Change the projection to us_albers
+Resample
+(no mask unlike slr, we care about what's happening OA wise offshore)
+
+```{r rasterize_annual}
+
+#three_nm <- raster(file.path(dir_git, "spatial/ocean_rasters/rast_3nm_mask.tif"))
+
+registerDoParallel(10)
+
+
+foreach(file = nc_files) %dopar% {
+  
+  file = nc_files[1]
+  
+  yr <- substr(file, 73, 76) 
+  
+  ## read in month raster
+  r <- raster(file) %>%
+    projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+    raster::crop(ocean_ne) %>% 
+    raster::resample(ocean_ne, method = "ngb", 
+             filename = sprintf("%s/prs_oa/int/noaa/oa_annual_noaa_%s.tif", 
+                                dir_anx, yr), overwrite = TRUE) %>% 
+    mask(three_nm, filename = sprintf("%s/prs_oa/int/noaa/oa_annual_noaa_%s.tif", 
+                                dir_anx, yr), overwrite = TRUE)
+
+  ## write raster to int folder in prs_slr
+  fp <- sprintf("%s/int/noaa/oa_annual_noaa_%s.tif", file.path(dir_anx, "prs_oa"), yr)
+  writeRaster(r, filename = fp, overwrite = TRUE)
+}
+
+
+plot(r)
+
+plot(ocean_ne)
+
+plot(raster(file.path(dir_anx, "prs_oa/int/noaa/oa_annual_noaa_2014.tif")))
+```
+
+
+
+
+
+
 
 
 
