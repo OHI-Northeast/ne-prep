@@ -1035,7 +1035,8 @@ ole_scores <- enforcement_compliance_scores%>%
 ```{r}
 fish_res_score <- left_join(fisheries_reg_score, ole_scores, by = c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
-  mutate(score= mean(c(enforcement_score, compliance_score, reg_score), na.rm=T))
+  mutate(score= mean(c(enforcement_score, compliance_score, reg_score), na.rm=T)) %>% 
+  select(year, rgn_name, rgn_id, score)
 
 write.csv(fish_res_score, file = "data/fish_res_score.csv")
 ```
