@@ -50,167 +50,79 @@ library(sf)
 
 # Load Data
 
-Load all the individual state point shapefiles
+Load the 1 mile inland buffer
+
 ```{r}
-nh <- read_sf("state_coastal_access/data/coastal_access_shapefiles/nh_coast_access.shp")
-me <- read_sf("state_coastal_access/data/coastal_access_shapefiles/me_coast_access.shp")
-ny <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ny_coast_access.shp")
-ri <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ri_coast_access.shp")
-ma <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ma_coast_access.shp")
-ct <- read_sf("state_coastal_access/data/coastal_access_shapefiles/ct_coast_access.shp")
+buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1mile.shp")
 ```
 
-# Buffer points
+# Calculate area without access
 
-Applying a 2 mile buffer to each point
-
+Calculate the difference between area covered by buffered points and the whole 1 mile inland buffer.
 ```{r}
-nh_buff <- st_buffer(nh, dist = 3218.69) #there are 3218.69 meters in 2 miles
-ny_buff <- st_buffer(ny, dist = 3218.69)
-me_buff <- st_buffer(me, dist = 3218.69)
-ma_buff <- st_buffer(ma, dist = 3218.69)
-ri_buff <- st_buffer(ri, dist = 3218.69)
-ct_buff <- st_buffer(ct, dist = 3218.69)
-```
 
-# Combine
+calc_coastal_coverage <- function(state, state_abv){
 
-We are going to combine all points from each layer
-
-```{r}
-all <- nh_buff %>%
-  mutate(rgn_name = "New Hampshire") %>%
-  rbind(ny_buff) %>%
-  rbind(me_buff) %>%
-  rbind(ma_buff) %>%
-  rbind(ct_buff) %>%
-  rbind(ri_buff)
-```
-
-# Use st_distance
-
-Function that uses `st_distance` to calculate distance between points. 
-```{r}
-#function to calculate minimum distance for each point in each state
-get_dist_bw_points <- function(state, name){
+  land_buffer <- buffer %>%
+    filter(rgn_name == state)
   
-  #transform to lat long and create a point column that will be used for origin and destination
-  #in gmapsdistance
-  state_df <- state %>%
-    st_transform("+init=epsg:4326") %>%
-    mutate(id = row_number(),
-           long = unlist(map(.$geometry,1)),
-           lat = unlist(map(.$geometry,2)),
-           point = paste0(lat, "+",long))
-
-  #create empty dataframe
-  out <- data.frame()
-
-    for(i in 1:(nrow(state_df)-1)){
-     
-      #get origin
-      o = filter(state_df, id == i) 
-      
-        #create another empty dataframe for this forloop
-        out2 <- data.frame()
-        
-        for(j in i:(nrow(state_df)-1)){ #
-        
-          #get destination
-          d = filter(state_df, id == j+1)
-          
-          #calculate the distance first using st_distance, which calculates "as the crow flies"
-          dist_crow = st_distance(o$geometry, d$geometry, by_element = T) 
-    
-    #if distance as the crow flies is less than or equal to 1 miles we keep the point. Using 1 mile since driving/access is likely going to be more than 1 mile. If we use 2 miles, it will include a lot of points that may not actually be accessible in 2 miles since we don't account for geography/roads.
-    
-    if(as.numeric(dist_crow) > 1609.34) {break}
-     
-     dist <- dist_crow/1609.34
-          
-          #store info in dataframe 
-          df <- data.frame(miles = dist,
-                           start = i,
-                           end = j+1)
-       
-          out2 <- rbind(df, out2)
-      
-        }
-
-      out <- rbind(out2, out) 
-    }
+  #get total coastal area of the 1 mile buffer
+  coastal_area <- st_area(land_buffer)
   
-        #starting points
-      one <- out %>%
-        mutate(point = start) %>%
-        group_by(point) %>%
-        summarize(min_dist = min(miles))%>%
-        ungroup()
-      #end points
-      two <- out %>%
-        mutate(point = end) %>%
-        group_by(point) %>%
-        summarize(min_dist = min(miles))%>%
-        ungroup()
-      
-      #combine
-      all <- bind_rows(one, two) %>%
-        group_by(point) %>%
-        summarize(min = min(min_dist)) %>%
-        ungroup()
+  point_buffer <- read_sf(paste0("state_coastal_access/data/coastal_access_shapefiles/", state_abv, "_coast_access.shp")) %>%
+                  st_buffer(dist = 1609) %>%  #apply a 1 mile buffer
+                  st_union()
   
-    return(all)
+  #get area not covered by buffered points
+  diff <- st_difference(land_buffer, point_buffer) %>%
+    st_area()
+  
+  #calculate proportion without coverage
+  wo_access <- diff/coastal_area
+  
+  return(wo_access)
+  
 }
+
+df <- data.frame(state = c("New Hampshire", "New York", "Connecticut", "Massachusetts-North", "Massachusetts-South", "Rhode Island", "Maine"),
+                 state_abv = c("nh", "ny", "cy", "ma", "ma", "ri", "me"))
+
+#i know I could use map for this but i can't figure it out right now
+nh_area <- calc_coastal_coverage("New Hampshire", "nh")
+ny_area <- calc_coastal_coverage("New York", "ny")
+ct_area <- calc_coastal_coverage("Connecticut", "ct")
+man_area <- calc_coastal_coverage("Massachusetts-North", "ma")
+mas_area <- calc_coastal_coverage("Massachusetts-South", "ma")
+ri_area <- calc_coastal_coverage("Rhode Island", "ri")
+me_area <- calc_coastal_coverage("Maine", "me")
+
+out <- df %>%
+  mutate(area = case_when(
+    state == "New Hampshire" ~ nh_area,
+    state == "New York" ~ ny_area,
+    state == "Connecticut" ~ ct_area,
+    state == "Massachusetts-North" ~ man_area,
+    state == "Massachusetts-South" ~ mas_area,
+    state == "Rhode Island" ~ ri_area,
+    state == "Maine" ~ me_area
+  )) %>%
+  mutate(score = 1-as.numeric(area)) %>%
+  left_join(rgn_data, by = c("state" = "rgn_name")) %>%
+  select(rgn_id, score) 
 ```
 
+# Save to toolbox
 
-Apply to all states
-
-```{r}
-get_dist_bw_points(nh, "New Hampshire") %>%
-  mutate(state = "NH") %>%
-  write_csv("data/nh_min_dist_per_point.csv")
-
-get_dist_bw_points(me, "Maine") %>%
-  mutate(state = "ME") %>%
-  write_csv("data/me_min_dist_per_point.csv")
-
-get_dist_bw_points(ny, "New York") %>%
-  mutate(state = "NY") %>%
-  write_csv("data/ny_min_dist_per_point.csv")
-
-get_dist_bw_points(ma, "Massachusetts") %>%
-  mutate(state = "MA") %>%
-  write_csv("data/ma_min_dist_per_point.csv")
-
-get_dist_bw_points(ct, "Connecticut") %>%
-  mutate(state = "CT") %>%
-  write_csv("data/ct_min_dist_per_point.csv")
-
-get_dist_bw_points(ri, "Rhode Island") %>%
-  mutate(state = "RI") %>%
-  write_csv("data/ri_min_dist_per_point.csv")
-```
-
-
-# Calculate score
-
-We want each point to be overlapping with at least two other points. This would indicate that there are access points every two miles.
+Need to add years and all offshore regions
 
 ```{r}
 
+out %>%
+  complete(rgn_id = 1:11) %>%
+  mutate(year = 2017) 
+
+write_csv(out, "~/github/ne-scores/region/layers/tr_rao_coastal_access.csv")
 ```
-
-
-#Save
-
-```{r}
-write_sf(all, "data/coastal_access_shapefiles/nh_coast_access.shp", quiet = TRUE, delete_layer = TRUE)
-```
-
-
-
-
 
 
 
