@@ -28,6 +28,8 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 #libraries
 library(tidyverse)
 library(sf)
+#install.packages("gmapsdistance")
+library(gmapsdistance)  # for getting info from the API
 ```
 
 ---
@@ -87,9 +89,85 @@ all <- nh_buff %>%
   rbind(ri_buff)
 ```
 
-# Use st_distance
+# Try gmapsdistance
 
-Function that uses `st_distance` to calculate distance between points. 
+Results:
+Time (seconds)
+Distance (metres)
+Status (i.e. could the calculation be made?)
+
+```{r, echo = F}
+set.api.key(Sys.getenv("GOOGLE_ACCESS_TOKEN"))
+```
+
+
+```{r}
+small <- ny[1:10,]
+
+m <- st_distance(small)
+k <- as.numeric(m)
+d <- as.data.frame(k[1:10])
+
+df <- small %>%
+  mutate(
+    lead = geometry[row_number() + 1],
+    dist = st_distance(geometry, lead, by_element = T), #calculate distance between points
+  )
+
+#can we use st_distance to help us identify points that would be to ofar apart so we only use gmapsdistance on points that are within 2 miles (as the crow flies)? if the straightest line between two points is 3 miles, we could assume that the drive between thost two points is at a minimum 3 miles which is too far. so we only run gmapsdistance on points that are 2miles and under?
+
+
+#try gmapsdistance
+
+#first convert to latlong
+
+small_lat_long <- small %>%
+  st_transform("+init=epsg:4326") %>%
+  mutate(id = row_number(),
+         long = unlist(map(.$geometry,1)),
+         lat = unlist(map(.$geometry,2)),
+         point = paste0(lat, "+",long))
+
+out <- data.frame()
+
+for(i in 1:(nrow(small_lat_long)-1)){
+ 
+  #get first point
+  o = filter(small_lat_long, id == i)
+  
+  out2 <- data.frame()
+  
+  for(j in i:(nrow(small_lat_long)-1)){
+    
+    #get next point
+    d = filter(small_lat_long, id == j+1) 
+    
+    #calculate the distance first using st_distance, which calculates "as the crow flies"
+    dist_crow = st_distance(o$geometry, d$geometry, by_element = T) 
+    
+    #if distance as the crow flies is less than or equal to 2 miles (3218 meters) then we run gmapsdistance otherwise we ignore and go to next
+    if(as.numeric(dist_crow) > 3218.69) {break}
+    
+     r <- gmapsdistance(origin = o$point, destination = d$point, mode = "driving")
+     
+     dist <- r$Distance/1609.34
+     
+     print("running gmapsdistance")
+    
+     df <- data.frame(miles = dist,
+                       start = i,
+                       end = j+1)
+     out2 <- rbind(df, out2)
+  
+    }
+    
+      out <- rbind(out2, out) 
+}
+
+```
+
+
+Do it for New Hampshire
 ```{r}
 #function to calculate minimum distance for each point in each state
 get_dist_bw_points <- function(state, name){
@@ -107,6 +185,8 @@ get_dist_bw_points <- function(state, name){
   out <- data.frame()
 
     for(i in 1:(nrow(state_df)-1)){
+      
+      print(i)
      
       #get origin
       o = filter(state_df, id == i) 
@@ -122,11 +202,16 @@ get_dist_bw_points <- function(state, name){
           #calculate the distance first using st_distance, which calculates "as the crow flies"
           dist_crow = st_distance(o$geometry, d$geometry, by_element = T) 
     
-    #if distance as the crow flies is less than or equal to 1 miles we keep the point. Using 1 mile since driving/access is likely going to be more than 1 mile. If we use 2 miles, it will include a lot of points that may not actually be accessible in 2 miles since we don't account for geography/roads.
-    
-    if(as.numeric(dist_crow) > 1609.34) {break}
-     
-     dist <- dist_crow/1609.34
+          #if distance as the crow flies is less than or equal to 2 miles (3218 meters) then we run gmapsdistance otherwise we ignore and go to next
+          if(as.numeric(dist_crow) > 3218.69) {next}
+          
+          #get distance between two points
+          r <- gmapsdistance(origin = o$point, destination = d$point, mode = "driving")
+          
+           print(sprintf("running gmapsdistance i = %s j = %s",i,j))
+           
+          #convert distance to miles
+          dist <- r$Distance/1609.34
           
           #store info in dataframe 
           df <- data.frame(miles = dist,
@@ -140,65 +225,30 @@ get_dist_bw_points <- function(state, name){
       out <- rbind(out2, out) 
     }
   
-        #starting points
-      one <- out %>%
-        mutate(point = start) %>%
-        group_by(point) %>%
-        summarize(min_dist = min(miles))%>%
-        ungroup()
-      #end points
-      two <- out %>%
-        mutate(point = end) %>%
-        group_by(point) %>%
-        summarize(min_dist = min(miles))%>%
-        ungroup()
-      
-      #combine
-      all <- bind_rows(one, two) %>%
-        group_by(point) %>%
-        summarize(min = min(min_dist)) %>%
-        ungroup()
-  
-    return(all)
+    return(out)
 }
+
+nh_data <- get_dist_bw_points(nh, "New Hampshire")
+
+write.csv(nh_data, "data/nh_min_dist_per_point.csv")
 ```
 
-
-Apply to all states
-
-```{r}
-get_dist_bw_points(nh, "New Hampshire") %>%
-  mutate(state = "NH") %>%
-  write_csv("data/nh_min_dist_per_point.csv")
-
-get_dist_bw_points(me, "Maine") %>%
-  mutate(state = "ME") %>%
-  write_csv("data/me_min_dist_per_point.csv")
-
-get_dist_bw_points(ny, "New York") %>%
-  mutate(state = "NY") %>%
-  write_csv("data/ny_min_dist_per_point.csv")
-
-get_dist_bw_points(ma, "Massachusetts") %>%
-  mutate(state = "MA") %>%
-  write_csv("data/ma_min_dist_per_point.csv")
-
-get_dist_bw_points(ct, "Connecticut") %>%
-  mutate(state = "CT") %>%
-  write_csv("data/ct_min_dist_per_point.csv")
-
-get_dist_bw_points(ri, "Rhode Island") %>%
-  mutate(state = "RI") %>%
-  write_csv("data/ri_min_dist_per_point.csv")
-```
-
+Do R
 
 # Calculate score
 
 We want each point to be overlapping with at least two other points. This would indicate that there are access points every two miles.
 
 ```{r}
+ny_pts <- ny[1:3,]
 
+
+distances <- gmapsdistance::gmapsdistance(
+  origin = cam_pcd,  # start point of journey
+  destination = cum_pcd,  # end point of journey
+  mode = "driving",  # driving time
+  shape = "long"  # format of output data (origin and destination as cols)
+)
 ```
 
 
