@@ -107,9 +107,18 @@ out <- df %>%
     state == "Maine" ~ me_area
   )) %>%
   mutate(score = 1-as.numeric(area)) %>%
-  left_join(rgn_data, by = c("state" = "rgn_name")) %>%
-  select(rgn_id, score) 
+  left_join(rgn_data, by = c("state" = "rgn_name"))
 ```
+
+# Results
+
+```{r}
+ggplot(out, aes(x = state, y = score)) +
+  geom_col() +
+  theme_bw() +
+  coord_flip()
+```
+
 
 # Save to toolbox
 
@@ -120,6 +129,7 @@ Need to add years and all offshore regions
 out %>%
   complete(rgn_id = 1:11) %>%
   mutate(year = 2017) %>%
+  select(rgn_id, score) %>%
   write_csv("~/github/ne-scores/region/layers/tr_rao_coastal_access.csv")
 ```
 
