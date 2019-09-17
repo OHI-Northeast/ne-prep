@@ -262,7 +262,8 @@ Combine both layers
 ```{r}
 res_hab_des <- left_join(sob, area_protect, by = c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
-  mutate(score = mean(c(score_1,score_2), na.rm=T))
+  mutate(score = mean(c(score_1,score_2), na.rm=T)) %>% 
+  select(year, rgn_name, rgn_id, score)
 ```
 
 
@@ -271,7 +272,7 @@ res_hab_des <- left_join(sob, area_protect, by = c("year", "rgn_id", "rgn_name")
 ##Save layer to toolbox
 
 ```{r save_to_layers}
-#write.csv(res_habitat_desctruction,  file = "~/github/ne-scores/region/layers/lsp_protected_land.csv")
+write.csv(res_hab_des,  file = "~/github/ne-scores/region/layers/res_hab_destruction.csv")
 ```
 
 
