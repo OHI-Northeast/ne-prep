@@ -58,9 +58,6 @@ library(lubridate)
 
 ```
 
-
-
-
 NOAA Habitat Management Area Data
 Currently waiting/working on getting this info over time, for now/if that never happens we will apply the scores to all years
 
@@ -135,7 +132,7 @@ hab_protect_rgn <- hab_noaa %>%
          score = if_else(score >1, 1, score)) 
 ```
 
-Percent of Habitat Protected
+Percent of Habitat Protected graph
 ```{r}
 hab_protected_by_rgn_graph <- ggplot(hab_protect_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
   geom_line() +
@@ -146,7 +143,7 @@ hab_protected_by_rgn_graph <- ggplot(hab_protect_rgn, aes(x = year, y = prop_are
 hab_protected_by_rgn_graph
 ```
 
-Scores Habitat Protected
+Scores Habitat Protected graph
 ```{r}
 score_hab_protected_by_rgn_graph <- ggplot(hab_protected_by_rgn, aes(x = year, y = score, color = rgn_name)) +
   geom_line() +
@@ -172,7 +169,7 @@ miss_rgns <- miss_rgns %>%
   uncount(13, .id = "n", .remove = F) %>%
   mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
   select(-n) %>% 
-  mutate(score = NA) %>% 
+  mutate(score = 0) %>%  #score is 0 because no protected area in that region
   unique()
 ```
 
@@ -253,14 +250,19 @@ sob <- sob_scores %>%
   filter(rgn_id != "0") %>% 
   rename(rgn_name = state) %>% 
   select(year, rgn_name, rgn_id, score) %>% 
+  mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id== 7, "Massachusetts-North",
+                ifelse(rgn_name == "Massachusetts" & rgn_id== 8, "Massachusetts-South", 
+                       rgn_name))) %>% 
   rbind(miss_rgns) %>% 
   rename(score_2 = score) %>% 
-  mutate(rgn_id = as.numeric(rgn_id))
+  mutate(rgn_id = as.numeric(rgn_id)) 
 ```
 
 Combine both layers
 ```{r}
-res_hab_des <- left_join(sob, area_protect, by = c("year", "rgn_id", "rgn_name"))
+res_hab_des <- left_join(sob, area_protect, by = c("year", "rgn_id", "rgn_name")) %>% 
+  rowwise() %>% 
+  mutate(score = mean(c(score_1,score_2), na.rm=T))
 ```
 
 
