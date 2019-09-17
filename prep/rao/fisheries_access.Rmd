@@ -229,6 +229,8 @@ fssi_full <- fssi %>%
   bind_rows(b) %>%
   mutate(stock_location = paste0(stock, " ", location)) %>%
   left_join(rgn_data)
+
+write_csv(fssi_full, "data/fssi_scores.csv")
 ```
 
 
@@ -274,6 +276,8 @@ fssi_scaled <- fssi_full %>%
   group_by(rgn_id, rgn_name, year) %>%
   summarize(average_fssi_score = mean(scores)) %>%
   ungroup()
+
+write_csv(fssi_scaled, "data/avg_fssi_score_per_region_over_time.csv")
 
 ggplot(fssi_scaled, aes(x = year, y = average_fssi_score, color = rgn_name)) +
   geom_line() +
