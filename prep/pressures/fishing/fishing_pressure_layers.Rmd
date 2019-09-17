@@ -1,0 +1,269 @@
+---
+title: 'OHI-Northeast: Fishing pressure layers'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')
+
+#libraries
+library(raster)
+library(readxl)
+```
+
+#Summary
+
+***
+
+#Data Source
+
+**Reference**: Watson, R. A. and Tidd, A. 2018. Mapping nearly a century and a half of global marine fishing: 1869–2015. Marine Policy, 93, pp. 171-177. [(Paper URL)](https://doi.org/10.1016/j.marpol.2018.04.023)
+
+**Downloaded**: July 3, 2019 from [IMAS portal](http://data.imas.utas.edu.au/portal/search?uuid=ff1274e1-c0ab-411b-a8a2-5a12eb27f2c0) - click on download tab, step 3
+
+**Description**:  Global fisheries landings data per cell separated by Industrial versus Non-Industrial catch, IUU, and discards.
+
+**Native data resolution**:   
+
+**Time range**: 1950 - 2015
+
+**Format**:  CSV format
+
+**Additional Information**: [Metadata](http://metadata.imas.utas.edu.au/geonetwork/srv/eng/metadata.show), [Supplementary Material](https://ars.els-cdn.com/content/image/1-s2.0-S0308597X18300605-mmc1.docx)
+
+
+***
+  
+# Load data
+
+The Watson fishing data is held on Mazu for the global OHI. 
+
+```{r}
+#list all files in the watson raw data folder
+files <- list.files(file.path(dir_M, "git-annex/globalprep/_raw_data/IMAS_GlobalFisheriesLandings/d2019"), full.names = T)
+```
+
+We want the industrial and non-industrial catch from 2000 onwards.
+
+```{r}
+all_files <- files[str_detect(files, paste(c("2000_2004", "2005_2009", "2010_2014", "2015_2015"), collapse = '|'))]
+```
+
+Load `.rds` files
+
+```{r}
+index_ind  <- read_csv(file.path(dir_M, "git-annex/globalprep/_raw_data/IMAS_GlobalFisheriesLandings/d2019/IndexInd.csv"))
+index_nind <- read_csv(file.path(dir_M, "git-annex/globalprep/_raw_data/IMAS_GlobalFisheriesLandings/d2019/IndexNInd.csv"))
+cells      <- read_excel(path = file.path(dir_M, "git-annex/globalprep/_raw_data/IMAS_GlobalFisheriesLandings/d2019/Codes.xlsx"), sheet = "Cell") 
+```
+
+
+### Get Northeast cells
+
+We don't need all data, just the data for our region. Using the cells information, crop it to our region of interest and keep a vector of `ne_cells` to use for querying data.
+
+```{r}
+cells_raster <- cells %>%
+  rename(x = LonCentre, y = LatCentre, z = Cell) %>% #I renamed these xyz to use in the rasterFromXYZ() function below
+  select(x,y,z) %>%
+  rasterFromXYZ() %>%
+  crop(wgs_ext)
+
+#need to set CRS
+crs(cells_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+
+plot(cells_raster)
+
+ne_cells <- getValues(cells_raster)
+
+#vector of all cell ids in our region of interest
+ne_cell_ids <- ne_cells[!is.na(ne_cells)]
+```
+
+
+Tidy Fisheries Files:
+1. Combine the Master Index and Spatial Cells with the CatchInd and CatchNInd files.
+2. Save each year of data as a separate file into: "globalprep/prs_fish/v2019/int/annual_catch"
+
+**Function for Combining & Saving Files**: Create function to read in each file name, combine with Index and Cells data frame, and save each year of catch data into a separate file in mazu.
+
+```{r tidy, eval=FALSE}
+## Set function to read in each file, combine with Index.csv and Cells.csv, and save each year of data back into mazu
+combine_fis <- function(x) {
+  #x <- all_files[1]
+ 
+  #get the right index file depending on industrial or non industrial
+ if(str_detect(basename(x), "CatchInd")){
+    index <- index_ind
+  }else{
+    index <- index_nind
+  }
+  
+  ## Read in the catch data
+  ## Create a total Landings column
+  ## Join with master and spatial cells file
+  df <- readRDS(x) %>%
+    dplyr::filter(Cell %in% ne_cell_ids) %>%
+    dplyr::mutate(Landings = Reported+IUU) %>% 
+    dplyr::left_join(index, by = "ID") %>% 
+    select(ID, Cell, Landings, Year = IYear, Cell, Discards = Discards.x)
+  
+  ## Save each individual year as a single file
+  five_years <- sort(unique(df$Year)) 
+  
+  for(yr in five_years){
+    print(yr) # will show you your progress
+    #yr = 2014
+    single_yr_df <- df %>%
+      filter(Year == yr)
+    
+    ## Save files with prefix CatchInd or CatchNInd
+    ## Remove the suffix starting with '_' to get CatchInd or CatchNInd
+    ind_Nind <- basename(x) %>% 
+      tools::file_path_sans_ext() %>% 
+      str_remove("d.*") # remove everything after the first underscore
+    
+    write_csv(single_yr_df, paste0(dir_anx, "/prs_fish/data/", ind_Nind, "d_", yr, ".csv"))
+    
+  }
+}
+
+# apply to all files
+
+map(all_files, combine_fis)
+```
+
+Create annual bycatch and landings raster layers. Combine non-industrial and industrial catch per cell, we do not differentiate.
+
+```{r}
+make_catch_rasters <- function(year){
+  
+  ind  <- read_csv(paste0(dir_anx, "/prs_fish/data/CatchInd_", year, ".csv"))
+  nind <- read_csv(paste0(dir_anx, "/prs_fish/data/CatchNInd_", year, ".csv"))
+  
+  both <- bind_rows(ind, nind) %>%
+    group_by(Cell) %>%
+    summarize(landings = sum(Landings),
+              bycatch  = sum(Discards))
+  
+  #subs cells_raster with landings and bycatch
+  #reproject & resample to 1km (the catch is already at 1 km - in Version 4.0 it comes as catch/km2)
+  land_rast <- subs(cells_raster, both, by = "Cell", which = "landings") %>%
+    projectRaster(ocean_ne) %>%
+    resample(ocean_ne) %>%
+    mask(zones)
+  
+  by_rast   <- subs(cells_raster, both, by = "Cell", which = "bycatch") %>%
+    projectRaster(ocean_ne) %>%
+    resample(ocean_ne) %>%
+    mask(zones)
+  
+  writeRaster(land_rast, filename = paste0(dir_anx, "/prs_fish/data/landings_", year, ".tif"))
+  writeRaster(by_rast, filename = paste0(dir_anx, "/prs_fish/data/bycatch_", year, ".tif"))
+}
+
+#apply to all years
+
+map(c(2000:2015), make_catch_rasters)
+```
+
+# Make gif for landings and bycatch over time
+
+```{r}
+
+```
+
+# Get reference point
+
+We will use a reference point of the highest + 10% across the time period
+
+```{r reference_point}
+#landings
+land_stack    <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "landings_", full.names = T) %>% stack()
+landings_ref  <- max(getValues(land_stack), na.rm = T)*1.1
+
+#bycatch
+bycatch_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "bycatch_", full.names = T) %>% stack()
+bycatch_ref   <- max(getValues(bycatch_stack), na.rm = T)*1.1
+
+```
+
+# Rescale between 0 and 1
+
+```{r rescale}
+
+rescale_rasts <- function(year, type){
+  
+  r <- raster(paste0(dir_anx, "/prs_fish/data/", type, "_", year, ".tif"))
+  
+  if(type == "landings"){
+    ref <- landings_ref
+  }else{
+    ref <- bycatch_ref
+  }
+  rescaled_r <- r/ref
+  
+  writeRaster(rescaled_r, filename = paste0(dir_anx, "/prs_fish/data/", type, "_rescaled_", year, ".tif"), overwrite = T)
+}
+
+d <- expand.grid(year = c(2000:2015), type = c("bycatch", "landings"))
+map2(d$year, d$type, rescale_rasts)
+```
+
+
+# Run zonal statistics for each ohi region
+
+Stack each year then run `zonal` statistics to get the mean.
+
+```{r}
+#landings
+land_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "landings_rescaled", full.names = T) %>% stack()
+land_z     <- zonal(land_stack, zones) %>% #zonal's default statistic is to take the mean
+  as.data.frame() %>%
+  gather(key = "year", value = "pressure_score", -zone) %>%
+  separate(year, c("type", "year"), sep = "_rescaled_") %>%
+  rename(region_id = zone) %>%
+  select(-type)
+
+#bycatch
+by_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "bycatch_rescaled", full.names = T) %>% stack()
+by_z     <- zonal(by_stack, zones) %>% #zonal's default statistic is to take the mean
+  as.data.frame() %>%
+  gather(key = "year", value = "pressure_score", -zone) %>%
+  separate(year, c("type", "year"), sep = "_rescaled_") %>%
+  rename(region_id = zone) %>%
+  select(-type)
+```
+
+# Save to toolbox
+
+```{r}
+write_csv(land_z, "~/github/ne-scores/region/layers/prs_landings.csv")
+write_csv(by_z, "~/github/ne-scores/region/layers/prs_bycatch.csv")
+```
+
+
+
+
+
+
+
+
+
+***
