@@ -1068,7 +1068,7 @@ lcv_score_graph <- ggplot(lcv_scores) +
 lcv_score_graph
 ```
 
-Creating a df to add on to the water pollution scores to have the missing regions there 
+Creating a df to add to have the missing regions there 
 ```{r missing_rgns_df}
 miss_rgns <- tribble(
   ~rgn_id, ~rgn_name,

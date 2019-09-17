@@ -59,57 +59,12 @@ library(lubridate)
 ```
 
 
-Let's look at the available layers in the USGS PADUS database
 
-```{r look_at_gdb_layers}
-
-st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
-
-```
-
-
-For the marine layer, we are going to remove all areas that are designated as fishery/shellfish management areas as well as the Special Area Management Plans. 
-
-```{r load_and_clean_marine_layer}
-
-marine_hab <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
-  st_transform(us_alb) %>%
-  st_crop(rgns)  %>%
-  st_intersection(rgns) %>%
-  filter(!is.na(Loc_Ds),
-         d_GAP_Sts == "2 - managed for biodiversity - disturbance events suppressed" | Loc_Ds == "Closed Area" ,
-         Constancy == "Year-round",
-         Date_Est <= "2017") %>% 
-  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id, area_km2) 
-
-```
-
-
-```{r}
-marine_all <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
-  st_transform(us_alb) %>%
-  st_crop(rgns)  %>%
-  st_intersection(rgns) %>%
-  filter(!is.na(Loc_Ds)) 
-```
-
-
-
-Removed this filter !Loc_Ds %in% c("Fishery Management Area", "Fishery Management Areas", "Shellfish Management Area", "Conservation Area","Gear Restricted Area", "Essential Fish Habitat Conservation Area", "Special Area Management Plan", "Closure Area"), #the Conservation Areas are for Mussel Seed
-
-
-```{r interactive_map, eval = F}
-
- #mapview(proc, col.regions = "red") + 
-usgs_data_habitat <-mapview(marine_hab, col.regions = "blue") 
-
-usgs_data_habitat 
-
-```
 
 NOAA Habitat Management Area Data
+Currently waiting/working on getting this info over time, for now/if that never happens we will apply the scores to all years
 
-data from habitat tab on https://www.greateratlantic.fisheries.noaa.gov/educational_resources/gis/data/index.html
+data from habitat tab on https://www.greateratlantic.fisheries.noaa.gov/educational_resources/gis/data/index.html 
 1) Habitat Management Area
   - Cashes ledge and Fippennies ledge habitat management areas,
   - Ammen rock habitat management area
@@ -146,49 +101,22 @@ hab_msb_trawl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/MSB_Bottom
   mutate(start_year= 2008)
 
 #combine all together
-hab_protect <- rbind(hab_manage, hab_research, hab_frl, hab_msb_trawl) %>%
+hab_noaa <- rbind(hab_manage, hab_research, hab_frl, hab_msb_trawl) %>%
   st_transform(us_alb) %>%
   st_crop(rgns)  %>%
   st_intersection(rgns)
-#%>% 
- # filter(EFFECTDATE < "2018-01-01") # this includes ammednments, not the OG date, so unsure how to deal with that
 
-hab <- mapview(hab_protect) 
-hab
-
+hab_protect <- mapview(hab_noaa) 
+hab_protect
 ```
 
 
-sea scallops don't have any dredging prohibited areas, just dreding allowed areas, figure out if they are allowed to dredge in non predetermined areas
-compare to sasi map
-
-### Combining Polygons
-
-First let's combine polygons so we don't double count areas
+### Calculate Scores
+Here we are using a 30% protected area target 
 
 ```{r}
-
-hab_simple <- hab_protect %>% 
-  select(AREAGROUP, rgn_name, rgn_id, area_km2, geometry) %>% 
-  rename(Loc_Nm = AREAGROUP)
-
-hab_combined <- marine_hab %>% 
-  select(Loc_Nm, rgn_name, rgn_id, area_km2, geometry) %>% 
-  rbind(hab_simple) 
-
-hab_combined_view <- mapview(hab_combined) 
-hab_combined_view
-
-```
-
-
-
-
-All areas included in the Marine layer were established before our time period (or have NA for Date_Est) so we don't need to do this by year. 
-```{r}
-
-hab_protected_by_rgn <- hab_combined %>%
-  select(rgn_id, rgn_name, Loc_Nm) %>%
+hab_protect_rgn <- hab_noaa %>%
+  select(rgn_id, rgn_name, AREANAME)%>%
   group_by(rgn_id, rgn_name) %>%
   summarise() %>%
   ungroup() %>%
@@ -205,22 +133,18 @@ hab_protected_by_rgn <- hab_combined %>%
   mutate(target = 0.3,
          score = prop_area/target,
          score = if_else(score >1, 1, score)) 
-         
 ```
 
 Percent of Habitat Protected
 ```{r}
-
-hab_protected_by_rgn_graph <- ggplot(hab_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+hab_protected_by_rgn_graph <- ggplot(hab_protect_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
   geom_line() +
   theme_classic() +
   geom_hline(yintercept=0.3)+
   labs(y = "Percentage", x = "Year") +
   ggtitle("Percentage of habitat protected")
 hab_protected_by_rgn_graph
-
 ```
-
 
 Scores Habitat Protected
 ```{r}
@@ -232,46 +156,43 @@ score_hab_protected_by_rgn_graph <- ggplot(hab_protected_by_rgn, aes(x = year, y
 score_hab_protected_by_rgn_graph
 ```
 
-Looking at only groundfish and the coral protected areas
 
-```{r}
-#2
-hab_ground <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Groundfish_Closure_Areas/Groundfish_Closure_Areas.shp"))
+Creating a df to add to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  9, "New Hampshire",
+  7, "Massachusetts-North",
+  8, "Massachusetts-South",
+  11, "Rhode Island",
+  5, "Connecticut",
+  10, "New York") 
 
-look <-mapview(hab_ground, col.regions = "blue") 
-
-look
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Create a table with only the necessary info for calcualting the score
+```{r}
+area_protect <- hab_protect_rgn %>% 
+  select(year, rgn_id, rgn_name,score) %>% 
+  rbind(miss_rgns) %>% 
+  rename(score_1 = score)
+```
 
 
 #State of the Beach Scorecard
-
 ```{r}
-
 raw_sob <- read_xlsx(file.path(dir_anx, "_raw_data/Surfrider/state_of_the_beach_2017.xlsx"))
-
 ```
 
 Scores
 ```{r}
-
 sob_scores <- raw_sob %>% 
   mutate(target = 12,
          score = over_all/target)%>% 
@@ -280,12 +201,10 @@ sob_scores <- raw_sob %>%
   select(-n)
   
 write.csv(sob_scores, file = "data/sob_scores.csv")
-
 ```
 
 Graph
 ```{r}
-
 sob_score_graph <- ggplot(sob_scores, aes(x = year, y = score, color = state)) +
   geom_line() +
   theme_classic() +
@@ -295,6 +214,79 @@ sob_score_graph
 
 ggsave("figs/sob_score_graph.jpg", width=7, height=5, dpi=300)
 ```
+
+
+Creating a df to add to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
+
+Create a table with only the necessary info for calcualting the score
+```{r}
+sob <- sob_scores %>% 
+  select(state, score, year) %>% 
+   mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  rename(rgn_name = state) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  rbind(miss_rgns) %>% 
+  rename(score_2 = score) %>% 
+  mutate(rgn_id = as.numeric(rgn_id))
+```
+
+Combine both layers
+```{r}
+res_hab_des <- left_join(sob, area_protect, by = c("year", "rgn_id", "rgn_name"))
+```
+
+
+
+
+##Save layer to toolbox
+
+```{r save_to_layers}
+#write.csv(res_habitat_desctruction,  file = "~/github/ne-scores/region/layers/lsp_protected_land.csv")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

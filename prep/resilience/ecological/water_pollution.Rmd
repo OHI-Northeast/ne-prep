@@ -1188,6 +1188,28 @@ write.csv(wp_res_score, file.path(dir_calc, "layers/res_water_pollution.csv"))
 
 
 
+Playing around with Water Quality monitoring data/ frequency 
+
+put data in the EPA ECHO, wither remove when done or put in its own folder bc its not epa echo
+
+```{r}
+test <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/activityall_ny.csv"))
+
+colnames(test)
+
+t1 <- test %>% 
+  select(ActivityStartDate,ActivityConductingOrganizationText, ActivityTypeCode, HydrologicEvent, HydrologicCondition) %>% 
+  unique() %>% 
+  separate(ActivityStartDate, c("year", "month", "day"), sep = "-") %>% 
+  filter(HydrologicEvent %in% c("Routine sample")) %>% 
+  group_by(year) %>% 
+  count() %>% 
+  ungroup() %>% 
+  rename(times_sampled = n) %>% 
+  mutate(target = max(times_sampled),
+         score = times_sampled/target) 
+
+```
 
 
 

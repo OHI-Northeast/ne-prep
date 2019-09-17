@@ -156,27 +156,24 @@ registerDoParallel(10)
 
 foreach(file = nc_files) %dopar% {
   
-  file = nc_files[1]
+#  file = nc_files[1]
   
   yr <- substr(file, 73, 76) 
+  
+  #ocean_ne_repro <- projectRaster(ocean_ne, crs = us_alb, over = FALSE, progress="text") #uns
   
   ## read in month raster
   r <- raster(file) %>%
     projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
-    raster::crop(ocean_ne) %>% 
     raster::resample(ocean_ne, method = "ngb", 
              filename = sprintf("%s/prs_oa/int/noaa/oa_annual_noaa_%s.tif", 
                                 dir_anx, yr), overwrite = TRUE) %>% 
-    mask(three_nm, filename = sprintf("%s/prs_oa/int/noaa_reprojected/oa_annual_noaa_repro_%s.tif", 
+    raster::crop(ocean_ne) %>% 
+    mask(ocean_ne, filename = sprintf("%s/prs_oa/int/noaa_reprojected/oa_annual_noaa_repro_%s.tif", 
                                 dir_anx, yr), overwrite = TRUE)
 
 
 }
-
-
-plot(r)
-
-plot(ocean_ne)
 
 plot(raster(file.path(dir_anx, "prs_oa/int/noaa/oa_annual_noaa_2014.tif")))
 ```
