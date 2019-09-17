@@ -55,7 +55,7 @@ library(sf)
 library(mapview)
 #install.packages("lubridate")
 library(lubridate)
-
+library(readxl)
 ```
 
 NOAA Habitat Management Area Data
@@ -120,39 +120,16 @@ hab_protect_rgn <- hab_noaa %>%
   mutate(area = st_area(geometry)/1000000) %>% #calculate total protected area
   left_join(rgn_data) %>%
   mutate(prop_area = as.numeric(area)/area_km2, 
-         type = "marine",
-         year = 2005) %>%
+         type = "marine") %>%
     st_set_geometry(NULL) %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n) %>% 
-  select(rgn_id, rgn_name, prop_area, year) %>% 
+#  uncount(13, .id = "n", .remove = F) %>%
+ # mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+#  select(-n) %>% 
+  select(rgn_id, rgn_name, prop_area) %>% 
   mutate(target = 0.3,
          score = prop_area/target,
          score = if_else(score >1, 1, score)) 
 ```
-
-Percent of Habitat Protected graph
-```{r}
-hab_protected_by_rgn_graph <- ggplot(hab_protect_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
-  geom_line() +
-  theme_classic() +
-  geom_hline(yintercept=0.3)+
-  labs(y = "Percentage", x = "Year") +
-  ggtitle("Percentage of habitat protected")
-hab_protected_by_rgn_graph
-```
-
-Scores Habitat Protected graph
-```{r}
-score_hab_protected_by_rgn_graph <- ggplot(hab_protected_by_rgn, aes(x = year, y = score, color = rgn_name)) +
-  geom_line() +
-  theme_classic() +
-  labs(y = "Score", x = "Year") +
-  ggtitle("Score of habitat protected")
-score_hab_protected_by_rgn_graph
-```
-
 
 Creating a df to add to have the missing regions there 
 ```{r missing_rgns_df}
@@ -163,21 +140,15 @@ miss_rgns <- tribble(
   8, "Massachusetts-South",
   11, "Rhode Island",
   5, "Connecticut",
-  10, "New York") 
-
-miss_rgns <- miss_rgns %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n) %>% 
-  mutate(score = 0) %>%  #score is 0 because no protected area in that region
-  unique()
+  10, "New York") %>% 
+  mutate(score = 0)
 ```
 
 
 Create a table with only the necessary info for calcualting the score
 ```{r}
 area_protect <- hab_protect_rgn %>% 
-  select(year, rgn_id, rgn_name,score) %>% 
+  select(rgn_id, rgn_name,score) %>% 
   rbind(miss_rgns) %>% 
   rename(score_1 = score)
 ```
@@ -192,26 +163,10 @@ Scores
 ```{r}
 sob_scores <- raw_sob %>% 
   mutate(target = 12,
-         score = over_all/target)%>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n)
+         score = over_all/target)
   
 write.csv(sob_scores, file = "data/sob_scores.csv")
 ```
-
-Graph
-```{r}
-sob_score_graph <- ggplot(sob_scores, aes(x = year, y = score, color = state)) +
-  geom_line() +
-  theme_classic() +
-  labs(y = "Score", x = "Year") +
-  ggtitle("State of the Beach Score")
-sob_score_graph 
-
-ggsave("figs/sob_score_graph.jpg", width=7, height=5, dpi=300)
-```
-
 
 Creating a df to add to have the missing regions there 
 ```{r missing_rgns_df}
@@ -220,21 +175,14 @@ miss_rgns <- tribble(
   3, "Gulf of Maine",
   2, "Georges Bank",
   4, "Mid-Atlantic Bight",
-  1, "Offshore") 
-
-miss_rgns <- miss_rgns %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n) %>% 
-  mutate(score = NA) %>% 
-  unique()
+  1, "Offshore") %>% 
+  mutate(score= NA)
 ```
-
 
 Create a table with only the necessary info for calcualting the score
 ```{r}
 sob <- sob_scores %>% 
-  select(state, score, year) %>% 
+  select(state, score) %>% 
    mutate(rgn_id1 = case_when(
     state == "Maine" ~ "6", 
     state == "New Hampshire" ~ "9", 
@@ -249,7 +197,7 @@ sob <- sob_scores %>%
   gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
   filter(rgn_id != "0") %>% 
   rename(rgn_name = state) %>% 
-  select(year, rgn_name, rgn_id, score) %>% 
+  select(rgn_name, rgn_id, score) %>% 
   mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id== 7, "Massachusetts-North",
                 ifelse(rgn_name == "Massachusetts" & rgn_id== 8, "Massachusetts-South", 
                        rgn_name))) %>% 
@@ -260,14 +208,12 @@ sob <- sob_scores %>%
 
 Combine both layers
 ```{r}
-res_hab_des <- left_join(sob, area_protect, by = c("year", "rgn_id", "rgn_name")) %>% 
+res_hab_des <- left_join(sob, area_protect, by = c("rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
   mutate(score = mean(c(score_1,score_2), na.rm=T)) %>% 
-  select(year, rgn_name, rgn_id, score)
+  select(rgn_name, rgn_id, score) %>% 
+  mutate(year= 2017)
 ```
-
-
-
 
 ##Save layer to toolbox
 
@@ -275,7 +221,30 @@ res_hab_des <- left_join(sob, area_protect, by = c("year", "rgn_id", "rgn_name")
 write.csv(res_hab_des,  file = "~/github/ne-scores/region/layers/res_hab_destruction.csv")
 ```
 
+Graph
+```{r}
+res_hab_graph <- ggplot(res_hab_des) +
+  geom_bar(aes(x= rgn_name, y=score), stat="identity")+
+  coord_flip() +
+  theme_classic() +
+  labs(y = "Score", x = "Region") +
+  ggtitle("Habitat Destruction Resilience Scores")
 
+res_hab_graph 
+
+ggsave("figs/res_hab_graph.jpg", width=7, height=5, dpi=300)
+```
+
+
+
+
+
+
+Looking into the TNC marine database
+
+```{r}
+#tnc <- read_sf(dsn = file.path(dir_anx, "_raw_data/TNC/MEOW-TNC/mewo_ecos.shp")) 
+```
 
 
 
