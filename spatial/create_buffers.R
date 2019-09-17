@@ -54,3 +54,25 @@ final_inland_buffer <- st_intersection(inland_buffer, dataportal_state_wa) %>%
 ##save
 write_sf(final_inland_buffer, "~/github/ne-prep/spatial/shapefiles/ohine_inland_1km.shp", delete_layer = TRUE)
 
+#-------------
+
+## Create a 1 mile inland buffer
+state_buffer_1mile <- st_buffer(state_waters, 1609) 
+
+## subtract state waters from buffer. I use st_buffer(.,0) because I ketp getting topology
+## errors and this is the suggested way to fix it. 
+
+combine <- st_difference(state_buffer_1mile, st_buffer(state_waters_combine,0))
+
+inland_buffer_1mile <- st_difference(combine, st_buffer(offshore, 0))
+
+#intersect with the states/state waters shapefile in order to split the overlapping edges between regions
+
+final_1mile_inland_buffer <- st_intersection(inland_buffer_1mile, dataportal_state_wa) %>%
+  filter(state_name == NAME10) %>%
+  select(rgn_name, state_abv, state_name, rgn_id) %>%
+  mutate(area = st_area(geometry))
+
+
+##save
+write_sf(final_1mile_inland_buffer, "~/github/ne-prep/spatial/shapefiles/ohine_inland_1mile.shp", delete_layer = TRUE)
