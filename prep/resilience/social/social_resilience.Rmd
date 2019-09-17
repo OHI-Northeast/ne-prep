@@ -1116,11 +1116,16 @@ ggsave("figs/social_score_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 
-Write as a pressure layer to ne-scores
+Write as a resilience layer to ne-scores
 ```{r}
 write.csv(social_resilience_scores, file.path(dir_calc, "layers/res_social.csv"))
 ```
 
+Calculate inverse for pressure layer
+
+```{r}
+prs_social <-read.csv(file.path(dir_anx, social_resilience_scores, file = "data/social_resilience_scores.csv"
+```
 
 
 
