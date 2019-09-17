@@ -129,7 +129,7 @@ Need to add years and all offshore regions
 out %>%
   complete(rgn_id = 1:11) %>%
   mutate(year = 2017) %>%
-  select(rgn_id, score) %>%
+  select(rgn_id, score, year) %>%
   write_csv("~/github/ne-scores/region/layers/tr_rao_coastal_access.csv")
 ```
 
