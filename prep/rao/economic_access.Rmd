@@ -161,6 +161,8 @@ gas_to_income <- clean_gas_data %>%
   filter(!is.na(pay)) %>%
   mutate(ratio = dollar_per_gallon/pay)
 
+write_csv(gas_to_income, "data/gas_to_income_ratio.csv")
+
 ggplot(gas_to_income, aes(x = year, y = ratio, color = state)) +
   geom_line() +
   theme_bw() +
