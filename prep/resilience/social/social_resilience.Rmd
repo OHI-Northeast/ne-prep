@@ -1121,10 +1121,13 @@ Write as a resilience layer to ne-scores
 write.csv(social_resilience_scores, file.path(dir_calc, "layers/res_social.csv"))
 ```
 
-Calculate inverse for pressure layer
+Calculate inverse for pressure layer and save
 
 ```{r}
-prs_social <-read.csv(file.path(dir_anx, social_resilience_scores, file = "data/social_resilience_scores.csv"
+prs_social <- read_csv(file.path(dir_calc, "layers/res_social.csv")) %>% 
+  mutate(score= (1-score))
+  
+write.csv(prs_social, file.path(dir_calc, "layers/prs_social.csv"))
 ```
 
 
