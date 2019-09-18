@@ -19,7 +19,40 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 To be filled out!!!
 
-Trying to open a .mdb file
+NAS databast
+
+focuses on plants and freshwater
+- includes species from other countries and non-native ranges
+```{r}
+nas_raw <- read_csv(file.path(dir_anx, "_raw_data/NAS/NAS-Data-Download.csv")) 
+
+nas <- nas_raw %>% 
+  select('Scientific Name', 'Country', 'State', 'County', 'Year', 'Status') %>% 
+  filter(Country %in% 'United States of America') %>% 
+  mutate(database = "nas") %>% 
+  rename(sci_name = "Scientific Name") %>% 
+  group_by(Year, State) %>% 
+  count() %>% 
+  ungroup() %>% 
+  group_by(State) %>% 
+  mutate(hist_min = min(n),
+         hist_max = max(n)) %>% 
+  ungroup() %>% 
+  filter(Year >= 2005 & Year <= 2017) %>% 
+  filter(State %in% c("ME", "MA", "NY", "RI", "CT", "NH")) %>% 
+  mutate(score = (1-n/hist_max))
+
+
+nass_graph <- ggplot(nas)+
+  geom_line(aes(x=Year, y= score, color= State))
+
+nass_graph
+
+```
+
+
+
+Molnar data base
 ```{r}
 library(Hmisc)
 
@@ -36,11 +69,6 @@ pathways <- d[[4]]
 scores_species <- left_join(scores, species, by = c("Species.ID")) %>% 
   select(SPECIES.NAME, Common.name, Ecol.Imp.Score, Scope.Score, Inv.Potl.Score, Mgt.Diff.Score)%>% 
   rename('Scientific Name' = 'SPECIES.NAME') 
-
-nas <- nas_raw %>% 
-  select('Scientific Name', 'Country', 'State', 'County', 'Year', 'Status') %>% 
-  filter(Country %in% 'United States of America') %>% 
-  mutate(database = "nas")
 
 invasive <- left_join(nas, scores_species, by = c('Scientific Name')) %>% 
   filter(Year <= 2017 & Year >= 2005,

@@ -240,15 +240,6 @@ ggsave("figs/res_hab_graph.jpg", width=7, height=5, dpi=300)
 
 
 
-Looking into the TNC marine database
-
-```{r}
-#tnc <- read_sf(dsn = file.path(dir_anx, "_raw_data/TNC/MEOW-TNC/mewo_ecos.shp")) 
-```
-
-
-
-
 
 
 
