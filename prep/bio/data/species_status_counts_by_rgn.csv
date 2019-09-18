@@ -1,108 +1,108 @@
 rgn_name,score,count
-Connecticut,0,492
-Connecticut,0.1,4
-Connecticut,0.2,34
-Connecticut,0.3,1
-Connecticut,0.4,44
+Connecticut,0,3
+Connecticut,0.19999999999999996,23
+Connecticut,0.30000000000000004,1
+Connecticut,0.4,25
 Connecticut,0.5,3
-Connecticut,0.6,25
+Connecticut,0.6,44
 Connecticut,0.7,1
-Connecticut,0.8,23
-Connecticut,1,3
-Georges Bank,0,518
-Georges Bank,0.1,4
-Georges Bank,0.2,32
-Georges Bank,0.3,2
-Georges Bank,0.4,38
+Connecticut,0.8,34
+Connecticut,0.9,4
+Connecticut,1,492
+Georges Bank,0,2
+Georges Bank,0.19999999999999996,12
+Georges Bank,0.30000000000000004,1
+Georges Bank,0.4,18
 Georges Bank,0.5,2
-Georges Bank,0.6,18
-Georges Bank,0.7,1
-Georges Bank,0.8,12
-Georges Bank,1,2
-Gulf of Maine,0,518
-Gulf of Maine,0.1,4
-Gulf of Maine,0.2,32
-Gulf of Maine,0.3,2
-Gulf of Maine,0.4,38
+Georges Bank,0.6,38
+Georges Bank,0.7,2
+Georges Bank,0.8,32
+Georges Bank,0.9,4
+Georges Bank,1,518
+Gulf of Maine,0,2
+Gulf of Maine,0.19999999999999996,12
+Gulf of Maine,0.30000000000000004,1
+Gulf of Maine,0.4,18
 Gulf of Maine,0.5,2
-Gulf of Maine,0.6,18
-Gulf of Maine,0.7,1
-Gulf of Maine,0.8,12
-Gulf of Maine,1,2
-Maine,0,454
-Maine,0.1,17
-Maine,0.2,35
-Maine,0.3,10
-Maine,0.4,44
+Gulf of Maine,0.6,38
+Gulf of Maine,0.7,2
+Gulf of Maine,0.8,32
+Gulf of Maine,0.9,4
+Gulf of Maine,1,518
+Maine,0,3
+Maine,0.19999999999999996,23
+Maine,0.30000000000000004,2
+Maine,0.4,31
 Maine,0.5,11
-Maine,0.6,31
-Maine,0.7,2
-Maine,0.8,23
-Maine,1,3
-Massachusetts-North,0,436
-Massachusetts-North,0.1,1
-Massachusetts-North,0.2,59
-Massachusetts-North,0.3,4
+Maine,0.6,44
+Maine,0.7,10
+Maine,0.8,35
+Maine,0.9,17
+Maine,1,454
+Massachusetts-North,0,5
+Massachusetts-North,0.19999999999999996,38
+Massachusetts-North,0.30000000000000004,2
 Massachusetts-North,0.4,43
 Massachusetts-North,0.5,1
 Massachusetts-North,0.6,43
-Massachusetts-North,0.7,2
-Massachusetts-North,0.8,38
-Massachusetts-North,1,5
-Massachusetts-South,0,436
-Massachusetts-South,0.1,1
-Massachusetts-South,0.2,59
-Massachusetts-South,0.3,4
+Massachusetts-North,0.7,4
+Massachusetts-North,0.8,59
+Massachusetts-North,0.9,1
+Massachusetts-North,1,436
+Massachusetts-South,0,5
+Massachusetts-South,0.19999999999999996,38
+Massachusetts-South,0.30000000000000004,2
 Massachusetts-South,0.4,43
 Massachusetts-South,0.5,1
 Massachusetts-South,0.6,43
-Massachusetts-South,0.7,2
-Massachusetts-South,0.8,38
-Massachusetts-South,1,5
-Mid-Atlantic Bight,0,518
-Mid-Atlantic Bight,0.1,4
-Mid-Atlantic Bight,0.2,32
-Mid-Atlantic Bight,0.3,2
-Mid-Atlantic Bight,0.4,38
+Massachusetts-South,0.7,4
+Massachusetts-South,0.8,59
+Massachusetts-South,0.9,1
+Massachusetts-South,1,436
+Mid-Atlantic Bight,0,2
+Mid-Atlantic Bight,0.19999999999999996,12
+Mid-Atlantic Bight,0.30000000000000004,1
+Mid-Atlantic Bight,0.4,18
 Mid-Atlantic Bight,0.5,2
-Mid-Atlantic Bight,0.6,18
-Mid-Atlantic Bight,0.7,1
-Mid-Atlantic Bight,0.8,12
-Mid-Atlantic Bight,1,2
-New Hampshire,0,498
-New Hampshire,0.1,4
-New Hampshire,0.2,33
-New Hampshire,0.3,1
-New Hampshire,0.4,46
+Mid-Atlantic Bight,0.6,38
+Mid-Atlantic Bight,0.7,2
+Mid-Atlantic Bight,0.8,32
+Mid-Atlantic Bight,0.9,4
+Mid-Atlantic Bight,1,518
+New Hampshire,0,5
+New Hampshire,0.19999999999999996,18
+New Hampshire,0.30000000000000004,1
+New Hampshire,0.4,22
 New Hampshire,0.5,2
-New Hampshire,0.6,22
+New Hampshire,0.6,46
 New Hampshire,0.7,1
-New Hampshire,0.8,18
-New Hampshire,1,5
-New York,0,478
-New York,0.2,35
-New York,0.3,2
-New York,0.4,55
+New Hampshire,0.8,33
+New Hampshire,0.9,4
+New Hampshire,1,498
+New York,0,2
+New York,0.19999999999999996,26
+New York,0.30000000000000004,1
+New York,0.4,22
 New York,0.5,10
-New York,0.6,22
-New York,0.7,1
-New York,0.8,26
-New York,1,2
-Offshore,0,518
-Offshore,0.1,4
-Offshore,0.2,32
-Offshore,0.3,2
-Offshore,0.4,38
+New York,0.6,55
+New York,0.7,2
+New York,0.8,35
+New York,1,478
+Offshore,0,2
+Offshore,0.19999999999999996,12
+Offshore,0.30000000000000004,1
+Offshore,0.4,18
 Offshore,0.5,2
-Offshore,0.6,18
-Offshore,0.7,1
-Offshore,0.8,12
-Offshore,1,2
-Rhode Island,0,483
-Rhode Island,0.1,3
-Rhode Island,0.2,33
+Offshore,0.6,38
+Offshore,0.7,2
+Offshore,0.8,32
+Offshore,0.9,4
+Offshore,1,518
+Rhode Island,0,5
+Rhode Island,0.19999999999999996,33
+Rhode Island,0.30000000000000004,1
 Rhode Island,0.4,36
 Rhode Island,0.6,36
-Rhode Island,0.7,1
 Rhode Island,0.8,33
-Rhode Island,1,5
+Rhode Island,0.9,3
+Rhode Island,1,483

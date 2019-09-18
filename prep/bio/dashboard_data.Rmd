@@ -33,7 +33,8 @@ For the species page this data table will allow us to create a stacked bar chart
 df <- read_csv("~/github/ne-scores/region/layers/spp_status_scores.csv") %>%
   filter(rgn_id %in% c(1:11),
          !is.na(score)) %>%
-  mutate(display_sp_name = ifelse(is.na(common), sciname, common)) %>%
+  mutate(display_sp_name = ifelse(is.na(common), sciname, common),
+         score = 1-score) %>%
   group_by(rgn_name, score) %>%
   summarize(count = n())
 
