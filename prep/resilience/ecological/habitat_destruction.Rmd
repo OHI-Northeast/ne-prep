@@ -199,20 +199,32 @@ sob <- sob_scores %>%
   rename(rgn_name = state) %>% 
   select(rgn_name, rgn_id, score) %>% 
   mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id== 7, "Massachusetts-North",
-                ifelse(rgn_name == "Massachusetts" & rgn_id== 8, "Massachusetts-South", 
-                       rgn_name))) %>% 
+                           ifelse(rgn_name == "Massachusetts" & rgn_id== 8, "Massachusetts-South", 
+                                  rgn_name))) %>% 
   rbind(miss_rgns) %>% 
   rename(score_2 = score) %>% 
   mutate(rgn_id = as.numeric(rgn_id)) 
 ```
 
-Combine both layers
+
+# OLE compliance scores for adding in later
+```{r}
+ole <- read_csv(file.path(dir_git, "prep/resilience/ecological/data/ole_scores.csv")) %>% 
+  select(year, compliance_score, rgn_id, rgn_name) %>% 
+  filter(year >= "2013") #from 2005-2013 jsut back filled in the fisheries layer
+
+```
+
+Combine both layers and duplicate through time
 ```{r}
 res_hab_des <- left_join(sob, area_protect, by = c("rgn_id", "rgn_name")) %>% 
+ # select(rgn_name, rgn_id, score) %>%
+  uncount(5, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2013, n + 2012)) %>%
+  select(-n) %>% 
+  left_join(ole, c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
-  mutate(score = mean(c(score_1,score_2), na.rm=T)) %>% 
-  select(rgn_name, rgn_id, score) %>% 
-  mutate(year= 2017)
+  mutate(score = mean(c(score_1,score_2, compliance_score), na.rm=T)) 
 ```
 
 ##Save layer to toolbox
@@ -221,8 +233,20 @@ res_hab_des <- left_join(sob, area_protect, by = c("rgn_id", "rgn_name")) %>%
 write.csv(res_hab_des,  file = "~/github/ne-scores/region/layers/res_hab_destruction.csv")
 ```
 
-Graph
 ```{r}
+hab_des_graph <- ggplot(res_hab_des)+
+  geom_line(aes(x=year, y= score, color= rgn_name))+
+    ggtitle("Habitat Resilience") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_light()
+
+hab_des_graph
+```
+
+
+Graph
+**from before when didn't have ole data so no years
 res_hab_graph <- ggplot(res_hab_des) +
   geom_bar(aes(x= rgn_name, y=score), stat="identity")+
   coord_flip() +
@@ -233,7 +257,7 @@ res_hab_graph <- ggplot(res_hab_des) +
 res_hab_graph 
 
 ggsave("figs/res_hab_graph.jpg", width=7, height=5, dpi=300)
-```
+
 
 
 

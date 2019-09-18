@@ -1029,6 +1029,8 @@ ole_scores <- enforcement_compliance_scores%>%
   rename(rgn_id=n) %>% 
   mutate(rgn_id = as.character(rgn_id)) %>% 
   select(-enforcement_score_OLE, -enforcement_score_obser)
+
+write.csv(ole_scores, file = "data/ole_scores.csv")
 ```
 
 ###Calculate Overall Fisheries Resilience Score
