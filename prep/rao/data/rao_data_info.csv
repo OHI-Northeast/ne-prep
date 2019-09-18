@@ -1,0 +1,5 @@
+Layer,Description,Target,Source
+Economic Access,Ratio of the cost of gas ($/barrel) compared to the median wage,"Maintain a constant ratio year over year. No change, or a negative change indicating increased economic access, results in a perfect score. If the ratio doubles, the region scores 0.","<a href=""https://www.eia.gov/petroleum/gasdiesel/"">US Energy Information Administration</a>
+             <a href=""https://www.bls.gov/"">US Bureau of Labor Statistics</a>"
+Fish Resource Access,Fish Stock Sustainability Index (FSSI) combines information from stock assessments to measure stock sustainability on a 0-4 scale,All stocks receive an FSSI score of 4,"<a href=""https://www.fisheries.noaa.gov/national/population-assessments/status-us-fisheries"">NOAA Fish Stock Sustainability Index</a>"
+Coastal Access,Coastal points identified for human use by NOAA's Environmental Sensitivity Index,At least one access point for every mile of coastline,"<a href=""https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html"">NOAA Office of Response & Restoration</a>"
