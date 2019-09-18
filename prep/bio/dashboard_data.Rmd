@@ -25,6 +25,23 @@ library(tidyverse)
 ```
 
 
+# Number of species per region and status
+
+For the species page this data table will allow us to create a stacked bar chart that shows the number of species per region and what their conservation status score (0-1) is
+
+```{r}
+df <- read_csv("~/github/ne-scores/region/layers/spp_status_scores.csv") %>%
+  filter(rgn_id %in% c(1:11),
+         !is.na(score)) %>%
+  mutate(display_sp_name = ifelse(is.na(common), sciname, common),
+         score = 1-score) %>%
+  group_by(rgn_name, score) %>%
+  summarize(count = n())
+
+write_csv(df, "data/species_status_counts_by_rgn.csv")
+```
+
+
 ## Data Information tables
 
 ```{r}

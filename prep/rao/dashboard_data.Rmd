@@ -1,0 +1,47 @@
+---
+title: "Resource Access Opportunities dashboard data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+Creating data layers for use in the data dashboard
+
+```{r setup, include=FALSE, warning = F, message = F}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+
+library(tidyverse)
+```
+
+## Data Information table
+
+```{r}
+rao_data_info <- data.frame(
+  Layer = c("Economic Access", "Fish Resource Access", "Coastal Access"),
+  Description = c("Ratio of the cost of gas ($/barrel) compared to the median wage",
+                  "Fish Stock Sustainability Index (FSSI) combines information from stock assessments to measure stock sustainability on a 0-4 scale",
+                  "Coastal points identified for human use by NOAA's Environmental Sensitivity Index"),
+  Target = c("Maintain a constant ratio year over year. No change, or a negative change indicating increased economic access, results in a perfect score. If the ratio doubles, the region scores 0.",
+             "All stocks receive an FSSI score of 4",
+             "At least one access point for every mile of coastline"),
+  Source = c('<a href="https://www.eia.gov/petroleum/gasdiesel/">US Energy Information Administration</a>
+             <a href="https://www.bls.gov/">US Bureau of Labor Statistics</a>',
+             '<a href="https://www.fisheries.noaa.gov/national/population-assessments/status-us-fisheries">NOAA Fish Stock Sustainability Index</a>',
+             '<a href="https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html">NOAA Office of Response & Restoration</a>')
+)
+
+write_csv(rao_data_info, "data/rao_data_info.csv")
+
+DT::datatable(rao_data_info, escape = FALSE)
+```
