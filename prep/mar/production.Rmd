@@ -189,6 +189,8 @@ production_df <- full_join(combo, remaining_sp) %>%
     select(Year, Region, Species = Species_name_to_use, pounds) %>%
   bind_rows(maine_ff)
 
+write_csv(production_df, "data/production_clean.csv")
+
 ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
   theme_bw() +
