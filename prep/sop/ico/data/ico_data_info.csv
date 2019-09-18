@@ -1,0 +1,6 @@
+Layer,Description,Target,Source
+Iconic Species List,List of species considered iconic in the Northeast,"NA",Sought input from experts in the region to develop this list since there was not a clear widely-accepted source
+Species Location,Species range maps from the Northeast Data Portal and International Union for Conservation of Nature’s (IUCN),"NA","<a href=""https://www.northeastoceandata.org/data-explorer/?mammals-turtles"">NE Ocean Data Portal</a>
+  <a href=""https://www.iucnredlist.org/"">IUCN Red List</a>"
+Species Status,Species conservation status from NatureServe and IUCN,No marine species are at risk of extinction and all are classified as of Least Concern using The International Union for Conservation of Nature’s (IUCN) Red List of Threatened Species criteria,"<a href=""https://www.natureserve.org/"">NatureServe</a>
+             <a href=""https://www.iucnredlist.org/"">IUCN Red List</a>"
