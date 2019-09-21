@@ -199,20 +199,45 @@ sob <- sob_scores %>%
   rename(rgn_name = state) %>% 
   select(rgn_name, rgn_id, score) %>% 
   mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id== 7, "Massachusetts-North",
-                ifelse(rgn_name == "Massachusetts" & rgn_id== 8, "Massachusetts-South", 
-                       rgn_name))) %>% 
+                           ifelse(rgn_name == "Massachusetts" & rgn_id== 8, "Massachusetts-South", 
+                                  rgn_name))) %>% 
   rbind(miss_rgns) %>% 
   rename(score_2 = score) %>% 
   mutate(rgn_id = as.numeric(rgn_id)) 
 ```
 
-Combine both layers
+
+# OLE compliance scores for adding in later
+```{r}
+ole <- read_csv(file.path(dir_git, "prep/resilience/ecological/data/ole_scores.csv")) %>% 
+  select(year, compliance_score, enforcement_score_OLE) %>% 
+  filter(year <= 2017) %>% 
+  uncount(11, .id = "n", .remove = F) %>%
+  mutate(rgn_name = ifelse(n == 1, "Offshore", 
+                       ifelse(n==2, "Georges Bank",
+                               ifelse(n==3, "Gulf of Maine",
+                                      ifelse(n==4, "Mid-Atlantic Bight",
+                                             ifelse(n==5, "Connecticut",
+                                                    ifelse(n==6, "Maine",
+                                                           ifelse(n==7, "Massachusetts-North",
+                                                                  ifelse(n==8, "Massachusetts-South",
+                                                                         ifelse(n==9, "New Hampshire",
+                                                                                ifelse(n==10, "New York",
+                                                                                       "Rhode Island"))))))))))) %>%
+  rename(rgn_id=n)
+```
+
+Combine both layers and duplicate through time
 ```{r}
 res_hab_des <- left_join(sob, area_protect, by = c("rgn_id", "rgn_name")) %>% 
+ # select(rgn_name, rgn_id, score) %>%
+  uncount(3, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2015, n + 2014)) %>%
+  select(-n) %>% 
+  left_join(ole, c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
-  mutate(score = mean(c(score_1,score_2), na.rm=T)) %>% 
-  select(rgn_name, rgn_id, score) %>% 
-  mutate(year= 2017)
+  mutate(score = mean(c(score_1,score_2, compliance_score, enforcement_score_OLE), na.rm=T)) %>% # the only layer without scores for off shore is state of beach reports, so calculate even with NA 
+select(year, rgn_name,rgn_id,score)
 ```
 
 ##Save layer to toolbox
@@ -221,18 +246,16 @@ res_hab_des <- left_join(sob, area_protect, by = c("rgn_id", "rgn_name")) %>%
 write.csv(res_hab_des,  file = "~/github/ne-scores/region/layers/res_hab_destruction.csv")
 ```
 
-Graph
 ```{r}
-res_hab_graph <- ggplot(res_hab_des) +
-  geom_bar(aes(x= rgn_name, y=score), stat="identity")+
-  coord_flip() +
-  theme_classic() +
-  labs(y = "Score", x = "Region") +
-  ggtitle("Habitat Destruction Resilience Scores")
+hab_des_graph <- ggplot(res_hab_des)+
+  geom_line(aes(x=year, y= score, color= rgn_name))+
+    ggtitle("Habitat Destruction Resilience") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_light()
 
-res_hab_graph 
-
-ggsave("figs/res_hab_graph.jpg", width=7, height=5, dpi=300)
+hab_des_graph
+ggsave("figs/hab_des_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 

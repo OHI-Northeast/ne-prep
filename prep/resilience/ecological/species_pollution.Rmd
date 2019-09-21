@@ -23,6 +23,43 @@ NAS databast
 
 focuses on plants and freshwater
 - includes species from other countries and non-native ranges
+
+```{r}
+nas <- nas_raw %>% 
+    select('Scientific Name', 'Country', 'State', 'County', 'Year', 'Status') %>% 
+  mutate(stat = case_when(Status == "established" ~ "established",
+                          Status == "eradicated" ~ "eradicated")) %>% 
+  rename(sci_name = "Scientific Name") %>% 
+  filter(stat != is.na(stat),
+         Country %in% 'United States of America',
+        # stat %in% 'eradicated',
+         State %in% c("ME", "MA", "NY", "RI", "CT", "NH")) %>% 
+  filter(Year >= 2005 & Year <= 2017,
+         State %in% c("ME", "MA", "NY", "RI", "CT", "NH")) %>%
+  select(-Status, -Year) %>% 
+  unique() %>% 
+  group_by(State) %>% 
+  mutate(est_occur = length(which(stat == "established")),
+         era_occur = length(which(stat == "eradicated")),
+         res = era_occur/est_occur)
+```
+
+```{r}
+r_gr <- ggplot(nas) +
+  geom_bar(aes(x= State, y=res), stat="identity")+
+  coord_flip() +
+  theme_classic() +
+  labs(y = "res", x = "state") +
+  ggtitle("NASS ")
+
+r_gr 
+```
+
+
+
+
+
+Maybe delete
 ```{r}
 nas_raw <- read_csv(file.path(dir_anx, "_raw_data/NAS/NAS-Data-Download.csv")) 
 
