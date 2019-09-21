@@ -185,6 +185,25 @@ wqi_clean <- wqi %>%
   as.data.frame()
 ```
 
+# Map
+
+Map sample sites status for each year
+
+```{r mapview}
+
+wqi_2006 <- wqi_clean %>% 
+  filter(Year == 2006) %>% 
+  st_as_sf(coords = c("LON_DD", "LAT_DD"), crs = "+proj=longlat +datum=WGS84 +no_defs")  %>% 
+  filter(status != "MISSING")
+wqi_2010 <- wqi_clean %>% 
+  filter(Year == 2010) %>% 
+  st_as_sf(coords = c("LON_DD", "LAT_DD"), crs = "+proj=longlat +datum=WGS84 +no_defs") %>% 
+  filter(status != "MISSING")
+
+mapview::mapview(wqi_2006, zcol = "status", values = c("POOR", "FAIR", "GOOD"), col.regions = c("orange", "forestgreen", "darkred"))
+mapview::mapview(wqi_2010, zcol = "status", values = c("POOR", "FAIR", "GOOD"), col.regions = c("orange", "forestgreen", "darkred"))
+```
+
 ## Run cat.analysis
 
 Use the [`spsurvey`](https://www.rdocumentation.org/packages/spsurvey/versions/3.4) package to run `cat.analysis` and produce a sub-population estimate that incorporates site weights. 
