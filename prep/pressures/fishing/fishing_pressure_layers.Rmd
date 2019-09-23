@@ -182,7 +182,7 @@ map(c(2000:2015), make_catch_rasters)
 
 ```{r gif}
 
-catch_rasts <- list.files(file.path(dir_anx, 'prs_fish/data'), full.names = T, pattern = "catch_") %>%
+catch_rasts <- list.files(file.path(dir_anx, 'prs_fish/data'), full.names = T, pattern = "^catch_") %>%
                            stack()
                          
 names(catch_rasts) <- paste0("Year_", substr(names(catch_rasts),7,10))
@@ -207,7 +207,7 @@ We will use the 99.99th quantile. The majority of catch is below 20,000 tons/km2
 all_vals <- getValues(catch_rasts)
 
 hist(all_vals, breaks = 25)
-catch_ref  <- quantile(all_vals, na.rm = T, probs = 0.9999)
+catch_ref  <- quantile(all_vals, na.rm = T, probs = 0.99)
 ```
 
 # Rescale between 0 and 1
