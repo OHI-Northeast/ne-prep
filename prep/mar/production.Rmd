@@ -162,12 +162,16 @@ combo <- bind_rows(hclam, oyster, scallop, ss_clams)
 
 ### Fix Maine finfish data
 
-Due to weird data reporting for Salmon and Trout, we need to fix Maine's finfish. The `maine_finfish.csv` dataset is used to replace all finfish from Maine.
+Due to weird data reporting for Salmon and Trout, we need to fix Maine's finfish. The `maine_finfish.csv` dataset is used to replace all finfish from Maine. We also use the 2010 data to gapfill forward since the Department of Marine Resources does not report production data after 2010 due to confidentiality statutes ([see their statment here](https://www.maine.gov/dmr/aquaculture/harvestdata/index.html)).
 
 ```{r}
 #read in the Maine finfish data
 maine_ff <- read_csv("data/maine_finfish.csv") %>%
-  rename(pounds = `Whole Pounds`)
+  rename(pounds = `Whole Pounds`) %>%
+  complete(Year = 1988:2017,
+           Species = "Atlantic Salmon",
+           Region = "Maine") %>%
+  mutate(pounds = zoo::na.locf(pounds))
 
 ggplot(maine_ff, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
