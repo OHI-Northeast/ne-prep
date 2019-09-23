@@ -168,9 +168,10 @@ Due to weird data reporting for Salmon and Trout, we need to fix Maine's finfish
 #read in the Maine finfish data
 maine_ff <- read_csv("data/maine_finfish.csv") %>%
   rename(pounds = `Whole Pounds`) %>%
-  complete(Year = 1988:2017,
-           Species = "Atlantic Salmon",
-           Region = "Maine") %>%
+  complete(Year = 1988:2017) %>%
+  mutate(Species = ifelse(is.na(Species), "Atlantic Salmon", Species),
+         Region = "Maine") %>%
+  group_by(Species) %>%
   mutate(pounds = zoo::na.locf(pounds))
 
 ggplot(maine_ff, aes(x = Year, y = pounds, color = Species)) +
