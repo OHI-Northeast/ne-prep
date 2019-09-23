@@ -275,7 +275,7 @@ ggplot(catch_z, aes(x = year, y = pressure_score, color = rgn_name)) +
 # Save to toolbox
 
 ```{r}
-write_csv(catch_z, "~/github/ne-scores/region/layers/prs_fish.csv")
+write_csv(catch_z, "~/github/ne-scores/region/layers/prs_fishing.csv")
 ```
 
 
