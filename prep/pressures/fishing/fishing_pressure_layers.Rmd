@@ -200,7 +200,7 @@ animation::saveGIF({
 
 # Get reference point
 
-We will use the 99.99th quantile. The majority of catch is below 20,000 tons/km2. But in 2009, there is a record of 138,371 tons/km2. This seems like an outlier so to rescale, we will use the 99.99th quantile instead.
+We will use the 99th quantile. The majority of catch is well below 20,000 tons/km2. But in 2009, there is a record of 138,371 pounds/km2. This seems like an outlier so to rescale, we will use the 99th quantile instead (21398 pounds/km2).
 
 ```{r reference_point}
 #landings
