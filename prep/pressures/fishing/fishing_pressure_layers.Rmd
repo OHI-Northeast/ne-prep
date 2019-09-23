@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Fishing pressure layers'
+title: 'OHI-Northeast: Fishing pressure layer'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -25,6 +25,7 @@ source('~/github/ne-prep/src/R/common.R')
 #libraries
 library(raster)
 library(readxl)
+library(animation)
 ```
 
 #Summary
@@ -67,7 +68,7 @@ all_files <- files[str_detect(files, paste(c("2000_2004", "2005_2009", "2010_201
 
 Load `.rds` files
 
-```{r}
+```{r load_rds_files}
 index_ind  <- read_csv(file.path(dir_M, "git-annex/globalprep/_raw_data/IMAS_GlobalFisheriesLandings/d2019/IndexInd.csv"))
 index_nind <- read_csv(file.path(dir_M, "git-annex/globalprep/_raw_data/IMAS_GlobalFisheriesLandings/d2019/IndexNInd.csv"))
 cells      <- read_excel(path = file.path(dir_M, "git-annex/globalprep/_raw_data/IMAS_GlobalFisheriesLandings/d2019/Codes.xlsx"), sheet = "Cell") 
@@ -78,7 +79,7 @@ cells      <- read_excel(path = file.path(dir_M, "git-annex/globalprep/_raw_data
 
 We don't need all data, just the data for our region. Using the cells information, crop it to our region of interest and keep a vector of `ne_cells` to use for querying data.
 
-```{r}
+```{r get_ne_cells}
 cells_raster <- cells %>%
   rename(x = LonCentre, y = LatCentre, z = Cell) %>% #I renamed these xyz to use in the rasterFromXYZ() function below
   select(x,y,z) %>%
@@ -151,31 +152,25 @@ map(all_files, combine_fis)
 
 Create annual bycatch and landings raster layers. Combine non-industrial and industrial catch per cell, we do not differentiate.
 
-```{r}
+```{r, results = "hide"}
 make_catch_rasters <- function(year){
   
   ind  <- read_csv(paste0(dir_anx, "/prs_fish/data/CatchInd_", year, ".csv"))
   nind <- read_csv(paste0(dir_anx, "/prs_fish/data/CatchNInd_", year, ".csv"))
   
   both <- bind_rows(ind, nind) %>%
+    mutate(catch = Landings + Discards) %>%
     group_by(Cell) %>%
-    summarize(landings = sum(Landings),
-              bycatch  = sum(Discards))
+    summarize(total_catch = sum(catch))
   
   #subs cells_raster with landings and bycatch
   #reproject & resample to 1km (the catch is already at 1 km - in Version 4.0 it comes as catch/km2)
-  land_rast <- subs(cells_raster, both, by = "Cell", which = "landings") %>%
+  catch_rast <- subs(cells_raster, both, by = "Cell", which = "total_catch") %>%
     projectRaster(ocean_ne) %>%
     resample(ocean_ne) %>%
     mask(zones)
-  
-  by_rast   <- subs(cells_raster, both, by = "Cell", which = "bycatch") %>%
-    projectRaster(ocean_ne) %>%
-    resample(ocean_ne) %>%
-    mask(zones)
-  
-  writeRaster(land_rast, filename = paste0(dir_anx, "/prs_fish/data/landings_", year, ".tif"))
-  writeRaster(by_rast, filename = paste0(dir_anx, "/prs_fish/data/bycatch_", year, ".tif"))
+
+  writeRaster(catch_rast, filename = paste0(dir_anx, "/prs_fish/data/catch_", year, ".tif"), overwrite = T)
 }
 
 #apply to all years
@@ -183,79 +178,104 @@ make_catch_rasters <- function(year){
 map(c(2000:2015), make_catch_rasters)
 ```
 
-# Make gif for landings and bycatch over time
+# Make gif for catch over time
 
-```{r}
+```{r gif}
 
+catch_rasts <- list.files(file.path(dir_anx, 'prs_fish/data'), full.names = T, pattern = "catch_") %>%
+                           stack()
+                         
+names(catch_rasts) <- paste0("Year_", substr(names(catch_rasts),7,10))
+animation::saveGIF({
+  for(i in 1:nlayers(catch_rasts)){
+     plot(ocean_ne,col='cornsilk2',  main=names(catch_rasts[[i]]),axes=F,legend=F)
+      # don't forget to fix the zlimits
+    plot(catch_rasts[[i]], zlim=c(0,140000), axes=F, col=cols, add=T)
+      
+  }
+}, movie.name = 'catch_over_time.gif')
 ```
+
+<img src="catch_over_time.gif"/>
 
 # Get reference point
 
-We will use a reference point of the highest + 10% across the time period
+We will use the 99.99th quantile. The majority of catch is below 20,000 tons/km2. But in 2009, there is a record of 138,371 tons/km2. This seems like an outlier so to rescale, we will use the 99.99th quantile instead.
 
 ```{r reference_point}
 #landings
-land_stack    <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "landings_", full.names = T) %>% stack()
-landings_ref  <- max(getValues(land_stack), na.rm = T)*1.1
+all_vals <- getValues(catch_rasts)
 
-#bycatch
-bycatch_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "bycatch_", full.names = T) %>% stack()
-bycatch_ref   <- max(getValues(bycatch_stack), na.rm = T)*1.1
-
+hist(all_vals, breaks = 25)
+catch_ref  <- quantile(all_vals, na.rm = T, probs = 0.9999)
 ```
 
 # Rescale between 0 and 1
 
-```{r rescale}
+```{r rescale, results = "hide"}
 
-rescale_rasts <- function(year, type){
+rescale_rasts <- function(year){
   
-  r <- raster(paste0(dir_anx, "/prs_fish/data/", type, "_", year, ".tif"))
+  r <- raster(paste0(dir_anx, "/prs_fish/data/catch_", year, ".tif"))
   
-  if(type == "landings"){
-    ref <- landings_ref
-  }else{
-    ref <- bycatch_ref
-  }
-  rescaled_r <- r/ref
+  rescaled_r <- r/catch_ref
   
-  writeRaster(rescaled_r, filename = paste0(dir_anx, "/prs_fish/data/", type, "_rescaled_", year, ".tif"), overwrite = T)
+  rescaled_r[rescaled_r>1] <- 1
+  
+  writeRaster(rescaled_r, filename = paste0(dir_anx, "/prs_fish/data/rescaled_catch_", year, ".tif"), overwrite = T)
 }
 
-d <- expand.grid(year = c(2000:2015), type = c("bycatch", "landings"))
-map2(d$year, d$type, rescale_rasts)
+map(c(2000:2015), rescale_rasts)
 ```
 
+# Make gif of rescaled catch
+
+```{r rescaled_gif}
+
+catch_rasts <- list.files(file.path(dir_anx, 'prs_fish/data'), full.names = T, pattern = "rescaled_catch_") %>%
+                           stack()
+                         
+names(catch_rasts) <- paste0("Year_", substr(names(catch_rasts),16,19))
+animation::saveGIF({
+  for(i in 1:nlayers(catch_rasts)){
+     plot(ocean_ne,col='cornsilk2',  main=names(catch_rasts[[i]]),axes=F,legend=F)
+      # don't forget to fix the zlimits
+    plot(catch_rasts[[i]], zlim=c(0,1), axes=F, col=cols, add=T)
+      
+  }
+}, movie.name = 'rescaled_catch_over_time.gif')
+```
+
+<img src="rescaled_catch_over_time.gif"/>
 
 # Run zonal statistics for each ohi region
 
-Stack each year then run `zonal` statistics to get the mean.
+Stack each year then run `zonal` statistics to get the mean pressure score for each OHI region and year.
+
+```{r zonal_stats}
+catch_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "rescaled_catch_", full.names = T) %>% stack()
+catch_z     <- zonal(catch_stack, zones) %>% #zonal's default statistic is to take the mean
+  as.data.frame() %>%
+  gather(key = "year", value = "pressure_score", -zone) %>%
+  mutate(year = as.numeric(str_replace(year, "rescaled_catch_", ""))) %>%
+  rename(region_id = zone) %>%
+  left_join(rgn_data, by = c("region_id" = "rgn_id")) %>%
+  select(-area_km2, -state_name, -state, -state_abv)
+```
+
+# Pressure scores
 
 ```{r}
-#landings
-land_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "landings_rescaled", full.names = T) %>% stack()
-land_z     <- zonal(land_stack, zones) %>% #zonal's default statistic is to take the mean
-  as.data.frame() %>%
-  gather(key = "year", value = "pressure_score", -zone) %>%
-  separate(year, c("type", "year"), sep = "_rescaled_") %>%
-  rename(region_id = zone) %>%
-  select(-type)
-
-#bycatch
-by_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "bycatch_rescaled", full.names = T) %>% stack()
-by_z     <- zonal(by_stack, zones) %>% #zonal's default statistic is to take the mean
-  as.data.frame() %>%
-  gather(key = "year", value = "pressure_score", -zone) %>%
-  separate(year, c("type", "year"), sep = "_rescaled_") %>%
-  rename(region_id = zone) %>%
-  select(-type)
+ggplot(catch_z, aes(x = year, y = pressure_score, color = rgn_name)) +
+  geom_line() +
+  theme_bw()
 ```
+
 
 # Save to toolbox
 
 ```{r}
-write_csv(land_z, "~/github/ne-scores/region/layers/prs_landings.csv")
-write_csv(by_z, "~/github/ne-scores/region/layers/prs_bycatch.csv")
+write_csv(catch_z, "~/github/ne-scores/region/layers/prs_fish.csv")
 ```
 
 

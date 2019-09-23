@@ -1,0 +1,155 @@
+---
+title: 'OHI-Northeast: Fishing Engagement'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(readxl)
+```
+
+# Summary
+
+This script creates the Fishing Engagement data layer for use in the Sense of Place goal. We use two different data sets from NOAA's Soc
+
+***
+
+# Data Source
+
+**NOAA Social Vulnerability**
+**Downloaded**: August 2019
+
+**Description**: Calculates Social Vulnerability based on social vulnerability, fishing vulnerability, inundation risk, and gentrification vulnerability  
+
+**Time range**: 2009-2016
+
+**Format**: Tabular
+
+***
+
+# Load Data
+
+NOAA Social Vulnerability Index
+```{r}
+raw_svi_2009 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=1) %>%
+  select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
+raw_svi_2010 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=2) %>%
+  select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
+raw_svi_2011 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=3) %>%
+  select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
+raw_svi_2012 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=4) %>%
+  select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
+raw_svi_2013 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=5) %>%
+  select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
+raw_svi_2014 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=6) %>%
+  select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
+raw_svi_2015 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=7) %>%
+  select(year, GEO_NAME, ComEng_ct = ComEng_15ct,  RecRel_ct)
+raw_svi_2016 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=8) %>%
+  select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
+raw_svi_categories <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=11)
+```
+
+Load Massachusetts counties to split out the North/South regions
+```{r}
+MA_counties <- read.csv("~/github/ne-prep/src/tables/MA_counties.csv") %>% 
+  select(-X)
+MA_cities <- read_csv(file.path(dir_anx, "_raw_data/MA_gov/list-cities-massachusetts.csv")) %>% select(Name, County) %>% 
+  rename(city = Name)
+```
+
+# Data Clean
+
+## Assign MA communities
+
+```{r}
+ma_communities <- raw_svi_2009 %>% 
+  select(GEO_NAME) %>% 
+  separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
+  filter(state == "MA") %>% 
+  left_join(MA_cities, by = c("city")) %>% 
+  rename(city_community = city)
+```
+
+
+Communities in this dataset were manually assigned to either Massachuasetts-North or Massachusetts-South for the social resilience layer.
+```{r}
+MA_counties_missing <- read.csv(file.path(dir_anx, "_raw_data/MA_gov/county_missing_filled.csv"))
+```
+
+
+Combine MA counties with their region Ids
+```{r}
+ma_rgns_by_counties <- ma_communities %>% 
+  filter(!is.na(County)) %>% 
+  left_join(MA_counties, by = c("County")) %>% 
+  rbind(MA_counties_missing) 
+```
+
+Do the same data tidying for every year (2009-2016) and combine into a single dataframe
+```{r}
+out <- data.frame()
+for(i in 2009:2016){
+  df <- eval(as.name(paste0("raw_svi_", i)))
+  
+  clean <- df %>%
+  separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
+  filter(state %in% c("MA", "ME", "NY", "RI", "CT", "NH")) %>% 
+  left_join(rgn_data, by = c("state" = "state_abv")) %>%
+  left_join(ma_rgns_by_counties) %>%
+  mutate(rgn_id = case_when(
+    state == "MA" & !is.na(County) ~ rgn_id,
+    state != "MA" ~ rgn_id
+  )) %>%
+  filter(!is.na(rgn_id)) %>%
+  select(year, city_community, state, ComEng_ct, RecRel_ct, rgn_name, rgn_id)
+  
+  out <- bind_rows(out, clean)
+}
+```
+
+Now we want to calculate scores between 0 and 1 and then average by region id and year.
+
+```{r}
+rescaled_df <- out %>%
+  gather(key = "layer", value = "index_score", -year, -city_community, -state, -rgn_name, -rgn_id) %>%
+  mutate(layer = ifelse(layer == "ComEng_ct", "commercial", "recreational"), 
+         score = index_score/4) %>%
+  group_by(year, rgn_name, rgn_id, layer) %>%
+  summarize(mean_score = mean(score))
+  
+```
+
+# Visualize
+
+```{r}
+ggplot(rescaled_df, aes(x = year, y = mean_score, color = rgn_name)) +
+  geom_line() +
+  facet_wrap(~layer) +
+  theme_bw()
+```
+
+
+# Save layer to toolbox
+
+```{r save}
+```
+
+
+
