@@ -122,7 +122,7 @@ Visualize
 ```{r}
 eee_score_graph <-ggplot(eee_score)+
   geom_line(aes(x=year, y = score, color=state))+
-  ggtitle("Energy Efficiency Score") +
+  ggtitle("American Council for Energy Efficiency Score") +
   ylab("Score") +
   xlab("State") +
   theme_classic() 

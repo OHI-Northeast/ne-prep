@@ -1,0 +1,60 @@
+---
+title: "OHIEC: Resilience - NOAA Office of Law Enforcemnet compliance"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(tidyverse)
+library(dplyr)
+library(Hmisc)
+library(stringi)
+library(stringr)
+library(readxl)
+library(tabulizer)
+```
+
+I had done the ole enforcement and compliance together, need to parse it out
+
+Number of incidences and investigations divided by enforcement actions
+
+Load in Data
+```{r load_data}
+ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))
+```
+
+```{r calculate_ole_compliance}
+ole_compliance <- ole_raw %>% 
+  filter(year >= 2015) %>% # not good enough data to use anything before 2015
+  fill(inspections, .direction = c("down") ) %>% #linear regression and mean would change the downward linear trend. simply using the previous year's data is the most reasonable
+  fill(enforcement_action, .direction = c("up")) %>% 
+  mutate(ole_compliance_score = 1- (enforcement_action/(inspections+investigations))) %>% 
+  select(year, inspections, investigations, ole_compliance_score)
+```
+
+```{r save_data}
+write.csv(ole_compliance, file = "data/ole_compliance.csv")
+```
+
+

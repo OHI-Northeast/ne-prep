@@ -1,0 +1,72 @@
+---
+title: "OHIEC: Resilience - NOAA Fisheries Observer Coverage"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(tidyverse)
+library(readxl)
+```
+
+###1) Total number of sea days with fisheries observer/ alloted number of sea days 
+
+Allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
+(total number of sea days allocated each year based on the agency budget amd the compensation rate analysis by funding source for ex:(April 2016-March 2017))
+
+There is an 8% target coverage of ships (in report https://www.nefsc.noaa.gov/fsb/SBRM/2011/2011_SBRM_3Year_Report.pdf)
+
+Load in the data
+```{r}
+fish_ob_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fisheries_observer.xlsx"), sheet=1)
+ob_alloc_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fishob_seaday_alloc.xlsx"), sheet=1) %>% 
+  rename(YEAR = year)
+```
+
+Calculate the enforcement score for number of fisheries observer sea days by aking the number of actual seadays/allocated sea day
+Targets for allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
+```{r}
+observ_cov <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>% 
+  mutate(score = TOTDAYS/seadays) %>% 
+#  fill(score, .direction = "up") %>%  #back gap filled using the 1st year allocated sea days are avaliable
+  filter(YEAR <= 2017) %>% 
+  select(YEAR, score) %>% 
+  rename(year = YEAR) %>% 
+  rename(enforcement_score_obser= score)
+
+write.csv(observ_cov, file = "data/observ_cov.csv")
+```
+
+Things to think about:
+- more information on allocated sea days prior to 2013
+- Score overestimating because allocated sea days do not include at-sea ground fish monitoring but the observer data does
+
+
+
+
+
+
+
+
+
