@@ -1,0 +1,82 @@
+---
+title: "OHIEC: Resilience - Climate Change Pressure Prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates climate change resilience values by OHINE region. 
+
+# Data
+American Council for Energy-Efficient Economy (EEE) state and local policy rankings
+
+**Downloaded**: August, 2019
+
+**Description**: Rankings of states' energy efficiency policy and program efforts. https://database.aceee.org/state-scorecard-rank
+
+**Time range**: 2006-2018
+
+**Format**: PDF
+
+
+2. American Council for Energy Efficiency Rankings: Each state is scored out of 50 (except in 2006 it's out of 44) on their policies in place for energy efficiency etc. 50 would be a perfect score
+
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(tidyverse)
+library(dplyr)
+library(readxl)
+```
+
+Load Data
+```{r load_data}
+eee <- read_excel(file.path(dir_anx, "_raw_data/EEE/aceee_2006_2018.xlsx"))
+```
+
+```{r calculate}
+acee_rankings <- eee %>% 
+  mutate(score_eee = score/target)
+
+#save
+write.csv(acee_rankings, file = "data/acee_rankings.csv")
+```
+
+Visualize
+```{r visualize}
+acee_rankings_graph <-ggplot(acee_rankings)+
+  geom_line(aes(x=year, y = score, color=state))+
+  ggtitle("American Council for Energy Efficiency Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+acee_rankings_graph
+
+ggsave("figs/acee_rankings_graph.jpg", width=7, height=5, dpi=300)
+```
+
+
+
+
+

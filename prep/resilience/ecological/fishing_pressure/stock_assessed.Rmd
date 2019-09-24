@@ -107,34 +107,21 @@ landed_ass <- assessments %>%
   unique()
 ```
 
-**will need to write this as csv in reorganization**
+```{r save_data}
+write.csv(landed_ass, file = "data/landed_ass.csv")
+```
 
 Visualize
 ```{r visualize}
-percent_assesses_graph <- ggplot(landed_ass)+
+landed_ass_graph <- ggplot(landed_ass)+
   geom_line(aes(x=year, y= per_catch_landed, color = rgn_name))+
     ggtitle("Percentage of Catch Landed in Northeast with Stock Assessments") +
   ylab("Score") +
   xlab("Year") +
   theme_light()
 
-percent_assesses_graph
-ggsave("figs/percent_assesses_graph.jpg", width=7, height=5, dpi=300)
+landed_ass_graph
+ggsave("figs/landed_ass_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 
-
-Calculate score for having a stock assessment score
-```{r}
-assessment_score <- percent_assessed_by_region %>% 
-  mutate(target = 1) %>% 
-  mutate(score = percent/target,
-         score = if_else(score > 1, 1, score)) %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n)
-
-assessment_score
-
-write.csv(assessment_score, file = "data/assessment_score.csv")
-```

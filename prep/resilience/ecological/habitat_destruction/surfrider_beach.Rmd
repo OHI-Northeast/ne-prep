@@ -1,0 +1,99 @@
+---
+title: "OHIEC: Resilience - Habitat Destruction prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates habitat resilience values by OHINE region. 
+
+
+# Data
+
+**Reference**: 
+
+**Downloaded**: 
+
+**Description**:  
+
+**Time range**: 
+
+**Format**: 
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(tidyverse)
+library(readxl)
+```
+
+
+#State of the Beach Scorecard
+```{r}
+raw_sob <- read_xlsx(file.path(dir_anx, "_raw_data/Surfrider/state_of_the_beach_2017.xlsx"))
+```
+
+Scores
+```{r}
+sob_scores <- raw_sob %>% 
+  mutate(target = 12,
+         score = over_all/target)
+```
+
+Creating a df to add to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") %>% 
+  mutate(score= NA)
+```
+
+Create a table with only the necessary info for calcualting the score
+```{r}
+surfrider_beach <- sob_scores %>% 
+  select(state, score) %>% 
+   mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  rename(rgn_name = state) %>% 
+  select(rgn_name, rgn_id, score) %>% 
+  mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id== 7, "Massachusetts-North",
+                           ifelse(rgn_name == "Massachusetts" & rgn_id== 8, "Massachusetts-South", 
+                                  rgn_name))) %>% 
+  rbind(miss_rgns) %>% 
+  rename(surfrider_beach_score = score) %>% 
+  mutate(rgn_id = as.numeric(rgn_id)) 
+```
+
+Save data
+```{r}
+write.csv(surfrider_beach, file = "data/surfrider_beach.csv")
+```

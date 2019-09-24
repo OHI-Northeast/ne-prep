@@ -28,11 +28,7 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 library(csv)
 library(tidyverse)
 library(dplyr)
-library(Hmisc)
-library(stringi)
-library(stringr)
 library(readxl)
-library(tabulizer)
 ```
 
 I had done the ole enforcement and compliance together, need to parse it out

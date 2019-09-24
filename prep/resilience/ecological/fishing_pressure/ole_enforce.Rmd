@@ -33,8 +33,6 @@ library(readxl)
 
 ###2) Number of staff, number of patrols, number of outreach events OLE
 
-
-
 Load in Data
 ```{r}
 ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))

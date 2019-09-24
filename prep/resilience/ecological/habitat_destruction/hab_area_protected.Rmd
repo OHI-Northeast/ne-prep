@@ -1,0 +1,150 @@
+---
+title: "OHIEC: Resilience - Habitat Destruction prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates habitat resilience values by OHINE region. 
+
+NOAA layers for habitat and fishing rules
+USGS layers
+
+
+# Data
+
+**Reference**: 
+
+**Downloaded**: 
+
+**Description**:  
+
+**Time range**: 
+
+**Format**: 
+
+Used a lot of the code from the lsp.Rmd
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(tidyverse)
+library(sf)
+library(mapview)
+library(readxl)
+```
+
+NOAA Habitat Management Area Data
+Currently waiting/working on getting this info over time, for now/if that never happens we will apply the scores to all years
+
+data from habitat tab on https://www.greateratlantic.fisheries.noaa.gov/educational_resources/gis/data/index.html 
+1) Habitat Management Area
+  - Cashes ledge and Fippennies ledge habitat management areas,
+  - Ammen rock habitat management area
+  - Eastern Maine HMA and Jeffrey’s Bank HMA
+  - Closed Area II Habitat Closure
+  - Great South Channel Habitat Management Area
+2) Habitat Research Area
+  - George’s Bank DHRA
+3) Frank R. Lautenberg Deep-Sea Coral Protection Area
+4) Groundfish Closures
+  - Closed Area II 
+  - Western gulf of maine habitat closure
+5) MSB Bottom Trawling Restricted Areas
+  - Oceanographer Canyon
+  - Lydonia Canyon
+
+```{r load_data}
+#1
+hab_manage <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Habitat_Management_Areas/Habitat_Management_Areas.shp")) %>% 
+  filter(DESCRIBE != "Exemption area") %>% 
+  mutate(start_year= 2018)
+
+#2
+hab_research <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Dedicated_Habitat_Research_Area/Dedicated_Habitat_Research_Area.shp")) %>% 
+  filter(AREANAME == "Georges Bank Dedicated Habitat Research Area") %>% # Stellwagen allows surf clam. quahog dredge gear
+  mutate(start_year= 2018)
+  
+#3
+hab_frl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/Frank_R_Lautenberg_Deep_Sea_Coral_Protection_Areas/Frank_R_Lautenberg_Deep_Sea_Coral_Protection_Areas.shp"))%>% 
+  mutate(start_year= 2018)
+
+#4
+hab_msb_trawl <- read_sf(dsn = file.path(dir_anx, "_raw_data/NOAA_HAB/MSB_Bottom_Trawling_Restricted_Areas/MSB_Bottom_Trawling_Restricted_Areas.shp"))%>% 
+  mutate(start_year= 2008)
+
+#combine all together
+hab_noaa <- rbind(hab_manage, hab_research, hab_frl, hab_msb_trawl) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)  %>%
+  st_intersection(rgns)
+
+hab_protect <- mapview(hab_noaa) 
+hab_protect
+mapshot(hab_protect, url = "hab_protect.html")
+```
+
+
+### Calculate Scores
+Here we are using a 30% protected area target 
+
+```{r calculate_hab_protected}
+hab_protect_rgn <- hab_noaa %>%
+  select(rgn_id, rgn_name, AREANAME)%>%
+  group_by(rgn_id, rgn_name) %>%
+  summarise() %>%
+  ungroup() %>%
+  mutate(area = st_area(geometry)/1000000) %>% #calculate total protected area
+  left_join(rgn_data) %>%
+  mutate(prop_area = as.numeric(area)/area_km2, 
+         type = "marine") %>%
+    st_set_geometry(NULL) %>% 
+  select(rgn_id, rgn_name, prop_area) %>% 
+  mutate(target = 0.3,
+         score = prop_area/target,
+         score = if_else(score >1, 1, score)) 
+```
+
+Creating a df to add to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  9, "New Hampshire",
+  7, "Massachusetts-North",
+  8, "Massachusetts-South",
+  11, "Rhode Island",
+  5, "Connecticut",
+  10, "New York") %>% 
+  mutate(score = 0)
+```
+
+
+Create a table with only the necessary info for calcualting the score
+```{r calculate_hab_protected_Score}
+hab_area_protected <- hab_protect_rgn %>% 
+  select(rgn_id, rgn_name,score) %>% 
+  rbind(miss_rgns) %>% 
+  rename(hab_area_protected_score = score)
+```
+
+Save layer
+```{r save_data}
+write.csv(hab_area_protected, file = "data/hab_area_protected.csv")
+```
+
+
+

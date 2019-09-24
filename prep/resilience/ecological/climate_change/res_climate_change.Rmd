@@ -1,0 +1,272 @@
+---
+title: "OHIEC: Resilience - Climate Change Pressure Prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates climate change resilience values by OHINE region. 
+
+# Data
+1. American Council for Energy-Efficient Economy (EEE) state and local policy rankings
+2. America's Pledge Phase 1 Report
+3. US Energy Information Administration Energy Consumption Data
+4. EPA CO2 Emissions from Fossil Fuel Combustion Data
+
+**1. EEE**
+**Downloaded**: August, 2019
+
+**Description**: Rankings of states' energy efficiency policy and program efforts. https://database.aceee.org/state-scorecard-rank
+
+**Time range**: 2006-2018
+
+**Format**: PDF
+
+
+**2. America's Pledge**
+**Downloaded**: August, 2019
+
+**Description**: Got the raw data for Figure 2-3 Climate Friendly Actions by U.S States: Types and Numbers in the America's Pledge Report: Phase 1 (https://www.bbhub.io/dotorg/sites/28/2017/11/AmericasPledgePhaseOneReportWeb.pdf) from Tom Cyrs tom.cyrs@wri.org 
+
+**Time range**: 2006-2018
+
+**Format**: Tabular
+
+
+**3. EIA Consumption Data**
+**Downloaded**: August, 2019
+
+**Description**: Energy consumption by energy source.  https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
+
+**Time range**: 1960-2017
+
+**Format**: Tabular
+
+
+**4. EPA Carbon Emissions**
+**Downloaded**: August, 2019
+
+**Description**: Carbon emissions from each state from fossil fuels. 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
+
+**Time range**: 1990-2016
+
+**Format**: Tabular
+
+##Using the Data
+Regulations:
+1. America's Pledge Report: There are 33 differnet cateogies of environmental friendly actions each state can make. A state will get a perfect score if they have an action in each of these categories 
+2. American Council for Energy Efficiency Rankings: Each state is scored out of 50 (except in 2006 it's out of 44) on their policies in place for energy efficiency etc. 50 would be a perfect score
+
+Effectiveness:
+1. Take the total CO2 emissions each year and compare to the target, which is calculated by the state set goals
+a. Carbon Emission Targets:
+Targets pulled from https://www.c2es.org/document/greenhouse-gas-emissions-targets/
+Rhode Island is missing from this map so pulled from http://www.planning.ri.gov/documents/LU/energy/energy15.pdf
+
+2. Take the percent of clean power consumption each year and compare to the target, which is calculated by the state set goals
+a. Renewable/Clean Energy Targets:
+Drawn from http://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx#me
+note: all targets are part of "renewable energy portfolio standards" so I won't be including nuclear energy into calculating if states are on track for targets
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(tidyverse)
+library(dplyr)
+library(Hmisc)
+library(stringi)
+library(stringr)
+library(readxl)
+library(tabulizer)
+```
+
+
+Calculate Climate Change Resilience Score
+
+Tidy each piece so can combine
+```{r}
+##eee scores
+eee_score_t <- eee_score %>% 
+  rename(rgn_name = state) %>% 
+  mutate(rgn_id = ifelse(rgn_name == "Connecticut", 5,
+                           ifelse(rgn_name == "Maine", 6,
+                                  ifelse(rgn_name == "Massachusetts-North", 7 ,
+                                         ifelse(rgn_name == "Massachusetts-South", 8,
+                                                ifelse(rgn_name == "New Hampshire", 9,
+                                                       ifelse(rgn_name == "New York", 10,
+                                                              11))))))) %>% 
+  select(year, rgn_name, rgn_id, score_eee) %>% 
+  mutate(rgn_id= as.character(rgn_id))
+
+##emmissions scores
+#create a seperate df to bind to the main one for year 2017 beacuse no data for that
+em_2017<- tribble(
+  ~year, ~rgn_name, ~rgn_id,
+  2017, "Maine", 6,  
+  2017, "New Hampshire", 9,  
+  2017, "Massachusetts-North", 7, 
+  2017, "Rhode Island", 11,  
+  2017, "Connecticut", 5,  
+  2017, "New York", 10,  
+  2017, "Massachusetts-South", 8
+  ) %>% 
+  as.data.frame() %>% 
+  add_column(score= NA)
+
+emissions_scores_t <- emissions_scores %>% 
+  mutate(rgn_id1 = case_when(state == "Maine" ~ 6,
+                            state == "New Hampshire" ~ 9,
+                            state == "Massachusetts" ~ 7,
+                            state == "Rhode Island" ~ 11,
+                            state == "Connecticut" ~ 5,
+                            state == "New York" ~ 10),
+         rgn_id8 = case_when(state == "Massachusetts" ~ 8)) %>% 
+  rename(rgn_name = state) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id8, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  mutate(rgn_name = ifelse(rgn_id == 1, "Offshore", 
+                       ifelse(rgn_id==2, "Georges Bank",
+                               ifelse(rgn_id==3, "Gulf of Maine",
+                                      ifelse(rgn_id==4, "Mid-Atlantic Bight",
+                                             ifelse(rgn_id==5, "Connecticut",
+                                                    ifelse(rgn_id==6, "Maine",
+                                                           ifelse(rgn_id==7, "Massachusetts-North",
+                                                                  ifelse(rgn_id==8, "Massachusetts-South",
+                                                                         ifelse(rgn_id==9, "New Hampshire",
+                                                                                ifelse(rgn_id==10, "New York",
+                                                                                       "Rhode Island")))))))))))%>% 
+  rbind(em_2017) %>% 
+  arrange(rgn_name) %>% 
+  fill(score, .direction = "down") %>% 
+  rename(score_em = score) 
+
+##power consumption scores
+energy_consump_scores_t <- energy_consump_scores %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  rename(rgn_name = "state") %>% 
+  select(-filler) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id == 7, "Massachusetts-North",
+                           ifelse(rgn_name == "Massachusetts" & rgn_id == 8, "Massachusetts-South", rgn_name))) %>% 
+  rename(score_power = score) 
+
+##climate actions scores
+clim_act_t <- clim_act %>% 
+  select(year, State, score) %>% 
+  rename(state=State) %>% 
+  mutate(rgn_id1 = case_when(state == "Maine" ~ 6,
+                            state == "New Hampshire" ~ 9,
+                            state == "Massachusetts" ~ 7,
+                            state == "Rhode Island" ~ 11,
+                            state == "Connecticut" ~ 5,
+                            state == "New York" ~ 10),
+         rgn_id8 = case_when(state == "Massachusetts" ~ 8)) %>% 
+  rename(rgn_name = state) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id8, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+   mutate(rgn_name = ifelse(rgn_name == "Massachusetts" & rgn_id == 7, "Massachusetts-North",
+                           ifelse(rgn_name == "Massachusetts" & rgn_id == 8, "Massachusetts-South", rgn_name))) %>% 
+  rename(score_act = score) 
+```
+
+Creating a df to add on to the water pollution scores to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
+Combine all scores!
+```{r}
+cc_res_score <- left_join(emissions_scores_t, clim_act_t, by = c("year", "rgn_name", "rgn_id")) %>% 
+  left_join(energy_consump_scores_t, by = c("year", "rgn_name", "rgn_id")) %>% 
+  left_join(eee_score_t, by = c("year", "rgn_name", "rgn_id"))%>% 
+  rowwise() %>% 
+  mutate(score = mean(c(score_power, score_act, score_em, score_eee))) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  rbind(miss_rgns)
+
+write.csv(cc_res_score, file = "data/cc_res_score.csv")
+```
+
+Visualize
+```{r}
+cc_res_graph <- ggplot(cc_res_score)+
+  geom_line(aes(x=year, y= score, color= rgn_name))+
+ ggtitle("Climate Change Resilience Scores") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+cc_res_graph
+
+##save fig
+ggsave("figs/cc_res_graph.jpg", width=7, height=5, dpi=300)
+```
+
+
+Write as a pressure layer to ne-scores
+```{r}
+write.csv(cc_res_score, file.path(dir_calc, "layers/res_climate_change.csv"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

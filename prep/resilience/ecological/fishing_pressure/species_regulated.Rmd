@@ -20,11 +20,6 @@ toc: true
 talk about the data, places where some of the info is found, and how it was manually created
 
 
-
-
-
-
-
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -44,7 +39,7 @@ library(readxl)
 
 Load in Data
 ```{r load_data}
-species_man_raw <- read_xlsx(file.path(dir_anx, "_raw_data/Species_managed/species_management.xlsx"))
+species_man_raw <- read_xlsx(file.path(dir_anx, "_raw_data/manually_created/species_management.xlsx"))
 ```
 
 ```{r calculate}
@@ -56,7 +51,6 @@ species_man <- species_man_raw %>%
   select(rgn_id, rgn_name, species_regulated_score) %>% 
   unique()
 ```
-
 
 save this layer
 ```{r save_layer}
