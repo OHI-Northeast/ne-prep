@@ -17,7 +17,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+source('~/github/ne-prep/src/R/common.R')
 ```
 
 Read in the species status scores saved to the toolbox
@@ -37,11 +38,11 @@ spp_status <- spp_rgns %>%
     select(rgn_id, common, sciname, score, year) %>%
     filter(!is.na(score)) %>%
     group_by(rgn_id, year) %>%
-    mutate(status = mean(score)) %>%
-    select(region_id = rgn_id, status, year) %>%
+    mutate(mean_status = mean(score)) %>%
     distinct() %>%
     ungroup() %>%
-    mutate(resilience_score = 100*(0.75-status)/0.75)
+    mutate(resilience_score = (0.75-mean_status)/0.75) %>%
+    select(rgn_id, year, resilience_score)
 ```
 
 # Save
