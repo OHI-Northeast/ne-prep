@@ -1,0 +1,52 @@
+---
+title: "Ecological integrity layer"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Read in the species status scores saved to the toolbox
+
+```{r}
+spp_scores <- read_csv("~/github/ne-scores/region/layers/spp_status_scores.csv") %>%
+  mutate(sciname = tolower(sciname))
+spp_rgns  <- read_csv("~/github/ne-scores/region/layers/spp_rgns.csv")
+```
+
+Calculate ecological integrity in the same way that we calculate status in the toolbox.
+
+```{r}
+#calculate status
+spp_status <- spp_rgns %>%
+    left_join(spp_scores, by = c("common", "sciname", "rgn_id", "year")) %>%
+    select(rgn_id, common, sciname, score, year) %>%
+    filter(!is.na(score)) %>%
+    group_by(rgn_id, year) %>%
+    mutate(status = mean(score)) %>%
+    select(region_id = rgn_id, status, year) %>%
+    distinct() %>%
+    ungroup() %>%
+    mutate(resilience_score = 100*(0.75-status)/0.75)
+```
+
+# Save
+
+```{r}
+write_csv(spp_status, "~/github/ne-scores/region/layers/res_eco_integrity.csv")
+```
+
