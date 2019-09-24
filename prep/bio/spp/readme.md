@@ -44,6 +44,10 @@ After determining the total area of each species range in all OHI regions, we as
 
 Unfortunately we don't have very detailed information on the history of genuine risk for our Northeast species. We still want to assess trends if possible and with the IUCN data we can do that. The script `8_spp_trend_layer.Rmd` creates the `spp_trend` layer used in the toolbox by querying the IUCN API for population trend information (using the `iucn_spp_trend.R` script) and saving a list of all species and their associated trend.
 
+## Save species status as resilience layer
+
+The species status scores are also used as an ecological integrity resilience layer. This is done in `9_ecological_integrity_resilience_layer.Rmd`.
+
 ## Additional analyses
 
 - `create_scored_rasters.Rmd` creates individual species rasters with cell values equal to the risk score. These rasters are aggregated to create a single regional species risk (or conservation status) map `data/spp_status_risk.tif`  

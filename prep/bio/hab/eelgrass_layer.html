@@ -7,9 +7,10 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Compiled on Mon Jul 22 11:56:53 2019 by afflerbach" />
+<meta name="author" content="Compiled on Tue Sep 24 15:18:50 2019 by afflerbach" />
 
 
 <title>OHI-Northeast: Eelgrass habitat layer</title>
@@ -68,8 +69,6 @@ overflow: auto;
 margin-left: 2%;
 position: fixed;
 border: 1px solid #ccc;
-webkit-border-radius: 6px;
-moz-border-radius: 6px;
 border-radius: 6px;
 }
 
@@ -97,9 +96,14 @@ font-size: 12px;
 .tocify-subheader .tocify-subheader {
 text-indent: 30px;
 }
-
 .tocify-subheader .tocify-subheader .tocify-subheader {
 text-indent: 40px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 50px;
+}
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+text-indent: 60px;
 }
 
 .tocify .tocify-item > a, .tocify .nav-list .nav-header {
@@ -503,13 +507,13 @@ float: none;
 
           item.append($("<a/>", {
 
-            "text": self.text()
+            "html": self.html()
 
           }));
 
         } else {
 
-          item.text(self.text());
+          item.html(self.html());
 
         }
 
@@ -1410,7 +1414,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -1541,56 +1545,12 @@ summary {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 <style type="text/css">
 .code-folding-btn { margin-bottom: 4px; }
 </style>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("show" === "show");
-});
-</script>
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -1639,8 +1599,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -1685,7 +1643,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHI-Northeast: Eelgrass habitat layer</h1>
-<h4 class="author"><em>Compiled on Mon Jul 22 11:56:53 2019 by afflerbach</em></h4>
+<h4 class="author"><em>Compiled on Tue Sep 24 15:18:50 2019 by afflerbach</em></h4>
 
 </div>
 
@@ -2033,9 +1991,9 @@ div.tocify {
 <a class="sourceLine" id="cb22-3" title="3"><span class="st">  </span><span class="kw">complete</span>(<span class="dt">year =</span> <span class="dv">2006</span><span class="op">:</span><span class="dv">2010</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb22-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> zoo<span class="op">::</span><span class="kw">na.approx</span>(wqi_score)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb22-5" title="5"><span class="st">  </span><span class="kw">complete</span>(<span class="dt">year =</span> <span class="dv">2006</span><span class="op">:</span><span class="dv">2017</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> zoo<span class="op">::</span><span class="kw">na.locf</span>(score)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#now we carry forward the 2010 value for all years to 2017</span></a>
-<a class="sourceLine" id="cb22-7" title="7"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">gapfilled =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(wqi_score), <span class="dv">1</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb22-6" title="6"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-7" title="7"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">score =</span> zoo<span class="op">::</span><span class="kw">na.locf</span>(score), <span class="co">#now we carry forward the 2010 value for all years to 2017</span></a>
+<a class="sourceLine" id="cb22-8" title="8">         <span class="dt">gapfilled =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(wqi_score), <span class="dv">1</span>, <span class="dv">0</span>))</a>
 <a class="sourceLine" id="cb22-9" title="9"></a>
 <a class="sourceLine" id="cb22-10" title="10"><span class="kw">write_csv</span>(df_gf, <span class="st">&quot;data/eelgrass_score_rgn_gf.csv&quot;</span>)</a></code></pre></div>
 </div>
@@ -2050,11 +2008,13 @@ div.tocify {
 <a class="sourceLine" id="cb23-6" title="6">out &lt;-<span class="st"> </span>df_gf <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb23-7" title="7"><span class="st">  </span><span class="kw">left_join</span>(rgn_data) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb23-8" title="8"><span class="st">  </span><span class="kw">select</span>(year, rgn_id, rgn_name, score) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-9" title="9"><span class="st">  </span><span class="kw">bind_rows</span>(other_rgns)</a>
-<a class="sourceLine" id="cb23-10" title="10"></a>
-<a class="sourceLine" id="cb23-11" title="11"></a>
-<a class="sourceLine" id="cb23-12" title="12"><span class="co">#save</span></a>
-<a class="sourceLine" id="cb23-13" title="13"><span class="kw">write_csv</span>(out, <span class="kw">file.path</span>(dir_calc, <span class="st">&quot;layers/hab_eelgrass.csv&quot;</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb23-9" title="9"><span class="st">  </span><span class="kw">filter</span>(rgn_name <span class="op">!=</span><span class="st"> &quot;Georges Bank&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#remove the Georges bank</span></a>
+<a class="sourceLine" id="cb23-10" title="10"><span class="st">  </span><span class="kw">bind_rows</span>(other_rgns) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-11" title="11"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">habitat =</span> <span class="st">&quot;eelgrass&quot;</span>)</a>
+<a class="sourceLine" id="cb23-12" title="12"></a>
+<a class="sourceLine" id="cb23-13" title="13"></a>
+<a class="sourceLine" id="cb23-14" title="14"><span class="co">#save</span></a>
+<a class="sourceLine" id="cb23-15" title="15"><span class="kw">write_csv</span>(out, <span class="kw">file.path</span>(dir_calc, <span class="st">&quot;layers/hab_eelgrass.csv&quot;</span>))</a></code></pre></div>
 </div>
 </div>
 
@@ -2076,6 +2036,54 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

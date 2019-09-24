@@ -134,7 +134,8 @@ High impact scores should result in lower OHI scores so here we subtract SASI va
 ```{r plot}
 
 rgn_sasi_scores <- rgn_sasi_out %>%
-  mutate(score = 1-sasi) %>% #invert scores so high impact = low score
+  mutate(score = 1-sasi,
+         habitat = "seabed") %>% #invert scores so high impact = low score
   left_join(rgn_data) %>%
   select(-area_km2, -state)
 
@@ -162,7 +163,7 @@ We also use the SASI data as a pressure. The higher the impact the higher the pr
 rgn_sasi_prs <- rgn_sasi_out %>%
   mutate(score = sasi) %>% #invert scores so high impact = low score
   left_join(rgn_data) %>%
-  select(-area_km2, -state)
+  select(-area_km2, -state) 
 
 
 write_csv(rgn_sasi_prs, "~/github/ne-scores/region/layers/prs_sasi.csv")
