@@ -1,0 +1,92 @@
+"","year","rgn_name","rgn_id","state_compet_score"
+"1",2017,"Massachusetts-North","7",0.757
+"2",2017,"New Hampshire","9",0.623
+"3",2017,"Maine","6",0.538
+"4",2017,"New York","10",0.463
+"5",2017,"Rhode Island","11",0.434
+"6",2017,"Connecticut","5",0.425
+"7",2016,"Massachusetts-North","7",0.734
+"8",2016,"New Hampshire","9",0.608
+"9",2016,"Maine","6",0.43
+"10",2016,"New York","10",0.476
+"11",2016,"Rhode Island","11",0.446
+"12",2016,"Connecticut","5",0.4
+"13",2015,"Massachusetts-North","7",0.791
+"14",2015,"New Hampshire","9",0.637
+"15",2015,"Maine","6",0.527
+"16",2015,"New York","10",0.486
+"17",2015,"Rhode Island","11",0.588
+"18",2015,"Connecticut","5",0.462
+"19",2014,"Massachusetts-North","7",0.81
+"20",2014,"New Hampshire","9",0.628
+"21",2014,"Maine","6",0.519
+"22",2014,"New York","10",0.498
+"23",2014,"Rhode Island","11",0.5
+"24",2014,"Connecticut","5",0.434
+"25",2013,"Massachusetts-North","7",0.757
+"26",2013,"New Hampshire","9",0.685
+"27",2013,"Maine","6",0.495
+"28",2013,"New York","10",0.48
+"29",2013,"Rhode Island","11",0.543
+"30",2013,"Connecticut","5",0.477
+"31",2012,"Massachusetts-North","7",0.777
+"32",2012,"New Hampshire","9",0.567
+"33",2012,"Maine","6",0.469
+"34",2012,"New York","10",0.459
+"35",2012,"Rhode Island","11",0.511
+"36",2012,"Connecticut","5",0.462
+"37",2011,"Massachusetts-North","7",0.734
+"38",2011,"New Hampshire","9",0.584
+"39",2011,"Maine","6",0.456
+"40",2011,"New York","10",0.453
+"41",2011,"Rhode Island","11",0.539
+"42",2011,"Connecticut","5",0.488
+"43",2010,"Massachusetts-North","7",0.676
+"44",2010,"New Hampshire","9",0.591
+"45",2010,"Maine","6",0.465
+"46",2010,"New York","10",0.466
+"47",2010,"Rhode Island","11",0.531
+"48",2010,"Connecticut","5",0.473
+"49",2009,"Massachusetts-North","7",0.704
+"50",2009,"New Hampshire","9",0.57
+"51",2009,"Maine","6",0.505
+"52",2009,"New York","10",0.437
+"53",2009,"Rhode Island","11",0.468
+"54",2009,"Connecticut","5",0.481
+"55",2008,"Massachusetts-North","7",0.733
+"56",2008,"New Hampshire","9",0.563
+"57",2008,"Maine","6",0.47
+"58",2008,"New York","10",0.438
+"59",2008,"Rhode Island","11",0.458
+"60",2008,"Connecticut","5",0.516
+"61",2007,"Massachusetts-North","7",0.707
+"62",2007,"New Hampshire","9",0.588
+"63",2007,"Maine","6",0.445
+"64",2007,"New York","10",0.437
+"65",2007,"Rhode Island","11",0.519
+"66",2007,"Connecticut","5",0.493
+"67",2006,"Massachusetts-North","7",0.728
+"68",2006,"New Hampshire","9",0.66
+"69",2006,"Maine","6",0.433
+"70",2006,"New York","10",0.444
+"71",2006,"Rhode Island","11",0.495
+"72",2006,"Connecticut","5",0.501
+"73",2005,"Massachusetts-North","7",0.716
+"74",2005,"New Hampshire","9",0.667
+"75",2005,"Maine","6",0.446
+"76",2005,"New York","10",0.427
+"77",2005,"Rhode Island","11",0.467
+"78",2005,"Connecticut","5",0.521
+"79",2017,"Massachusetts-South","8",0.757
+"80",2016,"Massachusetts-South","8",0.734
+"81",2015,"Massachusetts-South","8",0.791
+"82",2014,"Massachusetts-South","8",0.81
+"83",2013,"Massachusetts-South","8",0.757
+"84",2012,"Massachusetts-South","8",0.777
+"85",2011,"Massachusetts-South","8",0.734
+"86",2010,"Massachusetts-South","8",0.676
+"87",2009,"Massachusetts-South","8",0.704
+"88",2008,"Massachusetts-South","8",0.733
+"89",2007,"Massachusetts-South","8",0.707
+"90",2006,"Massachusetts-South","8",0.728
+"91",2005,"Massachusetts-South","8",0.716

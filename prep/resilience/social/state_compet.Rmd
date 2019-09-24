@@ -1,0 +1,104 @@
+---
+title: "OHIEC: Resilience -Social"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates social resilience values by OHINE region. 
+
+
+**1. Beacon Hill Competitiveness Report**
+**Downloaded**: July 2019
+
+**Description**:  Report assesses each states competivieness by assessing "if it has in place the policies and conditions that ensure and sustain a high level of per capita income and its continued growth" http://beaconhill.org/economic-competitiveness/)
+
+**Time range**: 2005-2017
+
+**Format**: PDF
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+```
+
+Load Libraries
+``` {r}
+library(csv)
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(gridExtra)
+library(scales)
+```
+
+Read in Data
+```{r}
+raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
+```
+
+Beacon Hill Institute State Competitiveness Report
+```{r}
+state_compet <- raw_bhi %>% 
+  filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
+  mutate(target = 10,
+         score = index/target) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  rename(state_compet_score = score)
+
+write.csv(state_compet, "data/state_compet.csv")
+```
+
+Visualize
+```{r}
+state_compet_graph <- ggplot(state_compet) +
+  geom_line(aes(x=year, y= state_compet_score, color = rgn_name)) +
+  ggtitle("Scores State Competitiveness Report") +
+  ylab("score") +
+  xlab("Year") +
+  theme_classic()
+
+ggsave("figs/state_compet_graph.jpg", width=7, height=5, dpi=300)
+```
+
+
+
