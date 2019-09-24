@@ -170,6 +170,27 @@ sqi_clean <- sqi_0506 %>%
   as.data.frame()
 ```
 
+# Map
+
+Map sample sites status for each year
+
+```{r mapview}
+
+sqi_2006 <- sqi_clean %>% 
+  filter(Year == 2006) %>% 
+  st_as_sf(coords = c("LON_DD", "LAT_DD"), crs = "+proj=longlat +datum=WGS84 +no_defs")  %>% 
+  filter(NCCA_SQI_STATUS != "",
+         NCCA_SQI_STATUS != "Not Assessed")
+sqi_2010 <- sqi_clean %>% 
+  filter(Year == 2010) %>% 
+  st_as_sf(coords = c("LON_DD", "LAT_DD"), crs = "+proj=longlat +datum=WGS84 +no_defs") %>% 
+  filter(NCCA_SQI_STATUS != "MISS")
+
+mapview::mapview(sqi_2006, zcol = "NCCA_SQI_STATUS", values = c("POOR", "FAIR", "GOOD"), col.regions = c("orange", "forestgreen", "darkred"))
+mapview::mapview(sqi_2010, zcol = "NCCA_SQI_STATUS", values = c("POOR", "FAIR", "GOOD"), col.regions = c("orange", "forestgreen", "darkred"))
+```
+
+
 ## Run cat.analysis
 
 Use the [`spsurvey`](https://www.rdocumentation.org/packages/spsurvey/versions/3.4) package to run `cat.analysis` and produce a sub-population estimate that incorporates site weights. First we want to see how many sites have a status of `MISSING` to determine if we need to account for them or not.
