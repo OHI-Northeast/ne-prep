@@ -496,8 +496,8 @@ noaa_vul <- left_join(svi_social, svi_gen, by = c("year", "rgn_id", "rgn_name"))
   left_join(svi_fish, by = c("year", "rgn_id", "rgn_name")) %>% 
   select(year, rgn_id, rgn_name, res_inund_score,res_fish_score, res_social_score, res_gen_score) %>% 
   rowwise() %>% 
-  mutate(svi_score = mean(c(res_inund_score, res_fish_score, res_social_score, res_gen_score))) %>%
-  select(year, rgn_id, rgn_name, svi_score) 
+  mutate(noaa_vul_score = mean(c(res_inund_score, res_fish_score, res_social_score, res_gen_score))) %>%
+  select(year, rgn_id, rgn_name, noaa_vul_score) 
 
 write.csv(noaa_vul, file = "data/noaa_vul.csv")
 ```
@@ -547,7 +547,7 @@ ggsave("figs/svi_inun_vul_graph.jpg", width=7, height=5, dpi=300)
 
 ```{r}
 noaa_vul_graph <- ggplot(noaa_vul) +
-  geom_line(aes(x=year, y= svi_score, color = rgn_name)) +
+  geom_line(aes(x=year, y= noaa_vul_score, color = rgn_name)) +
   ggtitle("NOAA Vul Social Resilience Score") +
   ylab("Score") +
   xlab("Year") +
