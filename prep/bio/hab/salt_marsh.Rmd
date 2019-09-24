@@ -194,10 +194,11 @@ ggplot(toolbox_layer, aes(x = year, y = perc_loss, color = rgn_name)) +
 
 Add in offshore regions with NA then save
 ```{r save}
-toolbox_layer %>%
+out <- toolbox_layer %>%
   complete(rgn_id = 1:11, year) %>%
   select(rgn_id, year, perc_loss) %>%
-write_csv(file.path(dir_calc, "layers/hab_salt_marsh.csv"))
+  mutate(habitat = "saltmarsh")
+write_csv(out, file.path(dir_calc, "layers/hab_salt_marsh.csv"))
 ```
 
 

@@ -455,7 +455,8 @@ other_rgns <- data.frame(year     = rep(2006:2017, each = 4),
 out <- df_gf %>%
   left_join(rgn_data) %>%
   select(year, rgn_id, rgn_name, score) %>%
-  bind_rows(other_rgns)
+  bind_rows(other_rgns) %>%
+  mutate(habitat = "eelgrass")
 
 
 #save
