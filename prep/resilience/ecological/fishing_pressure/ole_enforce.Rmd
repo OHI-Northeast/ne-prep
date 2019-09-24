@@ -1,0 +1,55 @@
+---
+title: "OHIEC: Resilience - NOAA Office of Law Enforcemnet enforcement actions"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(tidyverse)
+library(dplyr)
+library(readxl)
+```
+
+###2) Number of staff, number of patrols, number of outreach events OLE
+
+
+
+Load in Data
+```{r}
+ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))
+```
+
+```{r}
+ole_enforcement <- ole_raw %>% 
+  filter(year >= 2015) %>% # not good enough data to use anything before 2015
+  mutate(staff_score = staffing/33, #divide by the maximum of all years
+         num_patrols_score = num_patrols/537,  #divide by the maximum of all years
+         out_reach_num_score = out_reach_num/453) %>%  #divide by the maximum of all years
+  select(year, staff_score, num_patrols_score, out_reach_num_score) %>% 
+  replace(., is.na(.), 0.718) %>% #number calculated from a linear regression of first 3 data points
+  rowwise() %>% 
+  mutate(ole_enforcement_score=mean(c(staff_score, num_patrols_score, out_reach_num_score), na.rm=T) )
+
+write.csv(ole_enforcement, file = "data/ole_enforcement.csv")
+```

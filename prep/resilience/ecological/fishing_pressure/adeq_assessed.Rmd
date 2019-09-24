@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Fishing Pressure prep"
+title: "OHIEC: Resilience - Percent species with stock assessments that are adequatly assessed"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -15,19 +15,6 @@ output:
   pdf_document:
 toc: true
 ---
-
-# Summary
-
-This script calculates fishing pressure resilience values by OHINE region. 
-
-# Data
-1. RAM reference from the fisheries goal layer
-2. NOAA fisheries assessment data 
-3. USGS Protected Areas data set
-4. NOAA OLE data pulled from reports
-5. NOAA fisheries observer data 
-6. Allocated sea days from NOAA fisheries observer programs
-
 
 **1.RAM**
 **Downloaded**: February 28, 2018 from ramlegacy.org
@@ -49,63 +36,6 @@ This script calculates fishing pressure resilience values by OHINE region.
 **Format**:  Tabular
 
 
-**3. USGS**
-We use the United States Geological Survey Protected Areas Database for the US. Version 2.0.
-**Reference**: 
-U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United States (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
-
-**Downloaded**: June 5th, 2019
-
-**Description**: 
-
-**Time range**: Protected areas list established date back to early 1900's where available
-
-**Format**:  Spatial Geodatabase
-
-
-**4. NOAA OLE**
-**Downloaded**: August 8th and 9th 2019
-
-**Description**:  NOAA Office of Law Enforcement Annual Reports for the Northeast Region. Recieved from Casey Brennan casey.brennan@noaa.gov 
-
-**Time range**: 2015-2018
-
-**Format**:  PDF
-
-
-**4. NOAA Fisheries Observer Data**
-**Downloaded**: August 9th 2019
-
-**Description**: Tab one: year, total number of observers, trips, and days at sea. Tab two: year, statistical area, number trips, and number of hauls. Recived data from Debra Duarte debra.duarte@noaa.gov 
-
-**Time range**: 2005-2019
-
-**Format**:  Tabular, excel spreadsheet
-
-
-**4. Allocated Sea Days information**
-**Downloaded**: August 14th 2019
-
-**Description**: Annual with allocated sea days. Used this for target number of seadays https://www.nefsc.noaa.gov/fsb/SBRM/
-
-**Time range**: 2013-2017
-
-**Format**:  pdfs, transfered into to excel spreadsheet
-
-#Using the data
-Regulations:
-1) Percentage of Fish Landed with Stock Assessments (target = 100%)
-2) Percentage of Protected Area (target = 30%)
-3) Percentage of stocks assessed that are adequatly assessed (target = at least every 5)
-4) Percentage of species landed with a management plan or some sort of regulation 
-
-Implementation/Enforcement:
-1) Total number of sea days with fisheries observer/ alloted number of sea days 
-2) Number of staff, number of patrols, number of outreach events OLE
-
-Effectiveness/Compliance:
-1) number of investigations/number of enforcement actions OLE
-
 
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
@@ -115,253 +45,23 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
-```
 
-Load Packages
-```{r}
 library(csv)
 library(tidyverse)
 library(dplyr)
-library(Hmisc)
-library(stringi)
-library(tidyverse)
-library(sf)
-library(mapview)
 library(readxl)
 ```
 
-##Regulations:
-Load Data
-```{r}
-all_species_caught_assessment_summary <- read_csv("~/github/ne-prep/prep/fis/data/all_species_caught_assessment_summary.csv")
-nmfs_spatial_catch_by_ohi_rgn <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv")
-nmfs_stock_ass <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_assessment_data.csv")%>% select(-X1)
-ram_stock_ass  <- read_csv("~/github/ne-prep/prep/fis/data/ram_stock_assessment_data.csv")%>% select(-X1)
-```
-
-###1) Percentage of Fish Landed with Stock Assessments (target = 100%)
-
-Create dataframe of all species ever caught
-```{r}
-catch <- nmfs_spatial_catch_by_ohi_rgn %>% 
-  select(species, rgn_id, rgn_name) %>% 
-  distinct() %>% 
-  rename(nmfs_original_species = species)
-```
-
-Create dataframe of all species that have ever had a stock assessment done
-```{r}
-assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("nmfs_original_species")) %>% 
-  select(nmfs_original_species, rgn_id, rgn_name, assessed) %>% 
-  filter(nmfs_original_species !="CRAB, SPECIES NOT SPECIFIED", 
-         nmfs_original_species !="DOGFISH, SPECIES NOT SPECIFIED",
-         nmfs_original_species != "EEL, SPECIES NOT SPECIFIED",
-         nmfs_original_species != "HAKE, SPECIES NOT SPECIFIED",
-         nmfs_original_species != "SEATROUT, SPECIES NOT SPECIFIED",
-         nmfs_original_species != "OTHER FOR BAIT",
-         nmfs_original_species != "MONK LIVERS",
-         nmfs_original_species != "SHRIMP, SPECIES NOT SPECIFIED",
-         nmfs_original_species !="SEATROUT, SPECIES NOT SPECIFIED",
-         nmfs_original_species !="SHARK, MAKO, SPECIES NOT SPECIFIED",
-         nmfs_original_species != "SKATE WINGS",
-         nmfs_original_species != "SKATE WINGS, BARNDOOR",
-         nmfs_original_species != "SKATE WINGS, LITTLE (SUMMER)",
-         nmfs_original_species != "SKATE WINGS, LITTLE/WINTER MIXED",
-         nmfs_original_species != "SKATE WINGS, SMOOTH",
-         nmfs_original_species != "SKATE WINGS, THORNY",
-         nmfs_original_species != "SKATE WINGS, LITTLE/WINTER MIXED",
-         nmfs_original_species != "SKATE WINGS, SMOOTH",
-         nmfs_original_species != "SKATE WINGS, THORNY",
-         nmfs_original_species != "SKATE WINGS, WINTER (BIG)",
-         nmfs_original_species != "TUNA, SPECIES NOT SPECIFIED",
-         nmfs_original_species !="AMBERJACK, SPECIES NOT SPECIFIED",
-         nmfs_original_species !="CLAM, SPECIES NOT SPECIFIED",
-         nmfs_original_species != "CONFIDENTIAL SPECIES",
-         nmfs_original_species != "FLOUNDER,NOT SPECIFIED"  ,
-         nmfs_original_species != "OTHER INVERTEBRATES",
-         nmfs_original_species != "MONK HEADS" ,
-         nmfs_original_species != "MONK TAILS",
-         nmfs_original_species != "OTHER FINFISH",
-         nmfs_original_species != "SHARK, NOT SPECIFIED",
-         nmfs_original_species != "SKATE WINGS, BARNDOOR" ,
-         nmfs_original_species != "SKATE WINGS, LITTLE/WINTER MIXED",
-         nmfs_original_species != "SKATE WINGS, THORNY",
-         nmfs_original_species != "SKATE, UNCLASSIFIED",
-         nmfs_original_species != "SQUID, SPECIES NOT SPECIFIED",
-         nmfs_original_species != "WHELK / CONCH, SPECIES NOT SPECIFIED") %>% 
-  mutate(binary_assessed = case_when(
-    assessed == "no" ~ 0,
-    assessed == "yes" ~ 1))
-```
-
-Calculate the percent of species landed that have stock assessments, by NEOHI Region (not over time)
-```{r}
-total_species_caught <- assessments %>% 
-  group_by(rgn_id, rgn_name) %>% 
-  count() %>% 
-  rename(caught = n)
-total_species_caught 
-  
-total_species_assessed <- assessments %>% 
-  filter(binary_assessed == 1) %>% 
-  group_by(rgn_id, rgn_name) %>% 
-  count() %>% 
-  rename(assessed = n)
-total_species_assessed
-
-percent_assessed_by_region <-left_join(total_species_caught, total_species_assessed, by = c("rgn_id", "rgn_name")) %>% 
-  mutate(percent = assessed/caught)
-percent_assessed_by_region
-write.csv(percent_assessed_by_region, file = "data/percent_assessed_by_region.csv")
-```
-
-Visualization
-```{r}
-percent_assesses_graph <- ggplot(percent_assessed_by_region)+
-  geom_point(aes(x=rgn_name, y= percent), size=2)+
-    ggtitle("Percentage of Fish Landed in Northeast with Stock Assessments") +
-  ylab("Percent") +
-  xlab("Region") +
-  theme_light()+
-  theme(axis.text.x = element_text(angle=60, hjust=1))
-
-percent_assesses_graph  
-```
-
-Calculate score for having a stock assessment score
-```{r}
-assessment_score <- percent_assessed_by_region %>% 
-  mutate(target = 1) %>% 
-  mutate(score = percent/target,
-         score = if_else(score > 1, 1, score)) %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n)
-
-assessment_score
-
-write.csv(assessment_score, file = "data/assessment_score.csv")
-```
-
-Visualization
-```{r}
-assessment_graph <- ggplot(assessment_score)+
-  geom_line(aes(x=year, y= score, color= rgn_name))+
-    ggtitle("Percentage of Fish Landed in Northeast with Stock Assessments") +
-  ylab("Score") +
-  xlab("Year") +
-  theme_light()
-
-assessment_graph  
-
-ggsave("figs/assessment_graph.jpg", width=7, height=5, dpi=300)
-```
-
-
-###2) Percentage of Protected Area (target = 30%)
-
-Note: Used a lot of same code from sense of place layer
-Let's look at the available layers in the USGS PADUS database
-```{r look_at_gdb_layers}
-st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
-```
-
-For the marine layer, we are going to remove all areas that are designated as fishery/shellfish management areas as well as the Special Area Management Plans. 
-```{r load_and_clean_marine_layer}
-marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
-  st_transform(us_alb) %>%
-  st_crop(rgns)  %>%
-  st_intersection(rgns) %>%
-  filter(!Loc_Ds %in% c("Fishery Management Area", "Fishery Management Areas", "Shellfish Management Area", "Conservation Area","Gear Restricted Area", "Essential Fish Habitat Conservation Area", "Special Area Management Plan", "Closure Area"), #the Conservation Areas are for Mussel Seed
-         !is.na(Loc_Ds),
-!Fish_Rstr %in% c("No Site Restrictions", "Restrictions Unknown"), #only keeping areas with recreational or commercial fishing is restricted or prohibited
-         Constancy == "Year-round")%>% 
-  select(Loc_Ds, Loc_Nm, Date_Est, rgn_name, rgn_id)
-```
-
-Map it!
-```{r interactive_map, eval = F}
- #mapview(proc, col.regions = "red") + 
-usgs_data <-mapview(marine, col.regions = "blue") 
-
-## save interactive map
-mapshot(usgs_data, url = "usgs_map.html")
-```
-
-
-First let's combine polygons so we don't double count areas. 
-We are also accounting for the year established, some were created during our time frame 
-```{r}
-marine_protected_by_rgn <- data.frame()
-
-for(i in 2005:2017){
-  
-  print(i)
-  
-  s_yr <- filter(marine, Date_Est <= i | is.na(Date_Est)) %>% #all NA included as well
-    group_by(rgn_id) %>%
-    summarise() %>%
-    ungroup() %>%
-    mutate(prot_area_m = st_area(geometry)) %>% #calculate total protected area
-    mutate(prot_area_km2 = as.numeric(prot_area_m)/1000000) %>% 
-    left_join(rgns %>% st_set_geometry(NULL)) %>% #join to inshore buffer 
-    mutate(area_km2 = as.character(area_km2)) %>% 
-    mutate(area_km2 = as.numeric(area_km2)) %>% 
-    mutate(prop_area = prot_area_km2/area_km2 , #calculate proportion of waters in regions 1-4 that are protected
-           type = "marine",
-           year = i) %>%
-    st_set_geometry(NULL)
-  
-  marine_protected_by_rgn <- bind_rows(s_yr, marine_protected_by_rgn)
-}
-```
-
-Calculate percent of marine area protected
-```{r marine_protected_prop_by_rgn}
-percent_water_protec <- ggplot(marine_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
-  geom_line() +
-  theme_classic() +
-  geom_hline(yintercept=0.3)+
-  labs(y = "Percentage", x = "Year") +
-  ggtitle("Percentage of Offshore waters protected")
-
-ggsave("figs/percent_offshore_water_protec.jpg", width=7, height=5, dpi=300)
-```
-
-Save data
-```{r save_to_layers}
-#save marine
-write.csv(marine_protected_by_rgn,"data/marine_protected_by_rgn.csv")
-```
-
-Calculate the protected area scores
-```{r}
-protected_score <- marine_protected_by_rgn %>% 
-  select(rgn_id, rgn_name, year, prop_area) %>% 
-  mutate(target = 0.3) %>% 
-  mutate(score = prop_area/target,
-         score = if_else(score > 1, 1, score)) %>% 
-  mutate(rgn_id = as.character(rgn_id))
-
-write.csv(protected_score, file = "data/protected_score.csv")
-```
-
-Visualize
-```{r}
-protected_score_graph <- ggplot(protected_score) +
-  geom_line(aes(x=year, y= score, color = rgn_id))+
-  labs(title = "Protected Areas Score: Fisheries Resilience")+
-  ylab("Score") +
-  xlab("Year") +
-  theme_classic() 
-
-protected_score_graph
-ggsave("figs/protected_areas_score_graph.jpg", width=7, height=5, dpi=300)
-```
 
 ###3) Percentage of stocks assessed that are adequatly assessed (target = at least every 5)
 
 Only have SA data back to 2004 for nmfs, will be harder to determine adequatly assessed in 2005-2008
+
+Load Data
+```{r}
+nmfs_stock_ass <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_assessment_data.csv")%>% select(-X1)
+ram_stock_ass  <- read_csv("~/github/ne-prep/prep/fis/data/ram_stock_assessment_data.csv")%>% select(-X1)
+```
 
 **code below the same as in 5_assessed_species_lookuptable, except that the year is getting kept throughout**
 ```{r}
@@ -875,208 +575,16 @@ adeq_ass <- assessment_frq %>%
   group_by(year, rgn_id, rgn_name) %>% 
   dplyr::summarise(adeq_assessed = sum(adeq_assessed))
   
-percent_adeq_ass <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id", "rgn_name") ) %>% 
+adeq_assessed <- left_join(number_assessed, adeq_ass, by = c("year", "rgn_id", "rgn_name") ) %>% 
   mutate(percent_adeq_ass = adeq_assessed/number_stocks)
 
-write.csv(percent_adeq_ass, file = "data/percent_adeq_ass.csv")
+write.csv(adeq_assessed, file = "data/adeq_assessed.csv")
 ```
 
 Visualize
 ```{r}
-adq_graph <- ggplot(percent_adeq_ass)+
+adq_graph <- ggplot(adeq_assessed)+
   geom_line(aes(x=year, y= percent_adeq_ass, color= rgn_name))
 
 adq_graph
 ```
-
-###4) Percentage of species landed with a management plan or some sort of regulation 
-
-In progress
-
-###Calculate scores for regulations
-```{r}
-
-add_ass <- percent_adeq_ass %>% 
-  ungroup() %>% 
-  select(year, rgn_id, rgn_name, percent_adeq_ass) %>% 
-  rename(score3 = percent_adeq_ass) %>% 
-  mutate(rgn_id = as.character(rgn_id))
-
-protect <- protected_score %>% 
-  select(rgn_id, rgn_name, year, score) %>% 
-  rename(score2 = score) %>% 
-  mutate(rgn_id = as.character(rgn_id))
-
-ass <- assessment_score %>% 
-  ungroup() %>% 
-  select(rgn_id, rgn_name, year, score) %>% 
-  rename(score1 = score) %>% 
-  mutate(rgn_id = as.character(rgn_id))
-
-fisheries_reg_score <- left_join(add_ass, protect, by = c("year", "rgn_id", "rgn_name")) %>% 
-  left_join(ass, by = c("year", "rgn_id", "rgn_name")) %>% 
-  rowwise() %>% 
-  mutate(reg_score = mean(c(score1, score2, score3))) %>% 
-  select(year, rgn_name, rgn_id, reg_score)
-
-write.csv(fisheries_reg_score, file = "data/fisheries_reg_score.csv")
-```
-
-Visualize
-```{r}
-fisheries_reg_graph <- ggplot(fisheries_reg_score)+
-  geom_line(aes(x=year, y= reg_score, color= rgn_name))+
- ggtitle("Fisheries Regulations Scores") +
-  ylab("Score") +
-  xlab("Year") +
-  theme_classic()
-
-fisheries_reg_graph
-
-##save fig
-ggsave("figs/fisheries_reg_graph.jpg", width=7, height=5, dpi=300)
-```
-
-##Implementation/ Enforcement
-
-###1) Total number of sea days with fisheries observer/ alloted number of sea days 
-
-Allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
-(total number of sea days allocated each year based on the agency budget amd the compensation rate analysis by funding source for ex:(April 2016-March 2017))
-
-There is an 8% target coverage of ships (in report https://www.nefsc.noaa.gov/fsb/SBRM/2011/2011_SBRM_3Year_Report.pdf)
-
-Load in the data
-```{r}
-fish_ob_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fisheries_observer.xlsx"), sheet=1)
-ob_alloc_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fishob_seaday_alloc.xlsx"), sheet=1) %>% 
-  rename(YEAR = year)
-```
-
-Calculate the enforcement score for number of fisheries observer sea days by aking the number of actual seadays/allocated sea day
-Targets for allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
-```{r}
-fish_ob_score <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>% 
-  mutate(score = TOTDAYS/seadays) %>% 
-#  fill(score, .direction = "up") %>%  #back gap filled using the 1st year allocated sea days are avaliable
-  filter(YEAR <= 2017) %>% 
-  select(YEAR, score) %>% 
-  rename(year = YEAR) %>% 
-  rename(enforcement_score_obser= score)
-
-write.csv(fish_ob_score, file = "data/fish_ob_score.csv")
-```
-
-Things to think about:
-- more information on allocated sea days prior to 2013
-- Score overestimating because allocated sea days do not include at-sea ground fish monitoring but the observer data does
-
-###2) Number of staff, number of patrols, number of outreach events OLE
-
-Load in Data
-```{r}
-ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))
-```
-
-```{r}
-ole_scores <- ole_raw %>% 
-  filter(year >= 2015) %>% # not good enough data to use anything before 2015
-  fill(inspections, .direction = c("down") ) %>% #linear regression and mean would change the downward linear trend. simply using the previous year's data is the most reasonable
-  fill(staffing,.direction = c("down") ) %>%  # a linear regression to gap fill yeilded 11, and a mean would change the downward linear trend. simply using the previous year's data is the most reasonable
-  fill(enforcement_action, .direction = c("up")) %>% 
-  mutate(compliance_score = 1- (enforcement_action/(inspections+investigations)),
-         staff_score = staffing/33, #divide by the maximum of all years
-         num_patrols_score = num_patrols/537,  #divide by the maximum of all years
-         out_reach_num_score = out_reach_num/453) %>%  #divide by the maximum of all years
-  rowwise() %>% 
-  mutate(enforcement_score_OLE=mean(c(staff_score, num_patrols_score, out_reach_num_score), na.rm=T) )
-
-write.csv(ole_scores, file = "data/ole_scores.csv")
-```
-
-```{r}
-enforcement_compliance_scores <- ole_score %>% 
-  select(year, enforcement_score_OLE, compliance_score) %>% 
-  right_join(fish_ob_score, by = c("year")) %>% 
-  fill(enforcement_score_obser, .direction = c("up")) %>% #gap fill
-  rowwise() %>% 
-  mutate(enforcement_score= mean(c(enforcement_score_OLE, enforcement_score_obser), na.rm=T))
-
-write.csv(enforcement_compliance_scores, file = "data/enforcement_compliance_scores.csv")
-```
-
-```{r}
-enforcement_scores_graph <- ggplot(enforcement_compliance_scores)+
-  geom_line(aes(x= year, y= enforcement_score))
-enforcement_scores_graph
-```
-
-##Effectiveness/Compliance:
-
-###1) number of investigations/number of enforcement actions OLE
-Apply the same scores to every region
-```{r}
-enf_com_scores <- enforcement_compliance_scores%>% 
-  uncount(11, .id = "n", .remove = F) %>%
-  mutate(rgn_name = ifelse(n == 1, "Offshore", 
-                       ifelse(n==2, "Georges Bank",
-                               ifelse(n==3, "Gulf of Maine",
-                                      ifelse(n==4, "Mid-Atlantic Bight",
-                                             ifelse(n==5, "Connecticut",
-                                                    ifelse(n==6, "Maine",
-                                                           ifelse(n==7, "Massachusetts-North",
-                                                                  ifelse(n==8, "Massachusetts-South",
-                                                                         ifelse(n==9, "New Hampshire",
-                                                                                ifelse(n==10, "New York",
-                                                                                       "Rhode Island"))))))))))) %>%
-  rename(rgn_id=n) %>% 
-  mutate(rgn_id = as.character(rgn_id)) %>% 
-  select(-enforcement_score_OLE, -enforcement_score_obser)
-
-write.csv(enf_com_scores, file = "data/enf_com_scores.csv")
-```
-
-###Calculate Overall Fisheries Resilience Score
-```{r}
-fish_res_score <- left_join(fisheries_reg_score, ole_scores, by = c("year", "rgn_id", "rgn_name")) %>% 
-  rowwise() %>% 
-  mutate(score= mean(c(enforcement_score, compliance_score, reg_score), na.rm=T)) %>% 
-  select(year, rgn_name, rgn_id, score)
-
-write.csv(fish_res_score, file = "data/fish_res_score.csv")
-```
-
-Visualize
-```{r}
-fisheries_res_graph <- ggplot(fish_res_score)+
-  geom_line(aes(x=year, y= score, color= rgn_name))+
- ggtitle("Fisheries Resilience Scores") +
-  ylab("Score") +
-  xlab("Year") +
-  theme_classic()
-
-fisheries_res_graph
-
-##save fig
-ggsave("figs/fisheries_res_graph.jpg", width=7, height=5, dpi=300)
-```
-
-Write as a pressure layer to ne-scores
-```{r}
-write.csv(fish_res_score, file.path(dir_calc, "layers/res_fishing.csv"))
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

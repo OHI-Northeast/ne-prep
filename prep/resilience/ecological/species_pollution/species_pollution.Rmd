@@ -1,0 +1,137 @@
+---
+title: "OHIEC: Resilience - Fishing Pressure prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(tidyverse)
+library(dplyr)
+```
+
+
+
+To be filled out!!!
+
+NAS databast
+
+focuses on plants and freshwater
+- includes species from other countries and non-native ranges
+
+Status: established, unknown, extirpated, collected, failed, eradicated, stocked, locally established
+Min year = 1700
+Max year = 2019
+
+look at it by year, and then unique, total  
+look to see if terrestrial ar eincluded
+
+create a data set by state, graph over time number established 1970-2018
+```{r load_data}
+nas_raw <- read_csv(file.path(dir_anx, "_raw_data/NAS/NAS-Data-Download.csv")) 
+```
+
+```{r calculate_by_state}
+nas_int <- nas_raw %>% 
+  select('Scientific Name', 'Country', 'State', 'County', 'Year', 'Status') %>% 
+  rename(sci_name = "Scientific Name") %>% 
+  filter(Status %in% c('established', 'eradicated', 'locally established'),
+         Country %in% 'United States of America',
+         State %in% c("ME", "MA", "NY", "RI", "CT", "NH"),
+         Year >= 2005 & Year <= 2017) %>%
+  unique() %>% 
+  group_by(Year, State) %>% 
+  mutate(est_occur = length(which(Status == "established" | Status == "locally established")), # need to add locally established here
+         era_occur = length(which(Status == "eradicated")),
+         nas_score = era_occur/est_occur) %>% 
+  select(-sci_name, - County, -Status, -Country) %>% 
+  unique() %>% 
+  ungroup()
+```
+
+```{r visualize}
+nass_res_graph <- ggplot(nas_int) +
+  geom_line(aes(x= Year, y=nas_score, color= State))+
+  theme_classic() +
+  labs(y = "year", x = "score") +
+  ggtitle("NASS ")
+
+nass_res_graph 
+ggsave(file.path(dir_git, "prep/resilience/ecological/species_pollution/figs/nass_res_graph.jpg"), width=7, height=5, dpi=300)
+```
+
+Add in region name and id
+```{r adding_rgns}
+nas <- nas_int %>% 
+ mutate(rgn_id1 = case_when(State == "ME" ~ 6,
+                            State == "NH" ~ 9,
+                            State == "MA" ~ 7,
+                            State == "RI" ~ 11,
+                            State == "CT" ~ 5,
+                            State == "NY" ~ 10),
+         rgn_id8 = case_when(State == "MA" ~ 8)) %>% 
+  rename(rgn_name = State) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id8, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(Year, rgn_name, rgn_id, nas_score) %>% 
+  mutate(rgn_name = ifelse(rgn_id==5, "Connecticut",
+                            ifelse(rgn_id==6, "Maine",
+                                   ifelse(rgn_id==7, "Massachusetts-North",
+                                          ifelse(rgn_id==8, "Massachusetts-South",
+                                                 ifelse(rgn_id==9, "New Hampshire",
+                                                        ifelse(rgn_id==10, "New York",
+                                                               "Rhode Island")))))))
+```
+
+save this layer
+```{r_layer}
+write.csv(nas, file.path(dir_git, "prep/resilience/ecological/species_pollution/data/nas.csv"))
+```
+
+
+Now we want to see how many species are observed in a new area in each to quantify invasive species pressures
+```{r occurances}
+nas_est <- nas_raw %>% 
+  select('Scientific Name', 'Country', 'State', 'Year', 'Status') %>% 
+  rename(sci_name = "Scientific Name") %>% 
+  filter(Status %in% c('established', 'locally established', 'eradicated','extripated'),
+         Country %in% 'United States of America',
+         State %in% c("ME", "MA", "NY", "RI", "CT", "NH"),
+         Year >= 1970 & Year <= 2018) %>% 
+  select(-Country) %>% 
+  unique() %>% 
+  group_by(Year, State) %>% 
+  mutate(est_occur = length(Status)) 
+```
+
+```{r occurances_viz}
+est_gr <- ggplot(nas_est) +
+  geom_line(aes(x= Year, y=est_occur, color=State))+
+  theme_classic() +
+  labs(y = "Number Species", x = "State") +
+  ggtitle("Invasive Species")
+
+est_gr 
+
+ggsave("figs/established_nas.jpg", width=7, height=5, dpi=300)
+```
+
