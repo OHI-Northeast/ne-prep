@@ -1,0 +1,134 @@
+---
+title: "OHIEC: Resilience -Social"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates social resilience values by OHINE region. 
+
+**2. Opportunity Index**
+**Downloaded**: July 2019
+
+**Description**:  Calculates opportunity in each state based on economy, education, health, community
+
+**Time range**: 2012, 2014-2017
+
+**Format**:  PDF
+
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+```
+
+Load Libraries
+``` {r}
+library(csv)
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(gridExtra)
+library(scales)
+```
+
+Read in Data
+```{r}
+raw_oi <- read_xlsx(file.path(dir_anx, "_raw_data/OpportunityIndex/opportunity_index_scores.xlsx")) %>% 
+  rename(oi_score = score)
+```
+
+
+Opportunity Index Scores
+
+Create a df with years 2005-2008 to be added to and gap filled 
+back filling from last year
+```{r}
+gapfil <- c("6", "9", "7", "8", "11", "5", "10") %>% 
+  as.data.frame() %>% 
+  rename(rgn_id = ".") %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  uncount(6, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(oi_score = NA)
+```
+
+```{r}
+opportunity <- raw_oi %>% 
+  group_by(state) %>% 
+  mutate(year_n = seq(1:7)) %>% 
+  ungroup() %>% 
+  mutate(oi_score = if_else(is.na(oi_score) & state == "Connecticut", 57.4, oi_score), #gapfilling for 2011 and 2013. using 2012 values
+         oi_score = if_else(is.na(oi_score) & state == "Maine", 56.7, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "Massachusetts", 59.1, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "New Hampshire", 60.4, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "New York", 53.9	, oi_score),
+         oi_score = if_else(is.na(oi_score) & state == "Rhode Island", 50.9	, oi_score),
+         score = oi_score/target) %>% 
+  select(year, state, score) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  rename(opportunity_score= score)
+
+write.csv(opportunity, "data/opportunity.csv")
+```
+
+Visualize
+```{r}
+opportunity_graph <- ggplot(opportunity) +
+  geom_line(aes(x=year, y= opportunity_score, color = rgn_name)) +
+  ggtitle("Opportunity Index Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic()
+
+opportunity_graph
+
+ggsave("figs/opportunity_graph.jpg", width=7, height=5, dpi=300)
+```

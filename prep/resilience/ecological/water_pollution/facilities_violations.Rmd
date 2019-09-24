@@ -1,0 +1,117 @@
+---
+title: "OHIEC: Resilience - Water Pollution"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(dplyr)
+library(tidyverse)
+```
+
+#**Compliance**
+##Violations
+Percentage of facilities with compliance regualtions by year by state
+Note: not differentiating between types of violations (of which there are 4)
+
+#Load Data
+```{r load_data}
+raw_report_history <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/NPDES_QNCR_HISTORY.csv"))
+raw_facilities <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/ICIS_FACILITIES.csv"))
+```
+
+```{r}
+violations_hist <- raw_report_history %>% 
+  mutate(state = substr(NPDES_ID, 0, 2),
+         year = substr(YEARQTR, 0, 4))%>% 
+  filter(year >=2005 & year <=2017) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
+  mutate(violation = 1) %>% #can assign a 1 to all columns becuase all rows included here mean there was a violation of some sort
+  select(year, state, NPDES_ID, violation) %>% 
+  distinct() %>%  # want to know if a violation that year, doesn't matter what quarter or if multiple violations in one year
+  group_by(year, state) %>% 
+  count() %>% 
+  rename(fac_violations= n)
+```
+
+
+```{r}
+fac <- raw_facilities %>% 
+  select(NPDES_ID) %>% 
+  mutate("2005" = "2005") %>% # creating a list of all the facilities for each year during our time range
+  mutate("2006" = "2006") %>% 
+  mutate("2007" = "2007") %>% 
+  mutate("2008" = "2008") %>% 
+  mutate("2009" = "2009") %>% 
+  mutate("2010" = "2010") %>% 
+  mutate("2011" = "2011") %>% 
+  mutate("2012" = "2012") %>% 
+  mutate("2013" = "2013") %>% 
+  mutate("2014" = "2014") %>% 
+  mutate("2015" = "2015") %>% 
+  mutate("2016" = "2016") %>% 
+  mutate("2017" = "2017") %>% 
+  gather(year, year2, 2:14) %>% 
+  select(NPDES_ID, year)%>% 
+  mutate(state = substr(NPDES_ID, 0, 2)) 
+```
+
+```{r num_facilities_state}
+#total number of facilities in each state: should be the same every year since used the meta data of all facilities. Could improve this by finding a list of facilities each year to account for some going out of business and new ones arriving
+
+num_fac <- fac %>% 
+  select(state, year, NPDES_ID) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
+  distinct() %>% 
+  group_by(year, state) %>% 
+  tally() %>% 
+  ungroup() %>% 
+  rename(fac_total = n) 
+```
+
+```{r percent_facilities_with_violations_by_state}
+facilities_violations <- left_join(num_fac, violations_hist, by = c("year", "state"))%>% 
+  mutate(percent_w_violations = fac_violations/fac_total,
+         percent_no_violation = 1- percent_w_violations) %>% #to avoid dividing by a target of 0 violationfor later score calculations 
+  mutate(year = as.numeric(year))
+
+#save data
+write.csv(facilities_violations, "data/facilities_violations.csv")
+```
+
+Visualization
+```{r}
+facilities_violations_graph <- ggplot(facilities_violations) +
+  geom_line(aes(x= year, y = percent_w_violations, color= state)) +
+  ggtitle("Percentage of Facilities with Violations in NE") +
+  ylab("Percent") +
+  xlab("Year") +
+  theme_classic()
+
+facilities_violations_graph
+##save fig
+ggsave("figs/facilities_violations_graph.jpg", width=7, height=5, dpi=300)
+```
+
+

@@ -1,0 +1,314 @@
+---
+title: "OHIEC: Resilience - Water Pollution"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+This script calculates water pollution resilience values by OHINE region. 
+
+# Data
+
+**Reference**: EPA ECHO database https://echo.epa.gov/tools/data-downloads 
+
+1. ICIS-NPDES National Data Set 
+  a. ICIS_FACILITIES.csv
+  b. NPDES_INSPECTIONS.csv
+  c. NPDES_QNCR_HISTORY.csv
+
+2. Permit Limit and DMR Data by Jurisdiction
+
+**Downloaded**: July, 2019
+
+**Description**:  
+
+4 metrics included in the calculation:
+1. Presence or absence of water discharge regulation 
+2. Score between 0-1 for inspections of discharge facilities 
+3. Score between 0-1 for discharge facilitiy violation 
+4. Score between 0-1 for submissions of discharge monitoring reports (DMR)
+
+Target = EPA established ‘National Goals’: 
+1. 50% for inspector coverage 
+2. 95% for monitoring report submission (DMR)
+3. 0% for compliance violations.
+
+**Time range**: Data provided annually for each source
+
+1. ICIS-NPDES National Data Set 
+  a. ICIS_FACILITIES.csv: no date range
+  b. NPDES_INSPECTIONS.csv: 1967-2019
+  c. NPDES_QNCR_HISTORY.csv:1973-2019
+
+2. Permit Limit and DMR Data by Jurisdiction: 2009-2019
+
+
+**Format**:  CSV file
+
+
+``` {r setup,  message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(dplyr)
+library(tidyverse)
+
+```
+
+#Load Data
+```{r}
+
+raw_inspec <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/NPDES_INSPECTIONS.csv"))
+raw_report_history <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/NPDES_QNCR_HISTORY.csv"))
+raw_facilities <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/ICIS_FACILITIES.csv"))
+```
+
+Gapfilling for years 2005-2008
+to make the dmr submission csv match/bind with the other two
+
+```{r}
+
+y5 <- rep(2005, times= 6) 
+y6 <- rep(2006, times= 6) 
+y7 <- rep(2007, times= 6) 
+y8 <- rep(2008, times= 6) 
+year <- c(y5, y6, y7, y8)
+  
+state <- rep(c("ME", "NH", "MA", "RI", "CT", "NY"), times = 4)
+
+gapfill <- cbind(year, state) %>% 
+  as.data.frame() %>% 
+  mutate(percent_submitted = case_when(
+    state == "ME" ~ "0.9668811",
+    state == "NH" ~ "0.9971842",
+    state == "MA" ~ "0.9841761",
+    state == "RI" ~ "1",
+    state == "CT" ~ "1",
+    state == "NY" ~ "0.9973308")) %>% 
+  select(percent_submitted, state, year) %>% 
+  mutate(percent_submitted = as.numeric(percent_submitted),
+         year = as.character(year))
+
+dmr_gapfill_submissions <- rbind(gapfill, dmr_submissions)  %>% 
+  mutate(year = as.numeric(year))
+
+write.csv(dmr_gapfill_submissions,"data/dmr_gapfill_submissions.csv")
+
+```
+
+
+#**Compliance**
+##Violations
+Percentage of facilities with compliance regualtions by year by state
+Note: not differentiating between types of violations (of which there are 4)
+
+```{r}
+
+violations_hist <- raw_report_history %>% 
+  mutate(state = substr(NPDES_ID, 0, 2),
+         year = substr(YEARQTR, 0, 4))%>% 
+  filter(year >=2005 & year <=2017) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
+  mutate(violation = 1) %>% #can assign a 1 to all columns becuase all rows included here mean there was a violation of some sort
+  select(year, state, NPDES_ID, violation) %>% 
+  distinct() %>%  # want to know if a violation that year, doesn't matter what quarter or if multiple violations in one year
+  group_by(year, state) %>% 
+  count() %>% 
+  rename(fac_violations= n)
+
+```
+
+```{r}
+
+## percent of facilities with violations by state
+
+violations <- left_join(num_fac, violations_hist, by = c("year", "state"))%>% 
+  mutate(percent_w_violations = fac_violations/fac_total,
+         percent_no_violation = 1- percent_w_violations) %>% #to avoid dividing by a target of 0 violationfor later score calculations 
+  mutate(year = as.numeric(year))
+
+#save data
+write.csv(violations, "data/violations.csv")
+```
+
+Visualization
+```{r}
+
+violations_graph <- ggplot(violations) +
+  geom_line(aes(x= year, y = percent_w_violations, color= state)) +
+  ggtitle("Percentage of Facilities with Violations in NE") +
+  ylab("Percent") +
+  xlab("Year") +
+  theme_classic()
+
+violations_graph
+##save fig
+ggsave("figs/violations_graph.jpg", width=7, height=5, dpi=300)
+
+```
+
+
+
+#Creating a single data frame for water pollution resilience metric
+
+
+```{r}
+
+wp_res_metrics <- left_join(dmr_gapfill_submissions, violations, by = c("year", "state")) %>% 
+  left_join(.,facilities_inspected, by = c("year", "state")) %>% 
+  select(year, state, percent_submitted, percent_no_violation, percent_w_inspections)%>% 
+  mutate(target_inspections = 0.5,
+         target_no_violations = 1,
+         target_submitted = 0.95,
+         target_regulation = 1,
+         percent_regulation = 1) %>% 
+  select(year, state, percent_regulation, target_regulation, percent_submitted, target_submitted, percent_no_violation,target_no_violations, percent_w_inspections, target_inspections) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "ME" ~ "6", 
+    state == "NH" ~ "9", 
+    state == "MA" ~ "7",
+    state == "RI" ~ "11",
+    state == "CT" ~ "5",
+    state == "NY" ~ "10"),
+    rgn_id2 = case_when(
+    state == "MA" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"))
+  
+
+write.csv(wp_res_metrics, "data/wp_res_metrics.csv")
+
+```
+
+
+Calculating Scores:
+
+For the water pollution resilience scores (wp_res_scores) a score of 1 would be the best
+
+4 equally weighted metrics used in the calculation:
+1. Score of 1 for having regulations in place (ie: the EPA); no regulation would be 0
+2. Score between 0-1 for inspections of discharge facilities. Calculated by taking the percent of facilities inspected at least once/the EPA's target go 50%. If reached target a score of 1 would be acheived
+3. Score between 0-1 for discharge facilitiy violations. Calculated by taking the percent of facilities that had no violations/ the EPA's target of 100% no violations. If reached target a score of 1 would be acheived
+4. Score between 0-1 for submissions of discharge monitoring reports (DMR). Calculated by taking the percent of DMRs submitted/ % the EPA's target of 95% submission of expected DMRs. If reached target a score of 1 would be acheived
+
+Creating a df to add on to the water pollution scores to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
+```{r}
+wp_res_score <- wp_res_metrics %>% 
+  mutate(regulation_score = percent_regulation/target_regulation,
+         inspection_score = percent_w_inspections/target_inspections,
+         noviolation_score = percent_no_violation/target_no_violations,
+         submitted_score = percent_submitted/target_submitted,
+         submitted_score = if_else(submitted_score >1, 1, submitted_score)) %>%  # capping the score at 1
+  select(year, rgn_name, rgn_id, regulation_score, inspection_score, noviolation_score, submitted_score) %>% 
+  group_by(year, rgn_name, rgn_id) %>% 
+  summarise(wp_res_score = sum(inspection_score, submitted_score, noviolation_score, regulation_score)/4) %>% 
+  ungroup() %>% 
+  rename(score = wp_res_score) %>% 
+  rbind(miss_rgns)
+
+write.csv(wp_res_score, "data/wp_res_score.csv")
+```
+
+Visualization
+```{r}
+
+wp_res_scores_graph <- ggplot(wp_res_score) +
+  geom_line(aes(x=year, y= score, color = rgn_name))+
+  ggtitle("North East Water Pollution Resilience Scores") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+
+wp_res_scores_graph
+ggsave("figs/wp_res_scores_graph.jpg", width=7, height=5, dpi=300)
+
+```
+
+Write as a pressure layer to ne-scores
+```{r}
+write.csv(wp_res_score, file.path(dir_calc, "layers/res_water_pollution.csv"))
+```
+
+
+
+Playing around with Water Quality monitoring data/ frequency 
+
+put data in the EPA ECHO, wither remove when done or put in its own folder bc its not epa echo
+
+```{r}
+test <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/activityall_ny.csv"))
+
+colnames(test)
+
+t1 <- test %>% 
+  select(ActivityStartDate,ActivityConductingOrganizationText, ActivityTypeCode, HydrologicEvent, HydrologicCondition) %>% 
+  unique() %>% 
+  separate(ActivityStartDate, c("year", "month", "day"), sep = "-") %>% 
+  filter(HydrologicEvent %in% c("Routine sample")) %>% 
+  group_by(year) %>% 
+  count() %>% 
+  ungroup() %>% 
+  rename(times_sampled = n) %>% 
+  mutate(target = max(times_sampled),
+         score = times_sampled/target) 
+
+```
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,238 @@
+---
+title: "OHIEC: Resilience - Water Pollution"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+ Summary
+
+This script calculates water pollution resilience values by OHINE region. 
+
+# Data
+
+**Reference**: EPA ECHO database https://echo.epa.gov/tools/data-downloads 
+
+1. ICIS-NPDES National Data Set 
+  a. ICIS_FACILITIES.csv
+
+2. Permit Limit and DMR Data by Jurisdiction
+
+**Downloaded**: July, 2019
+
+**Description**:  
+
+Each region scored between 0-100% of discharge facilities inspected each year =
+
+Target = EPA established ‘National Goals’: 50% for inspector coverage 
+
+
+**Time range**: Data provided annually for each source
+
+1. ICIS-NPDES National Data Set 
+  a. ICIS_FACILITIES.csv: no date range
+  b. NPDES_INSPECTIONS.csv: 1967-2019
+
+
+**Format**:  CSV file
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(dplyr)
+library(tidyverse)
+```
+
+#Load Data
+```{r load_data}
+raw_inspec <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/NPDES_INSPECTIONS.csv"))
+raw_facilities <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/ICIS_FACILITIES.csv"))
+
+#all the state annual DMRs
+#2009
+raw_maine_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/maine/ME_FY2009_NPDES_DMRS.csv"))
+raw_connecticut_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/connecticut/CT_FY2009_NPDES_DMRS.csv"))
+raw_massachusetts_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/massachusets/MA_FY2009_NPDES_DMRS.csv"))
+raw_newhampshire_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/new_hampshire/NH_FY2009_NPDES_DMRS.csv"))
+raw_newyork_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/new_york/NY_FY2009_NPDES_DMRS.csv"))
+raw_rhodeisland_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/rhode_island/RI_FY2009_NPDES_DMRS.csv"))
+
+#2010
+raw_maine_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/maine/ME_FY2010_NPDES_DMRS.csv"))
+raw_connecticut_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/connecticut/CT_FY2010_NPDES_DMRS.csv"))
+raw_massachusetts_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/massachusetts/MA_FY2010_NPDES_DMRS.csv"))
+raw_newhampshire_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/new_hampshire/NH_FY2010_NPDES_DMRS.csv"))
+raw_newyork_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/new_york/NY_FY2010_NPDES_DMRS.csv"))
+raw_rhodeisland_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/rhode_island/RI_FY2010_NPDES_DMRS.csv"))
+
+#2011
+raw_maine_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/maine/ME_FY2011_NPDES_DMRS.csv"))
+raw_connecticut_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/connecticut/CT_FY2011_NPDES_DMRS.csv"))
+raw_massachusetts_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/massachusetts/MA_FY2011_NPDES_DMRS.csv"))
+raw_newhampshire_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/new_hampshire/NH_FY2011_NPDES_DMRS.csv"))
+raw_newyork_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/new_york/NY_FY2011_NPDES_DMRS.csv"))
+raw_rhodeisland_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/rhode_island/RI_FY2011_NPDES_DMRS.csv"))
+
+#2012
+raw_maine_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/maine/ME_FY2012_NPDES_DMRS.csv"))
+raw_connecticut_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/connecticut/CT_FY2012_NPDES_DMRS.csv"))
+raw_massachusetts_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/massachusetts/MA_FY2012_NPDES_DMRS.csv"))
+raw_newhampshire_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/new_hampshire/NH_FY2012_NPDES_DMRS.csv"))
+raw_newyork_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/new_york/NY_FY2012_NPDES_DMRS.csv"))
+raw_rhodeisland_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/rhode_island/RI_FY2012_NPDES_DMRS.csv"))
+
+#2013
+raw_maine_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/maine/ME_FY2013_NPDES_DMRS.csv"))
+raw_connecticut_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/connecticut/CT_FY2013_NPDES_DMRS.csv"))
+raw_massachusetts_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/massachusetts/MA_FY2013_NPDES_DMRS.csv"))
+raw_newhampshire_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/new_hampshire/NH_FY2013_NPDES_DMRS.csv"))
+raw_newyork_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/new_york/NY_FY2013_NPDES_DMRS.csv"))
+raw_rhodeisland_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/rhode_island/RI_FY2013_NPDES_DMRS.csv"))
+
+#2014
+raw_maine_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/maine/ME_FY2014_NPDES_DMRS.csv"))
+raw_connecticut_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/connecticut/CT_FY2014_NPDES_DMRS.csv"))
+raw_massachusetts_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/massachusetts/MA_FY2014_NPDES_DMRS.csv"))
+raw_newhampshire_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/new_hampshire/NH_FY2014_NPDES_DMRS.csv"))
+raw_newyork_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/new_york/NY_FY2014_NPDES_DMRS.csv"))
+raw_rhodeisland_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/rhode_island/RI_FY2014_NPDES_DMRS.csv"))
+
+
+#2015
+raw_maine_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/maine/ME_FY2015_NPDES_DMRS.csv"))
+raw_connecticut_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/connecticut/CT_FY2015_NPDES_DMRS.csv"))
+raw_massachusetts_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/massachusetts/MA_FY2015_NPDES_DMRS.csv"))
+raw_newhampshire_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/new_hampshire/NH_FY2015_NPDES_DMRS.csv"))
+raw_newyork_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/new_york/NY_FY2015_NPDES_DMRS.csv"))
+raw_rhodeisland_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/rhode_island/RI_FY2015_NPDES_DMRS.csv"))
+
+#2016
+raw_maine_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/maine/ME_FY2016_NPDES_DMRS.csv"))
+raw_connecticut_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/connecticut/CT_FY2016_NPDES_DMRS.csv"))
+raw_massachusetts_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/massachusetts/MA_FY2016_NPDES_DMRS.csv"))
+raw_newhampshire_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/new_hampshire/NH_FY2016_NPDES_DMRS.csv"))
+raw_newyork_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/new_york/NY_FY2016_NPDES_DMRS.csv"))
+raw_rhodeisland_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/rhode_island/RI_FY2016_NPDES_DMRS.csv"))
+
+
+#2017
+raw_maine_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/maine/ME_FY2017_NPDES_DMRS.csv"))
+raw_connecticut_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/connecticut/CT_FY2017_NPDES_DMRS.csv"))
+raw_massachusetts_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/massachusetts/MA_FY2017_NPDES_DMRS.csv"))
+raw_newhampshire_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/new_hampshire/NH_FY2017_NPDES_DMRS.csv"))
+raw_newyork_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/new_york/NY_FY2017_NPDES_DMRS.csv"))
+raw_rhodeisland_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/rhode_island/RI_FY2017_NPDES_DMRS.csv"))
+```
+
+#Methods
+
+###Inspections
+
+```{r}
+inspec <- raw_inspec %>% 
+  select(NPDES_ID, ACTUAL_END_DATE) %>% #choose end instead of start because many NAs in "ACTUAL_START_DATE" and not in end
+  separate(ACTUAL_END_DATE, c("month", "day", "year"), sep = "/") %>% 
+  select(NPDES_ID, year)%>%
+  filter(year >=2005 & year <=2017) %>% 
+  distinct() %>% # just want to know if the facility had been inspected that year, doesn't matter if it was more than once
+  mutate(inspec = "1") %>%  # yes(1) or no(0) there was an inspection
+  select(NPDES_ID, year, inspec) 
+
+```
+
+```{r}
+fac <- raw_facilities %>% 
+  select(NPDES_ID) %>% 
+  mutate("2005" = "2005") %>% # creating a list of all the facilities for each year during our time range
+  mutate("2006" = "2006") %>% 
+  mutate("2007" = "2007") %>% 
+  mutate("2008" = "2008") %>% 
+  mutate("2009" = "2009") %>% 
+  mutate("2010" = "2010") %>% 
+  mutate("2011" = "2011") %>% 
+  mutate("2012" = "2012") %>% 
+  mutate("2013" = "2013") %>% 
+  mutate("2014" = "2014") %>% 
+  mutate("2015" = "2015") %>% 
+  mutate("2016" = "2016") %>% 
+  mutate("2017" = "2017") %>% 
+  gather(year, year2, 2:14) %>% 
+  select(NPDES_ID, year)%>% 
+  mutate(state = substr(NPDES_ID, 0, 2)) 
+```
+
+```{r}
+inspections_clean <- left_join(fac, inspec, by = c("NPDES_ID", "year")) %>% 
+  replace(., is.na(.), "0") %>% 
+  mutate(state = substr(NPDES_ID, 0, 2)) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY")
+```
+
+Inspections stats
+
+```{r}
+#total number of facilities in each state: should be the same every year since used the meta data of all facilities. Could improve this by finding a list of facilities each year to account for some going out of business and new ones arriving
+
+num_fac <- fac %>% 
+  select(state, year, NPDES_ID) %>% 
+  filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
+  distinct() %>% 
+  group_by(year, state) %>% 
+  tally() %>% 
+  ungroup() %>% 
+  rename(fac_total = n) 
+```
+
+```{r}
+#total number of facilities inspected at least once that year by state
+num_fac_inspec <- inspections_clean %>% 
+  filter(inspec == 1) %>% 
+  select(state, year, NPDES_ID) %>% 
+  group_by(year, state) %>% 
+  count() %>% 
+  ungroup() %>% 
+  rename(fac_inspection = n)
+```
+
+Merging and writing tidy csv
+```{r}
+facilities_inspected <- left_join(num_fac, num_fac_inspec, by = c("year", "state")) %>% 
+  mutate(percent_w_inspections = fac_inspection/fac_total,
+         year = as.numeric(year))
+
+##save file
+write.csv(facilities_inspected, "data/facilities_inspected.csv")
+```
+
+Visualization
+```{r}
+inspections_graph <- ggplot(facilities_inspected) +
+  geom_line(aes(x= year, y = percent_w_inspections, color= state))+
+ ggtitle("Percentage of Facilities Inspected in NE") +
+  ylab("Percent") +
+  xlab("Year") +
+  theme_classic()+
+  geom_hline(yintercept=0.5)
+inspections_graph
+
+##save fig
+ggsave("figs/facilities_inspected_graph.jpg", width=7, height=5, dpi=300)
+```

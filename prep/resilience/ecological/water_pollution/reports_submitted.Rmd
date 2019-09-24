@@ -1,0 +1,795 @@
+---
+title: "OHIEC: Resilience - Water Pollution"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(csv)
+library(dplyr)
+library(tidyverse)
+```
+
+#Load Data
+```{r load_data}
+raw_facilities <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/ICIS_FACILITIES.csv"))
+
+#all the state annual DMRs
+#2009
+raw_maine_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/maine/ME_FY2009_NPDES_DMRS.csv"))
+raw_connecticut_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/connecticut/CT_FY2009_NPDES_DMRS.csv"))
+raw_massachusetts_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/massachusets/MA_FY2009_NPDES_DMRS.csv"))
+raw_newhampshire_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/new_hampshire/NH_FY2009_NPDES_DMRS.csv"))
+raw_newyork_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/new_york/NY_FY2009_NPDES_DMRS.csv"))
+raw_rhodeisland_2009 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2009/rhode_island/RI_FY2009_NPDES_DMRS.csv"))
+
+#2010
+raw_maine_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/maine/ME_FY2010_NPDES_DMRS.csv"))
+raw_connecticut_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/connecticut/CT_FY2010_NPDES_DMRS.csv"))
+raw_massachusetts_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/massachusetts/MA_FY2010_NPDES_DMRS.csv"))
+raw_newhampshire_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/new_hampshire/NH_FY2010_NPDES_DMRS.csv"))
+raw_newyork_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/new_york/NY_FY2010_NPDES_DMRS.csv"))
+raw_rhodeisland_2010 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2010/rhode_island/RI_FY2010_NPDES_DMRS.csv"))
+
+#2011
+raw_maine_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/maine/ME_FY2011_NPDES_DMRS.csv"))
+raw_connecticut_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/connecticut/CT_FY2011_NPDES_DMRS.csv"))
+raw_massachusetts_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/massachusetts/MA_FY2011_NPDES_DMRS.csv"))
+raw_newhampshire_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/new_hampshire/NH_FY2011_NPDES_DMRS.csv"))
+raw_newyork_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/new_york/NY_FY2011_NPDES_DMRS.csv"))
+raw_rhodeisland_2011 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2011/rhode_island/RI_FY2011_NPDES_DMRS.csv"))
+
+#2012
+raw_maine_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/maine/ME_FY2012_NPDES_DMRS.csv"))
+raw_connecticut_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/connecticut/CT_FY2012_NPDES_DMRS.csv"))
+raw_massachusetts_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/massachusetts/MA_FY2012_NPDES_DMRS.csv"))
+raw_newhampshire_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/new_hampshire/NH_FY2012_NPDES_DMRS.csv"))
+raw_newyork_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/new_york/NY_FY2012_NPDES_DMRS.csv"))
+raw_rhodeisland_2012 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2012/rhode_island/RI_FY2012_NPDES_DMRS.csv"))
+
+#2013
+raw_maine_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/maine/ME_FY2013_NPDES_DMRS.csv"))
+raw_connecticut_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/connecticut/CT_FY2013_NPDES_DMRS.csv"))
+raw_massachusetts_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/massachusetts/MA_FY2013_NPDES_DMRS.csv"))
+raw_newhampshire_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/new_hampshire/NH_FY2013_NPDES_DMRS.csv"))
+raw_newyork_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/new_york/NY_FY2013_NPDES_DMRS.csv"))
+raw_rhodeisland_2013 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2013/rhode_island/RI_FY2013_NPDES_DMRS.csv"))
+
+#2014
+raw_maine_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/maine/ME_FY2014_NPDES_DMRS.csv"))
+raw_connecticut_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/connecticut/CT_FY2014_NPDES_DMRS.csv"))
+raw_massachusetts_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/massachusetts/MA_FY2014_NPDES_DMRS.csv"))
+raw_newhampshire_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/new_hampshire/NH_FY2014_NPDES_DMRS.csv"))
+raw_newyork_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/new_york/NY_FY2014_NPDES_DMRS.csv"))
+raw_rhodeisland_2014 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2014/rhode_island/RI_FY2014_NPDES_DMRS.csv"))
+
+
+#2015
+raw_maine_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/maine/ME_FY2015_NPDES_DMRS.csv"))
+raw_connecticut_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/connecticut/CT_FY2015_NPDES_DMRS.csv"))
+raw_massachusetts_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/massachusetts/MA_FY2015_NPDES_DMRS.csv"))
+raw_newhampshire_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/new_hampshire/NH_FY2015_NPDES_DMRS.csv"))
+raw_newyork_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/new_york/NY_FY2015_NPDES_DMRS.csv"))
+raw_rhodeisland_2015 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2015/rhode_island/RI_FY2015_NPDES_DMRS.csv"))
+
+#2016
+raw_maine_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/maine/ME_FY2016_NPDES_DMRS.csv"))
+raw_connecticut_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/connecticut/CT_FY2016_NPDES_DMRS.csv"))
+raw_massachusetts_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/massachusetts/MA_FY2016_NPDES_DMRS.csv"))
+raw_newhampshire_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/new_hampshire/NH_FY2016_NPDES_DMRS.csv"))
+raw_newyork_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/new_york/NY_FY2016_NPDES_DMRS.csv"))
+raw_rhodeisland_2016 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2016/rhode_island/RI_FY2016_NPDES_DMRS.csv"))
+
+
+#2017
+raw_maine_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/maine/ME_FY2017_NPDES_DMRS.csv"))
+raw_connecticut_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/connecticut/CT_FY2017_NPDES_DMRS.csv"))
+raw_massachusetts_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/massachusetts/MA_FY2017_NPDES_DMRS.csv"))
+raw_newhampshire_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/new_hampshire/NH_FY2017_NPDES_DMRS.csv"))
+raw_newyork_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/new_york/NY_FY2017_NPDES_DMRS.csv"))
+raw_rhodeisland_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/rhode_island/RI_FY2017_NPDES_DMRS.csv"))
+```
+
+###Report Submissions
+
+RNC_DETECTION_CODE: N = Non-Recipt of DMR/Schedule Report
+
+2009
+```{r}
+## Maine
+maine_2009_sub <- raw_maine_2009 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+ME_2009 <- 1-(count(maine_2009_sub)/count(raw_maine_2009))
+#expected 85510 reports
+#did not receive 2832
+#0.9668811 received
+
+## New Hampshire
+newhampshire_2009_sub <- raw_newhampshire_2009 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NH_2009 <- 1-(count(newhampshire_2009_sub)/count(raw_newhampshire_2009))
+    #expected 40841 reports
+    #did not receive 115
+    #0.9971842 received
+
+## Massachusetts
+massachusetts_2009_sub <- raw_massachusetts_2009 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+MA_2009 <- 1-(count(massachusetts_2009_sub)/count(raw_massachusetts_2009))
+#expected 102756 reports
+# did not receive 1626
+#0.9841761 received
+
+
+## Rhode Island
+rhodeisland_2009_sub <- raw_rhodeisland_2009 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+RI_2009 <- 1-(count(rhodeisland_2009_sub)/count(raw_rhodeisland_2009))
+#expected 45477 reports
+# did not receive 0
+#1 received
+
+## Connecticut
+connecticut_2009_sub <- raw_connecticut_2009 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+CT_2009 <- 1-(count(connecticut_2009_sub)/count(raw_connecticut_2009))
+#expected 130445 reports
+# did not receive 0
+#1 received
+
+
+## New York
+newyork_2009_sub <- raw_newyork_2009 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NY_2009 <- 1-(count(newyork_2009_sub)/count(raw_newyork_2009))
+#expected 517016 reports
+# did not receive 1380
+#0.9973308 received
+```
+
+2010
+```{r}
+## Maine
+maine_2010_sub <- raw_maine_2010 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+ME_2010 <- 1-(count(maine_2010_sub)/count(raw_maine_2010))
+#expected 82388 reports
+# did not receive 2311
+#0.9719498 received
+
+
+## New Hampshire
+newhampshire_2010_sub <- raw_newhampshire_2010 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NH_2010 <- 1-(count(newhampshire_2010_sub)/count(raw_newhampshire_2010))
+#expected 40820 reports
+# did not receive 99
+#0.9975747 received
+
+## Massachusetts
+massachusetts_2010_sub <- raw_massachusetts_2010 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+MA_2010 <- 1-(count(massachusetts_2010_sub)/count(raw_massachusetts_2010))
+#expected 103549 reports
+# did not receive 0
+#1 received
+
+
+## Rhode Island
+rhodeisland_2010_sub <- raw_rhodeisland_2010 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+RI_2010 <- 1-(count(rhodeisland_2010_sub)/count(raw_rhodeisland_2010))
+#expected 45642 reports
+# did not receive 0
+#1 received
+
+## Connecticut
+connecticut_2010_sub <- raw_connecticut_2010 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+CT_2010 <- 1-(count(connecticut_2010_sub)/count(raw_connecticut_2010))
+#expected 128342 reports
+# did not receive 0
+#1 received
+
+
+## New York
+newyork_2010_sub <- raw_newyork_2010 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NY_2010 <- 1-(count(newyork_2010_sub)/count(raw_newyork_2010))
+#expected 523307 reports
+# did not receive 1610
+#0.9969234 received
+```
+
+2011
+```{r}
+## Maine
+maine_2011_sub <- raw_maine_2011 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+ME_2011 <- 1-(count(maine_2011_sub)/count(raw_maine_2011))
+#expected 82716 reports
+# did not receive 1367
+#0.9834736 received
+
+  
+## New Hampshire
+newhampshire_2011_sub <- raw_newhampshire_2011 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NH_2011 <- 1-(count(newhampshire_2011_sub)/count(raw_newhampshire_2011))
+#expected 40210 reports
+# did not receive 0
+#0.9975747 received
+
+## Massachusetts
+massachusetts_2011_sub <- raw_massachusetts_2011 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+MA_2011 <- 1-(count(massachusetts_2011_sub)/count(raw_massachusetts_2011))
+#expected 103150 reports
+# did not receive 0
+#1 received
+
+
+## Rhode Island
+rhodeisland_2011_sub <- raw_rhodeisland_2011 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+RI_2011 <- 1-(count(rhodeisland_2011_sub)/count(raw_rhodeisland_2011))
+#expected 46621 reports
+# did not receive 0
+#1 received
+
+## Connecticut
+connecticut_2011_sub <- raw_connecticut_2011 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+CT_2011 <- 1-(count(connecticut_2011_sub)/count(raw_connecticut_2011))
+#expected 128656 reports
+# did not receive 0
+#1 received
+
+
+## New York
+newyork_2011_sub <- raw_newyork_2011 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NY_2011 <- 1-(count(newyork_2011_sub)/count(raw_newyork_2011))
+#expected 534640 reports
+# did not receive 1492
+#0.9972093 received
+```
+
+2012
+```{r}
+## Maine
+maine_2012_sub <- raw_maine_2012 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 80818 reports
+# did not receive 695
+ME_2012 <- 1-(count(maine_2012_sub)/count(raw_maine_2012))
+#0.9914004 received
+
+  
+## New Hampshire
+newhampshire_2012_sub <- raw_newhampshire_2012 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NH_2012 <- 1-(count(newhampshire_2012_sub)/count(raw_newhampshire_2012))
+#expected 42033 reports
+# did not receive 0
+#0.9975747 received
+
+## Massachusetts
+massachusetts_2012_sub <- raw_massachusetts_2012 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+MA_2012 <- 1-(count(massachusetts_2012_sub)/count(raw_massachusetts_2012))
+#expected 103575 reports
+# did not receive 1477
+#0.9857398 received
+
+
+## Rhode Island
+rhodeisland_2012_sub <- raw_rhodeisland_2012 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+RI_2012 <- 1-(count(rhodeisland_2012_sub)/count(raw_rhodeisland_2012))
+#expected 42751 reports
+# did not receive 0
+#1 received
+
+## Connecticut
+connecticut_2012_sub <- raw_connecticut_2012 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+CT_2012 <- 1-(count(connecticut_2012_sub)/count(raw_connecticut_2012))
+#expected 127430 reports
+# did not receive 0
+#1 received
+
+
+## New York
+newyork_2012_sub <- raw_newyork_2012 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+NY_2012 <- 1-(count(newyork_2012_sub)/count(raw_newyork_2012))
+#expected 544661 reports
+# did not receive 1864
+#0.9965777 received
+```
+
+2013
+```{r}
+## Maine
+maine_2013_sub <- raw_maine_2013 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 82573 reports
+# did not receive 424
+ME_2013 <- 1-(count(maine_2013_sub)/count(raw_maine_2013))
+#0.9948651 received
+
+  
+## New Hampshire
+newhampshire_2013_sub <- raw_newhampshire_2013 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 43505 reports
+# did not receive 0
+NH_2013 <- 1-(count(newhampshire_2013_sub)/count(raw_newhampshire_2013))
+#0.9975747 received
+
+## Massachusetts
+massachusetts_2013_sub <- raw_massachusetts_2013 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 105635 reports
+# did not receive 0
+MA_2013 <- 1-(count(massachusetts_2013_sub)/count(raw_massachusetts_2013))
+#0.9857398 received
+
+
+## Rhode Island
+rhodeisland_2013_sub <- raw_rhodeisland_2013 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 37956 reports
+# did not receive 0
+RI_2013 <- 1-(count(rhodeisland_2013_sub)/count(raw_rhodeisland_2013))
+#1 received
+
+## Connecticut
+connecticut_2013_sub <- raw_connecticut_2013 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 129114 reports
+# did not receive 920
+CT_2013 <- 1-(count(connecticut_2013_sub)/count(raw_connecticut_2013))
+#0.9928745 received
+
+
+## New York
+newyork_2013_sub <- raw_newyork_2013 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 545149 reports
+# did not receive 2230
+NY_2013 <- 1-(count(newyork_2013_sub)/count(raw_newyork_2013))
+#0.9959094 received
+```
+
+2014
+```{r}
+## Maine
+maine_2014_sub <- raw_maine_2014 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 82143 reports
+# did not receive 238
+ME_2014 <- 1-(count(maine_2014_sub)/count(raw_maine_2014))
+#0.9971026 received
+
+  
+## New Hampshire
+newhampshire_2014_sub <- raw_newhampshire_2014 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 43494 reports
+# did not receive 0
+NH_2014 <- 1-(count(newhampshire_2014_sub)/count(raw_newhampshire_2014))
+#0.9975747 received
+
+## Massachusetts
+massachusetts_2014_sub <- raw_massachusetts_2014 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 108101 reports
+# did not receive 1245
+MA_2014 <- 1-(count(massachusetts_2014_sub)/count(raw_massachusetts_2014))
+#0.988483 received
+
+
+## Rhode Island
+rhodeisland_2014_sub <- raw_rhodeisland_2014 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 34257 reports
+# did not receive 1032
+RI_2014 <- 1-(count(rhodeisland_2014_sub)/count(raw_rhodeisland_2014))
+#0.9698748 received
+
+## Connecticut
+connecticut_2014_sub <- raw_connecticut_2014 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 132920 reports
+# did not receive 1280
+CT_2014 <- 1-(count(connecticut_2014_sub)/count(raw_connecticut_2014))
+#0.9903701 received
+
+
+## New York
+newyork_2014_sub <- raw_newyork_2014 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 545446 reports
+# did not receive 2140
+NY_2014 <- 1-(count(newyork_2014_sub)/count(raw_newyork_2014))
+#0.9959094 received
+```
+
+2015
+```{r}
+## Maine
+maine_2015_sub <- raw_maine_2015 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 81137 reports
+# did not receive 344
+ME_2015 <- 1-(count(maine_2015_sub)/count(raw_maine_2015))
+#0.9957603 received
+
+  
+## New Hampshire
+newhampshire_2015_sub <- raw_newhampshire_2015 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 41484 reports
+# did not receive 0
+NH_2015 <- 1-(count(newhampshire_2015_sub)/count(raw_newhampshire_2015))
+#0.9975747 received
+
+## Massachusetts
+massachusetts_2015_sub <- raw_massachusetts_2015 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 110400 reports
+# did not receive 1494
+MA_2015 <- 1-(count(massachusetts_2015_sub)/count(raw_massachusetts_2015))
+#0.988483 received
+
+
+## Rhode Island
+rhodeisland_2015_sub <- raw_rhodeisland_2015 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 34740 reports
+# did not receive 1096
+RI_2015 <- 1-(count(rhodeisland_2015_sub)/count(raw_rhodeisland_2015))
+#0.9684514 received
+
+## Connecticut
+connecticut_2015_sub <- raw_connecticut_2015 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 144541 reports
+# did not receive 1236
+CT_2015 <- 1-(count(connecticut_2015_sub)/count(raw_connecticut_2015))
+#0.9914488 received
+
+
+## New York
+newyork_2015_sub <- raw_newyork_2015 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 549224 reports
+# did not receive 2117
+NY_2015 <- 1-(count(newyork_2015_sub)/count(raw_newyork_2015))
+#0.9959094 received
+```
+
+2016
+```{r}
+## Maine
+maine_2016_sub <- raw_maine_2016 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 82597 reports
+# did not receive 431
+ME_2016 <- 1-(count(maine_2016_sub)/count(raw_maine_2016))
+#0.9957603 received
+
+## New Hampshire
+newhampshire_2016_sub <- raw_newhampshire_2016 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 45762 reports
+# did not receive 0
+NH_2016 <- 1-(count(newhampshire_2016_sub)/count(raw_newhampshire_2016))
+#0.9975747 received
+
+
+## Massachusetts
+massachusetts_2016_sub <- raw_massachusetts_2016 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 121687 reports
+# did not receive 1480
+MA_2016 <- 1-(count(massachusetts_2016_sub)/count(raw_massachusetts_2016))
+#0.988483 received
+
+
+## Rhode Island
+rhodeisland_2016_sub <- raw_rhodeisland_2016 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 33917 reports
+# did not receive 827
+RI_2016 <- 1-(count(rhodeisland_2016_sub)/count(raw_rhodeisland_2016))
+#0.9756169 received
+
+
+## Connecticut
+connecticut_2016_sub <- raw_connecticut_2016 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 155873 reports
+# did not receive 1512
+CT_2016 <- 1-(count(connecticut_2016_sub)/count(raw_connecticut_2016))
+#0.9914488 received
+
+
+## New York
+newyork_2016_sub <- raw_newyork_2016 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 560331 reports
+# did not receive 3730
+NY_2016 <- 1-(count(newyork_2016_sub)/count(raw_newyork_2016))
+#0.993 received
+```
+
+2017
+```{r}
+## Maine
+maine_2017_sub <- raw_maine_2017 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 83635 reports
+# did not receive 388
+ME_2017 <- 1-(count(maine_2017_sub)/count(raw_maine_2017))
+#0.9953608 received
+
+  
+## New Hampshire
+newhampshire_2017_sub <- raw_newhampshire_2017 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 47424 reports
+# did not receive 0
+NH_2017 <- 1-(count(newhampshire_2017_sub)/count(raw_newhampshire_2017))
+#1 received
+
+## Massachusetts
+massachusetts_2017_sub <- raw_massachusetts_2017 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 124349 reports
+# did not receive 728
+MA_2017 <- 1-(count(massachusetts_2017_sub)/count(raw_massachusetts_2017))
+#0.9941455 received
+
+
+## Rhode Island
+rhodeisland_2017_sub <- raw_rhodeisland_2017 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 33742 reports
+# did not receive 705
+RI_2017 <- 1-(count(rhodeisland_2017_sub)/count(raw_rhodeisland_2017))
+#0.9756169 received
+
+## Connecticut
+connecticut_2017_sub <- raw_connecticut_2017 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 166786 reports
+# did not receive 1686
+CT_2017 <- 1-(count(connecticut_2017_sub)/count(raw_connecticut_2017))
+#0.9914488 received
+
+
+## New York
+newyork_2017_sub <- raw_newyork_2017 %>% 
+  select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
+  filter(RNC_DETECTION_CODE == "N")
+
+#expected 565392 reports
+# did not receive 4728
+NY_2017 <- 1-(count(newyork_2017_sub)/count(raw_newyork_2017))
+#0.9959094 received
+```
+
+Creating a comprehensive dataset
+```{r}
+states <- c("ME", "NH", "MA", "RI", "CT", "NY")
+
+dmr_2009 <- rbind(ME_2009, NH_2009, MA_2009, RI_2009, CT_2009, NY_2009) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2009) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+
+dmr_2010 <- rbind(ME_2010, NH_2010, MA_2010, RI_2010, CT_2010, NY_2010) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2010) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+    
+dmr_2011 <- rbind(ME_2011, NH_2011, MA_2011, RI_2011, CT_2011, NY_2011) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2011) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+
+dmr_2012 <- rbind(ME_2012, NH_2012, MA_2012, RI_2012, CT_2012, NY_2012) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2012) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+    
+dmr_2013 <- rbind(ME_2013, NH_2013, MA_2013, RI_2013, CT_2013, NY_2013) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2013) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+    
+dmr_2014 <- rbind(ME_2014, NH_2014, MA_2014, RI_2014, CT_2014, NY_2014) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2014) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+    
+dmr_2015 <- rbind(ME_2015, NH_2015, MA_2015, RI_2015, CT_2015, NY_2015) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2015) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+    
+dmr_2016 <- rbind(ME_2016, NH_2016, MA_2016, RI_2016, CT_2016, NY_2016) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2016) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+    
+dmr_2017 <- rbind(ME_2017, NH_2017, MA_2017, RI_2017, CT_2017, NY_2017) %>% 
+  cbind(states) %>% 
+  as.data.frame() %>% 
+  mutate(year= 2017) %>% 
+  rename(percent_submitted=n, state = states, year=year)
+    
+    
+reports_submitted <- rbind(dmr_2009, dmr_2010, dmr_2011, dmr_2012, dmr_2013, dmr_2014, dmr_2015, dmr_2016, dmr_2017) %>% 
+  mutate(percent_submitted = as.character(percent_submitted)) %>% 
+  mutate(percent_submitted = as.numeric(percent_submitted))
+
+#save data
+write.csv(reports_submitted,"data/reports_submitted.csv")
+```
+
+Visualization
+```{r}
+
+reports_submitted_graph <- ggplot(reports_submitted) +
+  geom_line(aes(x= year, y= percent_submitted, color=state))+
+  ggtitle("Percentage of Reports Submitted in NE") +
+  ylab("Percent") +
+  xlab("Year") +
+  theme_classic() +
+  geom_hline(yintercept=0.95)
+
+reports_submitted_graph
+
+##save fig
+ggsave("figs/reports_submitted_graph.jpg", width=7, height=5, dpi=300)
+
+```
+
