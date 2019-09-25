@@ -1,0 +1,144 @@
+"","year","rgn_id","rgn_name","score"
+"1",2005,1,"Offshore",NA
+"2",2005,2,"Geroges Bank",NA
+"3",2005,3,"Gulf of Maine",NA
+"4",2005,4,"Mid-Atlantic Bight",NA
+"5",2005,5,"Connecticut",0.823122122310955
+"6",2005,6,"Maine",0.824472770266726
+"7",2005,7,"Massachusetts-North",0.827211003739832
+"8",2005,8,"Massachusetts-South",0.827211003739832
+"9",2005,9,"New Hampshire",0.838140762791374
+"10",2005,10,"New York",0.831088270516526
+"11",2005,11,"Rhode Island",0.808397397989355
+"12",2006,1,"Offshore",NA
+"13",2006,2,"Geroges Bank",NA
+"14",2006,3,"Gulf of Maine",NA
+"15",2006,4,"Mid-Atlantic Bight",NA
+"16",2006,5,"Connecticut",0.843034507814738
+"17",2006,6,"Maine",0.821517231844726
+"18",2006,7,"Massachusetts-North",0.825914644817501
+"19",2006,8,"Massachusetts-South",0.825914644817501
+"20",2006,9,"New Hampshire",0.836983929210148
+"21",2006,10,"New York",0.829977879103553
+"22",2006,11,"Rhode Island",0.805187125116161
+"23",2007,1,"Offshore",NA
+"24",2007,2,"Geroges Bank",NA
+"25",2007,3,"Gulf of Maine",NA
+"26",2007,4,"Mid-Atlantic Bight",NA
+"27",2007,5,"Connecticut",0.852459703619862
+"28",2007,6,"Maine",0.819332703445857
+"29",2007,7,"Massachusetts-North",0.829916448447305
+"30",2007,8,"Massachusetts-South",0.829916448447305
+"31",2007,9,"New Hampshire",0.839793382193126
+"32",2007,10,"New York",0.831026582104694
+"33",2007,11,"Rhode Island",0.824983807834192
+"34",2008,1,"Offshore",NA
+"35",2008,2,"Geroges Bank",NA
+"36",2008,3,"Gulf of Maine",NA
+"37",2008,4,"Mid-Atlantic Bight",NA
+"38",2008,5,"Connecticut",0.853388948276705
+"39",2008,6,"Maine",0.814449639966032
+"40",2008,7,"Massachusetts-North",0.828901906682003
+"41",2008,8,"Massachusetts-South",0.828901906682003
+"42",2008,9,"New Hampshire",0.842437573235928
+"43",2008,10,"New York",0.781830073668804
+"44",2008,11,"Rhode Island",0.811340148123117
+"45",2009,1,"Offshore",NA
+"46",2009,2,"Geroges Bank",NA
+"47",2009,3,"Gulf of Maine",NA
+"48",2009,4,"Mid-Atlantic Bight",NA
+"49",2009,5,"Connecticut",0.854849189880316
+"50",2009,6,"Maine",0.818690195093249
+"51",2009,7,"Massachusetts-North",0.831832805115099
+"52",2009,8,"Massachusetts-South",0.831832805115099
+"53",2009,9,"New Hampshire",0.840619691894002
+"54",2009,10,"New York",0.794537886506162
+"55",2009,11,"Rhode Island",0.807327307031624
+"56",2010,1,"Offshore",NA
+"57",2010,2,"Geroges Bank",NA
+"58",2010,3,"Gulf of Maine",NA
+"59",2010,4,"Mid-Atlantic Bight",NA
+"60",2010,5,"Connecticut",0.852725202093246
+"61",2010,6,"Maine",0.827675051559349
+"62",2010,7,"Massachusetts-North",0.831621664916434
+"63",2010,8,"Massachusetts-South",0.831621664916434
+"64",2010,9,"New Hampshire",0.840688203494976
+"65",2010,10,"New York",0.779414435968859
+"66",2010,11,"Rhode Island",0.81160767086255
+"67",2011,1,"Offshore",NA
+"68",2011,2,"Geroges Bank",NA
+"69",2011,3,"Gulf of Maine",NA
+"70",2011,4,"Mid-Atlantic Bight",NA
+"71",2011,5,"Connecticut",0.847680731098954
+"72",2011,6,"Maine",0.834579829724907
+"73",2011,7,"Massachusetts-North",0.831452574622217
+"74",2011,8,"Massachusetts-South",0.831452574622217
+"75",2011,9,"New Hampshire",0.841609477337369
+"76",2011,10,"New York",0.75543696185058
+"77",2011,11,"Rhode Island",0.812677761820281
+"78",2012,1,"Offshore",NA
+"79",2012,2,"Geroges Bank",NA
+"80",2012,3,"Gulf of Maine",NA
+"81",2012,4,"Mid-Atlantic Bight",NA
+"82",2012,5,"Connecticut",0.844096501708273
+"83",2012,6,"Maine",0.835713503291603
+"84",2012,7,"Massachusetts-North",0.827654426590375
+"85",2012,8,"Massachusetts-South",0.827654426590375
+"86",2012,9,"New Hampshire",0.841444215397194
+"87",2012,10,"New York",0.753475493819961
+"88",2012,11,"Rhode Island",0.800906761285236
+"89",2013,1,"Offshore",NA
+"90",2013,2,"Geroges Bank",NA
+"91",2013,3,"Gulf of Maine",NA
+"92",2013,4,"Mid-Atlantic Bight",NA
+"93",2013,5,"Connecticut",0.838465691633473
+"94",2013,6,"Maine",0.849171515787291
+"95",2013,7,"Massachusetts-North",0.831170757465188
+"96",2013,8,"Massachusetts-South",0.831170757465188
+"97",2013,9,"New Hampshire",0.835329523610712
+"98",2013,10,"New York",0.761223518514883
+"99",2013,11,"Rhode Island",0.803046943200698
+"100",2014,1,"Offshore",NA
+"101",2014,2,"Geroges Bank",NA
+"102",2014,3,"Gulf of Maine",NA
+"103",2014,4,"Mid-Atlantic Bight",NA
+"104",2014,5,"Connecticut",0.848779017254943
+"105",2014,6,"Maine",0.847251023280953
+"106",2014,7,"Massachusetts-North",0.827684780662109
+"107",2014,8,"Massachusetts-South",0.827684780662109
+"108",2014,9,"New Hampshire",0.841113691516844
+"109",2014,10,"New York",0.753017454125705
+"110",2014,11,"Rhode Island",0.79294640584178
+"111",2015,1,"Offshore",NA
+"112",2015,2,"Geroges Bank",NA
+"113",2015,3,"Gulf of Maine",NA
+"114",2015,4,"Mid-Atlantic Bight",NA
+"115",2015,5,"Connecticut",0.867420397228606
+"116",2015,6,"Maine",0.846630017147973
+"117",2015,7,"Massachusetts-North",0.829416613334221
+"118",2015,8,"Massachusetts-South",0.829416613334221
+"119",2015,9,"New Hampshire",0.840452643756143
+"120",2015,10,"New York",0.751857455967624
+"121",2015,11,"Rhode Island",0.785206046819649
+"122",2016,1,"Offshore",NA
+"123",2016,2,"Geroges Bank",NA
+"124",2016,3,"Gulf of Maine",NA
+"125",2016,4,"Mid-Atlantic Bight",NA
+"126",2016,5,"Connecticut",0.854474891957097
+"127",2016,6,"Maine",0.840033290720537
+"128",2016,7,"Massachusetts-North",0.819680682071216
+"129",2016,8,"Massachusetts-South",0.819680682071216
+"130",2016,9,"New Hampshire",0.835494785550888
+"131",2016,10,"New York",0.655255287464511
+"132",2016,11,"Rhode Island",0.783252895761591
+"133",2017,1,"Offshore",NA
+"134",2017,2,"Geroges Bank",NA
+"135",2017,3,"Gulf of Maine",NA
+"136",2017,4,"Mid-Atlantic Bight",NA
+"137",2017,5,"Connecticut",0.855863456811141
+"138",2017,6,"Maine",0.836536805546133
+"139",2017,7,"Massachusetts-North",0.811769175285721
+"140",2017,8,"Massachusetts-South",0.811769175285721
+"141",2017,9,"New Hampshire",0.815828614670041
+"142",2017,10,"New York",0.652210932067162
+"143",2017,11,"Rhode Island",0.774234219465384
