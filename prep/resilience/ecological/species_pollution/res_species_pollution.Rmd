@@ -42,6 +42,7 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 library(tidyverse)
 library(dplyr)
+library(readxl)
 ```
 
 
@@ -141,7 +142,7 @@ ggsave("figs/res_species_pollution_graph.jpg", width=7, height=5, dpi=300)
 
 Write as a resilience layer to ne-scores
 ```{r}
-write.csv(res_species_pollution, file.path(dir_calc, "layers/res_species_pollution.csv"))
+write.csv(res_species_pollution, file.path(dir_calc, "layers/res_alien.csv"))
 ```
 
 
