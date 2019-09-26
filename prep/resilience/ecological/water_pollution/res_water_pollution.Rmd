@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Water Pollution"
+title: "OHINE: Resilience - Calculating the Water Pollution Resilience Layer"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -27,11 +27,18 @@ The data layers are used to quantify existence of regulations, implementation + 
 3. Effectiveness + Compliance: facilities_violations
 
 Data Time Ranges:
+
 discharge_reg: 2005-2017
+
 facilities_inspected: 2005-2017
+
 reports_submitted: 2009-2017
+
 facilities_violations: 2005-2017
 
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -49,7 +56,7 @@ library(readxl)
 
 
 Read in Data
-```{r}
+```{r load_data}
 discharge_reg <- read_xlsx(file.path(dir_anx, "_raw_data/manually_created/discharge_reg.xlsx"))
 
 facilities_inspected_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/water_pollution/data/facilities_inspected.csv") %>% 
@@ -80,10 +87,11 @@ miss_rgns <- miss_rgns %>%
   unique()
 ```
 
+## Tidying of data inputs
 Cleaning up the data to be combined and used as a layer
 
 Facilities inspected
-```{r}
+```{r fac_in_tidy}
 facilities_inspected <-facilities_inspected_short %>% 
   select(year, state , percent_w_inspections) %>% 
   mutate(rgn_id1 = case_when(
@@ -130,7 +138,7 @@ miss_years <- c("ME","NH", "MA","RI", "CT", "NY") %>%
 ```
 
 Reports Submitted
-```{r}
+```{r rep_sub_tidy}
 reports_submitted <- reports_submitted_short %>% 
   mutate(target = 0.95,
          score = percent_submitted/target) %>%
@@ -165,7 +173,7 @@ reports_submitted <- reports_submitted_short %>%
 ```
 
 Facilities Violations
-```{r}
+```{r fac_vio_tidy}
 facilities_violations <- facilities_violations_short %>% 
   mutate(rgn_id1 = case_when(
     state == "ME" ~ "6", 
@@ -196,21 +204,21 @@ facilities_violations <- facilities_violations_short %>%
   rename(facilities_violations_score = score)
 ```
 
+## Calculate Scores
 Combine all the data together and calcualte a regulation, enforcement, compliance, and overall resilience score
-
-```{r}
+```{r calc_scores}
 res_wp <- left_join(discharge_reg, facilities_inspected, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(facilities_violations, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(reports_submitted, by = c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
-  mutate(enforcemnet = mean(c(facilities_inspected_score, reports_submitted_score))) %>% 
+  mutate(enforcement = mean(c(facilities_inspected_score, reports_submitted_score))) %>% 
   rename(regulation = discharge_reg_score) %>% 
   rename(compliance = facilities_violations_score) %>% 
   mutate(res_score = mean(c(regulation, enforcement, compliance)))
 ```
 
 Save necessary information for the water pollution layer
-```{r}
+```{r save_data}
 res_water_pollution <- res_wp %>% 
   select(year, rgn_id, rgn_name, res_score) %>% 
   rename(score = res_score)
@@ -219,7 +227,7 @@ write.csv(res_water_pollution, file.path(dir_git,"prep/resilience/ecological/wat
 ```
 
 Visualization
-```{r}
+```{r graph}
 res_water_pollution_graph <- ggplot(res_water_pollution) +
   geom_line(aes(x=year, y= score, color = rgn_name))+
   ggtitle("North East Water Pollution Resilience Scores") +
@@ -233,7 +241,7 @@ ggsave("figs/res_water_pollution_graph.jpg", width=7, height=5, dpi=300)
 
 
 Write as a resilience layer to ne-scores
-```{r}
+```{r write_to_scores}
 write.csv(res_water_pollution, file.path(dir_calc, "layers/res_water_pollution.csv"))
 ```
 

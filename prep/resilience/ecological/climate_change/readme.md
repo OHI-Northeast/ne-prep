@@ -3,11 +3,16 @@
 This folder describes the methods used to prepare data for the climate change resilience layer for the US Northeast OHI assessment. 
 
 Data used:
+Regulations:
 1. American Council for Energy-Efficient Economy rankings
 2. Climate Friendly Actions 
+
+Implementation and Enforcement
 3. Renewable Energy Consumption 
 4. Carbon Emissions 
 
+Effectiveness and Compliance
+- Same data as implementation and enforcement
 
 #### [American Council for Energy-Efficient Economy rankings](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/climate_change/acee_rankings.html)
 - This layer is derived from [ACEE ranking](from https://database.aceee.org/state-scorecard-rank)

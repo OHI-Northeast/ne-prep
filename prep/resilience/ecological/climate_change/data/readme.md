@@ -40,3 +40,21 @@ Data created in `renew_consum.Rmd`
 Data URL: https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
 
 Scores are calculated by taking the EIA energy consumption data, calculating the percent of energy consumed that comes from clean sources, and dividing it by the target emissions. Total annual carbon emissions were pulled from the EIA website. Clean energy consumption targets are calculated by performing a linear regression from 2004 to the target year of their consumption goal. While there is a variety of energy plans and portfolios in the US that differ from state to state, every state in our region of interest has a "renewable energy portfolio standards", so we do not include nuclear energy production as part of the total renewable energy consumption target.
+
+******************************************************************
+
+Data created in `res_climate_change.Rmd`
+
+`res_climate_change.csv`
+
+The climate change resilience layer is calculated here by pulling in all the data.
+
+
+
+
+
+
+
+
+
+

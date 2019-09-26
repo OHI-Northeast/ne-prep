@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Water Pollution"
+title: "OHINE: Resilience - Reports Submitted by Discharge Facilities Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,47 +16,31 @@ output:
 toc: true
 ---
 
+# Summary
+
+This script calculates the percentage of expected discharge monitoring reports received by OHINE region. 
 
 # Data
-
-**Reference**: EPA ECHO database https://echo.epa.gov/tools/data-downloads 
-
-1. ICIS-NPDES National Data Set 
-  a. ICIS_FACILITIES.csv
-  b. NPDES_INSPECTIONS.csv
-  c. NPDES_QNCR_HISTORY.csv
-
-2. Permit Limit and DMR Data by Jurisdiction
+**EPA ECHO database**
+Permit Limit and DMR Data by Jurisdiction
 
 **Downloaded**: July, 2019
 
 **Description**:  
+Data is located in the ICIS-NPDES National Data Set https://echo.epa.gov/tools/data-downloads 
 
-4 metrics included in the calculation:
-1. Presence or absence of water discharge regulation 
-2. Score between 0-1 for inspections of discharge facilities 
-3. Score between 0-1 for discharge facilitiy violation 
-4. Score between 0-1 for submissions of discharge monitoring reports (DMR)
-
-Target = EPA established ‘National Goals’: 
-1. 50% for inspector coverage 
-2. 95% for monitoring report submission (DMR)
-3. 0% for compliance violations.
-
-**Time range**: Data provided annually for each source
-
-1. ICIS-NPDES National Data Set 
-  a. ICIS_FACILITIES.csv: no date range
-  b. NPDES_INSPECTIONS.csv: 1967-2019
-  c. NPDES_QNCR_HISTORY.csv:1973-2019
-
-2. Permit Limit and DMR Data by Jurisdiction: 2009-2019
-
+**Time range**: 
+Permit Limit and DMR Data by Jurisdiction: 2009-2019
 
 **Format**:  CSV file
 
+# About
+Each region was scored by calculating the percentage of received discharge monitoring reports that was expected by the target of 95%.
+Target = EPA established ‘National Goals’: 95% for DMR submissions
 
+# Methods
 
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -71,7 +55,7 @@ library(dplyr)
 library(tidyverse)
 ```
 
-#Load Data
+Load Data
 ```{r load_data}
 raw_facilities <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/ICIS_FACILITIES.csv"))
 
@@ -151,12 +135,11 @@ raw_newyork_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2
 raw_rhodeisland_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annual/2017/rhode_island/RI_FY2017_NPDES_DMRS.csv"))
 ```
 
-###Report Submissions
-
-RNC_DETECTION_CODE: N = Non-Recipt of DMR/Schedule Report
+## Report Submissions
+Here we need to figure out how many reports were submitted and how many were expected but not recieved. We can do this by using the RNC_DETECTION_CODE column. Here N = Non-Receipt of DMR/Schedule Report. Do this for every year for each state
 
 2009
-```{r}
+```{r dmr_2009}
 ## Maine
 maine_2009_sub <- raw_maine_2009 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -221,7 +204,7 @@ NY_2009 <- 1-(count(newyork_2009_sub)/count(raw_newyork_2009))
 ```
 
 2010
-```{r}
+```{r dmr_2010}
 ## Maine
 maine_2010_sub <- raw_maine_2010 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -287,7 +270,7 @@ NY_2010 <- 1-(count(newyork_2010_sub)/count(raw_newyork_2010))
 ```
 
 2011
-```{r}
+```{r dmr_2011}
 ## Maine
 maine_2011_sub <- raw_maine_2011 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -353,7 +336,7 @@ NY_2011 <- 1-(count(newyork_2011_sub)/count(raw_newyork_2011))
 ```
 
 2012
-```{r}
+```{r dmr_2012}
 ## Maine
 maine_2012_sub <- raw_maine_2012 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -419,7 +402,7 @@ NY_2012 <- 1-(count(newyork_2012_sub)/count(raw_newyork_2012))
 ```
 
 2013
-```{r}
+```{r dmr_2013}
 ## Maine
 maine_2013_sub <- raw_maine_2013 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -485,7 +468,7 @@ NY_2013 <- 1-(count(newyork_2013_sub)/count(raw_newyork_2013))
 ```
 
 2014
-```{r}
+```{r dmr_2014}
 ## Maine
 maine_2014_sub <- raw_maine_2014 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -551,7 +534,7 @@ NY_2014 <- 1-(count(newyork_2014_sub)/count(raw_newyork_2014))
 ```
 
 2015
-```{r}
+```{r dmr_2015}
 ## Maine
 maine_2015_sub <- raw_maine_2015 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -617,7 +600,7 @@ NY_2015 <- 1-(count(newyork_2015_sub)/count(raw_newyork_2015))
 ```
 
 2016
-```{r}
+```{r dmr_2016}
 ## Maine
 maine_2016_sub <- raw_maine_2016 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -684,7 +667,7 @@ NY_2016 <- 1-(count(newyork_2016_sub)/count(raw_newyork_2016))
 ```
 
 2017
-```{r}
+```{r dmr_2017}
 ## Maine
 maine_2017_sub <- raw_maine_2017 %>% 
   select(EXTERNAL_PERMIT_NMBR, RNC_DETECTION_CODE) %>% 
@@ -749,8 +732,9 @@ NY_2017 <- 1-(count(newyork_2017_sub)/count(raw_newyork_2017))
 #0.9959094 received
 ```
 
+## Calculating Scores and graphing
 Creating a comprehensive dataset
-```{r}
+```{r combine_dmrs}
 states <- c("ME", "NH", "MA", "RI", "CT", "NY")
 
 dmr_2009 <- rbind(ME_2009, NH_2009, MA_2009, RI_2009, CT_2009, NY_2009) %>% 
@@ -806,8 +790,9 @@ dmr_2017 <- rbind(ME_2017, NH_2017, MA_2017, RI_2017, CT_2017, NY_2017) %>%
   as.data.frame() %>% 
   mutate(year= 2017) %>% 
   rename(percent_submitted=n, state = states, year=year)
+```
     
-    
+```{r caculate_scores}    
 reports_submitted <- rbind(dmr_2009, dmr_2010, dmr_2011, dmr_2012, dmr_2013, dmr_2014, dmr_2015, dmr_2016, dmr_2017) %>% 
   mutate(percent_submitted = as.character(percent_submitted)) %>% 
   mutate(percent_submitted = as.numeric(percent_submitted))
@@ -817,8 +802,7 @@ write.csv(reports_submitted,"data/reports_submitted.csv")
 ```
 
 Visualization
-```{r}
-
+```{r graph}
 reports_submitted_graph <- ggplot(reports_submitted) +
   geom_line(aes(x= year, y= percent_submitted, color=state))+
   ggtitle("Percentage of Reports Submitted in NE") +

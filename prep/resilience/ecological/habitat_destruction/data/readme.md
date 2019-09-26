@@ -20,3 +20,10 @@ Data URL: https://www.surfrider.org/coastal-blog/entry/2017-state-of-the-beach-r
 
 Scores were calculated by rescaling (0-1) the scores assigned by Surfrider 
 
+******************************************************************
+Data created in the `res_hab_destruction.Rmd`
+
+`res_hab_destruction.csv`
+
+Layer pulling in all data and calculating the habitat destruction resilience layer
+

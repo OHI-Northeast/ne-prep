@@ -237,7 +237,7 @@ res_climate_change <- res_cc %>%
   select(year, rgn_id, rgn_name, res_score) %>% 
   rename(score = res_score)
 
-write.csv(res_climate_change, file.path(dir_git,"prep/resilience/ecological/water_pollution/data/res_climate_change.csv"))
+write.csv(res_climate_change, file.path(dir_git,"prep/resilience/ecological/climate_change/data/res_climate_change.csv"))
 ```
 
 Visualization

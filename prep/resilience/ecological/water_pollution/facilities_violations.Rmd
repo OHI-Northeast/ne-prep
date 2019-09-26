@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Water Pollution"
+title: "OHINE: Resilience - Discharge Facilities With Violations Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,47 +16,31 @@ output:
 toc: true
 ---
 
+Summary
 
-# Data
+This script calculates the percentage of discharge facilities with violations by OHINE region. 
 
-**Reference**: EPA ECHO database https://echo.epa.gov/tools/data-downloads 
-
-1. ICIS-NPDES National Data Set 
-  a. ICIS_FACILITIES.csv
-  b. NPDES_INSPECTIONS.csv
-  c. NPDES_QNCR_HISTORY.csv
-
-2. Permit Limit and DMR Data by Jurisdiction
+**EPA ECHO database** 
 
 **Downloaded**: July, 2019
 
 **Description**:  
+Data is located in the ICIS-NPDES National Data Set https://echo.epa.gov/tools/data-downloads 
 
-4 metrics included in the calculation:
-1. Presence or absence of water discharge regulation 
-2. Score between 0-1 for inspections of discharge facilities 
-3. Score between 0-1 for discharge facilitiy violation 
-4. Score between 0-1 for submissions of discharge monitoring reports (DMR)
 
-Target = EPA established ‘National Goals’: 
-1. 50% for inspector coverage 
-2. 95% for monitoring report submission (DMR)
-3. 0% for compliance violations.
-
-**Time range**: Data provided annually for each source
-
-1. ICIS-NPDES National Data Set 
+**Time range**: 
   a. ICIS_FACILITIES.csv: no date range
-  b. NPDES_INSPECTIONS.csv: 1967-2019
-  c. NPDES_QNCR_HISTORY.csv:1973-2019
-
-2. Permit Limit and DMR Data by Jurisdiction: 2009-2019
-
+  b. NPDES_QNCR_HISTORY.csv:1973-2019
 
 **Format**:  CSV file
 
+# About
 
+Each region was scored by calculating the percentage of discharge facilities violations, taking the inverse, and then dividing by target (100% facilities with no violations) 
 
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -71,18 +55,16 @@ library(dplyr)
 library(tidyverse)
 ```
 
-#**Compliance**
-##Violations
-Percentage of facilities with compliance regualtions by year by state
-Note: not differentiating between types of violations (of which there are 4)
+*Note: not differentiating between types of violations (of which there are 4)*
 
-#Load Data
+Load data
 ```{r load_data}
 raw_report_history <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/NPDES_QNCR_HISTORY.csv"))
 raw_facilities <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/ICIS_FACILITIES.csv"))
 ```
 
-```{r}
+## Tidy data
+```{r viol_hist}
 violations_hist <- raw_report_history %>% 
   mutate(state = substr(NPDES_ID, 0, 2),
          year = substr(YEARQTR, 0, 4))%>% 
@@ -97,7 +79,7 @@ violations_hist <- raw_report_history %>%
 ```
 
 
-```{r}
+```{r fac_load}
 fac <- raw_facilities %>% 
   select(NPDES_ID) %>% 
   mutate("2005" = "2005") %>% # creating a list of all the facilities for each year during our time range
@@ -131,6 +113,7 @@ num_fac <- fac %>%
   rename(fac_total = n) 
 ```
 
+## Calculate scores, graph, save 
 ```{r percent_facilities_with_violations_by_state}
 facilities_violations <- left_join(num_fac, violations_hist, by = c("year", "state"))%>% 
   mutate(percent_w_violations = fac_violations/fac_total,
@@ -142,7 +125,7 @@ write.csv(facilities_violations, "data/facilities_violations.csv")
 ```
 
 Visualization
-```{r}
+```{r graph}
 facilities_violations_graph <- ggplot(facilities_violations) +
   geom_line(aes(x= year, y = percent_w_violations, color= state)) +
   ggtitle("Percentage of Facilities with Violations in NE") +

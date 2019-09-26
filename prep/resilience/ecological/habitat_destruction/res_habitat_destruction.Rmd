@@ -159,7 +159,7 @@ res_hab_destruction <- res_hd %>%
   select(year, rgn_id, rgn_name, res_score) %>% 
   rename(score = res_score)
 
-write.csv(res_hab_destruction, file.path(dir_git,"prep/resilience/ecological/water_pollution/data/res_hab_destruction.csv"))
+write.csv(res_hab_destruction, file.path(dir_git,"prep/resilience/ecological/habitat_destruction/data/res_hab_destruction.csv"))
 ```
 
 

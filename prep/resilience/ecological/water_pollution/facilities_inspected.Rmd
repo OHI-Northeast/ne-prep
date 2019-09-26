@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Water Pollution"
+title: "OHINE: Resilience - Discharge Facilities Inspected Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,37 +16,33 @@ output:
 toc: true
 ---
 
- Summary
+# Summary
 
-This script calculates water pollution resilience values by OHINE region. 
+This script calculates the percentage of discharge facilities that are inspected at least once a year by OHINE region. 
 
 # Data
 
-**Reference**: EPA ECHO database https://echo.epa.gov/tools/data-downloads 
-
-1. ICIS-NPDES National Data Set 
-  a. ICIS_FACILITIES.csv
-
-2. Permit Limit and DMR Data by Jurisdiction
+**EPA ECHO database** 
 
 **Downloaded**: July, 2019
 
 **Description**:  
+Data is located in the ICIS-NPDES National Data Set https://echo.epa.gov/tools/data-downloads 
 
-Each region scored between 0-100% of discharge facilities inspected each year =
-
-Target = EPA established ‘National Goals’: 50% for inspector coverage 
-
-
-**Time range**: Data provided annually for each source
-
-1. ICIS-NPDES National Data Set 
+**Time range**: 
   a. ICIS_FACILITIES.csv: no date range
   b. NPDES_INSPECTIONS.csv: 1967-2019
 
-
 **Format**:  CSV file
 
+# About
+
+Each region was scored by calculating the percentage of discharge facilities inspected and then dividing that by the 50% target. 
+Target = EPA established ‘National Goals’: 50% for inspector coverage
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -61,7 +57,7 @@ library(dplyr)
 library(tidyverse)
 ```
 
-#Load Data
+Load Data
 ```{r load_data}
 raw_inspec <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/NPDES_INSPECTIONS.csv"))
 raw_facilities <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/ICIS_FACILITIES.csv"))
@@ -144,9 +140,7 @@ raw_rhodeisland_2017 <- read_csv(file.path(dir_anx, "_raw_data/EPA_ECHO/DMR_Annu
 
 #Methods
 
-###Inspections
-
-```{r}
+```{r inspec_tidy}
 inspec <- raw_inspec %>% 
   select(NPDES_ID, ACTUAL_END_DATE) %>% #choose end instead of start because many NAs in "ACTUAL_START_DATE" and not in end
   separate(ACTUAL_END_DATE, c("month", "day", "year"), sep = "/") %>% 
@@ -158,7 +152,7 @@ inspec <- raw_inspec %>%
 
 ```
 
-```{r}
+```{r fac_tidy}
 fac <- raw_facilities %>% 
   select(NPDES_ID) %>% 
   mutate("2005" = "2005") %>% # creating a list of all the facilities for each year during our time range
@@ -179,7 +173,7 @@ fac <- raw_facilities %>%
   mutate(state = substr(NPDES_ID, 0, 2)) 
 ```
 
-```{r}
+```{r inspec_clean}
 inspections_clean <- left_join(fac, inspec, by = c("NPDES_ID", "year")) %>% 
   replace(., is.na(.), "0") %>% 
   mutate(state = substr(NPDES_ID, 0, 2)) %>% 
@@ -187,10 +181,8 @@ inspections_clean <- left_join(fac, inspec, by = c("NPDES_ID", "year")) %>%
 ```
 
 Inspections stats
-
-```{r}
-#total number of facilities in each state: should be the same every year since used the meta data of all facilities. Could improve this by finding a list of facilities each year to account for some going out of business and new ones arriving
-
+The total number of facilities in each state should be the same every year since used the meta data of all facilities. Could improve this by finding a list of facilities each year to account for some going out of business and new ones arriving
+```{r fac_clean}
 num_fac <- fac %>% 
   select(state, year, NPDES_ID) %>% 
   filter(state == "ME" | state == "NH" | state == "MA" | state =="RI" | state == "CT" | state == "NY") %>% 
@@ -201,8 +193,8 @@ num_fac <- fac %>%
   rename(fac_total = n) 
 ```
 
-```{r}
-#total number of facilities inspected at least once that year by state
+Calculate the total number of facilities inspected at least once that year by state
+```{r calc_inspec}
 num_fac_inspec <- inspections_clean %>% 
   filter(inspec == 1) %>% 
   select(state, year, NPDES_ID) %>% 
@@ -213,7 +205,7 @@ num_fac_inspec <- inspections_clean %>%
 ```
 
 Merging and writing tidy csv
-```{r}
+```{r merge_tidy}
 facilities_inspected <- left_join(num_fac, num_fac_inspec, by = c("year", "state")) %>% 
   mutate(percent_w_inspections = fac_inspection/fac_total,
          year = as.numeric(year))
@@ -223,7 +215,7 @@ write.csv(facilities_inspected, "data/facilities_inspected.csv")
 ```
 
 Visualization
-```{r}
+```{r graph_inspections}
 inspections_graph <- ggplot(facilities_inspected) +
   geom_line(aes(x= year, y = percent_w_inspections, color= state))+
  ggtitle("Percentage of Facilities Inspected in NE") +

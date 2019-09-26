@@ -3,8 +3,11 @@
 This folder describes the methods used to prepare data for the habitat destruction resilience layer for the US Northeast OHI assessment. 
 
 Data used:
+Reguations:
 1. Habitat Areas Protected
 2. Surfrider State of the Beach Report
+
+Implementation and Enforcement; Effectiveness and Compliance
 3. NOAA OLE Actions
 
 
