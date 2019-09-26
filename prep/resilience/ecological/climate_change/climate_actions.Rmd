@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Friendly Actions Data Prep"
+title: "OHINE: Resilience - Climate Friendly Actions Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

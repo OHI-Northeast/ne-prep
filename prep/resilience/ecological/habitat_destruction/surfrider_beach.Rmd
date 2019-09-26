@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Habitat Destruction prep"
+title: "OHINE: Resilience - Surfrider State of the Beach Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,21 +18,26 @@ toc: true
 
 # Summary
 
-This script calculates habitat resilience values by OHINE region. 
-
+This script calculates the scores from the Surfrider State of the Beach reports by OHINE region. 
 
 # Data
 
-**Reference**: 
+**Surfrider**
 
-**Downloaded**: 
+**Downloaded**: August, 2019
 
-**Description**:  
+**Description**: Surfrider grades each state on a scale of 1-4 in 4 categories (sediment management, coastal armoring, development, sea level rise) and then adds the points for a total score (12 maximum) https://www.surfrider.org/coastal-blog/entry/2017-state-of-the-beach-report
 
-**Time range**: 
+**Time range**: 2017 (this will be continued into the future)
 
-**Format**: 
+**Format**: pdf
 
+# About
+The Surfrider score for each region was rescaled 0-1 
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup, message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
@@ -43,12 +48,11 @@ library(readxl)
 ```
 
 
-#State of the Beach Scorecard
 ```{r}
 raw_sob <- read_xlsx(file.path(dir_anx, "_raw_data/Surfrider/state_of_the_beach_2017.xlsx"))
 ```
 
-Scores
+## Calculate Scores
 ```{r}
 sob_scores <- raw_sob %>% 
   mutate(target = 12,
@@ -66,7 +70,7 @@ miss_rgns <- tribble(
   mutate(score= NA)
 ```
 
-Create a table with only the necessary info for calcualting the score
+Create a table with only the necessary info for calculating the score
 ```{r}
 surfrider_beach <- sob_scores %>% 
   select(state, score) %>% 

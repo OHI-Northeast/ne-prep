@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Change Resilience Layer Calculations"
+title: "OHINE: Resilience - Climate Change Resilience Layer Calculations"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

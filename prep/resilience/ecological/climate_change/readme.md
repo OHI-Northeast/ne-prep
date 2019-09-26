@@ -22,7 +22,7 @@ Data used:
 - This layer is derived from [EPA carbon emissions data](https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf)
 
 ### [Climate Change Resilience Layer Calculations](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/climate_change/res_climate_change.html)
-- This layer pulls in scores calculated from each data source and calcualtes climate change resilience scores
+- This layer pulls in scores calculated from each data source and calculates climate change resilience scores
 
 Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
 

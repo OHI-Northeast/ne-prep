@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Habitat Destruction prep"
+title: "OHINE: Resilience - Habitat Areas Protected Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,24 +18,44 @@ toc: true
 
 # Summary
 
-This script calculates habitat resilience values by OHINE region. 
-
-NOAA layers for habitat and fishing rules
-USGS layers
-
+This script calculates the habitat areas that are protected scores by OHINE region. 
 
 # Data
 
-**Reference**: 
+**NOAA Greater Atlantic Fisheries** 
 
-**Downloaded**: 
+**Downloaded**: August, 2019
 
-**Description**:  
+**Description**: Shapefiles where fishing and habitat management measures are. https://www.greateratlantic.fisheries.noaa.gov/educational_resources/gis/data/
 
-**Time range**: 
+**Time range**: last updated 2018
 
-**Format**: 
+**Format**: shapefiles
 
+# About
+
+Filtered out management areas where no dredging or trawling is allowed, year-round.
+Currently waiting/working on getting this info over time, for now/if that never happens we will apply the scores to all years
+
+1) Habitat Management Area
+  - Cashes ledge and Fippennies ledge habitat management areas,
+  - Ammen rock habitat management area
+  - Eastern Maine HMA and Jeffrey’s Bank HMA
+  - Closed Area II Habitat Closure
+  - Great South Channel Habitat Management Area
+2) Habitat Research Area
+  - George’s Bank DHRA
+3) Frank R. Lautenberg Deep-Sea Coral Protection Area
+4) Groundfish Closures
+  - Closed Area II 
+  - Western Gulf of Maine habitat closure
+5) MSB Bottom Trawling Restricted Areas
+  - Oceanographer Canyon
+  - Lydonia Canyon
+
+# Methods
+
+## Set up, libraries, load data
 Used a lot of the code from the lsp.Rmd
 ``` {r setup, message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
@@ -48,25 +68,6 @@ library(mapview)
 library(readxl)
 ```
 
-NOAA Habitat Management Area Data
-Currently waiting/working on getting this info over time, for now/if that never happens we will apply the scores to all years
-
-data from habitat tab on https://www.greateratlantic.fisheries.noaa.gov/educational_resources/gis/data/index.html 
-1) Habitat Management Area
-  - Cashes ledge and Fippennies ledge habitat management areas,
-  - Ammen rock habitat management area
-  - Eastern Maine HMA and Jeffrey’s Bank HMA
-  - Closed Area II Habitat Closure
-  - Great South Channel Habitat Management Area
-2) Habitat Research Area
-  - George’s Bank DHRA
-3) Frank R. Lautenberg Deep-Sea Coral Protection Area
-4) Groundfish Closures
-  - Closed Area II 
-  - Western gulf of maine habitat closure
-5) MSB Bottom Trawling Restricted Areas
-  - Oceanographer Canyon
-  - Lydonia Canyon
 
 ```{r load_data}
 #1
@@ -99,7 +100,7 @@ mapshot(hab_protect, url = "hab_protect.html")
 ```
 
 
-### Calculate Scores
+## Calculate Scores
 Here we are using a 30% protected area target 
 
 ```{r calculate_hab_protected}
@@ -133,7 +134,7 @@ miss_rgns <- tribble(
 ```
 
 
-Create a table with only the necessary info for calcualting the score
+Create a table with only the necessary info for calculating the score
 ```{r calculate_hab_protected_Score}
 hab_area_protected <- hab_protect_rgn %>% 
   select(rgn_id, rgn_name,score) %>% 
