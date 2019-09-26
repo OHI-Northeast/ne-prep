@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Fishing Pressure prep"
+title: "OHINE: Resilience - Nonindigenous Aquatic Species USGS Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,6 +16,29 @@ output:
 toc: true
 ---
 
+# Summary
+
+This script calculates the invasive species effectiveness and compliance scores by OHINE region. 
+
+# Data
+
+**Nonindigenous Aquatic Species (NAS) USGS** 
+
+**Downloaded**: September, 2019
+
+**Description**: This dataset has occurrence and precise location data of new nonindigenous species https://nas.er.usgs.gov/
+
+**Time range**: 1700-2019
+
+**Format**: csv file
+
+# About
+
+This dataset was used as an indicator to measure enforcement and compliance of regulations aimed at preventing the introduction and spread of invasive species. The occurrence data is consolidated by state, and the eradication of species/establishment of species is calculated
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -29,26 +52,11 @@ library(dplyr)
 ```
 
 
-
-To be filled out!!!
-
-NAS databast
-
-focuses on plants and freshwater
-- includes species from other countries and non-native ranges
-
-Status: established, unknown, extirpated, collected, failed, eradicated, stocked, locally established
-Min year = 1700
-Max year = 2019
-
-look at it by year, and then unique, total  
-look to see if terrestrial ar eincluded
-
-create a data set by state, graph over time number established 1970-2018
 ```{r load_data}
 nas_raw <- read_csv(file.path(dir_anx, "_raw_data/NAS/NAS-Data-Download.csv")) 
 ```
 
+## Calculate Scores and Graph
 ```{r calculate_by_state}
 nas_int <- nas_raw %>% 
   select('Scientific Name', 'Country', 'State', 'County', 'Year', 'Status') %>% 
@@ -68,13 +76,13 @@ nas_int <- nas_raw %>%
 ```
 
 ```{r visualize}
-nass_res_graph <- ggplot(nas_int) +
+nas_res_graph <- ggplot(nas_int) +
   geom_line(aes(x= Year, y=nas_score, color= State))+
   theme_classic() +
   labs(y = "year", x = "score") +
   ggtitle("NASS ")
 
-nass_res_graph 
+nas_res_graph 
 ggsave(file.path(dir_git, "prep/resilience/ecological/species_pollution/figs/nass_res_graph.jpg"), width=7, height=5, dpi=300)
 ```
 
@@ -102,18 +110,21 @@ nas <- nas_int %>%
                                                                "Rhode Island")))))))
 ```
 
+## Save to layers
 save this layer
 ```{r_layer}
 write.csv(nas, file.path(dir_git, "prep/resilience/ecological/species_pollution/data/nas.csv"))
 ```
 
+## Explore data for pressures
 
+Exploring total number of occurrences that have become established for the species pollution pressure layer
 Now we want to see how many species are observed in a new area in each to quantify invasive species pressures
 ```{r occurances}
 nas_est <- nas_raw %>% 
   select('Scientific Name', 'Country', 'State', 'Year', 'Status') %>% 
   rename(sci_name = "Scientific Name") %>% 
-  filter(Status %in% c('established', 'locally established', 'eradicated','extripated'),
+  filter(Status %in% c('established', 'locally established', 'eradicated','extirpated'),
          Country %in% 'United States of America',
          State %in% c("ME", "MA", "NY", "RI", "CT", "NH"),
          Year >= 1970 & Year <= 2018) %>% 

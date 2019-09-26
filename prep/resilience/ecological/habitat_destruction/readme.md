@@ -1,6 +1,6 @@
 ## Ocean Health Index - US Northeast: Habitat Destruction Resilience
 
-This folder describes the methods used to prepare data for the climate change resilience layer for the US Northeast OHI assessment. 
+This folder describes the methods used to prepare data for the habitat destruction resilience layer for the US Northeast OHI assessment. 
 
 Data used:
 1. Habitat Areas Protected

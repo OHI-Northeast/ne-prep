@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Species Pollution Resilience prep"
+title: "OHINE: Resilience - Species Pollution Resilience Layer Calculations"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -31,7 +31,9 @@ aquaculture_reg: NA
 ballast_reg: NA
 nas: 2005-2017
 
+# Methods
 
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -45,9 +47,8 @@ library(dplyr)
 library(readxl)
 ```
 
-
 Read in Data
-```{r}
+```{r load_data}
 aquaculture_reg <- read_xlsx(file.path(dir_anx, "_raw_data/manually_created/aquaculture_reg.xlsx"))
 
 ballast_reg <- read_xlsx(file.path(dir_anx, "_raw_data/manually_created/ballast_reg.xlsx"))
@@ -56,7 +57,7 @@ nas_short<- read.csv("~/github/ne-prep/prep/resilience/ecological/species_pollut
   select(-X)
 ```
 
-
+## Calculate Scores, graph, and save layer
 Creating a df to add on to the water pollution scores to have the missing regions there 
 ```{r missing_rgns_df}
 miss_rgns <- tribble(
@@ -77,7 +78,7 @@ miss_rgns <- miss_rgns %>%
 Cleaning up the data to be combined and used as a layer
 
 NAS
-```{r}
+```{r nas_int}
 nas_int <- nas_short %>% 
   rename(year = Year) %>% 
   rename(score = nas_score) %>% 
@@ -85,10 +86,10 @@ nas_int <- nas_short %>%
   arrange(year, rgn_name)
 ```
 
-4 enteries missing in the nas data, which means that 4 times no species occurances were logged:
-RI 2008, 2011, 2012,2013. Even though Rhode Island has a score of 0 for every entry, this is because of very low invasive species occracnes (1= lowest (and the mode) and 7=highest). So here I will give RI a score of 1 because the way that the data is represnted this means that no new invasive species were introduced.
+4 entries missing in the nas data, which means that 4 times no species occurrences were logged:
+RI 2008, 2011, 2012,2013. Even though Rhode Island has a score of 0 for every entry, this is because of very low invasive species occurrences  (1= lowest (and the mode) and 7=highest). So here I will give RI a score of 1 because the way that the data is represented this means that no new invasive species were introduced.
 
-```{r}
+```{r ri_missing}
 nas_ri_miss <- tribble(
   ~year, ~rgn_name, ~rgn_id, ~score,
   2008, "Rhode Island", 11, 1,  
@@ -99,15 +100,14 @@ nas_ri_miss <- tribble(
   as.data.frame() 
 ```
 
-```{r}
+```{r nas_final}
 nas <- nas_int %>% 
   rbind(nas_ri_miss) %>% 
   rename(nas_score = score)
 ```
 
-
-Combine all the data together and calcualte a regulation, enforcement, compliance, and overall resilience score
-```{r}
+Combine all the data together and calculate a regulation, enforcement, compliance, and overall resilience score
+```{r calculate_alien}
 res_sp <- left_join(nas, ballast_reg, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(aquaculture_reg, by = c("year", "rgn_id", "rgn_name")) %>% 
   rowwise() %>% 
@@ -118,7 +118,7 @@ res_sp <- left_join(nas, ballast_reg, by = c("year", "rgn_id", "rgn_name")) %>%
 ```
 
 Save necessary information for the water pollution layer
-```{r}
+```{r save_data}
 res_species_pollution <- res_sp %>% 
   select(year, rgn_id, rgn_name, res_score) %>% 
   rename(score = res_score)
@@ -127,7 +127,7 @@ write.csv(res_species_pollution, file.path(dir_git,"prep/resilience/ecological/w
 ```
 
 Visualization
-```{r}
+```{r graph_alien}
 res_species_pollution_graph <- ggplot(res_species_pollution) +
   geom_line(aes(x=year, y= score, color = rgn_name))+
   ggtitle("North East Species Pollution Resilience Scores") +
@@ -141,7 +141,7 @@ ggsave("figs/res_species_pollution_graph.jpg", width=7, height=5, dpi=300)
 
 
 Write as a resilience layer to ne-scores
-```{r}
+```{r write_to_scores}
 write.csv(res_species_pollution, file.path(dir_calc, "layers/res_alien.csv"))
 ```
 
