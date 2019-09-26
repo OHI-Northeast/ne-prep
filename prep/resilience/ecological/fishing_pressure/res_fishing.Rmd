@@ -16,6 +16,26 @@ output:
 toc: true
 ---
 
+# Summary
+
+This script calculates fishing pressure resilience values by OHINE region. 
+
+The data layers are used to quantify existence of regulations, implementation + enforcement, and effectiveness + compliance. These three parts are then used to calculate one overall water pollution resilience score for each region. 
+
+1. Regulations: landed_ass.csv, fish_area_protected.csv, adeq_assessed.csv, spec_regulation.csv
+2. Implementation + Enforcement: observ_cov.csv, ole_enforcement.csv
+3. Effectiveness + Compliance: ole_compliance.csv
+
+Data Time Ranges:
+landed_ass: 2005-2017
+fish_area_protected: NA (one score applied to all years)
+adeq_assessed: 2005-2017
+species_man: NA
+observ_cov: 2013-2017
+ole_enforcement: 2015-2018
+ole_compliance: 2015-2018
+
+
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -35,11 +55,65 @@ library(readxl)
 library(tabulizer)
 ```
 
-some of this code below will probably help 
 
-Apply the same scores to every region
+Read in Data
 ```{r}
-enf_com_scores <- enforcement_compliance_scores%>% 
+landed_ass_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/landed_ass.csv") %>% select(-X) 
+
+fish_area_protected_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/fish_area_protected.csv") %>% 
+  select(-X) 
+
+adeq_assessed_short<- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/adeq_assessed.csv") %>% 
+  select(-X)
+
+species_man_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/species_man.csv") %>% 
+  select(-X)
+
+observ_cov_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/observ_cov.csv") %>% 
+  select(-X)
+
+ole_enforcement_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/ole_enforcement.csv") %>% 
+  select(-X)
+
+ole_compliance_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/ole_compliance.csv") %>% 
+  select(-X)
+```
+
+
+Cleaning up the data to be combined and used as a layer
+```{r}
+landed_ass <- landed_ass_short %>% 
+  select(year, rgn_id, rgn_name, per_catch_landed) %>% 
+  rename(landed_ass_score = per_catch_landed)
+```
+
+```{r}
+fish_area_protected <- fish_area_protected_short %>% 
+  select(year, rgn_id, rgn_name, fish_area_score) %>% 
+  rename(fish_area_protected_score = fish_area_score)
+```
+
+```{r}
+adeq_assessed <- adeq_assessed_short %>% 
+  select(year, rgn_id, rgn_name, percent_adeq_ass) %>% 
+  rename(adeq_assessed_score = percent_adeq_ass)
+```
+
+
+```{r}
+species_man <- species_man_short %>% 
+  rename(species_man_score = species_regulated_score) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>% 
+  select(-n) %>% 
+  mutate(rgn_name = str_replace(rgn_name,"Massachusetts-Gulf of Maine", "Massachusetts-North"),
+         rgn_name = str_replace(rgn_name,"Massachusetts-Virginian", "Massachusetts-South"))
+```
+
+```{r}
+observ_cov <- observ_cov_short %>% 
+  rename(observ_cov_score = enforcement_score_obser) %>% 
+  fill(observ_cov_score, .direction = c("up")) %>% 
   uncount(11, .id = "n", .remove = F) %>%
   mutate(rgn_name = ifelse(n == 1, "Offshore", 
                        ifelse(n==2, "Georges Bank",
@@ -52,34 +126,96 @@ enf_com_scores <- enforcement_compliance_scores%>%
                                                                          ifelse(n==9, "New Hampshire",
                                                                                 ifelse(n==10, "New York",
                                                                                        "Rhode Island"))))))))))) %>%
-  rename(rgn_id=n) %>% 
-  mutate(rgn_id = as.character(rgn_id)) %>% 
-  select(-enforcement_score_OLE, -enforcement_score_obser)
-
-write.csv(enf_com_scores, file = "data/enf_com_scores.csv")
+  rename(rgn_id=n)
 ```
 
-###Calculate Overall Fisheries Resilience Score
+
+Tidying the OLE enforcemnet data for res score calculations by region
 ```{r}
-fish_res_score <- left_join(fisheries_reg_score, ole_scores, by = c("year", "rgn_id", "rgn_name")) %>% 
+ole_enforcement <- ole_enforcement_short %>% 
+  select(year, ole_enforcement_score) %>% 
+  fill(ole_enforcement_score, .direction = c("up")) %>% 
+  filter(year <= 2017) %>% 
+  uncount(11, .id = "n", .remove = F) %>%
+  mutate(rgn_name = ifelse(n == 1, "Offshore", 
+                       ifelse(n==2, "Georges Bank",
+                               ifelse(n==3, "Gulf of Maine",
+                                      ifelse(n==4, "Mid-Atlantic Bight",
+                                             ifelse(n==5, "Connecticut",
+                                                    ifelse(n==6, "Maine",
+                                                           ifelse(n==7, "Massachusetts-North",
+                                                                  ifelse(n==8, "Massachusetts-South",
+                                                                         ifelse(n==9, "New Hampshire",
+                                                                                ifelse(n==10, "New York",
+                                                                                       "Rhode Island"))))))))))) %>%
+  rename(rgn_id=n)
+```
+
+Tidying the OLE compliance data for res score calculations by region
+```{r}
+ole_compliance <- ole_compliance_short %>% 
+  select(year, ole_compliance_score) %>% 
+  filter(year <= 2017) %>% 
+  uncount(11, .id = "n", .remove = F) %>%
+  mutate(rgn_name = ifelse(n == 1, "Offshore", 
+                       ifelse(n==2, "Georges Bank",
+                               ifelse(n==3, "Gulf of Maine",
+                                      ifelse(n==4, "Mid-Atlantic Bight",
+                                             ifelse(n==5, "Connecticut",
+                                                    ifelse(n==6, "Maine",
+                                                           ifelse(n==7, "Massachusetts-North",
+                                                                  ifelse(n==8, "Massachusetts-South",
+                                                                         ifelse(n==9, "New Hampshire",
+                                                                                ifelse(n==10, "New York",
+                                                                                       "Rhode Island"))))))))))) %>%
+  rename(rgn_id=n)
+```
+
+Combining the data and calulating one overall fisheries resilience score
+```{r}
+res_fs <- left_join(landed_ass, fish_area_protected, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(species_man, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(adeq_assessed, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(observ_cov, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(ole_enforcement, by = c("year", "rgn_id", "rgn_name")) %>% 
+  left_join(ole_compliance, by = c("year", "rgn_id", "rgn_name")) %>% 
+  fill(ole_compliance_score, .direction = c("up")) %>% 
+  fill(ole_enforcement_score, .direction = c("up")) %>% 
   rowwise() %>% 
-  mutate(score= mean(c(enforcement_score, compliance_score, reg_score), na.rm=T)) %>% 
-  select(year, rgn_name, rgn_id, score)
-
-write.csv(fish_res_score, file = "data/fish_res_score.csv")
+  mutate(regulation = mean(c(landed_ass_score, fish_area_protected_score,species_man_score, adeq_assessed_score)),
+         enforcement = mean(c(observ_cov_score, ole_enforcement_score))) %>% 
+  rename(compliance = ole_compliance_score) %>% 
+  mutate(res_score = mean(c(regulation, enforcement, compliance)))
 ```
 
-Visualize
+Visualization
 ```{r}
-fisheries_res_graph <- ggplot(fish_res_score)+
-  geom_line(aes(x=year, y= score, color= rgn_name))+
- ggtitle("Fisheries Resilience Scores") +
+res_fs_graph <- ggplot(res_fs) +
+  geom_line(aes(x=year, y= res_score, color = rgn_name))+
+  ggtitle("North East Fishing Resilience Scores") +
   ylab("Score") +
   xlab("Year") +
-  theme_classic()
+  theme_classic() 
 
-fisheries_res_graph
-
-##save fig
-ggsave("figs/fisheries_res_graph.jpg", width=7, height=5, dpi=300)
+res_fs_graph
+ggsave("figs/res_fs_graph.jpg", width=7, height=5, dpi=300)
 ```
+
+
+Save necessary information for the fishing layer
+```{r}
+res_fishing <- res_fs %>% 
+  select(year, rgn_id, rgn_name, res_score) %>% 
+  rename(score = res_score)
+
+write.csv(res_fishing, file.path(dir_git,"prep/resilience/ecological/fishing_pressure/data/res_fishing.csv"))
+```
+
+
+Write as a resilience layer to ne-scores
+```{r}
+write.csv(res_fishing, file.path(dir_calc, "layers/res_fishing.csv"))
+```
+
+
+

@@ -124,13 +124,13 @@ protected_score <- marine_protected_by_rgn %>%
          fish_area_score = if_else(fish_area_score > 1, 1, fish_area_score)) %>% 
   mutate(rgn_id = as.character(rgn_id))
 
-write.csv(protected_score, file = "data/protected_score.csv")
+write.csv(protected_score, file = "data/fish_area_protected.csv")
 ```
 
 Visualize
 ```{r}
 protected_score_graph <- ggplot(protected_score) +
-  geom_line(aes(x=year, y= score, color = rgn_id))+
+  geom_line(aes(x=year, y= fish_area_score, color = rgn_id))+
   labs(title = "Protected Areas Score: Fisheries Resilience")+
   ylab("Score") +
   xlab("Year") +

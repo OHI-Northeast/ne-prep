@@ -137,7 +137,7 @@ Visualization
 ```{r}
 res_hd_graph <- ggplot(res_hd) +
   geom_line(aes(x=year, y= res_score, color = rgn_name))+
-  ggtitle("North East Water Pollution Resilience Scores") +
+  ggtitle("North East Habitat Destruction Resilience Scores") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
