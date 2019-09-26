@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Change Pressure Prep"
+title: "OHIEC: Resilience - Clean Energy Consumption Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,9 +18,12 @@ toc: true
 
 # Summary
 
-This script calculates climate change resilience values by OHINE region. 
+This script calculates if each region is meeting their annual target necessary to reach their end clean energy consumption goal.
 
-**3. EIA Consumption Data**
+# Data
+
+**EIA Consumption Data**
+
 **Downloaded**: August, 2019
 
 **Description**: Energy consumption by energy source.  https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
@@ -29,14 +32,11 @@ This script calculates climate change resilience values by OHINE region.
 
 **Format**: Tabular
 
+# About
+Scores are calculated by taking the EIA energy consumption data, calculating the percent of energy consumed that comes from clean sources, and dividing it by the target emissions. Total annual carbon emissions were pulled from the EIA website. Clean energy consumption targets are calculated by performing a linear regression from 2004 to the target year of their consumption goal. While there is a variety of energy plans and portfolios in the US that differ from state to state, every state in our region of interest has a "renewable energy portfolio standards", so we do not include nuclear energy production as part of the total renewable energy consumption target.
 
-2. Take the percent of clean power consumption each year and compare to the target, which is calculated by the state set goals
-a. Renewable/Clean Energy Targets:
-Drawn from http://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx#me
-note: all targets are part of "renewable energy portfolio standards" so I won't be including nuclear energy into calculating if states are on track for targets
-
-
-##Clean Energy Cosumption
+Clean Energy Consumption Targets:
+http://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx#me
 
 1. Maine = 40% by 2017
 2. New Hampshire = 25.2% by 2025
@@ -45,7 +45,9 @@ note: all targets are part of "renewable energy portfolio standards" so I won't 
 5. New York = 50% by 2030
 6. Rhode Island = 38.5% by 2035
 
+# Methods
 
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -64,10 +66,10 @@ library(stringr)
 library(readxl)
 library(tabulizer)
 ```
-Load in the energy consumption data for each state. All numbers are in Billion Btu
-Did not include the energy imported beacuse there is no way to know what source that came from
 
-```{r}
+Load in the energy consumption data for each state. All numbers are in Billion Btu
+Did not include the energy imported because there is no way to know what source that came from
+```{r load_data}
 ct_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/ct_consumption.csv"), skip = 1)
 me_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/me_consumption.csv"), skip = 1)
 ma_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/ma_consumption.csv"), skip = 1)
@@ -76,8 +78,13 @@ nh_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/nh_c
 ny_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/ny_consumption.csv"), skip = 1)
 ```
 
+
+
+## Calculate consumption
+Now we need to calculate the total energy consumption and the total clean energy consumption by each state each year.
+
 Connecticut
-```{r}
+```{r ct_calc_total}
 ct_con <- ct_con_raw %>% 
   select(-"Series Name_1",-"Series Name_2",-"Series Name_3",-"Series Name_4",-"Series Name_5",-"Series Name_6") %>% 
   rename(year = "Series Name",
@@ -94,7 +101,7 @@ ct_con <- ct_con_raw %>%
 ```
 
 Maine
-```{r}
+```{r me_calc_total}
 me_con <- me_con_raw %>% 
   select(-"Series Name_1",-"Series Name_2",-"Series Name_3",-"Series Name_4",-"Series Name_5",-"Series Name_6") %>% 
   rename(year = "Series Name",
@@ -111,7 +118,7 @@ me_con <- me_con_raw %>%
 ```
 
 Massachusetts
-```{r}
+```{r ma_calc_total}
 ma_con <- ma_con_raw %>% 
   select(-"Series Name_1",-"Series Name_2",-"Series Name_3",-"Series Name_4",-"Series Name_5",-"Series Name_6") %>% 
   rename(year = "Series Name",
@@ -128,7 +135,7 @@ ma_con <- ma_con_raw %>%
 ```
 
 Rhode Island
-```{r}
+```{r ri_calc_total}
 ri_con <- ri_con_raw %>% 
   select(-"Series Name_1",-"Series Name_2",-"Series Name_3",-"Series Name_4",-"Series Name_5",-"Series Name_6") %>% 
   rename(year = "Series Name",
@@ -145,7 +152,7 @@ ri_con <- ri_con_raw %>%
 ```
 
 New Hampshire
-```{r}
+```{r nh_calc_total}
 nh_con <- nh_con_raw %>% 
   select(-"Series Name_1",-"Series Name_2",-"Series Name_3",-"Series Name_4",-"Series Name_5",-"Series Name_6") %>% 
   rename(year = "Series Name",
@@ -162,7 +169,7 @@ nh_con <- nh_con_raw %>%
 ```
 
 New York
-```{r}
+```{r ny_calc_total}
 ny_con <- ny_con_raw %>% 
   select(-"Series Name_1",-"Series Name_2",-"Series Name_3",-"Series Name_4",-"Series Name_5",-"Series Name_6") %>% 
   rename(year = "Series Name",
@@ -179,7 +186,7 @@ ny_con <- ny_con_raw %>%
 ```
 
 Combine all states energy consumption data into one and calculate the percent of renewable. Also calculating percent with clean(ie: nuclear) for fun/its interesting
-```{r}
+```{r calc_percent_consum_clean}
 consum <- rbind(me_con, ma_con, ct_con, nh_con, ny_con, ri_con) %>% 
   mutate(coal = as.numeric(coal),
          nat_gas = as.numeric(nat_gas),
@@ -197,7 +204,7 @@ consum <- rbind(me_con, ma_con, ct_con, nh_con, ny_con, ri_con) %>%
 ```
 
 Visualize
-```{r}
+```{r visualize_consumption_clean}
 # renewable only
 con_renew_graph <- ggplot(consum)+
   geom_line(aes(x=year, y= per_renew, color= state))+
@@ -207,22 +214,14 @@ con_renew_graph <- ggplot(consum)+
   theme_classic()
 
 con_renew_graph
-
-#clean(nuclear) and renewable
-con_clean_graph <- ggplot(consum)+
-  geom_line(aes(x=year, y= per_clean, color= state))+
- ggtitle("Percent of clean/renewable energy used") +
-  ylab("Percent") +
-  xlab("Year") +
-  theme_classic()
-
-con_clean_graph
 ```
 
-Now that we have the actual percentage of energy consumption that comes from renewable, we can do linear regressions using the state set targets as the end points. With this we can calculate if each state is on track to hitting their renewable energy target goal for a given year.
+## Regressions for trend targets
+
+Now that we have the actual percentage of energy consumption that comes from renewable, we can perform regressions for each state to determine the annual target needed to meet end target. This is done by creating a state specific df with the start (observed) and end (goal) carbon emissions, and then using the slope and intercept to calculate the annual targets. With this we can calculate if each state is on track to hitting their renewable energy target goal for a given year.
 
 Maine
-```{r}
+```{r me_lin_reg}
 #MA 40% clean by 2017
 me <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
@@ -256,7 +255,7 @@ me_clean_target <- me %>%
 ```
 
 Massachusetts
-```{r}
+```{r ma_lin_reg}
 #MA 35% clean by 2030
 ma <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
@@ -284,7 +283,7 @@ ma_clean_target <- ma %>%
 ```
 
 New Hampshire
-```{r}
+```{r nh_lin_reg}
 #NH 25.2% clean by 2025
 nh <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
@@ -313,7 +312,7 @@ nh_clean_target <- nh %>%
 
 
 Rhode Island
-```{r}
+```{r ri_lin_reg}
 #RI 38.5% clean by 2035
 ri <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
@@ -340,7 +339,7 @@ ri_clean_target <- ri %>%
 ```
 
 New York
-```{r}
+```{r ny_lin_reg}
 #NY 50% clean by 2030
 ny <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
@@ -368,7 +367,7 @@ ny_clean_target <- ny %>%
 
 
 Connecticut
-```{r}
+```{r ct_lin_reg}
 #CT 44% clean by 2030
 ct <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
@@ -396,13 +395,13 @@ ct_clean_target <- ct %>%
 ```
 
 Combine all states df with target
-```{r}
+```{r combine_state_targets}
 energy_target <- rbind(me_clean_target, nh_clean_target, ma_clean_target, ri_clean_target, ct_clean_target, ny_clean_target)
 ```
 
+## Calculate Score
 
-Calculate scores
-```{r}
+```{r calc_scores}
 renew_consum <- energy_target %>% 
   mutate(score = per_renew/target,
          score = if_else(score >1, 1, score)) 
@@ -411,7 +410,7 @@ write.csv(renew_consum, file = "data/renew_consum.csv")
 ```
 
 Visualize scores
-```{r}  
+```{r vis_scores}  
 renew_consum_graph <-ggplot(renew_consum)+
   geom_line(aes(x=year, y = score, color=state))+
   ggtitle("Clean Energy Score") +

@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Change Pressure Prep"
+title: "OHIEC: Resilience - Climate Change Resilience Layer Calculations"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,7 +16,6 @@ output:
 toc: true
 ---
 
-
 # Summary
 
 This script calculates climate change resilience values by OHINE region. 
@@ -28,12 +27,18 @@ The data layers are used to quantify existence of regulations, implementation + 
 3. Effectiveness + Compliance: renew_consum.csv, carbon_em.csv
 
 Data Time Ranges:
+
 acee_rankings: 2005-2017
+
 climate_actions: NA (year column done in the climate actions markdown)
+
 renew_consum:2005-2017
+
 carbon_em: 2005-2016
 
+# Methods
 
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -53,9 +58,8 @@ library(readxl)
 library(tabulizer)
 ```
 
-
 Read in Data
-```{r}
+```{r read_data}
 acee_rankings_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/climate_change/data/acee_rankings.csv") %>% 
   select(-X) 
 
@@ -69,6 +73,7 @@ carbon_em_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/climate
   select(-X)
 ```
 
+## Tidy data for merging
 
 Creating a df to add on to the water pollution scores to have the missing regions there 
 ```{r missing_rgns_df}
@@ -87,9 +92,8 @@ miss_rgns <- miss_rgns %>%
   unique()
 ```
 
-Cleaning up the data to be combined and used as a layer
 ACEE 
-```{r}
+```{r acee_tidy}
 acee_rankings <- acee_rankings_short %>% 
   select(year, state, score_eee) %>% 
   rename(score = score_eee) %>% 
@@ -107,7 +111,7 @@ acee_rankings <- acee_rankings_short %>%
 ```
 
 Climate Actions
-```{r}
+```{r clim_act_tidy}
 climate_actions <- climate_actions_short %>% 
   select(year, State, score) %>% 
   mutate(rgn_id1 = case_when(
@@ -137,7 +141,7 @@ climate_actions <- climate_actions_short %>%
 ```
 
 Renewable Consumption
-```{r}
+```{r consum_tidy}
 renew_consum <- renew_consum_short %>% 
   select(year, state, score) %>% 
   mutate(rgn_id1 = case_when(
@@ -168,7 +172,7 @@ renew_consum <- renew_consum_short %>%
 
 Carbon Emissions
 Once the data for 2017 is released, this part can be removed
-```{r}
+```{r carb_em_missing}
 ##emmissions scores
 #create a seperate df to bind to the main one for year 2017 beacuse no data for that
 em_2017<- tribble(
@@ -184,7 +188,7 @@ em_2017<- tribble(
   as.data.frame() 
 ```
 
-```{r}
+```{r carb_em_tidy}
 carbon_em <- carbon_em_short %>% 
   select(year, state, score) %>% 
   mutate(rgn_id1 = case_when(
@@ -214,9 +218,9 @@ carbon_em <- carbon_em_short %>%
 ```
 
 
+## Calculate scores
 Combine all the data together and calculate a regulation, enforcement, compliance, and overall resilience score
-
-```{r}
+```{r combine_climate_data}
 res_cc <- left_join(acee_rankings, climate_actions, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(carbon_em, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(renew_consum, by = c("year", "rgn_id", "rgn_name")) %>% 
@@ -228,7 +232,7 @@ res_cc <- left_join(acee_rankings, climate_actions, by = c("year", "rgn_id", "rg
 ```
 
 Save necessary information for the water pollution layer
-```{r}
+```{r save_layer}
 res_climate_change <- res_cc %>% 
   select(year, rgn_id, rgn_name, res_score) %>% 
   rename(score = res_score)
@@ -237,10 +241,10 @@ write.csv(res_climate_change, file.path(dir_git,"prep/resilience/ecological/wate
 ```
 
 Visualization
-```{r}
+```{r graph_cc_res}
 res_climate_change_graph <- ggplot(res_climate_change) +
   geom_line(aes(x=year, y= score, color = rgn_name))+
-  ggtitle("North East Water Pollution Resilience Scores") +
+  ggtitle("Northeast Climate Change Resilience Scores") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
@@ -251,7 +255,7 @@ ggsave("figs/res_climate_change_graph.jpg", width=7, height=5, dpi=300)
 
 
 Write as a resilience layer to ne-scores
-```{r}
+```{r write_to_scores}
 write.csv(res_climate_change, file.path(dir_calc, "layers/res_climate_change.csv"))
 ```
 

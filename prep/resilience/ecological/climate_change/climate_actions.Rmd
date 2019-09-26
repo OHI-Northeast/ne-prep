@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Change Pressure Prep"
+title: "OHIEC: Resilience - Climate Friendly Actions Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,12 +18,11 @@ toc: true
 
 # Summary
 
-This script calculates climate change resilience values by OHINE region. 
+This script calculates the scope of climate friendly actions by region
 
 # Data
-American Council for Energy-Efficient Economy (EEE) state and local policy rankings
+**America's Pledge**
 
-**2. America's Pledge**
 **Downloaded**: August, 2019
 
 **Description**: Got the raw data for Figure 2-3 Climate Friendly Actions by U.S States: Types and Numbers in the America's Pledge Report: Phase 1 (https://www.bbhub.io/dotorg/sites/28/2017/11/AmericasPledgePhaseOneReportWeb.pdf) from Tom Cyrs tom.cyrs@wri.org 
@@ -32,44 +31,48 @@ American Council for Energy-Efficient Economy (EEE) state and local policy ranki
 
 **Format**: Tabular
 
- America's Pledge Report: There are 33 differnet cateogies of environmental friendly actions each state can make. A state will get a perfect score if they have an action in each of these categories 
+# About
+There are 33 different categories of environmental friendly actions each state can make. A state will get a perfect score if they have an action in each of these categories. Here I removed actions that were energy efficiency related because that information is more succinctly summarized in the ACEE data.  
  
- 
-Climate Friendly Actions
-total of 30 possible actions to be taken. 
+There are a total of 30 possible actions categories for this data layer.
 Set target as 30. A state would need to have taken some sort of action in each of the following categories to get 100%
 
-1) Integrating transportation & land-use in comprehensive plans	
-2) Dedicated funding streams for public transit
-3) Adopting legislation in line with Complete Streets objectives
-4) Financial incentives for high efficiency vehicles
-5) Conservation easement tax credits
-6) California’s vehicle emission standards
-7) Rules and incentives to reduce food waste
-8) Most recent building energy codes
-9) Appliance and equipment energy efficiency standards
-10) Carbon pricing	
-11) Zero Emission Vehicle mandate
-12) Cost-sharing programs to improve forest systems
-13) Wildfire protection incentives
-14) Coal mine methane standards
-15) Low carbon fuel standard
-16) Methane standards for existing oil and natural gas facilities
-17) Setting methane emission reduction targets
-18) Freight-specific energy efficiency performance metrics
-19) HFC management program requiring all leaks to be repaired
-20) Financial incentives for CCS
-21) Zero-emission credits for nuclear
-22) GHG Emission Targets
-23) Renewable energy portfolio standards or goals
-24) Property Assessed Clean Energy
-25) Combined heat and power financing and incentives
-26) Landfill gas energy project bond, grant, loan, or rebate programs
-27) Energy efficiency resource standard or goals
-28) Property tax programs to support sustainable forests
-29) Efficient vehicle requirement for public fleet procurement
-31) Freight plan  with multimodal freight strategies
+Categories:
 
+1. Integrating transportation & land-use in comprehensive plans	
+2. Dedicated funding streams for public transit
+3. Adopting legislation in line with Complete Streets objectives
+4. Financial incentives for high efficiency vehicles
+5. Conservation easement tax credits
+6. California’s vehicle emission standards
+7. Rules and incentives to reduce food waste
+8. Most recent building energy codes
+9. Appliance and equipment energy efficiency standards
+10. Carbon pricing	
+11. Zero Emission Vehicle mandate
+12. Cost-sharing programs to improve forest systems
+13. Wildfire protection incentives
+14. Coal mine methane standards
+15. Low carbon fuel standard
+16. Methane standards for existing oil and natural gas facilities
+17. Setting methane emission reduction targets
+18. Freight-specific energy efficiency performance metrics
+19. HFC management program requiring all leaks to be repaired
+20. Financial incentives for CCS
+21. Zero-emission credits for nuclear
+22. GHG Emission Targets
+23. Renewable energy portfolio standards or goals
+24. Property Assessed Clean Energy
+25. Combined heat and power financing and incentives
+26. Landfill gas energy project bond, grant, loan, or rebate programs
+27. Energy efficiency resource standard or goals
+28. Property tax programs to support sustainable forests
+29. Efficient vehicle requirement for public fleet procurement
+30. Freight plan  with multimodal freight strategies
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -90,7 +93,8 @@ Load Data
 raw_clim_act <- read_excel(file.path(dir_anx, "_raw_data/Americas_Pledge/states_climate_regs_summary.xlsx"), skip=2, sheet = 2)
 ```
 
-```{r}
+## Calculate scores
+```{r calculate_climate_actions_score}
 climate_actions <- raw_clim_act %>% 
   filter(State == "Maine" | State == "Massachusetts" | State == "New Hampshire" | State == "Rhode Island" | State == "Connecticut" | State == "New York" | State == "Total # of actions considered") %>% 
   select(-"Energy efficiency", -"Total") %>% 
@@ -105,7 +109,8 @@ climate_actions <- raw_clim_act %>%
 write.csv(climate_actions, file = "data/climate_actions.csv")
 ```
 
-```{r}
+## Graph scores
+```{r graph_climate_action_scores}
 climate_actions_graph <-ggplot(climate_actions)+
   geom_line(aes(x=year, y = score, color=State))+
   ggtitle("Climate Friendly Actions Score") +

@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Change Pressure Prep"
+title: "OHIEC: Resilience - ACEE Rankings Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -21,7 +21,8 @@ toc: true
 This script calculates climate change resilience values by OHINE region. 
 
 # Data
-American Council for Energy-Efficient Economy (EEE) state and local policy rankings
+
+**American Council for Energy-Efficient Economy** (EEE) state and local policy rankings
 
 **Downloaded**: August, 2019
 
@@ -32,9 +33,10 @@ American Council for Energy-Efficient Economy (EEE) state and local policy ranki
 **Format**: PDF
 
 
-2. American Council for Energy Efficiency Rankings: Each state is scored out of 50 (except in 2006 it's out of 44) on their policies in place for energy efficiency etc. 50 would be a perfect score
+# About
+American Council for Energy Efficiency Rankings: Each state is scored out of 50 (except in 2006 it's out of 44) on their policies in place for energy efficiency etc. 50 would be a perfect score. This script adjusts those scores on a scale of 0-1. There is no data for 2007, and the method for ranking the states changed by adding a new category from 2006 to 2008 (hence the total possible score changes). I used the 2006 score for 2007, and this was done in the spreadsheet on the server.
 
-
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -55,6 +57,8 @@ Load Data
 eee <- read_excel(file.path(dir_anx, "_raw_data/EEE/aceee_2006_2018.xlsx"))
 ```
 
+
+## Calculate scores
 ```{r calculate}
 acee_rankings <- eee %>% 
   mutate(score_eee = score/target)
@@ -63,7 +67,7 @@ acee_rankings <- eee %>%
 write.csv(acee_rankings, file = "data/acee_rankings.csv")
 ```
 
-Visualize
+## Graph scores
 ```{r visualize}
 acee_rankings_graph <-ggplot(acee_rankings)+
   geom_line(aes(x=year, y = score, color=state))+

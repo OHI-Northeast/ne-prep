@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Climate Change Pressure Prep"
+title: "OHIEC: Resilience - Carbon Emissions Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,9 +18,12 @@ toc: true
 
 # Summary
 
-This script calculates climate change resilience values by OHINE region. 
+This script calculates if each region is meeting their annual target necessary to reach their end carbon emissions goal.
 
-**4. EPA Carbon Emissions**
+# Data
+
+**EPA Carbon Emissions**
+
 **Downloaded**: August, 2019
 
 **Description**: Carbon emissions from each state from fossil fuels. 'https://www.epa.gov/sites/production/files/2017-09/documents/co2ffc_2015.pdf'
@@ -28,20 +31,20 @@ This script calculates climate change resilience values by OHINE region.
 **Time range**: 1990-2016
 
 **Format**: Tabular
-1. Take the total CO2 emissions each year and compare to the target, which is calculated by the state set goals
-a. Carbon Emission Targets:
+
+# About
+Scores are calculated by taking the EPA emissions data and dividing it by the target emissions. Total annual carbon emissions were pulled from the EPA website. Carbon emission targets are calculated by performing a linear regression from 2004 to the target year of their emissions goal.
+
+Carbon Emission Targets:
 Targets pulled from https://www.c2es.org/document/greenhouse-gas-emissions-targets/
 Rhode Island is missing from this map so pulled from http://www.planning.ri.gov/documents/LU/energy/energy15.pdf
 
-
-##Carbon Emmissions
-Targets:
-Maine= 80% reduction below 1990 levels by 2050
-New Hampshire= 80% reduction below 1990 levels by 2050
-Connecticut= 80% reduction below 2001 levels by 2050
-Massachusetts= 80% reduction below 1990 levels by 2050
-New York= 100% reduction below 1990 levels by 2050
-Rhode Island= 80% reduction below 1990 levels by 2050
+Maine=  80% reduction below 1990 levels by 2050
+New Hampshire = 80% reduction below 1990 levels by 2050
+Connecticut = 80% reduction below 2001 levels by 2050
+Massachusetts = 80% reduction below 1990 levels by 2050
+New York = 100% reduction below 1990 levels by 2050
+Rhode Island = 80% reduction below 1990 levels by 2050
 
 
 ``` {r setup,  message = FALSE, warning = FALSE}
@@ -63,8 +66,10 @@ library(readxl)
 library(tabulizer)
 ```
 
-Converting table from a pdf to a df
-```{r}
+## PDF to df
+
+The data is in a PDF format so here we convert a table from a pdf to a df. This needs to be done for each page separately.
+```{r convert_table_pdf_to_df}
 location <- file.path(dir_anx, "_raw_data/EPA/co2_emmissions_EPA.pdf")
 out <- extract_tables(location)
 
@@ -122,15 +127,16 @@ out5 <- out[[5]] %>%
          state != "Electric Power")
 ```
 
+## Create one df and calculate targets
 
-Combining and Tidying
-```{r}
+Now we are combining all the paces of the data table into one. We are also calculating the end target.
+```{r combine_table_calc_target}
 emissions <- rbind(out1, out2, out3, out4, out5) %>% 
   gather(year, emission, 2:28) %>% 
    filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "New Hampshire" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
   mutate(year = as.numeric(year),
          emission = as.numeric(emission)) %>% 
-  mutate(end_target = case_when(state == "Maine" ~ (23.64 - 0.8*(23.64)), #calulate state emission targets
+  mutate(end_target = case_when(state == "Maine" ~ (23.64 - 0.8*(23.64)), #calulate state emission target using specific goals
                             state == "New Hampshire" ~ (14.59 - 0.8*(14.59)),
                             state == "Connecticut" ~ (41.53 - 0.8*(41.53)),
                             state == "Massachusetts" ~ (83.09 - 0.8*(83.09)),
@@ -141,9 +147,9 @@ emissions <- rbind(out1, out2, out3, out4, out5) %>%
 write.csv(emissions, file = "data/emissions.csv")
 ```
 
-Visualize emmissions
-```{r}
+## Graph total emissions
 
+```{r visualize_total_emissions}
 graph_em <-ggplot(emissions)+
   geom_line(aes(x=year, y = emission, color=state))+
   ggtitle("Total Carbon Emissions") +
@@ -152,14 +158,15 @@ graph_em <-ggplot(emissions)+
   theme_classic() 
 
 graph_em 
-ggsave("figs/graph_em .jpg", width=7, height=5, dpi=300)
-
+ggsave("figs/graph_em.jpg", width=7, height=5, dpi=300)
 ```
 
-Regressions for trend targets
+## Regressions for trend targets
+
+Now we need to perform regressions for each state to determine the annual target needed to meet end target. This is done by creating a state specific df with the start (observed) and end (goal) carbon emissions, and then using the slope and intercept to calculate the annual targets.
 
 New Hampshire
-```{r}
+```{r nh_lin_reg}
 #NH 80% reduction below 1990 levels by 2050
 nh_em <- emissions %>% 
   filter(state == "New Hampshire") %>% 
@@ -185,7 +192,7 @@ nh_em_target <- nh_em %>%
 ```
 
 Massachusetts
-```{r}
+```{r ma_lin_reg}
 #MA 80% reduction below 1990 levels by 2050
 ma_em <- emissions %>% 
   filter(state == "Massachusetts") %>% 
@@ -211,7 +218,7 @@ ma_em_target <- ma_em %>%
 ```
 
 Rhode Island
-```{r}
+```{r ri_lin_reg}
 #RI 80% reduction below 1990 levels by 2050
 ri_em <- emissions %>% 
   filter(state == "Rhode Island") %>% 
@@ -238,7 +245,7 @@ ri_em_target<- ri_em %>%
 ```
 
 Connecticut
-```{r}
+```{r ct_lin_reg}
 #CT 80% reduction below 2001 levels by 2050
 ct_em <- emissions %>% 
   filter(state == "Connecticut") %>% 
@@ -264,7 +271,7 @@ ct_em_target <- ct_em %>%
 ```
 
 New York
-```{r}
+```{r ny_lin_reg}
 #NY 100% reduction below 1990 levels by 2050
 ny_em <- emissions %>% 
   filter(state == "New York") %>% 
@@ -290,7 +297,7 @@ ny_em_target <- ny_em %>%
 ```
 
 Maine
-```{r}
+```{r me_lin_reg}
 #MA 80% reduction below 1990 levels by 2050
 me_em <- emissions %>% 
   filter(state == "Maine") %>% 
@@ -316,12 +323,14 @@ me_em_target <- me_em %>%
 ```
 
 Combine all states df with target
-```{r}
+```{r combine_states_targets}
 emissions_target <- rbind(nh_em_target, ma_em_target, ri_em_target, ct_em_target, ny_em_target, me_em_target)
 ```
 
+## Carbon emissions scores
+
 Calculate scores
-```{r}
+```{r calc_emissions_scores}
 carbon_em <- emissions_target %>% 
   mutate(score = target/emission,
          score = if_else(score >1, 1, score)) 
@@ -330,7 +339,7 @@ write.csv(carbon_em, file = "data/carbon_em.csv")
 ```
 
 Visualize scores
-```{r}  
+```{r visualize_emissions_scores}  
 carbon_em_graph <-ggplot(carbon_em)+
   geom_line(aes(x=year, y = score, color=state))+
   ggtitle("Carbon emission scores") +
