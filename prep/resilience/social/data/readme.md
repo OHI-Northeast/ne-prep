@@ -1,12 +1,15 @@
 #data details
 ##Juliette Verstaen
 
+******************************************************************
+Data created in the `opportunity.Rmd`
 
-`bhi_scores.csv`
+`opportunity.csv`
 
-Data URL: http://beaconhill.org/economic-competitiveness/
+Data URL: https://opportunityindex.org/
 
-**Beacon Hill Annual State Competitiveness Report** This report has been published since 2001. Compiles state business climate indices: 
+The data is calculated by rescaling the scores for the annual assessments.
+These reports has been published since 2001. Compiles state business climate indices: 
 
 (1) fiscal policy
 (2) security
@@ -17,19 +20,34 @@ Data URL: http://beaconhill.org/economic-competitiveness/
 (7) openness
 (8) environment
 
-`oi_score.csv` Calculates the resilience scores from the opportunity index scorecards
+******************************************************************
+Data created in the `lcv.Rmd`
 
-`county_missing.csv` A csv file with the communites from the NOAA vulnerabiltiy indices that don't match up with a county name. The missing county information was then filled in manually by searching community locations
+`lcv.csv`
+ 
+Data URL: https://scorecard.lcv.org/
 
-`svi_overall` Calculates the resilience scores based off of the NOAA social vulnerability index for each of the regions of interest
+The data is calculated by rescaling the scores for the annual assessments.
+******************************************************************
+Data created in the `noaa_vul.Rmd`
 
-`lcv_scores` Uses the League of Conservation Voters Scorecard on each memeber of congress to calcualte a resilience score for each of the regions of interests
+`noaa_vul.csv`
 
-`social_resilience_scores` Consolidates `bhi_scores.csv` `oi_score.csv` `svi_overall` and `lcv_scores` and calucated one social resilience score with each peice weighted equally
+Data URL: https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map
 
+`county_missing.csv` 
+A csv file with the communities from the NOAA vulnerability indices that don't match up with a county name. The missing county information was then filled in manually by searching community locations
 
+The data is calculated by rescaling the scores for the annual assessments.
+******************************************************************
+Data created in the `state_compet.Rmd`
 
+`state_compet.csv`
 
+Data URL: http://beaconhill.org/economic-competitiveness/
+
+Report assesses each states competitiveness by assessing "if it has in place the policies and conditions that ensure and sustain a high level of per capita income and its continued growth"
+The data is calculated by rescaling the scores for the annual assessments.
 
 
 

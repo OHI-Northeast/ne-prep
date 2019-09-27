@@ -24,13 +24,37 @@ This script calculates social resilience values by OHINE region.
 **3. NOAA Social Vulnerability**
 **Downloaded**: August 2019
 
-**Description**: Calculates Social Vulnerability based on social vulnerability, fishing vulnerability, inundation risk, and gentrification vulnerability  
+**Description**: Calculates Social Vulnerability based on social vulnerability, fishing vulnerability, inundation risk, and gentrification vulnerability. https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map  
+
+The raw data was emailed to us by Lisa Colburn (lisa.l.colburn@noaa.gov)
 
 **Time range**: 2009-2016
 
 **Format**: Tabular
 
+# About
+Each community is scored in 4 indicators: Social Vulnerability, Gentrification Pressure, Sea Level Rise Vulnerability, Fishing Engagement and Reliance. The factors used to calculate individual scores are:
 
+LabFrc_ct	Labor Force categorical ranking
+HsChr_ct	Housing Characteristics categorical ranking
+Pvrty_ct	Poverty categorical ranking
+PopCom_ct	Population Composition categorical ranking
+PerDis_ct	Personal Disruption categorical ranking
+HsDis_ct	Housing Disruption categorical ranking
+RetMig_ct	Retiree Migration categorical ranking
+UrbSpl_ct	Urban Sprawl categorical ranking
+ComEng_ct	Commercial Fishing Engagement categorical ranking
+ComRel_ct	Commercial Reliance categorical ranking
+RecEng_ct	Recreational Engagement categorical ranking
+RecRel_ct	Recreational Reliance categorical ranking
+SLR_ct	Inundation Risk categorical ranking
+SS_ct	Storm Surge Risk categorical Ranking (2015 and 2016 only)
+
+Total overall vulnerability index score was then calculated by taking the average of all 4 indicator scores.
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -39,10 +63,6 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
-```
-
-Load Libraries
-``` {r}
 library(csv)
 library(dplyr)
 library(tidyverse)
@@ -53,7 +73,7 @@ library(scales)
 
 
 NOAA Social Vulnerability Index
-```{r}
+```{r load_data}
 raw_svi_2009 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=1)
 raw_svi_2010 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=2)
 raw_svi_2011 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=3)
@@ -70,30 +90,12 @@ MA_cities <- read_csv(file.path(dir_anx, "_raw_data/MA_gov/list-cities-massachus
   rename(city = Name)
 ```
 
-Time for data tidying!
+## Tidying
 
-Here I group and average by each region by the four categories (Social Vulnerability, Gentrification Pressure, Sea Level Rise Vulnerability, Fishing Engagement and Reliance). The variable definitions are below.
-Variable Definitions:
-LabFrc_ct	Labor Force categorical ranking
-HsChr_ct	Housing Characteristics categorical ranking
-Pvrty_ct	Poverty categorical ranking
-PopCom_ct	Population Composition categorical ranking
-PerDis_ct	Personal Disruption categorical ranking
-HsDis_ct	Housing Disruption categorical ranking
-RetMig_ct	Retiree Migration categorical ranking
-UrbSpl_ct	Urban Sprawl categorical ranking
-ComEng_ct	Commercial Fishing Engagement categorical ranking
-ComRel_ct	Commercial Reliance categorical ranking
-RecEng_ct	Recreational Engagement categorical ranking
-RecRel_ct	Recreational Reliance categorical ranking
-SLR_ct	Inundation Risk categorical ranking
-SS_ct	Storm Surge Risk categorical Ranking (2015 and 2016 only)
+First we need to divide the regions of Massachusetts North and South. The vulnerability index looked at communities not counties, but most of them do match up to counties. For the rest I manually went and and looked where they were and assigned the community to a region 
 
-
-First however, I need to divide out the regions of Massachusetts North and South. The vulnerability index looked at communities not counties, but most of them do match up to counties. For the rest I manually went and and looked where they were and assigned the community to a region 
-
-Look at Masachusetts "counties" in the SVI and see if they match up with the actual counties
-```{r}
+Look at Massachusetts "counties" in the SVI and see if they match up with the actual counties
+```{r ma_com}
 ma_communities <- raw_svi_2009 %>% 
   select(GEO_NAME) %>% 
   separate(GEO_NAME, c("city", "state"), sep= ", ") %>% 
@@ -113,14 +115,14 @@ MA_counties_missing <- read.csv(file.path(dir_anx, "_raw_data/MA_gov/county_miss
 ```
 
 Look to see where the division of north and south massachusetts is on the cape
-```{r}
+```{r regions}
 regions_map <- ggplot(rgns) +
   geom_sf(aes(fill= rgn_name))
 regions_map
 ```
 
 Combine 
-```{r}
+```{r combine_missing_counties}
 ma_rgns_by_counties <- ma_communities %>% 
   filter(!is.na(County)) %>% 
   left_join(MA_counties, by =c("County")) %>% 
@@ -129,9 +131,8 @@ ma_rgns_by_counties <- ma_communities %>%
 
 Now that the communities have the proper regions associated with them, we can calculate the score of the 4 indices (Social Vulnerability, Gentrification Pressure, Sea Level Rise Vulnerability, Fishing Engagement and Reliance)
 
-
 Do the same data tidying for every year (2009-2016)
-```{r}
+```{r tidy_2009}
 # tidy and find score averages
 calc_09 <- raw_svi_2009 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
@@ -167,7 +168,7 @@ MA_09 <- calc_09 %>%
 svi_2009 <- rbind(MA_09,noMA_09)
 ```
 
-```{r}
+```{r tidy_2010}
 calc_10 <- raw_svi_2010 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
@@ -202,7 +203,7 @@ MA_10 <- calc_10 %>%
 svi_2010 <- rbind(MA_10,noMA_10)
 ```
 
-```{r}
+```{r tidy_2011}
 calc_11 <- raw_svi_2011 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
@@ -237,7 +238,7 @@ MA_11 <- calc_11 %>%
 svi_2011 <- rbind(MA_11,noMA_11)
 ```
 
-```{r}
+```{r tidy_2012}
 calc_12 <- raw_svi_2012 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
@@ -272,7 +273,7 @@ MA_12 <- calc_12 %>%
 svi_2012 <- rbind(MA_12,noMA_12)
 ```
 
-```{r}
+```{r tidy_2013}
 calc_13 <- raw_svi_2013 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
@@ -307,7 +308,7 @@ MA_13 <- calc_13 %>%
 svi_2013 <- rbind(MA_13,noMA_13)
 ```
 
-```{r}
+```{r tidy_2014}
 calc_14 <- raw_svi_2014 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% #no SS_ct this year 
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
@@ -342,7 +343,7 @@ MA_14 <- calc_14 %>%
 svi_2014 <- rbind(MA_14, noMA_14)
 ```
 
-```{r}
+```{r tidy_2015}
 calc_15 <- raw_svi_2015 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_15ct, ComRel_15ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
@@ -378,7 +379,7 @@ svi_2015 <- rbind(MA_15, noMA_15)
 ```
 
 
-```{r}
+```{r tidy_2016}
 calc_16 <- raw_svi_2016 %>% 
   select(year, GEO_NAME, LabFrc_ct, HsChr_ct, Pvrty_ct, PopCom_ct, PerDis_ct, HsDis_ct, RetMig_ct, UrbSpl_ct, ComEng_ct, ComRel_ct, RecEng_ct, RecRel_ct, SLR_ct) %>% # SS_ct even though says there is
   separate(GEO_NAME, c("city_community", "state"), sep= ", ") %>% 
@@ -414,7 +415,7 @@ svi_2016 <- rbind(MA_16,noMA_16)
 ```
 
 Create a df with years 2005-2008 to be added to and gap filled 
-```{r}
+```{r create_df_for_gapfill}
 gapfil <- c("6", "9", "7", "8", "11", "5", "10") %>% 
   as.data.frame() %>% 
   rename(rgn_id = ".") %>% 
@@ -438,9 +439,10 @@ gapfil <- c("6", "9", "7", "8", "11", "5", "10") %>%
          vulnerability_score= NA)
 ```
 
+## Calculate scores and graphs
 
-Combine all years together and calculate the resilinece scores for this data
-```{r}
+Combine all years together and calculate the resilience scores for this data
+```{r combine_all_years}
 svi_bind <- rbind(svi_2009, svi_2010, svi_2011, svi_2012, svi_2012, svi_2013, svi_2014, svi_2015, svi_2015, svi_2016, gapfil)
 
 svi_social <- svi_bind %>% 
@@ -502,8 +504,8 @@ noaa_vul <- left_join(svi_social, svi_gen, by = c("year", "rgn_id", "rgn_name"))
 write.csv(noaa_vul, file = "data/noaa_vul.csv")
 ```
 
-Visulalize
-```{r}
+Visualize
+```{r graph_indicies}
 svi_social_vul_graph <- ggplot(svi_social) +
   geom_line(aes(x=year, y= res_social_score, color = rgn_name)) +
   ggtitle("Social Vulnerability Indices") +
@@ -545,7 +547,7 @@ svi_inun_vul_graph
 ggsave("figs/svi_inun_vul_graph.jpg", width=7, height=5, dpi=300)
 ```
 
-```{r}
+```{r graph_scores}
 noaa_vul_graph <- ggplot(noaa_vul) +
   geom_line(aes(x=year, y= noaa_vul_score, color = rgn_name)) +
   ggtitle("NOAA Vul Social Resilience Score") +

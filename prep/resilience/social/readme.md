@@ -2,9 +2,22 @@
 
 This folder describes the methods used to prepare data for the social resilience layer for the US Northeast OHI assessment.
 
-#### [Social Resilience](https://ohi-northeast.github.io/ne-prep/prep/resilience/social/social_resilience.html)
-- This layer is derived from 4 different data sources:
-1. [Beacon Hill Competitiveness Report](http://beaconhill.org/economic-competitiveness/) data.
-2. [Opportunity Index](https://opportunityindex.org/methods-sources/) data
-3. [NOAA Mapping Social Vulnerability](https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map) data
-4. [League of Conservation Voters](http://scorecard.lcv.org/) data
+#### [LCV](https://ohi-northeast.github.io/ne-prep/prep/resilience/social/lcv.html)
+- This layer is derived from [The League of Conservation Voters scorecards](http://scorecard.lcv.org/)
+
+#### [Beacon Hill Competitiveness Report](https://ohi-northeast.github.io/ne-prep/prep/resilience/social/state_compet.html)
+- This layer is derived from the [State Competitiveness Report](http://beaconhill.org/economic-competitiveness/) 
+
+#### [Opportunity Index](https://ohi-northeast.github.io/ne-prep/prep/resilience/social/opportunity.html)
+- This layer is derived from the [Opporunity Index](https://opportunityindex.org/methods-sources/) 
+
+#### [NOAA Mapping Social Vulnerability](https://ohi-northeast.github.io/ne-prep/prep/resilience/social/noaa_vul.html)
+- This layer is derived from the [NOAA Science an Technology mapping social vulnerability](https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map) 
+
+Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
+
+Thank you!
+
+
+
+

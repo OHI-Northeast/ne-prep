@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience -Social"
+title: "OHINE: Resilience - LCV Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,18 +18,21 @@ toc: true
 
 # Summary
 
-This script calculates social resilience values by OHINE region. 
+This script calculates League of Conservation scores by OHINE region. 
 
 **3. League of Conservation Voters Scorecards**
-**Downloaded**: August
+**Downloaded**: August, 2019
 
-**Description**: Scores the actions of senate and house members based on how they vote on environmentally related topics.
+**Description**: Scores the actions of senate and house members based on how they vote on environmentally related topics. https://scorecard.lcv.org/
 
 **Time range**: 1971-2018
 
 **Format**:  Tabular
 
 
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -37,10 +40,7 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
-```
 
-Load Libraries
-``` {r}
 library(csv)
 library(dplyr)
 library(tidyverse)
@@ -50,10 +50,9 @@ library(scales)
 ```
 
 
-League of Conservation Voters (LCV)
-
+## Tidy
 Load in and tidy house of representative scores
-```{r}
+```{r house_tidy}
 house_05 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2005-house-scorecard-grid-export.csv"), skip = 6) %>% 
   select(District, Party, "Member of Congress", "2005 Score") %>% 
   mutate(congress = "house",
@@ -187,7 +186,7 @@ house_17 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/house/2017
 
 
 Combine
-```{r}
+```{r house_combine}
 house <- rbind(house_05, house_06, house_07, house_08, house_09, house_10, house_11, house_12, house_13, house_14, house_15, house_16, house_17)%>% 
   select(-dis_num, -district) %>% 
   group_by(year, state) %>% 
@@ -197,7 +196,7 @@ house <- rbind(house_05, house_06, house_07, house_08, house_09, house_10, house
 ```
 
 Load in and tidy senate scores
-```{r}
+```{r sentate_tidy}
 senate_05 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/2005-senate-scorecard-grid-export.csv"), skip = 6) %>% 
   select(State, Party, "Member of Congress", "2005 Score") %>% 
   mutate(congress = "senate",
@@ -326,7 +325,7 @@ senate_17 <- read_csv(file.path(dir_anx, "_raw_data/LCV/LCV_scorecards/senate/20
 ```
 
 Combine senate
-```{r}
+```{r sentate_combine}
 senate <- rbind(senate_05, senate_06, senate_07, senate_08, senate_09, senate_10, senate_11, senate_12, senate_13, senate_14, senate_15, senate_16, senate_17) %>% 
   group_by(year, state) %>% 
   mutate(score= as.numeric(score)) %>% 
@@ -334,15 +333,16 @@ senate <- rbind(senate_05, senate_06, senate_07, senate_08, senate_09, senate_10
   filter(state == "ME" | state == "NH" | state == "MA" | state == "RI" | state == "CT" | state == "NY") 
 ```
 
+## Caculate and Graph Scores
 Combine all congress and tidy
-```{r}
+```{r combine_congress}
 congress <- left_join(senate, house, by = c("year", "state")) %>% 
   rowwise() %>% 
   mutate(score = mean(senate_score,house_score))
 ```
 
 Visualize
-```{r}
+```{r graph_raw}
 congress_graph <- ggplot(congress) +
   geom_line(aes(x=year, y= score, color = state)) +
   ggtitle("LCV Raw Score") +
@@ -354,7 +354,7 @@ congress_graph
 ```
 
 Convert to Scores
-```{r}
+```{r rescale_scores}
 lcv <- congress %>% 
    mutate(score_lcv = scales::rescale(score, to = c(0,1), from=c(0,100)),
          rgn_id1 = case_when(
@@ -384,7 +384,7 @@ write.csv(lcv, file = "data/lcv.csv")
 ```
 
 Visualize
-```{r}
+```{r graph_scores}
 lcv_graph <- ggplot(lcv) +
   geom_line(aes(x=year, y= score_lcv, color = rgn_name)) +
   ggtitle("LCV Score") +

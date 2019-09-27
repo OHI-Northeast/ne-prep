@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience -Social"
+title: "OHIEC: Resilience - Beacon Hill State Competitiveness Report Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,17 +18,20 @@ toc: true
 
 # Summary
 
-This script calculates social resilience values by OHINE region. 
-
+This script calculates state competitiveness values by OHINE region. 
 
 **1. Beacon Hill Competitiveness Report**
 **Downloaded**: July 2019
 
-**Description**:  Report assesses each states competivieness by assessing "if it has in place the policies and conditions that ensure and sustain a high level of per capita income and its continued growth" http://beaconhill.org/economic-competitiveness/)
+**Description**:  Report assesses each states competitiveness by assessing "if it has in place the policies and conditions that ensure and sustain a high level of per capita income and its continued growth" http://beaconhill.org/economic-competitiveness/)
 
 **Time range**: 2005-2017
 
 **Format**: PDF
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -37,10 +40,6 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
-```
-
-Load Libraries
-``` {r}
 library(csv)
 library(dplyr)
 library(tidyverse)
@@ -50,12 +49,13 @@ library(scales)
 ```
 
 Read in Data
-```{r}
+```{r load_data}
 raw_bhi <- read_csv(file.path(dir_anx, "_raw_data/BHI/BHITable_long.csv"))
 ```
 
+## Tidy, calculate, and graph scores
 Beacon Hill Institute State Competitiveness Report
-```{r}
+```{r calculate_scores}
 state_compet <- raw_bhi %>% 
   filter(state == "Maine" | state == "New Hampshire" | state == "Massachusetts" | state == "Rhode Island" | state == "Connecticut" | state == "New York") %>% 
   mutate(target = 10,
@@ -89,7 +89,7 @@ write.csv(state_compet, "data/state_compet.csv")
 ```
 
 Visualize
-```{r}
+```{r graph}
 state_compet_graph <- ggplot(state_compet) +
   geom_line(aes(x=year, y= state_compet_score, color = rgn_name)) +
   ggtitle("Scores State Competitiveness Report") +

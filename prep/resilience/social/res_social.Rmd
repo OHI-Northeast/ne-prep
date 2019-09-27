@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Social"
+title: "OHINE: Resilience - Social Resilience Layer Calculations"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,18 @@ toc: true
 
 # Summary
 
-This markdown calculates the social resilience score
+This markdown calculates the social resilience score.
+
+Data Time Ranges:
+
+opportunity.csv 2011-2017
+
+state_compet.csv 2005-2017
+
+noaa_vul.csv 2009-2017 (backfilled in other markdown)
+
+lcv.csv 2005-2017
+
 
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
@@ -27,23 +38,17 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
-```
 
-Load Libraries
-``` {r}
 library(csv)
 library(dplyr)
 library(tidyverse)
 ```
 
-Data Time Ranges:
-opportunity.csv 2011-2017
-state_compet.csv 2005-2017
-noaa_vul.csv 2009-2017 (backfilled in other markdown)
-lcv.csv 2005-2017
+# Methods
 
+## Set up, libraries, load data
 Read in Data
-```{r}
+```{r load_data}
 opportunity_short <- read.csv("~/github/ne-prep/prep/resilience/social/data/opportunity.csv") %>% 
   select(-X) 
 
@@ -57,11 +62,12 @@ lcv <- read.csv("~/github/ne-prep/prep/resilience/social/data/lcv.csv") %>%
   select(-X)
 ```
 
+## Tidy Data
 Add earlier years and backfill for the opportunity index data
 
 Create a df with years 2005-2008 to be added to and gap filled 
 back filling from last year
-```{r}
+```{r gap_op}
 gapfill_op <- c("6", "9", "7", "8", "11", "5", "10") %>% 
   as.data.frame() %>% 
   rename(rgn_id = ".") %>% 
@@ -80,7 +86,7 @@ gapfill_op <- c("6", "9", "7", "8", "11", "5", "10") %>%
 ```
 
 Add it on to the opportunity dataset
-```{r}
+```{r tidy_op}
 opportunity <- opportunity_short %>% 
   rbind(gapfill_op) %>% 
   group_by(rgn_name) %>% 
@@ -91,7 +97,7 @@ opportunity <- opportunity_short %>%
 ```
 
 Add 2017 and project forward for NOAA social vulnerability index
-```{r}
+```{r gap_noaa}
 gapfill_noaa <- c("6", "9", "7", "8", "11", "5", "10") %>% 
   as.data.frame() %>% 
   rename(rgn_id = ".") %>% 
@@ -108,7 +114,7 @@ gapfill_noaa <- c("6", "9", "7", "8", "11", "5", "10") %>%
 ```
 
 Add to the noaa vulnerability index
-```{r}
+```{r tidy_noaa}
 noaa_vul <- noaa_vul_short %>% 
   rbind(gapfill_noaa) %>% 
   group_by(rgn_name) %>% 
@@ -135,8 +141,9 @@ miss_rgns <- miss_rgns %>%
   unique()
 ```
 
+## Calculate and graph scores
 Merge all four layers together
-```{r}
+```{r combine_data}
 res_social <- left_join(opportunity, state_compet, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(noaa_vul, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(lcv, by = c("year", "rgn_id", "rgn_name")) %>% 
@@ -147,13 +154,13 @@ res_social <- left_join(opportunity, state_compet, by = c("year", "rgn_id", "rgn
 ```
 
 Save data layer
-```{r}
+```{r save_data}
 write.csv(res_social, file = "data/res_social.csv")
 ```
 
 
 Visualize
-```{r}
+```{r graph}
 res_social_graph <- ggplot(res_social) +
   geom_line(aes(x=year, y= score, color = rgn_name)) +
   ggtitle("Social Resilience Score") +
@@ -168,13 +175,13 @@ ggsave("figs/res_social_graph.jpg", width=7, height=5, dpi=300)
 
 
 Write as a resilience layer to ne-scores
-```{r}
+```{r write_to_scores}
 write.csv(res_social, file.path(dir_calc, "layers/res_social.csv"))
 ```
 
 Calculate inverse for pressure layer and save
 
-```{r}
+```{r write_as_pressure}
 prs_social <- read_csv(file.path(dir_calc, "layers/res_social.csv")) %>% 
   mutate(score= (1-score)) %>% 
   rename(pressure_score = score)
