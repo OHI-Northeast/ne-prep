@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - NOAA Fisheries Observer Coverage"
+title: "OHINE: Resilience - NOAA Fisheries Observer Coverage Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,6 +16,43 @@ output:
 toc: true
 ---
 
+# Summary
+
+This script calculates the fisheries observer coverage scores by OHINE region.
+
+# Data
+
+**Fisheries Observer Data**
+**Downloaded**: August, 2019
+
+**Description** The data was compiled and emailed to us by Debra Duarte (debra.duarte@noaa.gov)
+
+**Time range**: 2005-2019
+
+**Format**:  excel spreadsheet
+
+**Allotted Observer Seadays**
+**Downloaded**: August, 2019
+
+**Description** The data was manually complied by me (Juliette Verstaen) from reports outlining that years fisheries observer plan https://www.nefsc.noaa.gov/fsb/SBRM/
+
+**Time range**: 2013-2019
+
+**Format**:  excel spreadsheet
+
+# About
+For calculating protected area score we use a target of 30% areas in the ocean closed off to fishing. The total number of sea days (our target) allocated each year based on the agency budget and the compensation rate analysis by funding source for ex:(April 2016-March 2017))
+
+There is an 8% target coverage of ships (in report https://www.nefsc.noaa.gov/fsb/SBRM/2011/2011_SBRM_3Year_Report.pdf)
+
+Notes:
+- Finding more information on allocated sea days prior to 2013 would improve the accuracy of these scores
+- Score overestimating because allocated sea days do not include at-sea ground fish monitoring but the observer data does
+
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -30,26 +67,17 @@ library(tidyverse)
 library(readxl)
 ```
 
-###1) Total number of sea days with fisheries observer/ alloted number of sea days 
-
-Allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
-(total number of sea days allocated each year based on the agency budget amd the compensation rate analysis by funding source for ex:(April 2016-March 2017))
-
-There is an 8% target coverage of ships (in report https://www.nefsc.noaa.gov/fsb/SBRM/2011/2011_SBRM_3Year_Report.pdf)
-
 Load in the data
-```{r}
+```{r load_data}
 fish_ob_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fisheries_observer.xlsx"), sheet=1)
 ob_alloc_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_Fisheries_Observer/fishob_seaday_alloc.xlsx"), sheet=1) %>% 
   rename(YEAR = year)
 ```
 
-Calculate the enforcement score for number of fisheries observer sea days by aking the number of actual seadays/allocated sea day
-Targets for allocated seadays from https://www.nefsc.noaa.gov/fsb/SBRM/
-```{r}
+## Calculate scores
+```{r calculate_scores}
 observ_cov <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>% 
   mutate(score = TOTDAYS/seadays) %>% 
-#  fill(score, .direction = "up") %>%  #back gap filled using the 1st year allocated sea days are avaliable
   filter(YEAR <= 2017) %>% 
   select(YEAR, score) %>% 
   rename(year = YEAR) %>% 
@@ -57,11 +85,6 @@ observ_cov <- left_join(fish_ob_raw, ob_alloc_raw, by = c("YEAR")) %>%
 
 write.csv(observ_cov, file = "data/observ_cov.csv")
 ```
-
-Things to think about:
-- more information on allocated sea days prior to 2013
-- Score overestimating because allocated sea days do not include at-sea ground fish monitoring but the observer data does
-
 
 
 

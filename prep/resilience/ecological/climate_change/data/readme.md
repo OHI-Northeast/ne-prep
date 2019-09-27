@@ -43,6 +43,14 @@ Scores are calculated by taking the EIA energy consumption data, calculating the
 
 ******************************************************************
 
+Data created in `carbon_em.Rmd`
+
+`emissions.csv`
+
+This is the total carbon emissions by state over time.
+
+******************************************************************
+
 Data created in `res_climate_change.Rmd`
 
 `res_climate_change.csv`

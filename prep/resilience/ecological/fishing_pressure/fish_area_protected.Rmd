@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Percent ocean area that is protected from fishing"
+title: "OHINE: Resilience - Areas Protected From Fishing Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,19 +16,31 @@ output:
 toc: true
 ---
 
+#Summary
+
+This script calculates the percentage of area protected from fishing by OHINE region.
+
+# Data
+
 We use the United States Geological Survey Protected Areas Database for the US. Version 2.0.
+
 **Reference**: 
 U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United States (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
 
-**Downloaded**: June 5th, 2019
+https://www.usgs.gov/core-science-systems/science-analytics-and-synthesis/gap/science/protected-areas
 
-**Description**: 
+**Downloaded**: June 5th, 2019
 
 **Time range**: Protected areas list established date back to early 1900's where available
 
 **Format**:  Spatial Geodatabase
 
+# About
+For calculating protected area score we use a target of 30% areas in the ocean closed off to fishing.
 
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -43,10 +55,7 @@ library(dplyr)
 library(sf)
 ```
 
-Regulation
-
-2) Percentage of Protected Area (target = 30%)
-
+## Tidy the data
 Note: Used a lot of same code from sense of place layer
 Let's look at the available layers in the USGS PADUS database
 ```{r look_at_gdb_layers}
@@ -78,7 +87,7 @@ mapshot(usgs_data, url = "protected_areas_map.html")
 
 First let's combine polygons so we don't double count areas. 
 We are also accounting for the year established, some were created during our time frame 
-```{r}
+```{r merge_overlapping}
 marine_protected_by_rgn <- data.frame()
 
 for(i in 2005:2017){
@@ -115,8 +124,10 @@ percent_water_protec <- ggplot(marine_protected_by_rgn, aes(x = year, y = prop_a
 ggsave("figs/percent_offshore_water_protec.jpg", width=7, height=5, dpi=300)
 ```
 
+## Calculate scores and map it
+
 Calculate the protected area scores
-```{r}
+```{r calculate}
 protected_score <- marine_protected_by_rgn %>% 
   select(rgn_id, rgn_name, year, prop_area) %>% 
   mutate(target = 0.3) %>% 
@@ -128,7 +139,7 @@ write.csv(protected_score, file = "data/fish_area_protected.csv")
 ```
 
 Visualize
-```{r}
+```{r graph}
 protected_score_graph <- ggplot(protected_score) +
   geom_line(aes(x=year, y= fish_area_score, color = rgn_id))+
   labs(title = "Protected Areas Score: Fisheries Resilience")+

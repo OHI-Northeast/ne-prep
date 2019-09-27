@@ -46,7 +46,9 @@ Massachusetts = 80% reduction below 1990 levels by 2050
 New York = 100% reduction below 1990 levels by 2050
 Rhode Island = 80% reduction below 1990 levels by 2050
 
+# Methods
 
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -129,7 +131,7 @@ out5 <- out[[5]] %>%
 
 ## Create one df and calculate targets
 
-Now we are combining all the paces of the data table into one. We are also calculating the end target.
+Now we are combining all the pieces of the data table into one. We are also calculating the end target.
 ```{r combine_table_calc_target}
 emissions <- rbind(out1, out2, out3, out4, out5) %>% 
   gather(year, emission, 2:28) %>% 

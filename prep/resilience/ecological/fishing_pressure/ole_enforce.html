@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Compiled on Tue Sep 24 13:15:30 2019 by verstaen" />
+<meta name="author" content="Compiled on Fri Sep 27 10:38:16 2019 by verstaen" />
 
 
 <title>OHIEC: Resilience - NOAA Office of Law Enforcemnet enforcement actions</title>
@@ -1643,11 +1643,26 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHIEC: Resilience - NOAA Office of Law Enforcemnet enforcement actions</h1>
-<h4 class="author"><em>Compiled on Tue Sep 24 13:15:30 2019 by verstaen</em></h4>
+<h4 class="author"><em>Compiled on Fri Sep 27 10:38:16 2019 by verstaen</em></h4>
 
 </div>
 
 
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p><strong>NOAA OLE Data</strong> <strong>Downloaded</strong>: August, 2019</p>
+<p><strong>Description</strong> The data was emailed to us by Casey Brennan <a href="mailto:casey.brennan@noaa.gov" class="email">casey.brennan@noaa.gov</a> and then important information was manually pulled into spread sheets by me.</p>
+<p><strong>Time range</strong>: 2015-2018</p>
+<p><strong>Format</strong>: PDF Reports, excel spreadsheets</p>
+</div>
+<div id="about" class="section level1">
+<h1>About</h1>
+<p>Enforcement here is measures by taking the total number of staff, number of patrols, number of outreach events OLE partakes in and dividing it by the highest historic total.</p>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<div id="set-up-libraries-load-data" class="section level2">
+<h2>Set up, libraries, load data</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">fig.width =</span> <span class="dv">6</span>, <span class="dt">fig.height =</span> <span class="dv">4</span>, <span class="dt">fig.path =</span> <span class="st">&#39;figs/&#39;</span>,</a>
 <a class="sourceLine" id="cb1-2" title="2">                      <span class="dt">message =</span> <span class="ot">FALSE</span>, <span class="dt">warning =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
@@ -1660,9 +1675,11 @@ div.tocify {
 <a class="sourceLine" id="cb1-10" title="10"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb1-11" title="11"><span class="kw">library</span>(dplyr)</a>
 <a class="sourceLine" id="cb1-12" title="12"><span class="kw">library</span>(readxl)</a></code></pre></div>
-<p>###2) Number of staff, number of patrols, number of outreach events OLE</p>
 <p>Load in Data</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">ole_raw &lt;-<span class="st"> </span><span class="kw">read_xlsx</span>(<span class="kw">file.path</span>(dir_anx, <span class="st">&quot;_raw_data/NOAA_OLE/NE_OLE_data.xlsx&quot;</span>))</a></code></pre></div>
+</div>
+<div id="calculate-scores" class="section level2">
+<h2>Calculate scores</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">ole_enforcement &lt;-<span class="st"> </span>ole_raw <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">filter</span>(year <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2015</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># not good enough data to use anything before 2015</span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">staff_score =</span> staffing<span class="op">/</span><span class="dv">33</span>, <span class="co">#divide by the maximum of all years</span></a>
@@ -1674,6 +1691,8 @@ div.tocify {
 <a class="sourceLine" id="cb3-9" title="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ole_enforcement_score=</span><span class="kw">mean</span>(<span class="kw">c</span>(staff_score, num_patrols_score, out_reach_num_score), <span class="dt">na.rm=</span>T) )</a>
 <a class="sourceLine" id="cb3-10" title="10"></a>
 <a class="sourceLine" id="cb3-11" title="11"><span class="kw">write.csv</span>(ole_enforcement, <span class="dt">file =</span> <span class="st">&quot;data/ole_enforcement.csv&quot;</span>)</a></code></pre></div>
+</div>
+</div>
 
 
 

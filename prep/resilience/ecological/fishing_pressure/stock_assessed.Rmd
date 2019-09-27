@@ -16,6 +16,23 @@ output:
 toc: true
 ---
 
+# Summary
+This script calculates the percentage of fish landed have had a formal stock assessment conduced.
+
+**Downloaded**: December 14, 2018 (emailed to us by Jeffrey Vieser at NMFS)
+
+**Description**:  Records of Bmsy and Fmsy estimates from stock assessments conducted in the greater Northeast region
+
+**Time range**: 2004 - 2018
+
+**Format**:  Tabular
+
+# About
+These scores are calculating by determining yes or no if a species that has been landed during our time frame has ever had a formal stock assessment conducted and then weighted by the tonnage landing. 
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -35,17 +52,15 @@ library(readxl)
 library(tabulizer)
 ```
 
-
-###1) Percentage of Fish Landed with Stock Assessments (target = 100%)
-
 Load Data
 ```{r load_data}
 all_species_caught_assessment_summary <- read_csv("~/github/ne-prep/prep/fis/data/all_species_caught_assessment_summary.csv")
 nmfs_spatial_catch_by_ohi_rgn <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv")
 ```
 
+## Tidy data
 Create dataframe of all species ever caught
-```{r}
+```{r catch_df}
 catch <- nmfs_spatial_catch_by_ohi_rgn %>% 
   select(species, rgn_id, rgn_name, year, catch) %>% 
   rename(nmfs_original_species = species) %>% 
@@ -54,7 +69,7 @@ catch <- nmfs_spatial_catch_by_ohi_rgn %>%
 
 Create dataframe of all species that have ever had a stock assessment done
 When mixed or unspecified removed
-when peices left it in/renamed so the catch it picked up as assessed species
+when pieces left it in/renamed so the catch it picked up as assessed species
 ```{r join_tidy}
 assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("nmfs_original_species")) %>% 
   select(year, rgn_id, rgn_name, assessed, nmfs_original_species, catch) %>% 
@@ -96,6 +111,7 @@ assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("n
   mutate(weighted_assessed = (catch*binary_assessed))
 ```
 
+## Calculate and graph scores
 Calculate
 ```{r calculate}
 landed_ass <- assessments %>% 

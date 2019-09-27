@@ -35,7 +35,9 @@ observ_cov: 2013-2017
 ole_enforcement: 2015-2018
 ole_compliance: 2015-2018
 
+# Methods
 
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -57,7 +59,7 @@ library(tabulizer)
 
 
 Read in Data
-```{r}
+```{r load_data}
 landed_ass_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/landed_ass.csv") %>% select(-X) 
 
 fish_area_protected_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/fish_area_protected.csv") %>% 
@@ -79,28 +81,29 @@ ole_compliance_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fi
   select(-X)
 ```
 
+# Tidying 
 
 Cleaning up the data to be combined and used as a layer
-```{r}
+```{r landed_tidy}
 landed_ass <- landed_ass_short %>% 
   select(year, rgn_id, rgn_name, per_catch_landed) %>% 
   rename(landed_ass_score = per_catch_landed)
 ```
 
-```{r}
+```{r protect_tidy}
 fish_area_protected <- fish_area_protected_short %>% 
   select(year, rgn_id, rgn_name, fish_area_score) %>% 
   rename(fish_area_protected_score = fish_area_score)
 ```
 
-```{r}
+```{r assessed_tidy}
 adeq_assessed <- adeq_assessed_short %>% 
   select(year, rgn_id, rgn_name, percent_adeq_ass) %>% 
   rename(adeq_assessed_score = percent_adeq_ass)
 ```
 
 
-```{r}
+```{r managed_tidy}
 species_man <- species_man_short %>% 
   rename(species_man_score = species_regulated_score) %>% 
   uncount(13, .id = "n", .remove = F) %>%
@@ -110,7 +113,7 @@ species_man <- species_man_short %>%
          rgn_name = str_replace(rgn_name,"Massachusetts-Virginian", "Massachusetts-South"))
 ```
 
-```{r}
+```{r obser_tidy}
 observ_cov <- observ_cov_short %>% 
   rename(observ_cov_score = enforcement_score_obser) %>% 
   fill(observ_cov_score, .direction = c("up")) %>% 
@@ -130,8 +133,8 @@ observ_cov <- observ_cov_short %>%
 ```
 
 
-Tidying the OLE enforcemnet data for res score calculations by region
-```{r}
+Tidying the OLE enforcement data for res score calculations by region
+```{r ole_en_tidy}
 ole_enforcement <- ole_enforcement_short %>% 
   select(year, ole_enforcement_score) %>% 
   fill(ole_enforcement_score, .direction = c("up")) %>% 
@@ -152,7 +155,7 @@ ole_enforcement <- ole_enforcement_short %>%
 ```
 
 Tidying the OLE compliance data for res score calculations by region
-```{r}
+```{r ole_com_tidy}
 ole_compliance <- ole_compliance_short %>% 
   select(year, ole_compliance_score) %>% 
   filter(year <= 2017) %>% 
@@ -171,8 +174,9 @@ ole_compliance <- ole_compliance_short %>%
   rename(rgn_id=n)
 ```
 
-Combining the data and calulating one overall fisheries resilience score
-```{r}
+## Calculating and graphing scores
+Combining the data and calculating one overall fisheries resilience score
+```{r calculate_scores}
 res_fs <- left_join(landed_ass, fish_area_protected, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(species_man, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(adeq_assessed, by = c("year", "rgn_id", "rgn_name")) %>% 
@@ -189,7 +193,7 @@ res_fs <- left_join(landed_ass, fish_area_protected, by = c("year", "rgn_id", "r
 ```
 
 Visualization
-```{r}
+```{r graph}
 res_fs_graph <- ggplot(res_fs) +
   geom_line(aes(x=year, y= res_score, color = rgn_name))+
   ggtitle("North East Fishing Resilience Scores") +
@@ -201,9 +205,9 @@ res_fs_graph
 ggsave("figs/res_fs_graph.jpg", width=7, height=5, dpi=300)
 ```
 
-
+## Save data as layers
 Save necessary information for the fishing layer
-```{r}
+```{r save_layer}
 res_fishing <- res_fs %>% 
   select(year, rgn_id, rgn_name, res_score) %>% 
   rename(score = res_score)
@@ -211,9 +215,8 @@ res_fishing <- res_fs %>%
 write.csv(res_fishing, file.path(dir_git,"prep/resilience/ecological/fishing_pressure/data/res_fishing.csv"))
 ```
 
-
 Write as a resilience layer to ne-scores
-```{r}
+```{r write_to_scores}
 write.csv(res_fishing, file.path(dir_calc, "layers/res_fishing.csv"))
 ```
 

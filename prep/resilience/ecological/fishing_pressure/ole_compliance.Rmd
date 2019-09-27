@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - NOAA Office of Law Enforcemnet compliance"
+title: "OHINE: Resilience - NOAA OLE Compliance Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,6 +16,24 @@ output:
 toc: true
 ---
 
+# Summary
+This script calculates the compliance score using NOAA OLE data.
+
+**NOAA OLE Data**
+**Downloaded**: August, 2019
+
+**Description** The data was emailed to us by Casey Brennan casey.brennan@noaa.gov and then important information was manually pulled into spread sheets by me.
+
+**Time range**: 2015-2018
+
+**Format**:  PDF Reports, excel spreadsheets
+
+# About
+Compliance is calculated by adding the number of incidences and investigations and dividing by enforcement actions
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -31,15 +49,13 @@ library(dplyr)
 library(readxl)
 ```
 
-I had done the ole enforcement and compliance together, need to parse it out
-
-Number of incidences and investigations divided by enforcement actions
 
 Load in Data
 ```{r load_data}
 ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))
 ```
 
+## Calculate scores
 ```{r calculate_ole_compliance}
 ole_compliance <- ole_raw %>% 
   filter(year >= 2015) %>% # not good enough data to use anything before 2015

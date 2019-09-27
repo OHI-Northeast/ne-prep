@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Percent species with stock assessments that are adequatly assessed"
+title: "OHINE: Resilience - Fish Landed with Stock Assessments Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -15,6 +15,12 @@ output:
   pdf_document:
 toc: true
 ---
+
+# Summary
+
+This script calculates the percent of species with stock assessments that are adequately assessed.
+
+# Data
 
 **1.RAM**
 **Downloaded**: February 28, 2018 from ramlegacy.org
@@ -35,8 +41,12 @@ toc: true
 
 **Format**:  Tabular
 
+# About
+This script calculates the percent of species with stock assessment that are adequately assessed. The target is a formal stock assessment completed at least once in the past 5 years. This target was informed by Jeffery Vieser, and is the same metric used in FSSI.
 
+# Methods
 
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -53,19 +63,19 @@ library(readxl)
 ```
 
 
-###3) Percentage of stocks assessed that are adequatly assessed (target = at least every 5)
-
-Only have SA data back to 2004 for nmfs, will be harder to determine adequatly assessed in 2005-2008
+Only have SA data back to 2004 for nmfs, will be harder to determine adequately assessed in 2005-2008
 
 Load Data
-```{r}
+```{r load_data}
 nmfs_stock_ass <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_assessment_data.csv")%>% select(-X1)
 ram_stock_ass  <- read_csv("~/github/ne-prep/prep/fis/data/ram_stock_assessment_data.csv")%>% select(-X1)
+nmfs_catch_raw <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv")
 ```
 
+## Tidy data
 **code below the same as in 5_assessed_species_lookuptable, except that the year is getting kept throughout**
-```{r}
-nmfs_catch <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv") %>%
+```{r catch_tidy}
+nmfs_catch <- nmfs_catch_raw %>%
   mutate(nmfs_original_species = as.character(species),
          species_low = tolower(species)) %>%
   select(nmfs_original_species, species_low, year) %>%
@@ -73,7 +83,7 @@ nmfs_catch <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi
 ```
 
 Grab all species from NMFS catch data and get them, as well as their alternative names, cleaned up
-```{r}
+```{r grab_species_caught_tidy}
 nmfs_catch_sp <- nmfs_catch %>%
   separate(species_low, into = c("species1", "species2", "species3"), sep = ",", remove = FALSE) %>%
   mutate(species2 = trimws(gsub("\\/.*","", species2))) %>%
@@ -98,7 +108,7 @@ nmfs_catch_sp <- nmfs_catch %>%
 ```
 
 Get NMFS stock assessment data species
-```{r}
+```{r stock_assesments_NMFS}
 nmfs_stock_years <- nmfs_stock_ass %>%
   select(year, stock) %>%
   distinct() %>%
@@ -109,7 +119,7 @@ nmfs_stock_years <- nmfs_stock_ass %>%
 ```
 
 Get RAM stock species
-```{r}
+```{r stock_assesments_RAM}
 ram_years <- ram_stock_ass %>%
   select(year, commonname, areaname, stockid) %>%
   distinct() %>%
@@ -120,14 +130,14 @@ ram_years <- ram_stock_ass %>%
 ```
 
 First I want to combine the RAM and NMFS Stock assessment data since they have location data too
-```{r}
+```{r combine_stock_ass}
 stock_matching <- nmfs_stock_years %>%
   bind_rows(ram_years)
 ```
 
 Now combine catch species with stocks. Lots of data wrangling here to get these species to matchup correctly
-I added this part in in case we wanted to do the percentage of species landed with stock assessments each year instead of ever. But this is not necessary for finding out if stocks are properly assessed
-```{r}
+I added this part in case we wanted to do the percentage of species landed with stock assessments each year instead of ever. But this is not necessary for finding out if stocks are properly assessed
+```{r exploring_over_time}
 comb <- stock_matching %>%
   left_join(nmfs_catch_sp) %>%
   select(species_low, species, location, source, nmfs_species, stockid, year) %>%
@@ -185,7 +195,7 @@ select(year, nmfs_original_species, stock_assessment_species_name, stock_assessm
 ```
 
 Fixing the skate wings and monk fish pieces matching. Skates and Monkfish are reported in NMFS catch as full fish as well as pieces (wings, livers, heads). I'm sure there is a nice way to incorporate these species names into the data above but I'm doing it manually here...
-```{r}
+```{r tidy_weird_names}
 add_species <- data.frame(stock_assessment_species_name = c("little skate", "winter skate", "smooth skate", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "tilefish", "tilefish"),
                           stock_assessment_species_location = c("Georges Bank / Southern New England", 
                                                                 "Georges Bank / Southern New England",
@@ -205,12 +215,12 @@ add_species <- data.frame(stock_assessment_species_name = c("little skate", "win
 ```
 
 Combine the two datasets to get the full lookup table
-```{r}
+```{r create_full_table}
 full_df <- comb %>%
   bind_rows(add_species)
 ```
 
-```{r}
+```{r stocks_to_rgns}
 #list of stocks and their rgn_ids
 match_areas_to_stocks <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by_ohi_rgn.csv", stringsAsFactors = F) %>%
   select(species, stock_id, stock, rgn_id, rgn_name) %>%
@@ -247,7 +257,7 @@ match_areas_to_stocks <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_c
 ```
 
 Match
-```{r}
+```{r match_areas_to_stocks}
 m <- full_df %>%
   left_join(match_areas_to_stocks, by = c("nmfs_original_species" = "species", "stock_assessment_species_location")) %>%
   mutate(stockid = ifelse(is.na(stock_id), stockid, stock_id)) %>%
@@ -255,21 +265,21 @@ m <- full_df %>%
 ```
 
 There are still species with stock assessments that do not have `stockid` in the NMFS catch dataset.
-```{r}
+```{r filter_no_ids}
 filter(m, is.na(stockid)) %>% .$stock_assessment_species_name %>% unique()
 ```
 
 These species do not have multiple stocks within our region, so we can use the OHI regions where they are caught to identify where they are. The one issue is Goosefish/Monkfish. There are two stocks (Southern Georges Bank / Mid-Atlantic and Gulf of Maine / Northern Georges Bank). Let's look at these two areas, which are used for other stocks, and see what OHI areas this includes.
 
 Regions in Southern New England/Mid Atlantic include
-```{r}
+```{r filter_southern_location}
 sgb <- filter(m, stock_assessment_species_location == "Southern Georges Bank / Mid-Atlantic") %>%
   select(rgn_id, rgn_name, stock_assessment_species_location) %>%
   distinct()
 sgb
 ```
 
-```{r}
+```{r filter_gom_locations}
 gom <- filter(m, stock_assessment_species_location == "Gulf of Maine / Northern Georges Bank") %>%
   select(rgn_id, rgn_name, stock_assessment_species_location) %>%
   distinct() 
@@ -277,7 +287,7 @@ gom
 ```
 
 Regions 2 and 8 are in both (MA-Virginian and Georges Bank). I think we can use these distinctions to assign regions to the Goosefish/Monkfish scores.
-```{r}
+```{r assign_monkfish_scores}
 goosefish <- gom %>%
   bind_rows(sgb) %>%
   filter(!is.na(rgn_id)) %>%
@@ -291,7 +301,7 @@ m2 <- m %>%
 ```
 
 Now lets just get all OHI regions where the remaining stocks are caught. The easier alternative to this would be to assign all OHI regions to all of these stocks, but if this data is used outside of scores that would possibly indicate stocks existing where they do not.
-```{r}
+```{r left_overs}
 leftovers <- m2 %>%
   filter(is.na(rgn_id))
 
@@ -302,7 +312,7 @@ leftovers_catch <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_b
   distinct()
 ```
 
-```{r}
+```{r create_complete_data}
 comp_dataset <- m2 %>%
   left_join(leftovers_catch, by = c("nmfs_original_species" = "species")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
@@ -310,7 +320,7 @@ comp_dataset <- m2 %>%
   select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x)
 ```
 
-```{r}
+```{r time_series_assessed}
 time_series_assessed <- m2 %>%
   left_join(comp_dataset, by =  c("year", "nmfs_original_species", "stock_assessment_species_name", "stock_assessment_species_location", "stockid", "source", "stock")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
@@ -326,7 +336,7 @@ time_series_assessed <- m2 %>%
 ```
 
 Some species have a stock assessments done but not landed so the region shows up as NA. This is because the joining column is based NNMFS original species name which comes from the species caught each year. I want to give those states credit for doing stock assessments, so I manually added the missing species below
-```{r}
+```{r remove_no_locs}
 #id the species with no region associated with it
 noloc <- time_series_assessed %>% 
   filter(is.na(rgn_name))
@@ -341,7 +351,7 @@ regions <- time_series_assessed %>%
 ```
 
 sea scallop-Northwestern Atlantic Coast
-```{r}
+```{r fix_reg_scallops}
 regions_scal <- regions %>% 
   rbind(regions)
 
@@ -354,7 +364,7 @@ scallop <- time_series_assessed %>%
 ```
 
 tilefish-Mid-Atlantic Coast
-```{r}
+```{r fix_reg_tile}
 regions_tile <- regions %>% 
   rbind(regions)
 
@@ -367,7 +377,7 @@ tile <- time_series_assessed %>%
 ```
 
 rosette skate-Southern New England / Mid-Atlantic
-```{r}
+```{r fix_reg_ros_skate}
 regions_ros <- regions %>% 
   slice(rep(row_number(), 10)) # 10 is the number years
 
@@ -380,7 +390,7 @@ ros <- time_series_assessed %>%
 ```
 
 thorny skate-Gulf of Maine
-```{r}
+```{r fix_reg_thorn_skate}
 regions_th_sk <- regions %>% 
   slice(rep(row_number(), 3)) %>% 
   filter(rgn_id == 2 | rgn_id == 3 | rgn_id == 6 | rgn_id == 7 | rgn_id == 8 | rgn_id == 9)
@@ -394,7 +404,7 @@ th_sk <- time_series_assessed %>%
 ```
 
 blue marlin-Atlantic Ocean
-```{r}
+```{r fix_reg_blue_mar}
 regions_blue_marlin <- regions %>% 
   slice(rep(row_number(), 10)) 
 
@@ -407,7 +417,7 @@ blue_marlin <- time_series_assessed %>%
 ```
 
 skipjack tuna-Western Atlantic
-```{r}
+```{r fix_reg_skip_tuna}
 regions_skip_tuna <- regions %>% 
   slice(rep(row_number(), 8)) %>% 
   filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 5 |rgn_id == 8 | rgn_id == 10 | rgn_id == 11)
@@ -421,7 +431,7 @@ skip_tuna <- time_series_assessed %>%
 ```
 
 white marlin-Atlantic Ocean
-```{r}
+```{r fix_reg_white_mar}
 regions_white_marlin <- regions %>% 
   slice(rep(row_number(), 10))
 
@@ -434,7 +444,7 @@ white_marlin <- time_series_assessed %>%
 ```
 
 atlantic salmon-Gulf of Maine
-```{r}
+```{r fix_reg_atl_sal}
 regions_salmon <- regions %>% 
   slice(rep(row_number(), 2)) %>% 
   filter(rgn_name == "Gulf of Maine")
@@ -447,7 +457,7 @@ salmon <- time_series_assessed %>%
 ```
 
 clearnose skate-Southern New England / Mid-Atlantic
-```{r}
+```{r fix_reg_clear_skate}
 regions_clear_sk <- regions %>% 
   slice(rep(row_number(), 7))%>% 
   filter(rgn_id == 2 | rgn_id == 4 |rgn_id == 5 | rgn_id == 8 |rgn_id == 10 | rgn_id == 11 )
@@ -461,7 +471,7 @@ clear_sk <- time_series_assessed %>%
 ```
 
 smooth skate-Gulf of Maine
-```{r}
+```{r fix_reg_smooth_skate}
 regions_smooth_sk <- regions %>% 
   slice(rep(row_number(), 5))%>% 
   filter(rgn_id == 3 | rgn_id == 4 |rgn_id == 7 | rgn_id == 10)
@@ -475,7 +485,7 @@ smooth_sk <- time_series_assessed %>%
 ```
 
 bigeye tuna-Atlantic Ocean
-```{r}
+```{r fix_reg_bigeye_tuna}
 regions_big_tuna <- regions %>% 
   slice(rep(row_number(), 6))%>% 
   filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 10 | rgn_id == 8)
@@ -489,7 +499,7 @@ big_tuna <- time_series_assessed %>%
 ```
 
 sailfish-Western Atlantic
-```{r}
+```{r fix_reg_sail}
 regions_sail <- regions %>% 
   slice(rep(row_number(), 8))
 
@@ -502,7 +512,7 @@ sail <- time_series_assessed %>%
 ```
 
 swordfish-Northern Atlantic
-```{r}
+```{r fix_reg_sword}
 regions_sword <- regions %>% 
   slice(rep(row_number(), 4))%>% 
   filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 8)
@@ -516,13 +526,13 @@ sword <- time_series_assessed %>%
 ```
 
 combine all together!
-```{r}
+```{r combine_missing_locs}
 missing_locations <- rbind(scallop, tile, ros, th_sk, blue_marlin, skip_tuna, white_marlin, salmon, clear_sk, smooth_sk, big_tuna, sail, sword)
 ```
 
 
 take all the unknown locations out and bind the new df that has that info
-```{r}
+```{r time_series_assessed_2}
 time_series_assessed_2 <- time_series_assessed %>% 
   filter(stock_long != "sea scallop-Northwestern Atlantic Coast" & !is.na(rgn_id),
          stock_long != "tilefish-Mid-Atlantic Coast" & !is.na(rgn_id),
@@ -541,7 +551,7 @@ time_series_assessed_2 <- time_series_assessed %>%
 ```
 
 Create df for all areas and all years to fill in for years with no assessments later
-```{r}
+```{r all_fish}
 all_fish<- time_series_assessed_2 %>% 
   select(stock_long, rgn_id, rgn_name) %>% 
   distinct() %>% 
@@ -551,7 +561,7 @@ all_fish<- time_series_assessed_2 %>%
 ```
 
 Combining
-```{r}
+```{r all_fish_with_assessments}
 assessment_frq  <- all_fish %>% 
   left_join(time_series_assessed_2, by = c("year", "rgn_name", "rgn_id", "stock_long")) %>% 
   distinct() %>% 
@@ -563,7 +573,8 @@ assessment_frq  <- all_fish %>%
   ungroup() 
 ```
 
-```{r}
+## Calculate scores and graph
+```{r calculate_ assessed}
 number_assessed <- assessment_frq %>% 
   select(stock_long, rgn_id, rgn_name, year) %>% 
   group_by(year, rgn_id, rgn_name) %>% 
@@ -582,7 +593,7 @@ write.csv(adeq_assessed, file = "data/adeq_assessed.csv")
 ```
 
 Visualize
-```{r}
+```{r graph}
 adq_graph <- ggplot(adeq_assessed)+
   geom_line(aes(x=year, y= percent_adeq_ass, color= rgn_name))
 

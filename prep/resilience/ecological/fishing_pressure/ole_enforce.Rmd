@@ -16,6 +16,24 @@ output:
 toc: true
 ---
 
+# Summary
+This script calculates the enforcement score using NOAA OLE data.
+
+**NOAA OLE Data**
+**Downloaded**: August, 2019
+
+**Description** The data was emailed to us by Casey Brennan casey.brennan@noaa.gov and then important information was manually pulled into spread sheets by me.
+
+**Time range**: 2015-2018
+
+**Format**:  PDF Reports, excel spreadsheets
+
+# About
+Enforcement here is measures by taking the total number of staff, number of patrols, number of outreach events OLE partakes in and dividing it by the highest historic total.
+
+# Methods
+
+## Set up, libraries, load data
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
@@ -31,14 +49,13 @@ library(dplyr)
 library(readxl)
 ```
 
-###2) Number of staff, number of patrols, number of outreach events OLE
-
 Load in Data
-```{r}
+```{r load_data}
 ole_raw <- read_xlsx(file.path(dir_anx, "_raw_data/NOAA_OLE/NE_OLE_data.xlsx"))
 ```
 
-```{r}
+## Calculate scores
+```{r calculate_scores}
 ole_enforcement <- ole_raw %>% 
   filter(year >= 2015) %>% # not good enough data to use anything before 2015
   mutate(staff_score = staffing/33, #divide by the maximum of all years

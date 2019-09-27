@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Compiled on Tue Sep 24 11:41:18 2019 by verstaen" />
+<meta name="author" content="Compiled on Fri Sep 27 11:16:23 2019 by verstaen" />
 
 
 <title>OHIEC: Resilience - Percent species landed that have any sort of management</title>
@@ -1643,12 +1643,26 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHIEC: Resilience - Percent species landed that have any sort of management</h1>
-<h4 class="author"><em>Compiled on Tue Sep 24 11:41:18 2019 by verstaen</em></h4>
+<h4 class="author"><em>Compiled on Fri Sep 27 11:16:23 2019 by verstaen</em></h4>
 
 </div>
 
 
-<p>talk about the data, places where some of the info is found, and how it was manually created</p>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>This script calculates the percentage of fish landed that area managed or regulation in some way.</p>
+<p><strong>List of species landed with stock assessments</strong> <strong>Description</strong> The data was compiled manually by me using NOAA Fisheries landings data and doing research on whether federal or state agencies include those species in either a management plan or some type of fishing regulation</p>
+<p><strong>Time range</strong>: 2005-2017</p>
+<p><strong>Format</strong>: excel spreadsheets</p>
+</div>
+<div id="about" class="section level1">
+<h1>About</h1>
+<p>These scores are weighted by the tonnage landing. This is done by combining the NOAA landings data landings data and the species management/regulated spread sheet. The target is 100% of landings are regulated.</p>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<div id="set-up-libraries-load-data" class="section level2">
+<h2>Set up, libraries, load data</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">fig.width =</span> <span class="dv">6</span>, <span class="dt">fig.height =</span> <span class="dv">4</span>, <span class="dt">fig.path =</span> <span class="st">&#39;figs/&#39;</span>,</a>
 <a class="sourceLine" id="cb1-2" title="2">                      <span class="dt">message =</span> <span class="ot">FALSE</span>, <span class="dt">warning =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb1-3" title="3"></a>
@@ -1660,9 +1674,11 @@ div.tocify {
 <a class="sourceLine" id="cb1-9" title="9"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb1-10" title="10"><span class="kw">library</span>(dplyr)</a>
 <a class="sourceLine" id="cb1-11" title="11"><span class="kw">library</span>(readxl)</a></code></pre></div>
-<p>###4) Percentage of species landed with a management plan or some sort of regulation</p>
 <p>Load in Data</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">species_man_raw &lt;-<span class="st"> </span><span class="kw">read_xlsx</span>(<span class="kw">file.path</span>(dir_anx, <span class="st">&quot;_raw_data/Species_managed/species_management.xlsx&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">species_man_raw &lt;-<span class="st"> </span><span class="kw">read_xlsx</span>(<span class="kw">file.path</span>(dir_anx, <span class="st">&quot;_raw_data/manually_created/species_management.xlsx&quot;</span>))</a></code></pre></div>
+</div>
+<div id="calculate-scores" class="section level2">
+<h2>Calculate scores</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">species_man &lt;-<span class="st"> </span>species_man_raw <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(rgn_name, rgn_id) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">managed =</span> <span class="kw">length</span>(<span class="kw">which</span>(managed <span class="op">==</span><span class="st"> &quot;yes&quot;</span>)), <span class="co"># need to add locally established here</span></a>
@@ -1670,8 +1686,10 @@ div.tocify {
 <a class="sourceLine" id="cb3-5" title="5">         <span class="dt">species_regulated_score =</span> managed<span class="op">/</span>total) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-6" title="6"><span class="st">  </span><span class="kw">select</span>(rgn_id, rgn_name, species_regulated_score) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">unique</span>()</a></code></pre></div>
-<p>save this layer</p>
+<p>Save this layer</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">write.csv</span>(species_man, <span class="kw">file.path</span>(dir_git, <span class="st">&quot;prep/resilience/ecological/fishing_pressure/data/species_man.csv&quot;</span>))</a></code></pre></div>
+</div>
+</div>
 
 
 
