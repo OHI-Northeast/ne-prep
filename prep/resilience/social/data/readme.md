@@ -49,7 +49,10 @@ Data URL: http://beaconhill.org/economic-competitiveness/
 Report assesses each states competitiveness by assessing "if it has in place the policies and conditions that ensure and sustain a high level of per capita income and its continued growth"
 The data is calculated by rescaling the scores for the annual assessments.
 
+******************************************************************
+Data created in the `res_social.Rmd`
 
+`res_social.csv`
 
-
+This data was created by taking hte mean of all the scores listed above to calulate the social resilience layer.
 
