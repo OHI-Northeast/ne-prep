@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - NOAA Fisheries Observer Coverage Data Prep"
+title: "OHINE: Fishing Resilience - NOAA Fisheries Observer Coverage Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 # Summary
 
-This script calculates the fisheries observer coverage scores by OHINE region.
+This script calculates the fisheries observer coverage scores by OHINE region. This data is used to measure climate change resilience implementation & enforcement.
 
 # Data
 

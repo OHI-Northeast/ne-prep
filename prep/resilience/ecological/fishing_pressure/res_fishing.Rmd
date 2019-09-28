@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Calculating Fishing pressure resilience"
+title: "OHIEC:Fishing Resilience - Calculating Fishing Resilience"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

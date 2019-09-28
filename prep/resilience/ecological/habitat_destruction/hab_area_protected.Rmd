@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Habitat Areas Protected Data Prep"
+title: "OHINE: Habitat Destruction Resilience - Habitat Areas Protected Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 # Summary
 
-This script calculates the habitat areas that are protected scores by OHINE region. 
+This script calculates the habitat areas that are protected scores by OHINE region. This data is used to measure habitat destruction resilience regulations.
 
 # Data
 

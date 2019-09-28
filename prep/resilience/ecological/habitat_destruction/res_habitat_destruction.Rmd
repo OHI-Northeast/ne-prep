@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Habitat Destruction Resilience Layer Calculations"
+title: "OHINE: Habitat Destruction Resilience - Habitat Destruction Resilience Layer Calculations"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

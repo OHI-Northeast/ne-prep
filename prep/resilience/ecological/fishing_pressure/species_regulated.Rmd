@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Percent species landed that have any sort of management"
+title: "OHIEC: Fishing Resilience - Percent species landed that have any sort of management"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -17,7 +17,7 @@ toc: true
 ---
 
 # Summary
-This script calculates the percentage of fish landed that area managed or regulation in some way.
+This script calculates the percentage of fish landed that area managed or regulation in some way. This data is used to measure fishing resilience regulations.
 
 **List of species landed with stock assessments**
 **Description** The data was compiled manually by me using NOAA Fisheries landings data and doing research on whether federal or state agencies include those species in either a management plan or some type of fishing regulation

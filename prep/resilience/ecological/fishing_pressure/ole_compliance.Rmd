@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - NOAA OLE Compliance Data Prep"
+title: "OHINE: Fishing Resilience - NOAA OLE Compliance Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -17,7 +17,7 @@ toc: true
 ---
 
 # Summary
-This script calculates the compliance score using NOAA OLE data.
+This script calculates the compliance score using NOAA OLE data.  This data is used to measure climate change resilience effectiveness & compliance.
 
 **NOAA OLE Data**
 **Downloaded**: August, 2019

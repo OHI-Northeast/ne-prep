@@ -2,13 +2,15 @@
 
 This folder describes the methods used to prepare data for the species pollution resilience layer for the US Northeast OHI assessment. 
 
-Data used:
-Regualtions
+Regulations:
 1. Ballast Water Management Regulations
 2. Aquaculture Policies and Regulations
 
-Implementation and Enforcement; Effectiveness and Compliance
+Implementation and Enforcement:
 3. NAS USGS  
+
+Effectiveness and Compliance:
+- Same data used in Implementation and Enforcement
 
 #### Ballast Water Management Regulations
 - This layer is manually created with every region receiving a perfect score of 1 because of the implementation of mandatory Ballast Water Management Plans to enter ports since 2004

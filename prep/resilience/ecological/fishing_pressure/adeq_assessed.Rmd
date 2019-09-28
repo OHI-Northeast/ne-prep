@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Fish Landed with Stock Assessments Data Prep"
+title: "OHINE: Fishing Resilience - Fish Landed with Stock Assessments Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 # Summary
 
-This script calculates the percent of species with stock assessments that are adequately assessed.
+This script calculates the percent of species with stock assessments that are adequately assessed.This data is used to measure fishing resilience regulations.
 
 # Data
 

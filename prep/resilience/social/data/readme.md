@@ -11,14 +11,14 @@ Data URL: https://opportunityindex.org/
 The data is calculated by rescaling the scores for the annual assessments.
 These reports has been published since 2001. Compiles state business climate indices: 
 
-(1) fiscal policy
-(2) security
-(3) infrastructure
-(4) human resources
-(5) technology
-(6) biz incub.
-(7) openness
-(8) environment
+1. fiscal policy
+2. security
+3. infrastructure
+4. human resources
+5. technology
+6. biz incub.
+7. openness
+8. environment
 
 ******************************************************************
 Data created in the `lcv.Rmd`
@@ -35,10 +35,11 @@ Data created in the `noaa_vul.Rmd`
 
 Data URL: https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map
 
+The data is calculated by rescaling the scores for the annual assessments.
+
 `county_missing.csv` 
 A csv file with the communities from the NOAA vulnerability indices that don't match up with a county name. The missing county information was then filled in manually by searching community locations
 
-The data is calculated by rescaling the scores for the annual assessments.
 ******************************************************************
 Data created in the `state_compet.Rmd`
 

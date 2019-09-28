@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Surfrider State of the Beach Data Prep"
+title: "OHINE: Habitat Destruction Resilience - Surfrider State of the Beach Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 # Summary
 
-This script calculates the scores from the Surfrider State of the Beach reports by OHINE region. 
+This script calculates the scores from the Surfrider State of the Beach reports by OHINE region. This data is used to measure habitat destruction resilience regulations.
 
 # Data
 

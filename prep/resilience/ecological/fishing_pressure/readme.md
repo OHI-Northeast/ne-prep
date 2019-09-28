@@ -2,18 +2,17 @@
 
 This folder describes the methods used to prepare data for the climate change resilience layer for the US Northeast OHI assessment. 
 
-Data used:
 Regulations:
 1. Fish Landed with Stock Assessments
 2. Protected Areas
 3. Stocks Adequately Assessed
 4. Species Regulated
 
-Implementation and Enforcement
+Implementation and Enforcement:
 5. OLE Actions
 6. Fisheries Observers
 
-Effectiveness and Compliance
+Effectiveness and Compliance:
 7. OLE Actions
 
 Effectiveness and Compliance
@@ -29,10 +28,9 @@ Effectiveness and Compliance
 - This layer is derived from NOAA stock assessment data and fisheries landings data
 
 #### [Species Regulated](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/fishing_pressure/species_regulated.html)
-- This layer is derived from a list of species ever landed that have any management or regulation
+- This layer is derived from a list of species historically landed that have any management or regulation
 
-#### [NOAA OLE Actions](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/fishing_pressure/ole_enforce.html)
-(https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/fishing_pressure/ole_compliance.html)
+#### NOAA OLE Actions [Enforcement](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/fishing_pressure/ole_enforce.html) [Compliance](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/fishing_pressure/ole_compliance.html)
 - This layer is derived from NOAA Office of Law Enforcement reports emailed to us 
 
 #### [Fisheries Observers](https://ohi-northeast.github.io/ne-prep/prep/resilience/ecological/climate_change/obser_cov.html)

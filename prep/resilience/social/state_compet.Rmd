@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Beacon Hill State Competitiveness Report Data Prep"
+title: "OHIEC: Social Resilience - Beacon Hill State Competitiveness Report Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

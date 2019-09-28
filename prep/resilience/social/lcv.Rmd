@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - LCV Data Prep"
+title: "OHINE: Social Resilience - LCV Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

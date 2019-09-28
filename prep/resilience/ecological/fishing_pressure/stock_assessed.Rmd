@@ -1,5 +1,5 @@
 ---
-title: "OHIEC: Resilience - Percent species with stock assessment prep"
+title: "OHIEC: Fishing Resilience - Percent species with stock assessment prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -17,7 +17,7 @@ toc: true
 ---
 
 # Summary
-This script calculates the percentage of fish landed have had a formal stock assessment conduced.
+This script calculates the percentage of fish landed have had a formal stock assessment conduced. This data is used to measure fishing resilience regulations.
 
 **Downloaded**: December 14, 2018 (emailed to us by Jeffrey Vieser at NMFS)
 

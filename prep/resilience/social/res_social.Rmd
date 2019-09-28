@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Social Resilience Layer Calculations"
+title: "OHINE: Social Resilience - Social Resilience Layer Calculations"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:

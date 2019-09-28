@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Nonindigenous Aquatic Species USGS Data Prep"
+title: "OHINE: Species Pollution Resilience - Nonindigenous Aquatic Species USGS Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 # Summary
 
-This script calculates the invasive species effectiveness and compliance scores by OHINE region. 
+This script calculates the invasive species effectiveness and compliance scores by OHINE region. This data is used to measure climate change resilience implementation & enforcement and effectiveness & compliance.
 
 # Data
 

@@ -2,15 +2,14 @@
 
 This folder describes the methods used to prepare data for the water pollution resilience layer for the US Northeast OHI assessment. 
 
-Data used:
 Regulations:
 1. EPA 
 
-Implementation and Enforcement
+Implementation and Enforcement:
 2. Discharge Facilities Inspected
 3. DMR Submitted
 
-Effectiveness and Compliance
+Effectiveness and Compliance:
 4. Discharge Facilities Violations
 
 #### EPA

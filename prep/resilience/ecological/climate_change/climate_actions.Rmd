@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Climate Friendly Actions Data Prep"
+title: "OHINE: Climate Change Resilience - Climate Friendly Actions Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 # Summary
 
-This script calculates the scope of climate friendly actions by region
+This script calculates the scope of climate friendly actions by region. This data is used to measure climate change resilience regulations.
 
 # Data
 **America's Pledge**

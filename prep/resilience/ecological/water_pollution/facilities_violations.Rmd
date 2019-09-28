@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - Discharge Facilities With Violations Data Prep"
+title: "OHINE: Water Pollution Resilience - Discharge Facilities With Violations Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 Summary
 
-This script calculates the percentage of discharge facilities with violations by OHINE region. 
+This script calculates the percentage of discharge facilities with violations by OHINE region. This data is used to measure water pollution resilience effectiveness & compliance.
 
 **EPA ECHO database** 
 

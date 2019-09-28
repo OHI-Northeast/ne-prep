@@ -1,5 +1,5 @@
 ---
-title: "OHINE: Resilience - ACEE Rankings Data Prep"
+title: "OHINE: Climate Change Resilience - ACEE Rankings Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,7 +18,7 @@ toc: true
 
 # Summary
 
-This script calculates the ACEE scores by OHINE region. 
+This script calculates the ACEE scores by OHINE region. This data is used to measure climate change resilience regulations.
 
 # Data
 
