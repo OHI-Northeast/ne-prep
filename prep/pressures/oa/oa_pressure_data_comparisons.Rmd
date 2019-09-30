@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Ocean Acidification Pressure Layer'
+title: 'OHI-Northeast: OA Data Comparisons'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -46,7 +46,7 @@ $\Delta \Omega_{year}$ is then modified to account for increases in aragonite sa
 
 #Data Source
 
-- i only changed a few of these below
+- I only changed a few of these below
 
 **Reference**: [Feely et al.(2009)](https://darchive.mblwhoilibrary.org/bitstream/handle/1912/3180/22-4_feely.pdf?sequence=1&isAllowed=y)
 - we have a new data source : https://www.coral.noaa.gov/accrete/east-coast-oaps.html
@@ -101,35 +101,14 @@ glob_dir    = file.path(dir_M,'git-annex/globalprep/prs_oa')
 ne_dir  = file.path(dir_M,'git-annex/neprep/prs_oa')
 
 cols      = colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
-
 ```
   
 ## Load raw data  
 
 New NOAA data
-There doesn't seem to be lat/long data 
 figure out how to write a loop to rasterize all files we have and then reproject and resample and add the coastline? make gif of the years 2014-2017
-```{r,message=FALSE,warning=FALSE,eval=FALSE}
 
-## getting aragonite data from https://www.coral.noaa.gov/accrete/east-coast-oaps.html
-
-nc_new = nc_open(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2014.nc'))
-names(nc_new$var) # only variable name here is OmegaAr
-print(nc_new) #lat long are stored in the dimensions: 3 dims (time, lat, lon)
-
-#grab the lat and longs
-lat <- ncvar_get(nc_new,varid='lat')
-long <- ncvar_get(nc_new,varid='lon')
-
-#code for looking at the NetCDF files directly
-#world.outlines <- map("world", plot=FALSE)
-#world.outlines.sp <- map2SpatialLines(world.outlines, proj4string = CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")) #had to check what projection the data is in
-
-#tplot <- levelplot
-#tplot+ layer(sp.lines(world.outlines.sp, col = "black", lwd = 0.5))
-
-```
-
+Here we are assuming that the file is the mean, below I explor other packages to try and pull the monthly data out to make sure this assumption is correct
 ```{r}
 nc_files <- c(list.files(file.path(raw_dir,'NOAA_OA'),
                        full.names = TRUE, pattern = ".nc"))
@@ -139,7 +118,7 @@ A peak into what the data looks like.
 Is this an annual mean? Find the meta data for it
 the .nc file says has monthly .nc files in the global attributes history so it makes me think that its annual mean
 ```{r explore}
-plot(raster(nc_files[1]), col = cols, axes = F)
+plot(raster(nc_files[4]), col = cols, axes = F)
 ```
 
 Rasterize the annual oa means
@@ -148,7 +127,6 @@ Resample
 (no mask unlike slr, we care about what's happening OA wise offshore)
 
 ```{r rasterize_annual}
-
 #three_nm <- raster(file.path(dir_git, "spatial/ocean_rasters/rast_3nm_mask.tif"))
 
 registerDoParallel(10)
@@ -180,25 +158,6 @@ plot(raster(file.path(dir_anx, "prs_oa/int/noaa/oa_annual_noaa_2014.tif")))
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Global Data
 
 ```{r,message=FALSE,warning=FALSE,eval=FALSE}
@@ -225,6 +184,96 @@ names(nc_05$var) # names for lat/long are different, so double check
 ```
 
 
+## Reading in each file and parsing out the monthly data
+
+http://geog.uoregon.edu/bartlein/courses/geog607/Rmd/netCDF_01.htm
+
+
+Creating a list with all the names of the NetCDF files we want to read in later
+```{r read_in_NetCDF_files}
+nc_files <- c(list.files(file.path(dir_anx,"_raw_data/NOAA_OA")),
+                       full.names = TRUE, pattern = ".nc")
+
+nc_files <- nc_files[1:4] 
+```
+
+
+```{r,message=FALSE,warning=FALSE,eval=FALSE}
+
+## getting aragonite data from https://www.coral.noaa.gov/accrete/east-coast-oaps.html
+
+nc = nc_open(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2014.nc'))
+  
+names(nc$var) # only variable name here is OmegaAr
+print(nc) #lat long are stored in the dimensions: 3 dims (time, lat, lon)
+
+#grab the lat and longs
+lat <- ncvar_get(nc,varid='lat')
+long <- ncvar_get(nc,varid='lon')
+
+# get the time variable and units
+time <- ncvar_get(nc,varid='time')
+tunits <- ncatt_get(nc, "time", "units")
+
+# get arg variable
+arg <- ncvar_get(nc,varid='OmegaAr')
+
+dname <-  "OmegaAr"
+oa.array_2014 <- ncvar_get(nc, dname)
+dlname <- ncatt_get(nc, dname, "long_name")
+dunits <- ncatt_get(nc, dname, "units")
+fillvalue <- ncatt_get(nc, dname, "_FillValue")
+
+history <- ncatt_get(nc, 0, "history")
+
+nc_close(nc_new)
+
+oa.array_2014[oa.array_2014 == fillvalue$value] <- NA
+```
+
+
+```{r}
+registerDoParallel(6)
+
+  foreach(month = c(1:12))  %dopar% {
+  
+  #month = 12
+  
+  slice <- oa.array[, , month] 
+  
+  r <- raster(t(slice), xmn=min(long), xmx=max(long), ymn=min(lat), ymx=max(lat), crs=CRS(p4s_wgs84)) %>% 
+  flip(direction = 'y') %>%
+  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+  raster::crop(ne_ext) %>% 
+  raster::resample(three_nm, method = "ngb") %>% 
+   # mask(three_nm) %>% 
+    writeRaster(filename = sprintf("%s/int/noaa_monthly_raw/noaa_month_%s.tif", file.path(dir_anx, "prs_oa"), month), 
+                overwrite = TRUE)
+  }
+  
+  plot(r)
+```
+
+
+
+
+###Results
+```{r gif_results}
+library(animation)
+
+monthly_2014 <- list.files(file.path(dir_anx, 'prs_oa/int/noaa_monthly_raw'), full.names = T) %>%stack()
+                         
+names(monthly_2014) <- paste0("2014_month_", substr(names(monthly_2014),12, 13))
+
+animation::saveGIF({
+  for(i in 1:nlayers(monthly_2014)){
+     plot(ocean_ne,col='cornsilk2',  main=names(monthly_2014[[i]]),axes=F,legend=F)
+      # don't forget to fix the zlimits
+    plot(monthly_2014[[i]], zlim=c(0,1), axes=F, col=cols, add=T)
+      
+  }
+}, movie.name = 'oa_monthly_2014.gif')
+```
 
 
 
