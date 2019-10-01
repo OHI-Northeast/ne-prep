@@ -185,7 +185,7 @@ ny_con <- ny_con_raw %>%
   select(-net_elec_flow, -net_elec_import)
 ```
 
-Combine all states energy consumption data into one and calculate the percent of renewable. Also calculating percent with clean(ie: nuclear) for fun/its interesting
+Combine all states energy consumption data into one and calculate the percent of renewable. 
 ```{r calc_percent_consum_clean}
 consum <- rbind(me_con, ma_con, ct_con, nh_con, ny_con, ri_con) %>% 
   mutate(coal = as.numeric(coal),
@@ -242,7 +242,6 @@ lm_me <- lm(per_clean ~ year, data = me_target)
 summary(lm_me)
 
 plot(per_clean ~ year, data = me_target)
-abline(lm_me)
 
 ###trying to use equation no loop
 me_clean_target <- me %>% 

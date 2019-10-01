@@ -18,11 +18,11 @@ toc: true
 
 # Summary
 
-This script calculates the percent of species with stock assessments that are adequately assessed.This data is used to measure fishing resilience regulations.
+This script calculates the percent of species with stock assessments that are adequately assessed. This data is used to measure fishing resilience regulations.
 
 # Data
 
-**1.RAM**
+**RAM**
 **Downloaded**: February 28, 2018 from ramlegacy.org
 
 **Description**:  RAM Legacy Stock Assessment Database provides information on global fish stocks including catch, B/Bmsy and F/Fmsy among other metrics.
@@ -32,7 +32,7 @@ This script calculates the percent of species with stock assessments that are ad
 **Format**:  Tabular
 
 
-**2. NOAA fisheries**
+**NOAA Fisheries**
 **Downloaded**: December 14, 2018 (emailed to us by Jeffrey Vieser at NMFS)
 
 **Description**:  Records of Bmsy and Fmsy estimates from stock assessments conducted in the greater Northeast region
@@ -42,7 +42,8 @@ This script calculates the percent of species with stock assessments that are ad
 **Format**:  Tabular
 
 # About
-This script calculates the percent of species with stock assessment that are adequately assessed. The target is a formal stock assessment completed at least once in the past 5 years. This target was informed by Jeffery Vieser, and is the same metric used in FSSI.
+
+The percentage of species with formal stocks assessments is calculated using the RAM and NMFS data. To calculate a score, we used a reference point of a stock assessment conducted at least once every 5 years. This target was provided by Jeffery Vieser, and is the same metric used in FSSI.
 
 # Methods
 
@@ -63,8 +64,6 @@ library(readxl)
 ```
 
 
-Only have SA data back to 2004 for nmfs, will be harder to determine adequately assessed in 2005-2008
-
 Load Data
 ```{r load_data}
 nmfs_stock_ass <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_assessment_data.csv")%>% select(-X1)
@@ -73,7 +72,7 @@ nmfs_catch_raw <- read.csv("~/github/ne-prep/prep/fis/data/nmfs_spatial_catch_by
 ```
 
 ## Tidy data
-**code below the same as in 5_assessed_species_lookuptable, except that the year is getting kept throughout**
+First we want to use the NMFS catch data to create a data set for the species landed and tonnage.
 ```{r catch_tidy}
 nmfs_catch <- nmfs_catch_raw %>%
   mutate(nmfs_original_species = as.character(species),
@@ -82,7 +81,7 @@ nmfs_catch <- nmfs_catch_raw %>%
   distinct()
 ```
 
-Grab all species from NMFS catch data and get them, as well as their alternative names, cleaned up
+Now we want to clean up the species names in the NMFS catch data, including alternative names 
 ```{r grab_species_caught_tidy}
 nmfs_catch_sp <- nmfs_catch %>%
   separate(species_low, into = c("species1", "species2", "species3"), sep = ",", remove = FALSE) %>%
@@ -107,7 +106,7 @@ nmfs_catch_sp <- nmfs_catch %>%
   mutate(species = nmfs_species)
 ```
 
-Get NMFS stock assessment data species
+Next we use the NMFS stock assessment data to determine which species have assessments done 
 ```{r stock_assesments_NMFS}
 nmfs_stock_years <- nmfs_stock_ass %>%
   select(year, stock) %>%
@@ -118,7 +117,7 @@ nmfs_stock_years <- nmfs_stock_ass %>%
          stockid = NA)
 ```
 
-Get RAM stock species
+Do the same thing with the RAM stock species
 ```{r stock_assesments_RAM}
 ram_years <- ram_stock_ass %>%
   select(year, commonname, areaname, stockid) %>%
@@ -129,7 +128,7 @@ ram_years <- ram_stock_ass %>%
   select(-commonname, -areaname) #create a duplicate column "species" to match with noaa
 ```
 
-First I want to combine the RAM and NMFS Stock assessment data since they have location data too
+Next we want to combine the RAM and NMFS Stock assessment data since they have location data too
 ```{r combine_stock_ass}
 stock_matching <- nmfs_stock_years %>%
   bind_rows(ram_years)
@@ -195,6 +194,7 @@ select(year, nmfs_original_species, stock_assessment_species_name, stock_assessm
 ```
 
 Fixing the skate wings and monk fish pieces matching. Skates and Monkfish are reported in NMFS catch as full fish as well as pieces (wings, livers, heads). I'm sure there is a nice way to incorporate these species names into the data above but I'm doing it manually here...
+
 ```{r tidy_weird_names}
 add_species <- data.frame(stock_assessment_species_name = c("little skate", "winter skate", "smooth skate", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "goosefish", "tilefish", "tilefish"),
                           stock_assessment_species_location = c("Georges Bank / Southern New England", 
