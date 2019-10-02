@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Aquaculture - Disease Pressure Data Prep'
+title: 'OHI-Northeast: Aquaculture - Escapes Pressure Data Prep'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -18,9 +18,9 @@ toc: true
 
 Disease from aquaculture production.
 
-In this script we use the seafood watch data on the disease criteria per species and multiply by production.
+In this script we use the seafood watch data on the escapes criteria per species and multiply by production.
 
-Disease scores for each farmed species is criteria 7 in the Seafood Watch data. Each species get a score 0-10 with 10 being the least concern and 0 being high/critical.
+Disease scores for each farmed species is criteria 6 in the Seafood Watch data. Each species get a score 0-10 with 10 being the least concern and 0 being high/critical.
 
 ## Setup
 
@@ -54,9 +54,10 @@ production <- read_csv(file.path(dir_git, "prep/mar/data/production_clean.csv"))
 ## Methods
 
 Cleaning up the seafood watch data so to be combined with production data
+
 ```{r}
 sf_watch <- sf_watch_raw %>% 
-  select('FAO Common name', 'AqCriteria7', 'Report Title') %>% 
+  select('FAO Common name', 'AqCriteria6', 'Report Title') %>% 
   rename(report_title ='Report Title',
          Species = 'FAO Common name') %>% 
   filter(report_title != "Atlantic salmon, Global RAS" & 
@@ -81,36 +82,36 @@ sf_watch <- sf_watch_raw %>%
 
 Combine production data and seafood watch
 ```{r}
-disease_pro <- left_join(production, sf_watch, by = ("Species")) %>% 
-  mutate(disease_prs = pounds*AqCriteria7,
+escape_pro <- left_join(production, sf_watch, by = ("Species")) %>% 
+  mutate(disease_prs = pounds*AqCriteria6,
          pounds = ifelse(pounds == 0, NA, pounds), # if no production the end score needs to be NA not 0
          target = pounds*10,
          scaled_score = 1-(disease_prs/target))
 
-disease_pro
+escape_pro
 ```
 
 ## Calculate Pressure Score 
 ```{r}
-aqu_disease_prs <- disease_pro %>% 
+aqu_escape_prs <- escape_pro %>% 
   group_by(Year, Region) %>% 
   dplyr::summarize(score = mean(scaled_score, na.rm= TRUE)) %>% 
   filter(Year >= 2005 & Year <=2017)
 
-aqu_disease_prs
+aqu_escape_prs
 ```
 
 ```{r visualize}  
-aqu_dis_graph <-ggplot(aqu_disease_prs)+
+aqu_esc_graph <-ggplot(aqu_escape_prs)+
   geom_line(aes(x=Year, y = score, color=Region))+
   ggtitle("Aquaculture disease pressure score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
-aqu_dis_graph
+aqu_esc_graph
 
 
-ggsave(file.path(dir_git, "prep/pressures/aquaculture/aqu_dis_graph.png"), width=7, height=5, dpi=300)
+ggsave(file.path(dir_git, "prep/pressures/aquaculture/aqu_esc_graph.png"), width=7, height=5, dpi=300)
 ```
 
 

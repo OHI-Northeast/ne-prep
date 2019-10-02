@@ -3,7 +3,7 @@ title: "OHINE: Climate Change Resilience - Clean Energy Consumption Data Prep"
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -18,22 +18,22 @@ toc: true
 
 # Summary
 
-This script calculates if each region is meeting their annual target necessary to reach their end clean energy consumption goal.This data is used to measure climate change resilience implementation & enforcement and effectiveness & compliance.
+This script calculates how close each region is meeting their annual target necessary to reach their end clean energy consumption goal.This data is used to measure climate change resilience implementation & enforcement and effectiveness & compliance.
 
 # Data
 
-**EIA Consumption Data**
+**Source:** US Energy Information Administration (EIA) Consumption Data
 
-**Downloaded**: August, 2019
+**Downloaded:** August, 2019
 
-**Description**: Energy consumption by energy source.  https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
+**Description:** Energy consumption by energy source.  https://www.eia.gov/beta/states/states/ny/data/dashboard/total-energy
 
-**Time range**: 1960-2017
+**Time range:** 1960-2017
 
-**Format**: Tabular
+**Format:** Tabular, csv file
 
 # About
-Scores are calculated by taking the EIA energy consumption data, calculating the percent of energy consumed that comes from clean sources, and dividing it by the target emissions. Total annual carbon emissions were pulled from the EIA website. Clean energy consumption targets are calculated by performing a linear regression from 2004 to the target year of their consumption goal. While there is a variety of energy plans and portfolios in the US that differ from state to state, every state in our region of interest has a "renewable energy portfolio standards", so we do not include nuclear energy production as part of the total renewable energy consumption target.
+Scores are calculated by taking the EIA energy consumption data, calculating the percent of energy consumed that comes from clean sources, and dividing it by the target emissions. Total annual carbon emissions were pulled from the EIA website. Clean energy consumption targets are calculated by performing a linear regression from 2004 to the target year of their consumption goal. While there are a variety of energy plans and portfolios in the US that differ from state to state, every state in our region of interest has a "renewable energy portfolio standards", so we do not include nuclear energy production as part of the total renewable energy consumption target.
 
 Clean Energy Consumption Targets:
 http://www.ncsl.org/research/energy/renewable-portfolio-standards.aspx#me
@@ -67,8 +67,7 @@ library(readxl)
 library(tabulizer)
 ```
 
-Load in the energy consumption data for each state. All numbers are in Billion Btu
-Did not include the energy imported because there is no way to know what source that came from
+Load in the energy consumption data for each state. Consumption is in billion Btu. We do not include the energy imported because since there we do not know the sources.
 ```{r load_data}
 ct_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/ct_consumption.csv"), skip = 1)
 me_con_raw <- read_csv(file.path(dir_anx, "_raw_data/EIA/energy_consumption/me_consumption.csv"), skip = 1)
@@ -185,7 +184,7 @@ ny_con <- ny_con_raw %>%
   select(-net_elec_flow, -net_elec_import)
 ```
 
-Combine all states energy consumption data into one and calculate the percent of renewable. 
+Combine all states energy consumption data and calculate the percent of renewable. 
 ```{r calc_percent_consum_clean}
 consum <- rbind(me_con, ma_con, ct_con, nh_con, ny_con, ri_con) %>% 
   mutate(coal = as.numeric(coal),
@@ -205,10 +204,9 @@ consum <- rbind(me_con, ma_con, ct_con, nh_con, ny_con, ri_con) %>%
 
 Visualize
 ```{r visualize_consumption_clean}
-# renewable only
 con_renew_graph <- ggplot(consum)+
   geom_line(aes(x=year, y= per_renew, color= state))+
- ggtitle("Percent of renewable energy used (no nuclear)") +
+ ggtitle("Percent of Renewable Energy Used") +
   ylab("Percent") +
   xlab("Year") +
   theme_classic()
@@ -218,35 +216,34 @@ con_renew_graph
 
 ## Regressions for trend targets
 
-Now that we have the actual percentage of energy consumption that comes from renewable, we can perform regressions for each state to determine the annual target needed to meet end target. This is done by creating a state specific df with the start (observed) and end (goal) carbon emissions, and then using the slope and intercept to calculate the annual targets. With this we can calculate if each state is on track to hitting their renewable energy target goal for a given year.
+Now that we have the actual percentage of energy consumption that comes from renewable, we can conduct regressions for each state to determine the annual target needed to meet end target. This is done by creating a state specific df with the start (observed in 2004) and end (goal year) carbon emissions, and then using the slope and intercept to calculate the annual targets. With this we can calculate if each state is on track to hitting their renewable energy target goal for a given year.
 
 Maine
+
+Target = 40% clean by 2017
 ```{r me_lin_reg}
-#MA 40% clean by 2017
 me <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
   arrange(year) %>% 
   filter(state == "Maine") %>% 
   mutate(year_n = seq(1:14))
 
-#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+#create tribble with the start (value in 2004) and end (goal in whichever year) to do a linear regression 
 me_target <- tribble(
   ~year, ~per_clean,
   1, 0.277,
   14, 0.4
 )
 
-#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+# simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_me <- lm(per_clean ~ year, data = me_target)
-#intercept = 0.26754 ; coef = 0.00946 
-summary(lm_me)
 
-plot(per_clean ~ year, data = me_target)
+b <- coef(lm_me)["(Intercept)"]
+m <- coef <- coef(lm_me)["year"]
 
-###trying to use equation no loop
 me_clean_target <- me %>% 
   rowwise() %>% 
-  mutate(target = (0.00946*year_n + 0.26754),
+  mutate(target = (m*year_n + b),
          per_clean = round(per_clean, digits= 2),
          target = round(target, digits= 2)) %>% 
   filter( year != "2004") %>% 
@@ -254,15 +251,16 @@ me_clean_target <- me %>%
 ```
 
 Massachusetts
+
+Target = 35% clean by 2030
 ```{r ma_lin_reg}
-#MA 35% clean by 2030
 ma <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
   arrange(year) %>% 
   filter(state == "Massachusetts")  %>% 
   mutate(year_n = seq(1:14))
 
-#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+#create tribble with the start (value in 2004) and end (goal in whichever year) to do a linear regression 
 ma_target <- tribble(
   ~year, ~per_clean,
   1, 		0.0387	,
@@ -270,11 +268,13 @@ ma_target <- tribble(
 
 #super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ma <- lm(per_clean ~ year, data = ma_target)
-#coef = 0.0125    ; int = 0.0262  
+
+b <- coef(lm_ma)["(Intercept)"]
+m <- coef <- coef(lm_ma)["year"]
 
 ma_clean_target <- ma %>% 
   rowwise() %>% 
-  mutate(target = (0.0125*year_n+ 0.0262),
+  mutate(target = (m*year_n+ b),
          per_clean = round(per_clean, digits= 2),
          target = round(target, digits= 2)) %>% 
   filter( year != "2004") %>% 
@@ -282,55 +282,60 @@ ma_clean_target <- ma %>%
 ```
 
 New Hampshire
+
+Target = 25.2% clean by 2025
 ```{r nh_lin_reg}
-#NH 25.2% clean by 2025
 nh <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
   arrange(year) %>% 
   filter(state == "New Hampshire") %>% 
   mutate(year_n = seq(1:14))
 
-#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+#create tribble with the start (value in 2004) and end (goal in whichever year) to do a linear regression 
 nh_target <- tribble(
   ~year, ~per_clean,
   1, 0.0770,
   21, .252
 )
 
-#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+# simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_nh <- lm(per_clean ~ year, data = nh_target)
-#coef=  0.00875 int=  0.06825 
+
+b <- coef(lm_nh)["(Intercept)"]
+m <- coef <- coef(lm_nh)["year"]
 
 nh_clean_target <- nh %>% 
-  mutate(target = (0.00875*year_n + 0.06825),
+  mutate(target = (m*year_n + b),
          per_clean = round(per_clean, digits= 2),
          target = round(target, digits= 2)) %>% 
    filter( year != "2004") %>% 
   select(year, state, per_renew, target)
 ```
 
-
 Rhode Island
+
+Target = 38.5% clean by 2035
 ```{r ri_lin_reg}
-#RI 38.5% clean by 2035
 ri <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
   arrange(year) %>% 
   filter(state == "Rhode Island") %>% 
   mutate(year_n = seq(1:14))
 
-#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+#create tribble with the start (value in 2004) and end (goal in whichever year) to do a linear regression 
 ri_target <- tribble(
   ~year, ~per_clean,
   0, 0.0256	,
   31, .385)
 
-#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+# simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ri <- lm(per_clean ~ year, data = ri_target)
-#coef=0.0256  , int = 0.0116  
+
+b <- coef(lm_ri)["(Intercept)"]
+m <- coef <- coef(lm_ri)["year"]
 
 ri_clean_target <- ri %>% 
-   mutate(target = (0.0116*year_n+0.0256),
+   mutate(target = (m*year_n+b),
          per_clean = round(per_clean, digits= 2),
          target = round(target, digits= 2)) %>% 
   filter(year != "2004") %>% 
@@ -338,55 +343,60 @@ ri_clean_target <- ri %>%
 ```
 
 New York
+
+Target = 50% clean by 2030
 ```{r ny_lin_reg}
-#NY 50% clean by 2030
 ny <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
   arrange(year) %>% 
   filter(state == "New York") %>% 
   mutate(year_n = seq(1:14))
 
-#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+#create tribble with the start (value in 2004) and end (goal in whichever year) to do a linear regression 
 ny_target <- tribble(
   ~year, ~per_clean,
   0, 	0.0950	,
   26, .50)
 
-#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+# simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ny <- lm(per_clean ~ year, data = ny_target)
-#coef=0.0156   , int =   0.0950
+
+b <- coef(lm_ny)["(Intercept)"]
+m <- coef <- coef(lm_ny)["year"]
 
 ny_clean_target <- ny %>% 
-  mutate(target = (0.0156*year_n+0.0950 ),
+  mutate(target = (m*year_n+b ),
          per_clean = round(per_clean, digits= 2),
          target = round(target, digits= 2)) %>% 
   filter(year != "2004") %>% 
   select(year, state, per_renew, target)
 ```
 
-
 Connecticut
+
+Target = 44% clean by 2030
 ```{r ct_lin_reg}
-#CT 44% clean by 2030
 ct <- consum %>% 
   filter(year >= 2004 & year <= 2017) %>% 
   arrange(year) %>% 
   filter(state == "Connecticut")  %>% 
   mutate(year_n = seq(1:14))
 
-#create tibble with the start (value in 2005) and end (goal in whichever year) to do a linear regression 
+#create tribble with the start (value in 2004) and end (goal in whichever year) to do a linear regression 
 ct_target <- tribble(
   ~year, ~per_clean,
   0, 0.0490,
   26, .44
 )
 
-#super simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
+# simple regression for equation to calculate the necessary percent clean emmisions each year to reach target
 lm_ct <- lm(per_clean ~ year, data = ct_target)
-#coef= 0.015  , int= 0.049 
+
+b <- coef(lm_ct)["(Intercept)"]
+m <- coef <- coef(lm_ct)["year"]
 
 ct_clean_target <- ct %>% 
-  mutate(target = (0.015*year_n+0.049),
+  mutate(target = (m*year_n+b),
          per_clean = round(per_clean, digits= 2),
          target = round(target, digits= 2)) %>% 
   filter(year != "2004") %>% 
@@ -398,8 +408,8 @@ Combine all states df with target
 energy_target <- rbind(me_clean_target, nh_clean_target, ma_clean_target, ri_clean_target, ct_clean_target, ny_clean_target)
 ```
 
-## Calculate Score
-
+# Results
+## Calculate score
 ```{r calc_scores}
 renew_consum <- energy_target %>% 
   mutate(score = per_renew/target,
@@ -408,7 +418,7 @@ renew_consum <- energy_target %>%
 write.csv(renew_consum, file = "data/renew_consum.csv")
 ```
 
-Visualize scores
+## Visualize scores
 ```{r vis_scores}  
 renew_consum_graph <-ggplot(renew_consum)+
   geom_line(aes(x=year, y = score, color=state))+
