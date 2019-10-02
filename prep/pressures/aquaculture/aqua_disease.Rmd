@@ -85,7 +85,7 @@ disease_pro <- left_join(production, sf_watch, by = ("Species")) %>%
   mutate(disease_prs = pounds*AqCriteria7,
          pounds = ifelse(pounds == 0, NA, pounds), # if no production the end score needs to be NA not 0
          target = pounds*10,
-         rescale_score = (target- disease_prs)/(target-1))
+         scaled_score = 1-(disease_prs/target))
 
 disease_pro
 ```
@@ -94,11 +94,12 @@ disease_pro
 ```{r}
 aqu_disease_prs <- disease_pro %>% 
   group_by(Year, Region) %>% 
-  dplyr::summarize(score = mean(rescale_score, na.rm= TRUE)) %>% 
+  dplyr::summarize(score = mean(scaled_score, na.rm= TRUE)) %>% 
   filter(Year >= 2005 & Year <=2017)
 
 aqu_disease_prs
 ```
+
 
 
 
