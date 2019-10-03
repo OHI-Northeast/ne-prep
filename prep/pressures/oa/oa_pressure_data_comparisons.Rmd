@@ -446,20 +446,21 @@ files <- files[-60] #theres a weird extra file here
 
 foreach(file = files) %dopar% {
   
-  file = files[1]
+ # file = files[1]
   
   yr = substr(file, nchar(file)-7, nchar(file)-4)
   
   r <- raster(file) %>% 
-  projectRaster(crs = us_alb, over = FALSE, progress="text") %>%  #this makes the map look weird
+  raster::crop(moll_ext) %>% 
+  projectRaster(crs = us_alb, over = TRUE, progress="text") %>%  #this makes the map look weird
   raster::crop(ne_ext) %>% # when i do this it seems like it cuts off the offshore regions...
   raster::resample(zones, method = "ngb") %>% 
     writeRaster(filename = paste0(dir_anx, '/prs_oa/int/global_albers/global_albers_', yr, ".tiff"), 
                 overwrite = TRUE)
 }
 
-plot(r)
-
+#plot(r)
+#plot(rgns[1], add = TRUE)
 ```
 
 Visualzing Actual concentrations of Arg
@@ -472,7 +473,7 @@ files <- files[58:61]
 
 foreach(file = files) %dopar%{
 
-  #file = files[1]
+  file = files[1]
   r  <- raster(file) #oa raster
   yr <- substr(file, nchar(file)-7, nchar(file)-4)
   xy <- data.frame(xyFromCell(r, 1:ncell(r))) #get xy coords into dataframe
@@ -489,6 +490,7 @@ foreach(file = files) %dopar%{
 
 files <- list.files(file.path(dir_anx,'prs_oa/int/global_gif'), full.names=TRUE)
 
+
 #mask
 registerDoParallel(24)
 
@@ -500,7 +502,7 @@ foreach(file = files)%dopar% {
   raster::resample(zones, method = 'ngb')%>%
   raster::mask(zones)
        
-  writeRaster(x, filename = paste0(dir_anx, '/prs_oa/int/global_gif/Aragonite_Concentration_', yr, ".tif"), overwrite=TRUE)
+  writeRaster(x, filename = paste0(dir_anx, '/prs_oa/int/global_gif/Aragonite_Concentration_globaldata_', yr, ".tif"), overwrite=TRUE)
 }
 
 library(animation)
@@ -513,12 +515,11 @@ animation::saveGIF({
   for(i in 1:nlayers(oa_layers)){
      plot(ocean_ne,col='cornsilk2',  main=names(oa_layers[[i]]),axes=F,legend=F)
       # don't forget to fix the zlimits, zlim=c(-0.5,3)
-    plot(oa_layers[[i]],zlim=c(0,3), axes=F, col=cols, add=T) 
+    plot(oa_layers[[i]],zlim=c(0,4), axes=F, col=cols, add=T) 
       
   }
 }, movie.name = 'Aragonite_Concentration_global_data.gif')
 ```
-
 
 
 
@@ -629,10 +630,83 @@ animation::saveGIF({
 }, movie.name = 'OA_Pressures_scores_global_short.gif')
 ```
 
-# Compare maps 
- 
- New Data Source 2014 - 2017:
- <img src="https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif" width="40" height="40" />
+## Compare differences in annual means rasters
+
+read in annual means new noaa
+```{r}
+new_noaa <- list.files(file.path(dir_anx,'prs_oa/int/noaa_annual_mean'), full.names=TRUE)
+```
+
+
+read in annual means old global
+
+```{r}
+old_global <- list.files(file.path(dir_anx,'prs_oa/int/global_albers'), full.names=TRUE)
+old_global <- old_global[58:61]
+```
+
+Subract each years raster form one another to see if the difference is the same every time
+```{r}
+registerDoParallel(24)
+
+foreach(new = new_noaa,
+        old = old_global )%dopar% {
+
+  new = new_noaa[4]
+  old = old_global[4]
+          
+  yr <- substr(new,nchar(new)-7,nchar(new)-4)
+  cat(yr)
+  
+  diff <- raster(old) - raster(new)
+  
+  diff <- raster::resample(diff,zones, method = 'ngb')%>%
+  raster::mask(zones)
+       
+  raster::hist(diff, main= "Differences 2017")
+  
+  writeRaster(x, filename = paste0(dir_anx, '/prs_oa/int/difference/differences_', yr, ".tif"), overwrite=TRUE)
+        }
+
+hist()
+#old_rast <- raster(old)
+#new_rast <- raster(new)
+
+#plot(diff)
+#plot(rgns[1], add = TRUE)
+
+
+# When d
+# 2014 dif: 0.844 - 1.76; Median: 1.410
+# 2015 dif: 0.472 - 1.14; Median 0.879
+# 2016 dif: 0.445 -1.06; Median 0.782
+# 2017 dif: 0.843 - 1.41 Median: 1.146
+```
+
+
+```{r gif_differences}
+library(animation)
+
+diff_layers <- list.files(file.path(dir_anx, 'prs_oa/int/difference'), full.names = T) %>%
+  stack()
+
+animation::saveGIF({
+  for(i in 1:nlayers(diff_layers)){
+     plot(ocean_ne,col='cornsilk2',  main=names(oa_layers[[i]]),axes=F,legend=F)
+      # don't forget to fix the zlimits
+    plot(diff_layers[[i]], zlim=c(0,2),axes=F, col=cols, add=T) 
+      
+  }
+}, movie.name = 'OA_differences.gif')
+```
+
+
+
+
+
+
+
+
 
 
 

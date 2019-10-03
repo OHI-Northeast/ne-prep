@@ -99,32 +99,147 @@ escape_pro <- left_join(production, sf_watch, by = ("Species")) %>%
   mutate(pressure = (1- AqCriteria6/10),
          escape_pro= pounds*pressure,
          pounds = ifelse(pounds == 0, NA, pounds)) # if no production the end score needs to be NA not 0)
-
 escape_pro
 ```
 
-## Calculate Pressure Score 
+## Calculate Pressure Score using a region specific reference point
 ```{r}
-aqu_escape_prs <- escape_pro %>% 
+rgn_ref <- escape_pro %>% 
   group_by(Year, Region) %>% 
-  dplyr::summarize(score = mean(scaled_score, na.rm= TRUE)) %>% 
+  dplyr::summarize(total = sum(escape_pro, na.rm= TRUE)) %>% 
+  ungroup() %>% 
+ group_by(Region) %>% 
+  mutate(prs_score = total/max(total)) %>% 
   filter(Year >= 2005 & Year <=2017)
 
-aqu_escape_prs
+rgn_ref
 ```
 
 ```{r visualize}  
-aqu_esc_graph <-ggplot(aqu_escape_prs)+
-  geom_line(aes(x=Year, y = score, color=Region))+
+rgn_ref <-ggplot(rgn_ref)+
+  geom_line(aes(x=Year, y = prs_score, color=Region))+
   ggtitle("Aquaculture escapes pressure score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
-aqu_esc_graph
+rgn_ref
 
-
-ggsave(file.path(dir_git, "prep/pressures/aquaculture/aqu_esc_graph.png"), width=7, height=5, dpi=300)
+ggsave(file.path(dir_git, "prep/pressures/aquaculture/figs/esc_rgn_ref.png"), width=7, height=5, dpi=300)
 ```
+
+
+## Calculate Pressure Score using a one reference point
+```{r}
+one_ref <- escape_pro %>% 
+  group_by(Year, Region) %>% 
+  dplyr::summarize(total = sum(escape_pro, na.rm= TRUE)) %>% 
+  ungroup() %>% 
+# group_by(Region) %>% 
+  mutate(prs_score = total/max(total)) %>% 
+  filter(Year >= 2005 & Year <=2017)
+
+one_ref
+```
+
+```{r visualize}  
+one_ref_g <-ggplot(one_ref)+
+  geom_line(aes(x=Year, y = prs_score, color=Region))+
+  ggtitle("Aquaculture escapes pressure score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+one_ref_g
+
+ggsave(file.path(dir_git, "prep/pressures/aquaculture/figs/esc_one_ref.png"), width=7, height=5, dpi=300)
+```
+
+
+
+## Calculate Pressure Score using a reference point that 110% larger than the region specific 
+```{r}
+reference_point <- escape_pro %>% 
+  group_by(Year, Region) %>% 
+  dplyr::summarize(total = sum(escape_pro, na.rm= TRUE)) %>% 
+  ungroup() %>% 
+  group_by(Region) %>% 
+  filter(total == max(total)) %>% 
+  mutate(grow_ref = total*1.1) %>% 
+  select(Region, grow_ref)  ## if we end up keeping this as the reference point for future iterations, will need to save this df to be used later instead of recreating it ever time and getting new numbers as production grows
+
+
+growing_ref <- escape_pro %>% 
+  group_by(Year, Region) %>% 
+  dplyr::summarize(total = sum(escape_pro, na.rm= TRUE)) %>% 
+  ungroup() %>% 
+  group_by(Region) %>% 
+  left_join(reference_point, by = c("Region")) %>% 
+  mutate(prs_score = total/grow_ref) %>% 
+  filter(Year >= 2005 & Year <=2017)
+
+growing_ref
+```
+
+```{r visualize}  
+growing_ref_g <-ggplot(growing_ref)+
+  geom_line(aes(x=Year, y = prs_score, color=Region))+
+  ggtitle("Aquaculture escapes pressure score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+growing_ref_g
+
+ggsave(file.path(dir_git, "prep/pressures/aquaculture/figs/esc_growing_ref.png"), width=7, height=5, dpi=300)
+```
+
+
+
+
+Doing the same thing as above for disease so can make one table
+```{r}
+sf_watch_2 <- sf_watch_raw %>% 
+  select('FAO Common name', 'AqCriteria7', 'Report Title') %>% 
+  rename(report_title ='Report Title',
+         Species = 'FAO Common name') %>% 
+  filter(report_title != "Atlantic salmon, Global RAS" & 
+         report_title != "Global Recirculating Aquaculture Systems" &
+         report_title != "Clams, Global",
+         report_title != 'Rainbow trout, US OLD STANDARD') %>% # there are 3 different atlantic salmon scores, we are keeping the when Report Title' == Atlantic Salmon, Atlantic North America; we are also keeping "Clams, Global NEW STANDARD" and removing the old one; same with trout as with clams
+  select(-report_title) %>% 
+  mutate(Species = stri_replace_all_fixed(Species, "Hard clam (unspecified)", "Hard clam"),
+         Species =  tolower(Species)) %>% 
+  mutate(Species =  ifelse(Species == "manila clam", "soft shell clams", # all clams have the save score, but choosing to keep these se
+                           ifelse(Species == "littleneck clam", "soft shell clams",
+                              ifelse(Species == "razor clam", "soft shell clams",
+                                ifelse(Species == "venus clam", "soft shell clams",
+                                  ifelse(Species == "lyrate hard clam", "soft shell clams",
+                                        Species)))))) %>% 
+  mutate(Species = ifelse(str_detect(Species, "oyster"), "oysters", Species),
+         Species = ifelse(str_detect(Species, "scallop"), "scallops", Species),
+         Species = ifelse(str_detect(Species, "mussel"), "blue mussel", Species),
+         Species = ifelse(str_detect(Species, "trout"), "trout", Species)) %>% #all oysters, scallops, and mussels have the same score; rainbow trout is farmed in the northeast, change the name for merging
+  unique() %>% 
+  left_join(production) %>% 
+  filter(Region != is.na(Region)) %>% 
+  select(Species, AqCriteria7) %>% 
+  unique() %>% 
+  rename(disease_prs = AqCriteria7)
+```
+
+Creating a table of each species and it's criteria score, including disease and escapes
+```{r}
+library(formattable)
+
+escapes_sfw_score <- escape_pro %>% 
+  select(Species, AqCriteria6) %>% 
+  unique() %>% 
+  rename("Escape Pressure" = AqCriteria6 ) %>%  
+  left_join(sf_watch_2, by = c("Species")) %>% 
+  rename("Disease Pressure" = disease_prs)
+
+table_sfw_crit <- formattable(escapes_sfw_score)
+```
+
+
 
 
 

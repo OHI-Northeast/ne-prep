@@ -17,54 +17,32 @@ output:
     toc: true
 ---
 
-#Summary
+# Summary
 
-This script takes the raw netCDF data and does the following:
+This script calculates the ocean acidification pressure score.
 
-   a. Calculates the annual mean for each of the 5 years in 2011-2015 (5 raster layers as output)  
-   b. Rescales each annual raster layer from 0 to 1 based on a biological threshold (&#937; <= 1) and the proportional change compared to a historical mean
-   c. Interpolates the data to gap-fill for cells where there is no data
-   d. Resamples the rescaled raster layer to 1km cell resolution
-   e. Mask the resampled data to select only those cells within the ocean
-  
+# Data:
 
-#Updates from previous assessment
+1. East Coast Ocean Acidification Product Suite https://www.coral.noaa.gov/accrete/east-coast-oaps.html
 
-Added one more year of data (2015) and rescaled values greater than 1 based on how close the value is to the threshold of 1. This was done by using the following equation:
+We have downloaded aragonite data from the site. 
 
+Time frame: 2014-2017
+
+The data is downloaded as seperate NetCDF files for each year. Each file has one variable (OmegaAr) with three dimensions (lat, long, and time). The unit for time is months since Janurary 2014 (0-11), but when we convert this data into an array later the month dimesions "turns in" the normal 1-12 because it counting the number of data sets for that dimension.
+
+Since we do not have historic data, I used the global 1980-1989 aragonite mean file as a base/reference. This is likely not accurate if the data is different, so we would need to figure out a new baseline/ reference point. 
+
+Equation for calculating aragonite satuation change:
 $$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
 
 Note that current is subtracted from the baseline; this way, a reduction in $\Omega$ becomes a positive pressure value. It is then normalized by the current mean state; so a decrease in $\Omega$ while the current state is high indicates less pressure than the same decrease when the current state is near 1. 
 
 $\Delta \Omega_{year}$ is then modified to account for increases in aragonite saturation state (pressure = 0) and arag sat state less than 1 (pressure = 1).
 
-***
-
-#Data Source
-**Reference**: [Feely et al.(2009)](https://darchive.mblwhoilibrary.org/bitstream/handle/1912/3180/22-4_feely.pdf?sequence=1&isAllowed=y)
-
-**Downloaded**: March 15, 2016
-
-**Description**:  Aragonite Saturation State  $\Omega_{arg}$
-
-**Native data resolution**: 1 degree cells
-
-**Time range**: 1880-1889 and 2005-2015, monthly data provided for each year
-
-**Format**:  NetCDF
-
-  
-**Notes about the data**:  
-
-This data was shared with us by Ivan Lima from Woods Hole Institue for Oceanography in December 2014 and again February 2016. The data came as NetCDFs in an irregular grid format with a resolution of about 1 degree. The data values are monthly average surface &#937; aragonite saturation state.
-
-
-***
-
 # Methods
 
-
-##Setup  
+## Setup (libraries and loading data)
 
 The main R libraries needed for this analysis are the `raster`, and `ncdf4` packages.
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
@@ -79,6 +57,16 @@ library(raster)
 library(ncdf4)
 library(maps)
 library(RColorBrewer)
+library(googleVis)
+library(maps)
+library(parallel)
+library(foreach)
+library(doParallel)
+library(fasterize)
+library(rasterVis)
+library(here)
+library(raster)
+library(gstat)
 
 #define paths for the raw data and OA folder held on git-annex on our NCEAS server, Mazu
 raw_dir     = file.path(dir_M,'git-annex/neprep/_raw_data')
@@ -86,71 +74,347 @@ glob_dir    = file.path(dir_M,'git-annex/globalprep/prs_oa')
 ne_dir  = file.path(dir_M,'git-annex/neprep/prs_oa')
 
 cols      = colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
-
 ```
   
-## Load raw data  
 
-```{r,message=FALSE,warning=FALSE,eval=FALSE}
+*Helpful website for using NetCDF files http://geog.uoregon.edu/bartlein/courses/geog607/Rmd/netCDF_01.htm*
 
-## getting aragonite data from https://catalog.data.gov/dataset/aragonite-saturation-state-calculated-from-ocean-station-data-with-dissolved-inorganic-carbon-d
+We need to extract the arrays individually from each year and then convert into a raster file. If we end up using this data I want to figure out how to make this a loop fo future ease of additional years of data.
+```{r creating_arays}
+## read in the files for each year
+nc_2014 = nc_open(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2014.nc'))
+nc_2015 = nc_open(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2015.nc'))
+nc_2016 = nc_open(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2016.nc'))
+nc_2017 = nc_open(file.path(raw_dir,'NOAA_OA/omega_Ar_East_Coast_2017.nc'))
+  
+## grab the lat and longs; only need to do this once because the lats and longs are the same for every year
+lat <- ncvar_get(nc_2014,varid='lat')
+long <- ncvar_get(nc_2014,varid='lon')
 
+## Need to grab the fill value ie: the value used when no data is avaliable so. it is -999 for 2014 and -32767 for 2015-2017
+fillvalue_2014 <- ncatt_get(nc_2014, "OmegaAr", "_FillValue")
+fillvalue_2015 <- ncatt_get(nc_2015, "OmegaAr", "_FillValue")
+fillvalue_2016 <- ncatt_get(nc_2016, "OmegaAr", "_FillValue")
+fillvalue_2017 <- ncatt_get(nc_2017, "OmegaAr", "_FillValue")
 
-  nc = nc_open(file.path(raw_dir,'NOAA_OA/Aragonite.nc'))
+## create an array from the netcdf file for each year
+oa.array_2014 <- ncvar_get(nc_2014, "OmegaAr")
+oa.array_2015 <- ncvar_get(nc_2015, "OmegaAr")
+oa.array_2016 <- ncvar_get(nc_2016, "OmegaAr")
+oa.array_2017 <- ncvar_get(nc_2017, "OmegaAr")
 
-names(nc$var) # names for lat/long are different, so double check
+# close each net cdf file
+nc_close(nc_2014)
+nc_close(nc_2015)
+nc_close(nc_2016)
+nc_close(nc_2017)
 
-# longitude values are stored in the variable 'TLONG'
-
-      long <- ncvar_get(nc,varid='Longitude')
-
-# latitude values are stored in the variable 'TLAT'
-
-      lat <- ncvar_get(nc,varid='Latitude')
-      
-      
+# Replace the fill values in each year with NAs
+oa.array_2014[oa.array_2014 == fillvalue_2014$value] <- NA
+oa.array_2015[oa.array_2015 == fillvalue_2015$value] <- NA
+oa.array_2016[oa.array_2016 == fillvalue_2016$value] <- NA
+oa.array_2017[oa.array_2017 == fillvalue_2017$value] <- NA
 ```
 
-## using data from global (sent by WHOI)
-```{r}
+The following code:
+1. Rasterizes the monthly data
+2. Reprojects, crops, resamples, and interpolates using nearest neighbor
+3. Saves as monthly tiff files
 
-#read in data, crop to ne region
-# might want to go in and change these files. not quite sure what the equivilant os 2017 is, different folder structure and it has more file years 
-files <- c(list.files(file.path(glob_dir,'v2015/working/annualmean_2005-2014/moll'),recursive=T,full.names = T),
-           list.files(file.path(glob_dir,'v2016/int'),pattern = 'global_arag',recursive=T,full.names = T))[1:12]
+Need to do this for each year
 
-ne_stack <- files%>%
-            stack()%>%
-            projectRaster(crs = us_alb) %>%
-            crop(ne_ext)%>%
-            resample(ocean_ne) %>% #note here I'm not doing nearest neighbor - bilinear instead....might want to change?
-            mask(ocean_ne)
+2014
+```{r rastering_monthly_2014}
+registerDoParallel(6)
 
-names(ne_stack) <- paste0("Year",(substr(names(ne_stack),22,25)))
-gsub(".", "-", names(ne_stack), fixed = TRUE)
-        
+  foreach(month = c(1:12))  %dopar% {
+  
+  #month = 12
+  
+  slice <- oa.array_2014[, , month] 
+  
+  r <- raster(t(slice), xmn=min(long), xmx=max(long), ymn=min(lat), ymx=max(lat), crs=CRS(p4s_wgs84)) %>% 
+  flip(direction = 'y') %>%
+  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+  raster::crop(ne_ext) %>% 
+  raster::resample(zones, method = "ngb") %>% 
+    writeRaster(filename = sprintf("%s/int/noaa_monthly/v2014/noaa_2014month_%s.tif", file.path(dir_anx, "prs_oa"), month), 
+                overwrite = TRUE)
+  }
+```
+
+
+## Results nearest neighbor for 2014 just to look (had also done idw interpolation, but chose this one.)
+```{r gif_results}
 library(animation)
 
-saveGIF({
-  for(i in 1:nlayers(ne_stack)){
+monthly_2014 <- list.files(file.path(dir_anx, 'prs_oa/int/noaa_monthly/v2014'), full.names = T) %>%stack()
+                         
+names(monthly_2014) <- paste0("2014_month_", substr(names(monthly_2014),12, 13))
+
+animation::saveGIF({
+  for(i in 1:nlayers(monthly_2014)){
+     plot(ocean_ne,col='cornsilk2',  main=names(monthly_2014[[i]]),axes=F,legend=F)
       # don't forget to fix the zlimits
-      plot(ne_stack[[i]], zlim=c(3,4), axes=F, col=cols,
-           main=names(ne_stack[[i]]))
+    plot(monthly_2014[[i]], zlim=c(0,2.3),axes=F, col=cols, add=T) 
       
   }
-}, movie.name = 'mean_annual_arag.gif')
+}, movie.name = 'oa_monthly_2014_nn.gif')
+```
 
+2015
+```{r rastering_monthly_2015}
+registerDoParallel(6)
+
+  foreach(month = c(1:12))  %dopar% {
+  
+  #month = 12
+  
+  slice <- oa.array_2015[, , month] 
+  
+  r <- raster(t(slice), xmn=min(long), xmx=max(long), ymn=min(lat), ymx=max(lat), crs=CRS(p4s_wgs84)) %>% 
+  flip(direction = 'y') %>%
+  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+  raster::crop(ne_ext) %>% 
+  raster::resample(zones, method = "ngb") %>% 
+    writeRaster(filename = sprintf("%s/int/noaa_monthly/v2015/noaa_2015month_%s.tif", file.path(dir_anx, "prs_oa"), month), 
+                overwrite = TRUE)
+  }
+```
+
+2016
+```{r rastering_monthly_2016}
+registerDoParallel(6)
+
+  foreach(month = c(01:12))  %dopar% {
+  
+  #month = 12
+  
+  slice <- oa.array_2016[, , month] 
+  
+  r <- raster(t(slice), xmn=min(long), xmx=max(long), ymn=min(lat), ymx=max(lat), crs=CRS(p4s_wgs84)) %>% 
+  flip(direction = 'y') %>%
+  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+  raster::crop(ne_ext) %>% 
+  raster::resample(zones, method = "ngb") %>% 
+    writeRaster(filename = sprintf("%s/int/noaa_monthly/v2016/noaa_2016month_%s.tif", file.path(dir_anx, "prs_oa"), month), 
+                overwrite = TRUE)
+  }
+```
+
+2017
+```{r rastering_monthly_2017}
+registerDoParallel(6)
+
+  foreach(month = c(1:12))  %dopar% {
+  
+  #month = 12
+  
+  slice <- oa.array_2017[, , month] 
+  
+  r <- raster(t(slice), xmn=min(long), xmx=max(long), ymn=min(lat), ymx=max(lat), crs=CRS(p4s_wgs84)) %>% 
+  flip(direction = 'y') %>%
+  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+  raster::crop(ne_ext) %>% 
+  raster::resample(zones, method = "ngb") %>% 
+    writeRaster(filename = sprintf("%s/int/noaa_monthly/v2017/noaa_2017month_%s.tif", file.path(dir_anx, "prs_oa"), month), 
+                overwrite = TRUE)
+  }
+```
+
+Now that we have all the monthly files as tiff files and in the right projection and extent we can calulate an annual arag saturation.
+
+First we need to load and save all the files
+```{r read_in_monthly_files}
+monthly_files <- c(list.files(file.path(dir_anx, "prs_oa/int/noaa_monthly/v2014"),
+                       full.names = TRUE),
+              list.files(file.path(dir_anx, "prs_oa/int/noaa_monthly/v2015"),
+                       full.names = TRUE),
+              list.files(file.path(dir_anx, "prs_oa/int/noaa_monthly/v2016"),
+                       full.names = TRUE),
+              list.files(file.path(dir_anx, "prs_oa/int/noaa_monthly/v2017"),
+                       full.names = TRUE))
+```
+
+## Historical Mean
+
+The historical mean for aragonite saturation state from 1880 - 1889 was calculated for OHI 2015. We are taking this raster, cropping to our region, and reprojecting it. This raster will be used as a reference point.
+
+```{r hist_mean}
+hist_global <- raster(file.path(dir_M,'git-annex/globalprep/prs_oa/v2015/working/global_oa_1880_1889_arag_mean_moll.tif'))
+
+plot(hist_global,main='Mean Ωaragonite 1880-1889', col=rev(cols), box=F,axes=F)
+
+hist <- hist_global %>%
+  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+  raster::crop(ne_ext) %>% 
+  raster::resample(zones, method = "ngb")
+
+plot(hist)
+```
+
+## Calculate Annual Means
+
+```{r calculate_annual_means}
+maxyr <- substr(monthly_files, 60, 63) %>% 
+  as.numeric() %>% 
+  max()
+
+## stack all rasters for this year, and calc annual mean, then write as raster
+registerDoParallel(6)
+foreach(yr = c(2014:maxyr)) %dopar% {
+  
+  files <- monthly_files[str_detect(monthly_files, as.character(yr))]
+  
+  rast_annual_mean <- stack(files) %>%
+    calc(mean, na.rm = TRUE) %>%
+    writeRaster(filename = sprintf("%s/int/noaa_annual_mean/oa_annual_%s.tif", file.path(dir_anx, "prs_oa"), yr), 
+                overwrite = TRUE)
+}
+```
+
+Visualzing Actual concentrations of Arg
+```{r}
+# interpolate
+registerDoParallel(24)
+
+files <- list.files(file.path(dir_anx,'prs_oa/int/noaa_annual_mean'), full.names=TRUE)
+
+foreach(file = files) %dopar%{
+
+  #file = files[1]
+  r  <- raster(file) #oa raster
+  yr <- substr(file, nchar(file)-7, nchar(file)-4)
+  xy <- data.frame(xyFromCell(r, 1:ncell(r))) #get xy coords into dataframe
+  v  <- getValues(r)                          # get cell values
+  tmpdf <- cbind(xy, v)%>%
+    filter(!is.na(v))  #create dataframe of x,y, and values. remove NAs (throws error since these are cells we are interpolating over)
+  
+  mg <- gstat(id = "v", formula = v~1, locations = ~x+y, data=tmpdf,
+            nmax=7, set=list(idp = 2)) #define model.
+  z <- interpolate(r, mg, progress='text')                            #interpolate across NA cells
+
+  writeRaster(z, filename=paste0(dir_anx, '/prs_oa/int/noaa_annual_int/Aragonite_Concentration_', yr, ".tif"),overwrite=TRUE)
+}
+
+files <- list.files(file.path(dir_anx,'prs_oa/int/noaa_annual_int'), full.names=TRUE)
+
+#mask
+registerDoParallel(24)
+
+foreach(file = files)%dopar% {
+
+  yr <- substr(file,nchar(file)-7,nchar(file)-4)
+  cat(yr)
+  x <- raster(file)%>%
+  raster::resample(zones, method = 'ngb')%>%
+  raster::mask(zones)
+       
+  writeRaster(x, filename = paste0(dir_anx, '/prs_oa/int/noaa_annual_int/Aragonite_Concentration_', yr, ".tif"), overwrite=TRUE)
+}
+
+library(animation)
+
+oa_layers <- list.files(file.path(dir_anx, 'prs_oa/int/noaa_annual_int'), full.names = T) %>%stack()
+                         
+#names(oa_layers) <- paste0("Aragonite_Concentration_", substr(names(oa_layers),25, 28))
+
+animation::saveGIF({
+  for(i in 1:nlayers(oa_layers)){
+     plot(ocean_ne,col='cornsilk2',  main=names(oa_layers[[i]]),axes=F,legend=F)
+      # don't forget to fix the zlimits, zlim=c(-0.5,3)
+    plot(oa_layers[[i]],zlim=c(0,3), axes=F, col=cols, add=T) 
+      
+  }
+}, movie.name = 'Aragonite_Concentration.gif')
 ```
 
 
-```{r plot_2016_raster}
+## Rescale from 0 to 1
 
-#Here is the output for 2015
-r_2015 <- raster(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/global_arag_avg_moll_2016.tif'))
+The `oaRescale` function rescales each of the annual rasters. If the current value is less than or equal to 1, it is set to 1, otherwise the value is calculated from the above equation.
 
-plot(r_2015,box=F,axes=F,main="Mean Ωaragonite saturation state 2015", col=cols)
- 
+*Using the function from global to calculate*
+```{r rescale,eval=F}
+#for each layer, all values <=1 are assigned a 1, otherwise old-new/(old-1)
+oaRescale <- function(file){
+  
+  yr   = substr(file, nchar(file)-7, nchar(file)-4)  #get year of file
+  mean = raster(file)                              #get seasonal mean aragonite raster for given year
+  diff = (hist-mean)/(hist-1)
+  mean[mean<=1] <- 1                                 #all values at or less than 1 are given a value of 1
+  mean[mean>1] <- diff[mean>1]                     #all cells with values greater than 1 are swapped out with their amount of change scaled to how close to 1 
+  mean[mean<0] <- 0                                  #all values less than 0 (indicating a decrease in acidity) are capped at 0
+    writeRaster(mean, filename=paste0(dir_anx, '/prs_oa/int/noaa_rescaled/oa_rescaled_', yr, sep=""), format='GTiff', overwrite=TRUE)
+}
+
+files = c(list.files(file.path(dir_anx, "prs_oa/int/noaa_annual_mean"), full.names=TRUE))
+mclapply(files, oaRescale, mc.cores = 16)
 ```
+
+Now we want to interpolate using the nearest neighbor technique. We are using the nearest neighbor technique to interpolate
+```{r interpolate_noaa} 
+#register parallel cores
+
+registerDoParallel(24)
+
+files <- list.files(file.path(dir_anx,'prs_oa/int/noaa_rescaled'), full.names=TRUE)
+
+foreach(file = files) %dopar%{
+
+  #file = files[1]
+  r  <- raster(file) #oa raster
+  yr <- substr(file, nchar(file)-7, nchar(file)-4)
+  xy <- data.frame(xyFromCell(r, 1:ncell(r))) #get xy coords into dataframe
+  v  <- getValues(r)                          # get cell values
+  tmpdf <- cbind(xy, v)%>%
+    filter(!is.na(v))  #create dataframe of x,y, and values. remove NAs (throws error since these are cells we are interpolating over)
+  
+  mg <- gstat(id = "v", formula = v~1, locations = ~x+y, data=tmpdf,
+            nmax=7, set=list(idp = 2)) #define model.
+  z <- interpolate(r, mg, progress='text')                            #interpolate across NA cells
+
+  writeRaster(z, filename=paste0(dir_anx, '/prs_oa/int/noaa_rescaled_int/oa_rescaled_int_', yr, ".tif"),overwrite=TRUE)
+}
+```
+
+Next we are going to resample and mask the raster
+```{r}
+files <- list.files(file.path(dir_anx,'prs_oa/int/noaa_rescaled_int'), full.names=TRUE)
+
+registerDoParallel(24)
+
+foreach(file = files)%dopar% {
+
+  yr <- substr(file,nchar(file)-7,nchar(file)-4)
+  cat(yr)
+  x <- raster(file)%>%
+  raster::resample(zones, method = 'ngb')%>%
+  raster::mask(zones)
+       
+  writeRaster(x, filename = paste0(dir_anx, '/prs_oa/output/new/oa_prs_layer_', yr, ".tif"), overwrite=TRUE)
+}
+```
+
+## Results
+Create a gif using the new data 2014-2017
+```{r gif_results_newdata}
+library(animation)
+
+oa_layers <- list.files(file.path(dir_anx, 'prs_oa/output/new'), full.names = T) %>%stack()
+                         
+names(oa_layers) <- paste0("OA_Pressure_Score_", substr(names(oa_layers),14, 17))
+
+animation::saveGIF({
+  for(i in 1:nlayers(oa_layers)){
+     plot(ocean_ne,col='cornsilk2',  main=names(oa_layers[[i]]),axes=F,legend=F)
+      # don't forget to fix the zlimits
+    plot(oa_layers[[i]], zlim=c(0,1),axes=F, col=cols, add=T) 
+      
+  }
+}, movie.name = 'OA_Pressures_scores.gif')
+```
+
 
 
 ## Rescale from 0 to 1
