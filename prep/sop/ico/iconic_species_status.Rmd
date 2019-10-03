@@ -25,6 +25,7 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 library(viridis)
 #install.packages("plotly")
 library(plotly)
+library(readxl)
 ```
 
 # Summary
@@ -55,37 +56,25 @@ Species range (i.e. where the species is found) and conservation status informat
 ```{r get_spp_range_and_status}
 species_status <- read_csv("~/github/ne-scores/region/layers/spp_status_scores.csv") %>% 
   select(-X1) %>%
-  mutate(sciname = tolower(sciname))
+  mutate(common = ifelse(common == "white shark", "great white shark", common)) %>%
+  filter(common %in% iconic_list$common)
 
+unique(species_status$common)
+
+#for use later when expanding the list for where species are even if their conservation status isn't listed in those areas
 species_rgns <- read_csv("~/github/ne-scores/region/layers/spp_rgns.csv") %>% select(-year)
 ```
 
-Combine status and regions
-
 ```{r}
-spp_status_rgns <- species_rgns %>%
-    left_join(species_status, by = c("common", "sciname", "rgn_id")) %>%
-    select(rgn_id, common, sciname, score, year)
+setdiff(iconic_list$common, species_status$common)
 ```
 
 Filter dataset just for iconic species
 
 ```{r}
-#filter species status just for our iconic species
-iconic_species_status1 <- spp_status_rgns %>%
-  filter(common %in% iconic_list$common)
-
-#filter based on scientific name
-iconic_species_status2 <- spp_status_rgns %>%
-  filter(tolower(sciname) %in% iconic_list$scientific)
-
-#change "white shark" to "great white shark"
-iconic_species_status <- iconic_species_status1 %>%
-  bind_rows(iconic_species_status2) %>%
-  distinct() %>%
-  mutate(common = ifelse(common == "white shark", "great white shark", common),
-    score = 1-score) %>% #the original scores from the SPP status are 0 (good) to 1 (bad/extinct). Here I reverse this so closer to 1 = better
-  filter(!is.na(score)) 
+iconic_species_status <- species_status %>%
+  mutate(score = 1-score) %>% #the original scores from the SPP status are 0 (good) to 1 (bad/extinct). Here I reverse this so closer to 1 = better
+  filter(!is.na(status)) 
 ``` 
 
 Did we get all 33 species?
@@ -154,6 +143,124 @@ spp_rgns_scores <- iconic_species_status %>%
   bind_rows(salm_surf_scallop)
 ```
 
+# Correct species
+
+Some species are not showing up in certain regions even though they are listed by the state in those areas. This could be due to the fact that species distribution models are not accurate enough to be captured in smaller regions like Connecticut or Long Island Sound. To account for this, we use a dataset provided by Emily Shumchenia that lists species in the portal and whether or not they are listed by state.
+
+```{r}
+emily_data <- read_excel(file.path(dir_anx, "_raw_data/species/KLW_ES_Data_gaps_Northeast_species_list_9.29.16.xlsx"), sheet = "all species", skip = 1) %>%
+  mutate(low_species = tolower(`Species - common name`))
+```
+
+Filter just for iconic species
+
+```{r}
+em_spp <- emily_data %>%
+  filter(low_species %in% c(iconic_list$common, "atlantic sea scallop", "surf clams", "ocean quahog", "white shark")) %>%
+  mutate(common = case_when(
+    low_species == "atlantic sea scallop" ~ "sea scallop",
+    low_species == "surf clams" ~ "atlantic surfclam",
+    low_species == "ocean quahog" ~ "northern quahog",
+    low_species == "white shark" ~ "great white shark",
+    TRUE ~ as.character(low_species)
+  ))
+
+setdiff(iconic_list$common, em_spp$common)
+```
+
+Find states where these species are listed
+
+```{r}
+em_states <- em_spp %>%
+  select(common, `E, T, SC`) %>%
+  filter(!is.na(`E, T, SC`)) %>%
+  separate(`E, T, SC`, into = c("state", "state2", "state3", "state4", "state5", "state6"), sep = ", |;") %>%
+  gather(key = "label", value = "state", -common) %>%
+  select(-label) %>%
+  filter(!is.na(state)) %>%
+  separate(state, into = c("state", "status"), sep = " ") %>%
+  mutate(state = ifelse(state == "", status, state),
+         status = ifelse(status==state, NA, status),
+         status_score = case_when(
+           status == "(E)" ~ 0.8,
+           status == "(T)" ~ 0.6,
+           status == "(SC)" ~ 0.4,
+           TRUE ~ NA_real_
+         ),
+         score = 1-status_score) %>%
+  left_join(rgn_data, by = c("state" = "state_abv")) %>%
+  select(common, rgn_id, state, score)  %>%
+  mutate(source = "emily")
+```
+
+Combine this with the data we already have.
+
+For species that are listed differently between Emily's data and Natureserve, we defer to Emily. The following is listed on Natureserves website and states that their updates are latent.
+> U.S. & Canada State/Province Status
+Due to latency between updates made in state, provincial or other NatureServe Network databases and when they appear on NatureServe Explorer, for state or provincial information you may wish to contact the data steward in your jurisdiction to obtain the most current data. Please refer to our Distribution Data Sources to find contact information for your jurisdiction.
+
+```{r}
+update_df <- iconic_species_status %>%
+   select(common, rgn_id, state = status_scale, score) %>%
+  mutate(source = "natureserve") %>%
+  bind_rows(em_states) %>%
+  group_by(common, rgn_id) %>%
+  mutate(count = n()) %>%
+  ungroup() %>%
+  spread(source, score) %>%
+  rowwise() %>%
+  mutate(final_score = case_when(
+    count == 1 ~ sum(emily, natureserve, na.rm = T),
+    count == 2 & !is.na(emily) ~ emily,
+    count == 2 & is.na(emily) ~ natureserve
+  )) %>%
+  select(common, rgn_id, state, score = final_score)
+```
+
+How many of our iconic species do we have?
+
+Look at where these species are found. For example, bottlenose dolphin is only listed in MA and NY - is this true?
+
+```{r}
+spp_rgns <- species_rgns %>%
+   filter(common %in% update_df$common) %>%
+    left_join(rgn_data, by = "rgn_id") %>%
+    select(rgn_id, common, state = state_abv) %>%
+  mutate(score = NA) %>%
+  filter(!is.na(state))
+```
+
+```{r}
+#combine the species regions dataset with the species regions scores. then drop the rows that duplicate regions we already have 
+
+spp_rgns_scores <- bind_rows(spp_rgns, update_df) %>%
+  group_by(common, rgn_id) %>%
+  mutate(count = n()) %>%
+  ungroup() %>%
+  mutate(drop = ifelse(is.na(score) & count == 2, 1, 0)) %>%
+  filter(drop == 0) %>%
+  select(-count, -drop)
+
+#pull out the US national status for each species, we will use these scores for species/regions without a state specific status
+us_status <- spp_rgns_scores %>%
+  filter(state == "USA") %>%
+  spread(state, score) %>%
+  select(-rgn_id)
+```
+
+For those species in a region where they are found but without a state status, use the USA designated one
+
+```{r}
+df_us <- spp_rgns_scores %>%
+  left_join(us_status, by = "common") %>%
+  rowwise() %>%
+  mutate(fscore = ifelse(is.na(score), USA, score),
+         year = 2017) %>%
+  select(rgn_id, common, score = fscore) %>%
+  filter(rgn_id < 12)
+```
+
+
 # Format for toolbox
 
 We need to add all years even though we dont have any information that tells us status changes. So these scores will all be the same over the entire time period
@@ -162,12 +269,12 @@ We only assess Sense of Place for coastal regions so we need to set offshore rep
 
 
 ```{r iconic_spp_status_by_rgn, fig.width = 8, fig.height = 5}
-ico_layer <- spp_rgns_scores %>%
-  group_by(common, sciname, rgn_id, score) %>%
+ico_layer <- df_us %>%
+  mutate(year = 2005) %>%
+  group_by(common, rgn_id, score) %>%
   complete(year = 2005:2017) %>%
   ungroup() %>%
-  left_join(rgn_data) %>%
-  mutate(score = ifelse(rgn_id %in% c(1:4), NA, score))
+  left_join(rgn_data)
 ```
 
 # Results
@@ -192,7 +299,7 @@ table_df <- ico_layer %>%
   filter(year == 2017,
          !is.na(score)) %>%
   mutate(common = str_to_sentence(common)) %>%
-  select(rgn_id, common, sciname, rgn_name, score)
+  select(rgn_id, common, rgn_name, score)
 
 DT::datatable(table_df)
 
@@ -207,7 +314,7 @@ Need to create a dataframe for background of heat map so that missing values are
 ```{r}
 
 possible_sp <- table_df %>% 
-  select(common, sciname) %>% 
+  select(common) %>% 
   distinct() %>% 
   uncount(11, .id = "n", .remove = F) %>% 
   mutate(as.numeric(n)) %>%
@@ -219,7 +326,7 @@ regions <- table_df %>%
   mutate(n = rgn_id)
   
 heatmap_background <- left_join(possible_sp, regions, by = c("n")) %>% 
-  select(common, sciname, rgn_id, rgn_name) 
+  select(common, rgn_id, rgn_name) 
 
 ```
 
@@ -230,7 +337,7 @@ status_num <- read.csv("data/status_numbers.csv") %>%
 
 table_df2 <- table_df %>% 
   mutate(present = TRUE) %>% 
-  right_join(heatmap_background, by = c("rgn_id", "rgn_name", "common", "sciname")) %>% 
+  right_join(heatmap_background, by = c("rgn_id", "rgn_name", "common")) %>% 
   mutate(present = ifelse(is.na(present), FALSE, present)) %>% 
   group_by(common) %>% 
   mutate(av_score = mean(score, na.rm=TRUE)) %>% 
@@ -255,7 +362,7 @@ order_status <- c("Least Concern", "Least Concern/Not Threatened", "Not Threaten
 table_status <-  table_df %>% 
   mutate(present = TRUE) %>% 
   left_join(status_num, by = c("score")) %>% 
-  right_join(heatmap_background, by = c("rgn_id", "rgn_name", "common", "sciname")) %>% 
+  right_join(heatmap_background, by = c("rgn_id", "rgn_name", "common")) %>% 
   mutate(present     = ifelse(is.na(present), FALSE, present),
          status_long = as.character(status_long),
          status_long = if_else(common == "Atlantic salmon", "Critically Endangered/Extinct", status_long),
