@@ -10,7 +10,7 @@ natserv_stat <- read.csv("prep/bio/data/natureserve_spp_status.csv") %>%
 
 vals <- unique(natserv_stat$status)
 
-#create lookup table that links each unique status to a score. This link shows the different status values from natureserve: http://explorer.natureserve.org/nsranks.htm
+#create lookup table that links each unique status to a score. This link shows the different status values from natureserve: http://explorer.natureserve.org/nsranks.htm. We use this 2014 paper that crosswalks ESA, IUCN and NatureServe Conservation Assessment (CSA) rankings
 
 tab <- data.frame(status = vals) %>%
         mutate(score = 
