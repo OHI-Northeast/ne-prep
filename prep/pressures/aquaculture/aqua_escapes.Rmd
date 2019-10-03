@@ -81,12 +81,24 @@ sf_watch <- sf_watch_raw %>%
 ```
 
 Combine production data and seafood watch
+
+We want the aquaculture producers that have a good escapes score to have a pressure of 0. For example:
+
+If good SFW score (ie a 10):
+Production * score = 0
+
+If bad seafood watch score (ie: 0)
+Production * score = Production
+
+In order for this math to work we need to flip the scaling system of the SFW data, and recale it 0-1. 
+1- CriteriaScore/10
+
+Score = baseline would be ??
 ```{r}
 escape_pro <- left_join(production, sf_watch, by = ("Species")) %>% 
-  mutate(disease_prs = pounds*AqCriteria6,
-         pounds = ifelse(pounds == 0, NA, pounds), # if no production the end score needs to be NA not 0
-         target = pounds*10,
-         scaled_score = 1-(disease_prs/target))
+  mutate(pressure = (1- AqCriteria6/10),
+         escape_pro= pounds*pressure,
+         pounds = ifelse(pounds == 0, NA, pounds)) # if no production the end score needs to be NA not 0)
 
 escape_pro
 ```
@@ -104,7 +116,7 @@ aqu_escape_prs
 ```{r visualize}  
 aqu_esc_graph <-ggplot(aqu_escape_prs)+
   geom_line(aes(x=Year, y = score, color=Region))+
-  ggtitle("Aquaculture disease pressure score") +
+  ggtitle("Aquaculture escapes pressure score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
