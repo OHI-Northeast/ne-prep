@@ -1,0 +1,118 @@
+---
+title: 'OHI-Northeast: Aquaculture - Escapes Pressure Data Prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+Disease from aquaculture production.
+
+In this script we use the seafood watch data on the escapes criteria per species and multiply by production.
+
+Disease scores for each farmed species is criteria 6 in the Seafood Watch data. Each species get a score 0-10 with 10 being the least concern and 0 being high/critical.
+
+## Setup
+
+``` {r setup, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 8, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
+
+library(tidyverse)
+library(ggplot2)
+library(readxl)
+library(stringi)
+```
+
+
+```{r load_directories}
+## define paths and variables to use throughout data prep
+dir_git <- '~/github/ne-prep' #path to the ne-prep github directory
+dir_anx <- file.path(dir_M, 'git-annex/neprep') #path to the nceas server where a the bigger files are kept/saved
+```
+
+```{r load_data}
+
+sf_watch_raw <- read_xlsx(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
+production <- read_csv(file.path(dir_git, "prep/mar/data/production_clean.csv")) %>% 
+  mutate(Species = tolower(Species))
+
+```
+
+## Methods
+
+Cleaning up the seafood watch data so to be combined with production data
+
+```{r}
+sf_watch <- sf_watch_raw %>% 
+  select('FAO Common name', 'AqCriteria6', 'Report Title') %>% 
+  rename(report_title ='Report Title',
+         Species = 'FAO Common name') %>% 
+  filter(report_title != "Atlantic salmon, Global RAS" & 
+         report_title != "Global Recirculating Aquaculture Systems" &
+         report_title != "Clams, Global",
+         report_title != 'Rainbow trout, US OLD STANDARD') %>% # there are 3 different atlantic salmon scores, we are keeping the when Report Title' == Atlantic Salmon, Atlantic North America; we are also keeping "Clams, Global NEW STANDARD" and removing the old one; same with trout as with clams
+  select(-report_title) %>% 
+  mutate(Species = stri_replace_all_fixed(Species, "Hard clam (unspecified)", "Hard clam"),
+         Species =  tolower(Species)) %>% 
+  mutate(Species =  ifelse(Species == "manila clam", "soft shell clams", # all clams have the save score, but choosing to keep these se
+                           ifelse(Species == "littleneck clam", "soft shell clams",
+                              ifelse(Species == "razor clam", "soft shell clams",
+                                ifelse(Species == "venus clam", "soft shell clams",
+                                  ifelse(Species == "lyrate hard clam", "soft shell clams",
+                                        Species)))))) %>% 
+  mutate(Species = ifelse(str_detect(Species, "oyster"), "oysters", Species),
+         Species = ifelse(str_detect(Species, "scallop"), "scallops", Species),
+         Species = ifelse(str_detect(Species, "mussel"), "blue mussel", Species),
+         Species = ifelse(str_detect(Species, "trout"), "trout", Species)) %>% #all oysters, scallops, and mussels have the same score; rainbow trout is farmed in the northeast, change the name for merging
+  unique() 
+```
+
+Combine production data and seafood watch
+```{r}
+escape_pro <- left_join(production, sf_watch, by = ("Species")) %>% 
+  mutate(disease_prs = pounds*AqCriteria6,
+         pounds = ifelse(pounds == 0, NA, pounds), # if no production the end score needs to be NA not 0
+         target = pounds*10,
+         scaled_score = 1-(disease_prs/target))
+
+escape_pro
+```
+
+## Calculate Pressure Score 
+```{r}
+aqu_escape_prs <- escape_pro %>% 
+  group_by(Year, Region) %>% 
+  dplyr::summarize(score = mean(scaled_score, na.rm= TRUE)) %>% 
+  filter(Year >= 2005 & Year <=2017)
+
+aqu_escape_prs
+```
+
+```{r visualize}  
+aqu_esc_graph <-ggplot(aqu_escape_prs)+
+  geom_line(aes(x=Year, y = score, color=Region))+
+  ggtitle("Aquaculture disease pressure score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+aqu_esc_graph
+
+
+ggsave(file.path(dir_git, "prep/pressures/aquaculture/aqu_esc_graph.png"), width=7, height=5, dpi=300)
+```
+
+
+
