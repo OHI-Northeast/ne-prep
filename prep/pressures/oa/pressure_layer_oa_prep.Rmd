@@ -31,7 +31,10 @@ Time frame: 2014-2017
 
 The data is downloaded as seperate NetCDF files for each year. Each file has one variable (OmegaAr) with three dimensions (lat, long, and time). The unit for time is months since Janurary 2014 (0-11), but when we convert this data into an array later the month dimesions "turns in" the normal 1-12 because it counting the number of data sets for that dimension.
 
-Since we do not have historic data, I used the global 1980-1989 aragonite mean file as a base/reference. This is likely not accurate if the data is different, so we would need to figure out a new baseline/ reference point. 
+Since we do not have historic data, we used a base of 1.5 taken from Ries et. al 2009. At this saturation level, some of our fished species begin exhibiting decalcification.
+
+
+Ries, J. B., Cohen, A. L., & McCorkle, D. C. (2009). Marine calcifiers exhibit mixed responses to CO2-induced ocean acidification. Geology, 37(12), 1131-1134.
 
 Equation for calculating aragonite satuation change:
 $$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
@@ -236,22 +239,6 @@ monthly_files <- c(list.files(file.path(dir_anx, "prs_oa/int/noaa_monthly/v2014"
                        full.names = TRUE))
 ```
 
-## Historical Mean
-
-The historical mean for aragonite saturation state from 1880 - 1889 was calculated for OHI 2015. We are taking this raster, cropping to our region, and reprojecting it. This raster will be used as a reference point.
-
-```{r hist_mean}
-hist_global <- raster(file.path(dir_M,'git-annex/globalprep/prs_oa/v2015/working/global_oa_1880_1889_arag_mean_moll.tif'))
-
-plot(hist_global,main='Mean Ωaragonite 1880-1889', col=rev(cols), box=F,axes=F)
-
-hist <- hist_global %>%
-  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
-  raster::crop(ne_ext) %>% 
-  raster::resample(zones, method = "ngb")
-
-plot(hist)
-```
 
 ## Calculate Annual Means
 
@@ -337,11 +324,14 @@ The `oaRescale` function rescales each of the annual rasters. If the current val
 *Using the function from global to calculate*
 ```{r rescale,eval=F}
 #for each layer, all values <=1 are assigned a 1, otherwise old-new/(old-1)
+
+base = 1.5 
+
 oaRescale <- function(file){
   
   yr   = substr(file, nchar(file)-7, nchar(file)-4)  #get year of file
   mean = raster(file)                              #get seasonal mean aragonite raster for given year
-  diff = (hist-mean)/(hist-1)
+  diff = (base-mean)/(base-1)
   mean[mean<=1] <- 1                                 #all values at or less than 1 are given a value of 1
   mean[mean>1] <- diff[mean>1]                     #all cells with values greater than 1 are swapped out with their amount of change scaled to how close to 1 
   mean[mean<0] <- 0                                  #all values less than 0 (indicating a decrease in acidity) are capped at 0
@@ -415,165 +405,48 @@ animation::saveGIF({
 }, movie.name = 'OA_Pressures_scores.gif')
 ```
 
+### Region scores
+Extract data for each region
+```{r extract_regional_data}
+# read in raster files
+pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_oa/output/new'), full.names=T), raster) %>%
+  brick()
 
+# extract data for each region:
+regions_stats <- zonal(pressure_stack,  zones, fun="mean", na.rm=TRUE, progress="text")
+regions_stats2 <- data.frame(regions_stats)
 
-## Rescale from 0 to 1
+data <- base::merge(rgn_data, regions_stats, all.y=TRUE, by.x="rgn_id", by.y="zone") %>%
+          dplyr::select(-area_km2)%>%
+  gather("year", "pressure_score",starts_with("oa_")) 
 
-This pressure layer is rescaled so that all values lie between 0 and 1. This is done by first setting all values at or below 1 to 1. Since all values under 1 represent undersaturated waters, this threshold is set equal to our highest pressure value (1). For cell values that are not yet at the threshold of 1, the values are rescaled by comparing their current value with their historcal values.
+oa_data <- data %>%
+  mutate(year = substr(year, 14, 17)) %>%
+  mutate(year = as.numeric(year))
 
-The baseline aragonite saturation state $\Omega_{base}$ is represented by the decadal average from 1880-1889.
-
-### Historical Mean
-
-The historical mean &#937 aragonite saturation state from 1880 - 1889 was calculated for OHI 2015. The same raster is used here for comparison.
-
-```{r histMean}
-
-hist <- raster(file.path(dir_M,'git-annex/globalprep/prs_oa/v2015/working/global_oa_1880_1889_arag_mean_moll.tif'))
-
-plot(hist,main='Mean Ωaragonite 1880-1889', col=cols, box=F,axes=F)
-
+write.csv(oa_data, file.path(dir_anx, "prs_oa/output/oa.csv"), row.names=FALSE)
 ```
 
 
-Deviation from aragonite saturation state is determined for each year in the study period using this equation:
+### 2017 scores
+```{r map_scores}
+last_year <- oa_data%>%
+  filter(year==2017)
 
-$$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
-
-Note that the current value is subtracted from the baseline; this way, a reduction in $\Omega$ becomes a positive pressure value.  It is then normalized by the current mean state; so a decrease in $\Omega$ while the current state is high indicates less pressure than the same decrease when the current state is near 1. 
-
-$\Delta \Omega_{year}$ is then modified to account for increases in aragonite saturation state (pressure = 0) and arag sat state less than 1 (pressure = 1).
-
-The `oaRescale` function rescales each of the annual rasters. If the current value is less than or equal to 1, it is set to 1, otherwise the value is calculated from the above equation.
-
-```{r rescale}
-
-#Get 2011-2015 rasters
-
-#calling past years data, need to double check that what I am actually doing is hte right information, the file strucutre changed this past year
-#files = c(list.files(file.path(oagit_dir,'v2015/working/annualmean_2005-2014/moll'),full.names = T)[7:10],file.path(oagit_dir,'v2016/int/global_arag_avg_moll_2015.tif'))
-
-files = c(list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/annual_avg_moll'),full.names = T)[7:10])
-
-
-#for each layer, all values <=1 are assigned a 1, otherwise old-new/(old-1)
-
-oaRescale <- function(file){
-  
-  yr   = substr(file,nchar(file)-7,nchar(file)-4)  #get year of file
-  mean = raster(file)                              #get seasonal mean aragonite raster for given year
-  diff = (hist-mean)/(hist-1)
-  mean[mean<=1]<-1                                 #all values at or less than 1 are given a value of 1
-  mean[mean>1] <- diff[mean>1]                     #all cells with values greater than 1 are swapped out with their amount of change scaled to how close to 1 
-  mean[mean<0]<-0                                  #all values less than 0 (indicating a decrease in acidity) are capped at 0
-
-    writeRaster(mean,filename=paste0(oagit_dir,'/v2016/int/annual_oa_rescaled/oa_rescaled_',yr,sep=""),format='GTiff',overwrite=T)
-
-}
-
-#  sapply(files,oaRescale)
-
-  rescaled = list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/annual_avg_moll_rescaled'),full.names=T)
+#map_scores is a function to plot a tmap map of the scores
+map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Pressure Score", map_title = "Ocean Acidification")
 ```
 
-```{r plot rescale}
-r <- raster(rescaled[59])
-plot(r,col=cols,box=F,axes=F, main = 'Rescaled Ωaragonite layer for 2016')
-```
-
-
-## Interpolate
-
-Since there are oceanic cells with no information in the raw data, we need to fill in these gaps. We do this by interpolating across the globe using the data we have. Unfortunately there is not an easy and quick way to do this in R so this was done using arcpy from ArcGIS via a python script you can find [here](https://github.com/OHI-Science/ohiprep/blob/master/globalprep/prs_oa/v2016/OA_interpolation.py).
-
-
-```{r interpolate}
-
-int_files <- list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2017/int/annual_avg_moll_rescaled_int'),full.names=T)
-
-#something weird is happening here, land is not croped out
-plot(raster(int_files[5]),col=cols,box=F,axes=F,main='Rescaled and Interpolated Ωaragonite layer for 2016')
-
-```
-
-
-## Resample
-
-All pressure layers need to be resampled to 1km cell resolution. We have a template ocean raster with cells at this resolution that we use to resample all pressure layers. You won't see any difference between the plot above and this one since we are using the nearest neighbor method when resampling which maintains the original cell value for each of resampled cell.
-
-```{r resample}
-
-#ocean is a raster with all land clipped out - at 1km with value of 1. This is used as a mask
-ocean = raster(file.path(dir_M,'git-annex/globalprep/prs_oa/v2016/int/ocean.tif'))
-
-resample = function(file){
-  
-        yr  = substr(file,91,94)
-        r   = raster(file)%>%raster::resample(ocean,method='ngb',progress='text') # resample r to the resolution of 'ocean' (~1km)
-    
-       writeRaster(r,filename=paste0(dir_M,'git-annex/globalprep/v2016/int/annual_oa_rescaled_int_1km/annual_oa_rescaled_int_1km_',yr,sep=''),format='GTiff',overwrite=T)
-}
-
-#sapply(int_files,resample)
-
-resampled = list.files(file.path(dir_M,'git-annex/globalprep/prs_oa/v2016/int/annual_oa_rescaled_int_1km'),full.names=T)
-
-plot(raster(resampled[5]),col=cols,box=F,axes=F,main='Resampled, rescaled and interpolated \nΩaragonite layer for 2015')
-
-```
-
-
-# Final Pressure Layers 
-
-## Landmask
-
-Now that we have 1km, rescaled and inteprolated raster layers we want to remove the land and extra cell values. We can use the `mask` function from the `raster` package to do this using our ocean raster.
-
-```{r mask}
-
-rm_land <- function(file){
-  yr = substr(file,110,113)
-  r  = raster(file)%>%
-          mask(ocean,filename=paste0(oagit_dir,'/v2016/output/oa_prs_layer_',yr,sep=''),format='GTiff',overwrite=T)
-}
-
-#sapply(resampled,rm_land)
-
-r <- raster(file.path(oagit_dir,'v2016/output/oa_prs_layer_2015.tif'))
-plot(r,box=F,axes=F,col=cols,main='Final Ocean Acidification \nPressure Layer 2015')
-
-```
-
-
-# Gap-fill raster layer
-
-We want to create a raster layer that shows all cells that were gap-filled. Since they were the same cells interpolated across all years, we only need to create one raster.
-
-```{r,eval=F}
-
-    #Rescaled data before interpolation 
-
-      r = raster(file.path(oagit_dir,'v2016/int/annual_oa_rescaled/oa_rescaled_2011.tif'))%>%
-          resample(ocean)
-
-    #after interpolation,
-
-      r_int = raster(file.path(oagit_dir,'v2016/output/oa_prs_layer_2015.tif'))
-
-
-    interp_cells = mask(r_int,r,inverse=TRUE,filename = file.path(oagit_dir,'v2016/output/oa_interpolated_cells.tif'))
-```
-
+Changes over time
 ```{r}
-    plot(raster(file.path(oagit_dir,'v2016/output/oa_interpolated_cells.tif')),
-         col=cols,box=F,axes=F,main='Interpolated cells')
-
+oa_overtime <-ggplot(oa_data)+
+  geom_line(aes(x=year, y = pressure_score, color=state))+
+  ggtitle("OA Pressure Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+oa_overtime
 ```
 
 
-#Citation information  
-
-Woods Hole Oceanographic Institution. 2014 update to data originally published in: Feely, R.A., S.C. Doney, and
-S.R. Cooley. 2009. Ocean acidification: Present conditions and future changes in a high-CO2 world.
-Oceanography 22(4):36–47
 

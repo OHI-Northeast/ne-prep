@@ -286,10 +286,3 @@ print(Motion, file='figs/slr.html')
 
 
 
-To do:
-Double check this markdown, and make sure it's all good
-delete markdown "pressure_layer_slr_prep.Rmd" and rename this one that
-delete output folders "msl_annual_mean, msla_annual_rescaled, msla_montly_coast" those are in an int folder now (edit: those folders are form when jamie did it)
-things are a little weird now because there is jammie stuff and me stuff, will need to go through the server (i stored stuff in int folder that she stored in output on server)
-
-
