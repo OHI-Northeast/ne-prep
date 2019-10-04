@@ -74,7 +74,7 @@ noep_fix %>%
 
 ```{r}
 liv_data_info <- data.frame(
-  Layer = c("Jobs", "Wages"),
+  Layer = c("Employment", "Wages"),
   Description = c("National Ocean Economics Program (NOEP) Ocean Economy data for number of jobs that directly or indirectly depend upon the ocean",
                   "National Ocean Economics Program (NOEP) Ocean Economy data for average wages associated with jobs that directly or indirectly depend upon the ocean"),
   Target = c("Annual job growth in ocean related sectors is equal to or greater than the national annual average job growth",
