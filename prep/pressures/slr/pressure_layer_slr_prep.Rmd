@@ -3,7 +3,7 @@ title: 'OHI-Northeast: Sea Level Rise Pressure Layer'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -35,10 +35,8 @@ The sea level rise pressure layer is derived from monthly data of gridded sea le
 **Format**:  NetCDF
 
 ***
-  
-#Methodsgit rm --cached -r .
 
-## Setup
+# Setup
 
 ``` {r setup, message = FALSE, warning = FALSE}
 
@@ -46,23 +44,16 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 8, fig.path = 'figs/', messag
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
 
-#juliette, check which packages are actually used to clean this up
-library(httr)
-library(R.utils)
 library(raster)
 library(tidyverse)
 library(sf)
 library(RColorBrewer)
-library(ggplot2)
 library(googleVis)
-library(maps)
-library(parallel)
 library(foreach)
 library(doParallel)
 library(fasterize)
 library(rasterVis)
-library(here)
-library(raster)
+library(animation)
 ```
 
 
@@ -71,11 +62,12 @@ library(raster)
 dir_git <- '~/github/ne-prep' #path to the ne-prep github directory
 dir_anx <- file.path(dir_M, 'git-annex/neprep') #path to the nceas server where a the bigger files are kept/saved
 
-cols <- rev(colorRampPalette(brewer.pal(9, "Spectral"))(255)) # rainbow color scheme for maps #JULIETTE check that we don't want this color, I think we're using our own color scheme for ne
+cols <- rev(colorRampPalette(brewer.pal(9, "Spectral"))(255)) 
 ```
 
+# Load Data
 
-### Loading in SLR data files
+**Loading in SLR data files**
 
 We don't need to download the data from the website because it's already been downloaded for the most recent year of global. So we can just grab the NetCDF files from the global folder.
 ```{r read_files}
@@ -100,13 +92,14 @@ plot(raster(nc_files[3]), col = cols, axes = F,
 ```
 
 
-###Convert tif files into usable rasters
+# Convert .tif files into usable rasters
+
 The following code is used to:
 
 1. Rasterize each monthly NetCDF file
 2. Rotate each raster so that the Atlantic Ocean is centered in the raster, and changes the extent from 0 to 360 to -180 to 180, which is needed when using wgs or us_albers projections/extents
 
-```{r rasterize_monthly}
+```{r rasterize_monthly, results = 'hide'}
 registerDoParallel(10)
 ## parallel forloop function that rotates each monthly file, sets the long/lat projection, and keeps only coastal cells - saved to GitHub
 
@@ -128,10 +121,11 @@ foreach(file = nc_files) %dopar% {
 }
 ```
 
-###Calculate the annual mean sea level anomalies
+# Calculate annual mean sea level anomalies
+
 Annual mean sea level anomaly rasters are calculated from the monthly data.
 
-```{r calc_annual_mean}
+```{r calc_annual_mean, results='hide'}
 msla_files <- list.files(sprintf("%s/int/msla_monthly", file.path(dir_anx, "prs_slr")), 
                          full.names = TRUE)
 maxyr <- substr(msla_files, 73, 76) %>% as.numeric() %>% max()
@@ -150,10 +144,11 @@ foreach(yr = c(1993:maxyr)) %dopar% {
 ```
 
 
-###Changing the projection and masking
+# Change the projection and mask
+
 Since we are only interested in the increase in sea level near the coasts, we apply a mask to the raster layers that removes all cells farther than 3nm offshore. This mask was created previously for another part of this assessment
 
-```{r projection_masking}
+```{r projection_masking, results = 'hide'}
 three_nm <- raster(file.path(dir_git, "spatial/ocean_rasters/rast_3nm_mask.tif"))
 three_nm <- raster::crop(three_nm, ne_ext)
 plot(three_nm)
@@ -178,10 +173,9 @@ plot(raster(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers_coastal/msla_a
 ```
 
 
-###Reference Point
-The reference point is the 99.99th quantile of the entire data distribution from 1993 - 2018. (This value has been updated due to changes in the source data, previously was 0.246225 m, currently is 0.3359385 m).
+# Reference Point
+The reference point is the 99.99th quantile of the entire data distribution from 1993 - 2018 for the entire Northeast region.
 
-Here we are calculating a reference point specific to the Northeast. Will need to discuss if we want that, or use global's reference point (however I can't find the reference_points_pressures.csv it's in)
 ```{r reference_point}
 coastal_rasts <- list.files(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers_coastal"), pattern = "tif", full.names = TRUE)
 
@@ -200,9 +194,12 @@ vals <- foreach(i = 1993:2018, .combine = c) %dopar% {
 ref <- quantile(vals, 0.9999) # 0.13 meters is the reference point
 ```
 
+The reference point is `r ref` meters.
 
-###Rescale
-```{r rescale}
+# Rescale
+
+We use the reference point to rescale all values from 0 to 1.
+```{r rescale, results='hide'}
 registerDoParallel(10) 
 
 foreach(file = coastal_rasts) %dopar% { #file = coastal_rasts[10]
@@ -215,10 +212,9 @@ foreach(file = coastal_rasts) %dopar% { #file = coastal_rasts[10]
 }
 ```
 
-###Results
-```{r gif_results}
-library(animation)
+# Results
 
+```{r gif_results}
 coastal_rasts <- list.files(file.path(dir_anx, 'prs_slr/output/msla_rescaled'), full.names = T) %>%
                            stack()
                          
@@ -235,9 +231,10 @@ animation::saveGIF({
 ```
 
 
-### Region scores
+## Region scores
+
 Extract data for each region
-```{r extract_regional_data}
+```{r extract_regional_data, results = 'hide'}
 # read in raster files
 pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_slr/output/msla_rescaled'), full.names=T), raster) %>%
   brick()
@@ -253,12 +250,14 @@ data <- base::merge(rgn_data, regions_stats, all.y=TRUE, by.x="rgn_id", by.y="zo
 slr_data <- data %>%
   mutate(year = substr(year, 5, 8)) %>%
   mutate(year = as.numeric(year))
+```
 
-write.csv(slr_data, file.path("out/slr.csv"), row.names=FALSE)
+```{r save}
+write.csv(slr_data, file.path("~/github/ne-scores/region/layers/cc_slr.csv"), row.names=FALSE)
 ```
 
 
-### 2017 scores
+## 2017 scores
 ```{r map_scores}
 last_year <- slr_data%>%
   filter(year==2017)
@@ -268,20 +267,9 @@ map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Press
 ```
 
 
-### Visualize through time
-**this produces an html for me but its blank...
-```{r viz_scores}
-library(googleVis)
-plotData <- slr_data %>%
-  dplyr::select(rgn_name, year, pressure_score)
+## Visualize through time
 
-Motion=gvisMotionChart(plotData, 
-                       idvar="rgn_name", 
-                       timevar="year")
-plot(Motion)
-
-print(Motion, file='figs/slr.html')
-```
+JULIETTE: add a chunk that is a simple line chart of region pressure scores over time.
 
 
 
