@@ -166,7 +166,7 @@ rgn_sasi_prs <- rgn_sasi_out %>%
   select(-area_km2, -state) 
 
 
-write_csv(rgn_sasi_prs, "~/github/ne-scores/region/layers/prs_sasi.csv")
+write_csv(rgn_sasi_prs, "~/github/ne-scores/region/layers/hd_subtidal.csv")
 ```
 
 
