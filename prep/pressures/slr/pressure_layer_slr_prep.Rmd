@@ -24,7 +24,7 @@ The sea level rise pressure layer is derived from monthly data of gridded sea le
 # Data Source  
 **Reference**: AVISO [Monthly mean Maps of Sea Level Anomaly](http://www.aviso.altimetry.fr/en/data/products/sea-surface-height-products/global/msla-mean-climatology.html#c10358)
 
-**Downloaded**: September 16, 2016
+**Downloaded**: September 16, 2019
 
 **Description**:  Mean Sea Level Anomaly (m above a climatological mean)
 
@@ -174,16 +174,16 @@ plot(raster(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers_coastal/msla_a
 
 
 # Reference Point
-The reference point is the 99.99th quantile of the entire data distribution from 1993 - 2018 for the entire Northeast region.
+We are using a reference point 1.1 times larger than the maximum value in the entire Northeast region from 1993-2017. The current maximum value is unlikely to be the future max, and setting this reference point allows for an increase in sea level rise pressure into the future.
 
 ```{r reference_point}
 coastal_rasts <- list.files(file.path(dir_anx, "prs_slr/int/msla_annual_us_albers_coastal"), pattern = "tif", full.names = TRUE)
 
 registerDoParallel(8)
 
-vals <- foreach(i = 1993:2018, .combine = c) %dopar% { 
+vals <- foreach(i = 1993:2017, .combine = c) %dopar% { 
   
-  i=2018
+  i=2017
   coastal_rasts[which(str_sub(coastal_rasts, -8, -5) == i)] %>%
     raster() %>%
     getValues() %>%
@@ -191,7 +191,7 @@ vals <- foreach(i = 1993:2018, .combine = c) %dopar% {
   
 }
 
-ref <- quantile(vals, 0.9999) # 0.13 meters is the reference point
+ref <- 1.1*max(vals)
 ```
 
 The reference point is `r ref` meters.
@@ -269,7 +269,17 @@ map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Press
 
 ## Visualize through time
 
-JULIETTE: add a chunk that is a simple line chart of region pressure scores over time.
+```{r graph_scores_overtime}
+slr_overtime <-ggplot(slr_data)+
+  geom_line(aes(x=year, y = pressure_score, color=state))+
+  ggtitle("Sea Level Rise Pressure Score") +
+  ylab("Score") +
+  xlab("Year") +
+  theme_classic() 
+slr_overtime
+
+ggsave(file.path(dir_git, "prep/pressures/slr/figs/scores_2005-2017.png"), width=7, height=5, dpi=300)
+```
 
 
 

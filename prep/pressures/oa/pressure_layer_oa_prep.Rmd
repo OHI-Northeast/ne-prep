@@ -31,10 +31,7 @@ Time frame: 2014-2017
 
 The data is downloaded as seperate NetCDF files for each year. Each file has one variable (OmegaAr) with three dimensions (lat, long, and time). The unit for time is months since Janurary 2014 (0-11), but when we convert this data into an array later the month dimesions "turns in" the normal 1-12 because it counting the number of data sets for that dimension.
 
-Since we do not have historic data, we used a base of 1.5 taken from Ries et. al 2009. At this saturation level, some of our fished species begin exhibiting decalcification.
-
-
-Ries, J. B., Cohen, A. L., & McCorkle, D. C. (2009). Marine calcifiers exhibit mixed responses to CO2-induced ocean acidification. Geology, 37(12), 1131-1134.
+Since we do not have historic data, we used a base of aragaonite staturation of 1. This is widely used in as the threshold level.
 
 Equation for calculating aragonite satuation change:
 $$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
@@ -319,28 +316,42 @@ animation::saveGIF({
 
 ## Rescale from 0 to 1
 
-The `oaRescale` function rescales each of the annual rasters. If the current value is less than or equal to 1, it is set to 1, otherwise the value is calculated from the above equation.
+I am having issues wrapping my head around this and rescaling because the max reference point is unclear. the minimum is 1. i am looking in the literature for maximum aragonite values in the northeast, or we can always find the max values of all our rasters
 
-*Using the function from global to calculate*
-```{r rescale,eval=F}
-#for each layer, all values <=1 are assigned a 1, otherwise old-new/(old-1)
+The maximum aragonite saturation values by year:
 
-base = 1.5 
+2014: 1.85
+2015: 1.85
+2016: 2.75
+2017: 2.63
 
-oaRescale <- function(file){
-  
-  yr   = substr(file, nchar(file)-7, nchar(file)-4)  #get year of file
-  mean = raster(file)                              #get seasonal mean aragonite raster for given year
-  diff = (base-mean)/(base-1)
-  mean[mean<=1] <- 1                                 #all values at or less than 1 are given a value of 1
-  mean[mean>1] <- diff[mean>1]                     #all cells with values greater than 1 are swapped out with their amount of change scaled to how close to 1 
-  mean[mean<0] <- 0                                  #all values less than 0 (indicating a decrease in acidity) are capped at 0
-    writeRaster(mean, filename=paste0(dir_anx, '/prs_oa/int/noaa_rescaled/oa_rescaled_', yr, sep=""), format='GTiff', overwrite=TRUE)
-}
+
+```{r}
+ref = 2.75
 
 files = c(list.files(file.path(dir_anx, "prs_oa/int/noaa_annual_mean"), full.names=TRUE))
-mclapply(files, oaRescale, mc.cores = 16)
+
+registerDoParallel(10) 
+
+foreach(file = files) %dopar% { 
+  
+ # file = files[1]
+  
+  yr <- str_sub(file, -8,-5)
+
+   rescale <- raster::raster(file) %>%
+    calc(fun = function(x){ifelse(x <=1, 1, x)}) %>% # 1 is our arg threshold; and also the highest pressure because thats when things start going wonky
+    calc(fun = function(x){ifelse(x >= ref, 0, (1-x/ref))})  # set equal to one if greater than ref, otherwise scale
+    
+ # rescale <- (1-rescale) # the math above should handle this    
+
+ # plot(rescale)         
+         
+  writeRaster(rescale, filename=paste0(dir_anx, '/prs_oa/test/oa_rescaled_', yr, ".tif"),overwrite=TRUE)
+    
+}
 ```
+
 
 Now we want to interpolate using the nearest neighbor technique. We are using the nearest neighbor technique to interpolate
 ```{r interpolate_noaa} 
@@ -434,7 +445,7 @@ last_year <- oa_data%>%
   filter(year==2017)
 
 #map_scores is a function to plot a tmap map of the scores
-map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Pressure Score", map_title = "Ocean Acidification")
+map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Pressure Score", map_title = "Ocean Acidification Pressure")
 ```
 
 Changes over time

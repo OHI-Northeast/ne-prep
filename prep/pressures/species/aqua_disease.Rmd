@@ -16,7 +16,19 @@ output:
 toc: true
 ---
 
-Disease from aquaculture production.
+# Summary
+
+This script calculates the aquaculture disease pressure scores by OHINE region. 
+
+# Data
+
+**Monterey Bay Aquarium Seafood Watch** 
+
+**Downloaded**: August, 2019
+
+**Format**: xlsx
+
+# About
 
 In this script we use the seafood watch data on the disease criteria per species and multiply by production.
 
@@ -44,17 +56,15 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep') #path to the nceas server where 
 ```
 
 ```{r load_data}
-
 sf_watch_raw <- read_xlsx(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
 production <- read_csv(file.path(dir_git, "prep/mar/data/production_clean.csv")) %>% 
   mutate(Species = tolower(Species))
-
 ```
 
 ## Methods
 
 Cleaning up the seafood watch data so to be combined with production data
-```{r}
+```{r tidy_sfw}
 sf_watch <- sf_watch_raw %>% 
   select('FAO Common name', 'AqCriteria7', 'Report Title') %>% 
   rename(report_title ='Report Title',
@@ -79,39 +89,43 @@ sf_watch <- sf_watch_raw %>%
   unique() 
 ```
 
-Combine production data and seafood watch
-```{r}
+## Calculate scores
+
+Using Aquaculture subgoal method of calculating scores:
+```{r calculate_score}
 disease_pro <- left_join(production, sf_watch, by = ("Species")) %>% 
-  mutate(disease_prs = pounds*AqCriteria7,
-         pounds = ifelse(pounds == 0, NA, pounds), # if no production the end score needs to be NA not 0
-         target = pounds*10,
-         scaled_score = 1-(disease_prs/target))
-
-disease_pro
-```
-
-## Calculate Pressure Score 
-```{r}
-aqu_disease_prs <- disease_pro %>% 
+  mutate(prs = (AqCriteria7/10),
+         mcs_pounnds = pounds*prs) %>% 
   group_by(Year, Region) %>% 
-  dplyr::summarize(score = mean(scaled_score, na.rm= TRUE)) %>% 
+  mutate(sum_mcs_pounds = sum(mcs_pounnds),
+         sum_pounds = sum(pounds),
+         prs_score = 1- (sum_mcs_pounds/sum_pounds))%>% 
   filter(Year >= 2005 & Year <=2017)
-
-aqu_disease_prs
 ```
 
-```{r visualize}  
-aqu_dis_graph <-ggplot(aqu_disease_prs)+
-  geom_line(aes(x=Year, y = score, color=Region))+
+Graph
+```{r graph}
+disease_pro_graph <-ggplot(disease_pro)+
+  geom_line(aes(x=Year, y = prs_score, color=Region))+
   ggtitle("Aquaculture disease pressure score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
-aqu_dis_graph
+disease_pro_graph
 
-
-ggsave(file.path(dir_git, "prep/pressures/aquaculture/aqu_dis_graph.png"), width=7, height=5, dpi=300)
+ggsave(file.path(dir_git, "prep/pressures/aquaculture/figs/disease_goal_meth_graph.png"), width=7, height=5, dpi=300)
 ```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
