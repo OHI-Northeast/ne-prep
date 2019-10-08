@@ -116,33 +116,4 @@ save this layer
 write.csv(nas, file.path(dir_git, "prep/resilience/ecological/species_pollution/data/nas.csv"))
 ```
 
-## Explore data for pressures
-
-Exploring total number of occurrences that have become established for the species pollution pressure layer
-Now we want to see how many species are observed in a new area in each to quantify invasive species pressures
-```{r occurances}
-nas_est <- nas_raw %>% 
-  select('Scientific Name', 'Country', 'State', 'Year', 'Status') %>% 
-  rename(sci_name = "Scientific Name") %>% 
-  filter(Status %in% c('established', 'locally established', 'eradicated','extirpated'),
-         Country %in% 'United States of America',
-         State %in% c("ME", "MA", "NY", "RI", "CT", "NH"),
-         Year >= 1970 & Year <= 2018) %>% 
-  select(-Country) %>% 
-  unique() %>% 
-  group_by(Year, State) %>% 
-  mutate(est_occur = length(Status)) 
-```
-
-```{r occurances_viz}
-est_gr <- ggplot(nas_est) +
-  geom_line(aes(x= Year, y=est_occur, color=State))+
-  theme_classic() +
-  labs(y = "Number Species", x = "State") +
-  ggtitle("Invasive Species")
-
-est_gr 
-
-ggsave("figs/established_nas.jpg", width=7, height=5, dpi=300)
-```
 

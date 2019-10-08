@@ -1,0 +1,128 @@
+---
+title: "OHINE: Species Pollution Resilience - Nonindigenous Aquatic Species USGS Data Prep"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+# Summary
+
+This script calculates the invasive species pressure by OHINE region.
+
+# Data
+
+**Nonindigenous Aquatic Species (NAS) USGS** 
+
+**Downloaded**: September, 2019
+
+**Description**: This dataset has occurrence and precise location data of new nonindigenous species https://nas.er.usgs.gov/
+
+**Time range**: 1700-2019
+
+**Format**: csv file
+
+
+# Methods
+
+## Set up, libraries, load data
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(tidyverse)
+library(dplyr)
+```
+
+
+```{r load_data}
+nas_raw <- read_csv(file.path(dir_anx, "_raw_data/NAS/NAS-Data-Download.csv")) 
+```
+
+## Explore data for pressures
+
+Exploring total number of occurrences that have become established for the species pollution pressure layer
+Now we want to see how many species are observed in a new area in each to quantify invasive species pressures
+```{r occurances}
+nas_est <- nas_raw %>% 
+  select('Scientific Name', 'Country', 'State', 'Year', 'Status') %>% 
+  rename(sci_name = "Scientific Name") %>% 
+  filter(Status %in% c('established', 'locally established', 'eradicated','extirpated'),
+         Country %in% 'United States of America',
+         State %in% c("ME", "MA", "NY", "RI", "CT", "NH"),
+         Year >= 1970 & Year <= 2018) %>% 
+  select(-Country) %>% 
+  unique() %>% 
+  mutate(counts = 1) %>% 
+  group_by(Year, State) %>% 
+  summarize(total_est = sum(counts)) %>% 
+  ungroup() %>% 
+  mutate(max_est = max(total_est),
+         score = total_est/max_est) 
+```
+
+Fish color pallette for fun!
+```{r}
+library(fishualize)
+
+cols = fish(6, option = "Thalassoma_bifasciatum")
+
+```
+
+
+Look at occurances
+```{r occurances_viz}
+est_gr <- ggplot(nas_est) +
+  geom_line(aes(x= Year, y=total_est, color=State))+
+  scale_color_fish_d(option = "Thalassoma_bifasciatum", direction = -1)+
+  theme_classic() +
+  labs(y = "Number Species", x = "State") +
+  ggtitle("Invasive Species")
+
+est_gr 
+
+ggsave("figs/established_nas.jpg", width=7, height=5, dpi=300)
+```
+
+Look at scores
+```{r scores_viz}
+scores <- ggplot(nas_est) +
+  geom_line(aes(x= Year, y=score, color=State))+
+  scale_color_fish_d(option = "Scarus_globiceps", direction = -1)+
+  theme_classic() +
+  labs(y = "Score", x = "State") +
+  ggtitle("Invasive Species Scores")
+
+scores 
+
+ggsave("figs/scores.jpg", width=7, height=5, dpi=300)
+```
+
+Save a more simplified df for future score calculations
+```{r}
+invasive_prs <- nas_est %>% 
+  select(State, Year, score) %>% 
+  rename(year = Year) %>% 
+  filter(year >= 2005 & year <= 2017)
+```
+
+There is no data for Rhode Island in 2008, 2011, 2012,2013
+
+
+
+
+
+
