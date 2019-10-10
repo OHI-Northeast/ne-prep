@@ -60,7 +60,7 @@ fis_data_info <- data.frame(
   Layer = c("Catch", "Status"),
   Description = c("Total amount of targeted species caught (pounds) by statistical area",
                   "Stock assessment data on B/Bmsy and F/Fmsy (when available) to indicate health of the stock. This data comes from NMFS for US managed stocks and the RAM Legacy Database for migratory species"),
-  Target = c("100 days free of any beach closures, representing the average length of the swimming season for the region",
+  Target = c("",
              "B/Bmsy between 0.8 and 1.2, F/Fmsy between 0.66 and 1.2"),
   Source = c('<a href="https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:5979977158626:::::">NOAA Fisheries (NMFS) Commercial Landings</a>',
              '<a href="https://www.st.nmfs.noaa.gov/stock-assessment/">National Marine Fisheries Service (emailed)</a>
