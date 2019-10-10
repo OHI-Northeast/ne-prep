@@ -1,0 +1,28 @@
+﻿new_code,esi_code,shoreline_type
+1,8C,sheltered riprap
+2,6B,"riprap, boulder rubble"
+3,6D,"riprap, boulder rubble"
+3,1B,"exposed, solid, man-made structures"
+4,8B,"sheltered, solid, man-made structures"
+5,10C,swamps
+6,1C,exposed rocky cliffs with boulder talus base
+6,3B,exposed rocky cliffs with boulder talus base
+7,3A,beaches (all grain size)
+7,4,beaches (all grain size)
+7,5,beaches (all grain size)
+7,6A,beaches (all grain size)
+8,10A,salt and brackish marshes
+9,10B,freshwater marshes
+10,2A,"exposed wave-cut platforms, scarp, and steep slpes in bedrock, mud, or clay"
+10,2B,"exposed wave-cut platforms, scarp, and steep slpes in bedrock, mud, or clay"
+11,7,"exposed tidal flats, hypersaline tidal flats"
+11,9A,"exposed tidal flats, hypersaline tidal flats"
+11,9C,"exposed tidal flats, hypersaline tidal flats"
+12,1A,"exposed or sheltered rocky shores, scraps in bedrock, mud, or clay"
+12,8A,"exposed or sheltered rocky shores, scraps in bedrock, mud, or clay"
+12,8D,"exposed or sheltered rocky shores, scraps in bedrock, mud, or clay"
+13,8F,vegetated low banks
+13,9B,vegetated low banks
+14,8E,peat shorelines
+15,10D,"scrub-shrub wetlands, mangroves"
+16,10E,inundated low-lying tundra

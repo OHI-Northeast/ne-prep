@@ -204,6 +204,23 @@ ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
         legend.title=element_blank())
 ```
 
+Bargraph
+```{r}
+bargraph <- ggplot(production_df, aes(x = Year, y = pounds, fill = Species)) +
+  geom_bar(stat="identity" ) +
+  theme_bw() +
+  ylab("Production (pounds)") +
+  ggtitle("Mariculture production in the Northeast") +
+  facet_wrap(~Region, scales = "free") +
+  theme(legend.position = "bottom",
+        legend.title=element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1))
+bargraph
+```
+
+
+
+
 ## Gapfilling
 
 We need to gapfill for years where there is no reported production. If there is a year without production between two years of production, we assume there was some. Let's first take a look at what needs gapfilling.
