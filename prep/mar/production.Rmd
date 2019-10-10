@@ -33,8 +33,6 @@ library(kableExtra)
 
 This script creates the mariculture production layer. This layer measures the total amount of biomass produced through mariculture by state and species. Sustainability scores for each species come from the Seafood Watch program (e.g. [Oysters](https://www.seafoodwatch.org/seafood-recommendations/groups/oysters?q=Oysters&t=Oysters&location=domestic&method=farmed&type=eastern&o=1190987422)) and are used to weight production (i.e. the more production of highly sustainable species will have a more positive impact on final scores).
 
-We also provide an alternate way to score this layer that weights by area of state waters.
-
 ## Data
 
 Production data was gathered from available state reports (e.g. CRMC's "[Aquaculture in Rhode Island](http://www.crmc.ri.gov/aquaculture/aquareport15.pdf)", [Massachusetts DF&G reports](chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://www.mass.gov/files/documents/2017/08/30/2012-dmf-annual-report.pdf)). Since this data often exists within PDF's and various formats, all production data was entered by hand into a google sheet and subsequently brought into this analysis.
