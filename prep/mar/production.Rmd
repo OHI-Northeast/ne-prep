@@ -162,7 +162,7 @@ combo <- bind_rows(hclam, oyster, scallop, ss_clams)
 
 ### Fix Maine finfish data
 
-Due to weird data reporting for Salmon and Trout, we need to fix Maine's finfish. The `maine_finfish.csv` dataset is used to replace all finfish from Maine. We also use the 2010 data to gapfill forward since the Department of Marine Resources does not report production data after 2010 due to confidentiality statutes ([see their statment here](https://www.maine.gov/dmr/aquaculture/harvestdata/index.html)).
+Due to weird data reporting for Salmon and Trout, we need to fix Maine's finfish. The `maine_finfish.csv` dataset is used to replace all finfish from Maine. We also use the 2010 data to gapfill forward since the Department of Marine Resources does not report production data after 2010 due to confidentiality statutes ([see their statment here](https://www.maine.gov/dmr/aquaculture/harvestdata/index.html)). But this is done in the gapfilling section below.
 
 ```{r}
 #read in the Maine finfish data
@@ -170,9 +170,7 @@ maine_ff <- read_csv("data/maine_finfish.csv") %>%
   rename(pounds = `Whole Pounds`) %>%
   complete(Year = 1988:2017) %>%
   mutate(Species = ifelse(is.na(Species), "Atlantic Salmon", Species),
-         Region = "Maine") %>%
-  group_by(Species) %>%
-  mutate(pounds = zoo::na.locf(pounds))
+         Region = "Maine") 
 
 ggplot(maine_ff, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
@@ -221,12 +219,28 @@ So Connecticut is missing one year for Hard Clam, Massachusetts is missing 2012 
 
 We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a production of 0. Since we calculate a rolling average of production, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
+
+```{r}
+production_gf <- production_df %>%
+  group_by(Region, Species) %>%
+  complete(Year = 2005:2017) %>%
+  mutate(pounds = zoo::na.approx(pounds, na.rm = FALSE)) %>% #first apply a linear interpolation between points
+  mutate(pounds2 = zoo::na.locf(zoo::na.locf(pounds, na.rm = FALSE), fromLast =TRUE)) %>% #carried first value backwards when we don't have previous years, and last value forwards when we don't have future estimates 
+  ungroup() %>%
+  mutate(pounds = ifelse(
+   Region == "New Hampshire" & Year < 2013, NA, #no evidence of farming before 2013
+    ifelse(Region == "Massachusetts" & Species %in% c("Soft Shell Clams", "Scallops") & !Year %in% c(2010:2012), NA, pounds2))) %>%
+  select(-pounds2)
+    
+```
+
+
 ## Get 3 year rolling mean
 
 We apply a three year rolling mean to account for year to year variability. 
 
 ```{r 3yr_rolling_mean}
-prod_3yr <- production_df %>%
+prod_3yr <- production_gf %>%
   filter(Year > 2000) %>%
   arrange(Year) %>%
   group_by(Region, Species) %>%
