@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Compiled on Fri Oct 11 12:47:09 2019 by afflerbach" />
+<meta name="author" content="Compiled on Fri Oct 11 12:53:27 2019 by afflerbach" />
 
 
 <title>OHI-Northeast: Mariculture Production Layer</title>
@@ -1652,7 +1652,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">OHI-Northeast: Mariculture Production Layer</h1>
-<h4 class="author"><em>Compiled on Fri Oct 11 12:47:09 2019 by afflerbach</em></h4>
+<h4 class="author"><em>Compiled on Fri Oct 11 12:53:27 2019 by afflerbach</em></h4>
 
 </div>
 
@@ -10049,7 +10049,7 @@ NA
 <p>We don’t know if these are 0’s or missing data. We need to <strong>gapfill</strong> this missing data. When a species/state combination has missing data for a year, we can not assume it has a production of 0. Since we calculate a rolling average of production, NAs will remain as NA’s and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">production_gf &lt;-<span class="st"> </span>production_df <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(Region, Species) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span><span class="kw">complete</span>(<span class="dt">Year =</span> <span class="dv">2005</span><span class="op">:</span><span class="dv">2017</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span><span class="kw">complete</span>(<span class="dt">Year =</span> <span class="dv">2003</span><span class="op">:</span><span class="dv">2017</span>) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pounds =</span> zoo<span class="op">::</span><span class="kw">na.approx</span>(pounds, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#first apply a linear interpolation between points</span></a>
 <a class="sourceLine" id="cb11-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">pounds2 =</span> zoo<span class="op">::</span><span class="kw">na.locf</span>(zoo<span class="op">::</span><span class="kw">na.locf</span>(pounds, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>), <span class="dt">fromLast =</span><span class="ot">TRUE</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#carried first value backwards when we don&#39;t have previous years, and last value forwards when we don&#39;t have future estimates </span></a>
 <a class="sourceLine" id="cb11-6" title="6"><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
