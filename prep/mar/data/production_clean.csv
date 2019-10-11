@@ -15,6 +15,8 @@ Year,Region,Species,pounds
 2001,Rhode Island,Hard Clam,12219.6
 2000,Rhode Island,Hard Clam,8800
 1999,Rhode Island,Hard Clam,25000
+2017,Connecticut,Hard Clam,6502880.947976952
+2016,Connecticut,Hard Clam,7763951.937888385
 2010,Connecticut,Hard Clam,8931173.928550608
 2009,Connecticut,Hard Clam,10278701.917770386
 2008,Connecticut,Hard Clam,10744838.91404129
@@ -22,6 +24,7 @@ Year,Region,Species,pounds
 2006,Connecticut,Hard Clam,8876069.92899144
 2005,Connecticut,Hard Clam,8831108.929351129
 2004,Connecticut,Hard Clam,8477657.932178738
+2003,Connecticut,Hard Clam,7172465.942620273
 2002,Connecticut,Hard Clam,17174219.656515606
 2001,Connecticut,Hard Clam,16908659.661826808
 2000,Connecticut,Hard Clam,20105039.59789921

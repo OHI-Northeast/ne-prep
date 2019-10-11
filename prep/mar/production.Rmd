@@ -213,7 +213,7 @@ ggplot(production_df, aes(x = Year, y = Species)) +
   theme_bw()
 ```
 
-So Connecticut is missing one year for Hard Clam, Massachusetts is missing 2012 and 2013 for Hard Clam and Oysters, Rhode Island is missing 2010 for Oysters and Hard Clam. 
+Massachusetts is missing 2012 and 2013 for Hard Clam and Oysters, Rhode Island is missing 2010 for Oysters and Hard Clam. 
 
 We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a production of 0. Since we calculate a rolling average of production, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
