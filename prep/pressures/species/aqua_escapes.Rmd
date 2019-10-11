@@ -48,17 +48,12 @@ library(stringi)
 ```
 
 
-```{r load_directories}
-## define paths and variables to use throughout data prep
-dir_git <- '~/github/ne-prep' #path to the ne-prep github directory
-dir_anx <- file.path(dir_M, 'git-annex/neprep') #path to the nceas server where a the bigger files are kept/saved
-```
-
 ```{r load_data}
 sf_watch_raw <- read_xlsx(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
 production <- read_csv(file.path(dir_git, "prep/mar/data/production_clean.csv")) %>% 
   mutate(Species = tolower(Species))
 ```
+
 
 ## Methods
 
@@ -89,30 +84,81 @@ sf_watch <- sf_watch_raw %>%
 ```
 
 ## Calculate scores
+
 Using Aquaculture subgoal method of calculating scores:
+
 ```{r calculate_score}
-escape_pro <- left_join(production, sf_watch, by = ("Species")) %>% 
-  mutate(prs = (AqCriteria6/10),
-         mcs_pounnds = pounds*prs) %>% 
-  group_by(Year, Region) %>% 
-  mutate(sum_mcs_pounds = sum(mcs_pounnds),
-         sum_pounds = sum(pounds),
-         prs_score = 1- (sum_mcs_pounds/sum_pounds))%>% 
-  filter(Year >= 2005 & Year <=2017)
+escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
+  mutate(sfw_score = AqCriteria6/10) %>% 
+  rowwise() %>% 
+  mutate(scored_production = production*sfw_score) %>% 
+  ungroup() %>% 
+  group_by(year, rgn_id) %>% 
+  mutate(sum_scored_pro = sum(scored_production),
+         sum_pro = sum(production),
+         prs_score = 1 - (sum_scored_pro/sum_pro)) %>% 
+  ungroup() %>% 
+  mutate(rgn_id = as.factor(rgn_id),
+         prs_score = ifelse(prs_score == "NaN", 0, prs_score)) %>% 
+   filter(year >= 2005 & year <=2017) %>% 
+  select(year, rgn_id, prs_score) %>% 
+  unique()
+
+write.csv(escape_prs, file = "data/escape_prs.csv")
 ```
 
-## Graph
+
+Graph
 ```{r graph}
-escape_pro_graph <-ggplot(escape_pro)+
-  geom_line(aes(x=Year, y = prs_score, color=Region))+
+escape_prs_graph <-ggplot(escape_prs)+
+  geom_line(aes(x=year, y = prs_score, color=rgn_id))+
   ggtitle("Aquaculture escape pressure score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
-escape_pro_graph
+escape_prs_graph
 
-ggsave(file.path(dir_git, "prep/pressures/aquaculture/figs/escape_goal_meth_graph.png"), width=7, height=5, dpi=300)
+ggsave(file.path(dir_git, "prep/pressures/species/figs/escape_prs_graph.png"), width=7, height=5, dpi=300)
 ```
+
+Clean up the data so it can be read into the toolbox
+Creating a df to add on to the water pollution scores to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
+
+```{r}
+prs_aqua_escape <- escape_prs %>% 
+    mutate(rgn_name =ifelse(rgn_id==5, "Connecticut",
+                            ifelse(rgn_id==6, "Maine",
+                                   ifelse(rgn_id==7, "Massachusetts-North",
+                                          ifelse(rgn_id==8, "Massachusetts-South",
+                                                 ifelse(rgn_id==9, "New Hampshire",
+                                                        ifelse(rgn_id==10, "New York",
+                                                               "Rhode Island"))))))) %>% 
+  rename(score = prs_score) %>% 
+  rbind(miss_rgns)
+```
+
+
+Save layer to scores
+```{r}
+write.csv(prs_aqua_escape, file.path(dir_calc, "layers/prs_aqua_escape.csv"))
+```
+
 
 
 
