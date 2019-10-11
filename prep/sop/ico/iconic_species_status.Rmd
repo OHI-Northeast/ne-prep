@@ -89,7 +89,54 @@ missing <- setdiff(iconic_list$common, iconic_species_status$common)
 missing
 ```
 
-Most of the species we are missing are a harvested (commercially fished) species, except for Piping plover. We will use our stock scores for these species where available. The `nmfs_stock_scores.csv` dataset was created in the Seafood Provision - Wild-Caught Fisheries subgoal data prep.
+Most of the species we are missing are a harvested (commercially fished) species, except for Piping plover. I'm going to see if Nature Serve has this species.
+
+```{r piping_plover, results = "hide"}
+#install.packages("natserv")
+library(natserv)
+options(NatureServeKey = Sys.getenv("NatureServeKey"))
+
+id <- ns_search(x = "Charadrius melodus")$globalSpeciesUid
+id_dat  <- ns_data(uid = id)
+#state level conservation status
+state <- id_dat[[1]]$conservationStatus$natureserve$nationalStatuses$US$subnationalStatuses
+
+  #create an empty dataframe to cycle through each state
+  out <- data.frame(state = NA,
+                    rank = NA)
+
+for(j in 1:length(state)){
+    
+    ST <- state[[j]]$subnationCode
+  
+    if(ST %in% c("CT", "NY", "MA", "ME", "RI", "NH")){
+      state_rank <- state[[j]]$rank
+      
+      df <- data.frame(state = ST, rank = state_rank, stringsAsFactors = F)
+    }else{
+      df <- data.frame(state = NA, rank = NA, stringsAsFactors = F)
+    }
+    out <- rbind(out, df) %>%
+      filter(!is.na(state))
+}
+  
+  #read in natureserve scores for the status
+ns_scores <- read_csv("~/github/ne-prep/prep/bio/spp/data/natserv_status_scores.csv") %>% select(-X1)
+
+pp <- out %>%
+  left_join(ns_scores, by = c("rank" = "status")) %>%
+  left_join(rgn_data, by = c("state" = "state_abv")) %>%
+  mutate(common = "piping plover",
+         sciname = "Charadrius melodus",
+         year = 2017,
+         status_scale = state,
+         score = 1-score) %>%
+  select(common, sciname, status = rank, status_scale, rgn_name, rgn_id, state_name, score, year)
+  
+```
+
+
+We will use our stock scores for these species where available. The `nmfs_stock_scores.csv` dataset was created in the Seafood Provision - Wild-Caught Fisheries subgoal data prep.
 
 ```{r get_stock_scores_for_harvested_spp}
 stock_scores <- read_csv("~/github/ne-prep/prep/fis/data/nmfs_stock_scores.csv") %>%
@@ -134,13 +181,15 @@ salm_surf_scallop <- stock_scores %>%
   mutate(common = tolower(common)) %>%
   filter(common == "sea scallop") %>%
   left_join(fish_rgns) %>%
-  bind_rows(salm_surf)
+  bind_rows(salm_surf) %>%
+  filter(year == 2017) #the score is the same for these species across all years
 ```
 
 ## join them all
 ```{r}
 spp_rgns_scores <- iconic_species_status %>%
-  bind_rows(salm_surf_scallop)
+  bind_rows(salm_surf_scallop) %>%
+  bind_rows(pp)
 ```
 
 # Correct species
@@ -200,7 +249,7 @@ For species that are listed differently between Emily's data and Natureserve, we
 Due to latency between updates made in state, provincial or other NatureServe Network databases and when they appear on NatureServe Explorer, for state or provincial information you may wish to contact the data steward in your jurisdiction to obtain the most current data. Please refer to our Distribution Data Sources to find contact information for your jurisdiction.
 
 ```{r}
-update_df <- iconic_species_status %>%
+update_df <- spp_rgns_scores %>%
    select(common, rgn_id, state = status_scale, score) %>%
   mutate(source = "natureserve") %>%
   bind_rows(em_states) %>%
@@ -210,10 +259,11 @@ update_df <- iconic_species_status %>%
   spread(source, score) %>%
   rowwise() %>%
   mutate(final_score = case_when(
-    count == 1 ~ sum(emily, natureserve, na.rm = T),
+    count == 1 ~ max(emily, natureserve, na.rm = T),
     count == 2 & !is.na(emily) ~ emily,
     count == 2 & is.na(emily) ~ natureserve
-  )) %>%
+  ),
+  final_score = ifelse(is.infinite(final_score), NA, final_score)) %>%
   select(common, rgn_id, state, score = final_score)
 ```
 
@@ -237,9 +287,17 @@ spp_rgns_scores <- bind_rows(spp_rgns, update_df) %>%
   group_by(common, rgn_id) %>%
   mutate(count = n()) %>%
   ungroup() %>%
-  mutate(drop = ifelse(is.na(score) & count == 2, 1, 0)) %>%
+  group_by(state, common, rgn_id) %>%
+  mutate(m = max(score, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(drop = case_when(
+    is.infinite(m) ~ 0,
+    is.na(score) & count == 2 & !is.infinite(m) ~ 1,
+    TRUE ~ 0
+  )) %>%
   filter(drop == 0) %>%
-  select(-count, -drop)
+  distinct() %>%
+  select(-count, -drop, -m)
 
 #pull out the US national status for each species, we will use these scores for species/regions without a state specific status
 us_status <- spp_rgns_scores %>%
