@@ -49,12 +49,17 @@ library(tidyverse)
 library(ggplot2)
 library(readxl)
 library(stringi)
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
 ```
+
 
 ```{r load_data}
 sf_watch_raw <- read_xlsx(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
-production <- read_csv(file.path(dir_git, "prep/mar/data/production_clean.csv")) %>% 
-  mutate(Species = tolower(Species))
+production <- read_csv(file.path(dir_calc, "layers/mar_production.csv")) %>% 
+  mutate(Species = tolower(Species)) %>% 
+  select(year, rgn_id, Species, production)
 ```
 
 ## Methods

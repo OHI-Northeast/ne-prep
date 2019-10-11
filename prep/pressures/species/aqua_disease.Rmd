@@ -46,6 +46,9 @@ library(tidyverse)
 library(ggplot2)
 library(readxl)
 library(stringi)
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
 ```
 
 
