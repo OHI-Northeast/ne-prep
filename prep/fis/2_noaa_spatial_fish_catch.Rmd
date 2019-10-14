@@ -264,6 +264,18 @@ p <- ggplot(toolbox_data, aes(x = year, y = mean_catch_times_prop, fill = displa
 plotly::ggplotly(p)
 ```
 
+# Clean up display name
+
+
+
+```{r}
+names <- read_csv("data/display_names.csv")
+
+toolbox_data <- toolbox_data %>%
+  left_join(names)
+
+```
+
 
 # Save to toolbox
 
