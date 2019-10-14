@@ -163,7 +163,7 @@ prs_aqua_escape <- escape_prs %>%
 
 Save layer to scores
 ```{r write_scores}
-write.csv(prs_aqua_escape, file.path(dir_calc, "layers/prs_aqua_escape.csv"))
+write.csv(prs_aqua_escape, file.path(dir_calc, "layers/sp_genetic.csv"))
 ```
 
 
