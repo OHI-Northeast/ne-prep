@@ -235,7 +235,7 @@ Massachusetts is missing 2012 and 2013 for Hard Clam and Oysters, Rhode Island i
 We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a production of 0. Since we calculate a rolling average of production, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
 
-```{r}
+```{r gapfilled_production}
 production_gf <- production_df %>%
   group_by(Region, Species) %>%
   complete(Year = 2003:2017) %>%
@@ -247,6 +247,11 @@ production_gf <- production_df %>%
     ifelse(Region == "Massachusetts" & Species %in% c("Soft Shell Clams", "Scallops") & !Year %in% c(2010:2012), NA, pounds2))) %>%
   select(-pounds2)
     
+
+ggplot(production_gf, aes(x = Year, y = pounds, color = Species)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~Region)
 ```
 
 
@@ -264,7 +269,14 @@ prod_3yr <- production_gf %>%
          yr_num       = 1:n(), #need to remove the first two years, so add a column that identifies where in the sequence the year is 
          last_years_prod = lag(prod_avg_3yr, n = 1)) %>%
   ungroup()
+
+ggplot(prod_3yr, aes(x = Year, y = prod_avg_3yr, color = Species)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~Region)
+
 ```
+
 
 ## Save to toolbox
 
