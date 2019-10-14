@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Aquaculture - Escapes Pressure Data Prep'
+title: 'OHI-Northeast: Aquaculture - Habitat Pressure Data Prep'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -16,9 +16,10 @@ output:
 toc: true
 ---
 
+
 # Summary
 
-This script calculates the aquaculture escapes pressure scores by OHINE region. 
+This script calculates the aquaculture habitat pressure scores by OHINE region. 
 
 # Data
 
@@ -29,9 +30,12 @@ This script calculates the aquaculture escapes pressure scores by OHINE region.
 **Format**: xlsx
 
 # About
-In this script we use the seafood watch data for the disease criteria per species and scale by production.
 
-Escape scores for each farmed species is criteria 6 in the Seafood Watch data. Each species get a score 0-10 with 10 being the least concern and 0 being high/critical.
+Habitat pressures from aquaculture production.
+
+In this script we use the seafood watch data on the habitat criteria per species and multiply by production.
+
+Habitat scores for each farmed species is criteria 3 in the Seafood Watch data. Each species get a score 0-10 with 10 being the least concern and 0 being high/critical.
 
 ## Setup
 
@@ -64,7 +68,7 @@ production <- read_csv(file.path(dir_calc, "layers/mar_production.csv")) %>%
 The data includes scores from previous methods of calculating the criteria, so we are removing those here. We are also fixing the names of the species to match up with the species in our production data. For example, with this current Seafood Watch data it is easy to do because all clams have the same sustainability score. If that changes in the future, differences in scores across clams, oyster, scallop, and mussel species need to be accounted for. For trout, the same score as salmon is assigned, because we know that they are farmed in the same way.
 ```{r tidy_sfw}
 sf_watch <- sf_watch_raw %>% 
-  select('FAO Common name', 'AqCriteria6', 'Report Title') %>% 
+  select('FAO Common name', 'AqCriteria3', 'Report Title') %>% 
   rename(report_title ='Report Title',
          Species = 'FAO Common name') %>% 
   filter(report_title != "Atlantic salmon, Global RAS" & 
@@ -86,17 +90,18 @@ sf_watch <- sf_watch_raw %>%
          Species = ifelse(str_detect(Species, "scallop"), "scallops", Species),
          Species = ifelse(str_detect(Species, "mussel"), "blue mussel", Species),
          Species = ifelse(str_detect(Species, "trout"), "trout", Species), #all oysters, scallops, and mussels have the same score; rainbow trout is farmed in the northeast, change the name for merging
-         AqCriteria6 = ifelse(Species == "trout", 4, AqCriteria6)) %>% #this data set uses rainbow trout which is a freshwater trout. our trout is not freshwater, so we are using our knowlege of similarities to slamon aquaculture
+         AqCriteria3 = ifelse(Species == "trout", 5.72, AqCriteria3)) %>% #this data set uses rainbow trout which is a freshwater trout. our trout is not freshwater, so we are using our knowlege of similarities to slamon aquaculture
   unique() 
 ```
+
 
 ## Calculate scores
 
 Using Aquaculture subgoal method of calculating scores:
 
 ```{r calculate_score}
-escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
-  mutate(sfw_score = AqCriteria6/10) %>% 
+aqua_hab_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
+  mutate(sfw_score = AqCriteria3/10) %>% 
   rowwise() %>% 
   mutate(scored_production = production*sfw_score) %>% 
   ungroup() %>% 
@@ -111,21 +116,21 @@ escape_prs <- left_join(production, sf_watch, by = ("Species")) %>%
   select(year, rgn_id, prs_score) %>% 
   unique()
 
-write.csv(escape_prs, file = "data/escape_prs.csv")
+write.csv(aqua_hab_prs, file = "data/aqua_hab_prs.csv")
 ```
 
 
 Graph
 ```{r graph}
-escape_prs_graph <-ggplot(escape_prs)+
+aqua_hab_prs_graph <-ggplot(aqua_hab_prs)+
   geom_line(aes(x=year, y = prs_score, color=rgn_id))+
-  ggtitle("Aquaculture escape pressure score") +
+  ggtitle("Aquaculture habitat pressure score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
-escape_prs_graph
+aqua_hab_prs_graph
 
-ggsave(file.path(dir_git, "prep/pressures/species/figs/escape_prs_graph.png"), width=7, height=5, dpi=300)
+ggsave(file.path(dir_git, "prep/pressures/habitat/figs/aqua_hab_prs_graph.png"), width=7, height=5, dpi=300)
 ```
 
 Clean up the data so it can be read into the toolbox
@@ -147,8 +152,8 @@ miss_rgns <- miss_rgns %>%
 ```
 
 
-```{r create_layer}
-prs_aqua_escape <- escape_prs %>% 
+```{r creat_layer}
+prs_aqua_hab <- aqua_hab_prs %>% 
     mutate(rgn_name =ifelse(rgn_id==5, "Connecticut",
                             ifelse(rgn_id==6, "Maine",
                                    ifelse(rgn_id==7, "Massachusetts-North",
@@ -162,10 +167,8 @@ prs_aqua_escape <- escape_prs %>%
 
 
 Save layer to scores
-```{r write_scores}
-write.csv(prs_aqua_escape, file.path(dir_calc, "layers/sp_genetic.csv"))
+```{r write_to_scores}
+write.csv(prs_aqua_hab, file.path(dir_calc, "layers/prs_aqua_hab.csv"))
 ```
-
-
 
 

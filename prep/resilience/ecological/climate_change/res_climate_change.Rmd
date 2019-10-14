@@ -75,7 +75,7 @@ carbon_em_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/climate
 
 ## Tidy data for merging
 
-Creating a df to add on to the water pollution scores to have the missing regions there 
+Creating a df to add on to the climate change scores to have the missing regions there 
 ```{r missing_rgns_df}
 miss_rgns <- tribble(
   ~rgn_id, ~rgn_name,
