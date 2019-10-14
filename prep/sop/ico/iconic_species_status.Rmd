@@ -74,7 +74,10 @@ Filter dataset just for iconic species
 ```{r}
 iconic_species_status <- species_status %>%
   mutate(score = 1-score) %>% #the original scores from the SPP status are 0 (good) to 1 (bad/extinct). Here I reverse this so closer to 1 = better
-  filter(!is.na(status)) 
+  filter(!is.na(status)) %>%
+  left_join(rgn_data) %>%
+  select(-state, -area_km2) %>%
+  rename(state = state_abv) 
 ``` 
 
 Did we get all 33 species?
@@ -131,7 +134,7 @@ pp <- out %>%
          year = 2017,
          status_scale = state,
          score = 1-score) %>%
-  select(common, sciname, status = rank, status_scale, rgn_name, rgn_id, state_name, score, year)
+  select(common, sciname, status = rank, status_scale, rgn_name, rgn_id, state_name, score, year, state)
   
 ```
 
@@ -182,14 +185,17 @@ salm_surf_scallop <- stock_scores %>%
   filter(common == "sea scallop") %>%
   left_join(fish_rgns) %>%
   bind_rows(salm_surf) %>%
-  filter(year == 2017) #the score is the same for these species across all years
+  filter(year == 2017) %>% #the score is the same for these species across all years
+  left_join(rgn_data) %>%
+  select(-area_km2, -state) %>%
+  rename(state = state_abv)
 ```
 
 ## join them all
 ```{r}
-spp_rgns_scores <- iconic_species_status %>%
+spp_rgns_scores1 <- iconic_species_status %>%
   bind_rows(salm_surf_scallop) %>%
-  bind_rows(pp)
+  bind_rows(pp) 
 ```
 
 # Correct species
@@ -222,7 +228,8 @@ Find states where these species are listed
 ```{r}
 em_states <- em_spp %>%
   select(common, `E, T, SC`) %>%
-  filter(!is.na(`E, T, SC`)) %>%
+  filter(!is.na(`E, T, SC`),
+         common != "atlantic salmon") %>% #we want to use the stock assessment data for atlantic salmon
   separate(`E, T, SC`, into = c("state", "state2", "state3", "state4", "state5", "state6"), sep = ", |;") %>%
   gather(key = "label", value = "state", -common) %>%
   select(-label) %>%
@@ -248,17 +255,19 @@ For species that are listed differently between Emily's data and Natureserve, we
 > U.S. & Canada State/Province Status
 Due to latency between updates made in state, provincial or other NatureServe Network databases and when they appear on NatureServe Explorer, for state or provincial information you may wish to contact the data steward in your jurisdiction to obtain the most current data. Please refer to our Distribution Data Sources to find contact information for your jurisdiction.
 
+
 ```{r}
-update_df <- spp_rgns_scores %>%
+update_df <- spp_rgns_scores1 %>%
    select(common, rgn_id, state = status_scale, score) %>%
   mutate(source = "natureserve") %>%
   bind_rows(em_states) %>%
-  group_by(common, rgn_id) %>%
+  group_by(common, rgn_id, state) %>%
   mutate(count = n()) %>%
   ungroup() %>%
   spread(source, score) %>%
   rowwise() %>%
   mutate(final_score = case_when(
+    common == "atlantic salmon" & !is.na(emily) ~ natureserve, #we want to use the stock score
     count == 1 ~ max(emily, natureserve, na.rm = T),
     count == 2 & !is.na(emily) ~ emily,
     count == 2 & is.na(emily) ~ natureserve
@@ -282,7 +291,6 @@ spp_rgns <- species_rgns %>%
 
 ```{r}
 #combine the species regions dataset with the species regions scores. then drop the rows that duplicate regions we already have 
-
 spp_rgns_scores <- bind_rows(spp_rgns, update_df) %>%
   group_by(common, rgn_id) %>%
   mutate(count = n()) %>%
@@ -315,7 +323,8 @@ df_us <- spp_rgns_scores %>%
   mutate(fscore = ifelse(is.na(score), USA, score),
          year = 2017) %>%
   select(rgn_id, common, score = fscore) %>%
-  filter(rgn_id < 12)
+  filter(rgn_id < 12,
+         !is.na(score)) 
 ```
 
 
@@ -332,7 +341,8 @@ ico_layer <- df_us %>%
   group_by(common, rgn_id, score) %>%
   complete(year = 2005:2017) %>%
   ungroup() %>%
-  left_join(rgn_data)
+  left_join(rgn_data) %>%
+  mutate(score = ifelse(rgn_id < 5, NA, score))
 ```
 
 # Results
