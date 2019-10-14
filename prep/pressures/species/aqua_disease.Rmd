@@ -22,7 +22,7 @@ This script calculates the aquaculture disease pressure scores by OHINE region.
 
 # Data
 
-**Monterey Bay Aquarium Seafood Watch** 
+**Monterrey Bay Aquarium Seafood Watch** 
 
 **Downloaded**: August, 2019
 
@@ -30,9 +30,9 @@ This script calculates the aquaculture disease pressure scores by OHINE region.
 
 # About
 
-In this script we use the seafood watch data on the disease criteria per species and multiply by production.
+In this script we use the seafood watch data for the disease criteria per species and scale by production.
 
-Disease scores for each farmed species is criteria 7 in the Seafood Watch data. Each species get a score 0-10 with 10 being the least concern and 0 being high/critical.
+Disease scores for each farmed species is criteria 7 in the Seafood Watch data. In the Seafood Watch data, each species get a score 0-10 with 10 being the least concern and 0 being high/critical.
 
 ## Setup
 
@@ -51,9 +51,10 @@ dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 ```
 
-
+Here we load the raw Seafood watch data, and the cleaned/ gapfilled aquaculture production data created for the aquaculture goal.
 ```{r load_data}
 sf_watch_raw <- read_xlsx(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
+
 production <- read_csv(file.path(dir_calc, "layers/mar_production.csv")) %>% 
   mutate(Species = tolower(Species)) %>% 
   select(year, rgn_id, Species, production)
@@ -61,7 +62,8 @@ production <- read_csv(file.path(dir_calc, "layers/mar_production.csv")) %>%
 
 ## Methods
 
-Cleaning up the seafood watch data so to be combined with production data
+### Cleaning up the seafood watch data so to be combined with production data.
+The data includes scores from previous methods of calculating the criteria, so we are removing those here. We are also fixing the names of the species to match up with the species in our production data. For example, with this current Seafood Watch data it is easy to do because all clams have the same sustainability score. If that changes in the future, differences in scores across clams, oyster, scallop, and mussel species need to be accounted for. For trout, the same score as salmon is assigned, because we know that they are farmed in the same way.
 ```{r tidy_sfw}
 sf_watch <- sf_watch_raw %>% 
   select('FAO Common name', 'AqCriteria7', 'Report Title') %>% 
@@ -72,9 +74,11 @@ sf_watch <- sf_watch_raw %>%
          report_title != "Clams, Global",
          report_title != 'Rainbow trout, US OLD STANDARD') %>% # there are 3 different atlantic salmon scores, we are keeping the when Report Title' == Atlantic Salmon, Atlantic North America; we are also keeping "Clams, Global NEW STANDARD" and removing the old one; same with trout as with clams
   select(-report_title) %>% 
-  mutate(Species = stri_replace_all_fixed(Species, "Hard clam (unspecified)", "Hard clam"),
-         Species =  tolower(Species)) %>% 
-  mutate(Species =  ifelse(Species == "manila clam", "soft shell clams", # all clams have the save score, but choosing to keep these se
+  mutate(Species =  tolower(Species),
+         Species = ifelse(Species == "lyrate hard clam", "hard clam",
+                          ifelse(Species == "hard clam (unspecified)", "hard clam",
+                                        Species)),
+         Species =  ifelse(Species == "manila clam", "soft shell clams", # all clams have the save score, but choosing to keep these se
                            ifelse(Species == "littleneck clam", "soft shell clams",
                               ifelse(Species == "razor clam", "soft shell clams",
                                 ifelse(Species == "venus clam", "soft shell clams",
@@ -83,14 +87,15 @@ sf_watch <- sf_watch_raw %>%
   mutate(Species = ifelse(str_detect(Species, "oyster"), "oysters", Species),
          Species = ifelse(str_detect(Species, "scallop"), "scallops", Species),
          Species = ifelse(str_detect(Species, "mussel"), "blue mussel", Species),
-         Species = ifelse(str_detect(Species, "trout"), "trout", Species)) %>% #all oysters, scallops, and mussels have the same score; rainbow trout is farmed in the northeast, change the name for merging
+         Species = ifelse(str_detect(Species, "trout"), "trout", Species), #all oysters, scallops, and mussels have the same score; rainbow trout is farmed in the northeast, change the name for merging
+         AqCriteria7 = ifelse(Species == "trout", 4, AqCriteria7)) %>% #this data set uses rainbow trout which is a freshwater trout. our trout is not freshwater, so we are using our knowlege of similarities to slamon aquaculture
   unique() 
 ```
 
 ## Calculate scores
 
-Using Aquaculture subgoal method of calculating scores:
-
+Using Aquaculture subgoal method of calculating scores
+Here we are weighting the scores by the production.
 ```{r calculate_score}
 disease_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
   mutate(sfw_score = AqCriteria7/10) %>% 
@@ -143,8 +148,7 @@ miss_rgns <- miss_rgns %>%
   unique()
 ```
 
-
-```{r}
+```{r create_layer}
 prs_aqua_disease <- disease_prs %>% 
     mutate(rgn_name =ifelse(rgn_id==5, "Connecticut",
                             ifelse(rgn_id==6, "Maine",
@@ -157,9 +161,8 @@ prs_aqua_disease <- disease_prs %>%
   rbind(miss_rgns)
 ```
 
-
 Save layer to scores
-```{r}
+```{r save_to_score}
 write.csv(prs_aqua_disease, file.path(dir_calc, "layers/prs_aqua_disease.csv"))
 ```
 
