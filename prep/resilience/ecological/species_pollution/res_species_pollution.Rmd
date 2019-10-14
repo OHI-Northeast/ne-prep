@@ -58,7 +58,7 @@ nas_short<- read.csv("~/github/ne-prep/prep/resilience/ecological/species_pollut
 ```
 
 ## Calculate Scores, graph, and save layer
-Creating a df to add on to the water pollution scores to have the missing regions there 
+Creating a df to add on to the species pollution scores to have the missing regions there 
 ```{r missing_rgns_df}
 miss_rgns <- tribble(
   ~rgn_id, ~rgn_name,
