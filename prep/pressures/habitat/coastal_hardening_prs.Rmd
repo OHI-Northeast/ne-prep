@@ -79,7 +79,7 @@ Load in the 2016 data
 1: Armored/5: Vegetated (Grass/Marsh/Mangroves/Scrub-Shrub)/4: Flats (Mud/Sand)"        
 
 ```{r load_esi_ma2016}
-ma_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "ESIL") %>%
+ma_2016_raw <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "ESIL") %>%
   st_transform(us_alb) %>% 
   st_intersection(ma_shape) %>%  
   mutate(GENERALIZED_ESI_TYPE = as.character(GENERALIZED_ESI_TYPE)) %>% 
@@ -87,7 +87,7 @@ ma_2016_nav <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsla
   mutate(year = 2016)
 
 ## create a column to identify when a line is armored
-ma_2016 <- ma_2016_nav %>% 
+ma_2016 <- ma_2016_raw %>% 
   rowwise() %>% 
   mutate(armored = str_detect(GENERALIZED_ESI_TYPE, "Armored", negate = FALSE),
          armored = str_replace(armored, "FALSE", "not armored"),
@@ -97,7 +97,7 @@ ma_2016 <- ma_2016_nav %>%
   setNames(c("rgn_name", "rgn_id", "year", "armored", "geometry"))%>% 
   st_as_sf() 
 
-mapview(ma_2016)
+#mapview(ma_2016)
 ```
 
 Load in the 2001 data
@@ -208,9 +208,10 @@ Downloaded ERMA data instead. Will look into this now to see if it's better than
 
 We will need an buffer because some rivers are harded very far from the coastline. We will use the state waters shapefile and then add a 1 km buffer around it to grb the coastline
 ```{r}
-coastal_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp") %>% 
-  #st_combine() %>% 
-  st_buffer(0.1) #don't know what distance to use. I thought it was in km2 but when I use 1 it's way more . will want to go back and double check whats happening here
+coastal_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp")  %>% 
+  st_transform(us_alb) %>% 
+  st_buffer(0.1) %>%  #don't know what distance to use. I thought it was in km2 but when I use 1 it's way more . will want to go back and double check whats happening here
+  st_combine()
 
 mapview(coastal_buffer)
 ```
@@ -219,9 +220,11 @@ mapview(coastal_buffer)
 ```{r}
 erma <- st_read(dsn=file.path(dir_anx, "_raw_data/ERMA/layer_35355/35776/National_ESI_Shoreline_Atlantic_20170608.shp")) %>%
   st_transform(us_alb) %>% 
-  filter(ATLAS_NAME %in% c("NY/NJ METRO, HUDSON, SOUTH LONG ISLAND", "LONG ISLAND SOUND", "MASSACHUSETTS/RHODE ISLAND", "MAINE/NEW HAMPSHIRE ")) %>%
-  st_crop(coastal_buffer) %>%
+  filter(ATLAS_NAME %in% c("NY/NJ METRO, HUDSON, SOUTH LONG ISLAND", "LONG ISLAND SOUND", "MASSACHUSETTS/RHODE ISLAND", "MAINE/NEW HAMPSHIRE")) %>%
+  st_crop(coastal_buffer) %>% 
   st_intersection(rgns)
+
+mapview(erma)
 ```
 
 
