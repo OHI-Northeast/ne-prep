@@ -1,0 +1,52 @@
+---
+title: "Fishing Engagement Dashboard Data"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+```{r setup, message = F, warning = F, reslts = 'hide'}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')
+
+library(readr)
+library(tidyverse)
+library(DT)
+```
+
+## Data Information table
+
+```{r}
+spfis_data_info <- data.frame(
+  Layer = c("Commercial fishing engagement", "Recreational fishing reliance"),
+  Description = c("Measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings.",
+                  "Measures the presence of recreational fishing in relation to the population of a community"),
+  Target = c("10% higher than the highest regional level", "10% higher than the highest regional level"),
+  Source = c('<a href="https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map">NOAA Social Vulnerability Index</a>',
+             '<a href="https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map">NOAA Social Vulnerability Index</a>')
+)
+
+
+write_csv(spfis_data_info, "data/spfis_data_info.csv")
+
+DT::datatable(spfis_data_info, escape = FALSE)
+```
+
+
+
+
+
+
