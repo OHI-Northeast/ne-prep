@@ -1,0 +1,156 @@
+---
+title: 'OHI-Northeast: Trampling Pressure Data Prep'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+ 
+This code calculates the effects of beach trampling using population density along the coast as a proxy.
+
+# Data
+GeoTiff files were downloaded from https://sedac.ciesin.columbia.edu/data/set/usgrid-summary-file1-2010/metadata
+Octover 15th 2019
+
+The data is at 1km2 resolution. Since we are only looking at total population that means #people/km2
+
+# Methods
+
+## Setup
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 8, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHI-NE specific version of common.R
+
+library(tidyverse)
+library(ggplot2)
+library(raster)
+library(rgdal)
+library(gdalUtils)
+library(fasterize)
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+```
+
+
+Read in the population tif files for each state, and then create one NE raster
+```{r read_in_data}
+## read in all states rasters
+northeast_rasters <- c(file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/nypop10.tif"),
+                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/mepop10.tif"),
+                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/nhpop10.tif"),
+                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/ctpop10.tif"),
+                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/ripop10.tif"),
+                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/mapop10.tif"))
+
+## combine all tif files into one 
+mosaic_rasters(gdalfile = northeast_rasters, dst_dataset = "northeast.tif", of = "GTiff")
+
+## create one ne raster
+northeast_rast <- raster::raster("northeast.tif") %>%
+  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
+  crop(ne_ext)
+
+## check it out!
+plot(northeast_rast)
+```
+
+
+We are creating a coastal buffer that includes our coastline and 25 miles inland. I chose 25 miles because that is what Casey did in BC, but we can discuss if this makes sense
+```{r create_buffer}
+## create a buffer 1 km along all state waters to get the beaches
+buffer_1km_coastal <-  read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp")  %>% 
+  st_transform(us_alb) %>% 
+  st_buffer(40233.6) %>%  ## data in meters; using a 25 miles buffer
+  st_union() %>% 
+  st_as_sf() 
+
+plot(buffer_1km_coastal)
+
+## create blank raster for rasterizing
+r <- raster(crs = us_alb, ne_ext, res = 1000)
+r[r] <- 1
+
+## convert to a raster
+buffer_rast <- fasterize(buffer_1km_coastal, r) %>% 
+  crop(ne_ext)
+```
+
+Now we want to keep only the population density data that falls into our 25 miles within the coastline raster
+```{r crop_area}
+## keep only the areas 1km along the shorelines
+ne_pop_coast <- northeast_rast %>% 
+  raster::resample(buffer_rast, method = "ngb") %>% ## match the extents
+  mask(buffer_rast) %>% 
+  calc(fun = function(x){ifelse(x < 0, 0, x)}) ## there are negative numbers in this data for some reason
+
+plot(ne_pop_coast)
+summary(ne_pop_coast) # The max value is very large, this is because of Manhattan
+```
+
+
+## Region score
+Create a raster with our states rgn_ids
+```{r zones_raster}
+## we want a raster with the region names so that we can ID the regions. This is the only file I found wiht the state land, and not just water, and it doesn't have have N/S MA. ask Jamie
+ne_states_ne <- ne_states %>% 
+  filter(NAME %in% c("Maine", "New York", "Rhode Island", "Connecticut", "New Hampshire", "Massachusetts")) %>% 
+  mutate(zone = case_when(NAME == "Maine" ~ 6,
+                          NAME == "New York" ~ 10,
+                          NAME == "Rhode Island" ~ 11,
+                          NAME == "Connecticut" ~ 5,
+                          NAME == "New Hampshire" ~ 9,
+                          NAME == "Massachusetts" ~7)) # will need to apply the same score for MA 8 later
+
+ne_states_rast <- fasterize(ne_states_ne, r, field = "zone") %>% 
+  crop(ne_ext)
+
+plot(ne_states_rast)
+```
+
+Extract data for each region
+```{r extract_data}
+# extract data for each region:
+pop_stats <- zonal(ne_pop_coast, ne_states_rast, fun="mean", na.rm=TRUE, progress="text")
+
+pop_stats_2 <- data.frame(pop_stats) %>% 
+  rename(rgn_id = zone,
+         avg_people_per_km2 = mean)
+```
+
+Calculate presssure scores
+Here using max number of people per square miles as a pressure of 1 and rescaling all other values to it. Need to figure out if this is the right reference point to use.
+```{r calc_scores}
+ref <- ne_pop_coast %>% 
+  getValues() %>%
+  na.omit() %>% 
+  max()
+
+prs_trampling <-pop_stats_2 %>% 
+  mutate(ref = ref,
+         score = avg_people_per_km2/ref)
+```
+
+
+
+
+
+
+
+
+
+
