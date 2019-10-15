@@ -106,7 +106,7 @@ escape_prs <- left_join(production, sf_watch, by = ("Species")) %>%
   mutate(scaled_production = production*sfw_score) %>% 
 
   group_by(year, rgn_id) %>% 
-  mutate(total_scaled = sum(scaled_production,na.rm = TRUE ),
+  mutate(total_scaled = sum(scaled_production, na.rm = TRUE ),
          total_production = sum(production, na.rm = TRUE)) %>% 
   ungroup() %>% 
   
@@ -119,6 +119,32 @@ escape_prs <- left_join(production, sf_watch, by = ("Species")) %>%
   unique()
 
 write.csv(escape_prs, file = "data/escape_prs.csv")
+```
+
+checking out potential way to calcualte
+```{r calculate_score}
+escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
+  
+  mutate(sfw_score = AqCriteria6/10) %>% 
+  
+  rowwise() %>% 
+  mutate(scaled_production = production*sfw_score) %>% 
+
+  group_by(year, rgn_id) %>% 
+  mutate(total_scaled_rgn = sum(scaled_production, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  
+  group_by(year) %>% 
+  mutate(total_production = sum(production, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  
+ # rowwise() %>% 
+  mutate(prs_score = (total_scaled_rgn/total_production),
+         prs_score = ifelse(prs_score == "NaN", NA, prs_score),
+         rgn_id = as.factor(rgn_id)) %>% 
+   filter(year >= 2005 & year <=2017) %>% 
+  select(year, rgn_id, prs_score) %>% 
+  unique()
 
 ```
 
