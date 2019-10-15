@@ -53,7 +53,10 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 Here we load the raw Seafood watch data, and the cleaned/ gapfilled aquaculture production data created for the aquaculture goal.
 ```{r load_data}
 sf_watch_raw <- read_xlsx(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
-production <- read_csv(file.path(dir_calc, "layers/mar_production.csv")) %>% 
+
+production_raw <- read_csv("https://raw.githubusercontent.com/OHI-Northeast/ne-scores/master/region/layers/mar_production.csv")
+
+production <- production_raw %>% 
   mutate(Species = tolower(Species)) %>% 
   select(year, rgn_id, Species, production)
 ```
@@ -96,22 +99,27 @@ Using Aquaculture subgoal method of calculating scores:
 
 ```{r calculate_score}
 escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
+  
   mutate(sfw_score = AqCriteria6/10) %>% 
+  
   rowwise() %>% 
-  mutate(scored_production = production*sfw_score) %>% 
-  ungroup() %>% 
+  mutate(scaled_production = production*sfw_score) %>% 
+
   group_by(year, rgn_id) %>% 
-  mutate(sum_scored_pro = sum(scored_production),
-         sum_pro = sum(production),
-         prs_score = 1 - (sum_scored_pro/sum_pro)) %>% 
+  mutate(total_scaled = sum(scaled_production,na.rm = TRUE ),
+         total_production = sum(production, na.rm = TRUE)) %>% 
   ungroup() %>% 
-  mutate(rgn_id = as.factor(rgn_id),
-         prs_score = ifelse(prs_score == "NaN", 0, prs_score)) %>% 
+  
+ # rowwise() %>% 
+  mutate(prs_score = 1 - (total_scaled/total_production),
+         prs_score = ifelse(prs_score == "NaN", NA, prs_score),
+         rgn_id = as.factor(rgn_id)) %>% 
    filter(year >= 2005 & year <=2017) %>% 
   select(year, rgn_id, prs_score) %>% 
   unique()
 
 write.csv(escape_prs, file = "data/escape_prs.csv")
+
 ```
 
 
@@ -127,6 +135,37 @@ escape_prs_graph
 
 ggsave(file.path(dir_git, "prep/pressures/species/figs/escape_prs_graph.png"), width=7, height=5, dpi=300)
 ```
+
+
+```{r calculate_score}
+escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
+  mutate(sfw_score = AqCriteria6/10) %>% 
+  
+  rowwise() %>% 
+  mutate(scored_production = production*sfw_score,
+         sum_scored_pro = sum(scored_production, na.rm = TRUE)) %>% 
+#  ungroup() %>% 
+  
+  group_by(year, rgn_id) %>% 
+  mutate(sum_pro = sum(production, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  
+  rowwise() %>% 
+  mutate(prs_score = 1 - (sum_scored_pro/sum_pro)) %>% 
+  ungroup() %>% 
+  
+  group_by(year, rgn_id)
+  
+  mutate(rgn_id = as.factor(rgn_id),
+         prs_score = ifelse(prs_score == "NaN", 0, prs_score)) %>% 
+   filter(year >= 2005 & year <=2017) %>% 
+  select(year, rgn_id, prs_score) %>% 
+  unique()
+
+write.csv(escape_prs, file = "data/escape_prs.csv")
+```
+
+
 
 Clean up the data so it can be read into the toolbox
 Creating a df to add on to the water pollution scores to have the missing regions there 
