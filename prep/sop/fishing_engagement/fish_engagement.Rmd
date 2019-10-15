@@ -22,17 +22,22 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
 library(readxl)
+library(sf)
 ```
 
 # Summary
 
-This script creates the Fishing Engagement data layer for use in the Sense of Place goal. We use two different data sets from NOAA's Soc
+This script creates the Fishing Engagement data layer for use in the Sense of Place goal. We use two different data sets from NOAA's Social Vulnerability dataset - Commercial Fishing Engagement and Recreational Fishing reliance.
+
+> Commercial fishing engagement measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings. A high rank indicates more engagement.
+
+> Recreational fishing reliance measures the presence of recreational fishing in relation to the population of a community. A high rank indicates increased reliance.
 
 ***
 
 # Data Source
 
-**NOAA Social Vulnerability**
+**NOAA Social Vulnerability**  
 **Downloaded**: August 2019
 
 **Description**: Calculates Social Vulnerability based on social vulnerability, fishing vulnerability, inundation risk, and gentrification vulnerability  
@@ -46,7 +51,7 @@ This script creates the Fishing Engagement data layer for use in the Sense of Pl
 # Load Data
 
 NOAA Social Vulnerability Index
-```{r}
+```{r load_data}
 raw_svi_2009 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=1) %>%
   select(year, GEO_NAME, ComEng_ct,  RecRel_ct)
 raw_svi_2010 <- read_excel(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_updated_082119_Juliette Verstaen.xlsx"), sheet=2) %>%
@@ -88,14 +93,14 @@ ma_communities <- raw_svi_2009 %>%
 ```
 
 
-Communities in this dataset were manually assigned to either Massachuasetts-North or Massachusetts-South for the social resilience layer.
+Communities in this dataset were manually assigned to either Massachusetts-North or Massachusetts-South for the social resilience layer.
 ```{r}
 MA_counties_missing <- read.csv(file.path(dir_anx, "_raw_data/MA_gov/county_missing_filled.csv"))
 ```
 
 
 Combine MA counties with their region Ids
-```{r}
+```{r ma_counties}
 ma_rgns_by_counties <- ma_communities %>% 
   filter(!is.na(County)) %>% 
   left_join(MA_counties, by = c("County")) %>% 
@@ -103,7 +108,7 @@ ma_rgns_by_counties <- ma_communities %>%
 ```
 
 Do the same data tidying for every year (2009-2016) and combine into a single dataframe
-```{r}
+```{r tidy}
 out <- data.frame()
 for(i in 2009:2016){
   df <- eval(as.name(paste0("raw_svi_", i)))
@@ -124,10 +129,42 @@ for(i in 2009:2016){
 }
 ```
 
+# Load community shapefile and select just coastal communities
+
+```{r intersect_coastal_communities}
+shp <- read_sf(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_FINAL_090519/commondata/2016_mapping/2016_National_Indicators_FINAL_082919.shp")) %>%
+  filter(STATEABBR %in% c("CT", "NH", "NY", "ME", "MA", "RI")) %>%
+  st_transform(crs = us_alb)
+
+#intersect with our 1km inlkand buffer
+buff <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1mile.shp")
+
+int <- st_intersection(shp, buff)
+
+#grab community names that are in the intersection
+geos <- unique(int$GEO_NAME)
+
+#filter shp
+
+coastal <- shp %>%
+  filter(GEO_NAME %in% geos)
+
+```
+
+
+# Filter data for just coastal communities
+
+```{r filter_coastal_communities}
+coastal_data <- out %>%
+  filter(city_community %in% coastal$MAPNAME)
+```
+
+# Score
+
 Now we want to calculate scores between 0 and 1 and then average by region id and year.
 
-```{r}
-rescaled_df <- out %>%
+```{r rescale}
+rescaled_df <- coastal_data %>%
   gather(key = "layer", value = "index_score", -year, -city_community, -state, -rgn_name, -rgn_id) %>%
   mutate(layer = ifelse(layer == "ComEng_ct", "commercial", "recreational"), 
          score = index_score/4) %>%
@@ -136,10 +173,28 @@ rescaled_df <- out %>%
   
 ```
 
+## Reference point
+
+We will use a spatial reference point for this layer. We will take the maximum score across all regions/years and multiply by 1.1, indicating there is room for fishing engagement to grow about the maximum.
+
+```{r reference_points}
+
+df_ref <- rescaled_df %>%
+  group_by(layer) %>%
+  mutate(ref = max(mean_score)) %>%
+  ungroup
+```
+
+```{r score}
+scored_df <- df_ref %>%
+  mutate(score = mean_score/(1.1*ref))
+```
+
+
 # Visualize
 
-```{r}
-ggplot(rescaled_df, aes(x = year, y = mean_score, color = rgn_name)) +
+```{r time_series}
+ggplot(scored_df, aes(x = year, y = score, color = rgn_name)) +
   geom_line() +
   facet_wrap(~layer) +
   theme_bw()
@@ -149,6 +204,8 @@ ggplot(rescaled_df, aes(x = year, y = mean_score, color = rgn_name)) +
 # Save layer to toolbox
 
 ```{r save}
+write_csv(scored_df %>% filter(layer == "commercial"), "~/github/ne-scores/region/layers/sop_comm_engagement.csv")
+write_csv(scored_df %>% filter(layer == "recreational"), "~/github/ne-scores/region/layers/sop_rec_reliance.csv")
 ```
 
 
