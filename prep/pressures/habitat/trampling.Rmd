@@ -18,13 +18,17 @@ toc: true
 
 # Summary
  
-This code calculates the effects of beach trampling using population density along the coast as a proxy.
+This code calculates the effects of beach trampling using the average population density along the coast as a proxy.
 
 # Data
+
 GeoTiff files were downloaded from https://sedac.ciesin.columbia.edu/data/set/usgrid-summary-file1-2010/metadata
 Octover 15th 2019
 
 The data is at 1km2 resolution. Since we are only looking at total population that means #people/km2
+
+citation:
+Center for International Earth Science Information Network - CIESIN - Columbia University. 2017. U.S. Census Grids (Summary File 1), 2010. Palisades, NY: NASA Socioeconomic Data and Applications Center (SEDAC). https://doi.org/10.7927/H40Z716C. Accessed DAY MONTH YEAR. 
 
 # Methods
 
@@ -48,6 +52,8 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 
 Read in the population tif files for each state, and then create one NE raster
+
+MOVED HTE NORTHEAST TIFF. REWRITE TO SAVE IN THE RIGHT PLACE
 ```{r read_in_data}
 ## read in all states rasters
 northeast_rasters <- c(file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/nypop10.tif"),
@@ -62,15 +68,21 @@ mosaic_rasters(gdalfile = northeast_rasters, dst_dataset = "northeast.tif", of =
 
 ## create one ne raster
 northeast_rast <- raster::raster("northeast.tif") %>%
-  projectRaster(crs = us_alb, over = FALSE, progress="text") %>% 
-  crop(ne_ext)
+  projectRaster(crs = us_alb, progress="text") 
+#%>% crop(ne_ext)
 
 ## check it out!
 plot(northeast_rast)
+
+ne_vals <-northeast_rast%>% 
+  getValues() %>%
+  na.omit() 
+
+hist(ne_vals)
 ```
 
 
-We are creating a coastal buffer that includes our coastline and 25 miles inland. I chose 25 miles because that is what Casey did in BC, but we can discuss if this makes sense
+We are creating a coastal buffer that includes our coastline and 25 miles inland. I choose 25 miles because that is what Casey did in BC, but we can discuss if this makes sense.
 ```{r create_buffer}
 ## create a buffer 1 km along all state waters to get the beaches
 buffer_1km_coastal <-  read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp")  %>% 
@@ -87,28 +99,67 @@ r[r] <- 1
 
 ## convert to a raster
 buffer_rast <- fasterize(buffer_1km_coastal, r) %>% 
-  crop(ne_ext)
+  raster::resample(northeast_rast, method = "ngb") ## match the resolution and extent
+
+plot(buffer_rast)
 ```
 
 Now we want to keep only the population density data that falls into our 25 miles within the coastline raster
 ```{r crop_area}
 ## keep only the areas 1km along the shorelines
 ne_pop_coast <- northeast_rast %>% 
-  raster::resample(buffer_rast, method = "ngb") %>% ## match the extents
-  mask(buffer_rast) %>% 
-  calc(fun = function(x){ifelse(x < 0, 0, x)}) ## there are negative numbers in this data for some reason
+ raster::mask(buffer_rast) %>% 
+ calc(fun = function(x){ifelse(x < 0, 0, x)})  ## there are 3 negative numbers in this data for some reason (-77.9399, -0.2386,	-0.0178)
 
 plot(ne_pop_coast)
-summary(ne_pop_coast) # The max value is very large, this is because of Manhattan
+summary(ne_pop_coast) # The max value is very large, this is because of NYC
 ```
 
 
 ## Region score
 Create a raster with our states rgn_ids
+figure out how to separate out the MA county thats two regions
+
+ma_counties <- read_csv(file.path(dir_git, "src/tables/MA_counties.csv")) %>% 
+  select(-X1) %>% 
+  rename(NAME_2 = County)
+
+coastal_counties <- st_read(dsn=file.path(dir_git, "spatial/shapefiles/ne_counties.shp")) %>%
+  st_transform(us_alb) %>% 
+  left_join(ma_counties, by = c("NAME_2")) %>% 
+  rowwise() %>% 
+  mutate(rgn_name = character(rgn_name),
+         rgn_name = ifelse(is.na(rgn_name), NAME_1, rgn_name))
+
+
 ```{r zones_raster}
 ## we want a raster with the region names so that we can ID the regions. This is the only file I found wiht the state land, and not just water, and it doesn't have have N/S MA. ask Jamie
 ne_states_ne <- ne_states %>% 
-  filter(NAME %in% c("Maine", "New York", "Rhode Island", "Connecticut", "New Hampshire", "Massachusetts")) %>% 
+  filter(NAME %in% c("Maine", "New York", "Rhode Island", "Connecticut", "New Hampshire", "Massachusetts")) %>%
+  mutate(rgn_id1 = case_when( NAME == "Maine" ~ "6", 
+                              NAME == "New Hampshire" ~ "9", 
+                              NAME == "Massachusetts" ~ "7",
+                              NAME == "Rhode Island" ~ "11",
+                              NAME == "Connecticut" ~ "5",
+                              NAME == "New York" ~ "10"),
+         rgn_id2 = case_when(
+           State == "Massachusetts" ~ "8")) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "zone") %>% 
+  filter(zone != "0") %>% 
+  select(-filler, - State) %>% 
+  mutate(rgn_name = case_when(
+    zone == "6" ~ "Maine", 
+    zone == "9" ~ "New Hampshire", 
+    zone == "7" ~ "Massachusetts-North",
+    zone == "8" ~ "Massachusetts-South",
+    zone == "11" ~ "Rhode Island",
+    zone == "5" ~ "Connecticut",
+    zone == "10" ~ "New York"))
+                                            
+                                            
+                                            NAME == "New Hampshire" ~ 9)))))
+  
   mutate(zone = case_when(NAME == "Maine" ~ 6,
                           NAME == "New York" ~ 10,
                           NAME == "Rhode Island" ~ 11,
@@ -117,9 +168,15 @@ ne_states_ne <- ne_states %>%
                           NAME == "Massachusetts" ~7)) # will need to apply the same score for MA 8 later
 
 ne_states_rast <- fasterize(ne_states_ne, r, field = "zone") %>% 
-  crop(ne_ext)
+  crop(ne_ext)%>% 
+  raster::resample(northeast_rast, method = "ngb") %>% ## match the resolution
+  mask(buffer_rast)
 
 plot(ne_states_rast)
+
+plot(states)
+plot(zones)
+
 ```
 
 Extract data for each region
@@ -129,22 +186,32 @@ pop_stats <- zonal(ne_pop_coast, ne_states_rast, fun="mean", na.rm=TRUE, progres
 
 pop_stats_2 <- data.frame(pop_stats) %>% 
   rename(rgn_id = zone,
-         avg_people_per_km2 = mean)
+         avg_ppl_km2 = mean)
+```
+
+Calculate reference point
+We are using the reference point of 99.99% quantile. While this number is still high (because of NYC), it is an actually population density where people have survived
+```{r calc_ref_point}
+vals <- ne_pop_coast %>% 
+  getValues() %>%
+  na.omit() 
+
+hist(vals) ## very skewed
+
+max <- max(vals) #38719
+ref_1 <- quantile(vals, 0.9999) #26188
+ref_2 <- quantile(vals, 0.999) # 16199
+ref_3 <- quantile(vals, 0.99) # 3582
+ref_4 <- quantile(vals, 0.5) #28.3  
 ```
 
 Calculate presssure scores
-Here using max number of people per square miles as a pressure of 1 and rescaling all other values to it. Need to figure out if this is the right reference point to use.
 ```{r calc_scores}
-ref <- ne_pop_coast %>% 
-  getValues() %>%
-  na.omit() %>% 
-  max()
-
 prs_trampling <-pop_stats_2 %>% 
-  mutate(ref = ref,
-         score = avg_people_per_km2/ref)
+  mutate(ref = ref_1,
+         score_av = avg_ppl_km2/ref)
+prs_trampling
 ```
-
 
 
 

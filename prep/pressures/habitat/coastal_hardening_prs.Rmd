@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Mariculture Production Layer'
+title: 'OHI-Northeast: Coastal Hardening Data Prep Layer'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -27,21 +27,22 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 library(tidyverse)
 library(mapview)
+library(sf)
 ```
 
 #Data Source 
 
-**Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
+**Reference**: NOAA [Environmental Response Management Application](https://erma.noaa.gov/atlantic/erma.html#/layers=1+13763+16973+35410+491&x=-78.22196&y=38.23326&z=6&panel=layer)
 
-**Downloaded**: August, 2019
+**Downloaded**: October, 2019
 
-**Description**:  Spatial point data identifying biological and human use resources. 
+**Description**:  Spatial line data identifying type of habitat and human made armoring. 
 
-**Native data resolution**: Point data
+**Native data resolution**: Line data
 
-**Time range**: NA. There are datasets from different time periods between 2001 and 2016 but we combine all datasets as a single representative layer, therefore the time does not play a role in the final coastal access layer.
+**Time range**: NA. This data set has been updated in 2016, and the historical data is avaliable, but it's incomplete.
 
-**Format**:  Geodatabase/shapefile/point file
+**Format**:  Geodatabase/shapefile/line file
 
 ***
 
@@ -50,182 +51,132 @@ library(mapview)
 
 This script uses the same methods for calcualting coastal hardening as https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/150065
 
-Since we are unsure if the data used in the paper above is the most recent, we will replicate and compare the %hardened for MA
+Downloaded ERMA data instead of the ESI data. Will look into this now to see if it's better than the ESI data
 
-Massachusetts:
-```{r ma_shape}
-ma_shape <- rgns %>%
-  filter(state_name == "Massachusetts") %>%
-  select(rgn_name, rgn_id)
-```
-
-
-What are the layer names
-```{r layer_names}
-st_layers(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"))
-```
-
-
-Load in the 2016 data
-"1: Armored/4: Flats (Mud/Sand)"                                                                                             
-[15] "1: Armored"                                                                                                                 
-[16] "1: Armored/2: Rocky and Steep Shorelines (Bedrock/Sand/Clay)/3: Beaches (Sand/Gravel)"                                      
-[17] "1: Armored/2: Rocky and Steep Shorelines (Bedrock/Sand/Clay)"                                                               
-[18] "1: Armored/2: Rocky and Steep Shorelines (Bedrock/Sand/Clay)/4: Flats (Mud/Sand)"                                           
-[19] "1: Armored/3: Beaches (Sand/Gravel)/4: Flats (Mud/Sand)"                                                                    
-[20] "1: Armored/3: Beaches (Sand/Gravel)"                                                                                        
-[21] "1: Armored/3: Beaches (Sand/Gravel)/2: Rocky and Steep Shorelines (Bedrock/Sand/Clay)"                                      
-[22] "1: Armored/5: Vegetated (Grass/Marsh/Mangroves/Scrub-Shrub)"      
-1: Armored/5: Vegetated (Grass/Marsh/Mangroves/Scrub-Shrub)/4: Flats (Mud/Sand)"        
-
-```{r load_esi_ma2016}
-ma_2016_raw <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_RhodeIsland_2016_GDB/MA_RI_ESI_2016.gdb"), layer = "ESIL") %>%
-  st_transform(us_alb) %>% 
-  st_intersection(ma_shape) %>%  
-  mutate(GENERALIZED_ESI_TYPE = as.character(GENERALIZED_ESI_TYPE)) %>% 
-  select(GENERALIZED_ESI_TYPE, rgn_name, rgn_id) %>% 
-  mutate(year = 2016)
-
-## create a column to identify when a line is armored
-ma_2016 <- ma_2016_raw %>% 
-  rowwise() %>% 
-  mutate(armored = str_detect(GENERALIZED_ESI_TYPE, "Armored", negate = FALSE),
-         armored = str_replace(armored, "FALSE", "not armored"),
-         armored = str_replace(armored, "TRUE", "armored")) %>% 
-  ungroup() %>% 
-  select(rgn_name, rgn_id, year, armored, SHAPE) %>% 
-  setNames(c("rgn_name", "rgn_id", "year", "armored", "geometry"))%>% 
-  st_as_sf() 
-
-#mapview(ma_2016)
-```
-
-Load in the 2001 data
-```{r load_esi_ma2001}
-ma_2001 <- st_read(dsn=file.path(dir_anx, "_raw_data/NOAA_ESI/Mass_2001_Shapefiles/SHAPE/ESIL.SHP")) %>% 
-  st_set_crs("+init=epsg:4269") %>%
-  st_transform(us_alb) %>%
-  st_intersection(ma_shape) 
-```
-
-This file was copied from the paper supplement. It is the table for ESI code descriptions
-```{r load_esi_codes}
-esi_codes <- read_csv(file.path(dir_git, "prep/pressures/habitat/data/esi_shoreline_classification.csv")) %>% 
-  rename(code = esi_code)
-```
-
-Create df with the codes. We will need to remember to merge lines that over lap when we do total coastline km. This is because some stretch of coastline had multiple codes associated with it. This is fine because we simply want to know if some type of armoring is there or not 
-
-These code are realted to coastal hardening
-8C = sheltered riprap
-6B = riprap, boulder rubble
-6D = riprap, boulder rubble
-1B = exposed, solid, man-made structures
-8B = sheltered, solid, man-made structures
-
-```{r tidy_2001_data}
-ma_2001_codes <- ma_2001 %>% 
-  select(ESI, rgn_name, rgn_id) %>%
-  mutate(year = 2001) %>% 
-  separate(ESI, c("code_1", "code_2", "code_3"), sep = "/") %>% 
-  gather(key = "code_num", code, c("code_1", "code_2", "code_3"), na.rm= TRUE) %>% 
-  left_join(esi_codes, by = c("code")) %>% 
-  mutate(armored = case_when(code == "8C" | code == "6B" | code == "6D" | code == "1B" | code == "8B" ~"armored")) %>% 
-  replace(., is.na(.), "not armored") %>% 
-  select(rgn_name, rgn_id, year, armored, geometry)
-```
-
-Combine both dataframes, merge overlapping areas, calculate total percent armored coastline in MA
-
-From paper
-hard: 715 
-total: 4283 
-percent: 17%
-
-Calcualting with both 2001 and 2016 data:
-hard: 738
-total: 3619
-percent: 20.4%
-
-Calculating with just 2001
-hard: 366
-total: 1802
-percent: 20.3%
-
-Calculating with just 2016 data
-hard: 366
-total: 1809550
-percent: 20.3%
-```{r calcualte_percent_armored}
-ma_coastal_data <- ma_2001_codes %>% 
-  rbind(ma_2016)
-
-ma_total <- ma_coastal_data %>% 
-  st_union() %>% 
-  st_length()
-
-ma_armored <- ma_coastal_data %>% 
-  filter(armored == "armored") %>% 
-  st_union() %>% 
-  st_length()
-
-percent_armored <- ma_armored/ma_total
-
-ma_armored_map <- ma_armored <- ma_2001_codes %>% 
-  filter(armored == "Armored")
-
-mapview(ma_armored_map)
-```
-
-Calculations with only 2001 data
-```{r calcualte_percent_armoured_2001}
-ma_total_2001 <- ma_2001_codes %>% 
-  st_union() %>% 
-  st_length()
-
-ma_armored_2001 <- ma_2001_codes %>% 
-  filter(armored == "Armored") %>% 
-  st_union() %>% 
-  st_length()
-
-percent_armored_2001 <- ma_armored_2001/ma_total_2001
-```
-Calculations with only 2016 data
-```{r calcualte_percent_armoured_2001}
-ma_total_2016 <- ma_2016 %>% 
-  st_union() %>% 
-  st_length()
-
-ma_armored_2016 <- ma_2016 %>% 
-  filter(armored == "Armored") %>% 
-  st_union() %>% 
-  st_length()
-
-percent_armored_2016 <- ma_armored_2016/ma_total_2016
-```
-
-Downloaded ERMA data instead. Will look into this now to see if it's better than the ESI data
-
-We will need an buffer because some rivers are harded very far from the coastline. We will use the state waters shapefile and then add a 1 km buffer around it to grb the coastline
-```{r}
+We will need an buffer because some rivers are harded very far from the coastline. We will use the state waters shapefile and then add a 1 km buffer around it to grb the coastline. We are creating a buffer of 1 km inland
+```{r create_1km_buffer}
 coastal_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp")  %>% 
   st_transform(us_alb) %>% 
-  st_buffer(0.1) %>%  #don't know what distance to use. I thought it was in km2 but when I use 1 it's way more . will want to go back and double check whats happening here
-  st_combine()
+  st_buffer(1000) %>%  #data in meters
+  st_union() %>% 
+  st_as_sf() %>% 
+  mutate(coastal = "coastal")
 
 mapview(coastal_buffer)
 ```
 
+Read in the shapefile we will use to intersect our data to add region names
+This buffer is not perfect. There is some overlap along rivers state lines and is still missing a few areas along the coast. Howvever, this buffer does capture the majority of the coastline now
+```{r state_water_shape}
+# combine state and state water shapefiles
+state <-  st_read(dsn=file.path(dir_git, "spatial/shapefiles/states.shp")) %>% 
+  st_transform(us_alb) %>% 
+  select(NAME) %>% 
+  rename(rgn_name = NAME) %>% 
+  st_buffer(200)
 
-```{r}
+statewaters <- st_read(dsn=file.path(dir_git, "spatial/shapefiles/state_waters.shp"))%>% 
+  st_transform(us_alb) %>% 
+  select(NAME10) %>% 
+  rename(rgn_name = NAME10)
+
+state_and_statewaters <- rbind(state, statewaters) %>% 
+  mutate(rgn_id = case_when(rgn_name == "Massachusetts" ~ 7,
+                            rgn_name == "New Hampshire" ~ 9,
+                            rgn_name == "Connecticut" ~ 5,
+                            rgn_name == "Maine" ~ 6,
+                            rgn_name == "Rhode Island" ~ 10,
+                            rgn_name == "New York" ~ 11)) %>% 
+  group_by(rgn_id) %>% 
+  summarise(hacky = sum(rgn_id)) %>% 
+  mutate(rgn_name = case_when(rgn_id == 7 ~"Massachusetts" ,
+                            rgn_id == 9 ~ "New Hampshire" ,
+                            rgn_id == 5 ~ "Connecticut",
+                            rgn_id == 6 ~ "Maine",
+                            rgn_id == 10 ~ "Rhode Island",
+                            rgn_id == 11 ~ "New York")) %>% 
+  filter(rgn_name != is.na(rgn_name)) %>% 
+  st_intersection(coastal_buffer) %>% 
+  select(-hacky, -coastal)
+
+mapview(state_and_statewaters)
+```
+
+
+```{r northeast_erma}
 erma <- st_read(dsn=file.path(dir_anx, "_raw_data/ERMA/layer_35355/35776/National_ESI_Shoreline_Atlantic_20170608.shp")) %>%
   st_transform(us_alb) %>% 
   filter(ATLAS_NAME %in% c("NY/NJ METRO, HUDSON, SOUTH LONG ISLAND", "LONG ISLAND SOUND", "MASSACHUSETTS/RHODE ISLAND", "MAINE/NEW HAMPSHIRE")) %>%
-  st_crop(coastal_buffer) %>% 
-  st_intersection(rgns)
+  st_intersection(state_and_statewaters) 
 
-mapview(erma)
+#save it since it takes so long to run
+write_sf(erma, file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp"))
+#mapview(erma) ## very big! only do if you need to redo it
 ```
+
+Double check Maine. The paper that did a similar analysis stated that no hardened coastline exists only as polygons not lines, however it looks like it's been updated since then.
+```{r check_maine}
+maine <- st_read(dsn=file.path(dir_anx, "_raw_data/ERMA/layer_35355/35776/National_ESI_Shoreline_Atlantic_20170608.shp")) %>%
+  st_transform(us_alb) %>% 
+  filter(ATLAS_NAME %in% c("MAINE/NEW HAMPSHIRE")) 
+mapview(maine)
+```
+
+
+Calculate percent armored 
+```{r calculate_percent_hard}
+coast_arm <-  read_sf("~/github/ne-prep/prep/pressures/habitat/shapefiles/erma.shp") %>% 
+  select(GENERALIZE, rgn_name, rgn_id, geometry) %>% 
+  mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored"),
+         armored_km = ifelse(armored == "armored", st_length(geometry)/1000, NA),
+         coastline_km = st_length(geometry)/1000) %>% # the distances are in meters
+  group_by(rgn_name) %>% 
+  summarize(hardened_coastline = sum(armored_km, na.rm = TRUE),
+            total_coastline = sum(coastline_km, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  rowwise() %>% 
+  mutate(percent_hard = hardened_coastline/total_coastline)
+ # filter(rgn_name != "Mid-Atlantic Bight" & rgn_name !="Gulf of Maine") # the buffer got into the ends of hte state waters into "offshore"
+
+coast_arm
+```
+
+Visualize the data
+
+```{r viz_data}
+arm_graph <- ggplot(coast_arm) +
+  geom_bar(aes(x= rgn_name, y = percent_hard), stat = "identity")+
+  coord_flip() + 
+  theme_bw()+ 
+  ggtitle("Percent of armored coastline (within 1 km of shore)")
+
+arm_graph
+```
+
+
+```{r map_armed_or_not}
+arm_map <-  read_sf("~/github/ne-prep/prep/pressures/habitat/shapefiles/erma.shp") %>% 
+  select(GENERALIZE, rgn_name, rgn_id,  geometry) %>% 
+  mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored")) %>% 
+  select(rgn_name, armored)
+
+map <- mapview(arm_map, zcol = "armored")
+#mapview::mapshot(map, url = "armored_map.html")
+```
+
+Tidy df for scores
+```{r}
+
+```
+
+
+Save to scores
+```{r write_to_scores}
+write.csv(res_species_pollution, file.path(dir_calc, "layers/res_alien.csv"))
+```
+
+
+
 
 
 

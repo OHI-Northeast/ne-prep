@@ -1,0 +1,195 @@
+---
+title: 'OHI-Northeast: Graphs for Michelle Bachman'
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+    toc: true
+---
+
+``` {r setup, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+library(tidyverse)
+library(sf)
+library(mapview)
+library(cowplot)
+```
+
+
+***
+
+# Data Source 
+
+We use the United States Geological Survey Protected Areas Database for the US. Version 2.0.
+
+**Reference**: 
+U.S. Geological Survey (USGS) Gap Analysis Project (GAP), 2018, Protected Areas Database of the United States (PAD-US): U.S. Geological Survey data release, https://doi.org/10.5066/P955KPLE.
+
+**Downloaded**: June 5th, 2019
+
+**Description**:  
+
+**Time range**: Protected areas list established date back to early 1900's where available
+
+**Format**:  Spatial Geodatabase
+
+
+***
+
+Look at the areas we included and didn't include as protected areas for this layer (map for Michelle Bachman)
+```{r}
+marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
+  st_transform(us_alb) %>%
+  st_crop(rgns)
+
+states <- read_sf(dsn = file.path(dir_prep, "spatial/shapefiles/state_waters.shp")) %>%
+  st_transform(us_alb)
+
+## Fishery Management Area
+a <- marine  %>% 
+  filter(Loc_Ds %in% c("Fishery Management Areas"))
+#mapview(a)
+ag <- ggplot(a) +
+ geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent") +
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity", show.legend = FALSE) +
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+a2 <- marine  %>% 
+  filter(Loc_Ds %in% c("Fishery Management Area"))
+#mapview(a)
+a2g <- ggplot(a2) +
+ geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent") +
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity", show.legend = FALSE) +
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+## Closure Areas
+b <- marine %>% 
+  filter(Loc_Ds %in% c("Closure Area"))
+bg <- ggplot(b) +
+  geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent")+
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity",  show.legend = FALSE) +
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+## Shellfihs management areas
+c <- marine %>% 
+  filter(Loc_Ds %in% c("Shellfish Management Area"))
+cg <- ggplot(c) +
+  geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent")+
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity",  show.legend = FALSE) + 
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+## Essential Fish Habitat Conservation Area"
+d <- marine %>% 
+  filter(Loc_Ds %in% c("Essential Fish Habitat Conservation Area"))
+dg <- ggplot(d) +
+  geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent")+
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity",  show.legend = FALSE) + 
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+
+## Conservation area
+e <- marine %>% 
+  filter(Loc_Ds %in% c("Conservation Area"))
+eg <- ggplot(e) +
+  geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent")+
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity",  show.legend = FALSE) + 
+    theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+## Gear restricted area
+f <- marine %>% 
+  filter(Loc_Ds %in% c("Gear Restricted Area"))
+fg <- ggplot(f) +
+  geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent")+
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity",  show.legend = FALSE) + 
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+## Special Area Management Plan
+g <- marine %>% 
+  filter(Loc_Ds %in% c("Special Area Management Plan"))
+gg <- ggplot(g) +
+  geom_sf(states, mapping = aes(), color= "gray88", fill= "transparent")+
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity",  show.legend = FALSE) + 
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+inc <- marine %>% 
+  filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
+         !is.na(Loc_Ds))
+inc_g <- ggplot(inc) +
+  geom_sf(states, mapping = aes(),color= "gray88", fill= "transparent")+
+  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
+  position = "identity",  show.legend = FALSE) + 
+  theme_bw()+
+  theme(panel.grid.major = element_line(colour = "transparent"))
+
+                            
+all <- cowplot::plot_grid(inc_g, ag,a2g, bg,cg,dg,eg,fg,gg,
+                          labels= c("Areas included in LSP", "Fishery Management Areas","Fishery Management Area", "Closure Area","Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"),
+                          label_size = 8, 
+                          ncol = 3)
+all
+
+ggsave("figs/michelle_graphs.jpg", width=10, height=8, dpi=300)
+```
+
+Create csv file
+
+```{r}
+lsp_areas <- marine %>% 
+  mutate(included = ifelse(Loc_Ds == "Fishery Management Areas" | Loc_Ds == "Fishery Management Area" | Loc_Ds =="Closure Area" | Loc_Ds =="Shellfish Management Area" | Loc_Ds =="Essential Fish Habitat Conservation Area" | Loc_Ds =="Conservation Area" | Loc_Ds =="Gear Restricted Area" | Loc_Ds =="Special Area Management Plan", "no", "yes")) %>% 
+  as_data_frame() %>% 
+  select(d_Mang_Typ, d_Mang_Nam, d_Des_Tp, d_State_Nm,Loc_Ds, Unit_Nm ) %>% 
+  rename(Management = d_Mang_Typ) %>% 
+  rename(Management_Name = d_Mang_Nam) %>% 
+  rename(Designation_Type = d_Des_Tp) %>% 
+  rename(State = d_State_Nm) %>% 
+  rename(Location_Designation = Loc_Ds) %>% 
+  rename(Name = Unit_Nm)
+
+write.csv(lsp_areas, file.path(dir_prep, "prep/sop/lsp/data/lsp_areas.csv"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
