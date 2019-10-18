@@ -52,9 +52,7 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
 
 Read in the population tif files for each state, and then create one NE raster
-
-MOVED HTE NORTHEAST TIFF. REWRITE TO SAVE IN THE RIGHT PLACE
-```{r read_in_data}
+```{r tif_files}
 ## read in all states rasters
 northeast_rasters <- c(file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/nypop10.tif"),
                     file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/mepop10.tif"),
@@ -64,12 +62,11 @@ northeast_rasters <- c(file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geoti
                     file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/mapop10.tif"))
 
 ## combine all tif files into one 
-mosaic_rasters(gdalfile = northeast_rasters, dst_dataset = "northeast.tif", of = "GTiff")
+mosaic_rasters(gdalfile = northeast_rasters, dst_dataset = file.path(dir_anx, "prs_hab/northeast.tif"), of = "GTiff")
 
 ## create one ne raster
-northeast_rast <- raster::raster("northeast.tif") %>%
+northeast_rast <- raster::raster(file.path(dir_anx, "prs_hab/northeast.tif")) %>%
   projectRaster(crs = us_alb, progress="text") 
-#%>% crop(ne_ext)
 
 ## check it out!
 plot(northeast_rast)
@@ -82,7 +79,7 @@ hist(ne_vals)
 ```
 
 
-We are creating a coastal buffer that includes our coastline and 25 miles inland. I choose 25 miles because that is what Casey did in BC, but we can discuss if this makes sense.
+We are creating a coastal buffer that includes our coastline and 25 miles inland. 
 ```{r create_buffer}
 ## create a buffer 1 km along all state waters to get the beaches
 buffer_1km_coastal <-  read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp")  %>% 
@@ -100,6 +97,7 @@ r[r] <- 1
 ## convert to a raster
 buffer_rast <- fasterize(buffer_1km_coastal, r) %>% 
   raster::resample(northeast_rast, method = "ngb") ## match the resolution and extent
+# the extent cuts off the top part of the buffer because that's out of Maine
 
 plot(buffer_rast)
 ```
@@ -115,68 +113,28 @@ plot(ne_pop_coast)
 summary(ne_pop_coast) # The max value is very large, this is because of NYC
 ```
 
-
-## Region score
-Create a raster with our states rgn_ids
-figure out how to separate out the MA county thats two regions
-
-ma_counties <- read_csv(file.path(dir_git, "src/tables/MA_counties.csv")) %>% 
-  select(-X1) %>% 
-  rename(NAME_2 = County)
-
-coastal_counties <- st_read(dsn=file.path(dir_git, "spatial/shapefiles/ne_counties.shp")) %>%
-  st_transform(us_alb) %>% 
-  left_join(ma_counties, by = c("NAME_2")) %>% 
-  rowwise() %>% 
-  mutate(rgn_name = character(rgn_name),
-         rgn_name = ifelse(is.na(rgn_name), NAME_1, rgn_name))
-
-
+Need to figure out how to create a shapefile/raster with the states where N/S MA is divided.
 ```{r zones_raster}
 ## we want a raster with the region names so that we can ID the regions. This is the only file I found wiht the state land, and not just water, and it doesn't have have N/S MA. ask Jamie
-ne_states_ne <- ne_states %>% 
+ne_states_zone <- ne_states %>% 
   filter(NAME %in% c("Maine", "New York", "Rhode Island", "Connecticut", "New Hampshire", "Massachusetts")) %>%
-  mutate(rgn_id1 = case_when( NAME == "Maine" ~ "6", 
-                              NAME == "New Hampshire" ~ "9", 
-                              NAME == "Massachusetts" ~ "7",
-                              NAME == "Rhode Island" ~ "11",
-                              NAME == "Connecticut" ~ "5",
-                              NAME == "New York" ~ "10"),
-         rgn_id2 = case_when(
-           State == "Massachusetts" ~ "8")) %>% 
-  replace(., is.na(.), "0") %>% 
-  gather(rgn_id1, rgn_id2, key= "filler", value = "zone") %>% 
-  filter(zone != "0") %>% 
-  select(-filler, - State) %>% 
-  mutate(rgn_name = case_when(
-    zone == "6" ~ "Maine", 
-    zone == "9" ~ "New Hampshire", 
-    zone == "7" ~ "Massachusetts-North",
-    zone == "8" ~ "Massachusetts-South",
-    zone == "11" ~ "Rhode Island",
-    zone == "5" ~ "Connecticut",
-    zone == "10" ~ "New York"))
-                                            
-                                            
-                                            NAME == "New Hampshire" ~ 9)))))
-  
-  mutate(zone = case_when(NAME == "Maine" ~ 6,
-                          NAME == "New York" ~ 10,
-                          NAME == "Rhode Island" ~ 11,
-                          NAME == "Connecticut" ~ 5,
-                          NAME == "New Hampshire" ~ 9,
-                          NAME == "Massachusetts" ~7)) # will need to apply the same score for MA 8 later
-
-ne_states_rast <- fasterize(ne_states_ne, r, field = "zone") %>% 
-  crop(ne_ext)%>% 
+  rename(state = NAME) %>% 
+  mutate(zone = case_when(
+    state == "Maine" ~ "6" , 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    zone = as.numeric(zone)) %>% 
+  select(zone, state)
+      
+      
+ne_states_rast <- fasterize(ne_states_zone, r, field = "zone") %>% 
   raster::resample(northeast_rast, method = "ngb") %>% ## match the resolution
   mask(buffer_rast)
 
 plot(ne_states_rast)
-
-plot(states)
-plot(zones)
-
 ```
 
 Extract data for each region

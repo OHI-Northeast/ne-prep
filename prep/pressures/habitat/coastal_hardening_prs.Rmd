@@ -50,6 +50,7 @@ library(sf)
 # Load Data
 
 This script uses the same methods for calcualting coastal hardening as https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/150065
+however we redid the analysis because of new new avaliability and different regions of interest.
 
 Downloaded ERMA data instead of the ESI data. Will look into this now to see if it's better than the ESI data
 
@@ -66,7 +67,7 @@ mapview(coastal_buffer)
 ```
 
 Read in the shapefile we will use to intersect our data to add region names
-This buffer is not perfect. There is some overlap along rivers state lines and is still missing a few areas along the coast. Howvever, this buffer does capture the majority of the coastline now
+This buffer is not perfect. There is some overlap along rivers state lines. Howvever, this buffer does capture the majority of the coastline now.
 ```{r state_water_shape}
 # combine state and state water shapefiles
 state <-  st_read(dsn=file.path(dir_git, "spatial/shapefiles/states.shp")) %>% 
@@ -122,10 +123,9 @@ maine <- st_read(dsn=file.path(dir_anx, "_raw_data/ERMA/layer_35355/35776/Nation
 mapview(maine)
 ```
 
-
 Calculate percent armored 
 ```{r calculate_percent_hard}
-coast_arm <-  read_sf("~/github/ne-prep/prep/pressures/habitat/shapefiles/erma.shp") %>% 
+coast_arm <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
   select(GENERALIZE, rgn_name, rgn_id, geometry) %>% 
   mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored"),
          armored_km = ifelse(armored == "armored", st_length(geometry)/1000, NA),
@@ -136,13 +136,13 @@ coast_arm <-  read_sf("~/github/ne-prep/prep/pressures/habitat/shapefiles/erma.s
   ungroup() %>% 
   rowwise() %>% 
   mutate(percent_hard = hardened_coastline/total_coastline)
+  
  # filter(rgn_name != "Mid-Atlantic Bight" & rgn_name !="Gulf of Maine") # the buffer got into the ends of hte state waters into "offshore"
 
 coast_arm
 ```
 
 Visualize the data
-
 ```{r viz_data}
 arm_graph <- ggplot(coast_arm) +
   geom_bar(aes(x= rgn_name, y = percent_hard), stat = "identity")+
@@ -151,11 +151,12 @@ arm_graph <- ggplot(coast_arm) +
   ggtitle("Percent of armored coastline (within 1 km of shore)")
 
 arm_graph
+ggsave("figs/arm_graph.jpg", width=7, height=5, dpi=300)
 ```
 
 
 ```{r map_armed_or_not}
-arm_map <-  read_sf("~/github/ne-prep/prep/pressures/habitat/shapefiles/erma.shp") %>% 
+arm_map <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
   select(GENERALIZE, rgn_name, rgn_id,  geometry) %>% 
   mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored")) %>% 
   select(rgn_name, armored)

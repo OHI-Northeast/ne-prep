@@ -151,10 +151,10 @@ inc_g <- ggplot(inc) +
 
                             
 all <- cowplot::plot_grid(inc_g, ag,a2g, bg,cg,dg,eg,fg,gg,
-                          labels= c("Areas included in LSP", "Fishery Management Areas","Fishery Management Area", "Closure Area","Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"),
+                          labels= c("Areas included in LSP", "Fishery Management Areas(excl)","Fishery Management Area(excl)", "Closure Area(excl)","Shellfish Management Area(excl)", "Essential Fish Habitat Conservation Area(excl)", "Conservation Area(excl)", "Gear Restricted Area(excl)", "Special Area Management Plan(excl)"),
                           label_size = 8, 
                           ncol = 3)
-all
+#all
 
 ggsave("figs/michelle_graphs.jpg", width=10, height=8, dpi=300)
 ```
@@ -163,17 +163,19 @@ Create csv file
 
 ```{r}
 lsp_areas <- marine %>% 
-  mutate(included = ifelse(Loc_Ds == "Fishery Management Areas" | Loc_Ds == "Fishery Management Area" | Loc_Ds =="Closure Area" | Loc_Ds =="Shellfish Management Area" | Loc_Ds =="Essential Fish Habitat Conservation Area" | Loc_Ds =="Conservation Area" | Loc_Ds =="Gear Restricted Area" | Loc_Ds =="Special Area Management Plan", "no", "yes")) %>% 
+  mutate(Included = ifelse(Loc_Ds == "Fishery Management Areas" | Loc_Ds == "Fishery Management Area" | Loc_Ds =="Closure Area" | Loc_Ds =="Shellfish Management Area" | Loc_Ds =="Essential Fish Habitat Conservation Area" | Loc_Ds =="Conservation Area" | Loc_Ds =="Gear Restricted Area" | Loc_Ds =="Special Area Management Plan", "No", "Yes")) %>% 
+  filter(!is.na(Loc_Ds) & d_State_Nm != "New Jersey") %>% 
   as_data_frame() %>% 
-  select(d_Mang_Typ, d_Mang_Nam, d_Des_Tp, d_State_Nm,Loc_Ds, Unit_Nm ) %>% 
-  rename(Management = d_Mang_Typ) %>% 
-  rename(Management_Name = d_Mang_Nam) %>% 
-  rename(Designation_Type = d_Des_Tp) %>% 
+  select(Included, d_State_Nm, Unit_Nm, d_Mang_Nam, d_Mang_Typ, Loc_Ds) %>% 
+  rename('Management Type' = d_Mang_Typ) %>% 
+  rename('Management Name' = d_Mang_Nam) %>% 
   rename(State = d_State_Nm) %>% 
-  rename(Location_Designation = Loc_Ds) %>% 
-  rename(Name = Unit_Nm)
+  rename("Location Designation (our filter)" = Loc_Ds) %>% 
+  rename('Area Name' = Unit_Nm)
 
 write.csv(lsp_areas, file.path(dir_prep, "prep/sop/lsp/data/lsp_areas.csv"))
+
+
 ```
 
 

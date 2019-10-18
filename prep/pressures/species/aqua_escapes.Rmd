@@ -97,62 +97,59 @@ sf_watch <- sf_watch_raw %>%
 
 Using Aquaculture subgoal method of calculating scores:
 
-```{r calculate_score}
-escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
-  
-  mutate(sfw_score = AqCriteria6/10) %>% 
-  
-  rowwise() %>% 
-  mutate(scaled_production = production*sfw_score) %>% 
-
-  group_by(year, rgn_id) %>% 
-  mutate(total_scaled = sum(scaled_production, na.rm = TRUE ),
-         total_production = sum(production, na.rm = TRUE)) %>% 
-  ungroup() %>% 
-  
- # rowwise() %>% 
-  mutate(prs_score = 1 - (total_scaled/total_production),
-         prs_score = ifelse(prs_score == "NaN", NA, prs_score),
-         rgn_id = as.factor(rgn_id)) %>% 
-   filter(year >= 2005 & year <=2017) %>% 
-  select(year, rgn_id, prs_score) %>% 
-  unique()
-
-write.csv(escape_prs, file = "data/escape_prs.csv")
+Read in the state waters shapefiles and grab the total area
+```{r}
+area_state_waters <- read_sf(file.path(dir_git, "spatial/shapefiles/state_waters.shp")) %>% 
+  as_data_frame() %>% 
+  select(NAME10, Area_km) %>% 
+  rename(state= NAME10) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6" , 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != is.na(rgn_id)) %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"),
+    rgn_id = as.numeric(rgn_id))
 ```
 
-checking out potential way to calcualte
-```{r calculate_score}
+
+```{r calculate_prs_score}
 escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
-  
-  mutate(sfw_score = AqCriteria6/10) %>% 
-  
+  left_join(area_state_waters, by = c("rgn_id"))  %>%
+  mutate(production = ifelse(production == "NaN", NA , production)) %>% 
   rowwise() %>% 
-  mutate(scaled_production = production*sfw_score) %>% 
-
-  group_by(year, rgn_id) %>% 
-  mutate(total_scaled_rgn = sum(scaled_production, na.rm = TRUE)) %>% 
+  mutate(sfw_score = AqCriteria6/10,
+         scaled_production = (production*sfw_score)/Area_km) %>% 
+  group_by(year, rgn_name, rgn_id) %>% 
+  summarise(sum_scale_prod = sum(scaled_production, na.rm = TRUE)) %>% 
   ungroup() %>% 
-  
-  group_by(year) %>% 
-  mutate(total_production = sum(production, na.rm = TRUE)) %>% 
+  #group_by(rgn_name) %>% 
+  mutate(ref = 2*max(sum_scale_prod, na.rm = TRUE)) %>% 
   ungroup() %>% 
-  
- # rowwise() %>% 
-  mutate(prs_score = (total_scaled_rgn/total_production),
-         prs_score = ifelse(prs_score == "NaN", NA, prs_score),
-         rgn_id = as.factor(rgn_id)) %>% 
-   filter(year >= 2005 & year <=2017) %>% 
-  select(year, rgn_id, prs_score) %>% 
-  unique()
-
+  rowwise() %>% 
+  mutate(prs_score = sum_scale_prod/ref)
 ```
 
 
 Graph
 ```{r graph}
 escape_prs_graph <-ggplot(escape_prs)+
-  geom_line(aes(x=year, y = prs_score, color=rgn_id))+
+  geom_line(aes(x=year, y = prs_score, color=rgn_name))+
   ggtitle("Aquaculture escape pressure score") +
   ylab("Score") +
   xlab("Year") +
@@ -161,36 +158,6 @@ escape_prs_graph
 
 ggsave(file.path(dir_git, "prep/pressures/species/figs/escape_prs_graph.png"), width=7, height=5, dpi=300)
 ```
-
-
-```{r calculate_score}
-escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
-  mutate(sfw_score = AqCriteria6/10) %>% 
-  
-  rowwise() %>% 
-  mutate(scored_production = production*sfw_score,
-         sum_scored_pro = sum(scored_production, na.rm = TRUE)) %>% 
-#  ungroup() %>% 
-  
-  group_by(year, rgn_id) %>% 
-  mutate(sum_pro = sum(production, na.rm = TRUE)) %>% 
-  ungroup() %>% 
-  
-  rowwise() %>% 
-  mutate(prs_score = 1 - (sum_scored_pro/sum_pro)) %>% 
-  ungroup() %>% 
-  
-  group_by(year, rgn_id)
-  
-  mutate(rgn_id = as.factor(rgn_id),
-         prs_score = ifelse(prs_score == "NaN", 0, prs_score)) %>% 
-   filter(year >= 2005 & year <=2017) %>% 
-  select(year, rgn_id, prs_score) %>% 
-  unique()
-
-write.csv(escape_prs, file = "data/escape_prs.csv")
-```
-
 
 
 Clean up the data so it can be read into the toolbox
