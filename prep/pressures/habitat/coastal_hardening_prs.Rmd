@@ -137,8 +137,6 @@ coast_arm <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/e
   rowwise() %>% 
   mutate(percent_hard = hardened_coastline/total_coastline)
   
- # filter(rgn_name != "Mid-Atlantic Bight" & rgn_name !="Gulf of Maine") # the buffer got into the ends of hte state waters into "offshore"
-
 coast_arm
 ```
 
@@ -165,8 +163,52 @@ map <- mapview(arm_map, zcol = "armored")
 #mapview::mapshot(map, url = "armored_map.html")
 ```
 
+Creating a df to add on to the climate change scores to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name,
+  3, "Gulf of Maine",
+  2, "Georges Bank",
+  4, "Mid-Atlantic Bight",
+  1, "Offshore") 
+
+miss_rgns <- miss_rgns %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n) %>% 
+  mutate(score = NA) %>% 
+  unique()
+```
+
 Tidy df for scores
-```{r}
+```{r create_scores_layer}
+prs_hardening <- coast_arm %>% 
+  select(rgn_name, percent_hard) %>% 
+  as.data.frame() %>% 
+  rename(state = rgn_name) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6", 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  replace(., is.na(.), "0") %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != "0") %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) 
+  
 
 ```
 

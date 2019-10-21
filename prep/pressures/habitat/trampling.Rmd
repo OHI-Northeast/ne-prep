@@ -18,17 +18,17 @@ toc: true
 
 # Summary
  
-This code calculates the effects of beach trampling using the average population density along the coast as a proxy.
+This code calculates the effects of beach trampling using population density along the coast as a proxy.
 
 # Data
 
 GeoTiff files were downloaded from https://sedac.ciesin.columbia.edu/data/set/usgrid-summary-file1-2010/metadata
-Octover 15th 2019
+October 16th 2019
 
 The data is at 1km2 resolution. Since we are only looking at total population that means #people/km2
 
-citation:
-Center for International Earth Science Information Network - CIESIN - Columbia University. 2017. U.S. Census Grids (Summary File 1), 2010. Palisades, NY: NASA Socioeconomic Data and Applications Center (SEDAC). https://doi.org/10.7927/H40Z716C. Accessed DAY MONTH YEAR. 
+Citation:
+Center for International Earth Science Information Network - CIESIN - Columbia University. 2017. U.S. Census Grids (Summary File 1), 2010. Palisades, NY: NASA Socioeconomic Data and Applications Center (SEDAC). https://doi.org/10.7927/H40Z716C. Accessed 16 October 2019. 
 
 # Methods
 
@@ -54,12 +54,12 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 Read in the population tif files for each state, and then create one NE raster
 ```{r tif_files}
 ## read in all states rasters
-northeast_rasters <- c(file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/nypop10.tif"),
-                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/mepop10.tif"),
-                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/nhpop10.tif"),
-                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/ctpop10.tif"),
-                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/ripop10.tif"),
-                    file.path(dir_anx, "_raw_data/USGS/usgrid_data_2010/geotiff/mapop10.tif"))
+northeast_rasters <- c(file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/nypop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/mepop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/nhpop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/ctpop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/ripop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/mapop10.tif"))
 
 ## combine all tif files into one 
 mosaic_rasters(gdalfile = northeast_rasters, dst_dataset = file.path(dir_anx, "prs_hab/northeast.tif"), of = "GTiff")
@@ -78,14 +78,13 @@ ne_vals <-northeast_rast%>%
 hist(ne_vals)
 ```
 
-
-We are creating a coastal buffer that includes our coastline and 25 miles inland. 
+We are creating one giant coastal buffer that includes our coastline and 25 miles inland. 
 ```{r create_buffer}
 ## create a buffer 1 km along all state waters to get the beaches
 buffer_1km_coastal <-  read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp")  %>% 
   st_transform(us_alb) %>% 
   st_buffer(40233.6) %>%  ## data in meters; using a 25 miles buffer
-  st_union() %>% 
+ # st_union() %>% 
   st_as_sf() 
 
 plot(buffer_1km_coastal)
@@ -113,28 +112,19 @@ plot(ne_pop_coast)
 summary(ne_pop_coast) # The max value is very large, this is because of NYC
 ```
 
-Need to figure out how to create a shapefile/raster with the states where N/S MA is divided.
+Now we need a raster that has our region location information. To do so, we need to create a raster that has  25 mile buffer around each region.
 ```{r zones_raster}
-## we want a raster with the region names so that we can ID the regions. This is the only file I found wiht the state land, and not just water, and it doesn't have have N/S MA. ask Jamie
-ne_states_zone <- ne_states %>% 
-  filter(NAME %in% c("Maine", "New York", "Rhode Island", "Connecticut", "New Hampshire", "Massachusetts")) %>%
-  rename(state = NAME) %>% 
-  mutate(zone = case_when(
-    state == "Maine" ~ "6" , 
-    state == "New Hampshire" ~ "9", 
-    state == "Massachusetts" ~ "7",
-    state == "Rhode Island" ~ "11",
-    state == "Connecticut" ~ "5",
-    state == "New York" ~ "10"),
+ne_states_zone <- read_sf("~/github/ne-prep/spatial/shapefiles/ne_ohi_rgns.shp")  %>% 
+  st_transform(us_alb) %>% 
+  filter(rgn_id != 3 & rgn_id != 2 & rgn_id != 4 & rgn_id != 1) %>% 
+  st_buffer(40233.6) %>% 
+  mutate(zone = rgn_id,
     zone = as.numeric(zone)) %>% 
-  select(zone, state)
-      
+  select(zone, rgn_id, rgn_name)
       
 ne_states_rast <- fasterize(ne_states_zone, r, field = "zone") %>% 
   raster::resample(northeast_rast, method = "ngb") %>% ## match the resolution
   mask(buffer_rast)
-
-plot(ne_states_rast)
 ```
 
 Extract data for each region
@@ -163,17 +153,45 @@ ref_3 <- quantile(vals, 0.99) # 3582
 ref_4 <- quantile(vals, 0.5) #28.3  
 ```
 
-Calculate presssure scores
+Calculate pressure scores
 ```{r calc_scores}
-prs_trampling <-pop_stats_2 %>% 
+trampling <-pop_stats_2 %>% 
   mutate(ref = ref_1,
          score_av = avg_ppl_km2/ref)
-prs_trampling
+trampling
 ```
 
+Create a scores layer
+Creating a df to add on to the climate change scores to have the missing regions there 
+```{r missing_rgns_df}
+miss_rgns <- tribble(
+  ~rgn_id, ~rgn_name, ~score,
+  3, "Gulf of Maine", NA,
+  2, "Georges Bank", NA,
+  4, "Mid-Atlantic Bight", NA,
+  1, "Offshore", NA) 
+```
 
+```{r tidy_for_scores}
+prs_trampling <-trampling %>% 
+  select(rgn_id, score_av) %>% 
+  rename(score = score_av) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York")) %>% 
+  rbind(miss_rgns) %>% 
+  mutate(year = 2017)
+```
 
-
+Write scores to layers
+```{r write_to_scores}
+write.csv(prs_trampling, file.path(dir_calc, "layers/prs_trampling.csv"))
+```
 
 
 
