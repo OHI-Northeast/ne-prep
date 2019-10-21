@@ -316,9 +316,10 @@ animation::saveGIF({
 
 ## Rescale from 0 to 1
 
-I am having issues wrapping my head around this and rescaling because the max reference point is unclear. the minimum is 1. i am looking in the literature for maximum aragonite values in the northeast, or we can always find the max values of all our rasters
+Using the threshold of 1.5. This is when mild dissolution of pteropods start to occur. 1.2 is severe, we could use this instead.
+https://www.frontiersin.org/articles/10.3389/fmars.2019.00227/full
 
-The maximum aragonite saturation values by year:
+The maximum aragonite saturation values by year in our regions:
 
 2014: 1.85
 2015: 1.85
@@ -340,8 +341,8 @@ foreach(file = files) %dopar% {
   yr <- str_sub(file, -8,-5)
 
    rescale <- raster::raster(file) %>%
-    calc(fun = function(x){ifelse(x <=1, 1, x)}) %>% # 1 is our arg threshold; and also the highest pressure because thats when things start going wonky
-    calc(fun = function(x){ifelse(x >= ref, 0, (1-x/ref))})  # set equal to one if greater than ref, otherwise scale
+    calc(fun = function(x){ifelse(x <=1.5, 1.5, x)}) %>% # 1 is our arg threshold; and also the highest pressure because thats when things start going wonky
+    calc(fun = function(x){ifelse(x >= ref, 0, (1.5-x/ref))})  # set equal to one if greater than ref, otherwise scale
     
  # rescale <- (1-rescale) # the math above should handle this    
 

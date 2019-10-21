@@ -55,7 +55,9 @@ Here we load the raw Seafood watch data, and the cleaned/ gapfilled aquaculture 
 ```{r load_data}
 sf_watch_raw <- read_xlsx(file.path(dir_anx, "_raw_data/SeafoodWatch/Seafood_Watch_USAquaculture82319.xlsx"))
 
-production <- read_csv(file.path(dir_calc, "layers/mar_production.csv")) %>% 
+production_raw <- read_csv("https://raw.githubusercontent.com/OHI-Northeast/ne-scores/master/region/layers/mar_production.csv")
+
+production <- production_raw %>% 
   mutate(Species = tolower(Species)) %>% 
   select(year, rgn_id, Species, production)
 ```
@@ -94,34 +96,67 @@ sf_watch <- sf_watch_raw %>%
 
 ## Calculate scores
 
-Using Aquaculture subgoal method of calculating scores
-Here we are weighting the scores by the production.
-```{r calculate_score}
-disease_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
-  mutate(sfw_score = AqCriteria7/10) %>% 
-  rowwise() %>% 
-  mutate(scored_production = production*sfw_score) %>% 
-  ungroup() %>% 
-  group_by(year, rgn_id) %>% 
-  mutate(sum_scored_pro = sum(scored_production),
-         sum_pro = sum(production),
-         prs_score = 1 - (sum_scored_pro/sum_pro)) %>% 
-  ungroup() %>% 
-  mutate(rgn_id = as.factor(rgn_id),
-         prs_score = ifelse(prs_score == "NaN", 0, prs_score)) %>% 
-   filter(year >= 2005 & year <=2017) %>% 
-  select(year, rgn_id, prs_score) %>% 
-  unique()
-
-write.csv(disease_prs, file = "data/disease_prs.csv")
+To calculate the aquaculture escapes pressure on each region we will scale it by production and the area of the state waters. 
+The first thing we need to do is read in the state waters shapefiles and grab the total area.
+```{r state_waters_area}
+area_state_waters <- read_sf(file.path(dir_git, "spatial/shapefiles/state_waters.shp")) %>% 
+  as_data_frame() %>% 
+  select(NAME10, Area_km) %>% 
+  rename(state= NAME10) %>% 
+  mutate(rgn_id1 = case_when(
+    state == "Maine" ~ "6" , 
+    state == "New Hampshire" ~ "9", 
+    state == "Massachusetts" ~ "7",
+    state == "Rhode Island" ~ "11",
+    state == "Connecticut" ~ "5",
+    state == "New York" ~ "10"),
+    rgn_id2 = case_when(
+    state == "Massachusetts" ~ "8"
+    )) %>% 
+  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
+  filter(rgn_id != is.na(rgn_id)) %>% 
+  select(-filler, - state) %>% 
+  mutate(rgn_name = case_when(
+    rgn_id == "6" ~ "Maine", 
+    rgn_id == "9" ~ "New Hampshire", 
+    rgn_id == "7" ~ "Massachusetts-North",
+    rgn_id == "8" ~ "Massachusetts-South",
+    rgn_id == "11" ~ "Rhode Island",
+    rgn_id == "5" ~ "Connecticut",
+    rgn_id == "10" ~ "New York"),
+    rgn_id = as.numeric(rgn_id))
 ```
 
+Now that we have the state waters areas, we can calculate the scores. The way we will do this is:
+1. rescale the Seafood Watch scores from 0-1
+2. Multiply the SFW score by the production to scale it by amount produced
+3. Calculate the total scaled production in each region, each year
+4. Scale the production by state water area
+5. Calculate a reference point of two times the maximum pressure
+6. Calculate the pressure using the reference point
+
+```{r calculate_prs_score}
+disease_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
+  left_join(area_state_waters, by = c("rgn_id"))  %>%
+  mutate(production = ifelse(production == "NaN", NA , production)) %>% 
+  rowwise() %>% 
+  mutate(sfw_score = AqCriteria7/10,
+         scaled_production = (production*sfw_score)) %>% 
+  group_by(year, rgn_name, Area_km, rgn_id) %>% 
+  summarise(sum_scale_prod = sum(scaled_production, na.rm = TRUE)) %>% 
+  mutate(scaled_area_prod = sum_scale_prod/Area_km) %>% 
+  ungroup() %>% 
+  mutate(ref = 2*max(scaled_area_prod, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  rowwise() %>% 
+  mutate(prs_score = scaled_area_prod/ref)
+```
 
 Graph
 ```{r graph}
 disease_prs_graph <-ggplot(disease_prs)+
-  geom_line(aes(x=year, y = prs_score, color=rgn_id))+
-  ggtitle("Aquaculture disease pressure score") +
+  geom_line(aes(x=year, y = prs_score, color=rgn_name))+
+  ggtitle("Aquaculture escape pressure score") +
   ylab("Score") +
   xlab("Year") +
   theme_classic() 
@@ -129,6 +164,7 @@ disease_prs_graph
 
 ggsave(file.path(dir_git, "prep/pressures/species/figs/disease_prs_graph.png"), width=7, height=5, dpi=300)
 ```
+
 
 Clean up the data so it can be read into the toolbox
 Creating a df to add on to the water pollution scores to have the missing regions there 
@@ -148,6 +184,7 @@ miss_rgns <- miss_rgns %>%
   unique()
 ```
 
+Create a layer for calculating scores
 ```{r create_layer}
 prs_aqua_disease <- disease_prs %>% 
     mutate(rgn_name =ifelse(rgn_id==5, "Connecticut",
@@ -158,23 +195,15 @@ prs_aqua_disease <- disease_prs %>%
                                                         ifelse(rgn_id==10, "New York",
                                                                "Rhode Island"))))))) %>% 
   rename(score = prs_score) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  filter(year >= 2005 & year<= 2017) %>% 
   rbind(miss_rgns)
 ```
 
 Save layer to scores
-```{r save_to_score}
-write.csv(prs_aqua_disease, file.path(dir_calc, "layers/prs_aqua_disease.csv"))
+```{r write_scores}
+write.csv(prs_aqua_disease, file.path(dir_calc, "layers/prs_disease.csv"))
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 

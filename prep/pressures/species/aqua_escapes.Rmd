@@ -64,6 +64,7 @@ production <- production_raw %>%
 ## Methods
 
 ### Cleaning up the seafood watch data so to be combined with production data.
+
 The data includes scores from previous methods of calculating the criteria, so we are removing those here. We are also fixing the names of the species to match up with the species in our production data. For example, with this current Seafood Watch data it is easy to do because all clams have the same sustainability score. If that changes in the future, differences in scores across clams, oyster, scallop, and mussel species need to be accounted for. For trout, the same score as salmon is assigned, because we know that they are farmed in the same way.
 ```{r tidy_sfw}
 sf_watch <- sf_watch_raw %>% 
@@ -95,10 +96,9 @@ sf_watch <- sf_watch_raw %>%
 
 ## Calculate scores
 
-Using Aquaculture subgoal method of calculating scores:
-
-Read in the state waters shapefiles and grab the total area
-```{r}
+To calculate the aquaculture escapes pressure on each region we will scale it by production and the area of the state waters. 
+The first thing we need to do is read in the state waters shapefiles and grab the total area.
+```{r state_waters_area}
 area_state_waters <- read_sf(file.path(dir_git, "spatial/shapefiles/state_waters.shp")) %>% 
   as_data_frame() %>% 
   select(NAME10, Area_km) %>% 
@@ -127,6 +127,13 @@ area_state_waters <- read_sf(file.path(dir_git, "spatial/shapefiles/state_waters
     rgn_id = as.numeric(rgn_id))
 ```
 
+Now that we have the state waters areas, we can calculate the scores. The way we will do this is:
+1. rescale the Seafood Watch scores from 0-1
+2. Multiply the SFW score by the production to scale it by amount produced
+3. Calculate the total scaled production in each region, each year
+4. Scale the production by state water area
+5. Calculate a reference point of two times the maximum pressure
+6. Calculate the pressure using the reference point
 
 ```{r calculate_prs_score}
 escape_prs <- left_join(production, sf_watch, by = ("Species")) %>% 
@@ -134,17 +141,16 @@ escape_prs <- left_join(production, sf_watch, by = ("Species")) %>%
   mutate(production = ifelse(production == "NaN", NA , production)) %>% 
   rowwise() %>% 
   mutate(sfw_score = AqCriteria6/10,
-         scaled_production = (production*sfw_score)/Area_km) %>% 
-  group_by(year, rgn_name, rgn_id) %>% 
+         scaled_production = (production*sfw_score)) %>% 
+  group_by(year, rgn_name, Area_km, rgn_id) %>% 
   summarise(sum_scale_prod = sum(scaled_production, na.rm = TRUE)) %>% 
+  mutate(scaled_area_prod = sum_scale_prod/Area_km) %>% 
   ungroup() %>% 
-  #group_by(rgn_name) %>% 
-  mutate(ref = 2*max(sum_scale_prod, na.rm = TRUE)) %>% 
+  mutate(ref = 2*max(scaled_area_prod, na.rm = TRUE)) %>% 
   ungroup() %>% 
   rowwise() %>% 
-  mutate(prs_score = sum_scale_prod/ref)
+  mutate(prs_score = scaled_area_prod/ref)
 ```
-
 
 Graph
 ```{r graph}
@@ -178,7 +184,7 @@ miss_rgns <- miss_rgns %>%
   unique()
 ```
 
-
+Create a layer for calculating scores
 ```{r create_layer}
 prs_aqua_escape <- escape_prs %>% 
     mutate(rgn_name =ifelse(rgn_id==5, "Connecticut",
@@ -189,6 +195,8 @@ prs_aqua_escape <- escape_prs %>%
                                                         ifelse(rgn_id==10, "New York",
                                                                "Rhode Island"))))))) %>% 
   rename(score = prs_score) %>% 
+  select(year, rgn_name, rgn_id, score) %>% 
+  filter(year >= 2005 & year<= 2017) %>% 
   rbind(miss_rgns)
 ```
 
