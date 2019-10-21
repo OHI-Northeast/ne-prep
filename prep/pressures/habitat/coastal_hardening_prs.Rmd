@@ -15,7 +15,27 @@ output:
   pdf_document:
     toc: true
 ---
+# Data  
 
+**Reference**: NOAA [Environmental Response Management Application](https://erma.noaa.gov/atlantic/erma.html#/layers=1+13763+16973+35410+491&x=-78.22196&y=38.23326&z=6&panel=layer)
+
+**Downloaded**: October, 2019
+
+**Description**:  Spatial line data identifying type of habitat and human made armoring. 
+
+**Native data resolution**: Line data
+
+**Time range**: NA. This data set has been updated in 2016, and the historical data is avaliable, but it's incomplete.
+
+**Format**:  Geodatabase/shapefile/line file
+
+This script uses the same methods for calcualting coastal hardening as https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/150065
+However we redid the analysis because of new new avaliability and different specific regions of interest.
+
+***
+
+# Methods
+## Setup
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       echo = TRUE, message = FALSE, warning = FALSE)
@@ -30,31 +50,9 @@ library(mapview)
 library(sf)
 ```
 
-#Data Source 
+## Grabbing spatial data
 
-**Reference**: NOAA [Environmental Response Management Application](https://erma.noaa.gov/atlantic/erma.html#/layers=1+13763+16973+35410+491&x=-78.22196&y=38.23326&z=6&panel=layer)
-
-**Downloaded**: October, 2019
-
-**Description**:  Spatial line data identifying type of habitat and human made armoring. 
-
-**Native data resolution**: Line data
-
-**Time range**: NA. This data set has been updated in 2016, and the historical data is avaliable, but it's incomplete.
-
-**Format**:  Geodatabase/shapefile/line file
-
-***
-
-
-# Load Data
-
-This script uses the same methods for calcualting coastal hardening as https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/150065
-however we redid the analysis because of new new avaliability and different regions of interest.
-
-Downloaded ERMA data instead of the ESI data. Will look into this now to see if it's better than the ESI data
-
-We will need an buffer because some rivers are harded very far from the coastline. We will use the state waters shapefile and then add a 1 km buffer around it to grb the coastline. We are creating a buffer of 1 km inland
+We will need an buffer because some rivers are harded very far from the coastline. We will use the state waters shapefile and then add a 1 km buffer around it to grb the coastline. We are creating a buffer of 1 km inland.
 ```{r create_1km_buffer}
 coastal_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/state_waters.shp")  %>% 
   st_transform(us_alb) %>% 
@@ -67,7 +65,7 @@ mapview(coastal_buffer)
 ```
 
 Read in the shapefile we will use to intersect our data to add region names
-This buffer is not perfect. There is some overlap along rivers state lines. Howvever, this buffer does capture the majority of the coastline now.
+While this buffer is not perfect (some overlap along state lines), this buffer does capture the majority of the coastline now.
 ```{r state_water_shape}
 # combine state and state water shapefiles
 state <-  st_read(dsn=file.path(dir_git, "spatial/shapefiles/states.shp")) %>% 
@@ -103,7 +101,7 @@ state_and_statewaters <- rbind(state, statewaters) %>%
 mapview(state_and_statewaters)
 ```
 
-
+Create shapefile for NE
 ```{r northeast_erma}
 erma <- st_read(dsn=file.path(dir_anx, "_raw_data/ERMA/layer_35355/35776/National_ESI_Shoreline_Atlantic_20170608.shp")) %>%
   st_transform(us_alb) %>% 
@@ -123,10 +121,12 @@ maine <- st_read(dsn=file.path(dir_anx, "_raw_data/ERMA/layer_35355/35776/Nation
 mapview(maine)
 ```
 
-Calculate percent armored 
+## Calculate percent armored 
+Here we are going to do the calculations without MA because more work is required to separate the state regions.
 ```{r calculate_percent_hard}
 coast_arm <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
   select(GENERALIZE, rgn_name, rgn_id, geometry) %>% 
+  filter(rgn_name != "Massachusetts") %>% 
   mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored"),
          armored_km = ifelse(armored == "armored", st_length(geometry)/1000, NA),
          coastline_km = st_length(geometry)/1000) %>% # the distances are in meters
@@ -140,6 +140,49 @@ coast_arm <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/e
 coast_arm
 ```
 
+Calculate percent armored for MA regions
+We need to create a buffer for N/S MA beach land regions
+```{r ma_armored}
+## creat buffer
+ma_buffer <- read_sf("~/github/ne-prep/spatial/shapefiles/ne_ohi_rgns.shp")  %>% 
+  st_transform(us_alb) %>% 
+  filter(rgn_id %in% c(7,8)) %>% 
+  st_buffer(804.672)
+
+ma <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
+  select(GENERALIZE, rgn_name, rgn_id, geometry) %>%
+  rename(state = rgn_name) %>% 
+  filter(state == "Massachusetts") %>% 
+  st_intersection(ma_buffer) %>% 
+   mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored"),
+         armored_km = ifelse(armored == "armored", st_length(geometry)/1000, NA),
+         coastline_km = st_length(geometry)/1000) %>% # the distances are in meters
+  group_by(rgn_name) %>% 
+  summarize(hardened_coastline = sum(armored_km, na.rm = TRUE),
+            total_coastline = sum(coastline_km, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  rowwise() %>% 
+  mutate(percent_hard = hardened_coastline/total_coastline)
+```
+
+Combine MA with the other regions
+```{r combine_all_regions}
+coast_arm <- coast_arm %>% 
+  rbind(ma)
+```
+
+Map with binary armored or not to double check that it looks good and nothing crazy is happening
+```{r map_armed_or_not}
+arm_map <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
+  select(GENERALIZE, rgn_name, rgn_id,  geometry) %>% 
+  mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored")) %>% 
+  select(rgn_name, armored)
+
+map <- mapview(arm_map, zcol = "armored")
+#mapview::mapshot(map, url = "armored_map.html")
+```
+
+
 Visualize the data
 ```{r viz_data}
 arm_graph <- ggplot(coast_arm) +
@@ -152,32 +195,15 @@ arm_graph
 ggsave("figs/arm_graph.jpg", width=7, height=5, dpi=300)
 ```
 
-
-```{r map_armed_or_not}
-arm_map <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
-  select(GENERALIZE, rgn_name, rgn_id,  geometry) %>% 
-  mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored")) %>% 
-  select(rgn_name, armored)
-
-map <- mapview(arm_map, zcol = "armored")
-#mapview::mapshot(map, url = "armored_map.html")
-```
-
+# Calculate scores
 Creating a df to add on to the climate change scores to have the missing regions there 
 ```{r missing_rgns_df}
 miss_rgns <- tribble(
-  ~rgn_id, ~rgn_name,
-  3, "Gulf of Maine",
-  2, "Georges Bank",
-  4, "Mid-Atlantic Bight",
-  1, "Offshore") 
-
-miss_rgns <- miss_rgns %>% 
-  uncount(13, .id = "n", .remove = F) %>%
-  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n) %>% 
-  mutate(score = NA) %>% 
-  unique()
+  ~rgn_id, ~rgn_name, ~score,
+  3, "Gulf of Maine", NA,
+  2, "Georges Bank", NA,
+  4, "Mid-Atlantic Bight", NA,
+  1, "Offshore", NA) 
 ```
 
 Tidy df for scores
@@ -208,14 +234,12 @@ prs_hardening <- coast_arm %>%
     rgn_id == "11" ~ "Rhode Island",
     rgn_id == "5" ~ "Connecticut",
     rgn_id == "10" ~ "New York")) 
-  
-
 ```
 
 
 Save to scores
 ```{r write_to_scores}
-write.csv(res_species_pollution, file.path(dir_calc, "layers/res_alien.csv"))
+write.csv(prs_hardening, file.path(dir_calc, "layers/prs_hardening.csv"))
 ```
 
 
