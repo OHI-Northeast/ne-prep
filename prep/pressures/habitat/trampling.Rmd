@@ -45,6 +45,7 @@ library(raster)
 library(rgdal)
 library(gdalUtils)
 library(fasterize)
+library(stringr)
 
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
@@ -106,10 +107,12 @@ Now we want to keep only the population density data that falls into our 25 mile
 ## keep only the areas 1km along the shorelines
 ne_pop_coast <- northeast_rast %>% 
  raster::mask(buffer_rast) %>% 
- calc(fun = function(x){ifelse(x < 0, 0, x)})  ## there are 3 negative numbers in this data for some reason (-77.9399, -0.2386,	-0.0178)
+ calc(fun = function(x){ifelse(x < 0, 0, x)})  %>% ## there are 3 negative numbers in this data for some reason (-77.9399, -0.2386,	-0.0178) 
+  calc(fun = function(x){x+1}) %>% 
+  log10() 
 
 plot(ne_pop_coast)
-summary(ne_pop_coast) # The max value is very large, this is because of NYC
+summary(ne_pop_coast) 
 ```
 
 Now we need a raster that has our region location information. To do so, we need to create a raster that has  25 mile buffer around each region.
@@ -192,8 +195,3 @@ Write scores to layers
 ```{r write_to_scores}
 write.csv(prs_trampling, file.path(dir_calc, "layers/prs_trampling.csv"))
 ```
-
-
-
-
-
