@@ -67,6 +67,7 @@ library(rasterVis)
 library(here)
 library(raster)
 library(gstat)
+library(scales)
 
 #define paths for the raw data and OA folder held on git-annex on our NCEAS server, Mazu
 raw_dir     = file.path(dir_M,'git-annex/neprep/_raw_data')
@@ -316,19 +317,31 @@ animation::saveGIF({
 
 ## Rescale from 0 to 1
 
-Using the threshold of 1.5. This is when mild dissolution of pteropods start to occur. 1.2 is severe, we could use this instead.
-https://www.frontiersin.org/articles/10.3389/fmars.2019.00227/full
+Thresholds:
+
+- 1 = a pressure of 1. This is a widely accepted saturation lethal threshold for pteropods
+
+- 1.5 = a pressure of 0.8. This saturation level is when mild dissolution begins to occurr 
+(source: https://www.frontiersin.org/articles/10.3389/fmars.2019.00227/full)
+
+- 2.5 = a pressure of 0. This is the lowest saturation level where few organims are affected source(https://pubs.geoscienceworld.org/gsa/geology/article/37/12/1131/103987/Marine-calcifiers-exhibit-mixed-responses-to-CO2)
+
+This means that we are going to use two different trends for rescaling. One between the first two threshold, and a second between the last two. These linear relationships were calcaculated externally and should not change unless the thresholds change. If this happens they would need to be recalculated
+The first linear regression is:
+y= -0.4x + 1.4
+
+The second linear regression is:
+y= -0.8x + 2
 
 The maximum aragonite saturation values by year in our regions:
-
 2014: 1.85
 2015: 1.85
 2016: 2.75
 2017: 2.63
 
-
-```{r}
-ref = 2.75
+```{r reference_point}
+ref_1 = 1.5
+ref_2 = 2.5 
 
 files = c(list.files(file.path(dir_anx, "prs_oa/int/noaa_annual_mean"), full.names=TRUE))
 
@@ -341,15 +354,14 @@ foreach(file = files) %dopar% {
   yr <- str_sub(file, -8,-5)
 
    rescale <- raster::raster(file) %>%
-    calc(fun = function(x){ifelse(x <=1.5, 1.5, x)}) %>% # 1 is our arg threshold; and also the highest pressure because thats when things start going wonky
-    calc(fun = function(x){ifelse(x >= ref, 0, (1.5-x/ref))})  # set equal to one if greater than ref, otherwise scale
-    
- # rescale <- (1-rescale) # the math above should handle this    
-
- # plot(rescale)         
-         
+    calc(fun = function(x){ifelse(x <=1, 1, x)}) %>% 
+    calc(fun = function(x){ifelse(x >=1 & x <= ref_1, -0.4*x+1.4, x)}) %>% 
+    calc(fun = function(x){ifelse(x >= ref_1 & x <= ref_2, -0.8*x + 2, x)}) %>% 
+    calc(fun = function(x){ifelse(x>= ref_2, 0, x)})                          
+                                  
+ plot(rescale)                                     
+                        
   writeRaster(rescale, filename=paste0(dir_anx, '/prs_oa/test/oa_rescaled_', yr, ".tif"),overwrite=TRUE)
-    
 }
 ```
 
@@ -387,7 +399,8 @@ files <- list.files(file.path(dir_anx,'prs_oa/int/noaa_rescaled_int'), full.name
 registerDoParallel(24)
 
 foreach(file = files)%dopar% {
-
+  
+#  file <- files[4]
   yr <- substr(file,nchar(file)-7,nchar(file)-4)
   cat(yr)
   x <- raster(file)%>%
@@ -397,6 +410,13 @@ foreach(file = files)%dopar% {
   writeRaster(x, filename = paste0(dir_anx, '/prs_oa/output/new/oa_prs_layer_', yr, ".tif"), overwrite=TRUE)
 }
 ```
+
+The pressure scores range are:
+2014: 0.72, 0.883
+2015: 0.42, 0.71
+2016: 0.437, 0.682
+2017: 0.478, 0.702
+
 
 ## Results
 Create a gif using the new data 2014-2017
@@ -460,5 +480,16 @@ oa_overtime <-ggplot(oa_data)+
 oa_overtime
 ```
 
+### Save layer
+```{r tidy_for_layer}
+oa_prs <- oa_data %>% 
+  select(year, rgn_id, rgn_name, pressure_score) %>% 
+  rename(score = pressure_score)
+```
+
+
+```{r write_to_scores}
+write.csv(oa_prs, file.path(dir_calc, "layers/cc_acid.csv"))
+```
 
 
