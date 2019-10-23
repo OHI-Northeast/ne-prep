@@ -410,7 +410,8 @@ wqi_rgns <- Water_Column_Status_Estimates_0506 %>%
   filter(Category != "Total",
          rgn_name != "Georges Bank") %>%
   group_by(rgn_name, year) %>%
-  summarize(wqi_score = sum(score))
+  summarize(wqi_score = sum(score)) %>%
+  ungroup()
 
 write_csv(wqi_rgns, "data/eelgrass_score_rgns.csv")
 
@@ -435,8 +436,9 @@ df_gf <- wqi_rgns %>%
   mutate(score = zoo::na.approx(wqi_score)) %>%
   complete(year = 2006:2017) %>%
   ungroup() %>%
+  filter(rgn_name != "Georges Bank") %>% # no idea why this is showing up after the second complete!
   mutate(score = zoo::na.locf(score), #now we carry forward the 2010 value for all years to 2017
-         gapfilled = ifelse(is.na(wqi_score), 1, 0))
+         gapfilled = ifelse(is.na(wqi_score), 1, 0)) 
 
 write_csv(df_gf, "data/eelgrass_score_rgn_gf.csv")
 ```
