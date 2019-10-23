@@ -188,7 +188,7 @@ unique(ale$year)
 
 Ok clearly we are missing data for 2001, 2002, 04-05, 2008-11. We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. Since we calculate a rolling average of catch, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
-```{r, fig.width = 10}
+```{r}
 gf_data <- region_catch %>%
   group_by(rgn_id, rgn_name, species, stock, stock_id, display_name) %>%
   complete(year = 1998:2017) %>%
@@ -253,7 +253,7 @@ toolbox_data <- gf_data %>%
   select(-market, -pounds_live_by_market, -total_pounds_live, -prop)
 ```
 
-```{r, fig.width = 10}
+```{r}
 p <- ggplot(toolbox_data, aes(x = year, y = mean_catch_times_prop, fill = display_name)) +
   geom_bar(stat = "identity") +
   theme_bw() +
