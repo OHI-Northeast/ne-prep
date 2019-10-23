@@ -75,7 +75,7 @@ hab_data_info <- data.frame(
   Layer = c("Salt Marsh", "Eelgrass", "Seabed habitats"),
   Description = c("Salt Marsh land cover change through time from NOAA's Coastal Change Analysis Program (C-CAP)",
                   "Eelgrass habitat coverage from the Past Eelgrass Surveys data layer from the Northeast Data Portal plus Water quality index values for all eelgrass beds from the EPA's National Coastal Condition Assessment Water Quality Index data",
-                  "Percent disturbance from fishing efforts across 18 different seabed habitats types as calculated the the Fishing Effects model developed by the New England Fishery Management Council"),
+                  "Percent disturbance from fishing efforts across 18 different seabed habitats types as calculated by the Fishing Effects model developed by the New England Fishery Management Council"),
   Target = c("No loss of salt marsh habitat from historical reference year (~1850’s)",
              "Water Quality Index in all eelgrass beds is classified as “Good” by the EPA",
              "No habitat disturbance from fishing effort across all seabed habitat types"),

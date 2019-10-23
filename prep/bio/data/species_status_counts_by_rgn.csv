@@ -1,5 +1,6 @@
 rgn_name,score,count
-Connecticut,0,3
+Connecticut,0,2
+Connecticut,0.09999999999999998,1
 Connecticut,0.19999999999999996,23
 Connecticut,0.30000000000000004,1
 Connecticut,0.4,25
@@ -69,7 +70,8 @@ Mid-Atlantic Bight,0.7,2
 Mid-Atlantic Bight,0.8,32
 Mid-Atlantic Bight,0.9,4
 Mid-Atlantic Bight,1,518
-New Hampshire,0,5
+New Hampshire,0,2
+New Hampshire,0.09999999999999998,3
 New Hampshire,0.19999999999999996,18
 New Hampshire,0.30000000000000004,1
 New Hampshire,0.4,22
@@ -98,7 +100,8 @@ Offshore,0.7,2
 Offshore,0.8,32
 Offshore,0.9,4
 Offshore,1,518
-Rhode Island,0,5
+Rhode Island,0,2
+Rhode Island,0.09999999999999998,3
 Rhode Island,0.19999999999999996,33
 Rhode Island,0.30000000000000004,1
 Rhode Island,0.4,36
