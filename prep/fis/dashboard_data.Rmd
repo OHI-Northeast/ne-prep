@@ -62,8 +62,8 @@ fis_data_info <- data.frame(
                   "Stock assessment data on B/Bmsy and F/Fmsy (when available) to indicate health of the stock. This data comes from NMFS for US managed stocks and the RAM Legacy Database for migratory species"),
   Target = c("",
              "B/Bmsy between 0.8 and 1.2, F/Fmsy between 0.66 and 1.2"),
-  Source = c('<a href="https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:5979977158626:::::">NOAA Fisheries (NMFS) Commercial Landings</a>',
-             '<a href="https://www.st.nmfs.noaa.gov/stock-assessment/">National Marine Fisheries Service (via data request)</a>
+  Source = c('<a href="https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:5979977158626:::::" target = "_blank">NOAA Fisheries (NMFS) Commercial Landings</a>',
+             '<a href="https://www.st.nmfs.noaa.gov/stock-assessment/" target = "_blank">National Marine Fisheries Service (via data request)</a>
              <a href="https://www.ramlegacy.org/">RAM Legacy Database</a>')
 )
 
