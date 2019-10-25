@@ -37,7 +37,7 @@ mar_data_info <- data.frame(
   Target = c("Growth in production of 4% annually",
              "NA"),
   Source = c('Put together by hand from available state and agency reports',
-             '<a href="https://www.seafoodwatch.org/">Seafood Watch</a>')
+             '<a href="https://www.seafoodwatch.org/-/m/sfw/pdf/criteria/aquaculture/mba_seafood%20watch_aquaculture%20standard_version%20a2.pdf?la=en" target = "_blank">Seafood Watch</a>')
 )
 
 

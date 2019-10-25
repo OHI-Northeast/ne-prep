@@ -1,3 +1,3 @@
 Layer,Description,Target,Source
-Marine protected areas,Amount of coastal marine waters with some level of lasting protection that does not include areas managed for fisheries purposes,10% of coastal waters protected (Aichi target),"<a href=""https://maps.usgs.gov/padus/"">USGS Protected Areas Database v2.0</a>"
-Land protected areas,Amount of land in the coastal zone (defined as 1km from shore) protected,17% of coastal land (1km from coast) protected (Aichi target),"<a href=""https://maps.usgs.gov/padus/"">USGS Protected Areas Database v2.0</a>"
+Marine protected areas,Amount of coastal marine waters with some level of lasting protection that does not include areas managed for fisheries purposes,10% of coastal waters protected (Aichi target),"<a href=""https://maps.usgs.gov/padus/"" target = ""_blank"">USGS Protected Areas Database v2.0</a>"
+Land protected areas,Amount of land in the coastal zone (defined as 1km from shore) protected,17% of coastal land (1km from coast) protected (Aichi target),"<a href=""https://maps.usgs.gov/padus/"" target = ""_blank"">USGS Protected Areas Database v2.0</a>"

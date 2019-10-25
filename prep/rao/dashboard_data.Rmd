@@ -35,10 +35,10 @@ rao_data_info <- data.frame(
   Target = c("Maintain a constant ratio year over year. No change, or a negative change indicating increased economic access, results in a perfect score. If the ratio doubles, the region scores 0.",
              "All stocks receive an FSSI score of 4",
              "At least one access point for every mile of coastline"),
-  Source = c('<a href="https://www.eia.gov/petroleum/gasdiesel/">US Energy Information Administration</a>
-             <a href="https://www.bls.gov/">US Bureau of Labor Statistics</a>',
-             '<a href="https://www.fisheries.noaa.gov/national/population-assessments/status-us-fisheries">NOAA Fish Stock Sustainability Index</a>',
-             '<a href="https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html">NOAA Office of Response & Restoration</a>')
+  Source = c('<a href="https://www.eia.gov/petroleum/gasdiesel/" target = "_blank">US Energy Information Administration</a>
+             <a href="https://www.bls.gov/" target = "_blank">US Bureau of Labor Statistics</a>',
+             '<a href="https://www.fisheries.noaa.gov/national/population-assessments/status-us-fisheries" target = "_blank">NOAA Fish Stock Sustainability Index</a>',
+             '<a href="https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html" target = "_blank">NOAA Office of Response & Restoration</a>')
 )
 
 write_csv(rao_data_info, "data/rao_data_info.csv")

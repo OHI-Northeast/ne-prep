@@ -1,3 +1,3 @@
 Layer,Description,Target,Source
 Production,Total amount of farmed species by year and state. This data was put together by hand from individual state and agency reports.,Growth in production of 4% annually,Put together by hand from available state and agency reports
-Sustainability,Seafood Watch sustainability scores based on 10 different criteria. This data is used to weight production.,"NA","<a href=""https://www.seafoodwatch.org/"">Seafood Watch</a>"
+Sustainability,Seafood Watch sustainability scores based on 10 different criteria. This data is used to weight production.,"NA","<a href=""https://www.seafoodwatch.org/-/m/sfw/pdf/criteria/aquaculture/mba_seafood%20watch_aquaculture%20standard_version%20a2.pdf?la=en"" target = ""_blank"">Seafood Watch</a>"

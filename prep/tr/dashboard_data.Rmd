@@ -47,9 +47,9 @@ tr_data_info <- data.frame(
   Target = c("Annual job growth in ocean related sectors is equal to or greater than the national annual average job growth",
              "At least 100 days free of any beach closures, representing the average length of the swimming season for the region",
              "At least one access point every mile of coastline"),
-  Source = c('<a href="http://www.oceaneconomics.org/">National Ocean Economics Program</a>',
-             '<a href="https://watersgeo.epa.gov/beacon2/">EPA BEACON 2.0</a>',
-             '<a href="https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html">NOAA Office of Response & Restoration</a>')
+  Source = c('<a href="http://www.oceaneconomics.org/" target = "_blank">National Ocean Economics Program</a>',
+             '<a href="https://watersgeo.epa.gov/beacon2/" target = "_blank">EPA BEACON 2.0</a>',
+             '<a href="https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html" target = "_blank">NOAA Office of Response & Restoration</a>')
 )
 
 write_csv(tr_data_info, "data/tr_data_info.csv")

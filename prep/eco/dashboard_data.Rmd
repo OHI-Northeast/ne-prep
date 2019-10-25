@@ -32,7 +32,7 @@ eco_data_info <- data.frame(
   Layer = c("Gross Domestic Product"),
   Description = c("National Ocean Economics Program (NOEP) Ocean Economy data for average GDP associated with jobs that directly or indirectly depend upon the ocean"),
   Target = c("Annual growth in ocean related sectors’ GDP is at least 3%"),
-  Source = c('<a href="http://www.oceaneconomics.org/">National Ocean Economics Program</a>')
+  Source = c('<a href="http://www.oceaneconomics.org/" target = "_blank">National Ocean Economics Program</a>')
 )
 
 write_csv(eco_data_info, "data/eco_data_info.csv")

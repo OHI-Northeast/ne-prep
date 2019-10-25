@@ -81,10 +81,10 @@ cw_data_info <- data.frame(
              "Zero pounds of trash collected on all beaches on International Coastal Cleanup Day",
              "All monitoring sites classified as in “Good” water quality condition",
              "All monitoring sites classified as in “Good” sediment quality condition"),
-  Source = c('<a href="https://watersgeo.epa.gov/beacon2/">EPA BEACON 2.0</a>',
-             '<a href="https://oceanconservancy.org/trash-free-seas/international-coastal-cleanup/annual-data-release/">Ocean Conservancy</a>',
-             '<a href="https://www.epa.gov/national-aquatic-resource-surveys/ncca">EPA National Coastal Condition Assessment</a>',
-             '<a href="https://www.epa.gov/national-aquatic-resource-surveys/ncca">EPA National Coastal Condition Assessment</a>')
+  Source = c('<a href="https://watersgeo.epa.gov/beacon2/" target = "_blank">EPA BEACON 2.0</a>',
+             '<a href="https://oceanconservancy.org/trash-free-seas/international-coastal-cleanup/annual-data-release/" target = "_blank">Ocean Conservancy</a>',
+             '<a href="https://www.epa.gov/national-aquatic-resource-surveys/ncca" target = "_blank">EPA National Coastal Condition Assessment</a>',
+             '<a href="https://www.epa.gov/national-aquatic-resource-surveys/ncca" target = "_blank">EPA National Coastal Condition Assessment</a>')
 )
 
 write_csv(cw_data_info, "data/cw_data_info.csv")

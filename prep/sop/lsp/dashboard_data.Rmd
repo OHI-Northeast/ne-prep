@@ -36,8 +36,8 @@ lsp_data_info <- data.frame(
                   "Amount of land in the coastal zone (defined as 1km from shore) protected"),
   Target = c("10% of coastal waters protected (Aichi target)", 
              "17% of coastal land (1km from coast) protected (Aichi target)"),
-  Source = c('<a href="https://maps.usgs.gov/padus/">USGS Protected Areas Database v2.0</a>',
-             '<a href="https://maps.usgs.gov/padus/">USGS Protected Areas Database v2.0</a>'))
+  Source = c('<a href="https://maps.usgs.gov/padus/" target = "_blank">USGS Protected Areas Database v2.0</a>',
+             '<a href="https://maps.usgs.gov/padus/" target = "_blank">USGS Protected Areas Database v2.0</a>'))
 
 
 write_csv(lsp_data_info, "data/lsp_data_info.csv")

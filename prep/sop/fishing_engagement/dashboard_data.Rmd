@@ -35,8 +35,8 @@ spfis_data_info <- data.frame(
   Description = c("Measures the presence of commercial fishing through fishing activity as shown through permits and vessel landings.",
                   "Measures the presence of recreational fishing in relation to the population of a community"),
   Target = c("10% higher than the highest regional level", "10% higher than the highest regional level"),
-  Source = c('<a href="https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map">NOAA Social Vulnerability Index</a>',
-             '<a href="https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map">NOAA Social Vulnerability Index</a>')
+  Source = c('<a href="https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map" target = "_blank">NOAA Social Vulnerability Index</a>',
+             '<a href="https://www.st.nmfs.noaa.gov/humandimensions/social-indicators/map" target = "_blank">NOAA Social Vulnerability Index</a>')
 )
 
 
