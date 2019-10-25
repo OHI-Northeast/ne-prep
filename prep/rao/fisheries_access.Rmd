@@ -274,7 +274,7 @@ The FSSI scores range from 0 - 4 with 4 being the target. So we want to divide a
 fssi_scaled <- fssi_full %>%
   mutate(scores = FSSI/4) %>%
   group_by(rgn_id, rgn_name, year) %>%
-  summarize(average_fssi_score = mean(scores)) %>%
+  summarize(average_fssi_score = round(mean(scores), digits = 2)) %>%
   ungroup()
 
 write_csv(fssi_scaled, "data/avg_fssi_score_per_region_over_time.csv")

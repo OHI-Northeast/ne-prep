@@ -3,7 +3,7 @@ title: 'OHI-Northeast: Lasting Special Places - Terrestrial'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -125,7 +125,7 @@ for(i in 2005:2017){
     ungroup() %>%
     mutate(prot_area_m = st_area(geometry)) %>% #calculate total protected area
     left_join(inland_buffer %>% st_set_geometry(NULL)) %>% #join to inland buffer 
-    mutate(prop_area = prot_area_m/area, #calculate proportion of land in 1km region protected
+    mutate(prop_area = round(prot_area_m/area, digits = 2), #calculate proportion of land in 1km region protected
            type = "land",
            year = i) %>%
     st_set_geometry(NULL)

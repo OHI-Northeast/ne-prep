@@ -183,7 +183,7 @@ perc <- df_all %>%
         summarize(perc_closed = mean(perc_closed))
 
 dashboard_data <- perc %>%
-  mutate(perc_closed = 100*perc_closed) 
+  mutate(perc_closed = round(100*perc_closed, digits = 2)) 
 
 write_csv(dashboard_data, "data/proportion_closed_by_rgn.csv")
 ```

@@ -62,7 +62,8 @@ library(DT)
   cw_data <- wqi %>%
     bind_rows(sqi) %>%
     bind_rows(trash) %>%
-    bind_rows(path)
+    bind_rows(path) %>%
+    mutate(score = round(score, digits = 0))
 
   ## saving cw_data for dashboard -- CONSIDER DOING THIS IN PREP
   write_csv(cw_data, "data/region_layer_scores.csv")

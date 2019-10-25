@@ -1,39 +1,39 @@
 rgn_name,rgn_id,year,score,layer
-Connecticut,5,2006,56.14276674257839,Water Quality
-Connecticut,5,2007,57.57511740691409,Water Quality
-Connecticut,5,2008,59.00746807124979,Water Quality
-Connecticut,5,2009,60.43981873558549,Water Quality
-Connecticut,5,2010,61.87216939992119,Water Quality
-Maine,6,2006,98.91607487970478,Water Quality
-Maine,6,2007,97.30467830327756,Water Quality
-Maine,6,2008,95.69328172685033,Water Quality
-Maine,6,2009,94.08188515042309,Water Quality
-Maine,6,2010,92.47048857399587,Water Quality
-Massachusetts-North,7,2006,92.64705882352942,Water Quality
-Massachusetts-North,7,2007,93.74168504635364,Water Quality
-Massachusetts-North,7,2008,94.83631126917786,Water Quality
-Massachusetts-North,7,2009,95.93093749200209,Water Quality
-Massachusetts-North,7,2010,97.0255637148263,Water Quality
-Massachusetts-South,8,2006,88.30766388927441,Water Quality
-Massachusetts-South,8,2007,90.07500624264684,Water Quality
-Massachusetts-South,8,2008,91.84234859601926,Water Quality
-Massachusetts-South,8,2009,93.6096909493917,Water Quality
-Massachusetts-South,8,2010,95.37703330276413,Water Quality
-New Hampshire,9,2006,71.2962962962963,Water Quality
-New Hampshire,9,2007,70.07802272885115,Water Quality
-New Hampshire,9,2008,68.859749161406,Water Quality
-New Hampshire,9,2009,67.64147559396085,Water Quality
-New Hampshire,9,2010,66.4232020265157,Water Quality
-New York,10,2006,68.6947771205414,Water Quality
-New York,10,2007,68.93455451450677,Water Quality
-New York,10,2008,69.17433190847214,Water Quality
-New York,10,2009,69.41410930243751,Water Quality
-New York,10,2010,69.65388669640288,Water Quality
-Rhode Island,11,2006,76.3099068314533,Water Quality
-Rhode Island,11,2007,80.08723672502593,Water Quality
-Rhode Island,11,2008,83.86456661859856,Water Quality
-Rhode Island,11,2009,87.64189651217117,Water Quality
-Rhode Island,11,2010,91.4192264057438,Water Quality
+Connecticut,5,2006,56,Water Quality
+Connecticut,5,2007,58,Water Quality
+Connecticut,5,2008,59,Water Quality
+Connecticut,5,2009,60,Water Quality
+Connecticut,5,2010,62,Water Quality
+Maine,6,2006,99,Water Quality
+Maine,6,2007,97,Water Quality
+Maine,6,2008,96,Water Quality
+Maine,6,2009,94,Water Quality
+Maine,6,2010,92,Water Quality
+Massachusetts-North,7,2006,93,Water Quality
+Massachusetts-North,7,2007,94,Water Quality
+Massachusetts-North,7,2008,95,Water Quality
+Massachusetts-North,7,2009,96,Water Quality
+Massachusetts-North,7,2010,97,Water Quality
+Massachusetts-South,8,2006,88,Water Quality
+Massachusetts-South,8,2007,90,Water Quality
+Massachusetts-South,8,2008,92,Water Quality
+Massachusetts-South,8,2009,94,Water Quality
+Massachusetts-South,8,2010,95,Water Quality
+New Hampshire,9,2006,71,Water Quality
+New Hampshire,9,2007,70,Water Quality
+New Hampshire,9,2008,69,Water Quality
+New Hampshire,9,2009,68,Water Quality
+New Hampshire,9,2010,66,Water Quality
+New York,10,2006,69,Water Quality
+New York,10,2007,69,Water Quality
+New York,10,2008,69,Water Quality
+New York,10,2009,69,Water Quality
+New York,10,2010,70,Water Quality
+Rhode Island,11,2006,76,Water Quality
+Rhode Island,11,2007,80,Water Quality
+Rhode Island,11,2008,84,Water Quality
+Rhode Island,11,2009,88,Water Quality
+Rhode Island,11,2010,91,Water Quality
 Offshore,1,2006,NA,Water Quality
 Georges Bank,2,2006,NA,Water Quality
 Gulf of Maine,3,2006,NA,Water Quality
@@ -54,41 +54,41 @@ Offshore,1,2010,NA,Water Quality
 Georges Bank,2,2010,NA,Water Quality
 Gulf of Maine,3,2010,NA,Water Quality
 Mid-Atlantic Bight,4,2010,NA,Water Quality
-Connecticut,5,2006,66.80721365676837,Sediment Quality
-Connecticut,5,2007,67.4501005402961,Sediment Quality
-Connecticut,5,2008,68.09298742382384,Sediment Quality
-Connecticut,5,2009,68.73587430735157,Sediment Quality
-Connecticut,5,2010,69.3787611908793,Sediment Quality
-Maine,6,2006,93.38537529229909,Sediment Quality
-Maine,6,2007,89.12974460139795,Sediment Quality
-Maine,6,2008,84.87411391049679,Sediment Quality
-Maine,6,2009,80.61848321959565,Sediment Quality
-Maine,6,2010,76.3628525286945,Sediment Quality
-Massachusetts-North,7,2006,83.33333333333333,Sediment Quality
-Massachusetts-North,7,2007,81.75039166131361,Sediment Quality
-Massachusetts-North,7,2008,80.1674499892939,Sediment Quality
-Massachusetts-North,7,2009,78.58450831727419,Sediment Quality
-Massachusetts-North,7,2010,77.00156664525447,Sediment Quality
-Massachusetts-South,8,2006,98.66201772217201,Sediment Quality
-Massachusetts-South,8,2007,84.54711030694851,Sediment Quality
-Massachusetts-South,8,2008,70.43220289172503,Sediment Quality
-Massachusetts-South,8,2009,56.31729547650153,Sediment Quality
-Massachusetts-South,8,2010,42.202388061278036,Sediment Quality
-New Hampshire,9,2006,76.47058823529412,Sediment Quality
-New Hampshire,9,2007,78.07986136333186,Sediment Quality
-New Hampshire,9,2008,79.6891344913696,Sediment Quality
-New Hampshire,9,2009,81.29840761940736,Sediment Quality
-New Hampshire,9,2010,82.9076807474451,Sediment Quality
-New York,10,2006,77.14645569611903,Sediment Quality
-New York,10,2007,76.03648202501009,Sediment Quality
-New York,10,2008,74.92650835390114,Sediment Quality
-New York,10,2009,73.81653468279218,Sediment Quality
-New York,10,2010,72.70656101168323,Sediment Quality
-Rhode Island,11,2006,80.0572925020384,Sediment Quality
-Rhode Island,11,2007,72.16439839906243,Sediment Quality
-Rhode Island,11,2008,64.27150429608646,Sediment Quality
-Rhode Island,11,2009,56.3786101931105,Sediment Quality
-Rhode Island,11,2010,48.48571609013453,Sediment Quality
+Connecticut,5,2006,67,Sediment Quality
+Connecticut,5,2007,67,Sediment Quality
+Connecticut,5,2008,68,Sediment Quality
+Connecticut,5,2009,69,Sediment Quality
+Connecticut,5,2010,69,Sediment Quality
+Maine,6,2006,93,Sediment Quality
+Maine,6,2007,89,Sediment Quality
+Maine,6,2008,85,Sediment Quality
+Maine,6,2009,81,Sediment Quality
+Maine,6,2010,76,Sediment Quality
+Massachusetts-North,7,2006,83,Sediment Quality
+Massachusetts-North,7,2007,82,Sediment Quality
+Massachusetts-North,7,2008,80,Sediment Quality
+Massachusetts-North,7,2009,79,Sediment Quality
+Massachusetts-North,7,2010,77,Sediment Quality
+Massachusetts-South,8,2006,99,Sediment Quality
+Massachusetts-South,8,2007,85,Sediment Quality
+Massachusetts-South,8,2008,70,Sediment Quality
+Massachusetts-South,8,2009,56,Sediment Quality
+Massachusetts-South,8,2010,42,Sediment Quality
+New Hampshire,9,2006,76,Sediment Quality
+New Hampshire,9,2007,78,Sediment Quality
+New Hampshire,9,2008,80,Sediment Quality
+New Hampshire,9,2009,81,Sediment Quality
+New Hampshire,9,2010,83,Sediment Quality
+New York,10,2006,77,Sediment Quality
+New York,10,2007,76,Sediment Quality
+New York,10,2008,75,Sediment Quality
+New York,10,2009,74,Sediment Quality
+New York,10,2010,73,Sediment Quality
+Rhode Island,11,2006,80,Sediment Quality
+Rhode Island,11,2007,72,Sediment Quality
+Rhode Island,11,2008,64,Sediment Quality
+Rhode Island,11,2009,56,Sediment Quality
+Rhode Island,11,2010,48,Sediment Quality
 Offshore,1,2006,NA,Sediment Quality
 Georges Bank,2,2006,NA,Sediment Quality
 Gulf of Maine,3,2006,NA,Sediment Quality
@@ -157,181 +157,181 @@ Mid-Atlantic Bight,4,2014,NA,Trash
 Mid-Atlantic Bight,4,2015,NA,Trash
 Mid-Atlantic Bight,4,2016,NA,Trash
 Mid-Atlantic Bight,4,2017,NA,Trash
-Connecticut,5,2006,94.3820892450468,Trash
-Connecticut,5,2007,94.3820892450468,Trash
-Connecticut,5,2008,92.29924234341979,Trash
-Connecticut,5,2009,93.6832953163515,Trash
-Connecticut,5,2010,93.18230867213259,Trash
-Connecticut,5,2011,89.0808474348688,Trash
-Connecticut,5,2012,94.53548327715559,Trash
-Connecticut,5,2013,94.0775021365535,Trash
-Connecticut,5,2014,84.48133664880831,Trash
-Connecticut,5,2015,90.2015731877832,Trash
-Connecticut,5,2016,95.3289212569475,Trash
-Connecticut,5,2017,90.2401939691338,Trash
-Maine,6,2006,95.8676000680545,Trash
-Maine,6,2007,95.8676000680545,Trash
-Maine,6,2008,92.04495146981651,Trash
-Maine,6,2009,94.55411146195671,Trash
-Maine,6,2010,94.44597880669559,Trash
-Maine,6,2011,91.8888808170394,Trash
-Maine,6,2012,90.1603054790734,Trash
-Maine,6,2013,96.7125997856176,Trash
-Maine,6,2014,95.1516437406876,Trash
-Maine,6,2015,84.058799158423,Trash
-Maine,6,2016,96.53481820491801,Trash
-Maine,6,2017,95.5453221981528,Trash
-Massachusetts-North,7,2006,90.88211617425,Trash
-Massachusetts-North,7,2007,90.88211617425,Trash
-Massachusetts-North,7,2008,93.016909879696,Trash
-Massachusetts-North,7,2009,89.95901542044619,Trash
-Massachusetts-North,7,2010,93.2738111078232,Trash
-Massachusetts-North,7,2011,92.2988000218912,Trash
-Massachusetts-North,7,2012,94.58300908100739,Trash
-Massachusetts-North,7,2013,79.45206893423091,Trash
-Massachusetts-North,7,2014,81.6145425882271,Trash
-Massachusetts-North,7,2015,76.7592569629261,Trash
-Massachusetts-North,7,2016,94.83404487049229,Trash
-Massachusetts-North,7,2017,72.5284569705359,Trash
-Massachusetts-South,8,2006,90.88211617425,Trash
-Massachusetts-South,8,2007,90.88211617425,Trash
-Massachusetts-South,8,2008,93.016909879696,Trash
-Massachusetts-South,8,2009,89.95901542044619,Trash
-Massachusetts-South,8,2010,93.2738111078232,Trash
-Massachusetts-South,8,2011,92.2988000218912,Trash
-Massachusetts-South,8,2012,94.58300908100739,Trash
-Massachusetts-South,8,2013,79.45206893423091,Trash
-Massachusetts-South,8,2014,81.6145425882271,Trash
-Massachusetts-South,8,2015,76.7592569629261,Trash
-Massachusetts-South,8,2016,94.83404487049229,Trash
-Massachusetts-South,8,2017,72.5284569705359,Trash
-New Hampshire,9,2006,94.7796028469723,Trash
-New Hampshire,9,2007,94.7796028469723,Trash
-New Hampshire,9,2008,95.2875088400846,Trash
-New Hampshire,9,2009,93.0852028619314,Trash
-New Hampshire,9,2010,93.7860168498214,Trash
-New Hampshire,9,2011,93.00785430087261,Trash
-New Hampshire,9,2012,97.1499134518385,Trash
-New Hampshire,9,2013,97.9791914997253,Trash
-New Hampshire,9,2014,95.0093105362847,Trash
-New Hampshire,9,2015,92.8478095031455,Trash
-New Hampshire,9,2016,94.9415799201317,Trash
-New Hampshire,9,2017,93.60568666652091,Trash
-New York,10,2006,85.3632861191996,Trash
-New York,10,2007,85.3632861191996,Trash
-New York,10,2008,87.7226217973682,Trash
-New York,10,2009,86.64891648663769,Trash
-New York,10,2010,80.5846197919877,Trash
-New York,10,2011,85.9049670642929,Trash
-New York,10,2012,89.7609737267037,Trash
-New York,10,2013,90.73539658143261,Trash
-New York,10,2014,87.0851740604399,Trash
-New York,10,2015,84.3854893702882,Trash
-New York,10,2016,90.6846591946524,Trash
-New York,10,2017,94.9095039506951,Trash
-Rhode Island,11,2006,88.8704223942178,Trash
-Rhode Island,11,2007,88.8704223942178,Trash
-Rhode Island,11,2008,92.9965384770567,Trash
-Rhode Island,11,2009,90.9135046315777,Trash
-Rhode Island,11,2010,88.09811688103531,Trash
-Rhode Island,11,2011,88.6471593781956,Trash
-Rhode Island,11,2012,91.1078080552868,Trash
-Rhode Island,11,2013,90.35706359169299,Trash
-Rhode Island,11,2014,92.51343465855,Trash
-Rhode Island,11,2015,91.4308159124472,Trash
-Rhode Island,11,2016,93.5863737243535,Trash
-Rhode Island,11,2017,93.9817667101416,Trash
-Connecticut,5,2005,94.8,Pathogens
-Connecticut,5,2006,94.35897435897441,Pathogens
-Connecticut,5,2007,96.5806451612903,Pathogens
-Connecticut,5,2008,95.4347826086957,Pathogens
-Connecticut,5,2009,96.39999999999999,Pathogens
-Connecticut,5,2010,96.2432432432432,Pathogens
-Connecticut,5,2011,92.156862745098,Pathogens
-Connecticut,5,2012,95.8333333333333,Pathogens
-Connecticut,5,2013,97.1351351351351,Pathogens
-Connecticut,5,2014,96.45454545454551,Pathogens
-Connecticut,5,2015,97.448275862069,Pathogens
-Connecticut,5,2016,94.875,Pathogens
-Connecticut,5,2017,95.1875,Pathogens
-Maine,6,2005,93.25,Pathogens
-Maine,6,2006,92.58823529411761,Pathogens
-Maine,6,2007,93.7586206896552,Pathogens
-Maine,6,2008,93.35,Pathogens
-Maine,6,2009,93.60606060606061,Pathogens
-Maine,6,2010,92.5185185185185,Pathogens
-Maine,6,2011,93.7222222222222,Pathogens
-Maine,6,2012,95.3809523809524,Pathogens
-Maine,6,2013,89.81481481481481,Pathogens
-Maine,6,2014,93.2647058823529,Pathogens
-Maine,6,2015,93.2972972972973,Pathogens
-Maine,6,2016,96.4857142857143,Pathogens
-Maine,6,2017,97.0625,Pathogens
-Massachusetts-North,7,2005,95.2816901408451,Pathogens
-Massachusetts-North,7,2006,89.5,Pathogens
-Massachusetts-North,7,2007,95.27536231884059,Pathogens
-Massachusetts-North,7,2008,93.7763157894737,Pathogens
-Massachusetts-North,7,2009,93.43362831858411,Pathogens
-Massachusetts-North,7,2010,93.7093023255814,Pathogens
-Massachusetts-North,7,2011,92.9438202247191,Pathogens
-Massachusetts-North,7,2012,93.7,Pathogens
-Massachusetts-North,7,2013,93.2650602409639,Pathogens
-Massachusetts-North,7,2014,93.69387755102039,Pathogens
-Massachusetts-North,7,2015,89.3571428571429,Pathogens
-Massachusetts-North,7,2016,93.2,Pathogens
-Massachusetts-North,7,2017,94.093023255814,Pathogens
-Massachusetts-South,8,2005,97.8,Pathogens
-Massachusetts-South,8,2006,93.7741935483871,Pathogens
-Massachusetts-South,8,2007,96.7741935483871,Pathogens
-Massachusetts-South,8,2008,97.5,Pathogens
-Massachusetts-South,8,2009,95.91836734693881,Pathogens
-Massachusetts-South,8,2010,95.7931034482759,Pathogens
-Massachusetts-South,8,2011,96.0625,Pathogens
-Massachusetts-South,8,2012,95.64705882352939,Pathogens
-Massachusetts-South,8,2013,96.2361111111111,Pathogens
-Massachusetts-South,8,2014,94.9642857142857,Pathogens
-Massachusetts-South,8,2015,94.9166666666667,Pathogens
-Massachusetts-South,8,2016,96.2352941176471,Pathogens
-Massachusetts-South,8,2017,95.6875,Pathogens
+Connecticut,5,2006,94,Trash
+Connecticut,5,2007,94,Trash
+Connecticut,5,2008,92,Trash
+Connecticut,5,2009,94,Trash
+Connecticut,5,2010,93,Trash
+Connecticut,5,2011,89,Trash
+Connecticut,5,2012,95,Trash
+Connecticut,5,2013,94,Trash
+Connecticut,5,2014,84,Trash
+Connecticut,5,2015,90,Trash
+Connecticut,5,2016,95,Trash
+Connecticut,5,2017,90,Trash
+Maine,6,2006,96,Trash
+Maine,6,2007,96,Trash
+Maine,6,2008,92,Trash
+Maine,6,2009,95,Trash
+Maine,6,2010,94,Trash
+Maine,6,2011,92,Trash
+Maine,6,2012,90,Trash
+Maine,6,2013,97,Trash
+Maine,6,2014,95,Trash
+Maine,6,2015,84,Trash
+Maine,6,2016,97,Trash
+Maine,6,2017,96,Trash
+Massachusetts-North,7,2006,91,Trash
+Massachusetts-North,7,2007,91,Trash
+Massachusetts-North,7,2008,93,Trash
+Massachusetts-North,7,2009,90,Trash
+Massachusetts-North,7,2010,93,Trash
+Massachusetts-North,7,2011,92,Trash
+Massachusetts-North,7,2012,95,Trash
+Massachusetts-North,7,2013,79,Trash
+Massachusetts-North,7,2014,82,Trash
+Massachusetts-North,7,2015,77,Trash
+Massachusetts-North,7,2016,95,Trash
+Massachusetts-North,7,2017,73,Trash
+Massachusetts-South,8,2006,91,Trash
+Massachusetts-South,8,2007,91,Trash
+Massachusetts-South,8,2008,93,Trash
+Massachusetts-South,8,2009,90,Trash
+Massachusetts-South,8,2010,93,Trash
+Massachusetts-South,8,2011,92,Trash
+Massachusetts-South,8,2012,95,Trash
+Massachusetts-South,8,2013,79,Trash
+Massachusetts-South,8,2014,82,Trash
+Massachusetts-South,8,2015,77,Trash
+Massachusetts-South,8,2016,95,Trash
+Massachusetts-South,8,2017,73,Trash
+New Hampshire,9,2006,95,Trash
+New Hampshire,9,2007,95,Trash
+New Hampshire,9,2008,95,Trash
+New Hampshire,9,2009,93,Trash
+New Hampshire,9,2010,94,Trash
+New Hampshire,9,2011,93,Trash
+New Hampshire,9,2012,97,Trash
+New Hampshire,9,2013,98,Trash
+New Hampshire,9,2014,95,Trash
+New Hampshire,9,2015,93,Trash
+New Hampshire,9,2016,95,Trash
+New Hampshire,9,2017,94,Trash
+New York,10,2006,85,Trash
+New York,10,2007,85,Trash
+New York,10,2008,88,Trash
+New York,10,2009,87,Trash
+New York,10,2010,81,Trash
+New York,10,2011,86,Trash
+New York,10,2012,90,Trash
+New York,10,2013,91,Trash
+New York,10,2014,87,Trash
+New York,10,2015,84,Trash
+New York,10,2016,91,Trash
+New York,10,2017,95,Trash
+Rhode Island,11,2006,89,Trash
+Rhode Island,11,2007,89,Trash
+Rhode Island,11,2008,93,Trash
+Rhode Island,11,2009,91,Trash
+Rhode Island,11,2010,88,Trash
+Rhode Island,11,2011,89,Trash
+Rhode Island,11,2012,91,Trash
+Rhode Island,11,2013,90,Trash
+Rhode Island,11,2014,93,Trash
+Rhode Island,11,2015,91,Trash
+Rhode Island,11,2016,94,Trash
+Rhode Island,11,2017,94,Trash
+Connecticut,5,2005,95,Pathogens
+Connecticut,5,2006,94,Pathogens
+Connecticut,5,2007,97,Pathogens
+Connecticut,5,2008,95,Pathogens
+Connecticut,5,2009,96,Pathogens
+Connecticut,5,2010,96,Pathogens
+Connecticut,5,2011,92,Pathogens
+Connecticut,5,2012,96,Pathogens
+Connecticut,5,2013,97,Pathogens
+Connecticut,5,2014,96,Pathogens
+Connecticut,5,2015,97,Pathogens
+Connecticut,5,2016,95,Pathogens
+Connecticut,5,2017,95,Pathogens
+Maine,6,2005,93,Pathogens
+Maine,6,2006,93,Pathogens
+Maine,6,2007,94,Pathogens
+Maine,6,2008,93,Pathogens
+Maine,6,2009,94,Pathogens
+Maine,6,2010,93,Pathogens
+Maine,6,2011,94,Pathogens
+Maine,6,2012,95,Pathogens
+Maine,6,2013,90,Pathogens
+Maine,6,2014,93,Pathogens
+Maine,6,2015,93,Pathogens
+Maine,6,2016,96,Pathogens
+Maine,6,2017,97,Pathogens
+Massachusetts-North,7,2005,95,Pathogens
+Massachusetts-North,7,2006,90,Pathogens
+Massachusetts-North,7,2007,95,Pathogens
+Massachusetts-North,7,2008,94,Pathogens
+Massachusetts-North,7,2009,93,Pathogens
+Massachusetts-North,7,2010,94,Pathogens
+Massachusetts-North,7,2011,93,Pathogens
+Massachusetts-North,7,2012,94,Pathogens
+Massachusetts-North,7,2013,93,Pathogens
+Massachusetts-North,7,2014,94,Pathogens
+Massachusetts-North,7,2015,89,Pathogens
+Massachusetts-North,7,2016,93,Pathogens
+Massachusetts-North,7,2017,94,Pathogens
+Massachusetts-South,8,2005,98,Pathogens
+Massachusetts-South,8,2006,94,Pathogens
+Massachusetts-South,8,2007,97,Pathogens
+Massachusetts-South,8,2008,98,Pathogens
+Massachusetts-South,8,2009,96,Pathogens
+Massachusetts-South,8,2010,96,Pathogens
+Massachusetts-South,8,2011,96,Pathogens
+Massachusetts-South,8,2012,96,Pathogens
+Massachusetts-South,8,2013,96,Pathogens
+Massachusetts-South,8,2014,95,Pathogens
+Massachusetts-South,8,2015,95,Pathogens
+Massachusetts-South,8,2016,96,Pathogens
+Massachusetts-South,8,2017,96,Pathogens
 New Hampshire,9,2005,99,Pathogens
-New Hampshire,9,2006,95.39999999999999,Pathogens
+New Hampshire,9,2006,95,Pathogens
 New Hampshire,9,2007,98,Pathogens
-New Hampshire,9,2008,96.75,Pathogens
-New Hampshire,9,2009,97.6,Pathogens
-New Hampshire,9,2010,96.8,Pathogens
+New Hampshire,9,2008,97,Pathogens
+New Hampshire,9,2009,98,Pathogens
+New Hampshire,9,2010,97,Pathogens
 New Hampshire,9,2011,97,Pathogens
 New Hampshire,9,2012,98,Pathogens
-New Hampshire,9,2013,95.5,Pathogens
-New Hampshire,9,2014,96.25,Pathogens
+New Hampshire,9,2013,96,Pathogens
+New Hampshire,9,2014,96,Pathogens
 New Hampshire,9,2015,98,Pathogens
 New Hampshire,9,2016,94,Pathogens
 New Hampshire,9,2017,97,Pathogens
-New York,10,2005,92.2823529411765,Pathogens
-New York,10,2006,88.0733944954128,Pathogens
-New York,10,2007,89.1440677966102,Pathogens
-New York,10,2008,89.140350877193,Pathogens
-New York,10,2009,87.983606557377,Pathogens
+New York,10,2005,92,Pathogens
+New York,10,2006,88,Pathogens
+New York,10,2007,89,Pathogens
+New York,10,2008,89,Pathogens
+New York,10,2009,88,Pathogens
 New York,10,2010,94,Pathogens
-New York,10,2011,91.0782122905028,Pathogens
-New York,10,2012,87.2661290322581,Pathogens
-New York,10,2013,89.7457627118644,Pathogens
-New York,10,2014,88.9237288135593,Pathogens
-New York,10,2015,87.6525423728814,Pathogens
-New York,10,2016,91.1794871794872,Pathogens
-New York,10,2017,83.9541984732824,Pathogens
-Rhode Island,11,2005,91.2,Pathogens
-Rhode Island,11,2006,63.800000000000004,Pathogens
-Rhode Island,11,2007,95.4285714285714,Pathogens
-Rhode Island,11,2008,93.8095238095238,Pathogens
-Rhode Island,11,2009,89.4444444444444,Pathogens
-Rhode Island,11,2010,96.1428571428571,Pathogens
-Rhode Island,11,2011,95.6666666666667,Pathogens
-Rhode Island,11,2012,97.1538461538462,Pathogens
-Rhode Island,11,2013,93.2666666666667,Pathogens
-Rhode Island,11,2014,97.3125,Pathogens
-Rhode Island,11,2015,96.1666666666667,Pathogens
-Rhode Island,11,2016,96.4285714285714,Pathogens
-Rhode Island,11,2017,93.8,Pathogens
+New York,10,2011,91,Pathogens
+New York,10,2012,87,Pathogens
+New York,10,2013,90,Pathogens
+New York,10,2014,89,Pathogens
+New York,10,2015,88,Pathogens
+New York,10,2016,91,Pathogens
+New York,10,2017,84,Pathogens
+Rhode Island,11,2005,91,Pathogens
+Rhode Island,11,2006,64,Pathogens
+Rhode Island,11,2007,95,Pathogens
+Rhode Island,11,2008,94,Pathogens
+Rhode Island,11,2009,89,Pathogens
+Rhode Island,11,2010,96,Pathogens
+Rhode Island,11,2011,96,Pathogens
+Rhode Island,11,2012,97,Pathogens
+Rhode Island,11,2013,93,Pathogens
+Rhode Island,11,2014,97,Pathogens
+Rhode Island,11,2015,96,Pathogens
+Rhode Island,11,2016,96,Pathogens
+Rhode Island,11,2017,94,Pathogens
 Offshore,1,2005,NA,Pathogens
 Georges Bank,2,2005,NA,Pathogens
 Gulf of Maine,3,2005,NA,Pathogens

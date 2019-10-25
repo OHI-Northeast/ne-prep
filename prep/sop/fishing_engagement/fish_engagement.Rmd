@@ -3,7 +3,7 @@ title: 'OHI-Northeast: Fishing Engagement'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -129,7 +129,9 @@ for(i in 2009:2016){
 }
 ```
 
-# Load community shapefile and select just coastal communities
+# Select Coastal Communities
+
+## Load community shapefile and select just coastal communities
 
 ```{r intersect_coastal_communities}
 shp <- read_sf(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_FINAL_090519/commondata/2016_mapping/2016_National_Indicators_FINAL_082919.shp")) %>%
@@ -151,8 +153,7 @@ coastal <- shp %>%
 
 ```
 
-
-# Filter data for just coastal communities
+## Filter data for just coastal communities
 
 ```{r filter_coastal_communities}
 coastal_data <- out %>%
@@ -187,9 +188,8 @@ df_ref <- rescaled_df %>%
 
 ```{r score}
 scored_df <- df_ref %>%
-  mutate(score = mean_score/(1.1*ref))
+  mutate(score = round(mean_score/(1.1*ref), digits = 2))
 ```
-
 
 # Visualize
 

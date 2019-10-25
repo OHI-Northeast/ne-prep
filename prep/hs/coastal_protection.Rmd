@@ -100,7 +100,7 @@ cp_scores <- eelgrass %>%
   bind_rows(salt_marsh) %>%
   mutate(weight_times_score = ifelse(habitat == "eelgrass", score, score*4)) %>%
   group_by(rgn_id, rgn_name, year) %>%
-  summarize(cp_score = sum(weight_times_score)/5) %>%
+  summarize(cp_score = round(sum(weight_times_score)/5, digits = 2)) %>%
   filter(year > 2005) #eelgrass data starts at 2006 so can only measure CS for overlapping years
 ```
 

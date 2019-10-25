@@ -55,7 +55,7 @@ eelgrass   <- read_csv("~/github/ne-scores/region/layers/hab_eelgrass.csv") %>%
 salt_marsh <- read_csv("~/github/ne-scores/region/layers/hab_salt_marsh.csv") %>%
   rowwise() %>%
   mutate(habitat = "saltmarsh",
-          score  = min(100, (100 - perc_loss))) %>% #prevents score from going above 100
+          score  = round(min(100, (100 - perc_loss)), digits = 2)) %>% #prevents score from going above 100
   left_join(rgns) %>%
   select(rgn_name, year, score, habitat, rgn_id)
 ```
@@ -98,7 +98,7 @@ ggplot(salt_marsh, aes(x = year, y = score, color = rgn_name)) +
 combo <- eelgrass %>%
   bind_rows(salt_marsh) %>%
   group_by(rgn_id, rgn_name, year) %>%
-  summarize(cs_score = mean(score)) %>%
+  summarize(cs_score = round(mean(score)), digits = 2) %>%
   filter(year > 2005) #eelgrass data starts at 2006 so can only measure CS for overlapping years
 ```
 

@@ -80,92 +80,6 @@ marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/P
          !is.na(Loc_Ds)) 
 ```
 
-Look at the areas we included and didn't include as protected areas for this layer (map for Michelle Bachman)
-```{r}
-marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
-  st_transform(us_alb) %>%
-  st_crop(rgns)
-
-states <- read_sf(dsn = file.path(dir_prep, "spatial/shapefiles/states.shp")) %>%
-  st_transform(us_alb)
-
-## Fishery Management Area
-a <- marine  %>% 
-  filter(Loc_Ds %in% c("Fishery Management Area", "Fishery Management Areas"))
-#mapview(a)
-ag <- ggplot(a) +
- geom_sf(states, mapping = aes()) +
-  
-  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
-  position = "identity", na.rm = FALSE, show.legend = FALSE) +
-  theme_bw() +
-  ggtitle("Fishery Management Areas")
-
-## Closure Areas
-b <- marine %>% 
-  filter(Loc_Ds %in% c("Closure Area"))
-bg <- ggplot(b) +
-  geom_sf(states, mapping = aes())+
-  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
-  position = "identity", na.rm = FALSE, show.legend = FALSE) +
-  theme_bw()+
-  ggtitle("Closure Area")
-
-## Shellfihs management areas
-c <- marine %>% 
-  filter(Loc_Ds %in% c("Shellfish Management Area"))
-cg <- ggplot(c) +
-  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
-  position = "identity", na.rm = FALSE, show.legend = FALSE) + 
-  geom_sf(states, mapping = aes())+
-  theme_bw()+
-  ggtitle("Shellfish Management Area")
-
-## Essential Fish Habitat Conservation Area"
-d <- marine %>% 
-  filter(Loc_Ds %in% c("Essential Fish Habitat Conservation Area"))
-dg <- ggplot(d) +
-  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
-  position = "identity", na.rm = FALSE, show.legend = FALSE) + 
-  geom_sf(states, mapping = aes())+
-  theme_bw()+
-  ggtitle("Essential Fish Habitat Conservation Area")
-
-## Conservation area
-e <- marine %>% 
-  filter(Loc_Ds %in% c("Conservation Area"))
-eg <- ggplot(e) +
-  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
-  position = "identity", na.rm = FALSE, show.legend = FALSE) + 
-  geom_sf(states, mapping = aes())+
-  theme_bw()+
-  ggtitle("Conservation Area")
-
-## Gear restricted area
-f <- marine %>% 
-  filter(Loc_Ds %in% c("Gear Restricted Area"))
-fg <- ggplot(f) +
-  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
-  position = "identity", na.rm = FALSE, show.legend = FALSE) + 
-  geom_sf(states, mapping = aes())+
-  theme_bw()+
-  ggtitle("Gear Restricted Area")
-
-## Special Area Management Plan
-g <- marine %>% 
-  filter(Loc_Ds %in% c("Special Area Management Plan"))
-gg <- ggplot(g) +
-  geom_sf(mapping = aes(fill=Loc_Ds), data = NULL, stat = "sf",
-  position = "identity", na.rm = FALSE, show.legend = FALSE) + 
-  geom_sf(states, mapping = aes())+
-  theme_bw()+
-  ggtitle("Special Area Management Plan")
-
-all <- cowplot::plot_grid(ag,bg,cg,dg,eg,fg,gg)
-all
-```
-
-
 # Calculate total area protected
 
 We want to know the proportion of area protected within each region. 
@@ -182,7 +96,7 @@ marine_protected_by_rgn <- marine %>%
   ungroup() %>%
   mutate(area = st_area(geometry)/1000000) %>% #calculate total protected area
   left_join(rgn_data) %>%
-  mutate(prop_area = as.numeric(area)/area_km2, #calculate proportion of state waters protected
+  mutate(prop_area = round(as.numeric(area)/area_km2, digits = 2),#calculate proportion of state waters protected
          type = "marine",
          year = 2005) %>%
     st_set_geometry(NULL) %>% 

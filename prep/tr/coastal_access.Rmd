@@ -106,7 +106,7 @@ out <- df %>%
     state == "Rhode Island" ~ ri_area,
     state == "Maine" ~ me_area
   )) %>%
-  mutate(score = 1-as.numeric(area)) %>%
+  mutate(score = round(1-as.numeric(area), digits = 2)) %>%
   left_join(rgn_data, by = c("state" = "rgn_name"))
 ```
 
