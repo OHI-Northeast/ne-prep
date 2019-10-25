@@ -59,11 +59,9 @@ salt_marsh <- read_csv("data/salt_marsh_percent_change.csv") %>%
   mutate(perc_loss = na.approx(total_loss)) %>%
   complete(year = 1996:2017) %>%
   mutate(perc_loss = na.locf(perc_loss)) %>% #now we carry forward the 2010 value for all years to 2017
-  ungroup() %>%
-  rowwise() %>%
   mutate(metric = "percent_loss",
          raw_data = total_loss,
-         score  = min(100, (100 - perc_loss)),
+         score  = round(pmin(100, (100 - perc_loss)), digits = 2),
          habitat = "salt_marsh") %>%
   select(year, rgn_name, raw_data, metric, score, habitat)
 
