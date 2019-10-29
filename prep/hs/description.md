@@ -6,6 +6,10 @@ Healthy habitats contribute to coastal protection from storm surge, flooding and
 
 ## Data Layers
 
+The **salt marsh** layer was derived from NOAA's Coastal Change Analysis Program (C-CAP). We calculated the total salt marsh area from 1996 and included included areas identified as estuarine forested wetland, estuarine scrub/shrub wetland, estuarine emergent wetland, and estuarine aquatic beds in our analysis. We then calculated percent change each year compared to the historic 1850 coverage to quantify loss of coastal protection and carbon storage due to salt marsh loss. The target is no loss of salt marsh reference since the historical reference point.
+
+The **eelgrass** layer was derived eelgrass data downloaded from the Northeast Ocean Data Portal and the EPA's National Coastal Condition Assessment Water Quality Index (WQI) data. For eelgrass, the current and historical eelgrass locations downloaded and then combined to create one single shapefile that indicates presence of eelgrass at any point in recent history (back to the 1980's). We have excluded "widgeongrass". The WQI data was then overlaid on top of the eelgrass maps, to identify areas of unsuitable water quality for eelgrass beds. Our target is that the Water Quality Index in all eelgrass beds is classified as “Good” by the EPA.
+
 ## Model
 
 ### Carbon Storage

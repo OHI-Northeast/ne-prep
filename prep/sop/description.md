@@ -1,6 +1,6 @@
 # Sense of Place
 
-A connection with the ocean is an important indicator of ocean health. While quantifying a feeling is a difficult endeavor, we feel it is an important aspect of measuring ocean health since this type of connection fosters stewardship. To do so, we try to capture the aspects of the coastal and marine system that people value as part of their cultural identity. This goal scores highest when marine species which are valued by the community are doing well and when there are areas identified as special and needing long term protection.
+A connection with the ocean is an important indicator of ocean health. While quantifying a feeling is a difficult endeavor, we feel it is an important aspect of measuring ocean health since this type of connection fosters stewardship. To do so, we try to capture the aspects of the coastal and marine system that people value as part of their cultural identity. This definition includes people living near the ocean and those who live far from it but still derive a sense of identity or value from the ocean.This goal scores highest when marine species which are valued by the community are doing well, when there are areas identified as special and needing long term protection, and when there is fishing enagement
 
 We include three measures of sense of place: status of iconic species, protection of lasting special places, and fishing engagement.
 
@@ -27,5 +27,7 @@ The **commercial fishing engagement** layer is derived from NOAA Vulnerability I
 The **recreational fishing engagement** layer is derived from NOAA Vulnerability Index. A high score means high resilience and is measured by the presence of recreational fishing in relation to the population of a community. The target is 10% higher than the highest regional level
 
 ## Model
+
+All layers are equally weighted when calculating the goal score for sense of place.
 
 ## References

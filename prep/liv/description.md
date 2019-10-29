@@ -6,9 +6,10 @@ Jobs and revenue produced from marine-related industries are clearly of huge val
 
 ### Livelihoods
 
-Annual **employment** rate changes in ocean related sectors was derived from the National Ocean Economics Program data. We calculated annual job growth rates by comparing total employment to the average number of jobs over the previous 3 years. The target for region job growth is set to be equal to or greater than the national average, calculated using data from the Bureau of Labor Statistics.
+Annual **employment** rate changes in ocean related sectors was derived from the National Ocean Economics Program data. We calculated annual job growth rates and compared total employment that year to the average number of jobs over the previous 3 years. Because there is no absolute reference point for employment (i.e., a target number would be completely arbitrary), this layer uses a moving baseline as the reference point. The reference for regions job growth is set to be equal to or greater than the national average that year, calculated using data from the Bureau of Labor Statistics. This reflects an implicit goal of maintaining coastal employment on short time scales, allowing for decadal or generational shifts in what people want and expect.
 
-Annual **wages** rate changes in ocean related sectors was derived from the National Ocean Economics Program data. Annual wage growth is measured by comparing mean annual wages to the  wages of the previous year. The target for mean annual wage growth is set at 3.5%, reflecting the Nominal Wage Growth Target as set by the Federal Reserve. A score of zero is set to a 40% decline in wages.
+
+Annual **wages** rate changes in ocean related sectors was derived from the National Ocean Economics Program data. To control for inflation/deflation, all wages are reported in 2012 US Dollars. Annual wage growth is calculated by comparing mean annual wages to the wages of the previous year. The target for mean annual wage growth is set at 3.5%, reflecting the Nominal Wage Growth Target as set by the Federal Reserve. A score of zero is set to a 40% decline in wages.
 
 ### Economies
 
