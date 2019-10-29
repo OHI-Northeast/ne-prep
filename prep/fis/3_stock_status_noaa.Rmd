@@ -18,7 +18,7 @@ output:
 
 ``` {r setup, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide'}
 
-knitr::opts_chunk$set(fig.width = 6, fig.height = 4, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, message = FALSE, warning = FALSE, fig.path = "figs/")
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 library(tidyverse)
@@ -39,7 +39,7 @@ library(tidyverse)
   
 # Data wrangling
 
-Load raw data
+## Load raw data
 ```{r, fig.height = 10, fig.width = 8}
 #stock assessment data shared by NMFS
 #northeast region
@@ -48,7 +48,7 @@ ne_data <- readxl::read_excel(file.path(dir_anx, '_raw_data/NOAA_NMFS/stock_asse
 midatl_data <- readxl::read_excel(file.path(dir_anx, '_raw_data/NOAA_NMFS/stock_assessments/MA_Assessment_Records.xlsx'))
 ```
 
-Clean data
+## Clean data
 ```{r nmfs_stock_assessment_indicators_over_time_by_stock, fig.width = 15, fig.height = 8}
 #select just the columns we are interested in
 
@@ -71,14 +71,16 @@ ggplot(data, aes(x = year, y = value, color = indicator)) +
   theme(strip.text = element_text(size=8))
 ```
 
-Save data
+## Save data
 
 ```{r save_nmfs_sa_data}
 write.csv(data, file = "data/nmfs_stock_assessment_data.csv")
 ```
 
 
-Span plot
+## Span plot
+
+Look at stock assessment data by stock over time to see what we are working with.
 
 ```{r stock_assesment_span_plot, fig.height = 10, fig.width = 10}
 
@@ -130,10 +132,6 @@ Looks like there are just `r length(unique(dups$species))`.
 
 # Gapfill
 
-Use a linear model to fill years between assessments.
-
-### Also we should remove species with limited time series (e.g. Atlantic Mackerel has just 2005 & 2018 B/Bmsy and only 2018 F/fmsy). Gapfilling these causes a lot of weirdness.
-
 We gapfill at B/Bmsy not stock score. If we have 2010 and 2012 data that shows B/Bmsy of 0.7 and 1.3 respectively. If we gapfill at B/bmsy, the 2011 value becomes 1. This would get a stock score of 1. But if we instead gapfill between 2010 and 2012 stock scores (0.7 and something like 0.9) we would get 0.8...
 
 ```{r gapfill}
@@ -153,7 +151,7 @@ data_gf <- data %>%
 ```
 
 
-## Calculate stock scores
+# Calculate stock scores
 
 Convert these value to stock scores.
 
@@ -292,7 +290,6 @@ Take the average scores for the 5 species with sub-stocks. Just doing a group_by
 
 Remove stocks with just F_Fmsy - these stocks have no stock scores since we don't have a way to get a score from just F/Fmsy. Also roll all values forward to 2017.
 
-
 ```{r}
 stock_scores <- stock_status_df %>%
   filter(basis != "F_Fmsy only") %>%
@@ -301,7 +298,7 @@ stock_scores <- stock_status_df %>%
   select(year, stock, score, bPrime, fPrime, b_bmsy, f_fmsy, basis) 
 ```
 
-## Visualize
+# Visualize
 
 ```{r, fig.height = 8, fig.width = 14}
 ggplot(stock_scores, aes(x = year, y = score)) +
@@ -393,6 +390,8 @@ cowplot::plot_grid(plotlist = plots[25:28])
 cowplot::plot_grid(plotlist = plots[29:32])
 cowplot::plot_grid(plotlist = plots[33:35])
 ```
+
+# Save
 
 ```{r}
 write.csv(stock_scores, file = "data/nmfs_stock_scores.csv")
