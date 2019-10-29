@@ -1,4 +1,13 @@
 year,stock,indicator,value
+2008,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.174999997019768
+2012,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.150000005960464
+2015,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.389999985694885
+2017,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.275000005960464
+2005,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,0.740000009536743
+2008,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,0.635999977588654
+2012,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,1.32299995422363
+2015,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,1.16999995708466
+2017,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,1.45200002193451
 1930,Albacore tuna North Atlantic,B/Bmsy,2.72
 1931,Albacore tuna North Atlantic,B/Bmsy,2.69
 1932,Albacore tuna North Atlantic,B/Bmsy,2.65
@@ -84,646 +93,6 @@ year,stock,indicator,value
 2012,Albacore tuna North Atlantic,B/Bmsy,1.3
 2013,Albacore tuna North Atlantic,B/Bmsy,1.32
 2014,Albacore tuna North Atlantic,B/Bmsy,1.34
-1970,Bluefin tuna Western Atlantic,B/Bmsy,0.809
-1971,Bluefin tuna Western Atlantic,B/Bmsy,0.805
-1972,Bluefin tuna Western Atlantic,B/Bmsy,0.812
-1973,Bluefin tuna Western Atlantic,B/Bmsy,0.816
-1974,Bluefin tuna Western Atlantic,B/Bmsy,0.732
-1975,Bluefin tuna Western Atlantic,B/Bmsy,0.65
-1976,Bluefin tuna Western Atlantic,B/Bmsy,0.572
-1977,Bluefin tuna Western Atlantic,B/Bmsy,0.491
-1978,Bluefin tuna Western Atlantic,B/Bmsy,0.439
-1979,Bluefin tuna Western Atlantic,B/Bmsy,0.388
-1980,Bluefin tuna Western Atlantic,B/Bmsy,0.352
-1981,Bluefin tuna Western Atlantic,B/Bmsy,0.302
-1982,Bluefin tuna Western Atlantic,B/Bmsy,0.285
-1983,Bluefin tuna Western Atlantic,B/Bmsy,0.273
-1984,Bluefin tuna Western Atlantic,B/Bmsy,0.26
-1985,Bluefin tuna Western Atlantic,B/Bmsy,0.234
-1986,Bluefin tuna Western Atlantic,B/Bmsy,0.24
-1987,Bluefin tuna Western Atlantic,B/Bmsy,0.231
-1988,Bluefin tuna Western Atlantic,B/Bmsy,0.229
-1989,Bluefin tuna Western Atlantic,B/Bmsy,0.222
-1990,Bluefin tuna Western Atlantic,B/Bmsy,0.213
-1991,Bluefin tuna Western Atlantic,B/Bmsy,0.209
-1992,Bluefin tuna Western Atlantic,B/Bmsy,0.203
-1993,Bluefin tuna Western Atlantic,B/Bmsy,0.206
-1994,Bluefin tuna Western Atlantic,B/Bmsy,0.205
-1995,Bluefin tuna Western Atlantic,B/Bmsy,0.215
-1996,Bluefin tuna Western Atlantic,B/Bmsy,0.234
-1997,Bluefin tuna Western Atlantic,B/Bmsy,0.251
-1998,Bluefin tuna Western Atlantic,B/Bmsy,0.256
-1999,Bluefin tuna Western Atlantic,B/Bmsy,0.249
-2000,Bluefin tuna Western Atlantic,B/Bmsy,0.253
-2001,Bluefin tuna Western Atlantic,B/Bmsy,0.249
-2002,Bluefin tuna Western Atlantic,B/Bmsy,0.244
-2003,Bluefin tuna Western Atlantic,B/Bmsy,0.244
-2004,Bluefin tuna Western Atlantic,B/Bmsy,0.252
-2005,Bluefin tuna Western Atlantic,B/Bmsy,0.258
-2006,Bluefin tuna Western Atlantic,B/Bmsy,0.268
-2007,Bluefin tuna Western Atlantic,B/Bmsy,0.301
-2008,Bluefin tuna Western Atlantic,B/Bmsy,0.319
-2009,Bluefin tuna Western Atlantic,B/Bmsy,0.331
-2010,Bluefin tuna Western Atlantic,B/Bmsy,0.362
-2011,Bluefin tuna Western Atlantic,B/Bmsy,0.442
-2012,Bluefin tuna Western Atlantic,B/Bmsy,0.479
-1973,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.456242223
-1974,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.456242223
-1975,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.736209042
-1976,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.323793723
-1977,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.562283976
-1978,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.379095811
-1979,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.040370524
-1980,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.774229227
-1981,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.642886769
-1982,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.532282594
-1983,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.404396516
-1984,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.964330153
-1985,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.306511821
-1986,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.697082815
-1987,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.983962395
-1988,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.205170745
-1989,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.149868658
-1990,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.077284667
-1991,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.973593253
-1992,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.533526891
-1993,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.865339417
-1994,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.110742431
-1995,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.25245403
-1996,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.342319923
-1997,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.096916909
-1998,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.82040647
-1999,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.917185124
-2000,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.145306235
-2001,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.069265865
-2002,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.775473524
-1950,Bigeye tuna Atlantic,B/Bmsy,2.72
-1951,Bigeye tuna Atlantic,B/Bmsy,2.72
-1952,Bigeye tuna Atlantic,B/Bmsy,2.71
-1953,Bigeye tuna Atlantic,B/Bmsy,2.71
-1954,Bigeye tuna Atlantic,B/Bmsy,2.71
-1955,Bigeye tuna Atlantic,B/Bmsy,2.7
-1956,Bigeye tuna Atlantic,B/Bmsy,2.69
-1957,Bigeye tuna Atlantic,B/Bmsy,2.69
-1958,Bigeye tuna Atlantic,B/Bmsy,2.68
-1959,Bigeye tuna Atlantic,B/Bmsy,2.68
-1960,Bigeye tuna Atlantic,B/Bmsy,2.67
-1961,Bigeye tuna Atlantic,B/Bmsy,2.66
-1962,Bigeye tuna Atlantic,B/Bmsy,2.63
-1963,Bigeye tuna Atlantic,B/Bmsy,2.6
-1964,Bigeye tuna Atlantic,B/Bmsy,2.56
-1965,Bigeye tuna Atlantic,B/Bmsy,2.54
-1966,Bigeye tuna Atlantic,B/Bmsy,2.48
-1967,Bigeye tuna Atlantic,B/Bmsy,2.46
-1968,Bigeye tuna Atlantic,B/Bmsy,2.45
-1969,Bigeye tuna Atlantic,B/Bmsy,2.44
-1970,Bigeye tuna Atlantic,B/Bmsy,2.41
-1971,Bigeye tuna Atlantic,B/Bmsy,2.36
-1972,Bigeye tuna Atlantic,B/Bmsy,2.3
-1973,Bigeye tuna Atlantic,B/Bmsy,2.26
-1974,Bigeye tuna Atlantic,B/Bmsy,2.21
-1975,Bigeye tuna Atlantic,B/Bmsy,2.15
-1976,Bigeye tuna Atlantic,B/Bmsy,2.1
-1977,Bigeye tuna Atlantic,B/Bmsy,2.1
-1978,Bigeye tuna Atlantic,B/Bmsy,2.08
-1979,Bigeye tuna Atlantic,B/Bmsy,2.07
-1980,Bigeye tuna Atlantic,B/Bmsy,2.08
-1981,Bigeye tuna Atlantic,B/Bmsy,2.04
-1982,Bigeye tuna Atlantic,B/Bmsy,2
-1983,Bigeye tuna Atlantic,B/Bmsy,1.94
-1984,Bigeye tuna Atlantic,B/Bmsy,1.94
-1985,Bigeye tuna Atlantic,B/Bmsy,1.9
-1986,Bigeye tuna Atlantic,B/Bmsy,1.85
-1987,Bigeye tuna Atlantic,B/Bmsy,1.84
-1988,Bigeye tuna Atlantic,B/Bmsy,1.82
-1989,Bigeye tuna Atlantic,B/Bmsy,1.8
-1990,Bigeye tuna Atlantic,B/Bmsy,1.76
-1991,Bigeye tuna Atlantic,B/Bmsy,1.71
-1992,Bigeye tuna Atlantic,B/Bmsy,1.65
-1993,Bigeye tuna Atlantic,B/Bmsy,1.59
-1994,Bigeye tuna Atlantic,B/Bmsy,1.49
-1995,Bigeye tuna Atlantic,B/Bmsy,1.34
-1996,Bigeye tuna Atlantic,B/Bmsy,1.22
-1997,Bigeye tuna Atlantic,B/Bmsy,1.13
-1998,Bigeye tuna Atlantic,B/Bmsy,1.06
-1999,Bigeye tuna Atlantic,B/Bmsy,1.01
-2000,Bigeye tuna Atlantic,B/Bmsy,0.913
-2001,Bigeye tuna Atlantic,B/Bmsy,0.867
-2002,Bigeye tuna Atlantic,B/Bmsy,0.852
-2003,Bigeye tuna Atlantic,B/Bmsy,0.879
-2004,Bigeye tuna Atlantic,B/Bmsy,0.876
-2005,Bigeye tuna Atlantic,B/Bmsy,0.864
-2006,Bigeye tuna Atlantic,B/Bmsy,0.865
-2007,Bigeye tuna Atlantic,B/Bmsy,0.866
-2008,Bigeye tuna Atlantic,B/Bmsy,0.855
-2009,Bigeye tuna Atlantic,B/Bmsy,0.852
-2010,Bigeye tuna Atlantic,B/Bmsy,0.826
-2011,Bigeye tuna Atlantic,B/Bmsy,0.798
-2012,Bigeye tuna Atlantic,B/Bmsy,0.765
-2013,Bigeye tuna Atlantic,B/Bmsy,0.744
-2014,Bigeye tuna Atlantic,B/Bmsy,0.744
-1956,Blue marlin Atlantic,B/Bmsy,2
-1957,Blue marlin Atlantic,B/Bmsy,2
-1958,Blue marlin Atlantic,B/Bmsy,1.97
-1959,Blue marlin Atlantic,B/Bmsy,1.95
-1960,Blue marlin Atlantic,B/Bmsy,1.94
-1961,Blue marlin Atlantic,B/Bmsy,1.85
-1962,Blue marlin Atlantic,B/Bmsy,1.74
-1963,Blue marlin Atlantic,B/Bmsy,1.53
-1964,Blue marlin Atlantic,B/Bmsy,1.27
-1965,Blue marlin Atlantic,B/Bmsy,1.06
-1966,Blue marlin Atlantic,B/Bmsy,0.91
-1967,Blue marlin Atlantic,B/Bmsy,0.86
-1968,Blue marlin Atlantic,B/Bmsy,0.88
-1969,Blue marlin Atlantic,B/Bmsy,0.89
-1970,Blue marlin Atlantic,B/Bmsy,0.87
-1971,Blue marlin Atlantic,B/Bmsy,0.87
-1972,Blue marlin Atlantic,B/Bmsy,0.84
-1973,Blue marlin Atlantic,B/Bmsy,0.86
-1974,Blue marlin Atlantic,B/Bmsy,0.84
-1975,Blue marlin Atlantic,B/Bmsy,0.82
-1976,Blue marlin Atlantic,B/Bmsy,0.8
-1977,Blue marlin Atlantic,B/Bmsy,0.81
-1978,Blue marlin Atlantic,B/Bmsy,0.84
-1979,Blue marlin Atlantic,B/Bmsy,0.9
-1980,Blue marlin Atlantic,B/Bmsy,1
-1981,Blue marlin Atlantic,B/Bmsy,1.09
-1982,Blue marlin Atlantic,B/Bmsy,1.18
-1983,Blue marlin Atlantic,B/Bmsy,1.23
-1984,Blue marlin Atlantic,B/Bmsy,1.27
-1985,Blue marlin Atlantic,B/Bmsy,1.29
-1986,Blue marlin Atlantic,B/Bmsy,1.29
-1987,Blue marlin Atlantic,B/Bmsy,1.35
-1988,Blue marlin Atlantic,B/Bmsy,1.41
-1989,Blue marlin Atlantic,B/Bmsy,1.44
-1990,Blue marlin Atlantic,B/Bmsy,1.38
-1991,Blue marlin Atlantic,B/Bmsy,1.32
-1992,Blue marlin Atlantic,B/Bmsy,1.28
-1993,Blue marlin Atlantic,B/Bmsy,1.33
-1994,Blue marlin Atlantic,B/Bmsy,1.36
-1995,Blue marlin Atlantic,B/Bmsy,1.31
-1996,Blue marlin Atlantic,B/Bmsy,1.28
-1997,Blue marlin Atlantic,B/Bmsy,1.17
-1998,Blue marlin Atlantic,B/Bmsy,1.04
-1999,Blue marlin Atlantic,B/Bmsy,0.91
-2000,Blue marlin Atlantic,B/Bmsy,0.81
-2001,Blue marlin Atlantic,B/Bmsy,0.71
-2002,Blue marlin Atlantic,B/Bmsy,0.66
-2003,Blue marlin Atlantic,B/Bmsy,0.65
-2004,Blue marlin Atlantic,B/Bmsy,0.6
-2005,Blue marlin Atlantic,B/Bmsy,0.62
-2006,Blue marlin Atlantic,B/Bmsy,0.62
-2007,Blue marlin Atlantic,B/Bmsy,0.64
-2008,Blue marlin Atlantic,B/Bmsy,0.6
-2009,Blue marlin Atlantic,B/Bmsy,0.55
-2010,Blue marlin Atlantic,B/Bmsy,0.55
-1982,American lobster Gulf of Maine,B/Bmsy,0.396
-1983,American lobster Gulf of Maine,B/Bmsy,0.274666667
-1984,American lobster Gulf of Maine,B/Bmsy,0.244666667
-1985,American lobster Gulf of Maine,B/Bmsy,0.294666667
-1986,American lobster Gulf of Maine,B/Bmsy,0.246666667
-1987,American lobster Gulf of Maine,B/Bmsy,0.228
-1988,American lobster Gulf of Maine,B/Bmsy,0.259333333
-1989,American lobster Gulf of Maine,B/Bmsy,0.316666667
-1990,American lobster Gulf of Maine,B/Bmsy,0.320666667
-1991,American lobster Gulf of Maine,B/Bmsy,0.317333333
-1992,American lobster Gulf of Maine,B/Bmsy,0.357333333
-1993,American lobster Gulf of Maine,B/Bmsy,0.333333333
-1994,American lobster Gulf of Maine,B/Bmsy,0.383333333
-1995,American lobster Gulf of Maine,B/Bmsy,0.393333333
-1996,American lobster Gulf of Maine,B/Bmsy,0.377333333
-1997,American lobster Gulf of Maine,B/Bmsy,0.412666667
-1998,American lobster Gulf of Maine,B/Bmsy,0.458
-1999,American lobster Gulf of Maine,B/Bmsy,0.464666667
-2000,American lobster Gulf of Maine,B/Bmsy,0.480666667
-2001,American lobster Gulf of Maine,B/Bmsy,0.460666667
-2002,American lobster Gulf of Maine,B/Bmsy,0.512666667
-2003,American lobster Gulf of Maine,B/Bmsy,0.566
-2004,American lobster Gulf of Maine,B/Bmsy,0.622
-2005,American lobster Gulf of Maine,B/Bmsy,0.638666667
-2006,American lobster Gulf of Maine,B/Bmsy,0.629333333
-2007,American lobster Gulf of Maine,B/Bmsy,0.580666667
-1955,Atlantic menhaden Atlantic,B/Bmsy,1.115276382
-1956,Atlantic menhaden Atlantic,B/Bmsy,0.76759799
-1957,Atlantic menhaden Atlantic,B/Bmsy,0.450693467
-1958,Atlantic menhaden Atlantic,B/Bmsy,0.535949749
-1959,Atlantic menhaden Atlantic,B/Bmsy,0.497085427
-1960,Atlantic menhaden Atlantic,B/Bmsy,0.884492462
-1961,Atlantic menhaden Atlantic,B/Bmsy,1.512090452
-1962,Atlantic menhaden Atlantic,B/Bmsy,1.128351759
-1963,Atlantic menhaden Atlantic,B/Bmsy,0.610251256
-1964,Atlantic menhaden Atlantic,B/Bmsy,0.490160804
-1965,Atlantic menhaden Atlantic,B/Bmsy,0.461658291
-1966,Atlantic menhaden Atlantic,B/Bmsy,0.395125628
-1967,Atlantic menhaden Atlantic,B/Bmsy,0.424914573
-1968,Atlantic menhaden Atlantic,B/Bmsy,0.722452261
-1969,Atlantic menhaden Atlantic,B/Bmsy,0.631356784
-1970,Atlantic menhaden Atlantic,B/Bmsy,0.847517588
-1971,Atlantic menhaden Atlantic,B/Bmsy,1.115236181
-1972,Atlantic menhaden Atlantic,B/Bmsy,1.029407035
-1973,Atlantic menhaden Atlantic,B/Bmsy,0.613577889
-1974,Atlantic menhaden Atlantic,B/Bmsy,0.574854271
-1975,Atlantic menhaden Atlantic,B/Bmsy,0.487567839
-1976,Atlantic menhaden Atlantic,B/Bmsy,0.393839196
-1977,Atlantic menhaden Atlantic,B/Bmsy,0.389155779
-1978,Atlantic menhaden Atlantic,B/Bmsy,0.427708543
-1979,Atlantic menhaden Atlantic,B/Bmsy,0.499346734
-1980,Atlantic menhaden Atlantic,B/Bmsy,0.51680402
-1981,Atlantic menhaden Atlantic,B/Bmsy,0.390532663
-1982,Atlantic menhaden Atlantic,B/Bmsy,0.414713568
-1983,Atlantic menhaden Atlantic,B/Bmsy,0.449728643
-1984,Atlantic menhaden Atlantic,B/Bmsy,0.370532663
-1985,Atlantic menhaden Atlantic,B/Bmsy,0.346653266
-1986,Atlantic menhaden Atlantic,B/Bmsy,0.407366834
-1987,Atlantic menhaden Atlantic,B/Bmsy,0.613145729
-1988,Atlantic menhaden Atlantic,B/Bmsy,0.653005025
-1989,Atlantic menhaden Atlantic,B/Bmsy,0.549678392
-1990,Atlantic menhaden Atlantic,B/Bmsy,0.585005025
-1991,Atlantic menhaden Atlantic,B/Bmsy,0.692592965
-1992,Atlantic menhaden Atlantic,B/Bmsy,0.590201005
-1993,Atlantic menhaden Atlantic,B/Bmsy,0.650271357
-1994,Atlantic menhaden Atlantic,B/Bmsy,0.558442211
-1995,Atlantic menhaden Atlantic,B/Bmsy,0.57161809
-1996,Atlantic menhaden Atlantic,B/Bmsy,0.441356784
-1997,Atlantic menhaden Atlantic,B/Bmsy,0.398944724
-1998,Atlantic menhaden Atlantic,B/Bmsy,0.275427136
-1999,Atlantic menhaden Atlantic,B/Bmsy,0.324633166
-2000,Atlantic menhaden Atlantic,B/Bmsy,0.455507538
-2001,Atlantic menhaden Atlantic,B/Bmsy,0.672522613
-2002,Atlantic menhaden Atlantic,B/Bmsy,0.597437186
-2003,Atlantic menhaden Atlantic,B/Bmsy,0.501015075
-2004,Atlantic menhaden Atlantic,B/Bmsy,0.552944724
-2005,Atlantic menhaden Atlantic,B/Bmsy,0.567497487
-2006,Atlantic menhaden Atlantic,B/Bmsy,0.550603015
-2007,Atlantic menhaden Atlantic,B/Bmsy,0.837035176
-2008,Atlantic menhaden Atlantic,B/Bmsy,0.91521608
-2009,Atlantic menhaden Atlantic,B/Bmsy,0.913015075
-2010,Atlantic menhaden Atlantic,B/Bmsy,0.846532663
-2011,Atlantic menhaden Atlantic,B/Bmsy,0.861829146
-2012,Atlantic menhaden Atlantic,B/Bmsy,1.019145729
-2013,Atlantic menhaden Atlantic,B/Bmsy,0.995386935
-2014,Atlantic menhaden Atlantic,B/Bmsy,0.96801005
-2015,Atlantic menhaden Atlantic,B/Bmsy,0.876603015
-2016,Atlantic menhaden Atlantic,B/Bmsy,0.839045226
-1957,Sailfish Western Atlantic,B/Bmsy,2
-1958,Sailfish Western Atlantic,B/Bmsy,2
-1959,Sailfish Western Atlantic,B/Bmsy,2
-1960,Sailfish Western Atlantic,B/Bmsy,2
-1961,Sailfish Western Atlantic,B/Bmsy,1.99
-1962,Sailfish Western Atlantic,B/Bmsy,1.97
-1963,Sailfish Western Atlantic,B/Bmsy,1.95
-1964,Sailfish Western Atlantic,B/Bmsy,1.94
-1965,Sailfish Western Atlantic,B/Bmsy,1.92
-1966,Sailfish Western Atlantic,B/Bmsy,1.87
-1967,Sailfish Western Atlantic,B/Bmsy,1.85
-1968,Sailfish Western Atlantic,B/Bmsy,1.82
-1969,Sailfish Western Atlantic,B/Bmsy,1.79
-1970,Sailfish Western Atlantic,B/Bmsy,1.77
-1971,Sailfish Western Atlantic,B/Bmsy,1.72
-1972,Sailfish Western Atlantic,B/Bmsy,1.67
-1973,Sailfish Western Atlantic,B/Bmsy,1.65
-1974,Sailfish Western Atlantic,B/Bmsy,1.64
-1975,Sailfish Western Atlantic,B/Bmsy,1.62
-1976,Sailfish Western Atlantic,B/Bmsy,1.6
-1977,Sailfish Western Atlantic,B/Bmsy,1.58
-1978,Sailfish Western Atlantic,B/Bmsy,1.56
-1979,Sailfish Western Atlantic,B/Bmsy,1.54
-1980,Sailfish Western Atlantic,B/Bmsy,1.53
-1981,Sailfish Western Atlantic,B/Bmsy,1.51
-1982,Sailfish Western Atlantic,B/Bmsy,1.49
-1983,Sailfish Western Atlantic,B/Bmsy,1.46
-1984,Sailfish Western Atlantic,B/Bmsy,1.43
-1985,Sailfish Western Atlantic,B/Bmsy,1.4
-1986,Sailfish Western Atlantic,B/Bmsy,1.39
-1987,Sailfish Western Atlantic,B/Bmsy,1.36
-1988,Sailfish Western Atlantic,B/Bmsy,1.34
-1989,Sailfish Western Atlantic,B/Bmsy,1.32
-1990,Sailfish Western Atlantic,B/Bmsy,1.29
-1991,Sailfish Western Atlantic,B/Bmsy,1.27
-1992,Sailfish Western Atlantic,B/Bmsy,1.25
-1993,Sailfish Western Atlantic,B/Bmsy,1.23
-1994,Sailfish Western Atlantic,B/Bmsy,1.21
-1995,Sailfish Western Atlantic,B/Bmsy,1.19
-1996,Sailfish Western Atlantic,B/Bmsy,1.16
-1997,Sailfish Western Atlantic,B/Bmsy,1.12
-1998,Sailfish Western Atlantic,B/Bmsy,1.08
-1999,Sailfish Western Atlantic,B/Bmsy,1.03
-2000,Sailfish Western Atlantic,B/Bmsy,0.99
-2001,Sailfish Western Atlantic,B/Bmsy,0.94
-2002,Sailfish Western Atlantic,B/Bmsy,0.9
-2003,Sailfish Western Atlantic,B/Bmsy,0.84
-2004,Sailfish Western Atlantic,B/Bmsy,0.71
-2005,Sailfish Western Atlantic,B/Bmsy,0.65
-2006,Sailfish Western Atlantic,B/Bmsy,0.59
-2007,Sailfish Western Atlantic,B/Bmsy,0.54
-2008,Sailfish Western Atlantic,B/Bmsy,0.28
-1950,Skipjack tuna Western Atlantic,B/Bmsy,2
-1951,Skipjack tuna Western Atlantic,B/Bmsy,2
-1952,Skipjack tuna Western Atlantic,B/Bmsy,2
-1953,Skipjack tuna Western Atlantic,B/Bmsy,1.98
-1954,Skipjack tuna Western Atlantic,B/Bmsy,1.98
-1955,Skipjack tuna Western Atlantic,B/Bmsy,1.98
-1956,Skipjack tuna Western Atlantic,B/Bmsy,1.98
-1957,Skipjack tuna Western Atlantic,B/Bmsy,1.98
-1958,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1959,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1960,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1961,Skipjack tuna Western Atlantic,B/Bmsy,1.95
-1962,Skipjack tuna Western Atlantic,B/Bmsy,1.95
-1963,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1964,Skipjack tuna Western Atlantic,B/Bmsy,1.94
-1965,Skipjack tuna Western Atlantic,B/Bmsy,1.92
-1966,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1967,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1968,Skipjack tuna Western Atlantic,B/Bmsy,1.96
-1969,Skipjack tuna Western Atlantic,B/Bmsy,1.96
-1970,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1971,Skipjack tuna Western Atlantic,B/Bmsy,1.96
-1972,Skipjack tuna Western Atlantic,B/Bmsy,1.97
-1973,Skipjack tuna Western Atlantic,B/Bmsy,1.95
-1974,Skipjack tuna Western Atlantic,B/Bmsy,1.95
-1975,Skipjack tuna Western Atlantic,B/Bmsy,1.94
-1976,Skipjack tuna Western Atlantic,B/Bmsy,1.94
-1977,Skipjack tuna Western Atlantic,B/Bmsy,1.94
-1978,Skipjack tuna Western Atlantic,B/Bmsy,1.95
-1979,Skipjack tuna Western Atlantic,B/Bmsy,1.89
-1980,Skipjack tuna Western Atlantic,B/Bmsy,1.89
-1981,Skipjack tuna Western Atlantic,B/Bmsy,1.8
-1982,Skipjack tuna Western Atlantic,B/Bmsy,1.6
-1983,Skipjack tuna Western Atlantic,B/Bmsy,1.35
-1984,Skipjack tuna Western Atlantic,B/Bmsy,1.25
-1985,Skipjack tuna Western Atlantic,B/Bmsy,1.09
-1986,Skipjack tuna Western Atlantic,B/Bmsy,0.768
-1987,Skipjack tuna Western Atlantic,B/Bmsy,0.652
-1988,Skipjack tuna Western Atlantic,B/Bmsy,0.838
-1989,Skipjack tuna Western Atlantic,B/Bmsy,1.1
-1990,Skipjack tuna Western Atlantic,B/Bmsy,1.24
-1991,Skipjack tuna Western Atlantic,B/Bmsy,1.33
-1992,Skipjack tuna Western Atlantic,B/Bmsy,1.2
-1993,Skipjack tuna Western Atlantic,B/Bmsy,1.21
-1994,Skipjack tuna Western Atlantic,B/Bmsy,1.13
-1995,Skipjack tuna Western Atlantic,B/Bmsy,1.16
-1996,Skipjack tuna Western Atlantic,B/Bmsy,1.39
-1997,Skipjack tuna Western Atlantic,B/Bmsy,1.37
-1998,Skipjack tuna Western Atlantic,B/Bmsy,1.27
-1999,Skipjack tuna Western Atlantic,B/Bmsy,1.27
-2000,Skipjack tuna Western Atlantic,B/Bmsy,1.32
-2001,Skipjack tuna Western Atlantic,B/Bmsy,1.3
-2002,Skipjack tuna Western Atlantic,B/Bmsy,1.23
-2003,Skipjack tuna Western Atlantic,B/Bmsy,1.44
-2004,Skipjack tuna Western Atlantic,B/Bmsy,1.45
-2005,Skipjack tuna Western Atlantic,B/Bmsy,1.4
-2006,Skipjack tuna Western Atlantic,B/Bmsy,1.36
-2007,Skipjack tuna Western Atlantic,B/Bmsy,1.38
-2008,Skipjack tuna Western Atlantic,B/Bmsy,1.42
-2009,Skipjack tuna Western Atlantic,B/Bmsy,1.51
-2010,Skipjack tuna Western Atlantic,B/Bmsy,1.46
-2011,Skipjack tuna Western Atlantic,B/Bmsy,1.5
-2012,Skipjack tuna Western Atlantic,B/Bmsy,1.31
-2013,Skipjack tuna Western Atlantic,B/Bmsy,1.2
-2014,Skipjack tuna Western Atlantic,B/Bmsy,1.29
-1982,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.068527217
-1983,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.056369163
-1984,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.063415308
-1985,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.076540481
-1986,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.080132633
-1987,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.097264438
-1988,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.142304504
-1989,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.236253109
-1990,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.298424979
-1991,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.363360044
-1992,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.454545455
-1993,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.552638851
-1994,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.639679469
-1995,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.801326333
-1996,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.917380492
-1997,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.94224924
-1998,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.827576679
-1999,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.838629456
-2000,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.985078751
-2001,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.986460348
-2002,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.092843327
-2003,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.124620061
-2004,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.0956065210000001
-2005,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.10113291
-2006,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.025145068
-2007,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.993368334
-2008,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.965736391
-2009,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.938104449
-2010,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.910472506
-2011,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.906327715
-2012,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.849682233
-1950,Swordfish North Atlantic,B/Bmsy,1.7
-1951,Swordfish North Atlantic,B/Bmsy,1.74
-1952,Swordfish North Atlantic,B/Bmsy,1.79
-1953,Swordfish North Atlantic,B/Bmsy,1.82
-1954,Swordfish North Atlantic,B/Bmsy,1.83
-1955,Swordfish North Atlantic,B/Bmsy,1.85
-1956,Swordfish North Atlantic,B/Bmsy,1.85
-1957,Swordfish North Atlantic,B/Bmsy,1.86
-1958,Swordfish North Atlantic,B/Bmsy,1.85
-1959,Swordfish North Atlantic,B/Bmsy,1.83
-1960,Swordfish North Atlantic,B/Bmsy,1.81
-1961,Swordfish North Atlantic,B/Bmsy,1.82
-1962,Swordfish North Atlantic,B/Bmsy,1.82
-1963,Swordfish North Atlantic,B/Bmsy,1.81
-1964,Swordfish North Atlantic,B/Bmsy,1.74
-1965,Swordfish North Atlantic,B/Bmsy,1.67
-1966,Swordfish North Atlantic,B/Bmsy,1.66
-1967,Swordfish North Atlantic,B/Bmsy,1.64
-1968,Swordfish North Atlantic,B/Bmsy,1.62
-1969,Swordfish North Atlantic,B/Bmsy,1.61
-1970,Swordfish North Atlantic,B/Bmsy,1.6
-1971,Swordfish North Atlantic,B/Bmsy,1.59
-1972,Swordfish North Atlantic,B/Bmsy,1.64
-1973,Swordfish North Atlantic,B/Bmsy,1.69
-1974,Swordfish North Atlantic,B/Bmsy,1.7
-1975,Swordfish North Atlantic,B/Bmsy,1.71
-1976,Swordfish North Atlantic,B/Bmsy,1.68
-1977,Swordfish North Atlantic,B/Bmsy,1.69
-1978,Swordfish North Atlantic,B/Bmsy,1.7
-1979,Swordfish North Atlantic,B/Bmsy,1.64
-1980,Swordfish North Atlantic,B/Bmsy,1.58
-1981,Swordfish North Atlantic,B/Bmsy,1.52
-1982,Swordfish North Atlantic,B/Bmsy,1.51
-1983,Swordfish North Atlantic,B/Bmsy,1.46
-1984,Swordfish North Atlantic,B/Bmsy,1.41
-1985,Swordfish North Atlantic,B/Bmsy,1.39
-1986,Swordfish North Atlantic,B/Bmsy,1.35
-1987,Swordfish North Atlantic,B/Bmsy,1.26
-1988,Swordfish North Atlantic,B/Bmsy,1.15
-1989,Swordfish North Atlantic,B/Bmsy,1.06
-1990,Swordfish North Atlantic,B/Bmsy,1
-1991,Swordfish North Atlantic,B/Bmsy,0.969
-1992,Swordfish North Atlantic,B/Bmsy,0.949
-1993,Swordfish North Atlantic,B/Bmsy,0.921
-1994,Swordfish North Atlantic,B/Bmsy,0.872
-1995,Swordfish North Atlantic,B/Bmsy,0.839
-1996,Swordfish North Atlantic,B/Bmsy,0.782
-1997,Swordfish North Atlantic,B/Bmsy,0.746
-1998,Swordfish North Atlantic,B/Bmsy,0.743
-1999,Swordfish North Atlantic,B/Bmsy,0.751
-2000,Swordfish North Atlantic,B/Bmsy,0.771
-2001,Swordfish North Atlantic,B/Bmsy,0.795
-2002,Swordfish North Atlantic,B/Bmsy,0.844
-2003,Swordfish North Atlantic,B/Bmsy,0.902
-2004,Swordfish North Atlantic,B/Bmsy,0.935
-2005,Swordfish North Atlantic,B/Bmsy,0.957
-2006,Swordfish North Atlantic,B/Bmsy,0.975
-2007,Swordfish North Atlantic,B/Bmsy,1.01
-2008,Swordfish North Atlantic,B/Bmsy,1.03
-2009,Swordfish North Atlantic,B/Bmsy,1.07
-2010,Swordfish North Atlantic,B/Bmsy,1.09
-2011,Swordfish North Atlantic,B/Bmsy,1.12
-2012,Swordfish North Atlantic,B/Bmsy,1.14
-1981,Weakfish Atlantic Coast,B/Bmsy,2.829354553
-1982,Weakfish Atlantic Coast,B/Bmsy,1.915708812
-1983,Weakfish Atlantic Coast,B/Bmsy,1.591511936
-1984,Weakfish Atlantic Coast,B/Bmsy,1.129776992
-1985,Weakfish Atlantic Coast,B/Bmsy,1.237842617
-1986,Weakfish Atlantic Coast,B/Bmsy,1.345908242
-1987,Weakfish Atlantic Coast,B/Bmsy,1.208370174
-1988,Weakfish Atlantic Coast,B/Bmsy,0.973573043
-1989,Weakfish Atlantic Coast,B/Bmsy,0.581589547
-1990,Weakfish Atlantic Coast,B/Bmsy,0.389036251
-1991,Weakfish Atlantic Coast,B/Bmsy,0.501031536
-1992,Weakfish Atlantic Coast,B/Bmsy,0.551134689
-1993,Weakfish Atlantic Coast,B/Bmsy,0.677866195
-1994,Weakfish Atlantic Coast,B/Bmsy,0.970625798
-1995,Weakfish Atlantic Coast,B/Bmsy,1.365556538
-1996,Weakfish Atlantic Coast,B/Bmsy,1.424501425
-1997,Weakfish Atlantic Coast,B/Bmsy,1.178897731
-1998,Weakfish Atlantic Coast,B/Bmsy,0.928381963
-1999,Weakfish Atlantic Coast,B/Bmsy,0.9175754
-2000,Weakfish Atlantic Coast,B/Bmsy,0.908733667
-2001,Weakfish Atlantic Coast,B/Bmsy,0.705373809
-2002,Weakfish Atlantic Coast,B/Bmsy,0.443069064
-2003,Weakfish Atlantic Coast,B/Bmsy,0.26328716
-2004,Weakfish Atlantic Coast,B/Bmsy,0.323214461
-2005,Weakfish Atlantic Coast,B/Bmsy,0.295706847
-2006,Weakfish Atlantic Coast,B/Bmsy,0.230867472
-2007,Weakfish Atlantic Coast,B/Bmsy,0.167992927
-2008,Weakfish Atlantic Coast,B/Bmsy,0.130661165
-1956,White marlin Atlantic,B/Bmsy,3.769606747
-1957,White marlin Atlantic,B/Bmsy,3.765043058
-1958,White marlin Atlantic,B/Bmsy,3.737660927
-1959,White marlin Atlantic,B/Bmsy,3.710278796
-1960,White marlin Atlantic,B/Bmsy,3.701151419
-1961,White marlin Atlantic,B/Bmsy,3.650950845
-1962,White marlin Atlantic,B/Bmsy,3.523167565
-1963,White marlin Atlantic,B/Bmsy,3.194581989
-1964,White marlin Atlantic,B/Bmsy,2.81123215
-1965,White marlin Atlantic,B/Bmsy,2.295535343
-1966,White marlin Atlantic,B/Bmsy,1.661182634
-1967,White marlin Atlantic,B/Bmsy,1.323469681
-1968,White marlin Atlantic,B/Bmsy,1.341724435
-1969,White marlin Atlantic,B/Bmsy,1.268705418
-1970,White marlin Atlantic,B/Bmsy,1.16830427
-1971,White marlin Atlantic,B/Bmsy,1.086157876
-1972,White marlin Atlantic,B/Bmsy,0.990320417
-1973,White marlin Atlantic,B/Bmsy,0.894482957
-1974,White marlin Atlantic,B/Bmsy,0.857973448
-1975,White marlin Atlantic,B/Bmsy,0.835155006
-1976,White marlin Atlantic,B/Bmsy,0.812336563
-1977,White marlin Atlantic,B/Bmsy,0.780390743
-1978,White marlin Atlantic,B/Bmsy,0.7575723
-1979,White marlin Atlantic,B/Bmsy,0.7575723
-1980,White marlin Atlantic,B/Bmsy,0.743881235
-1981,White marlin Atlantic,B/Bmsy,0.78951812
-1982,White marlin Atlantic,B/Bmsy,0.72562648
-1983,White marlin Atlantic,B/Bmsy,0.684553283
-1984,White marlin Atlantic,B/Bmsy,0.652607463
-1985,White marlin Atlantic,B/Bmsy,0.666298529
-1986,White marlin Atlantic,B/Bmsy,0.620661644
-1987,White marlin Atlantic,B/Bmsy,0.597843201
-1988,White marlin Atlantic,B/Bmsy,0.570461069
-1989,White marlin Atlantic,B/Bmsy,0.547642627
-1990,White marlin Atlantic,B/Bmsy,0.441308683
-1991,White marlin Atlantic,B/Bmsy,0.438114101
-1992,White marlin Atlantic,B/Bmsy,0.408906495
-1993,White marlin Atlantic,B/Bmsy,0.492878364
-1994,White marlin Atlantic,B/Bmsy,0.515696807
-1995,White marlin Atlantic,B/Bmsy,0.47462361
-1996,White marlin Atlantic,B/Bmsy,0.387913527
-1997,White marlin Atlantic,B/Bmsy,0.373309724
-1998,White marlin Atlantic,B/Bmsy,0.415295659
-1999,White marlin Atlantic,B/Bmsy,0.418490241
-2000,White marlin Atlantic,B/Bmsy,0.332236527
-2001,White marlin Atlantic,B/Bmsy,0.293445174
-2002,White marlin Atlantic,B/Bmsy,0.276103158
-2003,White marlin Atlantic,B/Bmsy,0.284774166
-2004,White marlin Atlantic,B/Bmsy,0.326760101
-2005,White marlin Atlantic,B/Bmsy,0.343189379
-2006,White marlin Atlantic,B/Bmsy,0.348209437
-2007,White marlin Atlantic,B/Bmsy,0.376504306
-2008,White marlin Atlantic,B/Bmsy,0.357336814
-2009,White marlin Atlantic,B/Bmsy,0.326760101
-2010,White marlin Atlantic,B/Bmsy,0.322196412
-1950,Yellowfin tuna Atlantic,B/Bmsy,2.45
-1951,Yellowfin tuna Atlantic,B/Bmsy,2.49
-1952,Yellowfin tuna Atlantic,B/Bmsy,2.52
-1953,Yellowfin tuna Atlantic,B/Bmsy,2.55
-1954,Yellowfin tuna Atlantic,B/Bmsy,2.57
-1955,Yellowfin tuna Atlantic,B/Bmsy,2.59
-1956,Yellowfin tuna Atlantic,B/Bmsy,2.61
-1957,Yellowfin tuna Atlantic,B/Bmsy,2.62
-1958,Yellowfin tuna Atlantic,B/Bmsy,2.6
-1959,Yellowfin tuna Atlantic,B/Bmsy,2.57
-1960,Yellowfin tuna Atlantic,B/Bmsy,2.52
-1961,Yellowfin tuna Atlantic,B/Bmsy,2.46
-1962,Yellowfin tuna Atlantic,B/Bmsy,2.42
-1963,Yellowfin tuna Atlantic,B/Bmsy,2.39
-1964,Yellowfin tuna Atlantic,B/Bmsy,2.36
-1965,Yellowfin tuna Atlantic,B/Bmsy,2.33
-1966,Yellowfin tuna Atlantic,B/Bmsy,2.3
-1967,Yellowfin tuna Atlantic,B/Bmsy,2.28
-1968,Yellowfin tuna Atlantic,B/Bmsy,2.27
-1969,Yellowfin tuna Atlantic,B/Bmsy,2.23
-1970,Yellowfin tuna Atlantic,B/Bmsy,2.18
-1971,Yellowfin tuna Atlantic,B/Bmsy,2.16
-1972,Yellowfin tuna Atlantic,B/Bmsy,2.14
-1973,Yellowfin tuna Atlantic,B/Bmsy,2.1
-1974,Yellowfin tuna Atlantic,B/Bmsy,2.07
-1975,Yellowfin tuna Atlantic,B/Bmsy,2.02
-1976,Yellowfin tuna Atlantic,B/Bmsy,1.96
-1977,Yellowfin tuna Atlantic,B/Bmsy,1.9
-1978,Yellowfin tuna Atlantic,B/Bmsy,1.84
-1979,Yellowfin tuna Atlantic,B/Bmsy,1.78
-1980,Yellowfin tuna Atlantic,B/Bmsy,1.74
-1981,Yellowfin tuna Atlantic,B/Bmsy,1.7
-1982,Yellowfin tuna Atlantic,B/Bmsy,1.62
-1983,Yellowfin tuna Atlantic,B/Bmsy,1.55
-1984,Yellowfin tuna Atlantic,B/Bmsy,1.47
-1985,Yellowfin tuna Atlantic,B/Bmsy,1.47
-1986,Yellowfin tuna Atlantic,B/Bmsy,1.41
-1987,Yellowfin tuna Atlantic,B/Bmsy,1.37
-1988,Yellowfin tuna Atlantic,B/Bmsy,1.34
-1989,Yellowfin tuna Atlantic,B/Bmsy,1.32
-1990,Yellowfin tuna Atlantic,B/Bmsy,1.26
-1991,Yellowfin tuna Atlantic,B/Bmsy,1.16
-1992,Yellowfin tuna Atlantic,B/Bmsy,1.11
-1993,Yellowfin tuna Atlantic,B/Bmsy,1.06
-1994,Yellowfin tuna Atlantic,B/Bmsy,1
-1995,Yellowfin tuna Atlantic,B/Bmsy,0.94
-1996,Yellowfin tuna Atlantic,B/Bmsy,0.9
-1997,Yellowfin tuna Atlantic,B/Bmsy,0.868
-1998,Yellowfin tuna Atlantic,B/Bmsy,0.851
-1999,Yellowfin tuna Atlantic,B/Bmsy,0.824
-2000,Yellowfin tuna Atlantic,B/Bmsy,0.807
-2001,Yellowfin tuna Atlantic,B/Bmsy,0.795
-2002,Yellowfin tuna Atlantic,B/Bmsy,0.753
-2003,Yellowfin tuna Atlantic,B/Bmsy,0.736
-2004,Yellowfin tuna Atlantic,B/Bmsy,0.734
-2005,Yellowfin tuna Atlantic,B/Bmsy,0.736
-2006,Yellowfin tuna Atlantic,B/Bmsy,0.763
-2007,Yellowfin tuna Atlantic,B/Bmsy,0.786
-2008,Yellowfin tuna Atlantic,B/Bmsy,0.823
-2009,Yellowfin tuna Atlantic,B/Bmsy,0.846
-2010,Yellowfin tuna Atlantic,B/Bmsy,0.861
-2011,Yellowfin tuna Atlantic,B/Bmsy,0.883
-2012,Yellowfin tuna Atlantic,B/Bmsy,0.913
-2013,Yellowfin tuna Atlantic,B/Bmsy,0.942
-2014,Yellowfin tuna Atlantic,B/Bmsy,0.98
 1930,Albacore tuna North Atlantic,F/Fmsy,0.112
 1931,Albacore tuna North Atlantic,F/Fmsy,0.157
 1932,Albacore tuna North Atlantic,F/Fmsy,0.131
@@ -809,49 +178,116 @@ year,stock,indicator,value
 2012,Albacore tuna North Atlantic,F/Fmsy,0.538
 2013,Albacore tuna North Atlantic,F/Fmsy,0.507
 2014,Albacore tuna North Atlantic,F/Fmsy,0.538
-1970,Bluefin tuna Western Atlantic,F/Fmsy,NA
-1971,Bluefin tuna Western Atlantic,F/Fmsy,NA
-1972,Bluefin tuna Western Atlantic,F/Fmsy,NA
-1973,Bluefin tuna Western Atlantic,F/Fmsy,NA
-1974,Bluefin tuna Western Atlantic,F/Fmsy,2.91
-1975,Bluefin tuna Western Atlantic,F/Fmsy,5.59
-1976,Bluefin tuna Western Atlantic,F/Fmsy,4.61
-1977,Bluefin tuna Western Atlantic,F/Fmsy,4.23
-1978,Bluefin tuna Western Atlantic,F/Fmsy,2.8
-1979,Bluefin tuna Western Atlantic,F/Fmsy,4.58
-1980,Bluefin tuna Western Atlantic,F/Fmsy,2.99
-1981,Bluefin tuna Western Atlantic,F/Fmsy,5.33
-1982,Bluefin tuna Western Atlantic,F/Fmsy,1.57
-1983,Bluefin tuna Western Atlantic,F/Fmsy,2.33
-1984,Bluefin tuna Western Atlantic,F/Fmsy,1.74
-1985,Bluefin tuna Western Atlantic,F/Fmsy,2.04
-1986,Bluefin tuna Western Atlantic,F/Fmsy,1.5
-1987,Bluefin tuna Western Atlantic,F/Fmsy,1.9
-1988,Bluefin tuna Western Atlantic,F/Fmsy,2.41
-1989,Bluefin tuna Western Atlantic,F/Fmsy,1.76
-1990,Bluefin tuna Western Atlantic,F/Fmsy,2.75
-1991,Bluefin tuna Western Atlantic,F/Fmsy,2.95
-1992,Bluefin tuna Western Atlantic,F/Fmsy,2.31
-1993,Bluefin tuna Western Atlantic,F/Fmsy,2.33
-1994,Bluefin tuna Western Atlantic,F/Fmsy,1.88
-1995,Bluefin tuna Western Atlantic,F/Fmsy,1.65
-1996,Bluefin tuna Western Atlantic,F/Fmsy,1.59
-1997,Bluefin tuna Western Atlantic,F/Fmsy,1.85
-1998,Bluefin tuna Western Atlantic,F/Fmsy,1.98
-1999,Bluefin tuna Western Atlantic,F/Fmsy,2.27
-2000,Bluefin tuna Western Atlantic,F/Fmsy,1.98
-2001,Bluefin tuna Western Atlantic,F/Fmsy,2.16
-2002,Bluefin tuna Western Atlantic,F/Fmsy,2.55
-2003,Bluefin tuna Western Atlantic,F/Fmsy,2.24
-2004,Bluefin tuna Western Atlantic,F/Fmsy,1.49
-2005,Bluefin tuna Western Atlantic,F/Fmsy,1.73
-2006,Bluefin tuna Western Atlantic,F/Fmsy,1.58
-2007,Bluefin tuna Western Atlantic,F/Fmsy,1.6
-2008,Bluefin tuna Western Atlantic,F/Fmsy,1.22
-2009,Bluefin tuna Western Atlantic,F/Fmsy,1.17
-2010,Bluefin tuna Western Atlantic,F/Fmsy,1.21
-2011,Bluefin tuna Western Atlantic,F/Fmsy,1.35
-2012,Bluefin tuna Western Atlantic,F/Fmsy,0.983
+1982,American lobster Gulf of Maine,B/Bmsy,0.396
+1983,American lobster Gulf of Maine,B/Bmsy,0.274666667
+1984,American lobster Gulf of Maine,B/Bmsy,0.244666667
+1985,American lobster Gulf of Maine,B/Bmsy,0.294666667
+1986,American lobster Gulf of Maine,B/Bmsy,0.246666667
+1987,American lobster Gulf of Maine,B/Bmsy,0.228
+1988,American lobster Gulf of Maine,B/Bmsy,0.259333333
+1989,American lobster Gulf of Maine,B/Bmsy,0.316666667
+1990,American lobster Gulf of Maine,B/Bmsy,0.320666667
+1991,American lobster Gulf of Maine,B/Bmsy,0.317333333
+1992,American lobster Gulf of Maine,B/Bmsy,0.357333333
+1993,American lobster Gulf of Maine,B/Bmsy,0.333333333
+1994,American lobster Gulf of Maine,B/Bmsy,0.383333333
+1995,American lobster Gulf of Maine,B/Bmsy,0.393333333
+1996,American lobster Gulf of Maine,B/Bmsy,0.377333333
+1997,American lobster Gulf of Maine,B/Bmsy,0.412666667
+1998,American lobster Gulf of Maine,B/Bmsy,0.458
+1999,American lobster Gulf of Maine,B/Bmsy,0.464666667
+2000,American lobster Gulf of Maine,B/Bmsy,0.480666667
+2001,American lobster Gulf of Maine,B/Bmsy,0.460666667
+2002,American lobster Gulf of Maine,B/Bmsy,0.512666667
+2003,American lobster Gulf of Maine,B/Bmsy,0.566
+2004,American lobster Gulf of Maine,B/Bmsy,0.622
+2005,American lobster Gulf of Maine,B/Bmsy,0.638666667
+2006,American lobster Gulf of Maine,B/Bmsy,0.629333333
+2007,American lobster Gulf of Maine,B/Bmsy,0.580666667
+1982,American lobster Gulf of Maine,F/Fmsy,NA
+1983,American lobster Gulf of Maine,F/Fmsy,NA
+1984,American lobster Gulf of Maine,F/Fmsy,NA
+1985,American lobster Gulf of Maine,F/Fmsy,NA
+1986,American lobster Gulf of Maine,F/Fmsy,NA
+1987,American lobster Gulf of Maine,F/Fmsy,NA
+1988,American lobster Gulf of Maine,F/Fmsy,NA
+1989,American lobster Gulf of Maine,F/Fmsy,NA
+1990,American lobster Gulf of Maine,F/Fmsy,NA
+1991,American lobster Gulf of Maine,F/Fmsy,NA
+1992,American lobster Gulf of Maine,F/Fmsy,NA
+1993,American lobster Gulf of Maine,F/Fmsy,NA
+1994,American lobster Gulf of Maine,F/Fmsy,NA
+1995,American lobster Gulf of Maine,F/Fmsy,NA
+1996,American lobster Gulf of Maine,F/Fmsy,NA
+1997,American lobster Gulf of Maine,F/Fmsy,NA
+1998,American lobster Gulf of Maine,F/Fmsy,NA
+1999,American lobster Gulf of Maine,F/Fmsy,NA
+2000,American lobster Gulf of Maine,F/Fmsy,NA
+2001,American lobster Gulf of Maine,F/Fmsy,NA
+2002,American lobster Gulf of Maine,F/Fmsy,NA
+2003,American lobster Gulf of Maine,F/Fmsy,NA
+2004,American lobster Gulf of Maine,F/Fmsy,NA
+2005,American lobster Gulf of Maine,F/Fmsy,NA
+2006,American lobster Gulf of Maine,F/Fmsy,NA
+2007,American lobster Gulf of Maine,F/Fmsy,NA
+2008,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.474000006914139
+2012,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.722000002861023
+2015,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.589999973773956
+2017,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.504999995231628
+2005,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.5
+2008,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.505999982357025
+2012,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.587000012397766
+2015,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.839999973773956
+2017,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.989000022411346
+2013,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.635999977588654
+2014,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.363999992609024
+2015,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.363999992609024
+2016,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.455000013113022
+2017,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.455000013113022
+2005,Atlantic cod - Georges Bank,F/Fmsy,1.33299994468689
+2008,Atlantic cod - Georges Bank,F/Fmsy,1.20000004768372
+2012,Atlantic cod - Georges Bank,F/Fmsy,1.95700001716614
+2013,Atlantic cod - Georges Bank,F/Fmsy,2.38899993896484
+2005,Atlantic cod - Georges Bank,B/Bmsy,0.104000002145767
+2008,Atlantic cod - Georges Bank,B/Bmsy,0.119000002741814
+2012,Atlantic cod - Georges Bank,B/Bmsy,0.0799999982118607
+2013,Atlantic cod - Georges Bank,B/Bmsy,0.0710000023245811
+2005,Atlantic cod - Gulf of Maine,F/Fmsy,2.79999995231628
+2008,Atlantic cod - Gulf of Maine,F/Fmsy,1.89999997615814
+2012,Atlantic cod - Gulf of Maine,F/Fmsy,5.69999980926514
+2005,Atlantic cod - Gulf of Maine,B/Bmsy,0.226999998092651
+2008,Atlantic cod - Gulf of Maine,B/Bmsy,0.582000017166138
+2012,Atlantic cod - Gulf of Maine,B/Bmsy,0.194000005722046
+1973,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.456242223
+1974,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.456242223
+1975,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.736209042
+1976,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.323793723
+1977,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.562283976
+1978,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.379095811
+1979,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.040370524
+1980,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.774229227
+1981,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.642886769
+1982,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.532282594
+1983,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.404396516
+1984,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,0.964330153
+1985,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.306511821
+1986,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.697082815
+1987,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.983962395
+1988,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.205170745
+1989,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.149868658
+1990,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.077284667
+1991,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,1.973593253
+1992,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.533526891
+1993,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.865339417
+1994,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.110742431
+1995,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.25245403
+1996,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.342319923
+1997,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.096916909
+1998,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.82040647
+1999,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.917185124
+2000,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.145306235
+2001,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,3.069265865
+2002,Atlantic croaker Mid-Atlantic Coast,B/Bmsy,2.775473524
 1973,Atlantic croaker Mid-Atlantic Coast,F/Fmsy,0.435897436
 1974,Atlantic croaker Mid-Atlantic Coast,F/Fmsy,0.717948718
 1975,Atlantic croaker Mid-Atlantic Coast,F/Fmsy,0.692307692
@@ -882,6 +318,241 @@ year,stock,indicator,value
 2000,Atlantic croaker Mid-Atlantic Coast,F/Fmsy,0.230769231
 2001,Atlantic croaker Mid-Atlantic Coast,F/Fmsy,0.282051282
 2002,Atlantic croaker Mid-Atlantic Coast,F/Fmsy,0.282051282
+2008,Atlantic halibut - Northwestern Atlantic Coast,F/Fmsy,0.929000020027161
+2012,Atlantic halibut - Northwestern Atlantic Coast,F/Fmsy,0.437999993562698
+2005,Atlantic halibut - Northwestern Atlantic Coast,B/Bmsy,0.0500000007450581
+2008,Atlantic halibut - Northwestern Atlantic Coast,B/Bmsy,0.0270000007003546
+2012,Atlantic halibut - Northwestern Atlantic Coast,B/Bmsy,0.034000001847744
+2006,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.349999994039536
+2009,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.518999993801117
+2012,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.518999993801117
+2015,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.666999995708466
+2018,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.882000029087067
+2006,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,1.64999997615814
+2009,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,0.972000002861023
+2012,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,3.29900002479553
+2015,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,2.00200009346008
+2018,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,0.749000012874603
+2018,Atlantic mackerel - Gulf of Maine / Cape Hatteras,F/Fmsy,1.80799996852875
+2005,Atlantic mackerel - Gulf of Maine / Cape Hatteras,B/Bmsy,3.5699999332428
+2018,Atlantic mackerel - Gulf of Maine / Cape Hatteras,B/Bmsy,0.221000000834465
+1955,Atlantic menhaden Atlantic,B/Bmsy,1.115276382
+1956,Atlantic menhaden Atlantic,B/Bmsy,0.76759799
+1957,Atlantic menhaden Atlantic,B/Bmsy,0.450693467
+1958,Atlantic menhaden Atlantic,B/Bmsy,0.535949749
+1959,Atlantic menhaden Atlantic,B/Bmsy,0.497085427
+1960,Atlantic menhaden Atlantic,B/Bmsy,0.884492462
+1961,Atlantic menhaden Atlantic,B/Bmsy,1.512090452
+1962,Atlantic menhaden Atlantic,B/Bmsy,1.128351759
+1963,Atlantic menhaden Atlantic,B/Bmsy,0.610251256
+1964,Atlantic menhaden Atlantic,B/Bmsy,0.490160804
+1965,Atlantic menhaden Atlantic,B/Bmsy,0.461658291
+1966,Atlantic menhaden Atlantic,B/Bmsy,0.395125628
+1967,Atlantic menhaden Atlantic,B/Bmsy,0.424914573
+1968,Atlantic menhaden Atlantic,B/Bmsy,0.722452261
+1969,Atlantic menhaden Atlantic,B/Bmsy,0.631356784
+1970,Atlantic menhaden Atlantic,B/Bmsy,0.847517588
+1971,Atlantic menhaden Atlantic,B/Bmsy,1.115236181
+1972,Atlantic menhaden Atlantic,B/Bmsy,1.029407035
+1973,Atlantic menhaden Atlantic,B/Bmsy,0.613577889
+1974,Atlantic menhaden Atlantic,B/Bmsy,0.574854271
+1975,Atlantic menhaden Atlantic,B/Bmsy,0.487567839
+1976,Atlantic menhaden Atlantic,B/Bmsy,0.393839196
+1977,Atlantic menhaden Atlantic,B/Bmsy,0.389155779
+1978,Atlantic menhaden Atlantic,B/Bmsy,0.427708543
+1979,Atlantic menhaden Atlantic,B/Bmsy,0.499346734
+1980,Atlantic menhaden Atlantic,B/Bmsy,0.51680402
+1981,Atlantic menhaden Atlantic,B/Bmsy,0.390532663
+1982,Atlantic menhaden Atlantic,B/Bmsy,0.414713568
+1983,Atlantic menhaden Atlantic,B/Bmsy,0.449728643
+1984,Atlantic menhaden Atlantic,B/Bmsy,0.370532663
+1985,Atlantic menhaden Atlantic,B/Bmsy,0.346653266
+1986,Atlantic menhaden Atlantic,B/Bmsy,0.407366834
+1987,Atlantic menhaden Atlantic,B/Bmsy,0.613145729
+1988,Atlantic menhaden Atlantic,B/Bmsy,0.653005025
+1989,Atlantic menhaden Atlantic,B/Bmsy,0.549678392
+1990,Atlantic menhaden Atlantic,B/Bmsy,0.585005025
+1991,Atlantic menhaden Atlantic,B/Bmsy,0.692592965
+1992,Atlantic menhaden Atlantic,B/Bmsy,0.590201005
+1993,Atlantic menhaden Atlantic,B/Bmsy,0.650271357
+1994,Atlantic menhaden Atlantic,B/Bmsy,0.558442211
+1995,Atlantic menhaden Atlantic,B/Bmsy,0.57161809
+1996,Atlantic menhaden Atlantic,B/Bmsy,0.441356784
+1997,Atlantic menhaden Atlantic,B/Bmsy,0.398944724
+1998,Atlantic menhaden Atlantic,B/Bmsy,0.275427136
+1999,Atlantic menhaden Atlantic,B/Bmsy,0.324633166
+2000,Atlantic menhaden Atlantic,B/Bmsy,0.455507538
+2001,Atlantic menhaden Atlantic,B/Bmsy,0.672522613
+2002,Atlantic menhaden Atlantic,B/Bmsy,0.597437186
+2003,Atlantic menhaden Atlantic,B/Bmsy,0.501015075
+2004,Atlantic menhaden Atlantic,B/Bmsy,0.552944724
+2005,Atlantic menhaden Atlantic,B/Bmsy,0.567497487
+2006,Atlantic menhaden Atlantic,B/Bmsy,0.550603015
+2007,Atlantic menhaden Atlantic,B/Bmsy,0.837035176
+2008,Atlantic menhaden Atlantic,B/Bmsy,0.91521608
+2009,Atlantic menhaden Atlantic,B/Bmsy,0.913015075
+2010,Atlantic menhaden Atlantic,B/Bmsy,0.846532663
+2011,Atlantic menhaden Atlantic,B/Bmsy,0.861829146
+2012,Atlantic menhaden Atlantic,B/Bmsy,1.019145729
+2013,Atlantic menhaden Atlantic,B/Bmsy,0.995386935
+2014,Atlantic menhaden Atlantic,B/Bmsy,0.96801005
+2015,Atlantic menhaden Atlantic,B/Bmsy,0.876603015
+2016,Atlantic menhaden Atlantic,B/Bmsy,0.839045226
+1955,Atlantic menhaden Atlantic,F/Fmsy,2.697150496
+1956,Atlantic menhaden Atlantic,F/Fmsy,8.848267161
+1957,Atlantic menhaden Atlantic,F/Fmsy,7.035059423
+1958,Atlantic menhaden Atlantic,F/Fmsy,3.011621698
+1959,Atlantic menhaden Atlantic,F/Fmsy,4.519993753
+1960,Atlantic menhaden Atlantic,F/Fmsy,1.223344191
+1961,Atlantic menhaden Atlantic,F/Fmsy,0.91227304
+1962,Atlantic menhaden Atlantic,F/Fmsy,1.787540096
+1963,Atlantic menhaden Atlantic,F/Fmsy,2.184689363
+1964,Atlantic menhaden Atlantic,F/Fmsy,1.37040766
+1965,Atlantic menhaden Atlantic,F/Fmsy,1.658690126
+1966,Atlantic menhaden Atlantic,F/Fmsy,0.892271773
+1967,Atlantic menhaden Atlantic,F/Fmsy,0.777452511
+1968,Atlantic menhaden Atlantic,F/Fmsy,0.81409285
+1969,Atlantic menhaden Atlantic,F/Fmsy,0.552778734
+1970,Atlantic menhaden Atlantic,F/Fmsy,0.682389701
+1971,Atlantic menhaden Atlantic,F/Fmsy,0.67204106
+1972,Atlantic menhaden Atlantic,F/Fmsy,1.613176838
+1973,Atlantic menhaden Atlantic,F/Fmsy,1.821550876
+1974,Atlantic menhaden Atlantic,F/Fmsy,1.451513524
+1975,Atlantic menhaden Atlantic,F/Fmsy,1.080231539
+1976,Atlantic menhaden Atlantic,F/Fmsy,1.24864519
+1977,Atlantic menhaden Atlantic,F/Fmsy,0.780207273
+1978,Atlantic menhaden Atlantic,F/Fmsy,0.760676609
+1979,Atlantic menhaden Atlantic,F/Fmsy,0.788129128
+1980,Atlantic menhaden Atlantic,F/Fmsy,1.202528381
+1981,Atlantic menhaden Atlantic,F/Fmsy,1.066896615
+1982,Atlantic menhaden Atlantic,F/Fmsy,0.886886259
+1983,Atlantic menhaden Atlantic,F/Fmsy,0.966726851
+1984,Atlantic menhaden Atlantic,F/Fmsy,1.116757656
+1985,Atlantic menhaden Atlantic,F/Fmsy,1.511524413
+1986,Atlantic menhaden Atlantic,F/Fmsy,0.50982134
+1987,Atlantic menhaden Atlantic,F/Fmsy,0.631609631
+1988,Atlantic menhaden Atlantic,F/Fmsy,0.906682601
+1989,Atlantic menhaden Atlantic,F/Fmsy,1.703822489
+1990,Atlantic menhaden Atlantic,F/Fmsy,1.838021299
+1991,Atlantic menhaden Atlantic,F/Fmsy,1.499678166
+1992,Atlantic menhaden Atlantic,F/Fmsy,1.468190725
+1993,Atlantic menhaden Atlantic,F/Fmsy,1.061349111
+1994,Atlantic menhaden Atlantic,F/Fmsy,0.834854548
+1995,Atlantic menhaden Atlantic,F/Fmsy,2.309617539
+1996,Atlantic menhaden Atlantic,F/Fmsy,2.135724843
+1997,Atlantic menhaden Atlantic,F/Fmsy,1.64036319
+1998,Atlantic menhaden Atlantic,F/Fmsy,1.585471685
+1999,Atlantic menhaden Atlantic,F/Fmsy,1.219545736
+2000,Atlantic menhaden Atlantic,F/Fmsy,1.2513538
+2001,Atlantic menhaden Atlantic,F/Fmsy,1.065369178
+2002,Atlantic menhaden Atlantic,F/Fmsy,1.001633676
+2003,Atlantic menhaden Atlantic,F/Fmsy,0.776306816
+2004,Atlantic menhaden Atlantic,F/Fmsy,0.803174674
+2005,Atlantic menhaden Atlantic,F/Fmsy,0.696383973
+2006,Atlantic menhaden Atlantic,F/Fmsy,0.784068395
+2007,Atlantic menhaden Atlantic,F/Fmsy,0.615130145
+2008,Atlantic menhaden Atlantic,F/Fmsy,0.54193517
+2009,Atlantic menhaden Atlantic,F/Fmsy,0.505510886
+2010,Atlantic menhaden Atlantic,F/Fmsy,0.687240724
+2011,Atlantic menhaden Atlantic,F/Fmsy,0.732799465
+2012,Atlantic menhaden Atlantic,F/Fmsy,0.605299059
+2013,Atlantic menhaden Atlantic,F/Fmsy,0.393124619
+2014,Atlantic menhaden Atlantic,F/Fmsy,0.478617589
+2015,Atlantic menhaden Atlantic,F/Fmsy,0.600714124
+2016,Atlantic menhaden Atlantic,F/Fmsy,0.643290875
+2016,Atlantic salmon - Gulf of Maine,F/Fmsy,0
+2017,Atlantic salmon - Gulf of Maine,F/Fmsy,0
+2016,Atlantic salmon - Gulf of Maine,B/Bmsy,0.146999999880791
+2017,Atlantic salmon - Gulf of Maine,B/Bmsy,0.146999999880791
+2009,Atlantic surfclam - Mid-Atlantic Coast,F/Fmsy,0.180000007152557
+2013,Atlantic surfclam - Mid-Atlantic Coast,F/Fmsy,0.180000007152557
+2016,Atlantic surfclam - Mid-Atlantic Coast,F/Fmsy,0.294999986886978
+2006,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,1.29999995231628
+2009,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,1.61699998378754
+2013,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,1.0900000333786
+2016,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,2.53999996185303
+2012,Atlantic wolffish - Gulf of Maine / Georges Bank,F/Fmsy,0.211999997496605
+2015,Atlantic wolffish - Gulf of Maine / Georges Bank,F/Fmsy,0.00999999977648258
+2017,Atlantic wolffish - Gulf of Maine / Georges Bank,F/Fmsy,0.00899999961256981
+2012,Atlantic wolffish - Gulf of Maine / Georges Bank,B/Bmsy,0.287999987602234
+2015,Atlantic wolffish - Gulf of Maine / Georges Bank,B/Bmsy,0.379999995231628
+2017,Atlantic wolffish - Gulf of Maine / Georges Bank,B/Bmsy,0.404000014066696
+2006,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.592999994754791
+2008,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.629999995231628
+2009,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.629999995231628
+2011,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.685000002384186
+2012,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.688000023365021
+2013,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.77700001001358
+2014,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.77700001001358
+2015,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.898000001907349
+2016,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,1.00999999046326
+2017,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,1.00999999046326
+2018,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,1.00999999046326
+1950,Bigeye tuna Atlantic,B/Bmsy,2.72
+1951,Bigeye tuna Atlantic,B/Bmsy,2.72
+1952,Bigeye tuna Atlantic,B/Bmsy,2.71
+1953,Bigeye tuna Atlantic,B/Bmsy,2.71
+1954,Bigeye tuna Atlantic,B/Bmsy,2.71
+1955,Bigeye tuna Atlantic,B/Bmsy,2.7
+1956,Bigeye tuna Atlantic,B/Bmsy,2.69
+1957,Bigeye tuna Atlantic,B/Bmsy,2.69
+1958,Bigeye tuna Atlantic,B/Bmsy,2.68
+1959,Bigeye tuna Atlantic,B/Bmsy,2.68
+1960,Bigeye tuna Atlantic,B/Bmsy,2.67
+1961,Bigeye tuna Atlantic,B/Bmsy,2.66
+1962,Bigeye tuna Atlantic,B/Bmsy,2.63
+1963,Bigeye tuna Atlantic,B/Bmsy,2.6
+1964,Bigeye tuna Atlantic,B/Bmsy,2.56
+1965,Bigeye tuna Atlantic,B/Bmsy,2.54
+1966,Bigeye tuna Atlantic,B/Bmsy,2.48
+1967,Bigeye tuna Atlantic,B/Bmsy,2.46
+1968,Bigeye tuna Atlantic,B/Bmsy,2.45
+1969,Bigeye tuna Atlantic,B/Bmsy,2.44
+1970,Bigeye tuna Atlantic,B/Bmsy,2.41
+1971,Bigeye tuna Atlantic,B/Bmsy,2.36
+1972,Bigeye tuna Atlantic,B/Bmsy,2.3
+1973,Bigeye tuna Atlantic,B/Bmsy,2.26
+1974,Bigeye tuna Atlantic,B/Bmsy,2.21
+1975,Bigeye tuna Atlantic,B/Bmsy,2.15
+1976,Bigeye tuna Atlantic,B/Bmsy,2.1
+1977,Bigeye tuna Atlantic,B/Bmsy,2.1
+1978,Bigeye tuna Atlantic,B/Bmsy,2.08
+1979,Bigeye tuna Atlantic,B/Bmsy,2.07
+1980,Bigeye tuna Atlantic,B/Bmsy,2.08
+1981,Bigeye tuna Atlantic,B/Bmsy,2.04
+1982,Bigeye tuna Atlantic,B/Bmsy,2
+1983,Bigeye tuna Atlantic,B/Bmsy,1.94
+1984,Bigeye tuna Atlantic,B/Bmsy,1.94
+1985,Bigeye tuna Atlantic,B/Bmsy,1.9
+1986,Bigeye tuna Atlantic,B/Bmsy,1.85
+1987,Bigeye tuna Atlantic,B/Bmsy,1.84
+1988,Bigeye tuna Atlantic,B/Bmsy,1.82
+1989,Bigeye tuna Atlantic,B/Bmsy,1.8
+1990,Bigeye tuna Atlantic,B/Bmsy,1.76
+1991,Bigeye tuna Atlantic,B/Bmsy,1.71
+1992,Bigeye tuna Atlantic,B/Bmsy,1.65
+1993,Bigeye tuna Atlantic,B/Bmsy,1.59
+1994,Bigeye tuna Atlantic,B/Bmsy,1.49
+1995,Bigeye tuna Atlantic,B/Bmsy,1.34
+1996,Bigeye tuna Atlantic,B/Bmsy,1.22
+1997,Bigeye tuna Atlantic,B/Bmsy,1.13
+1998,Bigeye tuna Atlantic,B/Bmsy,1.06
+1999,Bigeye tuna Atlantic,B/Bmsy,1.01
+2000,Bigeye tuna Atlantic,B/Bmsy,0.913
+2001,Bigeye tuna Atlantic,B/Bmsy,0.867
+2002,Bigeye tuna Atlantic,B/Bmsy,0.852
+2003,Bigeye tuna Atlantic,B/Bmsy,0.879
+2004,Bigeye tuna Atlantic,B/Bmsy,0.876
+2005,Bigeye tuna Atlantic,B/Bmsy,0.864
+2006,Bigeye tuna Atlantic,B/Bmsy,0.865
+2007,Bigeye tuna Atlantic,B/Bmsy,0.866
+2008,Bigeye tuna Atlantic,B/Bmsy,0.855
+2009,Bigeye tuna Atlantic,B/Bmsy,0.852
+2010,Bigeye tuna Atlantic,B/Bmsy,0.826
+2011,Bigeye tuna Atlantic,B/Bmsy,0.798
+2012,Bigeye tuna Atlantic,B/Bmsy,0.765
+2013,Bigeye tuna Atlantic,B/Bmsy,0.744
+2014,Bigeye tuna Atlantic,B/Bmsy,0.744
 1950,Bigeye tuna Atlantic,F/Fmsy,0.00392
 1951,Bigeye tuna Atlantic,F/Fmsy,0.00801
 1952,Bigeye tuna Atlantic,F/Fmsy,0.0098
@@ -947,6 +618,70 @@ year,stock,indicator,value
 2012,Bigeye tuna Atlantic,F/Fmsy,1.58
 2013,Bigeye tuna Atlantic,F/Fmsy,1.31
 2014,Bigeye tuna Atlantic,F/Fmsy,1.21
+2009,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.666999995708466
+2010,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.689999997615814
+2011,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.976000010967255
+2012,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.476999998092651
+2004,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.46000003814697
+2009,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.02799999713898
+2010,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.0349999666214
+2011,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.11099994182587
+2012,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.02400004863739
+1956,Blue marlin Atlantic,B/Bmsy,2
+1957,Blue marlin Atlantic,B/Bmsy,2
+1958,Blue marlin Atlantic,B/Bmsy,1.97
+1959,Blue marlin Atlantic,B/Bmsy,1.95
+1960,Blue marlin Atlantic,B/Bmsy,1.94
+1961,Blue marlin Atlantic,B/Bmsy,1.85
+1962,Blue marlin Atlantic,B/Bmsy,1.74
+1963,Blue marlin Atlantic,B/Bmsy,1.53
+1964,Blue marlin Atlantic,B/Bmsy,1.27
+1965,Blue marlin Atlantic,B/Bmsy,1.06
+1966,Blue marlin Atlantic,B/Bmsy,0.91
+1967,Blue marlin Atlantic,B/Bmsy,0.86
+1968,Blue marlin Atlantic,B/Bmsy,0.88
+1969,Blue marlin Atlantic,B/Bmsy,0.89
+1970,Blue marlin Atlantic,B/Bmsy,0.87
+1971,Blue marlin Atlantic,B/Bmsy,0.87
+1972,Blue marlin Atlantic,B/Bmsy,0.84
+1973,Blue marlin Atlantic,B/Bmsy,0.86
+1974,Blue marlin Atlantic,B/Bmsy,0.84
+1975,Blue marlin Atlantic,B/Bmsy,0.82
+1976,Blue marlin Atlantic,B/Bmsy,0.8
+1977,Blue marlin Atlantic,B/Bmsy,0.81
+1978,Blue marlin Atlantic,B/Bmsy,0.84
+1979,Blue marlin Atlantic,B/Bmsy,0.9
+1980,Blue marlin Atlantic,B/Bmsy,1
+1981,Blue marlin Atlantic,B/Bmsy,1.09
+1982,Blue marlin Atlantic,B/Bmsy,1.18
+1983,Blue marlin Atlantic,B/Bmsy,1.23
+1984,Blue marlin Atlantic,B/Bmsy,1.27
+1985,Blue marlin Atlantic,B/Bmsy,1.29
+1986,Blue marlin Atlantic,B/Bmsy,1.29
+1987,Blue marlin Atlantic,B/Bmsy,1.35
+1988,Blue marlin Atlantic,B/Bmsy,1.41
+1989,Blue marlin Atlantic,B/Bmsy,1.44
+1990,Blue marlin Atlantic,B/Bmsy,1.38
+1991,Blue marlin Atlantic,B/Bmsy,1.32
+1992,Blue marlin Atlantic,B/Bmsy,1.28
+1993,Blue marlin Atlantic,B/Bmsy,1.33
+1994,Blue marlin Atlantic,B/Bmsy,1.36
+1995,Blue marlin Atlantic,B/Bmsy,1.31
+1996,Blue marlin Atlantic,B/Bmsy,1.28
+1997,Blue marlin Atlantic,B/Bmsy,1.17
+1998,Blue marlin Atlantic,B/Bmsy,1.04
+1999,Blue marlin Atlantic,B/Bmsy,0.91
+2000,Blue marlin Atlantic,B/Bmsy,0.81
+2001,Blue marlin Atlantic,B/Bmsy,0.71
+2002,Blue marlin Atlantic,B/Bmsy,0.66
+2003,Blue marlin Atlantic,B/Bmsy,0.65
+2004,Blue marlin Atlantic,B/Bmsy,0.6
+2005,Blue marlin Atlantic,B/Bmsy,0.62
+2006,Blue marlin Atlantic,B/Bmsy,0.62
+2007,Blue marlin Atlantic,B/Bmsy,0.64
+2008,Blue marlin Atlantic,B/Bmsy,0.6
+2009,Blue marlin Atlantic,B/Bmsy,0.55
+2010,Blue marlin Atlantic,B/Bmsy,0.55
 1956,Blue marlin Atlantic,F/Fmsy,0.009998346
 1957,Blue marlin Atlantic,F/Fmsy,0.196715431
 1958,Blue marlin Atlantic,F/Fmsy,0.199966926
@@ -1002,94 +737,296 @@ year,stock,indicator,value
 2008,Blue marlin Atlantic,F/Fmsy,4.340745459
 2009,Blue marlin Atlantic,F/Fmsy,3.657931567
 2010,Blue marlin Atlantic,F/Fmsy,3.901793671
-1982,American lobster Gulf of Maine,F/Fmsy,NA
-1983,American lobster Gulf of Maine,F/Fmsy,NA
-1984,American lobster Gulf of Maine,F/Fmsy,NA
-1985,American lobster Gulf of Maine,F/Fmsy,NA
-1986,American lobster Gulf of Maine,F/Fmsy,NA
-1987,American lobster Gulf of Maine,F/Fmsy,NA
-1988,American lobster Gulf of Maine,F/Fmsy,NA
-1989,American lobster Gulf of Maine,F/Fmsy,NA
-1990,American lobster Gulf of Maine,F/Fmsy,NA
-1991,American lobster Gulf of Maine,F/Fmsy,NA
-1992,American lobster Gulf of Maine,F/Fmsy,NA
-1993,American lobster Gulf of Maine,F/Fmsy,NA
-1994,American lobster Gulf of Maine,F/Fmsy,NA
-1995,American lobster Gulf of Maine,F/Fmsy,NA
-1996,American lobster Gulf of Maine,F/Fmsy,NA
-1997,American lobster Gulf of Maine,F/Fmsy,NA
-1998,American lobster Gulf of Maine,F/Fmsy,NA
-1999,American lobster Gulf of Maine,F/Fmsy,NA
-2000,American lobster Gulf of Maine,F/Fmsy,NA
-2001,American lobster Gulf of Maine,F/Fmsy,NA
-2002,American lobster Gulf of Maine,F/Fmsy,NA
-2003,American lobster Gulf of Maine,F/Fmsy,NA
-2004,American lobster Gulf of Maine,F/Fmsy,NA
-2005,American lobster Gulf of Maine,F/Fmsy,NA
-2006,American lobster Gulf of Maine,F/Fmsy,NA
-2007,American lobster Gulf of Maine,F/Fmsy,NA
-1955,Atlantic menhaden Atlantic,F/Fmsy,2.697150496
-1956,Atlantic menhaden Atlantic,F/Fmsy,8.848267161
-1957,Atlantic menhaden Atlantic,F/Fmsy,7.035059423
-1958,Atlantic menhaden Atlantic,F/Fmsy,3.011621698
-1959,Atlantic menhaden Atlantic,F/Fmsy,4.519993753
-1960,Atlantic menhaden Atlantic,F/Fmsy,1.223344191
-1961,Atlantic menhaden Atlantic,F/Fmsy,0.91227304
-1962,Atlantic menhaden Atlantic,F/Fmsy,1.787540096
-1963,Atlantic menhaden Atlantic,F/Fmsy,2.184689363
-1964,Atlantic menhaden Atlantic,F/Fmsy,1.37040766
-1965,Atlantic menhaden Atlantic,F/Fmsy,1.658690126
-1966,Atlantic menhaden Atlantic,F/Fmsy,0.892271773
-1967,Atlantic menhaden Atlantic,F/Fmsy,0.777452511
-1968,Atlantic menhaden Atlantic,F/Fmsy,0.81409285
-1969,Atlantic menhaden Atlantic,F/Fmsy,0.552778734
-1970,Atlantic menhaden Atlantic,F/Fmsy,0.682389701
-1971,Atlantic menhaden Atlantic,F/Fmsy,0.67204106
-1972,Atlantic menhaden Atlantic,F/Fmsy,1.613176838
-1973,Atlantic menhaden Atlantic,F/Fmsy,1.821550876
-1974,Atlantic menhaden Atlantic,F/Fmsy,1.451513524
-1975,Atlantic menhaden Atlantic,F/Fmsy,1.080231539
-1976,Atlantic menhaden Atlantic,F/Fmsy,1.24864519
-1977,Atlantic menhaden Atlantic,F/Fmsy,0.780207273
-1978,Atlantic menhaden Atlantic,F/Fmsy,0.760676609
-1979,Atlantic menhaden Atlantic,F/Fmsy,0.788129128
-1980,Atlantic menhaden Atlantic,F/Fmsy,1.202528381
-1981,Atlantic menhaden Atlantic,F/Fmsy,1.066896615
-1982,Atlantic menhaden Atlantic,F/Fmsy,0.886886259
-1983,Atlantic menhaden Atlantic,F/Fmsy,0.966726851
-1984,Atlantic menhaden Atlantic,F/Fmsy,1.116757656
-1985,Atlantic menhaden Atlantic,F/Fmsy,1.511524413
-1986,Atlantic menhaden Atlantic,F/Fmsy,0.50982134
-1987,Atlantic menhaden Atlantic,F/Fmsy,0.631609631
-1988,Atlantic menhaden Atlantic,F/Fmsy,0.906682601
-1989,Atlantic menhaden Atlantic,F/Fmsy,1.703822489
-1990,Atlantic menhaden Atlantic,F/Fmsy,1.838021299
-1991,Atlantic menhaden Atlantic,F/Fmsy,1.499678166
-1992,Atlantic menhaden Atlantic,F/Fmsy,1.468190725
-1993,Atlantic menhaden Atlantic,F/Fmsy,1.061349111
-1994,Atlantic menhaden Atlantic,F/Fmsy,0.834854548
-1995,Atlantic menhaden Atlantic,F/Fmsy,2.309617539
-1996,Atlantic menhaden Atlantic,F/Fmsy,2.135724843
-1997,Atlantic menhaden Atlantic,F/Fmsy,1.64036319
-1998,Atlantic menhaden Atlantic,F/Fmsy,1.585471685
-1999,Atlantic menhaden Atlantic,F/Fmsy,1.219545736
-2000,Atlantic menhaden Atlantic,F/Fmsy,1.2513538
-2001,Atlantic menhaden Atlantic,F/Fmsy,1.065369178
-2002,Atlantic menhaden Atlantic,F/Fmsy,1.001633676
-2003,Atlantic menhaden Atlantic,F/Fmsy,0.776306816
-2004,Atlantic menhaden Atlantic,F/Fmsy,0.803174674
-2005,Atlantic menhaden Atlantic,F/Fmsy,0.696383973
-2006,Atlantic menhaden Atlantic,F/Fmsy,0.784068395
-2007,Atlantic menhaden Atlantic,F/Fmsy,0.615130145
-2008,Atlantic menhaden Atlantic,F/Fmsy,0.54193517
-2009,Atlantic menhaden Atlantic,F/Fmsy,0.505510886
-2010,Atlantic menhaden Atlantic,F/Fmsy,0.687240724
-2011,Atlantic menhaden Atlantic,F/Fmsy,0.732799465
-2012,Atlantic menhaden Atlantic,F/Fmsy,0.605299059
-2013,Atlantic menhaden Atlantic,F/Fmsy,0.393124619
-2014,Atlantic menhaden Atlantic,F/Fmsy,0.478617589
-2015,Atlantic menhaden Atlantic,F/Fmsy,0.600714124
-2016,Atlantic menhaden Atlantic,F/Fmsy,0.643290875
+1970,Bluefin tuna Western Atlantic,B/Bmsy,0.809
+1971,Bluefin tuna Western Atlantic,B/Bmsy,0.805
+1972,Bluefin tuna Western Atlantic,B/Bmsy,0.812
+1973,Bluefin tuna Western Atlantic,B/Bmsy,0.816
+1974,Bluefin tuna Western Atlantic,B/Bmsy,0.732
+1975,Bluefin tuna Western Atlantic,B/Bmsy,0.65
+1976,Bluefin tuna Western Atlantic,B/Bmsy,0.572
+1977,Bluefin tuna Western Atlantic,B/Bmsy,0.491
+1978,Bluefin tuna Western Atlantic,B/Bmsy,0.439
+1979,Bluefin tuna Western Atlantic,B/Bmsy,0.388
+1980,Bluefin tuna Western Atlantic,B/Bmsy,0.352
+1981,Bluefin tuna Western Atlantic,B/Bmsy,0.302
+1982,Bluefin tuna Western Atlantic,B/Bmsy,0.285
+1983,Bluefin tuna Western Atlantic,B/Bmsy,0.273
+1984,Bluefin tuna Western Atlantic,B/Bmsy,0.26
+1985,Bluefin tuna Western Atlantic,B/Bmsy,0.234
+1986,Bluefin tuna Western Atlantic,B/Bmsy,0.24
+1987,Bluefin tuna Western Atlantic,B/Bmsy,0.231
+1988,Bluefin tuna Western Atlantic,B/Bmsy,0.229
+1989,Bluefin tuna Western Atlantic,B/Bmsy,0.222
+1990,Bluefin tuna Western Atlantic,B/Bmsy,0.213
+1991,Bluefin tuna Western Atlantic,B/Bmsy,0.209
+1992,Bluefin tuna Western Atlantic,B/Bmsy,0.203
+1993,Bluefin tuna Western Atlantic,B/Bmsy,0.206
+1994,Bluefin tuna Western Atlantic,B/Bmsy,0.205
+1995,Bluefin tuna Western Atlantic,B/Bmsy,0.215
+1996,Bluefin tuna Western Atlantic,B/Bmsy,0.234
+1997,Bluefin tuna Western Atlantic,B/Bmsy,0.251
+1998,Bluefin tuna Western Atlantic,B/Bmsy,0.256
+1999,Bluefin tuna Western Atlantic,B/Bmsy,0.249
+2000,Bluefin tuna Western Atlantic,B/Bmsy,0.253
+2001,Bluefin tuna Western Atlantic,B/Bmsy,0.249
+2002,Bluefin tuna Western Atlantic,B/Bmsy,0.244
+2003,Bluefin tuna Western Atlantic,B/Bmsy,0.244
+2004,Bluefin tuna Western Atlantic,B/Bmsy,0.252
+2005,Bluefin tuna Western Atlantic,B/Bmsy,0.258
+2006,Bluefin tuna Western Atlantic,B/Bmsy,0.268
+2007,Bluefin tuna Western Atlantic,B/Bmsy,0.301
+2008,Bluefin tuna Western Atlantic,B/Bmsy,0.319
+2009,Bluefin tuna Western Atlantic,B/Bmsy,0.331
+2010,Bluefin tuna Western Atlantic,B/Bmsy,0.362
+2011,Bluefin tuna Western Atlantic,B/Bmsy,0.442
+2012,Bluefin tuna Western Atlantic,B/Bmsy,0.479
+1970,Bluefin tuna Western Atlantic,F/Fmsy,NA
+1971,Bluefin tuna Western Atlantic,F/Fmsy,NA
+1972,Bluefin tuna Western Atlantic,F/Fmsy,NA
+1973,Bluefin tuna Western Atlantic,F/Fmsy,NA
+1974,Bluefin tuna Western Atlantic,F/Fmsy,2.91
+1975,Bluefin tuna Western Atlantic,F/Fmsy,5.59
+1976,Bluefin tuna Western Atlantic,F/Fmsy,4.61
+1977,Bluefin tuna Western Atlantic,F/Fmsy,4.23
+1978,Bluefin tuna Western Atlantic,F/Fmsy,2.8
+1979,Bluefin tuna Western Atlantic,F/Fmsy,4.58
+1980,Bluefin tuna Western Atlantic,F/Fmsy,2.99
+1981,Bluefin tuna Western Atlantic,F/Fmsy,5.33
+1982,Bluefin tuna Western Atlantic,F/Fmsy,1.57
+1983,Bluefin tuna Western Atlantic,F/Fmsy,2.33
+1984,Bluefin tuna Western Atlantic,F/Fmsy,1.74
+1985,Bluefin tuna Western Atlantic,F/Fmsy,2.04
+1986,Bluefin tuna Western Atlantic,F/Fmsy,1.5
+1987,Bluefin tuna Western Atlantic,F/Fmsy,1.9
+1988,Bluefin tuna Western Atlantic,F/Fmsy,2.41
+1989,Bluefin tuna Western Atlantic,F/Fmsy,1.76
+1990,Bluefin tuna Western Atlantic,F/Fmsy,2.75
+1991,Bluefin tuna Western Atlantic,F/Fmsy,2.95
+1992,Bluefin tuna Western Atlantic,F/Fmsy,2.31
+1993,Bluefin tuna Western Atlantic,F/Fmsy,2.33
+1994,Bluefin tuna Western Atlantic,F/Fmsy,1.88
+1995,Bluefin tuna Western Atlantic,F/Fmsy,1.65
+1996,Bluefin tuna Western Atlantic,F/Fmsy,1.59
+1997,Bluefin tuna Western Atlantic,F/Fmsy,1.85
+1998,Bluefin tuna Western Atlantic,F/Fmsy,1.98
+1999,Bluefin tuna Western Atlantic,F/Fmsy,2.27
+2000,Bluefin tuna Western Atlantic,F/Fmsy,1.98
+2001,Bluefin tuna Western Atlantic,F/Fmsy,2.16
+2002,Bluefin tuna Western Atlantic,F/Fmsy,2.55
+2003,Bluefin tuna Western Atlantic,F/Fmsy,2.24
+2004,Bluefin tuna Western Atlantic,F/Fmsy,1.49
+2005,Bluefin tuna Western Atlantic,F/Fmsy,1.73
+2006,Bluefin tuna Western Atlantic,F/Fmsy,1.58
+2007,Bluefin tuna Western Atlantic,F/Fmsy,1.6
+2008,Bluefin tuna Western Atlantic,F/Fmsy,1.22
+2009,Bluefin tuna Western Atlantic,F/Fmsy,1.17
+2010,Bluefin tuna Western Atlantic,F/Fmsy,1.21
+2011,Bluefin tuna Western Atlantic,F/Fmsy,1.35
+2012,Bluefin tuna Western Atlantic,F/Fmsy,0.983
+2007,Bluefish - Atlantic Coast,F/Fmsy,0.790000021457672
+2008,Bluefish - Atlantic Coast,F/Fmsy,0.788999974727631
+2009,Bluefish - Atlantic Coast,F/Fmsy,0.632000029087067
+2010,Bluefish - Atlantic Coast,F/Fmsy,0.526000022888184
+2011,Bluefish - Atlantic Coast,F/Fmsy,0.736999988555908
+2012,Bluefish - Atlantic Coast,F/Fmsy,0.600000023841858
+2013,Bluefish - Atlantic Coast,F/Fmsy,0.510999977588654
+2014,Bluefish - Atlantic Coast,F/Fmsy,0.620999991893768
+2015,Bluefish - Atlantic Coast,F/Fmsy,0.924000024795532
+2016,Bluefish - Atlantic Coast,F/Fmsy,0.924000024795532
+2005,Bluefish - Atlantic Coast,B/Bmsy,0.709999978542328
+2007,Bluefish - Atlantic Coast,B/Bmsy,0.949999988079071
+2008,Bluefish - Atlantic Coast,B/Bmsy,1.0460000038147
+2009,Bluefish - Atlantic Coast,B/Bmsy,1.11300003528595
+2010,Bluefish - Atlantic Coast,B/Bmsy,1.06099998950958
+2011,Bluefish - Atlantic Coast,B/Bmsy,0.953999996185303
+2012,Bluefish - Atlantic Coast,B/Bmsy,0.903999984264374
+2013,Bluefish - Atlantic Coast,B/Bmsy,0.856000006198883
+2014,Bluefish - Atlantic Coast,B/Bmsy,0.841000020503998
+2015,Bluefish - Atlantic Coast,B/Bmsy,0.777999997138977
+2016,Bluefish - Atlantic Coast,B/Bmsy,0.777999997138977
+2014,Butterfish - Gulf of Maine / Cape Hatteras,F/Fmsy,0.025000000372529
+2017,Butterfish - Gulf of Maine / Cape Hatteras,F/Fmsy,0.061999998986721
+2014,Butterfish - Gulf of Maine / Cape Hatteras,B/Bmsy,1.74199998378754
+2017,Butterfish - Gulf of Maine / Cape Hatteras,B/Bmsy,1.41100001335144
+2006,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.125
+2008,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.35099995136261
+2009,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.35099995136261
+2011,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.42900002002716
+2012,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.45500004291534
+2013,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.47000002861023
+2014,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.52999997138977
+2015,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.16700005531311
+2016,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.10000002384186
+2017,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,0.893999993801117
+2007,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.28999999165535
+2010,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.232999995350838
+2013,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.181999996304512
+2016,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.181999996304512
+2005,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.810000002384186
+2006,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.479999989271164
+2007,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.28999996185303
+2010,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.24800002574921
+2013,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.31299996376038
+2016,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.31299996376038
+2007,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.300000011920929
+2010,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.151999995112419
+2013,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.296999990940094
+2016,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.296999990940094
+2005,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.503000020980835
+2006,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.419999986886978
+2007,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.11000001430511
+2010,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.76199996471405
+2013,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.54999995231628
+2016,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.54999995231628
+2013,Haddock - Eastern Georges Bank,F/Fmsy,0.615000009536743
+2014,Haddock - Eastern Georges Bank,F/Fmsy,0.615000009536743
+2015,Haddock - Eastern Georges Bank,F/Fmsy,0.884999990463257
+2016,Haddock - Eastern Georges Bank,F/Fmsy,0.884999990463257
+2017,Haddock - Eastern Georges Bank,F/Fmsy,0.384999990463257
+2005,Haddock - Georges Bank,F/Fmsy,0.912999987602234
+2008,Haddock - Georges Bank,F/Fmsy,0.657000005245209
+2012,Haddock - Georges Bank,F/Fmsy,0.462000012397766
+2015,Haddock - Georges Bank,F/Fmsy,0.620000004768372
+2017,Haddock - Georges Bank,F/Fmsy,0.883000016212463
+2005,Haddock - Georges Bank,B/Bmsy,0.467000007629395
+2008,Haddock - Georges Bank,B/Bmsy,1.9889999628067
+2012,Haddock - Georges Bank,B/Bmsy,1.33899998664856
+2015,Haddock - Georges Bank,B/Bmsy,1.38999998569489
+2017,Haddock - Georges Bank,B/Bmsy,2.78299999237061
+2005,Haddock - Gulf of Maine,F/Fmsy,0.782999992370605
+2008,Haddock - Gulf of Maine,F/Fmsy,0.814000010490417
+2012,Haddock - Gulf of Maine,F/Fmsy,1.78299999237061
+2014,Haddock - Gulf of Maine,F/Fmsy,0.847000002861023
+2015,Haddock - Gulf of Maine,F/Fmsy,0.550000011920929
+2017,Haddock - Gulf of Maine,F/Fmsy,0.298000007867813
+2005,Haddock - Gulf of Maine,B/Bmsy,0.270000010728836
+2008,Haddock - Gulf of Maine,B/Bmsy,0.991999983787537
+2012,Haddock - Gulf of Maine,B/Bmsy,0.584999978542328
+2014,Haddock - Gulf of Maine,B/Bmsy,1.00999999046326
+2015,Haddock - Gulf of Maine,B/Bmsy,2.23000001907349
+2017,Haddock - Gulf of Maine,B/Bmsy,7.06500005722046
+2006,Little skate - Georges Bank / Southern New England,B/Bmsy,0.70200002193450906
+2008,Little skate - Georges Bank / Southern New England,B/Bmsy,0.717000007629395
+2009,Little skate - Georges Bank / Southern New England,B/Bmsy,0.717000007629395
+2011,Little skate - Georges Bank / Southern New England,B/Bmsy,1.15900003910065
+2012,Little skate - Georges Bank / Southern New England,B/Bmsy,1.35800004005432
+2013,Little skate - Georges Bank / Southern New England,B/Bmsy,1.15600001811981
+2014,Little skate - Georges Bank / Southern New England,B/Bmsy,1.13699996471405
+2015,Little skate - Georges Bank / Southern New England,B/Bmsy,1.09800004959106
+2016,Little skate - Georges Bank / Southern New England,B/Bmsy,0.910000026226044
+2017,Little skate - Georges Bank / Southern New England,B/Bmsy,0.910000026226044
+2018,Little skate - Georges Bank / Southern New England,B/Bmsy,0.763000011444092
+2011,Longfin inshore squid - Georges Bank / Cape Hatteras,B/Bmsy,1.28400003910065
+2017,Longfin inshore squid - Georges Bank / Cape Hatteras,B/Bmsy,1.7389999628067
+2005,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.0320000015199184
+2008,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.5
+2012,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.407999992370605
+2015,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.354999989271164
+2017,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.291000008583069
+2005,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.363000005483627
+2008,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0970000028610229
+2012,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0829999968409538
+2015,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0590000003576279
+2017,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0450000017881393
+2017,Ocean quahog - Atlantic Coast,F/Fmsy,0.263000011444092
+2006,Ocean quahog - Atlantic Coast,B/Bmsy,1.52999997138977
+2009,Ocean quahog - Atlantic Coast,B/Bmsy,1.62300002574921
+2013,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
+2015,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
+2016,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
+2017,Ocean quahog - Atlantic Coast,B/Bmsy,1.63300001621246
+2018,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
+2005,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.597000002861023
+2008,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,1.93900001049042
+2010,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.280000001192093
+2014,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.370000004768372
+2015,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.25
+2017,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.137999996542931
+2005,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,0.662999987602234
+2008,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,0.377000004053116
+2010,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,2.15400004386902
+2014,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,1.63800001144409
+2015,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,1.47000002861023
+2017,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,1.74300003051758
+2006,Red deepsea crab - Northwestern Atlantic,F/Fmsy,0.709999978542328
+2011,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.632000029087067
+2014,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,1.04299998283386
+2015,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.551999986171722
+2017,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.551999986171722
+2011,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.953000009059906
+2014,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.799000024795532
+2015,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.39800000190735
+2017,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,2.01999998092651
+2011,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.379000008106232
+2014,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.433999985456467
+2015,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.629000008106232
+2017,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,1.35899996757507
+2011,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.930999994277954
+2014,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.13699996471405
+2015,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.607999980449677
+2017,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.372999995946884
+2006,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,2.5
+2008,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.08299994468689
+2009,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.08299994468689
+2011,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.833000004291534
+2012,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.875
+2013,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.688000023365021
+2014,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.875
+2015,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1
+2016,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.05999994277954
+2017,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.05999994277954
+1957,Sailfish Western Atlantic,B/Bmsy,2
+1958,Sailfish Western Atlantic,B/Bmsy,2
+1959,Sailfish Western Atlantic,B/Bmsy,2
+1960,Sailfish Western Atlantic,B/Bmsy,2
+1961,Sailfish Western Atlantic,B/Bmsy,1.99
+1962,Sailfish Western Atlantic,B/Bmsy,1.97
+1963,Sailfish Western Atlantic,B/Bmsy,1.95
+1964,Sailfish Western Atlantic,B/Bmsy,1.94
+1965,Sailfish Western Atlantic,B/Bmsy,1.92
+1966,Sailfish Western Atlantic,B/Bmsy,1.87
+1967,Sailfish Western Atlantic,B/Bmsy,1.85
+1968,Sailfish Western Atlantic,B/Bmsy,1.82
+1969,Sailfish Western Atlantic,B/Bmsy,1.79
+1970,Sailfish Western Atlantic,B/Bmsy,1.77
+1971,Sailfish Western Atlantic,B/Bmsy,1.72
+1972,Sailfish Western Atlantic,B/Bmsy,1.67
+1973,Sailfish Western Atlantic,B/Bmsy,1.65
+1974,Sailfish Western Atlantic,B/Bmsy,1.64
+1975,Sailfish Western Atlantic,B/Bmsy,1.62
+1976,Sailfish Western Atlantic,B/Bmsy,1.6
+1977,Sailfish Western Atlantic,B/Bmsy,1.58
+1978,Sailfish Western Atlantic,B/Bmsy,1.56
+1979,Sailfish Western Atlantic,B/Bmsy,1.54
+1980,Sailfish Western Atlantic,B/Bmsy,1.53
+1981,Sailfish Western Atlantic,B/Bmsy,1.51
+1982,Sailfish Western Atlantic,B/Bmsy,1.49
+1983,Sailfish Western Atlantic,B/Bmsy,1.46
+1984,Sailfish Western Atlantic,B/Bmsy,1.43
+1985,Sailfish Western Atlantic,B/Bmsy,1.4
+1986,Sailfish Western Atlantic,B/Bmsy,1.39
+1987,Sailfish Western Atlantic,B/Bmsy,1.36
+1988,Sailfish Western Atlantic,B/Bmsy,1.34
+1989,Sailfish Western Atlantic,B/Bmsy,1.32
+1990,Sailfish Western Atlantic,B/Bmsy,1.29
+1991,Sailfish Western Atlantic,B/Bmsy,1.27
+1992,Sailfish Western Atlantic,B/Bmsy,1.25
+1993,Sailfish Western Atlantic,B/Bmsy,1.23
+1994,Sailfish Western Atlantic,B/Bmsy,1.21
+1995,Sailfish Western Atlantic,B/Bmsy,1.19
+1996,Sailfish Western Atlantic,B/Bmsy,1.16
+1997,Sailfish Western Atlantic,B/Bmsy,1.12
+1998,Sailfish Western Atlantic,B/Bmsy,1.08
+1999,Sailfish Western Atlantic,B/Bmsy,1.03
+2000,Sailfish Western Atlantic,B/Bmsy,0.99
+2001,Sailfish Western Atlantic,B/Bmsy,0.94
+2002,Sailfish Western Atlantic,B/Bmsy,0.9
+2003,Sailfish Western Atlantic,B/Bmsy,0.84
+2004,Sailfish Western Atlantic,B/Bmsy,0.71
+2005,Sailfish Western Atlantic,B/Bmsy,0.65
+2006,Sailfish Western Atlantic,B/Bmsy,0.59
+2007,Sailfish Western Atlantic,B/Bmsy,0.54
+2008,Sailfish Western Atlantic,B/Bmsy,0.28
 1957,Sailfish Western Atlantic,F/Fmsy,0.024362568
 1958,Sailfish Western Atlantic,F/Fmsy,0.048725135
 1959,Sailfish Western Atlantic,F/Fmsy,0
@@ -1142,6 +1079,108 @@ year,stock,indicator,value
 2006,Sailfish Western Atlantic,F/Fmsy,1.973367981
 2007,Sailfish Western Atlantic,F/Fmsy,2.265718793
 2008,Sailfish Western Atlantic,F/Fmsy,NA
+2009,Scup - Atlantic Coast,F/Fmsy,0.270999997854233
+2010,Scup - Atlantic Coast,F/Fmsy,0.243000000715256
+2011,Scup - Atlantic Coast,F/Fmsy,0.225999996066093
+2012,Scup - Atlantic Coast,F/Fmsy,0.19200000166893
+2015,Scup - Atlantic Coast,F/Fmsy,0.57700002193450906
+2017,Scup - Atlantic Coast,F/Fmsy,0.632000029087067
+2005,Scup - Atlantic Coast,B/Bmsy,0.25
+2009,Scup - Atlantic Coast,B/Bmsy,2.04299998283386
+2010,Scup - Atlantic Coast,B/Bmsy,1.67900002002716
+2011,Scup - Atlantic Coast,B/Bmsy,2.0239999294281
+2012,Scup - Atlantic Coast,B/Bmsy,2.06900000572205
+2015,Scup - Atlantic Coast,B/Bmsy,2.09500002861023
+2017,Scup - Atlantic Coast,B/Bmsy,2.06100010871887
+2010,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.995000004768372
+2014,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.666999995708466
+2015,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.896000027656555
+2018,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.187999993562698
+2004,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.35199999809265
+2007,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.52999997138977
+2010,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.0349999666214
+2014,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.37399995326996
+2015,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,2.03900003433228
+2018,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,2.71799993515015
+2011,Silver hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.0729999989271164
+2014,Silver hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.0500000007450581
+2017,Silver hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.0540000014007092
+2005,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.01400005817413
+2011,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.966000020503998
+2014,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,2.44899988174438
+2017,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,3.1029999256134
+2011,Silver hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.172000005841255
+2014,Silver hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.112999998033047
+2017,Silver hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.171000003814697
+2005,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.769999980926514
+2011,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.672999978065491
+2014,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.02999997138977
+2017,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.635999977588654
+1950,Skipjack tuna Western Atlantic,B/Bmsy,2
+1951,Skipjack tuna Western Atlantic,B/Bmsy,2
+1952,Skipjack tuna Western Atlantic,B/Bmsy,2
+1953,Skipjack tuna Western Atlantic,B/Bmsy,1.98
+1954,Skipjack tuna Western Atlantic,B/Bmsy,1.98
+1955,Skipjack tuna Western Atlantic,B/Bmsy,1.98
+1956,Skipjack tuna Western Atlantic,B/Bmsy,1.98
+1957,Skipjack tuna Western Atlantic,B/Bmsy,1.98
+1958,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1959,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1960,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1961,Skipjack tuna Western Atlantic,B/Bmsy,1.95
+1962,Skipjack tuna Western Atlantic,B/Bmsy,1.95
+1963,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1964,Skipjack tuna Western Atlantic,B/Bmsy,1.94
+1965,Skipjack tuna Western Atlantic,B/Bmsy,1.92
+1966,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1967,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1968,Skipjack tuna Western Atlantic,B/Bmsy,1.96
+1969,Skipjack tuna Western Atlantic,B/Bmsy,1.96
+1970,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1971,Skipjack tuna Western Atlantic,B/Bmsy,1.96
+1972,Skipjack tuna Western Atlantic,B/Bmsy,1.97
+1973,Skipjack tuna Western Atlantic,B/Bmsy,1.95
+1974,Skipjack tuna Western Atlantic,B/Bmsy,1.95
+1975,Skipjack tuna Western Atlantic,B/Bmsy,1.94
+1976,Skipjack tuna Western Atlantic,B/Bmsy,1.94
+1977,Skipjack tuna Western Atlantic,B/Bmsy,1.94
+1978,Skipjack tuna Western Atlantic,B/Bmsy,1.95
+1979,Skipjack tuna Western Atlantic,B/Bmsy,1.89
+1980,Skipjack tuna Western Atlantic,B/Bmsy,1.89
+1981,Skipjack tuna Western Atlantic,B/Bmsy,1.8
+1982,Skipjack tuna Western Atlantic,B/Bmsy,1.6
+1983,Skipjack tuna Western Atlantic,B/Bmsy,1.35
+1984,Skipjack tuna Western Atlantic,B/Bmsy,1.25
+1985,Skipjack tuna Western Atlantic,B/Bmsy,1.09
+1986,Skipjack tuna Western Atlantic,B/Bmsy,0.768
+1987,Skipjack tuna Western Atlantic,B/Bmsy,0.652
+1988,Skipjack tuna Western Atlantic,B/Bmsy,0.838
+1989,Skipjack tuna Western Atlantic,B/Bmsy,1.1
+1990,Skipjack tuna Western Atlantic,B/Bmsy,1.24
+1991,Skipjack tuna Western Atlantic,B/Bmsy,1.33
+1992,Skipjack tuna Western Atlantic,B/Bmsy,1.2
+1993,Skipjack tuna Western Atlantic,B/Bmsy,1.21
+1994,Skipjack tuna Western Atlantic,B/Bmsy,1.13
+1995,Skipjack tuna Western Atlantic,B/Bmsy,1.16
+1996,Skipjack tuna Western Atlantic,B/Bmsy,1.39
+1997,Skipjack tuna Western Atlantic,B/Bmsy,1.37
+1998,Skipjack tuna Western Atlantic,B/Bmsy,1.27
+1999,Skipjack tuna Western Atlantic,B/Bmsy,1.27
+2000,Skipjack tuna Western Atlantic,B/Bmsy,1.32
+2001,Skipjack tuna Western Atlantic,B/Bmsy,1.3
+2002,Skipjack tuna Western Atlantic,B/Bmsy,1.23
+2003,Skipjack tuna Western Atlantic,B/Bmsy,1.44
+2004,Skipjack tuna Western Atlantic,B/Bmsy,1.45
+2005,Skipjack tuna Western Atlantic,B/Bmsy,1.4
+2006,Skipjack tuna Western Atlantic,B/Bmsy,1.36
+2007,Skipjack tuna Western Atlantic,B/Bmsy,1.38
+2008,Skipjack tuna Western Atlantic,B/Bmsy,1.42
+2009,Skipjack tuna Western Atlantic,B/Bmsy,1.51
+2010,Skipjack tuna Western Atlantic,B/Bmsy,1.46
+2011,Skipjack tuna Western Atlantic,B/Bmsy,1.5
+2012,Skipjack tuna Western Atlantic,B/Bmsy,1.31
+2013,Skipjack tuna Western Atlantic,B/Bmsy,1.2
+2014,Skipjack tuna Western Atlantic,B/Bmsy,1.29
 1950,Skipjack tuna Western Atlantic,F/Fmsy,0
 1951,Skipjack tuna Western Atlantic,F/Fmsy,0
 1952,Skipjack tuna Western Atlantic,F/Fmsy,0.019456388
@@ -1207,6 +1246,62 @@ year,stock,indicator,value
 2012,Skipjack tuna Western Atlantic,F/Fmsy,0.789770166
 2013,Skipjack tuna Western Atlantic,F/Fmsy,0.488687783
 2014,Skipjack tuna Western Atlantic,F/Fmsy,NA
+2006,Smooth skate - Gulf of Maine,B/Bmsy,0.563000023365021
+2008,Smooth skate - Gulf of Maine,B/Bmsy,0.448000013828278
+2009,Smooth skate - Gulf of Maine,B/Bmsy,0.448000013828278
+2011,Smooth skate - Gulf of Maine,B/Bmsy,0.555000007152557
+2012,Smooth skate - Gulf of Maine,B/Bmsy,0.851999998092651
+2013,Smooth skate - Gulf of Maine,B/Bmsy,0.851999998092651
+2014,Smooth skate - Gulf of Maine,B/Bmsy,0.814999997615814
+2015,Smooth skate - Gulf of Maine,B/Bmsy,0.703999996185303
+2016,Smooth skate - Gulf of Maine,B/Bmsy,0.769999980926514
+2017,Smooth skate - Gulf of Maine,B/Bmsy,0.925999999046326
+2018,Smooth skate - Gulf of Maine,B/Bmsy,1.05599999427795
+2008,Spiny dogfish - Atlantic Coast,F/Fmsy,0.386999994516373
+2010,Spiny dogfish - Atlantic Coast,F/Fmsy,0.337999999523163
+2011,Spiny dogfish - Atlantic Coast,F/Fmsy,0.381000012159348
+2013,Spiny dogfish - Atlantic Coast,F/Fmsy,0.611000001430511
+2015,Spiny dogfish - Atlantic Coast,F/Fmsy,0.876999974250793
+2016,Spiny dogfish - Atlantic Coast,F/Fmsy,0.876999974250793
+2018,Spiny dogfish - Atlantic Coast,F/Fmsy,0.828000009059906
+2008,Spiny dogfish - Atlantic Coast,B/Bmsy,1.1599999666214
+2010,Spiny dogfish - Atlantic Coast,B/Bmsy,1.02499997615814
+2011,Spiny dogfish - Atlantic Coast,B/Bmsy,1.06400001049042
+2013,Spiny dogfish - Atlantic Coast,B/Bmsy,1.35399997234344
+2015,Spiny dogfish - Atlantic Coast,B/Bmsy,0.873000025749207
+2016,Spiny dogfish - Atlantic Coast,B/Bmsy,0.873000025749207
+2018,Spiny dogfish - Atlantic Coast,B/Bmsy,0.670000016689301
+1982,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.068527217
+1983,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.056369163
+1984,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.063415308
+1985,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.076540481
+1986,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.080132633
+1987,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.097264438
+1988,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.142304504
+1989,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.236253109
+1990,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.298424979
+1991,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.363360044
+1992,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.454545455
+1993,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.552638851
+1994,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.639679469
+1995,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.801326333
+1996,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.917380492
+1997,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.94224924
+1998,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.827576679
+1999,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.838629456
+2000,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.985078751
+2001,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.986460348
+2002,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.092843327
+2003,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.124620061
+2004,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.0956065210000001
+2005,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.10113291
+2006,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,1.025145068
+2007,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.993368334
+2008,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.965736391
+2009,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.938104449
+2010,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.910472506
+2011,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.906327715
+2012,Striped bass Gulf of Maine / Cape Hatteras,B/Bmsy,0.849682233
 1982,Striped bass Gulf of Maine / Cape Hatteras,F/Fmsy,5.411428571
 1983,Striped bass Gulf of Maine / Cape Hatteras,F/Fmsy,0.914285714
 1984,Striped bass Gulf of Maine / Cape Hatteras,F/Fmsy,1.057142857
@@ -1238,6 +1333,93 @@ year,stock,indicator,value
 2010,Striped bass Gulf of Maine / Cape Hatteras,F/Fmsy,1.085714286
 2011,Striped bass Gulf of Maine / Cape Hatteras,F/Fmsy,1.302857143
 2012,Striped bass Gulf of Maine / Cape Hatteras,F/Fmsy,1.074285714
+2004,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.11500000953674
+2005,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.45000004768372
+2006,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.91999995708466
+2007,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.26999998092651
+2008,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.929000020027161
+2009,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.805999994277954
+2010,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.764999985694885
+2011,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.697000026702881
+2012,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.77700001001358
+2013,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.921999990940094
+2015,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.16199994087219
+2016,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.26199996471405
+2004,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.63400000333786
+2005,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.592999994754791
+2006,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.519999980926514
+2007,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.469999998807907
+2008,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.722000002861023
+2009,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.765999972820282
+2010,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.889999985694885
+2011,Summer flounder - Mid-Atlantic Coast,B/Bmsy,1.00300002098083
+2012,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.949000000953674
+2013,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.820999979972839
+2015,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.646000027656555
+2016,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.580999970436096
+1950,Swordfish North Atlantic,B/Bmsy,1.7
+1951,Swordfish North Atlantic,B/Bmsy,1.74
+1952,Swordfish North Atlantic,B/Bmsy,1.79
+1953,Swordfish North Atlantic,B/Bmsy,1.82
+1954,Swordfish North Atlantic,B/Bmsy,1.83
+1955,Swordfish North Atlantic,B/Bmsy,1.85
+1956,Swordfish North Atlantic,B/Bmsy,1.85
+1957,Swordfish North Atlantic,B/Bmsy,1.86
+1958,Swordfish North Atlantic,B/Bmsy,1.85
+1959,Swordfish North Atlantic,B/Bmsy,1.83
+1960,Swordfish North Atlantic,B/Bmsy,1.81
+1961,Swordfish North Atlantic,B/Bmsy,1.82
+1962,Swordfish North Atlantic,B/Bmsy,1.82
+1963,Swordfish North Atlantic,B/Bmsy,1.81
+1964,Swordfish North Atlantic,B/Bmsy,1.74
+1965,Swordfish North Atlantic,B/Bmsy,1.67
+1966,Swordfish North Atlantic,B/Bmsy,1.66
+1967,Swordfish North Atlantic,B/Bmsy,1.64
+1968,Swordfish North Atlantic,B/Bmsy,1.62
+1969,Swordfish North Atlantic,B/Bmsy,1.61
+1970,Swordfish North Atlantic,B/Bmsy,1.6
+1971,Swordfish North Atlantic,B/Bmsy,1.59
+1972,Swordfish North Atlantic,B/Bmsy,1.64
+1973,Swordfish North Atlantic,B/Bmsy,1.69
+1974,Swordfish North Atlantic,B/Bmsy,1.7
+1975,Swordfish North Atlantic,B/Bmsy,1.71
+1976,Swordfish North Atlantic,B/Bmsy,1.68
+1977,Swordfish North Atlantic,B/Bmsy,1.69
+1978,Swordfish North Atlantic,B/Bmsy,1.7
+1979,Swordfish North Atlantic,B/Bmsy,1.64
+1980,Swordfish North Atlantic,B/Bmsy,1.58
+1981,Swordfish North Atlantic,B/Bmsy,1.52
+1982,Swordfish North Atlantic,B/Bmsy,1.51
+1983,Swordfish North Atlantic,B/Bmsy,1.46
+1984,Swordfish North Atlantic,B/Bmsy,1.41
+1985,Swordfish North Atlantic,B/Bmsy,1.39
+1986,Swordfish North Atlantic,B/Bmsy,1.35
+1987,Swordfish North Atlantic,B/Bmsy,1.26
+1988,Swordfish North Atlantic,B/Bmsy,1.15
+1989,Swordfish North Atlantic,B/Bmsy,1.06
+1990,Swordfish North Atlantic,B/Bmsy,1
+1991,Swordfish North Atlantic,B/Bmsy,0.969
+1992,Swordfish North Atlantic,B/Bmsy,0.949
+1993,Swordfish North Atlantic,B/Bmsy,0.921
+1994,Swordfish North Atlantic,B/Bmsy,0.872
+1995,Swordfish North Atlantic,B/Bmsy,0.839
+1996,Swordfish North Atlantic,B/Bmsy,0.782
+1997,Swordfish North Atlantic,B/Bmsy,0.746
+1998,Swordfish North Atlantic,B/Bmsy,0.743
+1999,Swordfish North Atlantic,B/Bmsy,0.751
+2000,Swordfish North Atlantic,B/Bmsy,0.771
+2001,Swordfish North Atlantic,B/Bmsy,0.795
+2002,Swordfish North Atlantic,B/Bmsy,0.844
+2003,Swordfish North Atlantic,B/Bmsy,0.902
+2004,Swordfish North Atlantic,B/Bmsy,0.935
+2005,Swordfish North Atlantic,B/Bmsy,0.957
+2006,Swordfish North Atlantic,B/Bmsy,0.975
+2007,Swordfish North Atlantic,B/Bmsy,1.01
+2008,Swordfish North Atlantic,B/Bmsy,1.03
+2009,Swordfish North Atlantic,B/Bmsy,1.07
+2010,Swordfish North Atlantic,B/Bmsy,1.09
+2011,Swordfish North Atlantic,B/Bmsy,1.12
+2012,Swordfish North Atlantic,B/Bmsy,1.14
 1950,Swordfish North Atlantic,F/Fmsy,0.156157691
 1951,Swordfish North Atlantic,F/Fmsy,0.107475221
 1952,Swordfish North Atlantic,F/Fmsy,0.121360908
@@ -1301,6 +1483,54 @@ year,stock,indicator,value
 2010,Swordfish North Atlantic,F/Fmsy,0.774786206
 2011,Swordfish North Atlantic,F/Fmsy,0.813168683
 2012,Swordfish North Atlantic,F/Fmsy,0.886805014
+2006,Thorny skate - Gulf of Maine,B/Bmsy,0.127000004053116
+2008,Thorny skate - Gulf of Maine,B/Bmsy,0.101999998092651
+2009,Thorny skate - Gulf of Maine,B/Bmsy,0.101999998092651
+2011,Thorny skate - Gulf of Maine,B/Bmsy,0.0590000003576279
+2012,Thorny skate - Gulf of Maine,B/Bmsy,0.0579999983310699
+2013,Thorny skate - Gulf of Maine,B/Bmsy,0.0439999997615814
+2014,Thorny skate - Gulf of Maine,B/Bmsy,0.028999999165535
+2015,Thorny skate - Gulf of Maine,B/Bmsy,0.0309999994933605
+2016,Thorny skate - Gulf of Maine,B/Bmsy,0.0410000011324883
+2017,Thorny skate - Gulf of Maine,B/Bmsy,0.0410000011324883
+2018,Thorny skate - Gulf of Maine,B/Bmsy,0.0419999994337559
+2009,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.375
+2014,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.742999970912933
+2016,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.742999970912933
+2017,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.802999973297119
+2005,Tilefish - Mid-Atlantic Coast,B/Bmsy,0.720000028610229
+2009,Tilefish - Mid-Atlantic Coast,B/Bmsy,1.04499995708466
+2014,Tilefish - Mid-Atlantic Coast,B/Bmsy,1.01499998569489
+2016,Tilefish - Mid-Atlantic Coast,B/Bmsy,1.01499998569489
+2017,Tilefish - Mid-Atlantic Coast,B/Bmsy,0.89300000667572
+1981,Weakfish Atlantic Coast,B/Bmsy,2.829354553
+1982,Weakfish Atlantic Coast,B/Bmsy,1.915708812
+1983,Weakfish Atlantic Coast,B/Bmsy,1.591511936
+1984,Weakfish Atlantic Coast,B/Bmsy,1.129776992
+1985,Weakfish Atlantic Coast,B/Bmsy,1.237842617
+1986,Weakfish Atlantic Coast,B/Bmsy,1.345908242
+1987,Weakfish Atlantic Coast,B/Bmsy,1.208370174
+1988,Weakfish Atlantic Coast,B/Bmsy,0.973573043
+1989,Weakfish Atlantic Coast,B/Bmsy,0.581589547
+1990,Weakfish Atlantic Coast,B/Bmsy,0.389036251
+1991,Weakfish Atlantic Coast,B/Bmsy,0.501031536
+1992,Weakfish Atlantic Coast,B/Bmsy,0.551134689
+1993,Weakfish Atlantic Coast,B/Bmsy,0.677866195
+1994,Weakfish Atlantic Coast,B/Bmsy,0.970625798
+1995,Weakfish Atlantic Coast,B/Bmsy,1.365556538
+1996,Weakfish Atlantic Coast,B/Bmsy,1.424501425
+1997,Weakfish Atlantic Coast,B/Bmsy,1.178897731
+1998,Weakfish Atlantic Coast,B/Bmsy,0.928381963
+1999,Weakfish Atlantic Coast,B/Bmsy,0.9175754
+2000,Weakfish Atlantic Coast,B/Bmsy,0.908733667
+2001,Weakfish Atlantic Coast,B/Bmsy,0.705373809
+2002,Weakfish Atlantic Coast,B/Bmsy,0.443069064
+2003,Weakfish Atlantic Coast,B/Bmsy,0.26328716
+2004,Weakfish Atlantic Coast,B/Bmsy,0.323214461
+2005,Weakfish Atlantic Coast,B/Bmsy,0.295706847
+2006,Weakfish Atlantic Coast,B/Bmsy,0.230867472
+2007,Weakfish Atlantic Coast,B/Bmsy,0.167992927
+2008,Weakfish Atlantic Coast,B/Bmsy,0.130661165
 1981,Weakfish Atlantic Coast,F/Fmsy,NA
 1982,Weakfish Atlantic Coast,F/Fmsy,NA
 1983,Weakfish Atlantic Coast,F/Fmsy,NA
@@ -1329,6 +1559,71 @@ year,stock,indicator,value
 2006,Weakfish Atlantic Coast,F/Fmsy,NA
 2007,Weakfish Atlantic Coast,F/Fmsy,NA
 2008,Weakfish Atlantic Coast,F/Fmsy,NA
+2005,White hake - Gulf of Maine / Georges Bank,F/Fmsy,2.14499998092651
+2008,White hake - Gulf of Maine / Georges Bank,F/Fmsy,1.15400004386902
+2013,White hake - Gulf of Maine / Georges Bank,F/Fmsy,0.649999976158142
+2015,White hake - Gulf of Maine / Georges Bank,F/Fmsy,0.400000005960464
+2017,White hake - Gulf of Maine / Georges Bank,F/Fmsy,0.358999997377396
+2005,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.389999985694885
+2008,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.351999998092651
+2013,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.828999996185303
+2015,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.879999995231628
+2017,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.686999976634979
+1956,White marlin Atlantic,B/Bmsy,3.769606747
+1957,White marlin Atlantic,B/Bmsy,3.765043058
+1958,White marlin Atlantic,B/Bmsy,3.737660927
+1959,White marlin Atlantic,B/Bmsy,3.710278796
+1960,White marlin Atlantic,B/Bmsy,3.701151419
+1961,White marlin Atlantic,B/Bmsy,3.650950845
+1962,White marlin Atlantic,B/Bmsy,3.523167565
+1963,White marlin Atlantic,B/Bmsy,3.194581989
+1964,White marlin Atlantic,B/Bmsy,2.81123215
+1965,White marlin Atlantic,B/Bmsy,2.295535343
+1966,White marlin Atlantic,B/Bmsy,1.661182634
+1967,White marlin Atlantic,B/Bmsy,1.323469681
+1968,White marlin Atlantic,B/Bmsy,1.341724435
+1969,White marlin Atlantic,B/Bmsy,1.268705418
+1970,White marlin Atlantic,B/Bmsy,1.16830427
+1971,White marlin Atlantic,B/Bmsy,1.086157876
+1972,White marlin Atlantic,B/Bmsy,0.990320417
+1973,White marlin Atlantic,B/Bmsy,0.894482957
+1974,White marlin Atlantic,B/Bmsy,0.857973448
+1975,White marlin Atlantic,B/Bmsy,0.835155006
+1976,White marlin Atlantic,B/Bmsy,0.812336563
+1977,White marlin Atlantic,B/Bmsy,0.780390743
+1978,White marlin Atlantic,B/Bmsy,0.7575723
+1979,White marlin Atlantic,B/Bmsy,0.7575723
+1980,White marlin Atlantic,B/Bmsy,0.743881235
+1981,White marlin Atlantic,B/Bmsy,0.78951812
+1982,White marlin Atlantic,B/Bmsy,0.72562648
+1983,White marlin Atlantic,B/Bmsy,0.684553283
+1984,White marlin Atlantic,B/Bmsy,0.652607463
+1985,White marlin Atlantic,B/Bmsy,0.666298529
+1986,White marlin Atlantic,B/Bmsy,0.620661644
+1987,White marlin Atlantic,B/Bmsy,0.597843201
+1988,White marlin Atlantic,B/Bmsy,0.570461069
+1989,White marlin Atlantic,B/Bmsy,0.547642627
+1990,White marlin Atlantic,B/Bmsy,0.441308683
+1991,White marlin Atlantic,B/Bmsy,0.438114101
+1992,White marlin Atlantic,B/Bmsy,0.408906495
+1993,White marlin Atlantic,B/Bmsy,0.492878364
+1994,White marlin Atlantic,B/Bmsy,0.515696807
+1995,White marlin Atlantic,B/Bmsy,0.47462361
+1996,White marlin Atlantic,B/Bmsy,0.387913527
+1997,White marlin Atlantic,B/Bmsy,0.373309724
+1998,White marlin Atlantic,B/Bmsy,0.415295659
+1999,White marlin Atlantic,B/Bmsy,0.418490241
+2000,White marlin Atlantic,B/Bmsy,0.332236527
+2001,White marlin Atlantic,B/Bmsy,0.293445174
+2002,White marlin Atlantic,B/Bmsy,0.276103158
+2003,White marlin Atlantic,B/Bmsy,0.284774166
+2004,White marlin Atlantic,B/Bmsy,0.326760101
+2005,White marlin Atlantic,B/Bmsy,0.343189379
+2006,White marlin Atlantic,B/Bmsy,0.348209437
+2007,White marlin Atlantic,B/Bmsy,0.376504306
+2008,White marlin Atlantic,B/Bmsy,0.357336814
+2009,White marlin Atlantic,B/Bmsy,0.326760101
+2010,White marlin Atlantic,B/Bmsy,0.322196412
 1956,White marlin Atlantic,F/Fmsy,0
 1957,White marlin Atlantic,F/Fmsy,0.045443228
 1958,White marlin Atlantic,F/Fmsy,0.045443228
@@ -1384,6 +1679,136 @@ year,stock,indicator,value
 2008,White marlin Atlantic,F/Fmsy,1.072460191
 2009,White marlin Atlantic,F/Fmsy,1.163346648
 2010,White marlin Atlantic,F/Fmsy,0.718003009
+2005,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,0.0179999992251396
+2008,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,3.92000007629395
+2012,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,1.15900003910065
+2015,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,0.870000004768372
+2017,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,0.652999997138977
+2005,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.829999983310699
+2008,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.171000003814697
+2012,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.287999987602234
+2015,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.340000003576279
+2017,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.174999997019768
+2005,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.377999991178513
+2008,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,1.25899994373322
+2012,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.670000016689301
+2015,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.649999976158142
+2017,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.902999997138977
+2005,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,0.207000002264977
+2008,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,0.559000015258789
+2012,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,1.45799994468689
+2015,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,1.66999995708466
+2017,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,1.29999995231628
+2008,Winter flounder - Georges Bank,F/Fmsy,1.07700002193451
+2011,Winter flounder - Georges Bank,F/Fmsy,0.35699999332428
+2014,Winter flounder - Georges Bank,F/Fmsy,0.681999981403351
+2015,Winter flounder - Georges Bank,F/Fmsy,1.45000004768372
+2017,Winter flounder - Georges Bank,F/Fmsy,0.224999994039536
+2008,Winter flounder - Georges Bank,B/Bmsy,0.310000002384186
+2011,Winter flounder - Georges Bank,B/Bmsy,0.822000026702881
+2014,Winter flounder - Georges Bank,B/Bmsy,0.857999980449677
+2015,Winter flounder - Georges Bank,B/Bmsy,0.430000007152557
+2017,Winter flounder - Georges Bank,B/Bmsy,0.518999993801117
+2005,Winter flounder - Gulf of Maine,F/Fmsy,0.301999986171722
+2011,Winter flounder - Gulf of Maine,F/Fmsy,0.129999995231628
+2014,Winter flounder - Gulf of Maine,F/Fmsy,0.261000007390976
+2015,Winter flounder - Gulf of Maine,F/Fmsy,0.391000002622604
+2017,Winter flounder - Gulf of Maine,F/Fmsy,0.374000012874603
+2005,Winter flounder - Gulf of Maine,B/Bmsy,0.839999973773956
+2005,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,1.18799996376038
+2008,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,2.59599995613098
+2011,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.175999999046326
+2015,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.490000009536743
+2017,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.617999970912933
+2005,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.129999995231628
+2008,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.0869999974966049
+2011,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.162000000476837
+2015,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.230000004172325
+2017,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.177000001072884
+2006,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.517000019550323
+2008,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.934000015258789
+2009,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.934000015258789
+2011,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.72899997234344
+2012,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.55200004577637
+2013,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.192999958992
+2014,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.885999977588654
+2015,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.903999984264374
+2016,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.939999997615814
+2017,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.939999997615814
+2018,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.25800001621246
+2005,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,0.870000004768372
+2008,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,1.45000004768372
+2012,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,1.74100005626678
+2015,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,2.46000003814697
+2005,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.839999973773956
+2008,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.300000011920929
+2012,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.407999992370605
+2015,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.219999998807907
+1950,Yellowfin tuna Atlantic,B/Bmsy,2.45
+1951,Yellowfin tuna Atlantic,B/Bmsy,2.49
+1952,Yellowfin tuna Atlantic,B/Bmsy,2.52
+1953,Yellowfin tuna Atlantic,B/Bmsy,2.55
+1954,Yellowfin tuna Atlantic,B/Bmsy,2.57
+1955,Yellowfin tuna Atlantic,B/Bmsy,2.59
+1956,Yellowfin tuna Atlantic,B/Bmsy,2.61
+1957,Yellowfin tuna Atlantic,B/Bmsy,2.62
+1958,Yellowfin tuna Atlantic,B/Bmsy,2.6
+1959,Yellowfin tuna Atlantic,B/Bmsy,2.57
+1960,Yellowfin tuna Atlantic,B/Bmsy,2.52
+1961,Yellowfin tuna Atlantic,B/Bmsy,2.46
+1962,Yellowfin tuna Atlantic,B/Bmsy,2.42
+1963,Yellowfin tuna Atlantic,B/Bmsy,2.39
+1964,Yellowfin tuna Atlantic,B/Bmsy,2.36
+1965,Yellowfin tuna Atlantic,B/Bmsy,2.33
+1966,Yellowfin tuna Atlantic,B/Bmsy,2.3
+1967,Yellowfin tuna Atlantic,B/Bmsy,2.28
+1968,Yellowfin tuna Atlantic,B/Bmsy,2.27
+1969,Yellowfin tuna Atlantic,B/Bmsy,2.23
+1970,Yellowfin tuna Atlantic,B/Bmsy,2.18
+1971,Yellowfin tuna Atlantic,B/Bmsy,2.16
+1972,Yellowfin tuna Atlantic,B/Bmsy,2.14
+1973,Yellowfin tuna Atlantic,B/Bmsy,2.1
+1974,Yellowfin tuna Atlantic,B/Bmsy,2.07
+1975,Yellowfin tuna Atlantic,B/Bmsy,2.02
+1976,Yellowfin tuna Atlantic,B/Bmsy,1.96
+1977,Yellowfin tuna Atlantic,B/Bmsy,1.9
+1978,Yellowfin tuna Atlantic,B/Bmsy,1.84
+1979,Yellowfin tuna Atlantic,B/Bmsy,1.78
+1980,Yellowfin tuna Atlantic,B/Bmsy,1.74
+1981,Yellowfin tuna Atlantic,B/Bmsy,1.7
+1982,Yellowfin tuna Atlantic,B/Bmsy,1.62
+1983,Yellowfin tuna Atlantic,B/Bmsy,1.55
+1984,Yellowfin tuna Atlantic,B/Bmsy,1.47
+1985,Yellowfin tuna Atlantic,B/Bmsy,1.47
+1986,Yellowfin tuna Atlantic,B/Bmsy,1.41
+1987,Yellowfin tuna Atlantic,B/Bmsy,1.37
+1988,Yellowfin tuna Atlantic,B/Bmsy,1.34
+1989,Yellowfin tuna Atlantic,B/Bmsy,1.32
+1990,Yellowfin tuna Atlantic,B/Bmsy,1.26
+1991,Yellowfin tuna Atlantic,B/Bmsy,1.16
+1992,Yellowfin tuna Atlantic,B/Bmsy,1.11
+1993,Yellowfin tuna Atlantic,B/Bmsy,1.06
+1994,Yellowfin tuna Atlantic,B/Bmsy,1
+1995,Yellowfin tuna Atlantic,B/Bmsy,0.94
+1996,Yellowfin tuna Atlantic,B/Bmsy,0.9
+1997,Yellowfin tuna Atlantic,B/Bmsy,0.868
+1998,Yellowfin tuna Atlantic,B/Bmsy,0.851
+1999,Yellowfin tuna Atlantic,B/Bmsy,0.824
+2000,Yellowfin tuna Atlantic,B/Bmsy,0.807
+2001,Yellowfin tuna Atlantic,B/Bmsy,0.795
+2002,Yellowfin tuna Atlantic,B/Bmsy,0.753
+2003,Yellowfin tuna Atlantic,B/Bmsy,0.736
+2004,Yellowfin tuna Atlantic,B/Bmsy,0.734
+2005,Yellowfin tuna Atlantic,B/Bmsy,0.736
+2006,Yellowfin tuna Atlantic,B/Bmsy,0.763
+2007,Yellowfin tuna Atlantic,B/Bmsy,0.786
+2008,Yellowfin tuna Atlantic,B/Bmsy,0.823
+2009,Yellowfin tuna Atlantic,B/Bmsy,0.846
+2010,Yellowfin tuna Atlantic,B/Bmsy,0.861
+2011,Yellowfin tuna Atlantic,B/Bmsy,0.883
+2012,Yellowfin tuna Atlantic,B/Bmsy,0.913
+2013,Yellowfin tuna Atlantic,B/Bmsy,0.942
+2014,Yellowfin tuna Atlantic,B/Bmsy,0.98
 1950,Yellowfin tuna Atlantic,F/Fmsy,0.0039
 1951,Yellowfin tuna Atlantic,F/Fmsy,0.0043
 1952,Yellowfin tuna Atlantic,F/Fmsy,0.0087
@@ -1449,462 +1874,37 @@ year,stock,indicator,value
 2012,Yellowfin tuna Atlantic,F/Fmsy,0.894
 2013,Yellowfin tuna Atlantic,F/Fmsy,0.803
 2014,Yellowfin tuna Atlantic,F/Fmsy,0.77
-2005,Atlantic cod - Georges Bank,F/Fmsy,1.33299994468689
-2005,Atlantic cod - Gulf of Maine,F/Fmsy,2.79999995231628
-2005,Haddock - Georges Bank,F/Fmsy,0.912999987602234
-2005,Haddock - Gulf of Maine,F/Fmsy,0.782999992370605
-2005,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.0320000015199184
-2005,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.597000002861023
-2005,White hake - Gulf of Maine / Georges Bank,F/Fmsy,2.14499998092651
-2005,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,0.0179999992251396
-2005,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.377999991178513
-2005,Winter flounder - Gulf of Maine,F/Fmsy,0.301999986171722
-2005,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,1.18799996376038
-2005,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,0.870000004768372
 2005,Yellowtail flounder - Cape Cod / Gulf of Maine,F/Fmsy,4.41200017929077
-2005,Yellowtail flounder - Georges Bank,F/Fmsy,4.76000022888184
-2005,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,3.80800008773804
-2006,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.349999994039536
-2006,Red deepsea crab - Northwestern Atlantic,F/Fmsy,0.709999978542328
-2008,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.174999997019768
-2008,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.474000006914139
-2008,Atlantic cod - Georges Bank,F/Fmsy,1.20000004768372
-2008,Atlantic cod - Gulf of Maine,F/Fmsy,1.89999997615814
-2008,Atlantic halibut - Northwestern Atlantic Coast,F/Fmsy,0.929000020027161
-2008,Haddock - Georges Bank,F/Fmsy,0.657000005245209
-2008,Haddock - Gulf of Maine,F/Fmsy,0.814000010490417
-2008,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.5
-2008,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,1.93900001049042
-2008,White hake - Gulf of Maine / Georges Bank,F/Fmsy,1.15400004386902
-2008,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,3.92000007629395
-2008,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,1.25899994373322
-2008,Winter flounder - Georges Bank,F/Fmsy,1.07700002193451
-2008,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,2.59599995613098
-2008,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,1.45000004768372
 2008,Yellowtail flounder - Cape Cod / Gulf of Maine,F/Fmsy,1.72500002384186
-2008,Yellowtail flounder - Georges Bank,F/Fmsy,1.15600001811981
-2008,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,1.65199995040894
-2009,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.518999993801117
-2010,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.995000004768372
-2010,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.280000001192093
-2010,Yellowtail flounder - Georges Bank,F/Fmsy,0.600000023841858
-2011,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.632000029087067
-2011,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.379000008106232
-2011,Silver hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.0729999989271164
-2011,Silver hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.172000005841255
-2011,Winter flounder - Georges Bank,F/Fmsy,0.35699999332428
-2011,Winter flounder - Gulf of Maine,F/Fmsy,0.129999995231628
-2011,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.175999999046326
-2011,Yellowtail flounder - Georges Bank,F/Fmsy,0.519999980926514
-2012,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.518999993801117
-2012,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.150000005960464
-2012,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.722000002861023
-2012,Atlantic cod - Georges Bank,F/Fmsy,1.95700001716614
-2012,Atlantic cod - Gulf of Maine,F/Fmsy,5.69999980926514
-2012,Atlantic halibut - Northwestern Atlantic Coast,F/Fmsy,0.437999993562698
-2012,Atlantic wolffish - Gulf of Maine / Georges Bank,F/Fmsy,0.211999997496605
-2012,Haddock - Georges Bank,F/Fmsy,0.462000012397766
-2012,Haddock - Gulf of Maine,F/Fmsy,1.78299999237061
-2012,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.407999992370605
-2012,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,1.15900003910065
-2012,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.670000016689301
-2012,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,1.74100005626678
 2012,Yellowtail flounder - Cape Cod / Gulf of Maine,F/Fmsy,1.38499999046326
-2012,Yellowtail flounder - Georges Bank,F/Fmsy,1.24000000953674
-2012,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.379999995231628
-2013,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.635999977588654
-2013,Atlantic cod - Georges Bank,F/Fmsy,2.38899993896484
-2013,Haddock - Eastern Georges Bank,F/Fmsy,0.615000009536743
-2013,White hake - Gulf of Maine / Georges Bank,F/Fmsy,0.649999976158142
-2013,Yellowtail flounder - Georges Bank,F/Fmsy,3.11999988555908
-2014,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.666999995708466
-2014,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.363999992609024
-2014,Haddock - Eastern Georges Bank,F/Fmsy,0.615000009536743
-2014,Haddock - Gulf of Maine,F/Fmsy,0.847000002861023
-2014,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.370000004768372
-2014,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,1.04299998283386
-2014,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.433999985456467
-2014,Silver hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.0500000007450581
-2014,Silver hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.112999998033047
-2014,Winter flounder - Georges Bank,F/Fmsy,0.681999981403351
-2014,Winter flounder - Gulf of Maine,F/Fmsy,0.261000007390976
-2015,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.666999995708466
-2015,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.896000027656555
-2015,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.389999985694885
-2015,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.589999973773956
-2015,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.363999992609024
-2015,Atlantic wolffish - Gulf of Maine / Georges Bank,F/Fmsy,0.00999999977648258
-2015,Haddock - Eastern Georges Bank,F/Fmsy,0.884999990463257
-2015,Haddock - Georges Bank,F/Fmsy,0.620000004768372
-2015,Haddock - Gulf of Maine,F/Fmsy,0.550000011920929
-2015,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.354999989271164
-2015,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.25
-2015,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.551999986171722
-2015,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.629000008106232
-2015,White hake - Gulf of Maine / Georges Bank,F/Fmsy,0.400000005960464
-2015,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,0.870000004768372
-2015,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.649999976158142
-2015,Winter flounder - Georges Bank,F/Fmsy,1.45000004768372
-2015,Winter flounder - Gulf of Maine,F/Fmsy,0.391000002622604
-2015,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.490000009536743
-2015,Witch flounder - Northwestern Atlantic Coast,F/Fmsy,2.46000003814697
 2015,Yellowtail flounder - Cape Cod / Gulf of Maine,F/Fmsy,2.28999996185303
-2015,Yellowtail flounder - Georges Bank,F/Fmsy,0.284000009298325
-2015,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,4.69999980926514
-2016,Atlantic salmon - Gulf of Maine,F/Fmsy,0
-2016,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.455000013113022
-2016,Haddock - Eastern Georges Bank,F/Fmsy,0.884999990463257
-2016,Yellowtail flounder - Georges Bank,F/Fmsy,0.200000002980232
-2017,Atlantic salmon - Gulf of Maine,F/Fmsy,0
-2017,Acadian redfish - Gulf of Maine / Georges Bank,F/Fmsy,0.275000005960464
-2017,American plaice - Gulf of Maine / Georges Bank,F/Fmsy,0.504999995231628
-2017,Atlantic cod - Eastern Georges Bank,F/Fmsy,0.455000013113022
-2017,Atlantic wolffish - Gulf of Maine / Georges Bank,F/Fmsy,0.00899999961256981
-2017,Haddock - Eastern Georges Bank,F/Fmsy,0.384999990463257
-2017,Haddock - Georges Bank,F/Fmsy,0.883000016212463
-2017,Haddock - Gulf of Maine,F/Fmsy,0.298000007867813
-2017,Ocean pout - Northwestern Atlantic Coast,F/Fmsy,0.291000008583069
-2017,Pollock - Gulf of Maine / Georges Bank,F/Fmsy,0.137999996542931
-2017,Red hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.551999986171722
-2017,Red hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,1.35899996757507
-2017,Silver hake - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.0540000014007092
-2017,Silver hake - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.171000003814697
-2017,White hake - Gulf of Maine / Georges Bank,F/Fmsy,0.358999997377396
-2017,Windowpane - Gulf of Maine / Georges Bank,F/Fmsy,0.652999997138977
-2017,Windowpane - Southern New England / Mid-Atlantic,F/Fmsy,0.902999997138977
-2017,Winter flounder - Georges Bank,F/Fmsy,0.224999994039536
-2017,Winter flounder - Gulf of Maine,F/Fmsy,0.374000012874603
-2017,Winter flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.617999970912933
 2017,Yellowtail flounder - Cape Cod / Gulf of Maine,F/Fmsy,1.14999997615814
-2017,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,3.20600008964539
-2018,Atlantic herring - Northwestern Atlantic Coast,F/Fmsy,0.882000029087067
-2018,Sea scallop - Northwestern Atlantic Coast,F/Fmsy,0.187999993562698
-2007,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.28999999165535
-2007,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.300000011920929
-2008,Spiny dogfish - Atlantic Coast,F/Fmsy,0.386999994516373
-2010,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.232999995350838
-2010,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.151999995112419
-2010,Spiny dogfish - Atlantic Coast,F/Fmsy,0.337999999523163
-2011,Spiny dogfish - Atlantic Coast,F/Fmsy,0.381000012159348
-2013,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.181999996304512
-2013,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.296999990940094
-2013,Spiny dogfish - Atlantic Coast,F/Fmsy,0.611000001430511
-2015,Spiny dogfish - Atlantic Coast,F/Fmsy,0.876999974250793
-2016,Goosefish - Gulf of Maine / Northern Georges Bank,F/Fmsy,0.181999996304512
-2016,Goosefish - Southern Georges Bank / Mid-Atlantic,F/Fmsy,0.296999990940094
-2016,Spiny dogfish - Atlantic Coast,F/Fmsy,0.876999974250793
-2018,Spiny dogfish - Atlantic Coast,F/Fmsy,0.828000009059906
-2004,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.11500000953674
-2005,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.45000004768372
-2006,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.91999995708466
-2007,Bluefish - Atlantic Coast,F/Fmsy,0.790000021457672
-2007,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.26999998092651
-2008,Bluefish - Atlantic Coast,F/Fmsy,0.788999974727631
-2008,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.929000020027161
-2009,Atlantic surfclam - Mid-Atlantic Coast,F/Fmsy,0.180000007152557
-2009,Bluefish - Atlantic Coast,F/Fmsy,0.632000029087067
-2009,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.666999995708466
-2009,Scup - Atlantic Coast,F/Fmsy,0.270999997854233
-2009,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.805999994277954
-2009,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.375
-2010,Bluefish - Atlantic Coast,F/Fmsy,0.526000022888184
-2010,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.689999997615814
-2010,Scup - Atlantic Coast,F/Fmsy,0.243000000715256
-2010,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.764999985694885
-2011,Bluefish - Atlantic Coast,F/Fmsy,0.736999988555908
-2011,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.976000010967255
-2011,Scup - Atlantic Coast,F/Fmsy,0.225999996066093
-2011,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.697000026702881
-2012,Bluefish - Atlantic Coast,F/Fmsy,0.600000023841858
-2012,Black sea bass - Mid-Atlantic Coast,F/Fmsy,0.476999998092651
-2012,Scup - Atlantic Coast,F/Fmsy,0.19200000166893
-2012,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.77700001001358
-2013,Atlantic surfclam - Mid-Atlantic Coast,F/Fmsy,0.180000007152557
-2013,Bluefish - Atlantic Coast,F/Fmsy,0.510999977588654
-2013,Summer flounder - Mid-Atlantic Coast,F/Fmsy,0.921999990940094
-2014,Butterfish - Gulf of Maine / Cape Hatteras,F/Fmsy,0.025000000372529
-2014,Bluefish - Atlantic Coast,F/Fmsy,0.620999991893768
-2014,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.742999970912933
-2015,Bluefish - Atlantic Coast,F/Fmsy,0.924000024795532
-2015,Scup - Atlantic Coast,F/Fmsy,0.57700002193450906
-2015,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.16199994087219
-2016,Atlantic surfclam - Mid-Atlantic Coast,F/Fmsy,0.294999986886978
-2016,Bluefish - Atlantic Coast,F/Fmsy,0.924000024795532
-2016,Summer flounder - Mid-Atlantic Coast,F/Fmsy,1.26199996471405
-2016,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.742999970912933
-2017,Butterfish - Gulf of Maine / Cape Hatteras,F/Fmsy,0.061999998986721
-2017,Ocean quahog - Atlantic Coast,F/Fmsy,0.263000011444092
-2017,Scup - Atlantic Coast,F/Fmsy,0.632000029087067
-2017,Tilefish - Mid-Atlantic Coast,F/Fmsy,0.802999973297119
-2018,Atlantic mackerel - Gulf of Maine / Cape Hatteras,F/Fmsy,1.80799996852875
-2004,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.35199999809265
-2004,Yellowtail flounder - Georges Bank,B/Bmsy,0.662000000476837
-2005,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,0.740000009536743
-2005,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.5
-2005,Atlantic cod - Georges Bank,B/Bmsy,0.104000002145767
-2005,Atlantic cod - Gulf of Maine,B/Bmsy,0.226999998092651
-2005,Atlantic halibut - Northwestern Atlantic Coast,B/Bmsy,0.0500000007450581
-2005,Haddock - Georges Bank,B/Bmsy,0.467000007629395
-2005,Haddock - Gulf of Maine,B/Bmsy,0.270000010728836
-2005,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.363000005483627
-2005,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,0.662999987602234
-2005,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.01400005817413
-2005,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.769999980926514
-2005,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.389999985694885
-2005,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.829999983310699
-2005,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,0.207000002264977
-2005,Winter flounder - Gulf of Maine,B/Bmsy,0.839999973773956
-2005,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.129999995231628
-2005,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.839999973773956
 2005,Yellowtail flounder - Cape Cod / Gulf of Maine,B/Bmsy,0.0879999995231628
-2005,Yellowtail flounder - Georges Bank,B/Bmsy,0.266999989748001
-2005,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.00999999977648258
-2006,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,1.64999997615814
-2006,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.592999994754791
-2006,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.125
-2006,Little skate - Georges Bank / Southern New England,B/Bmsy,0.70200002193450906
-2006,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,2.5
-2006,Smooth skate - Gulf of Maine,B/Bmsy,0.563000023365021
-2006,Thorny skate - Gulf of Maine,B/Bmsy,0.127000004053116
-2006,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.517000019550323
-2007,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.52999997138977
-2008,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,0.635999977588654
-2008,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.505999982357025
-2008,Atlantic cod - Georges Bank,B/Bmsy,0.119000002741814
-2008,Atlantic cod - Gulf of Maine,B/Bmsy,0.582000017166138
-2008,Atlantic halibut - Northwestern Atlantic Coast,B/Bmsy,0.0270000007003546
-2008,Haddock - Georges Bank,B/Bmsy,1.9889999628067
-2008,Haddock - Gulf of Maine,B/Bmsy,0.991999983787537
-2008,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0970000028610229
-2008,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,0.377000004053116
-2008,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.351999998092651
-2008,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.171000003814697
-2008,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,0.559000015258789
-2008,Winter flounder - Georges Bank,B/Bmsy,0.310000002384186
-2008,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.0869999974966049
-2008,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.300000011920929
 2008,Yellowtail flounder - Cape Cod / Gulf of Maine,B/Bmsy,0.246999993920326
-2008,Yellowtail flounder - Georges Bank,B/Bmsy,0.221000000834465
-2008,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.128000006079674
-2008,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.629999995231628
-2008,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.35099995136261
-2008,Little skate - Georges Bank / Southern New England,B/Bmsy,0.717000007629395
-2008,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.08299994468689
-2008,Smooth skate - Gulf of Maine,B/Bmsy,0.448000013828278
-2008,Thorny skate - Gulf of Maine,B/Bmsy,0.101999998092651
-2008,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.934000015258789
-2009,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,0.972000002861023
-2009,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.629999995231628
-2009,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.35099995136261
-2009,Little skate - Georges Bank / Southern New England,B/Bmsy,0.717000007629395
-2009,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.08299994468689
-2009,Smooth skate - Gulf of Maine,B/Bmsy,0.448000013828278
-2009,Thorny skate - Gulf of Maine,B/Bmsy,0.101999998092651
-2009,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.934000015258789
-2010,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.0349999666214
-2010,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,2.15400004386902
-2010,Yellowtail flounder - Georges Bank,B/Bmsy,0.324000000953674
-2011,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.953000009059906
-2011,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.930999994277954
-2011,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.966000020503998
-2011,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.672999978065491
-2011,Winter flounder - Georges Bank,B/Bmsy,0.822000026702881
-2011,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.162000000476837
-2011,Yellowtail flounder - Georges Bank,B/Bmsy,0.203999996185303
-2011,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.685000002384186
-2011,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.42900002002716
-2011,Little skate - Georges Bank / Southern New England,B/Bmsy,1.15900003910065
-2011,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.833000004291534
-2011,Smooth skate - Gulf of Maine,B/Bmsy,0.555000007152557
-2011,Thorny skate - Gulf of Maine,B/Bmsy,0.0590000003576279
-2011,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.72899997234344
-2012,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,3.29900002479553
-2012,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,1.32299995422363
-2012,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.587000012397766
-2012,Atlantic cod - Georges Bank,B/Bmsy,0.0799999982118607
-2012,Atlantic cod - Gulf of Maine,B/Bmsy,0.194000005722046
-2012,Atlantic halibut - Northwestern Atlantic Coast,B/Bmsy,0.034000001847744
-2012,Atlantic wolffish - Gulf of Maine / Georges Bank,B/Bmsy,0.287999987602234
-2012,Haddock - Georges Bank,B/Bmsy,1.33899998664856
-2012,Haddock - Gulf of Maine,B/Bmsy,0.584999978542328
-2012,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0829999968409538
-2012,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.287999987602234
-2012,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,1.45799994468689
-2012,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.407999992370605
 2012,Yellowtail flounder - Cape Cod / Gulf of Maine,B/Bmsy,0.237000003457069
-2012,Yellowtail flounder - Georges Bank,B/Bmsy,0.105999998748302
-2012,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,1.29299998283386
-2012,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.688000023365021
-2012,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.45500004291534
-2012,Little skate - Georges Bank / Southern New England,B/Bmsy,1.35800004005432
-2012,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.875
-2012,Smooth skate - Gulf of Maine,B/Bmsy,0.851999998092651
-2012,Thorny skate - Gulf of Maine,B/Bmsy,0.0579999983310699
-2012,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.55200004577637
-2013,Atlantic cod - Georges Bank,B/Bmsy,0.0710000023245811
-2013,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.828999996185303
-2013,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.77700001001358
-2013,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.47000002861023
-2013,Little skate - Georges Bank / Southern New England,B/Bmsy,1.15600001811981
-2013,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.688000023365021
-2013,Smooth skate - Gulf of Maine,B/Bmsy,0.851999998092651
-2013,Thorny skate - Gulf of Maine,B/Bmsy,0.0439999997615814
-2013,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.192999958992
-2014,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,1.37399995326996
-2014,Haddock - Gulf of Maine,B/Bmsy,1.00999999046326
-2014,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,1.63800001144409
-2014,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.799000024795532
-2014,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.13699996471405
-2014,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,2.44899988174438
-2014,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.02999997138977
-2014,Winter flounder - Georges Bank,B/Bmsy,0.857999980449677
-2014,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.77700001001358
-2014,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.52999997138977
-2014,Little skate - Georges Bank / Southern New England,B/Bmsy,1.13699996471405
-2014,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,0.875
-2014,Smooth skate - Gulf of Maine,B/Bmsy,0.814999997615814
-2014,Thorny skate - Gulf of Maine,B/Bmsy,0.028999999165535
-2014,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.885999977588654
-2015,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,2.00200009346008
-2015,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,2.03900003433228
-2015,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,1.16999995708466
-2015,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.839999973773956
-2015,Atlantic wolffish - Gulf of Maine / Georges Bank,B/Bmsy,0.379999995231628
-2015,Haddock - Georges Bank,B/Bmsy,1.38999998569489
-2015,Haddock - Gulf of Maine,B/Bmsy,2.23000001907349
-2015,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0590000003576279
-2015,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,1.47000002861023
-2015,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.39800000190735
-2015,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.607999980449677
-2015,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.879999995231628
-2015,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.340000003576279
-2015,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,1.66999995708466
-2015,Winter flounder - Georges Bank,B/Bmsy,0.430000007152557
-2015,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.230000004172325
-2015,Witch flounder - Northwestern Atlantic Coast,B/Bmsy,0.219999998807907
 2015,Yellowtail flounder - Cape Cod / Gulf of Maine,B/Bmsy,0.159999996423721
-2015,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.259999990463257
-2015,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,0.898000001907349
-2015,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.16700005531311
-2015,Little skate - Georges Bank / Southern New England,B/Bmsy,1.09800004959106
-2015,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1
-2015,Smooth skate - Gulf of Maine,B/Bmsy,0.703999996185303
-2015,Thorny skate - Gulf of Maine,B/Bmsy,0.0309999994933605
-2015,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.903999984264374
-2016,Atlantic salmon - Gulf of Maine,B/Bmsy,0.146999999880791
-2016,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,1.00999999046326
-2016,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,1.10000002384186
-2016,Little skate - Georges Bank / Southern New England,B/Bmsy,0.910000026226044
-2016,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.05999994277954
-2016,Smooth skate - Gulf of Maine,B/Bmsy,0.769999980926514
-2016,Thorny skate - Gulf of Maine,B/Bmsy,0.0410000011324883
-2016,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.939999997615814
-2017,Atlantic salmon - Gulf of Maine,B/Bmsy,0.146999999880791
-2017,Acadian redfish - Gulf of Maine / Georges Bank,B/Bmsy,1.45200002193451
-2017,American plaice - Gulf of Maine / Georges Bank,B/Bmsy,0.989000022411346
-2017,Atlantic wolffish - Gulf of Maine / Georges Bank,B/Bmsy,0.404000014066696
-2017,Haddock - Georges Bank,B/Bmsy,2.78299999237061
-2017,Haddock - Gulf of Maine,B/Bmsy,7.06500005722046
-2017,Ocean pout - Northwestern Atlantic Coast,B/Bmsy,0.0450000017881393
-2017,Pollock - Gulf of Maine / Georges Bank,B/Bmsy,1.74300003051758
-2017,Red hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,2.01999998092651
-2017,Red hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.372999995946884
-2017,Silver hake - Gulf of Maine / Northern Georges Bank,B/Bmsy,3.1029999256134
-2017,Silver hake - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.635999977588654
-2017,White hake - Gulf of Maine / Georges Bank,B/Bmsy,0.686999976634979
-2017,Windowpane - Gulf of Maine / Georges Bank,B/Bmsy,0.174999997019768
-2017,Windowpane - Southern New England / Mid-Atlantic,B/Bmsy,1.29999995231628
-2017,Winter flounder - Georges Bank,B/Bmsy,0.518999993801117
-2017,Winter flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.177000001072884
 2017,Yellowtail flounder - Cape Cod / Gulf of Maine,B/Bmsy,0.256999999284744
+2005,Yellowtail flounder - Georges Bank,F/Fmsy,4.76000022888184
+2008,Yellowtail flounder - Georges Bank,F/Fmsy,1.15600001811981
+2010,Yellowtail flounder - Georges Bank,F/Fmsy,0.600000023841858
+2011,Yellowtail flounder - Georges Bank,F/Fmsy,0.519999980926514
+2012,Yellowtail flounder - Georges Bank,F/Fmsy,1.24000000953674
+2013,Yellowtail flounder - Georges Bank,F/Fmsy,3.11999988555908
+2015,Yellowtail flounder - Georges Bank,F/Fmsy,0.284000009298325
+2016,Yellowtail flounder - Georges Bank,F/Fmsy,0.200000002980232
+2004,Yellowtail flounder - Georges Bank,B/Bmsy,0.662000000476837
+2005,Yellowtail flounder - Georges Bank,B/Bmsy,0.266999989748001
+2008,Yellowtail flounder - Georges Bank,B/Bmsy,0.221000000834465
+2010,Yellowtail flounder - Georges Bank,B/Bmsy,0.324000000953674
+2011,Yellowtail flounder - Georges Bank,B/Bmsy,0.203999996185303
+2012,Yellowtail flounder - Georges Bank,B/Bmsy,0.105999998748302
+2005,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,3.80800008773804
+2008,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,1.65199995040894
+2012,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,0.379999995231628
+2015,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,4.69999980926514
+2017,Yellowtail flounder - Southern New England / Mid-Atlantic,F/Fmsy,3.20600008964539
+2005,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.00999999977648258
+2008,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.128000006079674
+2012,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,1.29299998283386
+2015,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.259999990463257
 2017,Yellowtail flounder - Southern New England / Mid-Atlantic,B/Bmsy,0.0820000022649765
-2017,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,1.00999999046326
-2017,Clearnose skate - Southern New England / Mid-Atlantic,B/Bmsy,0.893999993801117
-2017,Little skate - Georges Bank / Southern New England,B/Bmsy,0.910000026226044
-2017,Rosette skate - Southern New England / Mid-Atlantic,B/Bmsy,1.05999994277954
-2017,Smooth skate - Gulf of Maine,B/Bmsy,0.925999999046326
-2017,Thorny skate - Gulf of Maine,B/Bmsy,0.0410000011324883
-2017,Winter skate - Georges Bank / Southern New England,B/Bmsy,0.939999997615814
-2018,Atlantic herring - Northwestern Atlantic Coast,B/Bmsy,0.749000012874603
-2018,Sea scallop - Northwestern Atlantic Coast,B/Bmsy,2.71799993515015
-2018,Barndoor skate - Georges Bank / Southern New England,B/Bmsy,1.00999999046326
-2018,Little skate - Georges Bank / Southern New England,B/Bmsy,0.763000011444092
-2018,Smooth skate - Gulf of Maine,B/Bmsy,1.05599999427795
-2018,Thorny skate - Gulf of Maine,B/Bmsy,0.0419999994337559
-2018,Winter skate - Georges Bank / Southern New England,B/Bmsy,1.25800001621246
-2005,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.810000002384186
-2005,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.503000020980835
-2006,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,0.479999989271164
-2006,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,0.419999986886978
-2007,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.28999996185303
-2007,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.11000001430511
-2008,Spiny dogfish - Atlantic Coast,B/Bmsy,1.1599999666214
-2010,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.24800002574921
-2010,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.76199996471405
-2010,Spiny dogfish - Atlantic Coast,B/Bmsy,1.02499997615814
-2011,Spiny dogfish - Atlantic Coast,B/Bmsy,1.06400001049042
-2013,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.31299996376038
-2013,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.54999995231628
-2013,Spiny dogfish - Atlantic Coast,B/Bmsy,1.35399997234344
-2015,Spiny dogfish - Atlantic Coast,B/Bmsy,0.873000025749207
-2016,Goosefish - Gulf of Maine / Northern Georges Bank,B/Bmsy,1.31299996376038
-2016,Goosefish - Southern Georges Bank / Mid-Atlantic,B/Bmsy,1.54999995231628
-2016,Spiny dogfish - Atlantic Coast,B/Bmsy,0.873000025749207
-2018,Spiny dogfish - Atlantic Coast,B/Bmsy,0.670000016689301
-2004,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.46000003814697
-2004,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.63400000333786
-2005,Atlantic mackerel - Gulf of Maine / Cape Hatteras,B/Bmsy,3.5699999332428
-2005,Bluefish - Atlantic Coast,B/Bmsy,0.709999978542328
-2005,Scup - Atlantic Coast,B/Bmsy,0.25
-2005,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.592999994754791
-2005,Tilefish - Mid-Atlantic Coast,B/Bmsy,0.720000028610229
-2006,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,1.29999995231628
-2006,Ocean quahog - Atlantic Coast,B/Bmsy,1.52999997138977
-2006,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.519999980926514
-2007,Bluefish - Atlantic Coast,B/Bmsy,0.949999988079071
-2007,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.469999998807907
-2008,Bluefish - Atlantic Coast,B/Bmsy,1.0460000038147
-2008,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.722000002861023
-2009,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,1.61699998378754
-2009,Ocean quahog - Atlantic Coast,B/Bmsy,1.62300002574921
-2009,Bluefish - Atlantic Coast,B/Bmsy,1.11300003528595
-2009,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.02799999713898
-2009,Scup - Atlantic Coast,B/Bmsy,2.04299998283386
-2009,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.765999972820282
-2009,Tilefish - Mid-Atlantic Coast,B/Bmsy,1.04499995708466
-2010,Bluefish - Atlantic Coast,B/Bmsy,1.06099998950958
-2010,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.0349999666214
-2010,Scup - Atlantic Coast,B/Bmsy,1.67900002002716
-2010,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.889999985694885
-2011,Longfin inshore squid - Georges Bank / Cape Hatteras,B/Bmsy,1.28400003910065
-2011,Bluefish - Atlantic Coast,B/Bmsy,0.953999996185303
-2011,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.11099994182587
-2011,Scup - Atlantic Coast,B/Bmsy,2.0239999294281
-2011,Summer flounder - Mid-Atlantic Coast,B/Bmsy,1.00300002098083
-2012,Bluefish - Atlantic Coast,B/Bmsy,0.903999984264374
-2012,Black sea bass - Mid-Atlantic Coast,B/Bmsy,1.02400004863739
-2012,Scup - Atlantic Coast,B/Bmsy,2.06900000572205
-2012,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.949000000953674
-2013,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,1.0900000333786
-2013,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
-2013,Bluefish - Atlantic Coast,B/Bmsy,0.856000006198883
-2013,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.820999979972839
-2014,Butterfish - Gulf of Maine / Cape Hatteras,B/Bmsy,1.74199998378754
-2014,Bluefish - Atlantic Coast,B/Bmsy,0.841000020503998
-2014,Tilefish - Mid-Atlantic Coast,B/Bmsy,1.01499998569489
-2015,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
-2015,Bluefish - Atlantic Coast,B/Bmsy,0.777999997138977
-2015,Scup - Atlantic Coast,B/Bmsy,2.09500002861023
-2015,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.646000027656555
-2016,Atlantic surfclam - Mid-Atlantic Coast,B/Bmsy,2.53999996185303
-2016,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
-2016,Bluefish - Atlantic Coast,B/Bmsy,0.777999997138977
-2016,Summer flounder - Mid-Atlantic Coast,B/Bmsy,0.580999970436096
-2016,Tilefish - Mid-Atlantic Coast,B/Bmsy,1.01499998569489
-2017,Butterfish - Gulf of Maine / Cape Hatteras,B/Bmsy,1.41100001335144
-2017,Longfin inshore squid - Georges Bank / Cape Hatteras,B/Bmsy,1.7389999628067
-2017,Ocean quahog - Atlantic Coast,B/Bmsy,1.63300001621246
-2017,Scup - Atlantic Coast,B/Bmsy,2.06100010871887
-2017,Tilefish - Mid-Atlantic Coast,B/Bmsy,0.89300000667572
-2018,Atlantic mackerel - Gulf of Maine / Cape Hatteras,B/Bmsy,0.221000000834465
-2018,Ocean quahog - Atlantic Coast,B/Bmsy,1.71200001239777
