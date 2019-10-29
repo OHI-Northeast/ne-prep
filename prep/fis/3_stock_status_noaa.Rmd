@@ -27,7 +27,7 @@ library(tidyverse)
 ***
 #Data Source
 
-**Downloaded**: December 14, 2018 (emailed to us by Jeffrey Vieser at NMFS)
+**Downloaded**: December 14, 2018 (emailed by Jeffrey Vieser at NMFS)
 
 **Description**:  Records of Bmsy and Fmsy estimates from stock assessments conducted in the greater Northeast region
 
@@ -49,7 +49,7 @@ midatl_data <- readxl::read_excel(file.path(dir_anx, '_raw_data/NOAA_NMFS/stock_
 ```
 
 Clean data
-```{r, fig.width = 15, fig.height = 8}
+```{r nmfs_stock_assessment_indicators_over_time_by_stock, fig.width = 15, fig.height = 8}
 #select just the columns we are interested in
 
 data <- ne_data %>%
@@ -73,14 +73,14 @@ ggplot(data, aes(x = year, y = value, color = indicator)) +
 
 Save data
 
-```{r}
+```{r save_nmfs_sa_data}
 write.csv(data, file = "data/nmfs_stock_assessment_data.csv")
 ```
 
 
 Span plot
 
-```{r, fig.height = 10, fig.width = 10}
+```{r stock_assesment_span_plot, fig.height = 10, fig.width = 10}
 
 stock_ids <- data$stock %>% unique()
 
@@ -110,7 +110,7 @@ span_plot
 
 What species have multiple stocks? These ones will give us a tough time when matching up catch to the stocks.
 
-```{r}
+```{r find_multiple_stocks}
 dups <- data %>%
   separate(stock, into = c("species", "location"), sep = " - ") %>%
   select(-indicator, -value) %>%
@@ -136,7 +136,7 @@ Use a linear model to fill years between assessments.
 
 We gapfill at B/Bmsy not stock score. If we have 2010 and 2012 data that shows B/Bmsy of 0.7 and 1.3 respectively. If we gapfill at B/bmsy, the 2011 value becomes 1. This would get a stock score of 1. But if we instead gapfill between 2010 and 2012 stock scores (0.7 and something like 0.9) we would get 0.8...
 
-```{r}
+```{r gapfill}
 data_gf <- data %>%
   group_by(stock, indicator) %>%
   mutate(timeseries = n()) %>% #get number of years for each stock/indicator combo. We need at least 2 years
@@ -241,7 +241,7 @@ Convert these value to stock scores.
   rescale_fprime_crit <- function(fish_stat_df,
                                   fmax, fmin_val) {
     
-    ### params - taken from BC but changed Bcrit to 0 instead of 0.4:
+    ### params - taken from BC but changed Bcrit to 0.5 instead of 0.4:
     Bcrit <- 0.5; overfished_th <- 0.8
     ### underfishing_th is set to the idea "1/3 for the birds":
     underfishing_th <- 0.66; overfishing_th  <- 1.2
