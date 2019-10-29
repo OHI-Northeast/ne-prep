@@ -18,11 +18,9 @@ output:
 
 # Summary
 
-This script calculates catch by OHI region using landings data provided by NOAA>
+This script calculates catch by OHI region using landings data provided by NOAA.
 
 # Data
-
-**Reference**: [citation for source data; website, literature, contact information. Version of data (if relevant). Screenshots if a series of menus had to be navigated to obtain the data.]
 
 **Downloaded**: July, 2019
 
@@ -37,11 +35,13 @@ This script calculates catch by OHI region using landings data provided by NOAA>
 # Setup
 
 ```{r, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.path = "figs/", fig.ext = "pdf", dpi = 300)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.path = "figs/")
 
 library(tidyverse)
 library(readxl)
 library(sf)
+#install.packages("viridis")
+library(viridis)
 
 source("~/github/ne-prep/src/R/common.R")
 ```
@@ -64,6 +64,8 @@ clean <- raw %>%
 
 head(clean)
 ```
+
+There are a total of `r length(unique(clean$species))` reported species, which include groupings such as "Confidential Species" or "Clam, species not specified". Some of these species, such as Atlantic Cod, have multiple stocks.
 
 # Spatial data
 
@@ -139,9 +141,25 @@ head(region_catch, n = 20)
 write_csv(region_catch, "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this file is used in fis_species_lookuptable.Rmd to create the species lookup table
 ```
 
+
+## Total catch over time
+
+```{r total_northeast_catch}
+total_catch <- region_catch %>%
+  group_by(year) %>%
+  summarize(catch = sum(catch))
+
+ggplot(total_catch, aes(x = year, y = catch)) +
+  geom_area() +
+  labs(x = "",
+       y = "Pounds",
+       title= "Total catch in the Northeast") +
+  theme_bw()
+```
+
 ## Visualize catch by region
 
-```{r, fig.width = 10}
+```{r}
 p <- ggplot(region_catch, aes(x = year, y = catch, fill = display_name)) +
   facet_wrap(~rgn_name, scales = "free_y") +
   geom_bar(stat = "identity") +
@@ -151,28 +169,6 @@ p <- ggplot(region_catch, aes(x = year, y = catch, fill = display_name)) +
         axis.text.x = element_text(angle = 45))
 
 plotly::ggplotly(p)
-```
-
-Mapping just one species - Winter Flounder, George's Bank
-
-```{r winter_flounder_catch}
-
-#filter just for 2017 winter flounder georges bank
-wf <- region_catch %>%
-  filter(year == 2017, stock == "GB Winter Flounder") %>%
-  group_by(rgn_id, stock_id, stock, species, year) %>%
-  summarize(catch = sum(catch)) 
-
-#join back to spatial info
-wf_map <- rgns_simp %>%
-  left_join(wf, by = 'rgn_id')
-
-#plot
-ggplot(wf_map) +
-  geom_sf(aes(fill = catch))+
-  geom_sf(data = ne_states, fill = "beige") +
-  theme_bw() +
-  labs(title = "Winter Flounder - George's Bank")
 ```
 
 # Gapfill
@@ -241,9 +237,21 @@ Clearly atlantic herring is making up the majority of catch! Atlantic herring is
 
 Some of these species are harvested for food as well as other markets like pet food or bait. We want to make sure this goal captures catch meant for human consumption. We have data from NOAA that identifies the amount of catch per species, state and year meant for food, bait, and other markets. This data was cleaned in `prop_catch_food_bait.Rmd`.
 
-```{r}
+```{r tot_catch_as_bait}
 prop_data <- read_csv("data/fish_catch_food_prop_rgn.csv")
 
+ggplot(prop_data %>% filter(market == "BAIT"), aes(x = year, y = pounds_live_by_market, color = species)) +
+  geom_line() +
+  theme_bw() +
+  theme(legend.title = element_blank()) +
+  labs(x = "",
+       y = "Catch (pounds)",
+       title = "Total amount of species catch sold as bait \n(not for direct human consumption)")
+
+
+```
+
+```{r remove_bait_proportion}
 toolbox_data <- gf_data %>%
   left_join(prop_data) %>%
   mutate(prop = ifelse(is.na(prop),1,prop),
@@ -253,22 +261,27 @@ toolbox_data <- gf_data %>%
   select(-market, -pounds_live_by_market, -total_pounds_live, -prop)
 ```
 
-```{r}
-p <- ggplot(toolbox_data, aes(x = year, y = mean_catch_times_prop, fill = display_name)) +
-  geom_bar(stat = "identity") +
-  theme_bw() +
-  facet_wrap(~rgn_name, scales = "free_y") +
-  theme(legend.text = element_text(size = 6),
-        axis.text = element_text(size = 4))
+```{r total_catch_by_ohi_region}
 
-plotly::ggplotly(p)
+tot <- toolbox_data %>%
+  group_by(year, rgn_name) %>%
+  summarize(catch = sum(mean_catch_times_prop))
+
+ggplot(tot, aes(x = year, y = catch, fill = rgn_name)) +
+  geom_area() +
+  scale_fill_viridis_d() +
+  theme_bw() +
+  theme(legend.title =  element_blank()) +
+  labs(x = "",
+       y = "Pounds",
+       title = "Total catch in pounds meant for human consumption, by OHI region")
 ```
 
-# Clean up display name
+# Clean up display names
 
+The raw data from NMFS comes with species names displayed like "SCALLOP, SEA" instead of Sea Scallop. This little fix changes the species names to a more user-friendly version.
 
-
-```{r}
+```{r clean_up_names}
 names <- read_csv("data/display_names.csv")
 
 toolbox_data <- toolbox_data %>%
@@ -279,7 +292,7 @@ toolbox_data <- toolbox_data %>%
 
 # Save to toolbox
 
-```{r}
+```{r save_to_toolbox}
 # save to toolbox
 write.csv(toolbox_data, file = file.path(dir_calc, "layers/fis_meancatch.csv"))
 ```
