@@ -12,7 +12,7 @@ The **catch** layer was derived from the NOAA Fisheries (NMFS) Commercial Landin
 
 ### Spatial allocation of catch to regions
 
-A total of *154* species are reported to be caught within the Northeast region between 1996 and 2017. Data on where species were caught were shared by statistical area. 
+A total of 154 species are reported to be caught within the Northeast region between 1996 and 2017. This includes names such as "CONFIDENTIAL SPECIES", "OTHER INVERTEBRATES", and "CLAM, SPECIES NOT SPECIFIED". Importantly, only catch for species that have stock assessment information are included in the Wild-Caught Fisheries score. Data on where species were caught were shared by statistical area. 
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/statistical_areas-1.png)
 
