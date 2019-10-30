@@ -38,6 +38,10 @@ Stock assessment information was provided for 50 individual stocks via data requ
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/stock_assesment_span_plot-1.png)
 
+Additional stock assessment information for highly migratory species were available in the RAM Legacy Stock Assessment database.
+
+##### JAMIE ADD MORE ABOUT RAM TO THIS SECTION ####
+
 #### Gapfilling
 
 Stock assessments are not performed every year for every managed stock in a region. This necessitates some gapfilling for years where information is not provided. A simple linear model was used to gapfill B/Bmsy and F/Fmsy values for years where they are missing.
@@ -56,7 +60,7 @@ Rescaled fishing mortality F' for each stock is calculated based on F/F<sub>MSY<
 
 F' is equal to 0 when B/B<sub>MSY</sub> is below a threshold of 0.5, and increases to 1 as F/F<sub>MSY</sub>Y = 1 for B/B<sub>MSY</sub> ≥ 0.8. Our calculation allows a buffer around this to account for uncertainty in setting annual management targets, and incorporates an overfishing penalty (F' = 0 for F/F<sub>MSY</sub> ≥2) as well as an underfishing penalty to account for lost opportunity for additional sustainable catch.
 
-*Note F/F<sub>MSY</sub> data were unavailable for some assessed stocks, in which case the stock score was based on the B' term.*
+When both B/B<sub>MSY</sub> and F/F<sub>MSY</sub> are available, the final Stock Score (SS) is equal to the product of F' and B'. If only B/B<sub>MSY</sub> is available, the Stock Score is equal to B'.
 
 Here is an example of how B/B<sub>MSY</sub> and F/F<sub>MSY</sub> values are turned into stock scores between 0 and 1 for a few regional stocks.
 

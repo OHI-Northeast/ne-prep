@@ -47,11 +47,74 @@ combo <- bind_rows(ram_clean, noaa) %>%
     indicator == "b_bmsy" ~ "B/Bmsy",
     indicator == "f_fmsy" ~ "F/Fmsy",
     TRUE ~ as.character(indicator)
-  ))
+  )) %>%
+  arrange(stock)
 
 write_csv(combo, "data/stock_assessment_data_for_dashboard.csv")
 
 ```
+
+Calculate % of catch overfished, underfished
+
+```{r}
+catch <- read_csv("~/github/ne-scores/region/layers/fis_meancatch.csv")
+
+
+#fisheries lookup table gives us a list of each species with stock assessment plus info on where they are
+lookup_table <- read_csv("data/assessed_species_lookup_table.csv") %>%
+  rename(species  = stock_assessment_species_name,
+         location = stock_assessment_species_location)
+
+ram_clean <- ram %>% 
+  separate(stocklong, into = c("species", "location", "location2", "location3", "location4", "location5"), 
+           sep = "(?<=.)(?=[[:upper:]])") %>%
+  mutate(source = "RAM",
+         location = paste(trimws(location), location2, location3, location4, location5),
+         location = trimws(str_replace_all(location, "NA", "")),
+         location = str_replace_all(location, "  ", " "),
+         species = trimws(species)) %>%
+  filter(year>2004) %>%
+  select(year, source, species, location, value, metric) 
+
+noaa_clean <- noaa %>% 
+  separate(stock, into = c("species", "location"), sep = " - ") %>%
+  mutate(source = "NMFS") %>%
+  select(year, source, species, location, value, metric = indicator)
+
+combo_clean <- bind_rows(ram_clean, noaa_clean) %>%
+  mutate(species = tolower(species)) %>%
+  left_join(lookup_table, by = c("source", "species", "location"))
+
+#combine stock assessment data with catch
+catch_stock <- catch %>%
+  left_join(combo_clean, by = c("species" = "nmfs_original_species", "year", "rgn_id")) %>%
+  select(year, rgn_id, species, mean_catch, value, metric, stockid, fixed_name)
+
+#gapfill forward and backward by species and metric
+
+df_gf <- catch_stock %>%
+  mutate(metric = case_when(
+    metric == "b_bmsy" ~ "B/Bmsy",
+    metric == "f_fmsy" ~ "F/Fmsy",
+    TRUE ~ as.character(metric)
+  )) %>%
+  arrange(year) %>%
+  group_by(species, stockid, fixed_name) %>%
+  mutate(not_assessed = sum(value, na.rm = T)) %>%
+  ungroup() %>%
+  filter(not_assessed != 0.00) %>%
+  select(-not_assessed) %>%
+  group_by(species, stockid, fixed_name) 
+
+###TRYING TO GAPFILL STOCKS BACK AND FORWARDS. For example, black seabass should have f/fmsy and b/bmsy gapfilled forwards and backwards before calculating propotion of catch over/under fished.
+
+# %>%
+#   complete(metric)
+#   mutate(value = zoo::na.locf(value))
+
+```
+
+
 
 ## Data Information table
 
