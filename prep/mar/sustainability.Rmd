@@ -159,7 +159,7 @@ It looks like the sustainability scores for Hard clams were updated in 2018. Sin
 # Combine sustainability scores
 
 ```{r}
-sust_scores <- data.frame(species = c("Hard Clam", "Soft Shell Clam", "Blue Mussel", "Oysters", "Scallops", "Atlantic Salmon", "Trout"),
+sust_scores <- data.frame(species = c("Hard Clam", "Soft Shell Clams", "Blue Mussel", "Oysters", "Scallops", "Atlantic Salmon", "Trout"),
                           sustainabilityscore = c(8.39, 7, 8.11, 7.98, 8.86, 4.82, 4.82)) %>%
   mutate(rescaled = sustainabilityscore/10)
 
