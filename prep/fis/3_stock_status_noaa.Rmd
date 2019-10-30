@@ -102,9 +102,9 @@ span_plot <- ggplot(spanplot_df, aes(x = stock)) +
   scale_color_manual(values = c('darkred', 'darkblue'),
                        labels=c("B/Bmsy", "F/Fmsy")) +
   coord_flip() +
-  labs(x = 'Stock',
-       y = 'Year',
-       color = 'Indicator')
+  labs(x = '',
+       y = '',
+       color = '')
 
 span_plot
 ```

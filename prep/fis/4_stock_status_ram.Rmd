@@ -95,7 +95,7 @@ ram_stocks_to_use <- ne_stocks %>%
 ```
 
 
-```{r ram_span_plot}
+```{r ram_span_plot, fig.width = 6, fig.height = 4}
 
 ### get time series of B/Bmsy and F/Fmsy for NE stocks from .Rdata
 ts <- as.data.frame(timeseries_values_views, stringsAsFactors = FALSE) %>%
@@ -119,23 +119,19 @@ span_df <- ts %>%
 stock_ids <- span_df$stocklong %>% unique()
 
 span_plot <- ggplot(span_df, aes(x = stocklong)) +
-  #ggtheme_basic +
   theme(panel.border     = element_blank(),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(colour = 'grey90'),
         panel.background = element_blank()) +
-  annotate('rect', ymin = 2000, ymax = 2016,
-           xmin = first(stock_ids), xmax = last(stock_ids),
-           fill = 'red', alpha = .1) +
   geom_linerange(aes(ymin = yr_min, ymax = yr_max, 
                      color = metric),
                  position = position_dodge(width = .5), alpha = .8) +
-  scale_color_manual(values = c('red', 'blue'),
+  scale_color_manual(values = c('darkred', 'darkblue'),
                        labels=c("B/Bmsy", "F/Fmsy")) +
   coord_flip() +
-  labs(x = 'RAM Stock',
-       y = 'Year',
-       color = 'Parameter')
+  labs(x = '',
+       y = '',
+       color = '')
 
 span_plot
 
@@ -325,7 +321,7 @@ write.csv(stock_scores, file = "data/ram_stock_scores.csv")
 
 RAM stock assessment information (B/Bmsy and F/Fmsy) over time
 
-```{r ram_metrics_over_time}
+```{r ram_metrics_over_time, fig.width = 7, fig.height = 6}
 ram_plot <- stock_scores %>%
   select(stocklong, year, b_bmsy, f_fmsy) %>%
   gather(metric, value, -stocklong, -year, -commonname) %>%
@@ -334,7 +330,7 @@ ram_plot <- stock_scores %>%
 ggplot(ram_plot, (aes(x = year, y = value, color = metric))) +
   geom_line() +
   theme_bw() +
-  facet_wrap(~stocklong) +
+  facet_wrap(~stocklong, labeller = labeller(stocklong = label_wrap_gen(width = 20)), scales = "free_y") +
   theme(legend.title = element_blank()) +
   labs(x= "",
        y = "Value",
@@ -348,7 +344,7 @@ After the stock assessment data is transformed into a stock score.
 ggplot(stock_scores, aes(x = year, y = score)) +
   geom_line() +
   theme_bw() +
-  facet_wrap(~stocklong)
+  facet_wrap(~stocklong, labeller = labeller(stocklong = label_wrap_gen(width = 20)))
 ```
 
 
