@@ -26,11 +26,15 @@ After aggregating to OHI regions, a three-year rolling mean of species catch was
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/total_catch_by_ohi_region-1.png)
 
-### Remove catch from bait fisheries
+----
+
+### Removing catch from bait fisheries
 
 Bait fisheries are an important industry in the Northeast and make up a significant portion of total catch in the region, especially Atlantic herring. Since the Wild-Caught Fisheries sub-goal is meant to measure how well sustainable seafood is being provided for human consumption, all catch meant for non-human consumption (e.g. bait, pet food) is removed. Catch data by market was provided via data request from the National Marine Fisheries Service.
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/tot_catch_as_bait-1.png)
+
+----
 
 ### Stock status
 
@@ -67,7 +71,9 @@ Here is an example of how B/B<sub>MSY</sub> and F/F<sub>MSY</sub> values are tur
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/unnamed-chunk-4-7.png)
 
-### Turning stock scores into OHI scores
+--- 
+
+## Turning stock scores into OHI scores
 
 The proportional catch within each region is used to weight the contribution of stock scores to the final score. For example, if 80% of a region's catch is lobster (which has a stock score of 0.73), and 20% is White hake (stock score of 0.86), the final score will be (0.8 x 0.73) + (.2 x 0.86) = 0.756. Since scores are translated to a 0-100 scale, this region would get a score of 75.6 for Wild-Caught Fisheries.
 
