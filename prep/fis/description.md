@@ -26,6 +26,8 @@ After aggregating to OHI regions, a three-year rolling mean of species catch was
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/total_catch_by_ohi_region-1.png)
 
+The significant decrease seen around 2009 is due to a large drop in Atlantic herring catch meant for human consumption. 
+
 ----
 
 ### Removing catch from bait fisheries
