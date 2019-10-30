@@ -38,24 +38,25 @@ Stock assessment information was provided for 50 individual stocks via data requ
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/stock_assesment_span_plot-1.png)
 
-Additional stock assessment information for highly migratory species were available in the RAM Legacy Stock Assessment database.
+Additional stock assessment information for species not in the NMFS stock assessment database were available in the RAM Legacy Stock Assessment database. Many of these are highly migratory species, but this list also includes American lobster and striped bass.
 
-##### JAMIE ADD MORE ABOUT RAM TO THIS SECTION ####
+![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/ram_span_plot-1.png)
 
 #### Gapfilling
 
 Stock assessments are not performed every year for every managed stock in a region. This necessitates some gapfilling for years where information is not provided. A simple linear model was used to gapfill B/Bmsy and F/Fmsy values for years where they are missing.
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/nmfs_stock_assessment_indicators_over_time_by_stock-1.png)
+![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/ram_metrics_over_time-1.png)
 
 #### Stock scores
 
 After gapfilling time series of stock assessment metrics, each stock is assigned a score from 0 (least sustainable) to 1 (most sustainable).
 
-**Rescaling B/B<sub>MSY</sub>**
+**Rescaling B/B<sub>MSY</sub>**  
 Rescaled biomass score B' for each stock is calculated based on B/B<sub>MSY</sub>, with a score of 1 indicating B/B<sub>MSY</sub> between 0.8 and 1.2, decreasing to 0 as B/B<sub>MSY</sub> approaches 0 (overfished), with an increasing penalty for B/B<sub>MSY</sub> above 1.2 (underfished), with a minimum underfished score of 0.25 for B/B<sub>MSY</sub> ≥ 3.0.
 
-**Rescaling F/F<sub>MSY</sub>**
+**Rescaling F/F<sub>MSY</sub>**  
 Rescaled fishing mortality F' for each stock is calculated based on F/F<sub>MSY</sub>, smoothed using a rolling three-year mean. A rolling-mean is only applied to F' because B is a less sensitive metric since it relies on biological processes. F' can fluctuate significantly in a short amount of time in response to a management decision. F' depends on B/B<sub>MSY</sub>. If a stock is overfished (B/B<sub>MSY</sub> < 0.8) but F/F<sub>MSY</sub> is reduced to account for rebuilding, this can result in a stock score of 1.
 
 F' is equal to 0 when B/B<sub>MSY</sub> is below a threshold of 0.5, and increases to 1 as F/F<sub>MSY</sub>Y = 1 for B/B<sub>MSY</sub> ≥ 0.8. Our calculation allows a buffer around this to account for uncertainty in setting annual management targets, and incorporates an overfishing penalty (F' = 0 for F/F<sub>MSY</sub> ≥2) as well as an underfishing penalty to account for lost opportunity for additional sustainable catch.
@@ -66,7 +67,10 @@ Here is an example of how B/B<sub>MSY</sub> and F/F<sub>MSY</sub> values are tur
 
 ![](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/figs/unnamed-chunk-4-7.png)
 
-#### Weights for stock status scores
+### Turning stock scores into OHI scores
+
+The proportional catch within each region is used to weight the contribution of stock scores to the final score. For example, if 80% of a region's catch is lobster (which has a stock score of 0.73), and 20% is White hake (stock score of 0.86), the final score will be (0.8 x 0.73) + (.2 x 0.86) = 0.756. Since scores are translated to a 0-100 scale, this region would get a score of 75.6 for Wild-Caught Fisheries.
+
 
 
 
