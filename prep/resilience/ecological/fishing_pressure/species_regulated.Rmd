@@ -20,7 +20,7 @@ toc: true
 This script calculates the percentage of fish landed that area managed or regulation in some way. This data is used to measure fishing resilience regulations.
 
 **List of species landed with stock assessments**
-**Description** The data was compiled manually by me using NOAA Fisheries landings data and doing research on whether federal or state agencies include those species in either a management plan or some type of fishing regulation
+**Description** The data was compiled manually by us using NOAA Fisheries landings data and doing research on whether federal or state agencies include those species in either a management plan or some type of fishing regulation
 
 **Time range**: 2005-2017
 
