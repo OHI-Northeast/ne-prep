@@ -193,5 +193,5 @@ prs_trampling <-trampling %>%
 
 Write scores to layers
 ```{r write_to_scores}
-write.csv(prs_trampling, file.path(dir_calc, "layers/prs_trampling.csv"))
+write.csv(prs_trampling, file.path(dir_calc, "layers/hd_intertidal.csv"))
 ```
