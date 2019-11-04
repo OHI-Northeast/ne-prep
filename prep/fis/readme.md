@@ -28,7 +28,7 @@ The `data` folder contains derived datasets that are used throughout the Wild-Ca
 
 All data from NOAA, for both catch and stock assessments, was provided via email. While NOAA does maintain an online database for landings, it is presented as an aggregated landings database - to the state level. We used disaggregated landings data that is more spatially explicit.
 
-More information about this goal is available [here](http://ohi-science.org/goals/#food-provision).
+More information about this goal is available [here](https://github.com/OHI-Northeast/ne-prep/blob/gh-pages/prep/fis/description.md#wild-caught-fisheries).
 
 Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
 

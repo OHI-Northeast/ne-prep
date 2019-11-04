@@ -3,7 +3,7 @@ title: 'Preparing stock status data layer derived from the RAM database'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -18,7 +18,7 @@ output:
 
 ```{r setup, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide'}
 
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.path = "figs/")
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
@@ -30,7 +30,7 @@ library(sf)
 This script filters the RAM database v4.44 for all stocks in the Northeast region and summarizes the available information for each stock. The output includes stock status and scores for all stocks that are not included in the data shared by NOAA.
 
 ***
-#Data Source
+# Data Source
 
 **Downloaded**: February 28, 2018 from ramlegacy.org
 
@@ -42,7 +42,7 @@ This script filters the RAM database v4.44 for all stocks in the Northeast regio
 
 ***
   
-#Analysis
+# Data wrangling
 
 What assessment information do we have for these stocks?
 
@@ -83,6 +83,8 @@ A couple things to note:
 - butterfish is in both but missing "atlantic" in NOAA data
 - herring is in both but missing "atlantic" in RAM
 
+## Select RAM stocks to include
+
 So we can remove these three species (monkfish, butterfish and herring) from the RAM data since they are captured in NOAA data
 
 ```{r}
@@ -93,7 +95,7 @@ ram_stocks_to_use <- ne_stocks %>%
 ```
 
 
-```{r}
+```{r ram_span_plot, fig.width = 6, fig.height = 4}
 
 ### get time series of B/Bmsy and F/Fmsy for NE stocks from .Rdata
 ts <- as.data.frame(timeseries_values_views, stringsAsFactors = FALSE) %>%
@@ -117,31 +119,27 @@ span_df <- ts %>%
 stock_ids <- span_df$stocklong %>% unique()
 
 span_plot <- ggplot(span_df, aes(x = stocklong)) +
-  #ggtheme_basic +
   theme(panel.border     = element_blank(),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(colour = 'grey90'),
         panel.background = element_blank()) +
-  annotate('rect', ymin = 2000, ymax = 2016,
-           xmin = first(stock_ids), xmax = last(stock_ids),
-           fill = 'red', alpha = .1) +
   geom_linerange(aes(ymin = yr_min, ymax = yr_max, 
                      color = metric),
                  position = position_dodge(width = .5), alpha = .8) +
-  scale_color_manual(values = c('red', 'blue'),
+  scale_color_manual(values = c('darkred', 'darkblue'),
                        labels=c("B/Bmsy", "F/Fmsy")) +
   coord_flip() +
-  labs(x = 'RAM Stock',
-       y = 'Year',
-       color = 'Parameter')
+  labs(x = '',
+       y = '',
+       color = '')
 
 span_plot
 
 ```
 
-# Create layer
+## Save Northeast stock assessment information
 
-```{r}
+```{r create_layer}
 #get more species specific information from ne_stocks
 sp <- ram_stocks_to_use %>% 
   select(stockid, stocklong, scientificname, commonname, areaname) %>%
@@ -160,9 +158,9 @@ write.csv(stock_ass_data, file = "data/ram_stock_assessment_data.csv")
 
 ---
 
-## Calculate stock scores
+# Calculate stock scores
 
-Convert these value to stock scores.
+Convert these value to stock scores between 0 and 1 in the same way we do for NMFS.
 
 ```{r stock_score_calc}
 
@@ -296,8 +294,6 @@ Convert these value to stock scores.
                   b_bmsy, f_fmsy) 
 ```
 
-Take the average scores for the 5 species with sub-stocks. Just doing a group_by with species and averaging scores will do this for all species (but only change the values for these sub-species). 
-
 Remove stocks with just F_Fmsy - these stocks have no stock scores since we don't have a way to get a score from just F/Fmsy. Also roll all values forward to 2017.
 
 ```{r}
@@ -313,18 +309,46 @@ stock_scores <- stock_status_df %>%
   group_by(commonname, stocklong) %>%
   fill(score, bPrime, fPrime, b_bmsy, f_fmsy, basis, gapfilled) %>%                #assigns most recent value to following years if missing, up to 2017
   fill(score, bPrime, fPrime, b_bmsy, f_fmsy, basis, gapfilled, .direction = "up") #assigns values to earlier years if missing
+```
 
+# Save
+
+```{r}
 write.csv(stock_scores, file = "data/ram_stock_scores.csv")  
 ```
 
-## Visualize
+# Visualize
 
-```{r}
+RAM stock assessment information (B/Bmsy and F/Fmsy) over time
+
+```{r ram_metrics_over_time, fig.width = 7, fig.height = 6}
+ram_plot <- stock_scores %>%
+  select(stocklong, year, b_bmsy, f_fmsy) %>%
+  gather(metric, value, -stocklong, -year, -commonname) %>%
+  mutate(metric = ifelse(metric == "b_bmsy", "B/Bmsy", "F/Fmsy"))
+
+ggplot(ram_plot, (aes(x = year, y = value, color = metric))) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~stocklong, labeller = labeller(stocklong = label_wrap_gen(width = 20)), scales = "free_y") +
+  theme(legend.title = element_blank()) +
+  labs(x= "",
+       y = "Value",
+       title = "Stock assessment metrics from the RAM legacy database")
+
+```
+
+After the stock assessment data is transformed into a stock score.
+
+```{r ram_stock_scores_over_time}
 ggplot(stock_scores, aes(x = year, y = score)) +
   geom_line() +
   theme_bw() +
-  facet_wrap(~stocklong)
+  facet_wrap(~stocklong, labeller = labeller(stocklong = label_wrap_gen(width = 20)))
 ```
+
+
+Create kobe plots for all RAM stocks
 
 ```{r kobe}
 kobe_plot <- function(sp){
@@ -392,7 +416,7 @@ return(kobe_stock_plot)
 }
 ```
 
-Apply function to all species in the stock_scores data frame. This does not work for the sub-stock species so we need to remove those.
+Apply function to all species in the stock_scores data frame.
 
 ```{r, fig.width = 12, fig.height = 8}
 sp <- stock_scores %>%
