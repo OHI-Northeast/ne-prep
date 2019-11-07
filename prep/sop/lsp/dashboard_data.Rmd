@@ -34,8 +34,8 @@ lsp_data_info <- data.frame(
   Layer = c("Marine protected areas", "Land protected areas"),
   Description = c("Amount of coastal marine waters with some level of lasting protection that does not include areas managed for fisheries purposes",
                   "Amount of land in the coastal zone (defined as 1km from shore) protected"),
-  Target = c("10% of coastal waters protected (Aichi target)", 
-             "17% of coastal land (1km from coast) protected (Aichi target)"),
+  Target = c("10% of coastal waters protected (Aichi Target 11)", 
+             "17% of coastal land (1km from coast) protected ('<a href ="https://www.cbd.int/sp/targets/rationale/target-11/" target = "_blank">Aichi Target 11</a>')"),
   Source = c('<a href="https://maps.usgs.gov/padus/" target = "_blank">USGS Protected Areas Database v2.0</a>',
              '<a href="https://maps.usgs.gov/padus/" target = "_blank">USGS Protected Areas Database v2.0</a>'))
 

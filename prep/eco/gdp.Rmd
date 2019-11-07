@@ -3,7 +3,7 @@ title: 'Gross Domestic Product data layer preparation'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
-    code_folding: hide
+    code_folding: show
     toc: true
     toc_depth: 3
     toc_float: yes
@@ -39,7 +39,7 @@ The Gross Domestic Product (GDP) layer is calculated using coastal GDP data from
 
 ## Data source
 
-##National ocean Economics Program (NOEP)
+## National ocean Economics Program (NOEP)
 
 **Downloaded**: Manually downloaded on May 9, 2019.  
 **Description**:  GDP [2012 $USD] per sector for RI, ME, MA, CT, NY and NH counties from 2005 to 2014. The data also include number of establishments, jobs and wages for each sector - state - year.  
@@ -47,11 +47,9 @@ The Gross Domestic Product (GDP) layer is calculated using coastal GDP data from
 **Time range**: 2005 - 2016  
 **Format**:  Tabular  
 
-
 **NOTES**
-
-- The data was cleaned in the `liv/clean_noep_data.R` script.  
-- All GDP values are reported in 2012 US Dollars.
+> The data was cleaned in the `liv/clean_noep_data.R` script.  
+> All GDP values are reported in 2012 US Dollars.
 
 ***
 

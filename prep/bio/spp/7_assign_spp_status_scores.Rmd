@@ -129,6 +129,21 @@ unique(no_score$status)
 
 All are NA. So we have every species scored that we can - at either the state, US or global (IUCN) level.
 
+# Save list of all species and regions
+
+```{r}
+species_list <- full_sp_rgn_scores %>%
+  mutate(`Common Name` = stringr::str_to_sentence(common)) %>% 
+  select(`Common Name`, Scientific = sciname, Region = rgn_name) %>%
+  distinct()
+
+write_csv(species_list, "data/species_list_by_rgn.csv")
+```
+
+
+
+# Save to toolbox
+
 ```{r}
 write.csv(full_sp_rgn_scores, file = "~/github/ne-scores/region/layers/spp_status_scores.csv")
 ```

@@ -1,11 +1,10 @@
-## Ocean Health Index - US Northeast: Biodiversity goal
+## Biodiversity
 
-This folder describes the methods used to prepare data for the Biodiversity goal for the US Northeast OHI assessment.
+This folder describes the methods used to prepare the data layers for the Biodiversity goal.
 
-More information about this goal is available [here](http://ohi-science.org/goals/#biodiversity).
+This goal is made up of two sub-goals, **Habitats** and **Species**.
 
-The folders in this file include the metadata, R scripts, and data for each assessement year (i.e., the year the assessment was conducted).  The most current year represents the best available data and methods, and previous years are maintained for archival purposes.
+- `hab` folder contains all scripts and data for the habitat sub-goal.
+- `spp` folder contains all scripts and data for the species sub-goal.
 
-Please see our [citation policy](http://ohi-science.org/citation-policy/) if you use OHI data or methods.
-
-Thank you!
+Click [here](https://github.com/OHI-Northeast/ne-scores/blob/master/metadata_documentation/ohi_model/goal_descriptions/bio_description.md#biodiversity) to learn more about how the Biodiversity goal is calculated.
