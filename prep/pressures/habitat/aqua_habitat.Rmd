@@ -23,7 +23,7 @@ This script calculates the aquaculture habitat pressure scores by OHINE region.
 
 # Data
 
-**Monterrey Bay Aquarium Seafood Watch** 
+**Monterey Bay Aquarium Seafood Watch** 
 
 **Downloaded**: August, 2019
 
