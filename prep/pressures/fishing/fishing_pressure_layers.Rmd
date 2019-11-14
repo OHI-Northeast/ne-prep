@@ -258,8 +258,8 @@ catch_z     <- zonal(catch_stack, zones) %>% #zonal's default statistic is to ta
   as.data.frame() %>%
   gather(key = "year", value = "pressure_score", -zone) %>%
   mutate(year = as.numeric(str_replace(year, "rescaled_catch_", ""))) %>%
-  rename(region_id = zone) %>%
-  left_join(rgn_data, by = c("region_id" = "rgn_id")) %>%
+  rename(rgn_id = zone) %>%
+  left_join(rgn_data, by = "rgn_id") %>%
   select(-area_km2, -state_name, -state, -state_abv)
 ```
 
