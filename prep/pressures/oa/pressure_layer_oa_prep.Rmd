@@ -7,15 +7,15 @@ output:
     toc: true
     toc_depth: 3
     toc_float: yes
-    fig_caption: true
-    number_sections: true
+    number_sections: false
     theme: cerulean
     highlight: haddock
     includes: 
-      in_header: '~/github/ohi-northeast/src/templates/ohi_hdr.html'
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
   pdf_document:
-    toc: true
+toc: true
 ---
+
 
 # Summary
 

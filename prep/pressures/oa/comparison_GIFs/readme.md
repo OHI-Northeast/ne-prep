@@ -1,0 +1,1 @@
+## This folder contains GIFs creating during either the process of comparing a new data source with a data source used for other assessments or deciding between nearest neighbor (nn) or inverse distance weighted (idw) interpolation.
