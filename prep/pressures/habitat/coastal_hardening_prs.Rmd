@@ -178,7 +178,7 @@ arm_map <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erm
   mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored")) %>% 
   select(rgn_name, armored)
 
-map <- mapview(arm_map, zcol = "armored")
+#map <- mapview(arm_map, zcol = "armored")
 #mapview::mapshot(map, url = "armored_map.html")
 ```
 
@@ -233,7 +233,8 @@ prs_hardening <- coast_arm %>%
     rgn_id == "8" ~ "Massachusetts-South",
     rgn_id == "11" ~ "Rhode Island",
     rgn_id == "5" ~ "Connecticut",
-    rgn_id == "10" ~ "New York")) 
+    rgn_id == "10" ~ "New York")) %>% 
+  mutate(year = 2017)
 ```
 
 
