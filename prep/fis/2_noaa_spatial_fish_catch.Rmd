@@ -18,11 +18,11 @@ output:
 
 # Summary
 
-This script calculates catch by OHI region using landings data provided by NOAA.
+This script calculates catch by OHI region using landings data provided by NOAA via data request.
 
 # Data
 
-**Downloaded**: July, 2019
+**Downloaded**: July, 2019 (sent via email after data request)
 
 **Description**:  Commercial fish landings by statistical area
 
@@ -34,7 +34,7 @@ This script calculates catch by OHI region using landings data provided by NOAA.
 
 # Setup
 
-```{r, message = FALSE, warning = FALSE}
+```{r setup, message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.path = "figs/")
 
 library(tidyverse)
@@ -47,7 +47,7 @@ source("~/github/ne-prep/src/R/common.R")
 ```
 
 
-# Data Cleaning
+# Data cleaning
 
 Cleaning the raw data a bit by fixing column names and turning `stat_area` numeric. 
 ```{r}
@@ -119,12 +119,12 @@ ggplot(calc_prop_area) +
 
 # Catch per OHI region
 
-Now we calculate the total catch per species and year for each of the OHI regions.
+Now we calculate the total catch per species and year for each of the OHI regions, and for the entire Northeast.
 
 First let's filter the catch data to just the statistical areas in our region. We don't care about the catch outside of these statistical areas.
 
 ```{r}
-region_catch <- clean %>%
+rgn_catch <- clean %>%
   filter(stat_area %in% ohi_stat_areas$Id) %>%
   left_join(calc_prop_area, by = c("stat_area" = "Id")) %>%
   mutate(catch = pounds*ohi_rgn_prop_area) %>% #adjusting catch by the proportional area with overlap
@@ -132,7 +132,16 @@ region_catch <- clean %>%
   group_by(species, stock_id, stock, rgn_id, year, rgn_name) %>%
   summarize(catch = sum(catch)) %>%
   ungroup() %>%
-  mutate(display_name = ifelse(is.na(stock_id), species, stock_id))
+  mutate(display_name = ifelse(is.na(stock_id), species, stock_id)) 
+
+#get catch for whole OHI Northeast region
+ne_catch <- rgn_catch %>%
+  group_by(year, display_name, species, stock_id, stock) %>%
+  summarize(catch = sum(catch, na.rm = T)) %>%
+  mutate(rgn_name = "Northeast",
+         rgn_id = 12)
+  
+region_catch <- bind_rows(rgn_catch, ne_catch)
 
 head(region_catch, n = 20)
 ```
@@ -146,6 +155,7 @@ write_csv(region_catch, "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this file is 
 
 ```{r total_northeast_catch}
 total_catch <- region_catch %>%
+  filter(rgn_id == 12) %>%
   group_by(year) %>%
   summarize(catch = sum(catch))
 
@@ -159,16 +169,14 @@ ggplot(total_catch, aes(x = year, y = catch)) +
 
 ## Visualize catch by region
 
-```{r}
-p <- ggplot(region_catch, aes(x = year, y = catch, fill = display_name)) +
+```{r raw_catch_by_region}
+ggplot(region_catch, aes(x = year, y = catch, fill = display_name)) +
   facet_wrap(~rgn_name, scales = "free_y") +
   geom_bar(stat = "identity") +
   theme_bw() +
   theme(legend.position = 'none',
         axis.text = element_text(size = 6),
         axis.text.x = element_text(angle = 45))
-
-plotly::ggplotly(p)
 ```
 
 # Gapfill
@@ -184,7 +192,7 @@ unique(ale$year)
 
 Ok clearly we are missing data for 2001, 2002, 04-05, 2008-11. We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. Since we calculate a rolling average of catch, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
-```{r}
+```{r gapfilled_catch_by_region}
 gf_data <- region_catch %>%
   group_by(rgn_id, rgn_name, species, stock, stock_id, display_name) %>%
   complete(year = 1998:2017) %>%
@@ -194,7 +202,7 @@ gf_data <- region_catch %>%
   select(year, rgn_id, rgn_name, species, stock, stock_id, mean_catch, display_name) %>%
   ungroup()
 
-p <- ggplot(gf_data, aes(x = year, y = mean_catch, fill = display_name)) +
+ggplot(gf_data, aes(x = year, y = mean_catch, fill = display_name)) +
   geom_bar(stat = "identity") +
   facet_wrap(~rgn_name, scales = "free_y") +
   theme_bw() +
@@ -202,14 +210,12 @@ p <- ggplot(gf_data, aes(x = year, y = mean_catch, fill = display_name)) +
         legend.position = "below",
         axis.text = element_text(size = 6),
         axis.text.x = element_text(angle = 45))
-
-plotly::ggplotly(p)
 ```
 
 
 Let's look at total regional catch for each species (not stock)
 
-```{r}
+```{r catch_by_species}
 #calculate total regional catch per species
 species_catch <- gf_data %>%
   group_by(species, year) %>%
@@ -220,15 +226,12 @@ species_catch <- gf_data %>%
          catch_prop = sp_catch/yr_catch) %>%
   ungroup() %>%
   filter(year > 2004) 
-```
 
-```{r}
-p <- ggplot(species_catch, aes(x = year, y = catch_prop, fill = species)) +
+ggplot(species_catch %>% filter(catch_prop > 0.01), aes(x = year, y = catch_prop, fill = species)) +
   geom_bar(stat = "identity") +
   theme_bw() +
   theme(legend.text = element_text(size = 6))
 
-plotly::ggplotly(p)
 ```
 
 Clearly atlantic herring is making up the majority of catch! Atlantic herring is primarily a bait fishery, so we need to account for that since this goal is only measuring catch meant for human consumption. We adjust for this below.
@@ -251,6 +254,9 @@ ggplot(prop_data %>% filter(market == "BAIT"), aes(x = year, y = pounds_live_by_
 
 ```
 
+Removing the amount of catch that goes to non-human consumption
+
+
 ```{r remove_bait_proportion}
 toolbox_data <- gf_data %>%
   left_join(prop_data) %>%
@@ -261,9 +267,11 @@ toolbox_data <- gf_data %>%
   select(-market, -pounds_live_by_market, -total_pounds_live, -prop)
 ```
 
-```{r total_catch_by_ohi_region}
 
+
+```{r total_catch_by_ohi_region}
 tot <- toolbox_data %>%
+  filter(rgn_id != 12) %>%
   group_by(year, rgn_name) %>%
   summarize(catch = sum(mean_catch_times_prop))
 
@@ -277,7 +285,7 @@ ggplot(tot, aes(x = year, y = catch, fill = rgn_name)) +
        title = "Total catch in pounds meant for human consumption, by OHI region")
 ```
 
-# Clean up display names
+## Clean up display names
 
 The raw data from NMFS comes with species names displayed like "SCALLOP, SEA" instead of Sea Scallop. This little fix changes the species names to a more user-friendly version.
 
@@ -286,7 +294,6 @@ names <- read_csv("data/display_names.csv")
 
 toolbox_data <- toolbox_data %>%
   left_join(names)
-
 ```
 
 

@@ -153,8 +153,20 @@ county_data <- coast_wages %>%
   select(state = State, year = Year, rgn_id, rgn_name, rgn_employment, rgn_wages) %>%
   distinct()
 
-wages_data_clean <- bind_rows(state_data, county_data) %>%
-  mutate(wages_per_job = rgn_wages/rgn_employment)
+combo <- bind_rows(state_data, county_data) 
+
+#combine to calculate wages across the whole NE region
+ne_wages <- combo %>%
+  group_by(year) %>%
+  summarize(rgn_wages = sum(rgn_wages),
+            rgn_employment = sum(rgn_employment)) %>%
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast",
+         state = NA)
+
+wages_data_clean <- bind_rows(combo, ne_wages) %>%
+  mutate(wages_per_job = rgn_wages/rgn_employment) %>%
+  filter(!is.na(rgn_id))
 
 ggplot(wages_data_clean, aes(x = year, y = wages_per_job, color = rgn_name)) +
   geom_line() +

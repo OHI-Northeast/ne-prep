@@ -148,7 +148,17 @@ county_data <- noep_data %>%
   distinct() %>%
   filter(!is.na(rgn_id))
 
-gdp_data_clean <- bind_rows(state_data, county_data)
+combo <- bind_rows(state_data, county_data)
+
+#calculate gdp for the whole region (Maine through NY)
+ne_gdp <- combo %>%
+  group_by(year) %>%
+  summarize(rgn_gdp = sum(rgn_gdp)) %>%
+  mutate(rgn_name = "Northeast",
+         rgn_id = 12,
+         state = NA)
+
+gdp_data_clean <- bind_rows(combo, ne_gdp)
 
 ggplot(gdp_data_clean, aes(x = year, y = rgn_gdp, color = rgn_name)) +
   geom_line() +

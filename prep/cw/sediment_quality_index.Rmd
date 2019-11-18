@@ -209,8 +209,13 @@ sqi_0506 <- sqi_clean %>%
 sites <- sqi_0506 %>%
           select(siteID) %>%
           mutate(use = rep(TRUE, nrow(.)))
-subpop <- sqi_0506 %>%
+
+#create the subpopulation dataset. we need to add region 12 (the whole northeast) as well
+subpop1 <- sqi_0506 %>%
           select(siteID, rgn_name)
+subpop2 <- sqi_0506 %>%
+          select(siteID) %>%
+          mutate(rgn_name = "Northeast")
 design <- sqi_0506 %>%
           select(siteID,
                  wgt = WGT_NCA_56,
@@ -220,7 +225,10 @@ data <- sqi_0506 %>%
         select(siteID, status = NCCA_SQI_STATUS)
 
 ## from this output we only want to grab. Estimate.P is the percent of area (e.g. 98%) for the coastal waters of a subpopulation (e.g. Maine) in a particular category of condition (e.g. Good)
-Water_Column_Status_Estimates_0506 <- cat.analysis(sites, subpop, design, data) %>%
+Water_Column_Status_Estimates_0506_1 <- cat.analysis(sites, subpop1, design, data) #individual regions (state level sites)
+Water_Column_Status_Estimates_0506_2 <- cat.analysis(sites, subpop2, design, data) #all sites
+
+Water_Column_Status_Estimates_0506 <- bind_rows(Water_Column_Status_Estimates_0506_1, Water_Column_Status_Estimates_0506_2) %>%
   select(rgn_name = Subpopulation, Category, perc = Estimate.P) %>%
   mutate(cat_score = 
       case_when(
@@ -229,6 +237,7 @@ Water_Column_Status_Estimates_0506 <- cat.analysis(sites, subpop, design, data) 
         Category == "GOOD" ~ 100
       ),
       year = 2006) 
+
 ```
 
 Do the same `cat.analysis` but for 2010 data.
@@ -242,8 +251,12 @@ sqi_2010 <- sqi_clean %>%
 sites <- sqi_2010 %>%
           select(siteID) %>%
           mutate(use = rep(TRUE, nrow(.)))
-subpop <- sqi_2010 %>%
+#create the subpopulation dataset. we need to add region 12 (the whole northeast) as well
+subpop1 <- sqi_2010 %>%
           select(siteID, rgn_name)
+subpop2 <- sqi_2010 %>%
+          select(siteID) %>%
+          mutate(rgn_name = "Northeast")
 design <- sqi_2010 %>%
           select(siteID,
                  wgt = WGT_NCCA10,
@@ -253,7 +266,10 @@ data <- sqi_2010 %>%
         select(siteID, status = NCCA_SQI_STATUS)
 
 ## from this output we only want to grab. Estimate.P is the percent of area (e.g. 98%) for the coastal waters of a subpopulation (e.g. Maine) in a particular category of condition (e.g. Good)
-Water_Column_Status_Estimates_2010 <- cat.analysis(sites, subpop, design, data) %>%
+Water_Column_Status_Estimates_2010_1 <- cat.analysis(sites, subpop1, design, data)
+Water_Column_Status_Estimates_2010_2 <- cat.analysis(sites, subpop2, design, data)
+
+Water_Column_Status_Estimates_2010 <- bind_rows(Water_Column_Status_Estimates_2010_1, Water_Column_Status_Estimates_2010_2) %>%
   select(rgn_name = Subpopulation, Category, perc = Estimate.P) %>%
   mutate(cat_score = 
       case_when(
@@ -274,8 +290,11 @@ sqi_rgns <- Water_Column_Status_Estimates_0506 %>%
   mutate(score = cat_score * (perc/100)) %>%
   filter(Category != "Total") %>%
   group_by(rgn_name, year) %>%
-  summarize(sqi_score = sum(score))
+  summarize(sqi_score = sum(score)) 
+```
 
+
+```{r}
 write.csv(sqi_rgns, file = "data/sqi_score_rgns.csv")
 
 ggplot(sqi_rgns, aes(x = year, y = sqi_score, color = rgn_name)) +
@@ -314,6 +333,7 @@ df_gf %>%
   left_join(rgn_data) %>%
   select(year, rgn_id, rgn_name, score) %>%
   bind_rows(other_rgns) %>%
+  mutate(rgn_id = ifelse(rgn_name == "Northeast", 12, rgn_id)) %>%
   write_csv(file.path(dir_calc, "layers/cw_sqi.csv"))
 ```
 
@@ -325,6 +345,7 @@ df_gf %>%
   mutate(score = 1-score/100) %>%
   select(year, rgn_id, rgn_name, score) %>%
   bind_rows(other_rgns) %>%
+  mutate(rgn_id = ifelse(rgn_name == "Northeast", 12, rgn_id)) %>%
   write_csv(file.path(dir_calc, "layers/prs_sqi.csv"))
 ```
 

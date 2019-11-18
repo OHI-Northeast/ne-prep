@@ -156,7 +156,17 @@ county_data <- coast_jobs %>%
   distinct() %>%
   filter(!is.na(rgn_id)) #remove the Massachusetts state level data. we only want the two MA distinct MA regions
 
-jobs_data_clean <- bind_rows(state_data, county_data)
+combo <- bind_rows(state_data, county_data)
+
+#calculate the total jobs across all states for the NE
+ne_jobs <- combo %>%
+  group_by(year) %>%
+  summarize(rgn_employment = sum(rgn_employment)) %>%
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast",
+         state = NA)
+
+jobs_data_clean <- bind_rows(combo, ne_jobs)
 
 ggplot(jobs_data_clean, aes(x = year, y = rgn_employment, color = rgn_name)) +
   geom_line() +

@@ -66,6 +66,7 @@ ocean_ne   <- raster::raster('~/github/ne-prep/spatial/ocean_rasters/ocean_ne.ti
 ocean_rgns <- raster::raster('~/github/ne-prep/spatial/ocean_rasters/ne_rgns_rast.tif')
 zones      <- ocean_rgns #for zonal stats
 three_nm <- rgns %>% filter(rgn_id < 8)   #use the state water boundaries as the 3 nautical mile shapefile
+ne_rgn <- sf::read_sf(dsn = paste0(path.expand(dir_prep),'/spatial/shapefiles'), layer = 'northeast_rgn', quiet = T) #whole region
 
 ### Define spectral color scheme for plotting maps
 cols      = rev(colorRampPalette(brewer.pal(9, 'Spectral'))(255)) # rainbow color scheme

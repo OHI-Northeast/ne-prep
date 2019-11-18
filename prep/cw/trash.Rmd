@@ -62,14 +62,26 @@ return(raw)
 
 years <- as.character(c(2006:2017)) #need to be characters to use years as sheet names in read_excel
 
-out <- map_df(years, clean_func) 
+out <- map_df(years, clean_func)
+
+#add up all states to get a sense of pounds/person for whole northeast
+ne_states <- out %>%
+  filter(state %in% c("maine", "new hampshire", "massachusetts", "new york", "connecticut", "rhode island")) 
+
+all_ne <- ne_states %>%
+  group_by(year) %>%
+  summarize(people = sum(people),
+            pounds = sum(pounds)) %>%
+  ungroup() %>%
+  mutate(pounds_per_person = pounds/people,
+         state = "Northeast")
+
+ne_data <- bind_rows(ne_states, all_ne)
 ```
 
 ## Visualize data
 
 ```{r pounds_pp_per_rgn}
-ne_data <- out %>% filter(state %in% c("maine", "new hampshire", "massachusetts", "new york", "connecticut", "rhode island"))
-
 ggplot(ne_data, aes(x = year, y = pounds_per_person, color = state)) +
   geom_line() +
   theme_bw() +
@@ -140,9 +152,11 @@ rgns <- rgn_data %>%
 
 trash_resc %>%
   left_join(rgns) %>%
-  mutate(score = 1-score) %>% #inverse because low trash is a good score
+  mutate(rgn_name = ifelse(state == "Northeast", "Northeast", rgn_name),
+         rgn_id   = ifelse(state == "Northeast", 12, rgn_id),
+         score = 1-score) %>% #inverse because low trash is a good score
   select(year, rgn_id, score) %>%
-  complete(rgn_id = 1:11, #this adds in regions 1-4 with NA values for pounds_pp
+  complete(rgn_id = 1:12, #this adds in regions 1-4 with NA values for pounds_pp
            year) %>%
   write.csv(file.path(dir_calc, "layers/cw_trash.csv"))
 ```
@@ -152,8 +166,10 @@ We also use trash as a pressure layer. For pressures, we need to inverse the sco
 ```{r}
 trash_prs <- trash_resc %>%
   left_join(rgns) %>%
+  mutate(rgn_name = ifelse(state == "Northeast", "Northeast", rgn_name),
+         rgn_id   = ifelse(state == "Northeast", 12, rgn_id)) %>%
   select(year, rgn_id, score) %>%
-  complete(rgn_id = 1:11, #this adds in regions 1-4 with NA values for pounds_pp
+  complete(rgn_id = 1:12, #this adds in regions 1-4 with NA values for pounds_pp
            year) %>%
   write.csv(file.path(dir_calc, "layers/prs_trash.csv"))
 ```

@@ -63,7 +63,7 @@ ny_beach_days %>% filter(`Beach Name` == "BEEKMAN BEACH")
 ```
 
 
-To get an average number of days for NY beach season, I filter to keep only those beaches where the percent of days under a closure and not under a closure adds up to 100 (the assumption is that this data if filled out).
+To get an average number of days for NY beach season, I filter to keep only those beaches where the percent of days under a closure and not under a closure adds up to 100 (the assumption is that this data is filled out).
 
 ```{r ny_beach_days}
 ny_beach_clean <- ny_beach_days %>%
@@ -181,11 +181,11 @@ ggplot(df_all, aes(x = rgn_name)) +
 
 We want to filter out "OTHER" but keep the rest since they indicate beaches are closed due to water quality issues such as elevated bacteria or sewage, or runoff from rainfall.
 
-## Calculate
+## Calculate percent closed by region
 
 Percent of days each beach is closed then take the mean for each region
 ```{r calculate_percent_closed}
-perc <- df_all %>%
+perc_states <- df_all %>%
         filter(`Action Reasons` != "OTHER") %>%
         unique() %>% #some weird duplicates
         group_by(`Beach Name`, Year, County, rgn_id, rgn_name) %>%
@@ -195,6 +195,29 @@ perc <- df_all %>%
         group_by(rgn_name, rgn_id, Year) %>%
         summarize(perc_closed = mean(perc_closed))
 ```
+
+Do this again but across the entire region
+
+```{r calculate_percent_closed_northeast}
+perc_ne <- df_all %>%
+        filter(`Action Reasons` != "OTHER") %>%
+        unique() %>% #some weird duplicates
+        group_by(`Beach Name`, Year, County, rgn_id, rgn_name) %>%
+        summarize(days_closed = sum(`ActionDuration Days`)) %>%
+        mutate(perc_closed = days_closed/100) %>%
+        ungroup() %>%
+        group_by(Year) %>%
+        summarize(perc_closed = mean(perc_closed)) %>%
+        mutate(rgn_id = 12,
+        rgn_name = "Northeast")
+```
+
+Combine all regions
+
+```{r}
+perc <- bind_rows(perc_states, perc_ne)
+```
+
 
 ## Visualize data
 
