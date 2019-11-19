@@ -20,7 +20,7 @@ toc: true
 
 This script calculates habitat destruction resilience values by OHINE region. 
 
-The data layers are used to quantify existence of regulations, implementation + enforcement, and effectiveness + compliance. These three parts are then used to calculate one overall habitat resilience score for each region. 
+The data layers are used to quantify existence of regulations, implementation + enforcement, and effectiveness + compliance. These three parts are then used to calculate one overall habitat resilience score for each region. When calculating the score for the Northeast as one whole (rgn 12) we weighted by area.
 
 1. Regulations: hab_area_protected, surfrider_beach
 2. Implementation + Enforcement: ole_enforcement (from fishing pressure data folder)
@@ -65,8 +65,11 @@ surfrider_beach_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/h
 ole_enforcement_short<- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/ole_enforcement.csv") %>% 
   select(-X)
 
-ole_compliance_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/ole_compliance.csv") %>% 
+ole_compliance_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/ole_compliance.csv") %>%
   select(-X)
+
+rgn_12_area <- rgn_data %>% 
+  select(rgn_name, rgn_id, state, area_km2) 
 ```
 
 ##Data Tidying for combining and calculations
@@ -80,7 +83,23 @@ hab_area_protected <- hab_area_protected_short %>%
 
 Tidying the habitat protected area data for res score calculations over time
 ```{r surfrider_tidy}
+#calculating region 12/northeast score
+surfrider_beach_rgn12 <- surfrider_beach_short %>% 
+  left_join(rgn_12_area) %>% 
+  select(-rgn_name, -rgn_id) %>% 
+  mutate(area_km2 = ifelse(state == "Massachusetts", 2842+3565, area_km2)) %>% 
+  unique () %>% 
+  filter(!is.na(surfrider_beach_score)) %>% 
+  mutate(score_weight = surfrider_beach_score*area_km2) %>% 
+  dplyr::summarize(sum_area = sum(area_km2, na.rm =TRUE),
+         sum_score_weight = sum(score_weight,na.rm =TRUE)) %>% 
+  mutate(surfrider_beach_score = sum_score_weight /sum_area,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(rgn_id, rgn_name, surfrider_beach_score)
+
 surfrider_beach <- surfrider_beach_short %>% 
+  rbind(surfrider_beach_rgn12) %>% 
   uncount(3, .id = "n", .remove = F) %>%
   mutate(year = ifelse(n == 1, 2015, n + 2014)) %>% 
   select(-n)
@@ -91,7 +110,7 @@ Tidying the OLE enforcement data for res score calculations by region
 ole_enforcement <- ole_enforcement_short %>% 
   select(year, ole_enforcement_score) %>% 
   filter(year <= 2017) %>% 
-  uncount(11, .id = "n", .remove = F) %>%
+  uncount(12, .id = "n", .remove = F) %>%
   mutate(rgn_name = ifelse(n == 1, "Offshore", 
                        ifelse(n==2, "Georges Bank",
                                ifelse(n==3, "Gulf of Maine",
@@ -102,7 +121,8 @@ ole_enforcement <- ole_enforcement_short %>%
                                                                   ifelse(n==8, "Massachusetts-South",
                                                                          ifelse(n==9, "New Hampshire",
                                                                                 ifelse(n==10, "New York",
-                                                                                       "Rhode Island"))))))))))) %>%
+                                                                                       ifelse(n==12, "Northeast",
+                                                                                       "Rhode Island")))))))))))) %>%
   rename(rgn_id=n)
 ```
 
@@ -111,7 +131,7 @@ Tidying the OLE compliance data for res score calculations by region
 ole_compliance <- ole_compliance_short %>% 
   select(year, ole_compliance_score) %>% 
   filter(year <= 2017) %>% 
-  uncount(11, .id = "n", .remove = F) %>%
+  uncount(12, .id = "n", .remove = F) %>%
   mutate(rgn_name = ifelse(n == 1, "Offshore", 
                        ifelse(n==2, "Georges Bank",
                                ifelse(n==3, "Gulf of Maine",
@@ -122,7 +142,8 @@ ole_compliance <- ole_compliance_short %>%
                                                                   ifelse(n==8, "Massachusetts-South",
                                                                          ifelse(n==9, "New Hampshire",
                                                                                 ifelse(n==10, "New York",
-                                                                                       "Rhode Island"))))))))))) %>%
+                                                                                       ifelse(n==12, "Northeast",
+                                                                                       "Rhode Island")))))))))))) %>%
   rename(rgn_id=n)
 ```
 

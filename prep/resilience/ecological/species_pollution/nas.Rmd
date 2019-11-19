@@ -73,17 +73,7 @@ nas_int <- nas_raw %>%
   select(-sci_name, - County, -Status, -Country) %>% 
   unique() %>% 
   ungroup()
-```
 
-```{r visualize}
-nas_res_graph <- ggplot(nas_int) +
-  geom_line(aes(x= Year, y=nas_score, color= State))+
-  theme_classic() +
-  labs(y = "year", x = "score") +
-  ggtitle("NASS ")
-
-nas_res_graph 
-ggsave(file.path(dir_git, "prep/resilience/ecological/species_pollution/figs/nass_res_graph.jpg"), width=7, height=5, dpi=300)
 ```
 
 Add in region name and id
@@ -110,10 +100,46 @@ nas <- nas_int %>%
                                                                "Rhode Island")))))))
 ```
 
+```{r calculate_rgn_12}
+# calculate score for the region as a whole
+nas_rgn12 <- nas_raw %>% 
+   select('Scientific Name', 'Country', 'State', 'County', 'Year', 'Status') %>% 
+  rename(sci_name = "Scientific Name") %>% 
+  filter(Status %in% c('established', 'eradicated', 'locally established'),
+         Country %in% 'United States of America',
+         State %in% c("ME", "MA", "NY", "RI", "CT", "NH"),
+         Year >= 2005 & Year <= 2017) %>%
+  unique() %>% 
+  group_by(Year) %>% 
+  mutate(est_occur = length(which(Status == "established" | Status == "locally established")), # need to add locally established here
+         era_occur = length(which(Status == "eradicated")),
+         nas_score = era_occur/est_occur) %>% 
+  select(Year, nas_score) %>% 
+  unique() %>% 
+  ungroup() %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast")
+
+nas_score <- nas %>% 
+  rbind(nas_rgn12)
+```
+
+```{r visualize}
+nas_res_graph <- ggplot(nas_score) +
+  geom_line(aes(x= Year, y=nas_score, color= rgn_name))+
+  theme_classic() +
+  labs(y = "year", x = "score") +
+  ggtitle("NASS ")
+
+nas_res_graph 
+ggsave(file.path(dir_git, "prep/resilience/ecological/species_pollution/figs/nass_res_graph.jpg"), width=7, height=5, dpi=300)
+```
+
+
 ## Save to layers
 save this layer
-```{r_layer}
-write.csv(nas, file.path(dir_git, "prep/resilience/ecological/species_pollution/data/nas.csv"))
+```{r}
+write.csv(nas_score, file.path(dir_git, "prep/resilience/ecological/species_pollution/data/nas.csv"))
 ```
 
 
