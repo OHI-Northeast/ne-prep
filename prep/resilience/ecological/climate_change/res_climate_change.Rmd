@@ -20,7 +20,7 @@ toc: true
 
 This script calculates climate change resilience values by OHINE region. 
 
-The data layers are used to quantify existence of regulations, implementation + enforcement, and effectiveness + compliance. These three parts are then used to calculate one overall water pollution resilience score for each region. 
+The data layers are used to quantify existence of regulations, implementation + enforcement, and effectiveness + compliance. These three parts are then used to calculate one overall water pollution resilience score for each region. When calcualting the overall Northeast score (rgn 12) we weighted by state population throughout.
 
 1. Regulations: acee_rankings.csv, climate_actions.csv
 2. Implementation + Enforcement: renew_consum.csv, carbon_em.csv
@@ -71,6 +71,12 @@ renew_consum_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/clim
 
 carbon_em_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/climate_change/data/carbon_em.csv") %>% 
   select(-X)
+
+state_pop <- read_csv("~/github/ne-prep/src/tables/state_pop.csv")%>% 
+  select(-X1)
+
+#state_area <- rgn_data
+
 ```
 
 ## Tidy data for merging
@@ -94,7 +100,7 @@ miss_rgns <- miss_rgns %>%
 
 ACEE 
 ```{r acee_tidy}
-acee_rankings <- acee_rankings_short %>% 
+acee_rankings_int <- acee_rankings_short %>% 
   select(year, state, score_eee) %>% 
   rename(score = score_eee) %>% 
   rename(rgn_name = state) %>% 
@@ -108,11 +114,29 @@ acee_rankings <- acee_rankings_short %>%
     rgn_name == "New York" ~ "10")) %>% 
   rbind(miss_rgns) %>% 
   rename(acee_rankings_score = score)
+
+# create a region 12 for entire NE calculation
+acee_rgn12 <- acee_rankings %>% 
+  mutate(rgn_id = as.numeric(rgn_id)) %>% 
+  left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
+  select(year, acee_rankings_score, state_name, pop_total) %>% 
+  unique() %>%  #get rid of the two MA since they would be double counting in this case
+  mutate(score_weighted = acee_rankings_score*pop_total) %>% 
+  group_by(year) %>% 
+  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+         sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
+  mutate(acee_rankings_score = sum_pop_weight /sum_pop,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(year, acee_rankings_score, rgn_id, rgn_name)
+
+acee_rankings <- acee_rankings_int %>% 
+  rbind(acee_rgn12)
 ```
 
 Climate Actions
 ```{r clim_act_tidy}
-climate_actions <- climate_actions_short %>% 
+climate_actions_int <- climate_actions_short %>% 
   select(year, State, score) %>% 
   mutate(rgn_id1 = case_when(
     State == "Maine" ~ "6", 
@@ -138,11 +162,29 @@ climate_actions <- climate_actions_short %>%
     rgn_id == "10" ~ "New York")) %>% 
   rbind(miss_rgns) %>% 
   rename(climate_actions_score = score)
+
+# create a region 12 for entire NE calculation
+climate_actions_rgn12 <- climate_actions_int %>% 
+  mutate(rgn_id = as.numeric(rgn_id)) %>% 
+  left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
+  select(year, climate_actions_score, state_name, pop_total) %>% 
+  unique() %>%  #get rid of the two MA since they would be double counting in this case
+  mutate(score_weighted = climate_actions_score*pop_total) %>% 
+  group_by(year) %>% 
+  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+         sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
+  mutate(climate_actions_score = sum_pop_weight /sum_pop,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(year, climate_actions_score, rgn_id, rgn_name)
+
+climate_actions <- climate_actions_int %>% 
+  rbind(climate_actions_rgn12)
 ```
 
 Renewable Consumption
 ```{r consum_tidy}
-renew_consum <- renew_consum_short %>% 
+renew_consum_int <- renew_consum_short %>% 
   select(year, state, score) %>% 
   mutate(rgn_id1 = case_when(
     state == "Maine" ~ "6", 
@@ -168,6 +210,25 @@ renew_consum <- renew_consum_short %>%
     rgn_id == "10" ~ "New York")) %>% 
   rbind(miss_rgns) %>% 
   rename(renew_consum_score = score)
+
+
+# create a region 12 for entire NE calculation
+renew_consum_rgn12 <- renew_consum_int %>% 
+  mutate(rgn_id = as.numeric(rgn_id)) %>% 
+  left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
+  select(year, renew_consum_score, state_name, pop_total) %>% 
+  unique() %>%  #get rid of the two MA since they would be double counting in this case
+  mutate(score_weighted = renew_consum_score*pop_total) %>% 
+  group_by(year) %>% 
+  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+         sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
+  mutate(renew_consum_score = sum_pop_weight /sum_pop,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(year, renew_consum_score, rgn_id, rgn_name)
+
+renew_consum <- renew_consum_int %>% 
+  rbind(renew_consum_rgn12)
 ```
 
 Carbon Emissions
@@ -189,7 +250,7 @@ em_2017<- tribble(
 ```
 
 ```{r carb_em_tidy}
-carbon_em <- carbon_em_short %>% 
+carbon_em_int <- carbon_em_short %>% 
   select(year, state, score) %>% 
   mutate(rgn_id1 = case_when(
     state == "Maine" ~ "6", 
@@ -215,6 +276,24 @@ carbon_em <- carbon_em_short %>%
     rgn_id == "10" ~ "New York")) %>% 
   rbind(miss_rgns, em_2017) %>% 
   rename(carbon_em_score = score)
+
+# create a region 12 for entire NE calculation
+carbon_em_rgn12 <- carbon_em_int %>% 
+  mutate(rgn_id = as.numeric(rgn_id)) %>% 
+  left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
+  select(year, carbon_em_score, state_name, pop_total) %>% 
+  unique() %>%  #get rid of the two MA since they would be double counting in this case
+  mutate(score_weighted = carbon_em_score*pop_total) %>% 
+  group_by(year) %>% 
+  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+         sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
+  mutate(carbon_em_score = sum_pop_weight /sum_pop,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(year, carbon_em_score, rgn_id, rgn_name)
+
+carbon_em <- carbon_em_int %>% 
+  rbind(carbon_em_rgn12)
 ```
 
 
