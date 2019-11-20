@@ -42,6 +42,7 @@ dir_anx <- file.path(dir_M, 'git-annex/neprep')
 library(csv)
 library(dplyr)
 library(tidyverse)
+library(mapview)
 ```
 
 # Methods
@@ -60,6 +61,9 @@ noaa_vul_short<- read.csv("~/github/ne-prep/prep/resilience/social/data/noaa_vul
 
 lcv <- read.csv("~/github/ne-prep/prep/resilience/social/data/lcv.csv") %>% 
   select(-X)
+
+state_pop <- read_csv("~/github/ne-prep/src/tables/state_pop.csv")%>% 
+  select(-X1)
 ```
 
 ## Tidy Data
@@ -87,18 +91,78 @@ gapfill_op <- c("6", "9", "7", "8", "11", "5", "10") %>%
 
 Add it on to the opportunity dataset
 ```{r tidy_op}
-opportunity <- opportunity_short %>% 
+opportunity_int <- opportunity_short %>% 
   rbind(gapfill_op) %>% 
   group_by(rgn_name) %>% 
   arrange(year) %>% 
   fill(opportunity_score, .direction = "up") %>% 
   ungroup() %>% 
   mutate(rgn_id = as.integer(rgn_id))
+
+# create a region 12 for entire NE calculation
+opportunity_rgn12 <- opportunity_int %>% 
+#  mutate(rgn_id = as.numeric(rgn_id)) %>% 
+  left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
+  select(year, opportunity_score, state_name, pop_total) %>% 
+  unique() %>%  #get rid of the two MA since they would be double counting in this case
+  mutate(score_weighted = opportunity_score*pop_total) %>% 
+  group_by(year) %>% 
+  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+         sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
+  mutate(opportunity_score = sum_pop_weight /sum_pop,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(year, opportunity_score, rgn_id, rgn_name)
+
+#merge together into 1!
+opportunity <- opportunity_int %>% 
+  rbind(opportunity_rgn12)
 ```
 
-Add 2017 and project forward for NOAA social vulnerability index
+Caculate and add Northeast/rgn 12 to State Competiveness
+```{r}
+state_compet_rgn12 <- state_compet %>% 
+  left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
+  select(year, state_compet_score, state_name, pop_total) %>% 
+  unique() %>%  #get rid of the two MA since they would be double counting in this case
+  mutate(score_weighted = state_compet_score*pop_total) %>% 
+  group_by(year) %>% 
+  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+         sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
+  mutate(state_compet_score = sum_pop_weight /sum_pop,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(year, state_compet_score, rgn_id, rgn_name)
+
+#join region 12 scores to df
+state_compet<- state_compet %>% 
+  rbind(state_compet_rgn12)
+```
+
+Caculate and add Northeast/rgn 12 to LCV scores
+```{r}
+lcv_rgn12 <- lcv %>% 
+  left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
+  select(year, score_lcv, state_name, pop_total) %>% 
+  unique() %>%  #get rid of the two MA since they would be double counting in this case
+  mutate(score_weighted = score_lcv*pop_total) %>% 
+  group_by(year) %>% 
+  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+         sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
+  mutate(score_lcv = sum_pop_weight /sum_pop,
+         rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  select(year, score_lcv, rgn_id, rgn_name)
+
+#join region 12 scores to df
+lcv<- lcv %>% 
+  rbind(lcv_rgn12)
+```
+
+
+Add 2017 for NOAA social vulnerability index
 ```{r gap_noaa}
-gapfill_noaa <- c("6", "9", "7", "8", "11", "5", "10") %>% 
+gapfill_noaa <- c("6", "9", "7", "8", "11", "5", "10", "12") %>% 
   as.data.frame() %>% 
   rename(rgn_id = ".") %>% 
   mutate(rgn_name = case_when(
@@ -108,7 +172,8 @@ gapfill_noaa <- c("6", "9", "7", "8", "11", "5", "10") %>%
     rgn_id == "8" ~ "Massachusetts-South",
     rgn_id == "11" ~ "Rhode Island",
     rgn_id == "5" ~ "Connecticut",
-    rgn_id == "10" ~ "New York")) %>% 
+    rgn_id == "10" ~ "New York",
+    rgn_id == "12" ~ "Northeast")) %>% 
   mutate(year = 2017, 
          noaa_vul_score = NA)
 ```
