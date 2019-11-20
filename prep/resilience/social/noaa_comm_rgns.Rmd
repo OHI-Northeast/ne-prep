@@ -1,0 +1,197 @@
+---
+title: "OHIEC: NOAA Community shapefiles with regions"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+This script takes the NOAA community shapefiles and overlays it on top of the 2010 census population rasters, and then intersects the regions.
+
+
+Results = population data for just these communities
+
+I think I will need to remove MA and do this separatly sicne I only went through and fixed those communities.
+```{r}
+library(dplyr)
+library(tidyverse)
+library(readxl)
+library(gridExtra)
+library(scales)
+library(raster)
+library(rgdal)
+library(gdalUtils)
+library(fasterize)
+library(stringr)
+library(readr)
+```
+
+
+Read in NOAA communities shapefile 
+```{r}
+shp <- read_sf(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_FINAL_090519/commondata/2016_mapping/2016_National_Indicators_FINAL_082919.shp")) %>%
+  filter(STATEABBR %in% c("CT", "NH", "NY", "ME", "MA", "RI")) %>%
+  st_transform(crs = us_alb)
+mapview(shp)
+```
+
+
+Read in the population tif files for each state, and then create one NE raster
+```{r tif_files}
+## read in all states rasters
+northeast_rasters <- c(file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/nypop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/mepop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/nhpop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/ctpop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/ripop10.tif"),
+                    file.path(dir_anx, "_raw_data/NASA/usgrid_data_2010/geotiff/mapop10.tif"))
+
+## combine all tif files into one 
+mosaic_rasters(gdalfile = northeast_rasters, dst_dataset = file.path(dir_anx, "prs_hab/northeast.tif"), of = "GTiff")
+
+## create one ne raster
+northeast_rast <- raster::raster(file.path(dir_anx, "prs_hab/northeast.tif")) %>%
+  projectRaster(crs = us_alb, progress="text") 
+
+## check it out!
+plot(northeast_rast)
+```
+
+```{r}
+## create blank raster for rasterizing
+r <- raster(crs = us_alb, ne_ext, res = 1000)
+r[r] <- 1
+
+## convert to a raster
+noaa_comm_rast <- fasterize(shp, r) %>% 
+  raster::resample(northeast_rast, method = "ngb") ## match the resolution and extent
+# the extent cuts off the top part of the buffer because that's out of Maine
+
+plot(noaa_comm_rast)
+```
+
+Now we want to keep only the population density data that falls into our noaa communities
+```{r crop_area}
+## keep only the areas 1km along the shorelines
+ne_pop_coast <- northeast_rast %>% 
+ raster::mask(noaa_comm_rast) %>% 
+ calc(fun = function(x){ifelse(x < 0, 0, x)})  ## there are 3 negative numbers in this data for some reason (-77.9399, -0.2386,	-0.0178) 
+
+plot(ne_pop_coast)
+```
+```{r zones_raster}
+ne_communities <- read_sf(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indicators_FINAL_090519/commondata/2016_mapping/2016_National_Indicators_FINAL_082919.shp")) %>%
+  filter(STATEABBR %in% c("CT", "NH", "NY", "ME", "MA", "RI")) %>%
+  st_transform(crs = us_alb) %>% 
+  mutate(zone = seq(1:nrow(ne_communities)))
+
+ne_communities_zones <- ne_communities %>% 
+  st_set_geometry(NULL) %>% 
+  select(STATEABBR, MAPNAME, zone)
+  
+ne_states_rast <- fasterize(ne_communities, r, field = "zone") %>% 
+  raster::resample(northeast_rast, method = "ngb") ## match the resolution
+  #mask(buffer_rast)
+```
+
+Extract population totals for each region
+```{r extract_data}
+# extract data for each region:
+pop_stats <- zonal(ne_pop_coast, ne_states_rast, fun="sum", na.rm=TRUE, progress="text")
+
+community_pop <- data.frame(pop_stats) %>% 
+  left_join(ne_communities_zones, by = c("zone")) %>% 
+  select(-zone) %>% 
+  rename(population_total = sum,
+         state = STATEABBR,
+         city_community = MAPNAME) 
+```
+
+Do the sum calculations for all regions except MA
+```{r}
+com_pop_noMA <- community_pop %>% 
+  filter(state %in% c("NY", "CT", "RI", "NH", "ME")) %>% 
+  group_by(state) %>% 
+  summarize(sum_com_pop = sum(population_total)) %>% 
+  mutate(rgn_name = case_when(state == "NY" ~ "New York",
+                              state == "CT" ~ "Connecticut",
+                              state == "RI" ~ "Rhode Island", 
+                              state == "NH" ~ "New Hampshire",
+                              state == "ME" ~ "Maine")) %>% 
+  mutate(rgn_id = case_when(rgn_name == "New York" ~ 10,
+                            rgn_name == "Connecticut" ~ 5,
+                            rgn_name == "Rhode Island" ~ 11,
+                            rgn_name == "New Hampshire" ~ 9,
+                            rgn_name == "Maine" ~ 6)) %>% 
+  select(-state)
+```
+
+Do the sum calculations for all regions except MA
+Read in csv file with the MA regions divided up North and South
+```{r}
+ma_rgns_by_counties <- read_csv(file.path(dir_git, "prep/resilience/social/data/ma_rgns_by_counties.csv")) %>% 
+  select(-X1)
+```
+
+```{r}
+com_pop_MA <- community_pop %>% 
+  filter(state == "MA") %>%
+  left_join(ma_rgns_by_counties, by= c("state", "city_community")) %>% ## there are a few extra communities in the shapefile that we haven't assigned rngs too. we'll do this manually here
+   mutate(rgn_id  = ifelse(city_community == "Marshfield", 7,
+                          ifelse(city_community == "Wareham", 8,
+                                 ifelse(city_community == "Tisbury", 8,
+                                        ifelse(city_community == "Scituate", 7,
+                                               ifelse(city_community == "Pembroke", 7,
+                                                      ifelse(city_community == "Sandwich", 7,
+                                                             ifelse(city_community == "Eastham", 7,
+                                                                    ifelse(city_community == "Yarmouth", 8,
+                                                                           ifelse(city_community =="Madaket", 8,
+                                                                                  ifelse(city_community == "Siasconset", 8,
+                                                                                  rgn_id))))))))))) %>% 
+  mutate(rgn_name = case_when(rgn_id == 8 ~ "Massachusetts-South",
+                              rgn_id == 7 ~ "Massachusetts-North")) %>% 
+  group_by(rgn_name, rgn_id) %>% 
+  summarize(sum_com_pop = sum(population_total))
+```
+
+
+Combine Massachusetts with all the regions
+```{r}
+noaa_com_populations_int <- dplyr::bind_rows(com_pop_MA, com_pop_noMA)
+
+#Create a row for entire NE pop size
+noaa_com_populations <- noaa_com_populations_int %>% 
+  ungroup() %>% 
+  mutate(entire_pop = sum(sum_com_pop)) %>% 
+  select(entire_pop) %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  rename(sum_com_pop = entire_pop) %>% 
+  unique() %>% 
+  dplyr::bind_rows(noaa_com_populations_int)
+  
+write.csv(noaa_com_populations, file = file.path(dir_git, "prep/resilience/social/data/noaa_com_populations.csv"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
