@@ -116,7 +116,7 @@ acee_rankings_int <- acee_rankings_short %>%
   rename(acee_rankings_score = score)
 
 # create a region 12 for entire NE calculation
-acee_rgn12 <- acee_rankings %>% 
+acee_rgn12 <- acee_rankings_int %>% 
   mutate(rgn_id = as.numeric(rgn_id)) %>% 
   left_join(state_pop, by = c("rgn_name", "rgn_id")) %>% 
   select(year, acee_rankings_score, state_name, pop_total) %>% 
@@ -220,7 +220,7 @@ renew_consum_rgn12 <- renew_consum_int %>%
   unique() %>%  #get rid of the two MA since they would be double counting in this case
   mutate(score_weighted = renew_consum_score*pop_total) %>% 
   group_by(year) %>% 
-  dplyr:: summarize(sum_pop = sum(pop_total, na.rm =TRUE),
+  dplyr::summarize(sum_pop = sum(pop_total, na.rm =TRUE),
          sum_pop_weight = sum(score_weighted,na.rm =TRUE)) %>% 
   mutate(renew_consum_score = sum_pop_weight /sum_pop,
          rgn_id = 12,

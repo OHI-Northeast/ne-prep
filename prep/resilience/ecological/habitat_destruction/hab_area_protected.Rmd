@@ -97,6 +97,13 @@ hab_noaa <- rbind(hab_manage, hab_research, hab_frl, hab_msb_trawl) %>%
 hab_protect <- mapview(hab_noaa) 
 hab_protect
 mapshot(hab_protect, url = "hab_protect.html")
+
+rgn_12_area <- rgn_data %>% 
+  select(area_km2) %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast") %>% 
+  group_by(rgn_name, rgn_id) %>% 
+  summarise(rgn_area = sum(area_km2))
 ```
 
 
@@ -104,7 +111,7 @@ mapshot(hab_protect, url = "hab_protect.html")
 Here we are using a 30% protected area target 
 
 ```{r calculate_hab_protected}
-hab_protect_rgn <- hab_noaa %>%
+hab_protect_rgn_int <- hab_noaa %>%
   select(rgn_id, rgn_name, AREANAME)%>%
   group_by(rgn_id, rgn_name) %>%
   summarise() %>%
@@ -118,6 +125,26 @@ hab_protect_rgn <- hab_noaa %>%
   mutate(target = 0.3,
          score = prop_area/target,
          score = if_else(score >1, 1, score)) 
+
+## calculate entire region score, instead of averaging each region we will caculate 30% of entire region as a whole
+hab_protect_rgn_12 <- hab_noaa %>%
+  mutate(area = st_area(geometry)/1000000,
+         area = as.numeric(area)) %>% 
+  select(start_year, area) %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast") %>%  #calculate total protected area
+  group_by(rgn_id, rgn_name) %>% 
+  summarise(protected_area = sum(area)) %>% 
+  left_join(rgn_12_area, by = c("rgn_id", "rgn_name")) %>% 
+  mutate(prop_area = protected_area/rgn_area,
+         target = 0.3,
+         score = prop_area/target) %>% 
+  st_set_geometry(NULL) %>% 
+  select(rgn_id, rgn_name, prop_area, target, score)
+
+hab_protect_rgn <- hab_protect_rgn_int %>% 
+  dplyr::bind_rows(hab_protect_rgn_12)
+
 ```
 
 Creating a df to add to have the missing regions there 

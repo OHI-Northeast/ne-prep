@@ -1,0 +1,190 @@
+"","city_community","state","County","rgn_name","rgn_id"
+"1","Abington","MA","Plymouth","Massachusetts-South",8
+"2","Abington","MA","Plymouth","Massachusetts-North",7
+"3","Andover","MA","Essex","Massachusetts-North",7
+"4","Attleboro","MA","Bristol","Massachusetts-South",8
+"5","Bellingham","MA","Norfolk","Massachusetts-North",7
+"6","Bourne","MA","Barnstable","Massachusetts-North",7
+"7","Bourne","MA","Barnstable","Massachusetts-South",8
+"8","Brewster","MA","Barnstable","Massachusetts-North",7
+"9","Brewster","MA","Barnstable","Massachusetts-South",8
+"10","Bridgewater","MA","Plymouth","Massachusetts-South",8
+"11","Bridgewater","MA","Plymouth","Massachusetts-North",7
+"12","Brockton","MA","Plymouth","Massachusetts-South",8
+"13","Brockton","MA","Plymouth","Massachusetts-North",7
+"14","Brookline","MA","Norfolk","Massachusetts-North",7
+"15","Chatham","MA","Barnstable","Massachusetts-North",7
+"16","Chatham","MA","Barnstable","Massachusetts-South",8
+"17","Chelsea","MA","Suffolk","Massachusetts-North",7
+"18","Danvers","MA","Essex","Massachusetts-North",7
+"19","Dedham","MA","Norfolk","Massachusetts-North",7
+"20","Dennis","MA","Barnstable","Massachusetts-North",7
+"21","Dennis","MA","Barnstable","Massachusetts-South",8
+"22","Dover","MA","Norfolk","Massachusetts-North",7
+"23","Duxbury","MA","Plymouth","Massachusetts-South",8
+"24","Duxbury","MA","Plymouth","Massachusetts-North",7
+"25","Essex","MA","Essex","Massachusetts-North",7
+"26","Fall River","MA","Bristol","Massachusetts-South",8
+"27","Falmouth","MA","Barnstable","Massachusetts-North",7
+"28","Falmouth","MA","Barnstable","Massachusetts-South",8
+"29","Foxborough","MA","Norfolk","Massachusetts-North",7
+"30","Gloucester","MA","Essex","Massachusetts-North",7
+"31","Hanson","MA","Plymouth","Massachusetts-South",8
+"32","Hanson","MA","Plymouth","Massachusetts-North",7
+"33","Haverhill","MA","Essex","Massachusetts-North",7
+"34","Hingham","MA","Plymouth","Massachusetts-South",8
+"35","Hingham","MA","Plymouth","Massachusetts-North",7
+"36","Holbrook","MA","Norfolk","Massachusetts-North",7
+"37","Hull","MA","Plymouth","Massachusetts-South",8
+"38","Hull","MA","Plymouth","Massachusetts-North",7
+"39","Ipswich","MA","Essex","Massachusetts-North",7
+"40","Kingston","MA","Plymouth","Massachusetts-South",8
+"41","Kingston","MA","Plymouth","Massachusetts-North",7
+"42","Lawrence","MA","Essex","Massachusetts-North",7
+"43","Lynn","MA","Essex","Massachusetts-North",7
+"44","Lynnfield","MA","Essex","Massachusetts-North",7
+"45","Marblehead","MA","Essex","Massachusetts-North",7
+"46","Medfield","MA","Norfolk","Massachusetts-North",7
+"47","Methuen","MA","Essex","Massachusetts-North",7
+"48","Milton","MA","Norfolk","Massachusetts-North",7
+"49","Nahant","MA","Essex","Massachusetts-North",7
+"50","Nantucket","MA","Nantucket","Massachusetts-South",8
+"51","Needham","MA","Norfolk","Massachusetts-North",7
+"52","New Bedford","MA","Bristol","Massachusetts-South",8
+"53","Newburyport","MA","Essex","Massachusetts-North",7
+"54","Norwood","MA","Norfolk","Massachusetts-North",7
+"55","Peabody","MA","Essex","Massachusetts-North",7
+"56","Provincetown","MA","Barnstable","Massachusetts-North",7
+"57","Provincetown","MA","Barnstable","Massachusetts-South",8
+"58","Quincy","MA","Norfolk","Massachusetts-North",7
+"59","Randolph","MA","Norfolk","Massachusetts-North",7
+"60","Revere","MA","Suffolk","Massachusetts-North",7
+"61","Rowley","MA","Essex","Massachusetts-North",7
+"62","Salem","MA","Essex","Massachusetts-North",7
+"63","Salisbury","MA","Essex","Massachusetts-North",7
+"64","Saugus","MA","Essex","Massachusetts-North",7
+"65","Sharon","MA","Norfolk","Massachusetts-North",7
+"66","Somerset","MA","Bristol","Massachusetts-South",8
+"67","Swampscott","MA","Essex","Massachusetts-North",7
+"68","Taunton","MA","Bristol","Massachusetts-South",8
+"69","Topsfield","MA","Essex","Massachusetts-North",7
+"70","Walpole","MA","Norfolk","Massachusetts-North",7
+"71","Wellesley","MA","Norfolk","Massachusetts-North",7
+"72","Mashpee","MA","Barnstable","Massachusetts-North",7
+"73","Mashpee","MA","Barnstable","Massachusetts-South",8
+"74","Orleans","MA","Barnstable","Massachusetts-North",7
+"75","Orleans","MA","Barnstable","Massachusetts-South",8
+"76","Truro","MA","Barnstable","Massachusetts-North",7
+"77","Truro","MA","Barnstable","Massachusetts-South",8
+"78","Wellfleet","MA","Barnstable","Massachusetts-North",7
+"79","Wellfleet","MA","Barnstable","Massachusetts-South",8
+"80","Acushnet","MA","Bristol","Massachusetts-South",8
+"81","Berkley","MA","Bristol","Massachusetts-South",8
+"82","Dartmouth","MA","Bristol","Massachusetts-South",8
+"83","Dighton","MA","Bristol","Massachusetts-South",8
+"84","Easton","MA","Bristol","Massachusetts-South",8
+"85","Fairhaven","MA","Bristol","Massachusetts-South",8
+"86","Freetown","MA","Bristol","Massachusetts-South",8
+"87","Mansfield","MA","Bristol","Massachusetts-South",8
+"88","North Attleborough","MA","Bristol","Massachusetts-South",8
+"89","Norton","MA","Bristol","Massachusetts-South",8
+"90","Raynham","MA","Bristol","Massachusetts-South",8
+"91","Rehoboth","MA","Bristol","Massachusetts-South",8
+"92","Seekonk","MA","Bristol","Massachusetts-South",8
+"93","Swansea","MA","Bristol","Massachusetts-South",8
+"94","Westport","MA","Bristol","Massachusetts-South",8
+"95","Aquinnah","MA","Dukes","Massachusetts-South",8
+"96","Chilmark","MA","Dukes","Massachusetts-South",8
+"97","Edgartown","MA","Dukes","Massachusetts-South",8
+"98","Gosnold","MA","Dukes","Massachusetts-South",8
+"99","Oak Bluffs","MA","Dukes","Massachusetts-South",8
+"100","West Tisbury","MA","Dukes","Massachusetts-South",8
+"101","Beverly","MA","Essex","Massachusetts-North",7
+"102","Boxford","MA","Essex","Massachusetts-North",7
+"103","Georgetown","MA","Essex","Massachusetts-North",7
+"104","Groveland","MA","Essex","Massachusetts-North",7
+"105","Hamilton","MA","Essex","Massachusetts-North",7
+"106","Merrimac","MA","Essex","Massachusetts-North",7
+"107","Middleton","MA","Essex","Massachusetts-North",7
+"108","Newbury","MA","Essex","Massachusetts-North",7
+"109","North Andover","MA","Essex","Massachusetts-North",7
+"110","Rockport","MA","Essex","Massachusetts-North",7
+"111","Wenham","MA","Essex","Massachusetts-North",7
+"112","West Newbury","MA","Essex","Massachusetts-North",7
+"113","Avon","MA","Norfolk","Massachusetts-North",7
+"114","Canton","MA","Norfolk","Massachusetts-North",7
+"115","Cohasset","MA","Norfolk","Massachusetts-North",7
+"116","Millis","MA","Norfolk","Massachusetts-North",7
+"117","Norfolk","MA","Norfolk","Massachusetts-North",7
+"118","Plainville","MA","Norfolk","Massachusetts-North",7
+"119","Stoughton","MA","Norfolk","Massachusetts-North",7
+"120","Westwood","MA","Norfolk","Massachusetts-North",7
+"121","Wrentham","MA","Norfolk","Massachusetts-North",7
+"122","Carver","MA","Plymouth","Massachusetts-South",8
+"123","Carver","MA","Plymouth","Massachusetts-North",7
+"124","East Bridgewater","MA","Plymouth","Massachusetts-South",8
+"125","East Bridgewater","MA","Plymouth","Massachusetts-North",7
+"126","Halifax","MA","Plymouth","Massachusetts-South",8
+"127","Halifax","MA","Plymouth","Massachusetts-North",7
+"128","Hanover","MA","Plymouth","Massachusetts-South",8
+"129","Hanover","MA","Plymouth","Massachusetts-North",7
+"130","Lakeville","MA","Plymouth","Massachusetts-South",8
+"131","Lakeville","MA","Plymouth","Massachusetts-North",7
+"132","Marion","MA","Plymouth","Massachusetts-South",8
+"133","Marion","MA","Plymouth","Massachusetts-North",7
+"134","Mattapoisett","MA","Plymouth","Massachusetts-South",8
+"135","Mattapoisett","MA","Plymouth","Massachusetts-North",7
+"136","Middleborough","MA","Plymouth","Massachusetts-South",8
+"137","Middleborough","MA","Plymouth","Massachusetts-North",7
+"138","Norwell","MA","Plymouth","Massachusetts-South",8
+"139","Norwell","MA","Plymouth","Massachusetts-North",7
+"140","Plymouth","MA","Plymouth","Massachusetts-South",8
+"141","Plymouth","MA","Plymouth","Massachusetts-North",7
+"142","Plympton","MA","Plymouth","Massachusetts-South",8
+"143","Plympton","MA","Plymouth","Massachusetts-North",7
+"144","Rochester","MA","Plymouth","Massachusetts-South",8
+"145","Rochester","MA","Plymouth","Massachusetts-North",7
+"146","Rockland","MA","Plymouth","Massachusetts-South",8
+"147","Rockland","MA","Plymouth","Massachusetts-North",7
+"148","West Bridgewater","MA","Plymouth","Massachusetts-South",8
+"149","West Bridgewater","MA","Plymouth","Massachusetts-North",7
+"150","Whitman","MA","Plymouth","Massachusetts-South",8
+"151","Whitman","MA","Plymouth","Massachusetts-North",7
+"152","Boston","MA","Suffolk","Massachusetts-North",7
+"153","Amesbury Town","MA","Essex","Massachusetts-North",7
+"154","Braintree Town","MA","Norfolk","Massachusetts-North",7
+"155","Buzzards Bay","MA","Barnstable","Massachusetts-South",8
+"156","Dennis Port","MA","Barnstable","Massachusetts-South",8
+"157","East Dennis","MA","Barnstable","Massachusetts-North",7
+"158","East Falmouth","MA","Barnstable","Massachusetts-South",8
+"159","East Harwich","MA","Barnstable","Massachusetts-South",8
+"160","Franklin Town","MA","Norfolk","Massachusetts-North",7
+"161","Harwich Center","MA","Barnstable","Massachusetts-South",8
+"162","Harwich Port","MA","Barnstable","Massachusetts-South",8
+"163","Monument Beach","MA","Barnstable","Massachusetts-South",8
+"164","North Falmouth","MA","Barnstable","Massachusetts-South",8
+"165","Northwest Harwich","MA","Barnstable","Massachusetts-South",8
+"166","Pocasset","MA","Barnstable","Massachusetts-South",8
+"167","Sagamore","MA","Barnstable","Massachusetts-North",7
+"168","South Dennis","MA","Barnstable","Massachusetts-South",8
+"169","South Dennis","MA","Barnstable","Massachusetts-North",7
+"170","South Duxbury","MA","Plymouth","Massachusetts-North",7
+"171","Teaticket","MA","Barnstable","Massachusetts-South",8
+"172","West Chatham","MA","Barnstable","Massachusetts-South",8
+"173","West Dennis","MA","Barnstable","Massachusetts-South",8
+"174","West Falmouth","MA","Barnstable","Massachusetts-South",8
+"175","Weymouth Town","MA","Norfolk","Massachusetts-North",7
+"176","Winthrop Town","MA","Suffolk","Massachusetts-North",7
+"177","Woods Hole","MA","Barnstable ","Massachusetts-South",8
+"178","Barnstable Town","MA","Barnstable ","Massachusetts-South",8
+"179","Barnstable Town","MA","Barnstable ","Massachusetts-North",7
+"180","Eastham/North Eastham","MA","Barnstable ","Massachusetts-North",7
+"181","Sandwich/East Sandwich/Forestdale","MA","Barnstable","Massachusetts-North",7
+"182","Yarmouth/South Yarmouth/West Yarmouth/Yarmouth Port","MA","Barnstable ","Massachusetts-South",8
+"183","Yarmouth/South Yarmouth/West Yarmouth/Yarmouth Port","MA","Barnstable ","Massachusetts-North",7
+"184","Tisbury/Vineyard Haven","MA","Dukes","Massachusetts-South",8
+"185","Manchester-By-The-Sea","MA","Essex","Massachusetts-North",7
+"186","Marshfield/Green Harbor-Cedar Crest/Marshfield Hills/Ocean Bluff-Brant Rock","MA","Plymouth","Massachusetts-North",7
+"187","Pembroke/North Pembroke","MA","Plymouth","Massachusetts-North",7
+"188","Scituate/North Scituate","MA","Plymouth","Massachusetts-North",7
+"189","Wareham/West Wareham/Onset","MA","Plymouth","Massachusetts-South",8
