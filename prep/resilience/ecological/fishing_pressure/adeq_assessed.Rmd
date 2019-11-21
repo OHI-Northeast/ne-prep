@@ -135,10 +135,11 @@ stock_matching <- nmfs_stock_years %>%
 ```
 
 Now combine catch species with stocks. Lots of data wrangling here to get these species to matchup correctly
-I added this part in case we wanted to do the percentage of species landed with stock assessments each year instead of ever. But this is not necessary for finding out if stocks are properly assessed
+
 ```{r exploring_over_time}
 comb <- stock_matching %>%
   left_join(nmfs_catch_sp) %>%
+  ##below I manually went through and added the NMFS_original name where it has occured in the data before. this happens when the species is not caught that year, but has an assessment done
   select(species_low, species, location, source, nmfs_species, stockid, year) %>%
   left_join(nmfs_catch_sp, by = c("species" = "nmfs_species_alternate", "year")) %>%
   mutate(nmfs_species = ifelse(is.na(nmfs_species.x), nmfs_species.y, nmfs_species.x)) %>%
@@ -190,7 +191,30 @@ comb <- stock_matching %>%
     TRUE ~ as.character(species_low)
   )) %>%
   left_join(nmfs_catch) %>% #add in the original catch (uppercase)
-select(year, nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source)
+  select(year, nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source) %>% 
+  mutate(nmfs_original_species = ifelse(stock_assessment_species_name == "sea scallop", "SCALLOP, SEA",
+                                 ifelse(stock_assessment_species_name == "atlantic herring", "HERRING, ATLANTIC",
+                                 ifelse(stock_assessment_species_name == "spiny dogfish", "DOGFISH, SPINY",
+                                 ifelse(stock_assessment_species_name == "tilefish", "TILEFISH",
+                                 ifelse(stock_assessment_species_name == "atlantic mackerel", "MACKEREL, ATLANTIC",
+                                 ifelse(stock_assessment_species_name == "clearnose skate", "SKATE, CLEARNOSE",
+                                 ifelse(stock_assessment_species_name == "smooth skate", 	"SKATE, SMOOTH",
+                                 ifelse(stock_assessment_species_name == "thorny skate", "SKATE, THORNY",
+                                 ifelse(stock_assessment_species_name == "little skate", "SKATE, LITTLE (SUMMER)",
+                                 ifelse(stock_assessment_species_name == "winter skate", "SKATE, WINTER (BIG)",
+                                 ifelse(stock_assessment_species_name == "ocean quahog", "OCEAN QUAHOG",
+                                 ifelse(stock_assessment_species_name == "atlantic bluefin tuna", "TUNA, BLUEFIN",
+                                 ifelse(stock_assessment_species_name == "atlantic croaker", "CROAKER, ATLANTIC",
+                                 ifelse(stock_assessment_species_name ==  "bigeye tuna", "TUNA, BIG EYE",
+                                 ifelse(stock_assessment_species_name == "american lobster", "LOBSTER, AMERICAN",
+                                 ifelse(stock_assessment_species_name == "atlantic menhaden", "MENHADEN",
+                                 ifelse(stock_assessment_species_name == "skipjack tuna", "TUNA, SKIPJACK",
+                                 ifelse(stock_assessment_species_name == "striped bass", "STRIPED BASS",
+                                 ifelse(stock_assessment_species_name == "swordfish", "SWORDFISH",
+                                 ifelse(stock_assessment_species_name == "weakfish", "WEAKFISH / SQUETEAGUE / GRAY SEA TROUT",
+                                 ifelse(stock_assessment_species_name == "yellowfin tuna", "TUNA, YELLOWFIN",
+                                 ifelse(stock_assessment_species_name == "albacore tuna", "TUNA, ALBACORE" ,
+                                        nmfs_original_species)))))))))))))))))))))) )
 ```
 
 Fixing the skate wings and monk fish pieces matching. Skates and Monkfish are reported in NMFS catch as full fish as well as pieces (wings, livers, heads). I'm sure there is a nice way to incorporate these species names into the data above but I'm doing it manually here...
@@ -317,63 +341,40 @@ comp_dataset <- m2 %>%
   left_join(leftovers_catch, by = c("nmfs_original_species" = "species")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
          rgn_name = ifelse(is.na(rgn_name.y), rgn_name.x, rgn_name.y)) %>%
-  select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x)
-```
-
-```{r time_series_assessed}
-time_series_assessed <- m2 %>%
-  left_join(comp_dataset, by =  c("year", "nmfs_original_species", "stock_assessment_species_name", "stock_assessment_species_location", "stockid", "source", "stock")) %>%
-  mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
-         rgn_name = ifelse(is.na(rgn_name.y), rgn_name.x, rgn_name.y)) %>%
   select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x) %>% 
-  filter(!is.na(year)) %>%   #peices of skates andmonk fish, and both golden and bluelined tilefish
-  unite(stock_long, stock_assessment_species_name, stock_assessment_species_location, sep = "-") %>% 
-  select(year, stock_long, rgn_id, rgn_name) %>%
-  filter(year >=2001 & year <= 2017) %>% 
-  mutate(ass= 1) 
- # group_by(stock_long)
-  #ungroup() 
+  filter(year >=2001 & year <= 2017)
 ```
 
-Some species have a stock assessments done but not landed so the region shows up as NA. This is because the joining column is based NNMFS original species name which comes from the species caught each year. I want to give those states credit for doing stock assessments, so I manually added the missing species below
+
+We still have 7 species that do not have a region assigned to them because there is no landings data for them. So we have to go through an do them individually
+atlantic salmon, rosette skate, 	barndoor skate, albacore tuna, blue marlin , sailfish, white marlin
+
+
 ```{r remove_no_locs}
 #id the species with no region associated with it
-noloc <- time_series_assessed %>% 
+noloc <- comp_dataset %>% 
   filter(is.na(rgn_name))
 
-unique(noloc$stock_long)
+unique(noloc$stock_assessment_species_name)
 
 #create df of just the regions
-regions <- time_series_assessed %>% 
+regions <- comp_dataset %>% 
   select(rgn_name, rgn_id) %>% 
   distinct() %>% 
   filter(!is.na(rgn_name))
 ```
 
-sea scallop-Northwestern Atlantic Coast
-```{r fix_reg_scallops}
-regions_scal <- regions %>% 
-  rbind(regions)
+atlantic salmon-Gulf of Maine
+```{r fix_reg_atl_sal}
+regions_salmon <- regions %>% 
+  slice(rep(row_number(), 2)) %>% 
+  filter(rgn_name == "Gulf of Maine" | rgn_name == "Northeast")
 
-scallop <- time_series_assessed %>% 
+salmon <- comp_dataset %>% 
   filter(is.na(rgn_name),
-         stock_long == "sea scallop-Northwestern Atlantic Coast") %>% 
-  slice(rep(1:n(), each = 11)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_scal)
-```
-
-tilefish-Mid-Atlantic Coast
-```{r fix_reg_tile}
-regions_tile <- regions %>% 
-  rbind(regions)
-
-tile <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "tilefish-Mid-Atlantic Coast") %>% 
-  slice(rep(1:n(), each = 11)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_tile)
+         stock_assessment_species_name == "atlantic salmon") %>%   # assuming only caught in the GOM because don't have more info
+  select(year, nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source, stock) %>% 
+  cbind(regions_salmon)
 ```
 
 rosette skate-Southern New England / Mid-Atlantic
@@ -381,26 +382,12 @@ rosette skate-Southern New England / Mid-Atlantic
 regions_ros <- regions %>% 
   slice(rep(row_number(), 10)) # 10 is the number years
 
-ros <- time_series_assessed %>% 
+ros <- comp_dataset %>% 
   filter(is.na(rgn_name),
-         stock_long == "rosette skate-Southern New England / Mid-Atlantic") %>% 
-  slice(rep(1:n(), each = 11)) %>% # 11 is the number of regions that this fish is 
-  select(year, stock_long, ass) %>% 
+         stock_assessment_species_name == "rosette skate") %>% 
+  slice(rep(1:n(), each = 12)) %>% # 11 is the number of regions that this fish is 
+  select(year, nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source, stock) %>% 
   cbind(regions_ros)
-```
-
-thorny skate-Gulf of Maine
-```{r fix_reg_thorn_skate}
-regions_th_sk <- regions %>% 
-  slice(rep(row_number(), 3)) %>% 
-  filter(rgn_id == 2 | rgn_id == 3 | rgn_id == 6 | rgn_id == 7 | rgn_id == 8 | rgn_id == 9)
-
-th_sk <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "thorny skate-Gulf of Maine"  ) %>% 
-  slice(rep(1:n(), each = 6)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_th_sk)
 ```
 
 blue marlin-Atlantic Ocean
@@ -408,26 +395,12 @@ blue marlin-Atlantic Ocean
 regions_blue_marlin <- regions %>% 
   slice(rep(row_number(), 10)) 
 
-blue_marlin <- time_series_assessed %>% 
+blue_marlin <- comp_dataset %>% 
   filter(is.na(rgn_name),
-         stock_long == "blue marlin-Atlantic Ocean" ) %>% 
-  slice(rep(1:n(), each = 11)) %>% 
-  select(year, stock_long, ass) %>% 
+         stock_assessment_species_name == "blue marlin" ) %>% 
+  slice(rep(1:n(), each = 12)) %>% 
+  select(year, nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source, stock) %>% 
   cbind(regions_blue_marlin)
-```
-
-skipjack tuna-Western Atlantic
-```{r fix_reg_skip_tuna}
-regions_skip_tuna <- regions %>% 
-  slice(rep(row_number(), 8)) %>% 
-  filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 5 |rgn_id == 8 | rgn_id == 10 | rgn_id == 11)
-
-skip_tuna <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "skipjack tuna-Western Atlantic" ) %>% 
-  slice(rep(1:n(), each = 7)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_skip_tuna)
 ```
 
 white marlin-Atlantic Ocean
@@ -435,67 +408,12 @@ white marlin-Atlantic Ocean
 regions_white_marlin <- regions %>% 
   slice(rep(row_number(), 10))
 
-white_marlin <- time_series_assessed %>% 
+white_marlin <- comp_dataset %>% 
   filter(is.na(rgn_name),
-         stock_long == "white marlin-Atlantic Ocean" ) %>% 
-  slice(rep(1:n(), each = 11)) %>% 
-  select(year, stock_long, ass) %>% 
+         stock_assessment_species_name == "white marlin" ) %>% 
+  slice(rep(1:n(), each = 12)) %>% 
+  select(year, nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source, stock) %>% 
   cbind(regions_white_marlin)
-```
-
-atlantic salmon-Gulf of Maine
-```{r fix_reg_atl_sal}
-regions_salmon <- regions %>% 
-  slice(rep(row_number(), 2)) %>% 
-  filter(rgn_name == "Gulf of Maine")
-
-salmon <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "atlantic salmon-Gulf of Maine") %>%   # assuming only caught in the GOM because don't have more info
-  select(year, stock_long, ass) %>% 
-  cbind(regions_salmon)
-```
-
-clearnose skate-Southern New England / Mid-Atlantic
-```{r fix_reg_clear_skate}
-regions_clear_sk <- regions %>% 
-  slice(rep(row_number(), 7))%>% 
-  filter(rgn_id == 2 | rgn_id == 4 |rgn_id == 5 | rgn_id == 8 |rgn_id == 10 | rgn_id == 11 )
-
-clear_sk <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "clearnose skate-Southern New England / Mid-Atlantic" ) %>% 
-  slice(rep(1:n(), each = 6)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_clear_sk)
-```
-
-smooth skate-Gulf of Maine
-```{r fix_reg_smooth_skate}
-regions_smooth_sk <- regions %>% 
-  slice(rep(row_number(), 5))%>% 
-  filter(rgn_id == 3 | rgn_id == 4 |rgn_id == 7 | rgn_id == 10)
-
-smooth_sk <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "smooth skate-Gulf of Maine" ) %>% 
-  slice(rep(1:n(), each = 4)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_smooth_sk )
-```
-
-bigeye tuna-Atlantic Ocean
-```{r fix_reg_bigeye_tuna}
-regions_big_tuna <- regions %>% 
-  slice(rep(row_number(), 6))%>% 
-  filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 10 | rgn_id == 8)
-
-big_tuna <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "bigeye tuna-Atlantic Ocean" ) %>% 
-  slice(rep(1:n(), each = 5)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_big_tuna )
 ```
 
 sailfish-Western Atlantic
@@ -503,86 +421,73 @@ sailfish-Western Atlantic
 regions_sail <- regions %>% 
   slice(rep(row_number(), 8))
 
-sail <- time_series_assessed %>% 
+sail <- comp_dataset %>% 
   filter(is.na(rgn_name),
-         stock_long == "sailfish-Western Atlantic" ) %>% 
-  slice(rep(1:n(), each = 11)) %>% 
-  select(year, stock_long, ass) %>% 
+         stock_assessment_species_name == "sailfish" ) %>% 
+  slice(rep(1:n(), each = 12)) %>% 
+  select(year, nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source, stock) %>% 
   cbind(regions_sail)
-```
-
-swordfish-Northern Atlantic
-```{r fix_reg_sword}
-regions_sword <- regions %>% 
-  slice(rep(row_number(), 4))%>% 
-  filter(rgn_id == 1 | rgn_id == 2 |rgn_id == 4 | rgn_id == 8)
-
-sword <- time_series_assessed %>% 
-  filter(is.na(rgn_name),
-         stock_long == "swordfish-Northern Atlantic" ) %>% 
-  slice(rep(1:n(), each = 4)) %>% 
-  select(year, stock_long, ass) %>% 
-  cbind(regions_sword)
 ```
 
 combine all together!
 ```{r combine_missing_locs}
-missing_locations <- rbind(scallop, tile, ros, th_sk, blue_marlin, skip_tuna, white_marlin, salmon, clear_sk, smooth_sk, big_tuna, sail, sword)
+missing_locations <- rbind(ros, blue_marlin, white_marlin, salmon, sail)
+```
+
+```{r}
+comp_dataset2 <- comp_dataset %>% 
+   filter(stock_assessment_species_name != "rosette skate" & !is.na(rgn_id),
+          stock_assessment_species_name != "blue marlin" & !is.na(rgn_id),
+          stock_assessment_species_name != "white marlin" & !is.na(rgn_id),
+          stock_assessment_species_name != "atlantic salmon" & !is.na(rgn_id),
+          stock_assessment_species_name != "sailfish" & !is.na(rgn_id)) %>% 
+  rbind(missing_locations)
 ```
 
 
-take all the unknown locations out and bind the new df that has that info
-```{r time_series_assessed_2}
-time_series_assessed_2 <- time_series_assessed %>% 
-  filter(stock_long != "sea scallop-Northwestern Atlantic Coast" & !is.na(rgn_id),
-         stock_long != "tilefish-Mid-Atlantic Coast" & !is.na(rgn_id),
-         stock_long != "rosette skate-Southern New England / Mid-Atlantic" & !is.na(rgn_id),
-         stock_long != "thorny skate-Gulf of Maine" & !is.na(rgn_id),
-         stock_long != "blue marlin-Atlantic Ocean" & !is.na(rgn_id),
-         stock_long != "skipjack tuna-Western Atlantic" & !is.na(rgn_id),
-         stock_long != "white marlin-Atlantic Ocean" & !is.na(rgn_id),
-         stock_long != "atlantic salmon-Gulf of Maine" & !is.na(rgn_id),
-         stock_long != "clearnose skate-Southern New England / Mid-Atlantic" & !is.na(rgn_id),
-         stock_long != "smooth skate-Gulf of Maine" & !is.na(rgn_id),
-         stock_long != "bigeye tuna-Atlantic Ocean" & !is.na(rgn_id),
-         stock_long != "sailfish-Western Atlantic" & !is.na(rgn_id),
-         stock_long != "swordfish-Northern Atlantic" & !is.na(rgn_id)) %>% 
-  rbind(missing_locations)
+Do the assessment calculatins!! and then save the data, and then use it to combine with the other assesment
+
+```{r}
+time_series_assessed <- comp_dataset2 %>% 
+  mutate(assessment = 1)
 ```
 
 Create df for all areas and all years to fill in for years with no assessments later
 ```{r all_fish}
-all_fish<- time_series_assessed_2 %>% 
-  select(stock_long, rgn_id, rgn_name) %>% 
+all_fish<- comp_dataset2 %>% 
+  select(nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source, stock, rgn_name, rgn_id) %>% 
   distinct() %>% 
   uncount(13, .id = "n", .remove = F) %>%
   mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
-  select(-n)
+  select(-n) 
 ```
+
 
 Combining
 ```{r all_fish_with_assessments}
 assessment_frq  <- all_fish %>% 
-  left_join(time_series_assessed_2, by = c("year", "rgn_name", "rgn_id", "stock_long")) %>% 
-  distinct() %>% 
-  replace(., is.na(.), "0") %>% 
-  mutate(ass = as.numeric(ass)) %>% 
-  group_by(stock_long) %>% 
-  mutate(assesment_sum_5yr = zoo::rollapply(ass, 5, FUN = sum, na.rm = F, partial = T, align = "right"), 
+  left_join(time_series_assessed, by = c("year", "nmfs_original_species", "stock_assessment_species_name", "stock_assessment_species_location", "stockid", "source", "stock", "rgn_name", "rgn_id")) %>% 
+  mutate(assessment = ifelse(is.na(assessment), 0, assessment)) %>% 
+  mutate(assessment = as.numeric(assessment)) %>% 
+  group_by(stock_assessment_species_name, stock_assessment_species_location) %>% 
+  mutate(assesment_sum_5yr = zoo::rollapply(assessment, 5, FUN = sum, na.rm = F, partial = T, align = "right"), 
          adeq_assessed = if_else(assesment_sum_5yr >= 1, 1, 0)) %>% 
-  ungroup() 
+  ungroup()
+
+write.csv(assessment_frq, file = "data/assessment_frq.csv")
 ```
+
 
 ## Calculate scores and graph
 ```{r calculate_ assessed}
 number_assessed <- assessment_frq %>% 
-  select(stock_long, rgn_id, rgn_name, year) %>% 
+  select(nmfs_original_species,stock_assessment_species_name, rgn_id, rgn_name, year) %>% 
   group_by(year, rgn_id, rgn_name) %>% 
   count() %>% 
   rename(number_stocks=n)
   
 adeq_ass <- assessment_frq %>% 
-  select(stock_long, rgn_id, rgn_name, year, adeq_assessed) %>% 
+  select(nmfs_original_species,stock_assessment_species_name, rgn_id, rgn_name, year, adeq_assessed) %>% 
   group_by(year, rgn_id, rgn_name) %>% 
   dplyr::summarise(adeq_assessed = sum(adeq_assessed))
   

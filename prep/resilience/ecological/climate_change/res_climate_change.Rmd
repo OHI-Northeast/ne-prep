@@ -74,9 +74,6 @@ carbon_em_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/climate
 
 state_pop <- read_csv("~/github/ne-prep/src/tables/state_pop.csv")%>% 
   select(-X1)
-
-#state_area <- rgn_data
-
 ```
 
 ## Tidy data for merging

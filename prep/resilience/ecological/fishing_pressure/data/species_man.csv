@@ -3,10 +3,11 @@
 "2",4,"Mid-Atlantic Bight",0.854368932038835
 "3",5,"Connecticut",0.873417721518987
 "4",6,"Maine",0.857142857142857
-"5",7,"Massachusetts-Gulf of Maine",0.853658536585366
-"6",8,"Massachusetts-Virginian",0.848484848484849
+"5",7,"Massachusetts-North",0.853658536585366
+"6",8,"Massachusetts-South",0.848484848484849
 "7",9,"New Hampshire",0.864406779661017
 "8",10,"New York",0.855555555555556
 "9",11,"Rhode Island",0.857142857142857
 "10",1,"Offshore",0.839080459770115
 "11",2,"Georges Bank",0.840425531914894
+"12",12,"Northeast",0.844683241832245

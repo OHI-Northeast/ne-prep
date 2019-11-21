@@ -50,14 +50,42 @@ species_man_raw <- read_xlsx(file.path(dir_anx, "_raw_data/manually_created/spec
 
 ## Calculate scores
 ```{r calculate}
-species_man <- species_man_raw %>% 
+species_man_subrgn <- species_man_raw %>% 
   group_by(rgn_name, rgn_id) %>% 
   mutate(managed = length(which(managed == "yes")), # need to add locally established here
          total = length(managed),
          species_regulated_score = managed/total) %>% 
-  select(rgn_id, rgn_name, species_regulated_score) %>% 
+  ungroup() %>% 
+  select(rgn_id, rgn_name, species_regulated_score)  %>% 
+  mutate(rgn_name = str_replace(rgn_name,"Massachusetts-Gulf of Maine", "Massachusetts-North"),
+         rgn_name = str_replace(rgn_name,"Massachusetts-Virginian", "Massachusetts-South")) %>% 
   unique()
 ```
+
+Calculatre the overall score of the Northeast. Weighted by area
+
+```{r}
+species_man_rgn12 <- species_man_subrgn %>% 
+  left_join(rgn_data) %>% 
+  select(-state_abv, -state_name) %>% 
+  mutate(score_weighted = species_regulated_score*area_km2) %>% 
+  mutate(tot_area = sum(area_km2),
+         tot_scoreweight = sum(score_weighted)) %>% 
+  select(tot_area, tot_scoreweight) %>% 
+  unique() %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast",
+         species_regulated_score = tot_scoreweight/tot_area) %>% 
+  select(rgn_id, rgn_name, species_regulated_score)
+
+```
+
+Combine the two
+
+```{r}
+species_man <- rbind(species_man_subrgn,species_man_rgn12 )
+```
+
 
 Save this layer
 ```{r save_layer}

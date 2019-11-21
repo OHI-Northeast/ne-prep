@@ -60,13 +60,10 @@ library(tabulizer)
 
 Read in Data
 ```{r load_data}
-landed_ass_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/landed_ass.csv") %>% select(-X) 
+assesment_scores <- read_csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/assesment_scores.csv") %>% select(-X1) 
 
 fish_area_protected_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/fish_area_protected.csv") %>% 
   select(-X) 
-
-adeq_assessed_short<- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/adeq_assessed.csv") %>% 
-  select(-X)
 
 species_man_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/species_man.csv") %>% 
   select(-X)
@@ -84,22 +81,11 @@ ole_compliance_short <- read.csv("~/github/ne-prep/prep/resilience/ecological/fi
 # Tidying 
 
 Cleaning up the data to be combined and used as a layer
-```{r landed_tidy}
-landed_ass <- landed_ass_short %>% 
-  select(year, rgn_id, rgn_name, per_catch_landed) %>% 
-  rename(landed_ass_score = per_catch_landed)
-```
 
 ```{r protect_tidy}
 fish_area_protected <- fish_area_protected_short %>% 
   select(year, rgn_id, rgn_name, fish_area_score) %>% 
   rename(fish_area_protected_score = fish_area_score)
-```
-
-```{r assessed_tidy}
-adeq_assessed <- adeq_assessed_short %>% 
-  select(year, rgn_id, rgn_name, percent_adeq_ass) %>% 
-  rename(adeq_assessed_score = percent_adeq_ass)
 ```
 
 
@@ -108,16 +94,14 @@ species_man <- species_man_short %>%
   rename(species_man_score = species_regulated_score) %>% 
   uncount(13, .id = "n", .remove = F) %>%
   mutate(year = ifelse(n == 1, 2005, n + 2004)) %>% 
-  select(-n) %>% 
-  mutate(rgn_name = str_replace(rgn_name,"Massachusetts-Gulf of Maine", "Massachusetts-North"),
-         rgn_name = str_replace(rgn_name,"Massachusetts-Virginian", "Massachusetts-South"))
+  select(-n)
 ```
 
 ```{r obser_tidy}
 observ_cov <- observ_cov_short %>% 
   rename(observ_cov_score = enforcement_score_obser) %>% 
   fill(observ_cov_score, .direction = c("up")) %>% 
-  uncount(11, .id = "n", .remove = F) %>%
+  uncount(12, .id = "n", .remove = F) %>%
   mutate(rgn_name = ifelse(n == 1, "Offshore", 
                        ifelse(n==2, "Georges Bank",
                                ifelse(n==3, "Gulf of Maine",
@@ -128,7 +112,8 @@ observ_cov <- observ_cov_short %>%
                                                                   ifelse(n==8, "Massachusetts-South",
                                                                          ifelse(n==9, "New Hampshire",
                                                                                 ifelse(n==10, "New York",
-                                                                                       "Rhode Island"))))))))))) %>%
+                                                                                       ifelse(n==11, "Rhode Island",
+                                                                                              "Northeast")))))))))))) %>%
   rename(rgn_id=n)
 ```
 
@@ -139,7 +124,7 @@ ole_enforcement <- ole_enforcement_short %>%
   select(year, ole_enforcement_score) %>% 
   fill(ole_enforcement_score, .direction = c("up")) %>% 
   filter(year <= 2017) %>% 
-  uncount(11, .id = "n", .remove = F) %>%
+  uncount(12, .id = "n", .remove = F) %>%
   mutate(rgn_name = ifelse(n == 1, "Offshore", 
                        ifelse(n==2, "Georges Bank",
                                ifelse(n==3, "Gulf of Maine",
@@ -150,7 +135,8 @@ ole_enforcement <- ole_enforcement_short %>%
                                                                   ifelse(n==8, "Massachusetts-South",
                                                                          ifelse(n==9, "New Hampshire",
                                                                                 ifelse(n==10, "New York",
-                                                                                       "Rhode Island"))))))))))) %>%
+                                                                                       ifelse(n==11, "Rhode Island",
+                                                                                              "Northeast")))))))))))) %>%
   rename(rgn_id=n)
 ```
 
@@ -159,7 +145,7 @@ Tidying the OLE compliance data for res score calculations by region
 ole_compliance <- ole_compliance_short %>% 
   select(year, ole_compliance_score) %>% 
   filter(year <= 2017) %>% 
-  uncount(11, .id = "n", .remove = F) %>%
+  uncount(12, .id = "n", .remove = F) %>%
   mutate(rgn_name = ifelse(n == 1, "Offshore", 
                        ifelse(n==2, "Georges Bank",
                                ifelse(n==3, "Gulf of Maine",
@@ -170,23 +156,23 @@ ole_compliance <- ole_compliance_short %>%
                                                                   ifelse(n==8, "Massachusetts-South",
                                                                          ifelse(n==9, "New Hampshire",
                                                                                 ifelse(n==10, "New York",
-                                                                                       "Rhode Island"))))))))))) %>%
+                                                                                       ifelse(n==11, "Rhode Island",
+                                                                                              "Northeast"))))))))))))%>%
   rename(rgn_id=n)
 ```
 
 ## Calculating and graphing scores
 Combining the data and calculating one overall fisheries resilience score
 ```{r calculate_scores}
-res_fs <- left_join(landed_ass, fish_area_protected, by = c("year", "rgn_id", "rgn_name")) %>% 
+res_fs <- left_join(assesment_scores, fish_area_protected, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(species_man, by = c("year", "rgn_id", "rgn_name")) %>% 
-  left_join(adeq_assessed, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(observ_cov, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(ole_enforcement, by = c("year", "rgn_id", "rgn_name")) %>% 
   left_join(ole_compliance, by = c("year", "rgn_id", "rgn_name")) %>% 
   fill(ole_compliance_score, .direction = c("up")) %>% 
   fill(ole_enforcement_score, .direction = c("up")) %>% 
   rowwise() %>% 
-  mutate(regulation = mean(c(landed_ass_score, fish_area_protected_score,species_man_score, adeq_assessed_score)),
+  mutate(regulation = mean(c(assessment_score, fish_area_protected_score,species_man_score)),
          enforcement = mean(c(observ_cov_score, ole_enforcement_score))) %>% 
   rename(compliance = ole_compliance_score) %>% 
   mutate(res_score = mean(c(regulation, enforcement, compliance)))

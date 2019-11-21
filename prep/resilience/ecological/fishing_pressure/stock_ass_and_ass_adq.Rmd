@@ -1,0 +1,148 @@
+---
+title: "OHINE: Fishing Resilience - Combining Data from stocks assessed and stocks adequately assessed"
+author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+    number_sections: false
+    theme: cerulean
+    highlight: haddock
+    includes: 
+      in_header: '~/github/ne-prep/src/templates/ohi_hdr.html'
+  pdf_document:
+toc: true
+---
+
+# Summary
+
+assessments.csv is easy to grab the ones that have never had an assessment done, and keep the annaul catch data. However the adequatley assessd one is more complicated, beacause the stock assessments are done by RAM or NOAA and tehy use differnet names as in the catch data sometime. 
+
+
+This script combine the assessments.csv data created in stock_assessed.Rmd and the adeq_assessed.csv data created in adeq_assessed.Rmd. Here we pull out all the stocks from assessments.csv that have never had a stock assessment performed, and add them to the adeq_assessed data. If a stock has never been assessed, it will revive a score of 0, if a stock has been assessed but not adequate (at least once in the past 5 years) then it will receive a score of 0.5, and if a stock is assessed and done so adequately, it will receive a score of 1.
+
+# Methods
+
+## Set up, libraries, load data
+``` {r setup,  message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
+                      message = FALSE, warning = FALSE)
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+
+dir_git <- '~/github/ne-prep'
+dir_anx <- file.path(dir_M, 'git-annex/neprep')
+
+library(tidyverse)
+library(dplyr)
+```
+
+Load Data
+```{r}
+assessed_int <- read_csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/assessments.csv") %>% 
+  select(-X1)
+freq_assessed_int <- read_csv("~/github/ne-prep/prep/resilience/ecological/fishing_pressure/data/assessment_frq.csv")%>% 
+  select(-X1)
+```
+
+
+in order to combine these two data frames, need to fix the names of the species like jamie did in quantifying the ones assessed
+First we want to use the NMFS catch data to create a data set for the species landed and tonnage.
+
+make sure these species have 0 for catch instead of na
+atlantic salmon, rosette skate, 	barndoor skate, albacore tuna, blue marlin , sailfish, white marlin
+
+```{r}
+miss_sp <- freq_assessed_int %>% 
+  select(year, rgn_id, rgn_name, nmfs_original_species, adeq_assessed, stock_assessment_species_name) %>% 
+  filter(stock_assessment_species_name == "atlantic salmon" | 
+         stock_assessment_species_name == "rosette skate" |
+         stock_assessment_species_name == "blue marlin" |
+         stock_assessment_species_name == "sailfish" |
+         stock_assessment_species_name == "white marlin") %>% 
+  mutate(catch = 0,
+         binary_assessed = 1 )
+```
+
+
+```{r}
+assessed <- assessed_int %>%
+  select(-weighted_assessed)
+
+freq_assessed <- freq_assessed_int %>%   
+  select(year, rgn_id, rgn_name, nmfs_original_species, adeq_assessed, stock_assessment_species_name) %>% 
+  filter(stock_assessment_species_name != "atlantic salmon" | 
+         stock_assessment_species_name != "rosette skate" |
+         stock_assessment_species_name != "blue marlin" |
+         stock_assessment_species_name != "sailfish" |
+         stock_assessment_species_name != "white marlin")
+
+assesment_combo <- assessed %>% 
+  left_join(freq_assessed, by = c("year", "rgn_id", "rgn_name", "nmfs_original_species")) %>% 
+  select(-assessed) %>% 
+  rbind(miss_sp) %>% 
+  mutate(assessment_score = case_when(binary_assessed == 0 ~ 0, #this species has never been assessed
+                                      binary_assessed == 1 ~ 0.5, # this species has been assessed at least once in our data
+                                      adeq_assessed == 1 ~ 1)) %>% #this specis has been assessd at least once in past 5 years
+  select(year, rgn_id, rgn_name, stock_assessment_species_name, nmfs_original_species, catch, assessment_score) 
+```
+
+Calculate scores for the subregions
+Weight by the assessment score and by the amount caught in the region
+```{r}
+assesment_scores_subrgns <- assesment_combo %>% 
+  filter(rgn_name != "Northeast") %>% 
+  rowwise() %>% 
+  mutate(weighted_score = catch*assessment_score) %>% 
+  group_by(year, rgn_name) %>% 
+  summarise(catch_rgn = sum(catch),
+            sum_weight_score = sum(weighted_score)) %>% 
+  ungroup() %>% 
+  mutate(score = sum_weight_score/catch_rgn)
+```
+
+Calcualte scores for Northeast region
+```{r}
+assesment_scores_ne_rgns<-assesment_combo%>% 
+  filter(rgn_name == "Northeast") %>% 
+  rowwise() %>% 
+  mutate(weighted_score = catch*assessment_score) %>% 
+  group_by(year, rgn_name) %>% 
+  summarise(catch_rgn = sum(catch),
+            sum_weight_score = sum(weighted_score)) %>% 
+  ungroup() %>% 
+  mutate(score = sum_weight_score/catch_rgn)
+```
+
+Combine the two dataframes 
+```{r}
+assesment_scores <- rbind(assesment_scores_ne_rgns,assesment_scores_subrgns ) %>% 
+  select(year, rgn_name, score) %>% 
+  rename(assessment_score =score) %>% 
+  mutate(rgn_id = case_when(rgn_name == "Northeast" ~ 12,
+                            rgn_name == "Rhode Island" ~ 11,
+                            rgn_name == "New York" ~ 10,
+                            rgn_name == "New Hampshire" ~ 9,
+                            rgn_name == "Massachusetts-South" ~ 8,
+                            rgn_name == "Massachusetts-North" ~ 7,
+                            rgn_name == "Maine" ~ 6,
+                            rgn_name == "Connecticut" ~ 5,
+                            rgn_name == "Mid-Atlantic Bight" ~ 4,
+                            rgn_name == "Gulf of Maine" ~ 3,
+                            rgn_name == "Georges Bank" ~ 2,
+                            rgn_name == "Offshore" ~ 1))
+
+write.csv(assesment_scores, file = "data/assesment_scores.csv")
+```
+
+
+
+
+
+
+
+
+
+

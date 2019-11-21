@@ -128,12 +128,25 @@ ggsave("figs/percent_offshore_water_protec.jpg", width=7, height=5, dpi=300)
 
 Calculate the protected area scores
 ```{r calculate}
-protected_score <- marine_protected_by_rgn %>% 
+protected_score_subrgns <- marine_protected_by_rgn %>% 
   select(rgn_id, rgn_name, year, prop_area) %>% 
   mutate(target = 0.3) %>% 
   mutate(fish_area_score = prop_area/target,
          fish_area_score = if_else(fish_area_score > 1, 1, fish_area_score)) %>% 
   mutate(rgn_id = as.character(rgn_id))
+
+##do the same calculation but for the entire NE
+protected_score_rgn12 <- marine_protected_by_rgn %>% 
+  select(year, prop_area) %>% 
+  group_by(year) %>% 
+  summarise(prop_area = sum(prop_area)) %>% 
+  mutate(target = 0.3) %>% 
+  mutate(fish_area_score = prop_area/target,
+         fish_area_score = if_else(fish_area_score > 1, 1, fish_area_score)) %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast")
+
+protected_score <- rbind(protected_score_subrgns, protected_score_rgn12)
 
 write.csv(protected_score, file = "data/fish_area_protected.csv")
 ```

@@ -42,7 +42,6 @@ source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of comm
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 
-library(csv)
 library(tidyverse)
 library(dplyr)
 library(Hmisc)
@@ -109,6 +108,8 @@ assessments <- left_join(catch, all_species_caught_assessment_summary, by = c("n
     assessed == "no" ~ 0,
     assessed == "yes" ~ 1)) %>% 
   mutate(weighted_assessed = (catch*binary_assessed))
+
+write.csv(assessments, file = "data/assessments.csv")
 ```
 
 ## Calculate and graph scores
