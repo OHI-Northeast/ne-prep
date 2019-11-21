@@ -160,7 +160,19 @@ county_data <- tr_data %>%
   select(state = State, year = Year, rgn_id, rgn_name, rgn_employment) %>%
   distinct()
 
-tr_data_clean <- bind_rows(state_data, county_data)
+tr_data_states <- bind_rows(state_data, county_data) %>%
+  filter(rgn_name != "Massachusetts")
+
+#calculate for whole region
+tr_data_ne <- tr_data_states %>%
+  group_by(year) %>%
+  summarize(rgn_employment = sum(rgn_employment)) %>%
+  ungroup() %>%
+  mutate(rgn_name = "Northeast",
+         rgn_id = 12,
+         state = NA)
+
+tr_data_clean <- bind_rows(tr_data_states, tr_data_ne)
 
 ggplot(tr_data_clean, aes(x = year, y = rgn_employment, color = rgn_name)) +
   geom_line() +
@@ -180,7 +192,6 @@ I also save an intermediate file, `coastal_jobs_data.csv`, which shows the actua
 ```{r calc_3yr_avg}
 
 tr_jobs <- tr_data_clean %>%
-  filter(rgn_name != "Massachusetts") %>% #remove the Massachusetts data - these rows are the employment for "All Mass Counties" but we dont need those
   arrange(year) %>%
   group_by(rgn_id) %>%
   mutate(tr_jobs_3yr = rollapply(rgn_employment, 3, FUN = mean, align = "right", na.rm=F, partial = T), #calc the three year mean

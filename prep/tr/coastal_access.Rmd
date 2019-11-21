@@ -1,5 +1,5 @@
 ---
-title: 'OHI-Northeast: Coastal Access'
+title: 'Coastal Access data layer'
 author: "*Compiled on `r date()` by `r Sys.info()['user']`*"
 output: 
   html_document:
@@ -80,7 +80,13 @@ calc_coastal_coverage <- function(state, state_abv){
   #calculate proportion without coverage
   wo_access <- diff/coastal_area
   
-  return(wo_access)
+  out_df <- data.frame(state = state,
+                       state_abv = toupper(state_abv),
+                       coastal_area = coastal_area,
+                       not_covered = diff,
+                       prop_no_access = wo_access)
+  
+  return(out_df)
   
 }
 
@@ -96,24 +102,30 @@ mas_area <- calc_coastal_coverage("Massachusetts-South", "ma")
 ri_area <- calc_coastal_coverage("Rhode Island", "ri")
 me_area <- calc_coastal_coverage("Maine", "me")
 
-out <- df %>%
-  mutate(area = case_when(
-    state == "New Hampshire" ~ nh_area,
-    state == "New York" ~ ny_area,
-    state == "Connecticut" ~ ct_area,
-    state == "Massachusetts-North" ~ man_area,
-    state == "Massachusetts-South" ~ mas_area,
-    state == "Rhode Island" ~ ri_area,
-    state == "Maine" ~ me_area
-  )) %>%
-  mutate(score = round(1-as.numeric(area), digits = 2)) %>%
-  left_join(rgn_data, by = c("state" = "rgn_name"))
+state_areas <- bind_rows(nh_area,ny_area,ct_area,man_area,mas_area,ri_area,me_area)
+
+#calculate total coast without access for NE
+ne_area <- sum(state_areas$coastal_area)
+ne_not_covered <- sum(state_areas$not_covered)  
+ne_areas <- data.frame(state = "NA",
+                       state_abv = "NA",
+                       coastal_area = sum(state_areas$coastal_area),
+                       not_covered = sum(state_areas$not_covered)) %>%
+  mutate(prop_no_access = not_covered/coastal_area)
+
+out <- state_areas %>%
+  bind_rows(ne_areas) %>%
+  mutate(score = round(1-prop_no_access, digits = 2)) %>%
+  left_join(rgn_data, by = c("state" = "rgn_name")) %>%
+  mutate(rgn_id = ifelse(is.na(rgn_id), 12, rgn_id),
+         state = ifelse(rgn_id == 12, "Northeast", state)) %>%
+  select(rgn_id, rgn_name = state, score)
 ```
 
 # Results
 
 ```{r}
-ggplot(out, aes(x = state, y = score)) +
+ggplot(out, aes(x = rgn_name, y = score)) +
   geom_col() +
   theme_bw() +
   coord_flip()
@@ -127,9 +139,9 @@ Need to add years and all offshore regions
 ```{r}
 
 out %>%
-  complete(rgn_id = 1:11) %>%
+  complete(rgn_id = 1:12) %>%
   mutate(year = 2017) %>%
-  select(rgn_id, score, year) %>%
+  select(rgn_id, rgn_name, score, year) %>%
   write_csv("~/github/ne-scores/region/layers/tr_rao_coastal_access.csv")
 ```
 

@@ -172,7 +172,7 @@ We want to filter out "OTHER" but keep the rest since they indicate beaches are 
 
 Percent of days each beach is closed then take the mean for each region. Save this for the dashboard
 ```{r calculate_percent_closed}
-perc <- df_all %>%
+perc_states <- df_all %>%
         filter(`Action Reasons` != "OTHER") %>%
         unique() %>% #some weird duplicates
         group_by(`Beach Name`, Year, County, rgn_id, rgn_name) %>%
@@ -181,14 +181,38 @@ perc <- df_all %>%
         ungroup() %>%
         group_by(rgn_name, rgn_id, Year) %>%
         summarize(perc_closed = mean(perc_closed))
+```
 
+Do this again but across the entire region
+
+```{r calculate_percent_closed_northeast}
+perc_ne <- df_all %>%
+        filter(`Action Reasons` != "OTHER") %>%
+        unique() %>% #some weird duplicates
+        group_by(`Beach Name`, Year, County, rgn_id, rgn_name) %>%
+        summarize(days_closed = sum(`ActionDuration Days`)) %>%
+        mutate(perc_closed = days_closed/100) %>%
+        ungroup() %>%
+        group_by(Year) %>%
+        summarize(perc_closed = mean(perc_closed)) %>%
+        mutate(rgn_id = 12,
+        rgn_name = "Northeast")
+```
+
+Combine all regions
+
+```{r combine}
+perc <- bind_rows(perc_states, perc_ne)
+```
+
+```{r data_for_dashboard}
 dashboard_data <- perc %>%
   mutate(perc_closed = round(100*perc_closed, digits = 2)) 
 
 write_csv(dashboard_data, "data/proportion_closed_by_rgn.csv")
 ```
 
-## Visualize data
+## Results
 ```{r rgn_beach_closure}
 ggplot(perc, aes(x = Year, y = perc_closed*100, color = rgn_name)) +
   geom_line() +
@@ -198,7 +222,7 @@ ggplot(perc, aes(x = Year, y = perc_closed*100, color = rgn_name)) +
   theme_bw()
 ```
 
-## Calculate TR:Beach Closure goal layer
+## Save toolbox layer
 
 The Tourism & Recreation goal will use this data to measure how often beaches are closed, thereby reducing tourism and recreational opportunities. For this layer we want the final values to be the inverse of closures, so the amount of time each year that the region has beaches open. We need to add in the other offshore regions and assign NA for the toolbox layer.
 
