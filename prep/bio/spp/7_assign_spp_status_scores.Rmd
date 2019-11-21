@@ -43,19 +43,7 @@ This gives us a dataframe of all species and their specific status and scores. B
 filter(spp_status, common == "atlantic silverside")
 ```
 
-We need to link species and regions to states in the `spp_status`. Easiest way is to add state abbreviation to `rgn_data` (loaded with `common.R`)
-
-```{r}
-rgn_data <- rgn_data %>%
-  mutate(state_abv = case_when(
-    state == "Maine" ~ "ME",
-    state == "New Hampshire" ~ "NH",
-    state == "Massachusetts" ~ "MA",
-    state == "New York" ~ "NY",
-    state == "Rhode Island" ~ "RI",
-    state == "Connecticut" ~ "CT"
-  ))
-```
+We need to link species and regions to states in the `spp_status`.
 
 It actually looks like all species have at least a USA designation. But there are some cases where the USA status is *NNR* (equivalent to NA) but IUCN has an actual status. For example:
 
@@ -133,9 +121,11 @@ All are NA. So we have every species scored that we can - at either the state, U
 
 ```{r}
 species_list <- full_sp_rgn_scores %>%
-  mutate(`Common Name` = stringr::str_to_sentence(common)) %>% 
+  mutate(`Common Name` = stringr::str_to_sentence(common),
+         rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_name)) %>% 
   select(`Common Name`, Scientific = sciname, Region = rgn_name) %>%
-  distinct()
+  distinct() %>%
+  filter(!is.na(rgn_name))
 
 write_csv(species_list, "data/species_list_by_rgn.csv")
 ```

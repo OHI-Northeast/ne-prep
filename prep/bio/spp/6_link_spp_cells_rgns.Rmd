@@ -76,10 +76,18 @@ get_sp_rgns <- function(spp){
 
 }
 
-dp_spp_rgns <- purrr::map_df(portal_list, get_sp_rgns)
+dp_spp_rgns <- purrr::map_df(portal_list, get_sp_rgns) 
 
-#save to mazu because of file size
-write.csv(dp_spp_rgns, file = "data/6_ne_dataportal_spp_by_rgn.csv")
+#take list of all species and add rgn_id 12
+
+rgn12 <- dp_spp_rgns %>%
+  select(species) %>%
+  distinct() %>%
+  mutate(rgn_id = 12)
+
+dp_spp_rgns_ne <- bind_rows(rgn12, dp_spp_rgns)
+
+write.csv(dp_spp_rgns_ne, file = "data/6_ne_dataportal_spp_by_rgn.csv")
 ```
 
 We also want to know exactly what cells each species is in. This will primarily be used to create a final map that shows all species risk in the Northeast.
@@ -103,6 +111,7 @@ dp_cells_extract <- function(spp){
     select(-mean)
 }
 dp_cells <- purrr::map_df(portal_list, dp_cells_extract)
+
 #save to mazu because of file size
 write.csv(dp_cells, file = file.path(dir_anx, "bio/ne_dataportal_spp_cells.csv"))
 ```
@@ -133,16 +142,25 @@ get_sp_rgn_iucn <- function(spp){
   z <- zonal(r, nergns_rast, na.rm=T, fun = "count") %>%
     as.data.frame() %>%
     rename(rgn_id = zone) %>%
-    mutate(species = sp,
+    mutate(species = spp,
            iucn_sid = sid) %>%
     filter(count > 0) %>% 
     select(-count)
 }
 
 pb <- progress_estimated(length(iucn_list)) #progress bar
-iucn_spp_rgns_area <- purrr::map_df(iucn_list, get_sp_rgn_iucn)
+iucn_spp_rgns <- purrr::map_df(iucn_list, get_sp_rgn_iucn)
 
-write.csv(iucn_spp_rgns_area, file = "data/6_ne_iucn_spp_by_rgn.csv")
+# add in rgn 12 (whole northeast)
+
+rgn12_iucn <- iucn_spp_rgns %>%
+  select(-rgn_id) %>%
+  distinct() %>%
+  mutate(rgn_id = 12)
+
+iucn_spp_rgns_ne <- bind_rows(iucn_spp_rgns, rgn12_iucn)
+
+write.csv(iucn_spp_rgns_ne, file = "data/6_ne_iucn_spp_by_rgn.csv")
 ```
 
 This function maps each IUCN species presence/absence raster and overlays the cellIDs to return a dataframe of cellIDs where the species is found, and a column with SID (species ID)

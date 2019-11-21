@@ -21,7 +21,17 @@ This script creates the offshore habitat data layer for the Habitats goal (a sub
 
 # Data
 
-SASI
+#### Fishing Effects Model
+
+**Reference**: [NEFMC: Fishing Effects Model Report](https://s3.amazonaws.com/nefmc.org/190613_Fishing_Effects_Northeast_Report.pdf)
+
+**Downloaded**: April 12, 2019 (shared via email)
+
+**Description**:  Spatially and temporally explicit estimate of percent habitat disturbance across the northeast region
+
+**Time range**: 1996-2018, monthly
+
+**Format**:  Raster format
 
 # Setup
 
@@ -65,9 +75,9 @@ for(i in 2:ncol(sasi2)){
 
 # Calculate layer
 
-## Average annual SASI rasters
+## Average annual fishing effect rasters
 
-Calculate average annual rasters for SASI
+Calculate average annual rasters for impact from fishing
 
 ```{r, eval = F}
 files <- list.files(file.path(dir_anx, "hab/sasi"), full.names = T)
@@ -104,11 +114,13 @@ annual_files <- list.files("data/rasters", full.names = T)
 
 ![](sasi.gif)
 
-## Get regional average SASI scores
+## Get mean fishing impacts by OHI region
 
-```{r}
+Firs do this by OHI regions 1-11
 
-rgn_sasi_out <- data.frame()
+```{r fishing_impacts_ohi_rgns}
+
+rgn_fe_out <- data.frame()
 
 for(i in 2004:2017){
   
@@ -116,30 +128,61 @@ for(i in 2004:2017){
   
   #overlay rgns and calculate average
   
-  rgn_sasi <- raster::zonal(f, zones, fun = "mean") %>%
+  rgn_fe <- raster::zonal(f, zones, fun = "mean") %>%
     as.data.frame() %>%
     mutate(year = i) %>%
     rename(rgn_id = zone,
-           sasi   = mean)
+           impact   = mean)
   
-  rgn_sasi_out <- rbind(rgn_sasi_out, rgn_sasi)
+  rgn_fe_out <- rbind(rgn_fe_out, rgn_fe)
   
 }
 ```
 
+Doing it for the whole Northeast (region 12)
+
+```{r fishing_impact_ne}
+
+ne_df_out <- data.frame()
+
+for(i in 2004:2017){
+
+  f <- raster(annual_files[str_detect(annual_files, as.character(i))]) %>%
+    mask(ne_rgn)
+  
+  m <- cellStats(f, stat = 'mean', na.rm = TRUE)
+  
+  ne_df <- data.frame(year = i,
+                      rgn_id = 12,
+                      impact = m)
+  
+  ne_df_out <- rbind(ne_df_out, ne_df)
+
+}
+
+```
+
+Combine
+
+```{r combine_all_rgns}
+rgn_fe_df <- bind_rows(rgn_fe_out, ne_df_out)
+```
+
+
 # Results
 
-High impact scores should result in lower OHI scores so here we subtract SASI values from 1
+High impact scores should result in lower OHI scores so here we subtract impact values from 1
 
 ```{r plot}
 
-rgn_sasi_scores <- rgn_sasi_out %>%
-  mutate(score = 1-sasi,
+rgn_impact_scores <- rgn_fe_df %>%
+  mutate(score = 1-impact,
          habitat = "seabed") %>% #invert scores so high impact = low score
   left_join(rgn_data) %>%
-  select(-area_km2, -state)
+  mutate(rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_name)) %>%
+  select(-area_km2, -state, -state_name, -state_abv)
 
-ggplot(rgn_sasi_scores, aes(x = year, y = score, color = rgn_name)) +
+ggplot(rgn_impact_scores, aes(x = year, y = score, color = rgn_name)) +
   geom_line() +
   theme_bw() +
   labs(x = "Year",
@@ -154,19 +197,18 @@ ggplot(rgn_sasi_scores, aes(x = year, y = score, color = rgn_name)) +
 I need to attach region ID's to each row. I also add the offshore regions 1:4 with NA values for the toolbox to run. 
 
 ```{r save_layer}
-write_csv(rgn_sasi_scores, "~/github/ne-scores/region/layers/hab_sasi.csv")
+write_csv(rgn_impact_scores %>% select(-impact), "~/github/ne-scores/region/layers/hab_fishing_effects.csv")
 ```
 
 We also use the SASI data as a pressure. The higher the impact the higher the pressure so we don't inverse scores for this layer.
 
 ```{r}
-rgn_sasi_prs <- rgn_sasi_out %>%
-  mutate(score = sasi) %>% #invert scores so high impact = low score
-  left_join(rgn_data) %>%
-  select(-area_km2, -state) 
+rgn_fe_prs <- rgn_impact_scores %>%
+  select(-score) %>%
+  rename(score = impact) #invert scores so high impact = low score
 
 
-write_csv(rgn_sasi_prs, "~/github/ne-scores/region/layers/hd_subtidal.csv")
+write_csv(rgn_fe_prs, "~/github/ne-scores/region/layers/hd_subtidal.csv")
 ```
 
 

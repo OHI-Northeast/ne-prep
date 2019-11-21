@@ -1,1008 +1,1146 @@
-"","rgn_id","species"
-"1",1,"Acadian_redfish"
-"2",2,"Acadian_redfish"
-"3",3,"Acadian_redfish"
-"4",6,"Acadian_redfish"
-"5",7,"Acadian_redfish"
-"6",1,"Alewife"
-"7",2,"Alewife"
-"8",3,"Alewife"
-"9",4,"Alewife"
-"10",6,"Alewife"
-"11",7,"Alewife"
-"12",8,"Alewife"
-"13",9,"Alewife"
-"14",10,"Alewife"
-"15",11,"Alewife"
-"16",1,"American_lobster"
-"17",2,"American_lobster"
-"18",3,"American_lobster"
-"19",4,"American_lobster"
-"20",6,"American_lobster"
-"21",7,"American_lobster"
-"22",8,"American_lobster"
-"23",9,"American_lobster"
-"24",10,"American_lobster"
-"25",11,"American_lobster"
-"26",2,"American_plaice"
-"27",3,"American_plaice"
-"28",6,"American_plaice"
-"29",7,"American_plaice"
-"30",9,"American_plaice"
-"31",1,"American_shad"
-"32",2,"American_shad"
-"33",3,"American_shad"
-"34",4,"American_shad"
-"35",6,"American_shad"
-"36",7,"American_shad"
-"37",8,"American_shad"
-"38",9,"American_shad"
-"39",10,"American_shad"
-"40",11,"American_shad"
-"41",1,"arctic_tern_normalized_AEA"
-"42",2,"arctic_tern_normalized_AEA"
-"43",3,"arctic_tern_normalized_AEA"
-"44",4,"arctic_tern_normalized_AEA"
-"45",6,"arctic_tern_normalized_AEA"
-"46",7,"arctic_tern_normalized_AEA"
-"47",8,"arctic_tern_normalized_AEA"
-"48",9,"arctic_tern_normalized_AEA"
-"49",10,"arctic_tern_normalized_AEA"
-"50",11,"arctic_tern_normalized_AEA"
-"51",1,"Atlantic spotted dolphin"
-"52",1,"Atlantic white sided dolphin"
-"53",2,"Atlantic white sided dolphin"
-"54",3,"Atlantic white sided dolphin"
-"55",4,"Atlantic white sided dolphin"
-"56",6,"Atlantic white sided dolphin"
-"57",7,"Atlantic white sided dolphin"
-"58",2,"Atlantic_cod"
-"59",3,"Atlantic_cod"
-"60",4,"Atlantic_cod"
-"61",6,"Atlantic_cod"
-"62",7,"Atlantic_cod"
-"63",9,"Atlantic_cod"
-"64",11,"Atlantic_cod"
-"65",4,"Atlantic_croaker"
-"66",2,"Atlantic_halibut"
-"67",3,"Atlantic_halibut"
-"68",6,"Atlantic_halibut"
-"69",7,"Atlantic_halibut"
-"70",9,"Atlantic_halibut"
-"71",1,"Atlantic_herring"
-"72",2,"Atlantic_herring"
-"73",3,"Atlantic_herring"
-"74",4,"Atlantic_herring"
-"75",6,"Atlantic_herring"
-"76",7,"Atlantic_herring"
-"77",8,"Atlantic_herring"
-"78",9,"Atlantic_herring"
-"79",10,"Atlantic_herring"
-"80",11,"Atlantic_herring"
-"81",1,"Atlantic_mackerel"
-"82",2,"Atlantic_mackerel"
-"83",3,"Atlantic_mackerel"
-"84",4,"Atlantic_mackerel"
-"85",6,"Atlantic_mackerel"
-"86",7,"Atlantic_mackerel"
-"87",8,"Atlantic_mackerel"
-"88",9,"Atlantic_mackerel"
-"89",10,"Atlantic_mackerel"
-"90",11,"Atlantic_mackerel"
-"91",3,"Atlantic_menhaden"
-"92",4,"Atlantic_menhaden"
-"93",6,"Atlantic_menhaden"
-"94",7,"Atlantic_menhaden"
-"95",9,"Atlantic_menhaden"
-"96",10,"Atlantic_menhaden"
-"97",11,"Atlantic_menhaden"
-"98",1,"atlantic_puffin_normalized_AEA"
-"99",2,"atlantic_puffin_normalized_AEA"
-"100",3,"atlantic_puffin_normalized_AEA"
-"101",4,"atlantic_puffin_normalized_AEA"
-"102",6,"atlantic_puffin_normalized_AEA"
-"103",7,"atlantic_puffin_normalized_AEA"
-"104",8,"atlantic_puffin_normalized_AEA"
-"105",9,"atlantic_puffin_normalized_AEA"
-"106",10,"atlantic_puffin_normalized_AEA"
-"107",11,"atlantic_puffin_normalized_AEA"
-"108",4,"Atlantic_sturgeon"
-"109",10,"Atlantic_sturgeon"
-"110",1,"Atlantic_torpedo"
-"111",2,"Atlantic_torpedo"
-"112",3,"Atlantic_torpedo"
-"113",4,"Atlantic_torpedo"
-"114",6,"Atlantic_torpedo"
-"115",7,"Atlantic_torpedo"
-"116",8,"Atlantic_torpedo"
-"117",9,"Atlantic_torpedo"
-"118",11,"Atlantic_torpedo"
-"119",2,"Atlantic_wolffish"
-"120",3,"Atlantic_wolffish"
-"121",6,"Atlantic_wolffish"
-"122",7,"Atlantic_wolffish"
-"123",9,"Atlantic_wolffish"
-"124",1,"audubons_shearwater_normalized_AEA"
-"125",4,"audubons_shearwater_normalized_AEA"
-"126",1,"band_rumped_storm_petrel_normalized_AEA"
-"127",2,"band_rumped_storm_petrel_normalized_AEA"
-"128",4,"band_rumped_storm_petrel_normalized_AEA"
-"129",1,"Barndoor_skate"
-"130",2,"Barndoor_skate"
-"131",3,"Barndoor_skate"
-"132",4,"Barndoor_skate"
-"133",6,"Barndoor_skate"
-"134",7,"Barndoor_skate"
-"135",4,"Bay_anchovy"
-"136",7,"Bay_anchovy"
-"137",8,"Bay_anchovy"
-"138",10,"Bay_anchovy"
-"139",11,"Bay_anchovy"
-"140",1,"black_capped_petrel_normalized_AEA"
-"141",1,"black_guillemot_normalized_AEA"
-"142",2,"black_guillemot_normalized_AEA"
-"143",3,"black_guillemot_normalized_AEA"
-"144",4,"black_guillemot_normalized_AEA"
-"145",6,"black_guillemot_normalized_AEA"
-"146",7,"black_guillemot_normalized_AEA"
-"147",8,"black_guillemot_normalized_AEA"
-"148",9,"black_guillemot_normalized_AEA"
-"149",10,"black_guillemot_normalized_AEA"
-"150",11,"black_guillemot_normalized_AEA"
-"151",1,"black_legged_kittiwake_normalized_AEA"
-"152",2,"black_legged_kittiwake_normalized_AEA"
-"153",3,"black_legged_kittiwake_normalized_AEA"
-"154",4,"black_legged_kittiwake_normalized_AEA"
-"155",6,"black_legged_kittiwake_normalized_AEA"
-"156",7,"black_legged_kittiwake_normalized_AEA"
-"157",8,"black_legged_kittiwake_normalized_AEA"
-"158",9,"black_legged_kittiwake_normalized_AEA"
-"159",10,"black_legged_kittiwake_normalized_AEA"
-"160",11,"black_legged_kittiwake_normalized_AEA"
-"161",1,"black_scoter_normalized_AEA"
-"162",2,"black_scoter_normalized_AEA"
-"163",3,"black_scoter_normalized_AEA"
-"164",4,"black_scoter_normalized_AEA"
-"165",6,"black_scoter_normalized_AEA"
-"166",7,"black_scoter_normalized_AEA"
-"167",8,"black_scoter_normalized_AEA"
-"168",9,"black_scoter_normalized_AEA"
-"169",10,"black_scoter_normalized_AEA"
-"170",11,"black_scoter_normalized_AEA"
-"171",1,"Black_sea_bass"
-"172",2,"Black_sea_bass"
-"173",3,"Black_sea_bass"
-"174",4,"Black_sea_bass"
-"175",6,"Black_sea_bass"
-"176",7,"Black_sea_bass"
-"177",8,"Black_sea_bass"
-"178",9,"Black_sea_bass"
-"179",10,"Black_sea_bass"
-"180",11,"Black_sea_bass"
-"181",1,"Blackbelly_rosefish"
-"182",2,"Blackbelly_rosefish"
-"183",3,"Blackbelly_rosefish"
-"184",4,"Blackbelly_rosefish"
-"185",1,"Blainvilles beaked whale"
-"186",2,"Blainvilles beaked whale"
-"187",4,"Blainvilles beaked whale"
-"188",1,"Blueback_herring"
-"189",2,"Blueback_herring"
-"190",3,"Blueback_herring"
-"191",4,"Blueback_herring"
-"192",6,"Blueback_herring"
-"193",7,"Blueback_herring"
-"194",8,"Blueback_herring"
-"195",9,"Blueback_herring"
-"196",10,"Blueback_herring"
-"197",11,"Blueback_herring"
-"198",1,"Bluefish"
-"199",2,"Bluefish"
-"200",3,"Bluefish"
-"201",4,"Bluefish"
-"202",7,"Bluefish"
-"203",8,"Bluefish"
-"204",10,"Bluefish"
-"205",11,"Bluefish"
-"206",1,"bonapartes_gull_normalized_AEA"
-"207",2,"bonapartes_gull_normalized_AEA"
-"208",3,"bonapartes_gull_normalized_AEA"
-"209",4,"bonapartes_gull_normalized_AEA"
-"210",6,"bonapartes_gull_normalized_AEA"
-"211",7,"bonapartes_gull_normalized_AEA"
-"212",8,"bonapartes_gull_normalized_AEA"
-"213",9,"bonapartes_gull_normalized_AEA"
-"214",10,"bonapartes_gull_normalized_AEA"
-"215",11,"bonapartes_gull_normalized_AEA"
-"216",1,"Bottlenose dolphin"
-"217",2,"Bottlenose dolphin"
-"218",3,"Bottlenose dolphin"
-"219",4,"Bottlenose dolphin"
-"220",6,"Bottlenose dolphin"
-"221",7,"Bottlenose dolphin"
-"222",8,"Bottlenose dolphin"
-"223",9,"Bottlenose dolphin"
-"224",10,"Bottlenose dolphin"
-"225",11,"Bottlenose dolphin"
-"226",1,"bridled_tern_normalized_AEA"
-"227",2,"bridled_tern_normalized_AEA"
-"228",3,"bridled_tern_normalized_AEA"
-"229",4,"bridled_tern_normalized_AEA"
-"230",7,"bridled_tern_normalized_AEA"
-"231",1,"brown_pelican_normalized_AEA"
-"232",2,"brown_pelican_normalized_AEA"
-"233",3,"brown_pelican_normalized_AEA"
-"234",4,"brown_pelican_normalized_AEA"
-"235",6,"brown_pelican_normalized_AEA"
-"236",7,"brown_pelican_normalized_AEA"
-"237",8,"brown_pelican_normalized_AEA"
-"238",10,"brown_pelican_normalized_AEA"
-"239",11,"brown_pelican_normalized_AEA"
-"240",4,"Bullnose_ray"
-"241",1,"Butterfish"
-"242",2,"Butterfish"
-"243",3,"Butterfish"
-"244",4,"Butterfish"
-"245",6,"Butterfish"
-"246",7,"Butterfish"
-"247",8,"Butterfish"
-"248",9,"Butterfish"
-"249",10,"Butterfish"
-"250",11,"Butterfish"
-"251",4,"Clearnose_skate"
-"252",10,"Clearnose_skate"
-"253",11,"Clearnose_skate"
-"254",1,"common_eider_normalized_AEA"
-"255",2,"common_eider_normalized_AEA"
-"256",3,"common_eider_normalized_AEA"
-"257",4,"common_eider_normalized_AEA"
-"258",6,"common_eider_normalized_AEA"
-"259",7,"common_eider_normalized_AEA"
-"260",8,"common_eider_normalized_AEA"
-"261",9,"common_eider_normalized_AEA"
-"262",10,"common_eider_normalized_AEA"
-"263",11,"common_eider_normalized_AEA"
-"264",1,"common_loon_normalized_AEA"
-"265",2,"common_loon_normalized_AEA"
-"266",3,"common_loon_normalized_AEA"
-"267",4,"common_loon_normalized_AEA"
-"268",6,"common_loon_normalized_AEA"
-"269",7,"common_loon_normalized_AEA"
-"270",8,"common_loon_normalized_AEA"
-"271",9,"common_loon_normalized_AEA"
-"272",10,"common_loon_normalized_AEA"
-"273",11,"common_loon_normalized_AEA"
-"274",1,"common_murre_normalized_AEA"
-"275",2,"common_murre_normalized_AEA"
-"276",3,"common_murre_normalized_AEA"
-"277",4,"common_murre_normalized_AEA"
-"278",6,"common_murre_normalized_AEA"
-"279",7,"common_murre_normalized_AEA"
-"280",8,"common_murre_normalized_AEA"
-"281",9,"common_murre_normalized_AEA"
-"282",10,"common_murre_normalized_AEA"
-"283",11,"common_murre_normalized_AEA"
-"284",1,"common_tern_normalized_AEA"
-"285",2,"common_tern_normalized_AEA"
-"286",3,"common_tern_normalized_AEA"
-"287",4,"common_tern_normalized_AEA"
-"288",6,"common_tern_normalized_AEA"
-"289",7,"common_tern_normalized_AEA"
-"290",8,"common_tern_normalized_AEA"
-"291",9,"common_tern_normalized_AEA"
-"292",10,"common_tern_normalized_AEA"
-"293",11,"common_tern_normalized_AEA"
-"294",1,"corys_shearwater_normalized_AEA"
-"295",2,"corys_shearwater_normalized_AEA"
-"296",3,"corys_shearwater_normalized_AEA"
-"297",4,"corys_shearwater_normalized_AEA"
-"298",7,"corys_shearwater_normalized_AEA"
-"299",8,"corys_shearwater_normalized_AEA"
-"300",11,"corys_shearwater_normalized_AEA"
-"301",1,"Cunner"
-"302",2,"Cunner"
-"303",3,"Cunner"
-"304",4,"Cunner"
-"305",6,"Cunner"
-"306",7,"Cunner"
-"307",8,"Cunner"
-"308",9,"Cunner"
-"309",10,"Cunner"
-"310",11,"Cunner"
-"311",1,"Cusk"
-"312",2,"Cusk"
-"313",3,"Cusk"
-"314",6,"Cusk"
-"315",7,"Cusk"
-"316",1,"Cuviers beaked whale"
-"317",2,"Cuviers beaked whale"
-"318",4,"Cuviers beaked whale"
-"319",1,"double_crested_cormorant_normalized_AEA"
-"320",2,"double_crested_cormorant_normalized_AEA"
-"321",3,"double_crested_cormorant_normalized_AEA"
-"322",4,"double_crested_cormorant_normalized_AEA"
-"323",6,"double_crested_cormorant_normalized_AEA"
-"324",7,"double_crested_cormorant_normalized_AEA"
-"325",8,"double_crested_cormorant_normalized_AEA"
-"326",9,"double_crested_cormorant_normalized_AEA"
-"327",10,"double_crested_cormorant_normalized_AEA"
-"328",11,"double_crested_cormorant_normalized_AEA"
-"329",1,"dovekie_normalized_AEA"
-"330",2,"dovekie_normalized_AEA"
-"331",3,"dovekie_normalized_AEA"
-"332",4,"dovekie_normalized_AEA"
-"333",6,"dovekie_normalized_AEA"
-"334",7,"dovekie_normalized_AEA"
-"335",8,"dovekie_normalized_AEA"
-"336",10,"dovekie_normalized_AEA"
-"337",11,"dovekie_normalized_AEA"
-"338",1,"Fin whale"
-"339",2,"Fin whale"
-"340",3,"Fin whale"
-"341",4,"Fin whale"
-"342",6,"Fin whale"
-"343",7,"Fin whale"
-"344",8,"Fin whale"
-"345",9,"Fin whale"
-"346",1,"Fourspot_flounder"
-"347",2,"Fourspot_flounder"
-"348",3,"Fourspot_flounder"
-"349",4,"Fourspot_flounder"
-"350",6,"Fourspot_flounder"
-"351",7,"Fourspot_flounder"
-"352",8,"Fourspot_flounder"
-"353",9,"Fourspot_flounder"
-"354",10,"Fourspot_flounder"
-"355",11,"Fourspot_flounder"
-"356",1,"Gervais beaked whale"
-"357",2,"Gervais beaked whale"
-"358",4,"Gervais beaked whale"
-"359",1,"Goosefish"
-"360",2,"Goosefish"
-"361",3,"Goosefish"
-"362",4,"Goosefish"
-"363",6,"Goosefish"
-"364",7,"Goosefish"
-"365",8,"Goosefish"
-"366",9,"Goosefish"
-"367",10,"Goosefish"
-"368",11,"Goosefish"
-"369",1,"great_black_backed_gull_normalized_AEA"
-"370",2,"great_black_backed_gull_normalized_AEA"
-"371",3,"great_black_backed_gull_normalized_AEA"
-"372",4,"great_black_backed_gull_normalized_AEA"
-"373",6,"great_black_backed_gull_normalized_AEA"
-"374",7,"great_black_backed_gull_normalized_AEA"
-"375",8,"great_black_backed_gull_normalized_AEA"
-"376",9,"great_black_backed_gull_normalized_AEA"
-"377",10,"great_black_backed_gull_normalized_AEA"
-"378",11,"great_black_backed_gull_normalized_AEA"
-"379",1,"great_shearwater_normalized_AEA"
-"380",2,"great_shearwater_normalized_AEA"
-"381",3,"great_shearwater_normalized_AEA"
-"382",4,"great_shearwater_normalized_AEA"
-"383",6,"great_shearwater_normalized_AEA"
-"384",7,"great_shearwater_normalized_AEA"
-"385",8,"great_shearwater_normalized_AEA"
-"386",9,"great_shearwater_normalized_AEA"
-"387",10,"great_shearwater_normalized_AEA"
-"388",11,"great_shearwater_normalized_AEA"
-"389",1,"great_skua_normalized_AEA"
-"390",2,"great_skua_normalized_AEA"
-"391",3,"great_skua_normalized_AEA"
-"392",4,"great_skua_normalized_AEA"
-"393",1,"Gulf_stream_flounder"
-"394",2,"Gulf_stream_flounder"
-"395",3,"Gulf_stream_flounder"
-"396",4,"Gulf_stream_flounder"
-"397",8,"Gulf_stream_flounder"
-"398",10,"Gulf_stream_flounder"
-"399",11,"Gulf_stream_flounder"
-"400",1,"Haddock"
-"401",2,"Haddock"
-"402",3,"Haddock"
-"403",4,"Haddock"
-"404",6,"Haddock"
-"405",7,"Haddock"
-"406",9,"Haddock"
-"407",1,"Harbor porpoise"
-"408",2,"Harbor porpoise"
-"409",3,"Harbor porpoise"
-"410",4,"Harbor porpoise"
-"411",5,"Harbor porpoise"
-"412",6,"Harbor porpoise"
-"413",7,"Harbor porpoise"
-"414",8,"Harbor porpoise"
-"415",9,"Harbor porpoise"
-"416",10,"Harbor porpoise"
-"417",11,"Harbor porpoise"
-"418",1,"herring_gull_normalized_AEA"
-"419",2,"herring_gull_normalized_AEA"
-"420",3,"herring_gull_normalized_AEA"
-"421",4,"herring_gull_normalized_AEA"
-"422",6,"herring_gull_normalized_AEA"
-"423",7,"herring_gull_normalized_AEA"
-"424",8,"herring_gull_normalized_AEA"
-"425",9,"herring_gull_normalized_AEA"
-"426",10,"herring_gull_normalized_AEA"
-"427",11,"herring_gull_normalized_AEA"
-"428",1,"horned_grebe_normalized_AEA"
-"429",2,"horned_grebe_normalized_AEA"
-"430",3,"horned_grebe_normalized_AEA"
-"431",4,"horned_grebe_normalized_AEA"
-"432",6,"horned_grebe_normalized_AEA"
-"433",7,"horned_grebe_normalized_AEA"
-"434",8,"horned_grebe_normalized_AEA"
-"435",9,"horned_grebe_normalized_AEA"
-"436",10,"horned_grebe_normalized_AEA"
-"437",11,"horned_grebe_normalized_AEA"
-"438",3,"Horseshoe_crab"
-"439",4,"Horseshoe_crab"
-"440",7,"Horseshoe_crab"
-"441",10,"Horseshoe_crab"
-"442",1,"Humpback whale"
-"443",2,"Humpback whale"
-"444",3,"Humpback whale"
-"445",4,"Humpback whale"
-"446",5,"Humpback whale"
-"447",6,"Humpback whale"
-"448",7,"Humpback whale"
-"449",8,"Humpback whale"
-"450",9,"Humpback whale"
-"451",10,"Humpback whale"
-"452",11,"Humpback whale"
-"453",1,"Jonah_crab"
-"454",2,"Jonah_crab"
-"455",3,"Jonah_crab"
-"456",4,"Jonah_crab"
-"457",6,"Jonah_crab"
-"458",7,"Jonah_crab"
-"459",8,"Jonah_crab"
-"460",9,"Jonah_crab"
-"461",10,"Jonah_crab"
-"462",11,"Jonah_crab"
-"463",2,"laughing_gull_normalized_AEA"
-"464",3,"laughing_gull_normalized_AEA"
-"465",4,"laughing_gull_normalized_AEA"
-"466",6,"laughing_gull_normalized_AEA"
-"467",7,"laughing_gull_normalized_AEA"
-"468",8,"laughing_gull_normalized_AEA"
-"469",9,"laughing_gull_normalized_AEA"
-"470",10,"laughing_gull_normalized_AEA"
-"471",11,"laughing_gull_normalized_AEA"
-"472",1,"leachs_storm_petrel_normalized_AEA"
-"473",2,"leachs_storm_petrel_normalized_AEA"
-"474",3,"leachs_storm_petrel_normalized_AEA"
-"475",4,"leachs_storm_petrel_normalized_AEA"
-"476",6,"leachs_storm_petrel_normalized_AEA"
-"477",7,"leachs_storm_petrel_normalized_AEA"
-"478",2,"least_tern_normalized_AEA"
-"479",3,"least_tern_normalized_AEA"
-"480",4,"least_tern_normalized_AEA"
-"481",6,"least_tern_normalized_AEA"
-"482",7,"least_tern_normalized_AEA"
-"483",8,"least_tern_normalized_AEA"
-"484",9,"least_tern_normalized_AEA"
-"485",10,"least_tern_normalized_AEA"
-"486",11,"least_tern_normalized_AEA"
-"487",1,"Little_skate"
-"488",2,"Little_skate"
-"489",3,"Little_skate"
-"490",4,"Little_skate"
-"491",6,"Little_skate"
-"492",7,"Little_skate"
-"493",8,"Little_skate"
-"494",9,"Little_skate"
-"495",10,"Little_skate"
-"496",11,"Little_skate"
-"497",1,"Long finned pilot whale"
-"498",2,"Long finned pilot whale"
-"499",3,"Long finned pilot whale"
-"500",4,"Long finned pilot whale"
-"501",1,"long_tailed_duck_normalized_AEA"
-"502",2,"long_tailed_duck_normalized_AEA"
-"503",3,"long_tailed_duck_normalized_AEA"
-"504",4,"long_tailed_duck_normalized_AEA"
-"505",6,"long_tailed_duck_normalized_AEA"
-"506",7,"long_tailed_duck_normalized_AEA"
-"507",8,"long_tailed_duck_normalized_AEA"
-"508",9,"long_tailed_duck_normalized_AEA"
-"509",10,"long_tailed_duck_normalized_AEA"
-"510",11,"long_tailed_duck_normalized_AEA"
-"511",1,"Longfin_squid"
-"512",2,"Longfin_squid"
-"513",3,"Longfin_squid"
-"514",4,"Longfin_squid"
-"515",6,"Longfin_squid"
-"516",7,"Longfin_squid"
-"517",8,"Longfin_squid"
-"518",9,"Longfin_squid"
-"519",10,"Longfin_squid"
-"520",11,"Longfin_squid"
-"521",1,"Longhorn_sculpin"
-"522",2,"Longhorn_sculpin"
-"523",3,"Longhorn_sculpin"
-"524",4,"Longhorn_sculpin"
-"525",6,"Longhorn_sculpin"
-"526",7,"Longhorn_sculpin"
-"527",8,"Longhorn_sculpin"
-"528",9,"Longhorn_sculpin"
-"529",10,"Longhorn_sculpin"
-"530",11,"Longhorn_sculpin"
-"531",1,"manx_shearwater_normalized_AEA"
-"532",2,"manx_shearwater_normalized_AEA"
-"533",3,"manx_shearwater_normalized_AEA"
-"534",4,"manx_shearwater_normalized_AEA"
-"535",6,"manx_shearwater_normalized_AEA"
-"536",7,"manx_shearwater_normalized_AEA"
-"537",8,"manx_shearwater_normalized_AEA"
-"538",1,"Minke whale"
-"539",2,"Minke whale"
-"540",3,"Minke whale"
-"541",4,"Minke whale"
-"542",6,"Minke whale"
-"543",7,"Minke whale"
-"544",8,"Minke whale"
-"545",9,"Minke whale"
-"546",10,"Minke whale"
-"547",1,"North Atlantic right whale"
-"548",2,"North Atlantic right whale"
-"549",3,"North Atlantic right whale"
-"550",4,"North Atlantic right whale"
-"551",5,"North Atlantic right whale"
-"552",6,"North Atlantic right whale"
-"553",7,"North Atlantic right whale"
-"554",8,"North Atlantic right whale"
-"555",9,"North Atlantic right whale"
-"556",10,"North Atlantic right whale"
-"557",11,"North Atlantic right whale"
-"558",1,"northern_fulmar_normalized_AEA"
-"559",2,"northern_fulmar_normalized_AEA"
-"560",3,"northern_fulmar_normalized_AEA"
-"561",4,"northern_fulmar_normalized_AEA"
-"562",6,"northern_fulmar_normalized_AEA"
-"563",7,"northern_fulmar_normalized_AEA"
-"564",1,"northern_gannet_normalized_AEA"
-"565",2,"northern_gannet_normalized_AEA"
-"566",3,"northern_gannet_normalized_AEA"
-"567",4,"northern_gannet_normalized_AEA"
-"568",6,"northern_gannet_normalized_AEA"
-"569",7,"northern_gannet_normalized_AEA"
-"570",8,"northern_gannet_normalized_AEA"
-"571",9,"northern_gannet_normalized_AEA"
-"572",10,"northern_gannet_normalized_AEA"
-"573",11,"northern_gannet_normalized_AEA"
-"574",1,"Northern_kingfish"
-"575",2,"Northern_kingfish"
-"576",4,"Northern_kingfish"
-"577",7,"Northern_kingfish"
-"578",8,"Northern_kingfish"
-"579",10,"Northern_kingfish"
-"580",11,"Northern_kingfish"
-"581",2,"Northern_pipefish"
-"582",3,"Northern_pipefish"
-"583",4,"Northern_pipefish"
-"584",7,"Northern_pipefish"
-"585",8,"Northern_pipefish"
-"586",10,"Northern_pipefish"
-"587",11,"Northern_pipefish"
-"588",4,"Northern_puffer"
-"589",8,"Northern_puffer"
-"590",10,"Northern_puffer"
-"591",11,"Northern_puffer"
-"592",2,"Northern_sand_lance"
-"593",3,"Northern_sand_lance"
-"594",4,"Northern_sand_lance"
-"595",6,"Northern_sand_lance"
-"596",7,"Northern_sand_lance"
-"597",8,"Northern_sand_lance"
-"598",9,"Northern_sand_lance"
-"599",10,"Northern_sand_lance"
-"600",11,"Northern_sand_lance"
-"601",1,"Northern_searobin"
-"602",2,"Northern_searobin"
-"603",3,"Northern_searobin"
-"604",4,"Northern_searobin"
-"605",6,"Northern_searobin"
-"606",7,"Northern_searobin"
-"607",8,"Northern_searobin"
-"608",9,"Northern_searobin"
-"609",10,"Northern_searobin"
-"610",11,"Northern_searobin"
-"611",1,"Northern_shortfin_squid"
-"612",2,"Northern_shortfin_squid"
-"613",3,"Northern_shortfin_squid"
-"614",4,"Northern_shortfin_squid"
-"615",6,"Northern_shortfin_squid"
-"616",7,"Northern_shortfin_squid"
-"617",9,"Northern_shortfin_squid"
-"618",2,"Northern_shrimp"
-"619",3,"Northern_shrimp"
-"620",6,"Northern_shrimp"
-"621",7,"Northern_shrimp"
-"622",9,"Northern_shrimp"
-"623",1,"Ocean_pout"
-"624",2,"Ocean_pout"
-"625",3,"Ocean_pout"
-"626",4,"Ocean_pout"
-"627",6,"Ocean_pout"
-"628",7,"Ocean_pout"
-"629",8,"Ocean_pout"
-"630",9,"Ocean_pout"
-"631",10,"Ocean_pout"
-"632",11,"Ocean_pout"
-"633",1,"parasitic_jaeger_normalized_AEA"
-"634",2,"parasitic_jaeger_normalized_AEA"
-"635",3,"parasitic_jaeger_normalized_AEA"
-"636",4,"parasitic_jaeger_normalized_AEA"
-"637",6,"parasitic_jaeger_normalized_AEA"
-"638",7,"parasitic_jaeger_normalized_AEA"
-"639",8,"parasitic_jaeger_normalized_AEA"
-"640",9,"parasitic_jaeger_normalized_AEA"
-"641",10,"parasitic_jaeger_normalized_AEA"
-"642",11,"parasitic_jaeger_normalized_AEA"
-"643",2,"Pinfish"
-"644",4,"Pinfish"
-"645",8,"Pinfish"
-"646",10,"Pinfish"
-"647",11,"Pinfish"
-"648",2,"Pollock"
-"649",3,"Pollock"
-"650",6,"Pollock"
-"651",7,"Pollock"
-"652",9,"Pollock"
-"653",1,"pomarine_jaeger_normalized_AEA"
-"654",2,"pomarine_jaeger_normalized_AEA"
-"655",3,"pomarine_jaeger_normalized_AEA"
-"656",4,"pomarine_jaeger_normalized_AEA"
-"657",6,"pomarine_jaeger_normalized_AEA"
-"658",1,"razorbill_normalized_AEA"
-"659",2,"razorbill_normalized_AEA"
-"660",3,"razorbill_normalized_AEA"
-"661",4,"razorbill_normalized_AEA"
-"662",6,"razorbill_normalized_AEA"
-"663",7,"razorbill_normalized_AEA"
-"664",8,"razorbill_normalized_AEA"
-"665",9,"razorbill_normalized_AEA"
-"666",10,"razorbill_normalized_AEA"
-"667",11,"razorbill_normalized_AEA"
-"668",1,"red_breasted_merganser_normalized_AEA"
-"669",2,"red_breasted_merganser_normalized_AEA"
-"670",3,"red_breasted_merganser_normalized_AEA"
-"671",4,"red_breasted_merganser_normalized_AEA"
-"672",6,"red_breasted_merganser_normalized_AEA"
-"673",7,"red_breasted_merganser_normalized_AEA"
-"674",8,"red_breasted_merganser_normalized_AEA"
-"675",9,"red_breasted_merganser_normalized_AEA"
-"676",10,"red_breasted_merganser_normalized_AEA"
-"677",11,"red_breasted_merganser_normalized_AEA"
-"678",1,"Red_hake"
-"679",2,"Red_hake"
-"680",3,"Red_hake"
-"681",4,"Red_hake"
-"682",6,"Red_hake"
-"683",7,"Red_hake"
-"684",9,"Red_hake"
-"685",1,"red_necked_phalarope_normalized_AEA"
-"686",2,"red_necked_phalarope_normalized_AEA"
-"687",3,"red_necked_phalarope_normalized_AEA"
-"688",4,"red_necked_phalarope_normalized_AEA"
-"689",6,"red_necked_phalarope_normalized_AEA"
-"690",7,"red_necked_phalarope_normalized_AEA"
-"691",8,"red_necked_phalarope_normalized_AEA"
-"692",9,"red_necked_phalarope_normalized_AEA"
-"693",10,"red_necked_phalarope_normalized_AEA"
-"694",1,"red_phalarope_normalized_AEA"
-"695",2,"red_phalarope_normalized_AEA"
-"696",3,"red_phalarope_normalized_AEA"
-"697",4,"red_phalarope_normalized_AEA"
-"698",6,"red_phalarope_normalized_AEA"
-"699",7,"red_phalarope_normalized_AEA"
-"700",8,"red_phalarope_normalized_AEA"
-"701",10,"red_phalarope_normalized_AEA"
-"702",11,"red_phalarope_normalized_AEA"
-"703",1,"red_throated_loon_normalized_AEA"
-"704",2,"red_throated_loon_normalized_AEA"
-"705",3,"red_throated_loon_normalized_AEA"
-"706",4,"red_throated_loon_normalized_AEA"
-"707",6,"red_throated_loon_normalized_AEA"
-"708",7,"red_throated_loon_normalized_AEA"
-"709",8,"red_throated_loon_normalized_AEA"
-"710",9,"red_throated_loon_normalized_AEA"
-"711",10,"red_throated_loon_normalized_AEA"
-"712",11,"red_throated_loon_normalized_AEA"
-"713",1,"ring_billed_gull_normalized_AEA"
-"714",2,"ring_billed_gull_normalized_AEA"
-"715",3,"ring_billed_gull_normalized_AEA"
-"716",4,"ring_billed_gull_normalized_AEA"
-"717",6,"ring_billed_gull_normalized_AEA"
-"718",7,"ring_billed_gull_normalized_AEA"
-"719",8,"ring_billed_gull_normalized_AEA"
-"720",9,"ring_billed_gull_normalized_AEA"
-"721",10,"ring_billed_gull_normalized_AEA"
-"722",11,"ring_billed_gull_normalized_AEA"
-"723",1,"Rissos dolphin"
-"724",2,"Rissos dolphin"
-"725",3,"Rissos dolphin"
-"726",4,"Rissos dolphin"
-"727",1,"roseate_tern_normalized_AEA"
-"728",2,"roseate_tern_normalized_AEA"
-"729",3,"roseate_tern_normalized_AEA"
-"730",4,"roseate_tern_normalized_AEA"
-"731",6,"roseate_tern_normalized_AEA"
-"732",7,"roseate_tern_normalized_AEA"
-"733",8,"roseate_tern_normalized_AEA"
-"734",9,"roseate_tern_normalized_AEA"
-"735",10,"roseate_tern_normalized_AEA"
-"736",11,"roseate_tern_normalized_AEA"
-"737",1,"Rosette_skate"
-"738",2,"Rosette_skate"
-"739",3,"Rosette_skate"
-"740",4,"Rosette_skate"
-"741",4,"Roughtail_stingray"
-"742",10,"Roughtail_stingray"
-"743",1,"Round_herring"
-"744",2,"Round_herring"
-"745",4,"Round_herring"
-"746",8,"Round_herring"
-"747",10,"Round_herring"
-"748",11,"Round_herring"
-"749",1,"royal_tern_normalized_AEA"
-"750",3,"royal_tern_normalized_AEA"
-"751",4,"royal_tern_normalized_AEA"
-"752",8,"royal_tern_normalized_AEA"
-"753",10,"royal_tern_normalized_AEA"
-"754",1,"Scup"
-"755",2,"Scup"
-"756",3,"Scup"
-"757",4,"Scup"
-"758",6,"Scup"
-"759",7,"Scup"
-"760",8,"Scup"
-"761",9,"Scup"
-"762",10,"Scup"
-"763",11,"Scup"
-"764",1,"Sea_raven"
-"765",2,"Sea_raven"
-"766",3,"Sea_raven"
-"767",4,"Sea_raven"
-"768",6,"Sea_raven"
-"769",7,"Sea_raven"
-"770",8,"Sea_raven"
-"771",9,"Sea_raven"
-"772",10,"Sea_raven"
-"773",11,"Sea_raven"
-"774",1,"Sea_scallop"
-"775",2,"Sea_scallop"
-"776",3,"Sea_scallop"
-"777",4,"Sea_scallop"
-"778",6,"Sea_scallop"
-"779",7,"Sea_scallop"
-"780",8,"Sea_scallop"
-"781",9,"Sea_scallop"
-"782",10,"Sea_scallop"
-"783",11,"Sea_scallop"
-"784",1,"Sei whale"
-"785",2,"Sei whale"
-"786",3,"Sei whale"
-"787",4,"Sei whale"
-"788",6,"Sei whale"
-"789",7,"Sei whale"
-"790",8,"Sei whale"
-"791",9,"Sei whale"
-"792",1,"Short beaked common dolphin"
-"793",2,"Short beaked common dolphin"
-"794",3,"Short beaked common dolphin"
-"795",4,"Short beaked common dolphin"
-"796",8,"Short beaked common dolphin"
-"797",1,"Short finned pilot whale"
-"798",2,"Short finned pilot whale"
-"799",4,"Short finned pilot whale"
-"800",1,"Silver_hake"
-"801",2,"Silver_hake"
-"802",3,"Silver_hake"
-"803",4,"Silver_hake"
-"804",6,"Silver_hake"
-"805",7,"Silver_hake"
-"806",8,"Silver_hake"
-"807",9,"Silver_hake"
-"808",10,"Silver_hake"
-"809",1,"Smooth_dogfish"
-"810",2,"Smooth_dogfish"
-"811",3,"Smooth_dogfish"
-"812",4,"Smooth_dogfish"
-"813",7,"Smooth_dogfish"
-"814",8,"Smooth_dogfish"
-"815",10,"Smooth_dogfish"
-"816",11,"Smooth_dogfish"
-"817",1,"Smooth_skate"
-"818",2,"Smooth_skate"
-"819",3,"Smooth_skate"
-"820",6,"Smooth_skate"
-"821",7,"Smooth_skate"
-"822",1,"sooty_shearwater_normalized_AEA"
-"823",2,"sooty_shearwater_normalized_AEA"
-"824",3,"sooty_shearwater_normalized_AEA"
-"825",4,"sooty_shearwater_normalized_AEA"
-"826",6,"sooty_shearwater_normalized_AEA"
-"827",7,"sooty_shearwater_normalized_AEA"
-"828",8,"sooty_shearwater_normalized_AEA"
-"829",9,"sooty_shearwater_normalized_AEA"
-"830",10,"sooty_shearwater_normalized_AEA"
-"831",11,"sooty_shearwater_normalized_AEA"
-"832",4,"sooty_tern_normalized_AEA"
-"833",1,"south_polar_skua_normalized_AEA"
-"834",2,"south_polar_skua_normalized_AEA"
-"835",3,"south_polar_skua_normalized_AEA"
-"836",4,"south_polar_skua_normalized_AEA"
-"837",1,"Sowerbys beaked whale"
-"838",2,"Sowerbys beaked whale"
-"839",4,"Sowerbys beaked whale"
-"840",1,"Sperm whale"
-"841",2,"Sperm whale"
-"842",3,"Sperm whale"
-"843",4,"Sperm whale"
-"844",1,"Spiny_dogfish"
-"845",2,"Spiny_dogfish"
-"846",3,"Spiny_dogfish"
-"847",4,"Spiny_dogfish"
-"848",6,"Spiny_dogfish"
-"849",7,"Spiny_dogfish"
-"850",8,"Spiny_dogfish"
-"851",9,"Spiny_dogfish"
-"852",10,"Spiny_dogfish"
-"853",11,"Spiny_dogfish"
-"854",4,"Spot"
-"855",10,"Spot"
-"856",1,"Spotted_hake"
-"857",2,"Spotted_hake"
-"858",3,"Spotted_hake"
-"859",4,"Spotted_hake"
-"860",7,"Spotted_hake"
-"861",8,"Spotted_hake"
-"862",10,"Spotted_hake"
-"863",11,"Spotted_hake"
-"864",1,"Striped dolphin"
-"865",2,"Striped dolphin"
-"866",4,"Striped dolphin"
-"867",4,"Striped_anchovy"
-"868",10,"Striped_anchovy"
-"869",2,"Striped_bass"
-"870",3,"Striped_bass"
-"871",4,"Striped_bass"
-"872",7,"Striped_bass"
-"873",8,"Striped_bass"
-"874",10,"Striped_bass"
-"875",11,"Striped_bass"
-"876",1,"Striped_searobin"
-"877",2,"Striped_searobin"
-"878",3,"Striped_searobin"
-"879",4,"Striped_searobin"
-"880",6,"Striped_searobin"
-"881",7,"Striped_searobin"
-"882",8,"Striped_searobin"
-"883",9,"Striped_searobin"
-"884",10,"Striped_searobin"
-"885",11,"Striped_searobin"
-"886",1,"Summer_flounder"
-"887",2,"Summer_flounder"
-"888",3,"Summer_flounder"
-"889",4,"Summer_flounder"
-"890",7,"Summer_flounder"
-"891",8,"Summer_flounder"
-"892",10,"Summer_flounder"
-"893",11,"Summer_flounder"
-"894",1,"surf_scoter_normalized_AEA"
-"895",2,"surf_scoter_normalized_AEA"
-"896",3,"surf_scoter_normalized_AEA"
-"897",4,"surf_scoter_normalized_AEA"
-"898",6,"surf_scoter_normalized_AEA"
-"899",7,"surf_scoter_normalized_AEA"
-"900",8,"surf_scoter_normalized_AEA"
-"901",9,"surf_scoter_normalized_AEA"
-"902",10,"surf_scoter_normalized_AEA"
-"903",11,"surf_scoter_normalized_AEA"
-"904",2,"Tautog"
-"905",3,"Tautog"
-"906",4,"Tautog"
-"907",7,"Tautog"
-"908",8,"Tautog"
-"909",10,"Tautog"
-"910",11,"Tautog"
-"911",1,"thick_billed_murre_normalized_AEA"
-"912",2,"thick_billed_murre_normalized_AEA"
-"913",3,"thick_billed_murre_normalized_AEA"
-"914",4,"thick_billed_murre_normalized_AEA"
-"915",6,"thick_billed_murre_normalized_AEA"
-"916",7,"thick_billed_murre_normalized_AEA"
-"917",8,"thick_billed_murre_normalized_AEA"
-"918",9,"thick_billed_murre_normalized_AEA"
-"919",1,"Thorny_skate"
-"920",2,"Thorny_skate"
-"921",3,"Thorny_skate"
-"922",6,"Thorny_skate"
-"923",7,"Thorny_skate"
-"924",9,"Thorny_skate"
-"925",1,"Tilefish"
-"926",2,"Tilefish"
-"927",4,"Tilefish"
-"928",1,"Trues beaked whale"
-"929",2,"Trues beaked whale"
-"930",4,"Trues beaked whale"
-"931",1,"Weakfish"
-"932",2,"Weakfish"
-"933",4,"Weakfish"
-"934",10,"Weakfish"
-"935",1,"White_hake"
-"936",2,"White_hake"
-"937",3,"White_hake"
-"938",4,"White_hake"
-"939",6,"White_hake"
-"940",7,"White_hake"
-"941",9,"White_hake"
-"942",1,"white_winged_scoter_normalized_AEA"
-"943",2,"white_winged_scoter_normalized_AEA"
-"944",3,"white_winged_scoter_normalized_AEA"
-"945",4,"white_winged_scoter_normalized_AEA"
-"946",6,"white_winged_scoter_normalized_AEA"
-"947",7,"white_winged_scoter_normalized_AEA"
-"948",8,"white_winged_scoter_normalized_AEA"
-"949",9,"white_winged_scoter_normalized_AEA"
-"950",10,"white_winged_scoter_normalized_AEA"
-"951",11,"white_winged_scoter_normalized_AEA"
-"952",1,"wilsons_storm_petrel_normalized_AEA"
-"953",2,"wilsons_storm_petrel_normalized_AEA"
-"954",3,"wilsons_storm_petrel_normalized_AEA"
-"955",4,"wilsons_storm_petrel_normalized_AEA"
-"956",6,"wilsons_storm_petrel_normalized_AEA"
-"957",7,"wilsons_storm_petrel_normalized_AEA"
-"958",8,"wilsons_storm_petrel_normalized_AEA"
-"959",9,"wilsons_storm_petrel_normalized_AEA"
-"960",10,"wilsons_storm_petrel_normalized_AEA"
-"961",11,"wilsons_storm_petrel_normalized_AEA"
-"962",1,"Windowpane"
-"963",2,"Windowpane"
-"964",3,"Windowpane"
-"965",4,"Windowpane"
-"966",6,"Windowpane"
-"967",7,"Windowpane"
-"968",8,"Windowpane"
-"969",9,"Windowpane"
-"970",10,"Windowpane"
-"971",11,"Windowpane"
-"972",2,"Winter_flounder"
-"973",3,"Winter_flounder"
-"974",4,"Winter_flounder"
-"975",6,"Winter_flounder"
-"976",7,"Winter_flounder"
-"977",8,"Winter_flounder"
-"978",9,"Winter_flounder"
-"979",10,"Winter_flounder"
-"980",11,"Winter_flounder"
-"981",1,"Winter_skate"
-"982",2,"Winter_skate"
-"983",3,"Winter_skate"
-"984",4,"Winter_skate"
-"985",6,"Winter_skate"
-"986",7,"Winter_skate"
-"987",8,"Winter_skate"
-"988",9,"Winter_skate"
-"989",10,"Winter_skate"
-"990",11,"Winter_skate"
-"991",1,"Witch_flounder"
-"992",2,"Witch_flounder"
-"993",3,"Witch_flounder"
-"994",4,"Witch_flounder"
-"995",6,"Witch_flounder"
-"996",7,"Witch_flounder"
-"997",9,"Witch_flounder"
-"998",1,"Yellowtail_flounder"
-"999",2,"Yellowtail_flounder"
-"1000",3,"Yellowtail_flounder"
-"1001",4,"Yellowtail_flounder"
-"1002",6,"Yellowtail_flounder"
-"1003",7,"Yellowtail_flounder"
-"1004",8,"Yellowtail_flounder"
-"1005",9,"Yellowtail_flounder"
-"1006",10,"Yellowtail_flounder"
-"1007",11,"Yellowtail_flounder"
+"","species","rgn_id"
+"1","Acadian_redfish",12
+"2","Alewife",12
+"3","American_lobster",12
+"4","American_plaice",12
+"5","American_shad",12
+"6","arctic_tern_normalized_AEA",12
+"7","Atlantic spotted dolphin",12
+"8","Atlantic white sided dolphin",12
+"9","Atlantic_cod",12
+"10","Atlantic_croaker",12
+"11","Atlantic_halibut",12
+"12","Atlantic_herring",12
+"13","Atlantic_mackerel",12
+"14","Atlantic_menhaden",12
+"15","atlantic_puffin_normalized_AEA",12
+"16","Atlantic_sturgeon",12
+"17","Atlantic_torpedo",12
+"18","Atlantic_wolffish",12
+"19","audubons_shearwater_normalized_AEA",12
+"20","band_rumped_storm_petrel_normalized_AEA",12
+"21","Barndoor_skate",12
+"22","Bay_anchovy",12
+"23","black_capped_petrel_normalized_AEA",12
+"24","black_guillemot_normalized_AEA",12
+"25","black_legged_kittiwake_normalized_AEA",12
+"26","black_scoter_normalized_AEA",12
+"27","Black_sea_bass",12
+"28","Blackbelly_rosefish",12
+"29","Blainvilles beaked whale",12
+"30","Blueback_herring",12
+"31","Bluefish",12
+"32","bonapartes_gull_normalized_AEA",12
+"33","Bottlenose dolphin",12
+"34","bridled_tern_normalized_AEA",12
+"35","brown_pelican_normalized_AEA",12
+"36","Bullnose_ray",12
+"37","Butterfish",12
+"38","Clearnose_skate",12
+"39","common_eider_normalized_AEA",12
+"40","common_loon_normalized_AEA",12
+"41","common_murre_normalized_AEA",12
+"42","common_tern_normalized_AEA",12
+"43","corys_shearwater_normalized_AEA",12
+"44","Cunner",12
+"45","Cusk",12
+"46","Cuviers beaked whale",12
+"47","double_crested_cormorant_normalized_AEA",12
+"48","dovekie_normalized_AEA",12
+"49","Fin whale",12
+"50","Fourspot_flounder",12
+"51","Gervais beaked whale",12
+"52","Goosefish",12
+"53","great_black_backed_gull_normalized_AEA",12
+"54","great_shearwater_normalized_AEA",12
+"55","great_skua_normalized_AEA",12
+"56","Gulf_stream_flounder",12
+"57","Haddock",12
+"58","Harbor porpoise",12
+"59","herring_gull_normalized_AEA",12
+"60","horned_grebe_normalized_AEA",12
+"61","Horseshoe_crab",12
+"62","Humpback whale",12
+"63","Jonah_crab",12
+"64","laughing_gull_normalized_AEA",12
+"65","leachs_storm_petrel_normalized_AEA",12
+"66","least_tern_normalized_AEA",12
+"67","Little_skate",12
+"68","Long finned pilot whale",12
+"69","long_tailed_duck_normalized_AEA",12
+"70","Longfin_squid",12
+"71","Longhorn_sculpin",12
+"72","manx_shearwater_normalized_AEA",12
+"73","Minke whale",12
+"74","North Atlantic right whale",12
+"75","northern_fulmar_normalized_AEA",12
+"76","northern_gannet_normalized_AEA",12
+"77","Northern_kingfish",12
+"78","Northern_pipefish",12
+"79","Northern_puffer",12
+"80","Northern_sand_lance",12
+"81","Northern_searobin",12
+"82","Northern_shortfin_squid",12
+"83","Northern_shrimp",12
+"84","Ocean_pout",12
+"85","parasitic_jaeger_normalized_AEA",12
+"86","Pinfish",12
+"87","Pollock",12
+"88","pomarine_jaeger_normalized_AEA",12
+"89","razorbill_normalized_AEA",12
+"90","red_breasted_merganser_normalized_AEA",12
+"91","Red_hake",12
+"92","red_necked_phalarope_normalized_AEA",12
+"93","red_phalarope_normalized_AEA",12
+"94","red_throated_loon_normalized_AEA",12
+"95","ring_billed_gull_normalized_AEA",12
+"96","Rissos dolphin",12
+"97","roseate_tern_normalized_AEA",12
+"98","Rosette_skate",12
+"99","Roughtail_stingray",12
+"100","Round_herring",12
+"101","royal_tern_normalized_AEA",12
+"102","Scup",12
+"103","Sea_raven",12
+"104","Sea_scallop",12
+"105","Sei whale",12
+"106","Short beaked common dolphin",12
+"107","Short finned pilot whale",12
+"108","Silver_hake",12
+"109","Smooth_dogfish",12
+"110","Smooth_skate",12
+"111","sooty_shearwater_normalized_AEA",12
+"112","sooty_tern_normalized_AEA",12
+"113","south_polar_skua_normalized_AEA",12
+"114","Sowerbys beaked whale",12
+"115","Sperm whale",12
+"116","Spiny_dogfish",12
+"117","Spot",12
+"118","Spotted_hake",12
+"119","Striped dolphin",12
+"120","Striped_anchovy",12
+"121","Striped_bass",12
+"122","Striped_searobin",12
+"123","Summer_flounder",12
+"124","surf_scoter_normalized_AEA",12
+"125","Tautog",12
+"126","thick_billed_murre_normalized_AEA",12
+"127","Thorny_skate",12
+"128","Tilefish",12
+"129","Trues beaked whale",12
+"130","Weakfish",12
+"131","White_hake",12
+"132","white_winged_scoter_normalized_AEA",12
+"133","wilsons_storm_petrel_normalized_AEA",12
+"134","Windowpane",12
+"135","Winter_flounder",12
+"136","Winter_skate",12
+"137","Witch_flounder",12
+"138","Yellowtail_flounder",12
+"139","Acadian_redfish",1
+"140","Acadian_redfish",2
+"141","Acadian_redfish",3
+"142","Acadian_redfish",6
+"143","Acadian_redfish",7
+"144","Alewife",1
+"145","Alewife",2
+"146","Alewife",3
+"147","Alewife",4
+"148","Alewife",6
+"149","Alewife",7
+"150","Alewife",8
+"151","Alewife",9
+"152","Alewife",10
+"153","Alewife",11
+"154","American_lobster",1
+"155","American_lobster",2
+"156","American_lobster",3
+"157","American_lobster",4
+"158","American_lobster",6
+"159","American_lobster",7
+"160","American_lobster",8
+"161","American_lobster",9
+"162","American_lobster",10
+"163","American_lobster",11
+"164","American_plaice",2
+"165","American_plaice",3
+"166","American_plaice",6
+"167","American_plaice",7
+"168","American_plaice",9
+"169","American_shad",1
+"170","American_shad",2
+"171","American_shad",3
+"172","American_shad",4
+"173","American_shad",6
+"174","American_shad",7
+"175","American_shad",8
+"176","American_shad",9
+"177","American_shad",10
+"178","American_shad",11
+"179","arctic_tern_normalized_AEA",1
+"180","arctic_tern_normalized_AEA",2
+"181","arctic_tern_normalized_AEA",3
+"182","arctic_tern_normalized_AEA",4
+"183","arctic_tern_normalized_AEA",6
+"184","arctic_tern_normalized_AEA",7
+"185","arctic_tern_normalized_AEA",8
+"186","arctic_tern_normalized_AEA",9
+"187","arctic_tern_normalized_AEA",10
+"188","arctic_tern_normalized_AEA",11
+"189","Atlantic spotted dolphin",1
+"190","Atlantic white sided dolphin",1
+"191","Atlantic white sided dolphin",2
+"192","Atlantic white sided dolphin",3
+"193","Atlantic white sided dolphin",4
+"194","Atlantic white sided dolphin",6
+"195","Atlantic white sided dolphin",7
+"196","Atlantic_cod",2
+"197","Atlantic_cod",3
+"198","Atlantic_cod",4
+"199","Atlantic_cod",6
+"200","Atlantic_cod",7
+"201","Atlantic_cod",9
+"202","Atlantic_cod",11
+"203","Atlantic_croaker",4
+"204","Atlantic_halibut",2
+"205","Atlantic_halibut",3
+"206","Atlantic_halibut",6
+"207","Atlantic_halibut",7
+"208","Atlantic_halibut",9
+"209","Atlantic_herring",1
+"210","Atlantic_herring",2
+"211","Atlantic_herring",3
+"212","Atlantic_herring",4
+"213","Atlantic_herring",6
+"214","Atlantic_herring",7
+"215","Atlantic_herring",8
+"216","Atlantic_herring",9
+"217","Atlantic_herring",10
+"218","Atlantic_herring",11
+"219","Atlantic_mackerel",1
+"220","Atlantic_mackerel",2
+"221","Atlantic_mackerel",3
+"222","Atlantic_mackerel",4
+"223","Atlantic_mackerel",6
+"224","Atlantic_mackerel",7
+"225","Atlantic_mackerel",8
+"226","Atlantic_mackerel",9
+"227","Atlantic_mackerel",10
+"228","Atlantic_mackerel",11
+"229","Atlantic_menhaden",3
+"230","Atlantic_menhaden",4
+"231","Atlantic_menhaden",6
+"232","Atlantic_menhaden",7
+"233","Atlantic_menhaden",9
+"234","Atlantic_menhaden",10
+"235","Atlantic_menhaden",11
+"236","atlantic_puffin_normalized_AEA",1
+"237","atlantic_puffin_normalized_AEA",2
+"238","atlantic_puffin_normalized_AEA",3
+"239","atlantic_puffin_normalized_AEA",4
+"240","atlantic_puffin_normalized_AEA",6
+"241","atlantic_puffin_normalized_AEA",7
+"242","atlantic_puffin_normalized_AEA",8
+"243","atlantic_puffin_normalized_AEA",9
+"244","atlantic_puffin_normalized_AEA",10
+"245","atlantic_puffin_normalized_AEA",11
+"246","Atlantic_sturgeon",4
+"247","Atlantic_sturgeon",10
+"248","Atlantic_torpedo",1
+"249","Atlantic_torpedo",2
+"250","Atlantic_torpedo",3
+"251","Atlantic_torpedo",4
+"252","Atlantic_torpedo",6
+"253","Atlantic_torpedo",7
+"254","Atlantic_torpedo",8
+"255","Atlantic_torpedo",9
+"256","Atlantic_torpedo",11
+"257","Atlantic_wolffish",2
+"258","Atlantic_wolffish",3
+"259","Atlantic_wolffish",6
+"260","Atlantic_wolffish",7
+"261","Atlantic_wolffish",9
+"262","audubons_shearwater_normalized_AEA",1
+"263","audubons_shearwater_normalized_AEA",4
+"264","band_rumped_storm_petrel_normalized_AEA",1
+"265","band_rumped_storm_petrel_normalized_AEA",2
+"266","band_rumped_storm_petrel_normalized_AEA",4
+"267","Barndoor_skate",1
+"268","Barndoor_skate",2
+"269","Barndoor_skate",3
+"270","Barndoor_skate",4
+"271","Barndoor_skate",6
+"272","Barndoor_skate",7
+"273","Bay_anchovy",4
+"274","Bay_anchovy",7
+"275","Bay_anchovy",8
+"276","Bay_anchovy",10
+"277","Bay_anchovy",11
+"278","black_capped_petrel_normalized_AEA",1
+"279","black_guillemot_normalized_AEA",1
+"280","black_guillemot_normalized_AEA",2
+"281","black_guillemot_normalized_AEA",3
+"282","black_guillemot_normalized_AEA",4
+"283","black_guillemot_normalized_AEA",6
+"284","black_guillemot_normalized_AEA",7
+"285","black_guillemot_normalized_AEA",8
+"286","black_guillemot_normalized_AEA",9
+"287","black_guillemot_normalized_AEA",10
+"288","black_guillemot_normalized_AEA",11
+"289","black_legged_kittiwake_normalized_AEA",1
+"290","black_legged_kittiwake_normalized_AEA",2
+"291","black_legged_kittiwake_normalized_AEA",3
+"292","black_legged_kittiwake_normalized_AEA",4
+"293","black_legged_kittiwake_normalized_AEA",6
+"294","black_legged_kittiwake_normalized_AEA",7
+"295","black_legged_kittiwake_normalized_AEA",8
+"296","black_legged_kittiwake_normalized_AEA",9
+"297","black_legged_kittiwake_normalized_AEA",10
+"298","black_legged_kittiwake_normalized_AEA",11
+"299","black_scoter_normalized_AEA",1
+"300","black_scoter_normalized_AEA",2
+"301","black_scoter_normalized_AEA",3
+"302","black_scoter_normalized_AEA",4
+"303","black_scoter_normalized_AEA",6
+"304","black_scoter_normalized_AEA",7
+"305","black_scoter_normalized_AEA",8
+"306","black_scoter_normalized_AEA",9
+"307","black_scoter_normalized_AEA",10
+"308","black_scoter_normalized_AEA",11
+"309","Black_sea_bass",1
+"310","Black_sea_bass",2
+"311","Black_sea_bass",3
+"312","Black_sea_bass",4
+"313","Black_sea_bass",6
+"314","Black_sea_bass",7
+"315","Black_sea_bass",8
+"316","Black_sea_bass",9
+"317","Black_sea_bass",10
+"318","Black_sea_bass",11
+"319","Blackbelly_rosefish",1
+"320","Blackbelly_rosefish",2
+"321","Blackbelly_rosefish",3
+"322","Blackbelly_rosefish",4
+"323","Blainvilles beaked whale",1
+"324","Blainvilles beaked whale",2
+"325","Blainvilles beaked whale",4
+"326","Blueback_herring",1
+"327","Blueback_herring",2
+"328","Blueback_herring",3
+"329","Blueback_herring",4
+"330","Blueback_herring",6
+"331","Blueback_herring",7
+"332","Blueback_herring",8
+"333","Blueback_herring",9
+"334","Blueback_herring",10
+"335","Blueback_herring",11
+"336","Bluefish",1
+"337","Bluefish",2
+"338","Bluefish",3
+"339","Bluefish",4
+"340","Bluefish",7
+"341","Bluefish",8
+"342","Bluefish",10
+"343","Bluefish",11
+"344","bonapartes_gull_normalized_AEA",1
+"345","bonapartes_gull_normalized_AEA",2
+"346","bonapartes_gull_normalized_AEA",3
+"347","bonapartes_gull_normalized_AEA",4
+"348","bonapartes_gull_normalized_AEA",6
+"349","bonapartes_gull_normalized_AEA",7
+"350","bonapartes_gull_normalized_AEA",8
+"351","bonapartes_gull_normalized_AEA",9
+"352","bonapartes_gull_normalized_AEA",10
+"353","bonapartes_gull_normalized_AEA",11
+"354","Bottlenose dolphin",1
+"355","Bottlenose dolphin",2
+"356","Bottlenose dolphin",3
+"357","Bottlenose dolphin",4
+"358","Bottlenose dolphin",6
+"359","Bottlenose dolphin",7
+"360","Bottlenose dolphin",8
+"361","Bottlenose dolphin",9
+"362","Bottlenose dolphin",10
+"363","Bottlenose dolphin",11
+"364","bridled_tern_normalized_AEA",1
+"365","bridled_tern_normalized_AEA",2
+"366","bridled_tern_normalized_AEA",3
+"367","bridled_tern_normalized_AEA",4
+"368","bridled_tern_normalized_AEA",7
+"369","brown_pelican_normalized_AEA",1
+"370","brown_pelican_normalized_AEA",2
+"371","brown_pelican_normalized_AEA",3
+"372","brown_pelican_normalized_AEA",4
+"373","brown_pelican_normalized_AEA",6
+"374","brown_pelican_normalized_AEA",7
+"375","brown_pelican_normalized_AEA",8
+"376","brown_pelican_normalized_AEA",10
+"377","brown_pelican_normalized_AEA",11
+"378","Bullnose_ray",4
+"379","Butterfish",1
+"380","Butterfish",2
+"381","Butterfish",3
+"382","Butterfish",4
+"383","Butterfish",6
+"384","Butterfish",7
+"385","Butterfish",8
+"386","Butterfish",9
+"387","Butterfish",10
+"388","Butterfish",11
+"389","Clearnose_skate",4
+"390","Clearnose_skate",10
+"391","Clearnose_skate",11
+"392","common_eider_normalized_AEA",1
+"393","common_eider_normalized_AEA",2
+"394","common_eider_normalized_AEA",3
+"395","common_eider_normalized_AEA",4
+"396","common_eider_normalized_AEA",6
+"397","common_eider_normalized_AEA",7
+"398","common_eider_normalized_AEA",8
+"399","common_eider_normalized_AEA",9
+"400","common_eider_normalized_AEA",10
+"401","common_eider_normalized_AEA",11
+"402","common_loon_normalized_AEA",1
+"403","common_loon_normalized_AEA",2
+"404","common_loon_normalized_AEA",3
+"405","common_loon_normalized_AEA",4
+"406","common_loon_normalized_AEA",6
+"407","common_loon_normalized_AEA",7
+"408","common_loon_normalized_AEA",8
+"409","common_loon_normalized_AEA",9
+"410","common_loon_normalized_AEA",10
+"411","common_loon_normalized_AEA",11
+"412","common_murre_normalized_AEA",1
+"413","common_murre_normalized_AEA",2
+"414","common_murre_normalized_AEA",3
+"415","common_murre_normalized_AEA",4
+"416","common_murre_normalized_AEA",6
+"417","common_murre_normalized_AEA",7
+"418","common_murre_normalized_AEA",8
+"419","common_murre_normalized_AEA",9
+"420","common_murre_normalized_AEA",10
+"421","common_murre_normalized_AEA",11
+"422","common_tern_normalized_AEA",1
+"423","common_tern_normalized_AEA",2
+"424","common_tern_normalized_AEA",3
+"425","common_tern_normalized_AEA",4
+"426","common_tern_normalized_AEA",6
+"427","common_tern_normalized_AEA",7
+"428","common_tern_normalized_AEA",8
+"429","common_tern_normalized_AEA",9
+"430","common_tern_normalized_AEA",10
+"431","common_tern_normalized_AEA",11
+"432","corys_shearwater_normalized_AEA",1
+"433","corys_shearwater_normalized_AEA",2
+"434","corys_shearwater_normalized_AEA",3
+"435","corys_shearwater_normalized_AEA",4
+"436","corys_shearwater_normalized_AEA",7
+"437","corys_shearwater_normalized_AEA",8
+"438","corys_shearwater_normalized_AEA",11
+"439","Cunner",1
+"440","Cunner",2
+"441","Cunner",3
+"442","Cunner",4
+"443","Cunner",6
+"444","Cunner",7
+"445","Cunner",8
+"446","Cunner",9
+"447","Cunner",10
+"448","Cunner",11
+"449","Cusk",1
+"450","Cusk",2
+"451","Cusk",3
+"452","Cusk",6
+"453","Cusk",7
+"454","Cuviers beaked whale",1
+"455","Cuviers beaked whale",2
+"456","Cuviers beaked whale",4
+"457","double_crested_cormorant_normalized_AEA",1
+"458","double_crested_cormorant_normalized_AEA",2
+"459","double_crested_cormorant_normalized_AEA",3
+"460","double_crested_cormorant_normalized_AEA",4
+"461","double_crested_cormorant_normalized_AEA",6
+"462","double_crested_cormorant_normalized_AEA",7
+"463","double_crested_cormorant_normalized_AEA",8
+"464","double_crested_cormorant_normalized_AEA",9
+"465","double_crested_cormorant_normalized_AEA",10
+"466","double_crested_cormorant_normalized_AEA",11
+"467","dovekie_normalized_AEA",1
+"468","dovekie_normalized_AEA",2
+"469","dovekie_normalized_AEA",3
+"470","dovekie_normalized_AEA",4
+"471","dovekie_normalized_AEA",6
+"472","dovekie_normalized_AEA",7
+"473","dovekie_normalized_AEA",8
+"474","dovekie_normalized_AEA",10
+"475","dovekie_normalized_AEA",11
+"476","Fin whale",1
+"477","Fin whale",2
+"478","Fin whale",3
+"479","Fin whale",4
+"480","Fin whale",6
+"481","Fin whale",7
+"482","Fin whale",8
+"483","Fin whale",9
+"484","Fourspot_flounder",1
+"485","Fourspot_flounder",2
+"486","Fourspot_flounder",3
+"487","Fourspot_flounder",4
+"488","Fourspot_flounder",6
+"489","Fourspot_flounder",7
+"490","Fourspot_flounder",8
+"491","Fourspot_flounder",9
+"492","Fourspot_flounder",10
+"493","Fourspot_flounder",11
+"494","Gervais beaked whale",1
+"495","Gervais beaked whale",2
+"496","Gervais beaked whale",4
+"497","Goosefish",1
+"498","Goosefish",2
+"499","Goosefish",3
+"500","Goosefish",4
+"501","Goosefish",6
+"502","Goosefish",7
+"503","Goosefish",8
+"504","Goosefish",9
+"505","Goosefish",10
+"506","Goosefish",11
+"507","great_black_backed_gull_normalized_AEA",1
+"508","great_black_backed_gull_normalized_AEA",2
+"509","great_black_backed_gull_normalized_AEA",3
+"510","great_black_backed_gull_normalized_AEA",4
+"511","great_black_backed_gull_normalized_AEA",6
+"512","great_black_backed_gull_normalized_AEA",7
+"513","great_black_backed_gull_normalized_AEA",8
+"514","great_black_backed_gull_normalized_AEA",9
+"515","great_black_backed_gull_normalized_AEA",10
+"516","great_black_backed_gull_normalized_AEA",11
+"517","great_shearwater_normalized_AEA",1
+"518","great_shearwater_normalized_AEA",2
+"519","great_shearwater_normalized_AEA",3
+"520","great_shearwater_normalized_AEA",4
+"521","great_shearwater_normalized_AEA",6
+"522","great_shearwater_normalized_AEA",7
+"523","great_shearwater_normalized_AEA",8
+"524","great_shearwater_normalized_AEA",9
+"525","great_shearwater_normalized_AEA",10
+"526","great_shearwater_normalized_AEA",11
+"527","great_skua_normalized_AEA",1
+"528","great_skua_normalized_AEA",2
+"529","great_skua_normalized_AEA",3
+"530","great_skua_normalized_AEA",4
+"531","Gulf_stream_flounder",1
+"532","Gulf_stream_flounder",2
+"533","Gulf_stream_flounder",3
+"534","Gulf_stream_flounder",4
+"535","Gulf_stream_flounder",8
+"536","Gulf_stream_flounder",10
+"537","Gulf_stream_flounder",11
+"538","Haddock",1
+"539","Haddock",2
+"540","Haddock",3
+"541","Haddock",4
+"542","Haddock",6
+"543","Haddock",7
+"544","Haddock",9
+"545","Harbor porpoise",1
+"546","Harbor porpoise",2
+"547","Harbor porpoise",3
+"548","Harbor porpoise",4
+"549","Harbor porpoise",5
+"550","Harbor porpoise",6
+"551","Harbor porpoise",7
+"552","Harbor porpoise",8
+"553","Harbor porpoise",9
+"554","Harbor porpoise",10
+"555","Harbor porpoise",11
+"556","herring_gull_normalized_AEA",1
+"557","herring_gull_normalized_AEA",2
+"558","herring_gull_normalized_AEA",3
+"559","herring_gull_normalized_AEA",4
+"560","herring_gull_normalized_AEA",6
+"561","herring_gull_normalized_AEA",7
+"562","herring_gull_normalized_AEA",8
+"563","herring_gull_normalized_AEA",9
+"564","herring_gull_normalized_AEA",10
+"565","herring_gull_normalized_AEA",11
+"566","horned_grebe_normalized_AEA",1
+"567","horned_grebe_normalized_AEA",2
+"568","horned_grebe_normalized_AEA",3
+"569","horned_grebe_normalized_AEA",4
+"570","horned_grebe_normalized_AEA",6
+"571","horned_grebe_normalized_AEA",7
+"572","horned_grebe_normalized_AEA",8
+"573","horned_grebe_normalized_AEA",9
+"574","horned_grebe_normalized_AEA",10
+"575","horned_grebe_normalized_AEA",11
+"576","Horseshoe_crab",3
+"577","Horseshoe_crab",4
+"578","Horseshoe_crab",7
+"579","Horseshoe_crab",10
+"580","Humpback whale",1
+"581","Humpback whale",2
+"582","Humpback whale",3
+"583","Humpback whale",4
+"584","Humpback whale",5
+"585","Humpback whale",6
+"586","Humpback whale",7
+"587","Humpback whale",8
+"588","Humpback whale",9
+"589","Humpback whale",10
+"590","Humpback whale",11
+"591","Jonah_crab",1
+"592","Jonah_crab",2
+"593","Jonah_crab",3
+"594","Jonah_crab",4
+"595","Jonah_crab",6
+"596","Jonah_crab",7
+"597","Jonah_crab",8
+"598","Jonah_crab",9
+"599","Jonah_crab",10
+"600","Jonah_crab",11
+"601","laughing_gull_normalized_AEA",2
+"602","laughing_gull_normalized_AEA",3
+"603","laughing_gull_normalized_AEA",4
+"604","laughing_gull_normalized_AEA",6
+"605","laughing_gull_normalized_AEA",7
+"606","laughing_gull_normalized_AEA",8
+"607","laughing_gull_normalized_AEA",9
+"608","laughing_gull_normalized_AEA",10
+"609","laughing_gull_normalized_AEA",11
+"610","leachs_storm_petrel_normalized_AEA",1
+"611","leachs_storm_petrel_normalized_AEA",2
+"612","leachs_storm_petrel_normalized_AEA",3
+"613","leachs_storm_petrel_normalized_AEA",4
+"614","leachs_storm_petrel_normalized_AEA",6
+"615","leachs_storm_petrel_normalized_AEA",7
+"616","least_tern_normalized_AEA",2
+"617","least_tern_normalized_AEA",3
+"618","least_tern_normalized_AEA",4
+"619","least_tern_normalized_AEA",6
+"620","least_tern_normalized_AEA",7
+"621","least_tern_normalized_AEA",8
+"622","least_tern_normalized_AEA",9
+"623","least_tern_normalized_AEA",10
+"624","least_tern_normalized_AEA",11
+"625","Little_skate",1
+"626","Little_skate",2
+"627","Little_skate",3
+"628","Little_skate",4
+"629","Little_skate",6
+"630","Little_skate",7
+"631","Little_skate",8
+"632","Little_skate",9
+"633","Little_skate",10
+"634","Little_skate",11
+"635","Long finned pilot whale",1
+"636","Long finned pilot whale",2
+"637","Long finned pilot whale",3
+"638","Long finned pilot whale",4
+"639","long_tailed_duck_normalized_AEA",1
+"640","long_tailed_duck_normalized_AEA",2
+"641","long_tailed_duck_normalized_AEA",3
+"642","long_tailed_duck_normalized_AEA",4
+"643","long_tailed_duck_normalized_AEA",6
+"644","long_tailed_duck_normalized_AEA",7
+"645","long_tailed_duck_normalized_AEA",8
+"646","long_tailed_duck_normalized_AEA",9
+"647","long_tailed_duck_normalized_AEA",10
+"648","long_tailed_duck_normalized_AEA",11
+"649","Longfin_squid",1
+"650","Longfin_squid",2
+"651","Longfin_squid",3
+"652","Longfin_squid",4
+"653","Longfin_squid",6
+"654","Longfin_squid",7
+"655","Longfin_squid",8
+"656","Longfin_squid",9
+"657","Longfin_squid",10
+"658","Longfin_squid",11
+"659","Longhorn_sculpin",1
+"660","Longhorn_sculpin",2
+"661","Longhorn_sculpin",3
+"662","Longhorn_sculpin",4
+"663","Longhorn_sculpin",6
+"664","Longhorn_sculpin",7
+"665","Longhorn_sculpin",8
+"666","Longhorn_sculpin",9
+"667","Longhorn_sculpin",10
+"668","Longhorn_sculpin",11
+"669","manx_shearwater_normalized_AEA",1
+"670","manx_shearwater_normalized_AEA",2
+"671","manx_shearwater_normalized_AEA",3
+"672","manx_shearwater_normalized_AEA",4
+"673","manx_shearwater_normalized_AEA",6
+"674","manx_shearwater_normalized_AEA",7
+"675","manx_shearwater_normalized_AEA",8
+"676","Minke whale",1
+"677","Minke whale",2
+"678","Minke whale",3
+"679","Minke whale",4
+"680","Minke whale",6
+"681","Minke whale",7
+"682","Minke whale",8
+"683","Minke whale",9
+"684","Minke whale",10
+"685","North Atlantic right whale",1
+"686","North Atlantic right whale",2
+"687","North Atlantic right whale",3
+"688","North Atlantic right whale",4
+"689","North Atlantic right whale",5
+"690","North Atlantic right whale",6
+"691","North Atlantic right whale",7
+"692","North Atlantic right whale",8
+"693","North Atlantic right whale",9
+"694","North Atlantic right whale",10
+"695","North Atlantic right whale",11
+"696","northern_fulmar_normalized_AEA",1
+"697","northern_fulmar_normalized_AEA",2
+"698","northern_fulmar_normalized_AEA",3
+"699","northern_fulmar_normalized_AEA",4
+"700","northern_fulmar_normalized_AEA",6
+"701","northern_fulmar_normalized_AEA",7
+"702","northern_gannet_normalized_AEA",1
+"703","northern_gannet_normalized_AEA",2
+"704","northern_gannet_normalized_AEA",3
+"705","northern_gannet_normalized_AEA",4
+"706","northern_gannet_normalized_AEA",6
+"707","northern_gannet_normalized_AEA",7
+"708","northern_gannet_normalized_AEA",8
+"709","northern_gannet_normalized_AEA",9
+"710","northern_gannet_normalized_AEA",10
+"711","northern_gannet_normalized_AEA",11
+"712","Northern_kingfish",1
+"713","Northern_kingfish",2
+"714","Northern_kingfish",4
+"715","Northern_kingfish",7
+"716","Northern_kingfish",8
+"717","Northern_kingfish",10
+"718","Northern_kingfish",11
+"719","Northern_pipefish",2
+"720","Northern_pipefish",3
+"721","Northern_pipefish",4
+"722","Northern_pipefish",7
+"723","Northern_pipefish",8
+"724","Northern_pipefish",10
+"725","Northern_pipefish",11
+"726","Northern_puffer",4
+"727","Northern_puffer",8
+"728","Northern_puffer",10
+"729","Northern_puffer",11
+"730","Northern_sand_lance",2
+"731","Northern_sand_lance",3
+"732","Northern_sand_lance",4
+"733","Northern_sand_lance",6
+"734","Northern_sand_lance",7
+"735","Northern_sand_lance",8
+"736","Northern_sand_lance",9
+"737","Northern_sand_lance",10
+"738","Northern_sand_lance",11
+"739","Northern_searobin",1
+"740","Northern_searobin",2
+"741","Northern_searobin",3
+"742","Northern_searobin",4
+"743","Northern_searobin",6
+"744","Northern_searobin",7
+"745","Northern_searobin",8
+"746","Northern_searobin",9
+"747","Northern_searobin",10
+"748","Northern_searobin",11
+"749","Northern_shortfin_squid",1
+"750","Northern_shortfin_squid",2
+"751","Northern_shortfin_squid",3
+"752","Northern_shortfin_squid",4
+"753","Northern_shortfin_squid",6
+"754","Northern_shortfin_squid",7
+"755","Northern_shortfin_squid",9
+"756","Northern_shrimp",2
+"757","Northern_shrimp",3
+"758","Northern_shrimp",6
+"759","Northern_shrimp",7
+"760","Northern_shrimp",9
+"761","Ocean_pout",1
+"762","Ocean_pout",2
+"763","Ocean_pout",3
+"764","Ocean_pout",4
+"765","Ocean_pout",6
+"766","Ocean_pout",7
+"767","Ocean_pout",8
+"768","Ocean_pout",9
+"769","Ocean_pout",10
+"770","Ocean_pout",11
+"771","parasitic_jaeger_normalized_AEA",1
+"772","parasitic_jaeger_normalized_AEA",2
+"773","parasitic_jaeger_normalized_AEA",3
+"774","parasitic_jaeger_normalized_AEA",4
+"775","parasitic_jaeger_normalized_AEA",6
+"776","parasitic_jaeger_normalized_AEA",7
+"777","parasitic_jaeger_normalized_AEA",8
+"778","parasitic_jaeger_normalized_AEA",9
+"779","parasitic_jaeger_normalized_AEA",10
+"780","parasitic_jaeger_normalized_AEA",11
+"781","Pinfish",2
+"782","Pinfish",4
+"783","Pinfish",8
+"784","Pinfish",10
+"785","Pinfish",11
+"786","Pollock",2
+"787","Pollock",3
+"788","Pollock",6
+"789","Pollock",7
+"790","Pollock",9
+"791","pomarine_jaeger_normalized_AEA",1
+"792","pomarine_jaeger_normalized_AEA",2
+"793","pomarine_jaeger_normalized_AEA",3
+"794","pomarine_jaeger_normalized_AEA",4
+"795","pomarine_jaeger_normalized_AEA",6
+"796","razorbill_normalized_AEA",1
+"797","razorbill_normalized_AEA",2
+"798","razorbill_normalized_AEA",3
+"799","razorbill_normalized_AEA",4
+"800","razorbill_normalized_AEA",6
+"801","razorbill_normalized_AEA",7
+"802","razorbill_normalized_AEA",8
+"803","razorbill_normalized_AEA",9
+"804","razorbill_normalized_AEA",10
+"805","razorbill_normalized_AEA",11
+"806","red_breasted_merganser_normalized_AEA",1
+"807","red_breasted_merganser_normalized_AEA",2
+"808","red_breasted_merganser_normalized_AEA",3
+"809","red_breasted_merganser_normalized_AEA",4
+"810","red_breasted_merganser_normalized_AEA",6
+"811","red_breasted_merganser_normalized_AEA",7
+"812","red_breasted_merganser_normalized_AEA",8
+"813","red_breasted_merganser_normalized_AEA",9
+"814","red_breasted_merganser_normalized_AEA",10
+"815","red_breasted_merganser_normalized_AEA",11
+"816","Red_hake",1
+"817","Red_hake",2
+"818","Red_hake",3
+"819","Red_hake",4
+"820","Red_hake",6
+"821","Red_hake",7
+"822","Red_hake",9
+"823","red_necked_phalarope_normalized_AEA",1
+"824","red_necked_phalarope_normalized_AEA",2
+"825","red_necked_phalarope_normalized_AEA",3
+"826","red_necked_phalarope_normalized_AEA",4
+"827","red_necked_phalarope_normalized_AEA",6
+"828","red_necked_phalarope_normalized_AEA",7
+"829","red_necked_phalarope_normalized_AEA",8
+"830","red_necked_phalarope_normalized_AEA",9
+"831","red_necked_phalarope_normalized_AEA",10
+"832","red_phalarope_normalized_AEA",1
+"833","red_phalarope_normalized_AEA",2
+"834","red_phalarope_normalized_AEA",3
+"835","red_phalarope_normalized_AEA",4
+"836","red_phalarope_normalized_AEA",6
+"837","red_phalarope_normalized_AEA",7
+"838","red_phalarope_normalized_AEA",8
+"839","red_phalarope_normalized_AEA",10
+"840","red_phalarope_normalized_AEA",11
+"841","red_throated_loon_normalized_AEA",1
+"842","red_throated_loon_normalized_AEA",2
+"843","red_throated_loon_normalized_AEA",3
+"844","red_throated_loon_normalized_AEA",4
+"845","red_throated_loon_normalized_AEA",6
+"846","red_throated_loon_normalized_AEA",7
+"847","red_throated_loon_normalized_AEA",8
+"848","red_throated_loon_normalized_AEA",9
+"849","red_throated_loon_normalized_AEA",10
+"850","red_throated_loon_normalized_AEA",11
+"851","ring_billed_gull_normalized_AEA",1
+"852","ring_billed_gull_normalized_AEA",2
+"853","ring_billed_gull_normalized_AEA",3
+"854","ring_billed_gull_normalized_AEA",4
+"855","ring_billed_gull_normalized_AEA",6
+"856","ring_billed_gull_normalized_AEA",7
+"857","ring_billed_gull_normalized_AEA",8
+"858","ring_billed_gull_normalized_AEA",9
+"859","ring_billed_gull_normalized_AEA",10
+"860","ring_billed_gull_normalized_AEA",11
+"861","Rissos dolphin",1
+"862","Rissos dolphin",2
+"863","Rissos dolphin",3
+"864","Rissos dolphin",4
+"865","roseate_tern_normalized_AEA",1
+"866","roseate_tern_normalized_AEA",2
+"867","roseate_tern_normalized_AEA",3
+"868","roseate_tern_normalized_AEA",4
+"869","roseate_tern_normalized_AEA",6
+"870","roseate_tern_normalized_AEA",7
+"871","roseate_tern_normalized_AEA",8
+"872","roseate_tern_normalized_AEA",9
+"873","roseate_tern_normalized_AEA",10
+"874","roseate_tern_normalized_AEA",11
+"875","Rosette_skate",1
+"876","Rosette_skate",2
+"877","Rosette_skate",3
+"878","Rosette_skate",4
+"879","Roughtail_stingray",4
+"880","Roughtail_stingray",10
+"881","Round_herring",1
+"882","Round_herring",2
+"883","Round_herring",4
+"884","Round_herring",8
+"885","Round_herring",10
+"886","Round_herring",11
+"887","royal_tern_normalized_AEA",1
+"888","royal_tern_normalized_AEA",3
+"889","royal_tern_normalized_AEA",4
+"890","royal_tern_normalized_AEA",8
+"891","royal_tern_normalized_AEA",10
+"892","Scup",1
+"893","Scup",2
+"894","Scup",3
+"895","Scup",4
+"896","Scup",6
+"897","Scup",7
+"898","Scup",8
+"899","Scup",9
+"900","Scup",10
+"901","Scup",11
+"902","Sea_raven",1
+"903","Sea_raven",2
+"904","Sea_raven",3
+"905","Sea_raven",4
+"906","Sea_raven",6
+"907","Sea_raven",7
+"908","Sea_raven",8
+"909","Sea_raven",9
+"910","Sea_raven",10
+"911","Sea_raven",11
+"912","Sea_scallop",1
+"913","Sea_scallop",2
+"914","Sea_scallop",3
+"915","Sea_scallop",4
+"916","Sea_scallop",6
+"917","Sea_scallop",7
+"918","Sea_scallop",8
+"919","Sea_scallop",9
+"920","Sea_scallop",10
+"921","Sea_scallop",11
+"922","Sei whale",1
+"923","Sei whale",2
+"924","Sei whale",3
+"925","Sei whale",4
+"926","Sei whale",6
+"927","Sei whale",7
+"928","Sei whale",8
+"929","Sei whale",9
+"930","Short beaked common dolphin",1
+"931","Short beaked common dolphin",2
+"932","Short beaked common dolphin",3
+"933","Short beaked common dolphin",4
+"934","Short beaked common dolphin",8
+"935","Short finned pilot whale",1
+"936","Short finned pilot whale",2
+"937","Short finned pilot whale",4
+"938","Silver_hake",1
+"939","Silver_hake",2
+"940","Silver_hake",3
+"941","Silver_hake",4
+"942","Silver_hake",6
+"943","Silver_hake",7
+"944","Silver_hake",8
+"945","Silver_hake",9
+"946","Silver_hake",10
+"947","Smooth_dogfish",1
+"948","Smooth_dogfish",2
+"949","Smooth_dogfish",3
+"950","Smooth_dogfish",4
+"951","Smooth_dogfish",7
+"952","Smooth_dogfish",8
+"953","Smooth_dogfish",10
+"954","Smooth_dogfish",11
+"955","Smooth_skate",1
+"956","Smooth_skate",2
+"957","Smooth_skate",3
+"958","Smooth_skate",6
+"959","Smooth_skate",7
+"960","sooty_shearwater_normalized_AEA",1
+"961","sooty_shearwater_normalized_AEA",2
+"962","sooty_shearwater_normalized_AEA",3
+"963","sooty_shearwater_normalized_AEA",4
+"964","sooty_shearwater_normalized_AEA",6
+"965","sooty_shearwater_normalized_AEA",7
+"966","sooty_shearwater_normalized_AEA",8
+"967","sooty_shearwater_normalized_AEA",9
+"968","sooty_shearwater_normalized_AEA",10
+"969","sooty_shearwater_normalized_AEA",11
+"970","sooty_tern_normalized_AEA",4
+"971","south_polar_skua_normalized_AEA",1
+"972","south_polar_skua_normalized_AEA",2
+"973","south_polar_skua_normalized_AEA",3
+"974","south_polar_skua_normalized_AEA",4
+"975","Sowerbys beaked whale",1
+"976","Sowerbys beaked whale",2
+"977","Sowerbys beaked whale",4
+"978","Sperm whale",1
+"979","Sperm whale",2
+"980","Sperm whale",3
+"981","Sperm whale",4
+"982","Spiny_dogfish",1
+"983","Spiny_dogfish",2
+"984","Spiny_dogfish",3
+"985","Spiny_dogfish",4
+"986","Spiny_dogfish",6
+"987","Spiny_dogfish",7
+"988","Spiny_dogfish",8
+"989","Spiny_dogfish",9
+"990","Spiny_dogfish",10
+"991","Spiny_dogfish",11
+"992","Spot",4
+"993","Spot",10
+"994","Spotted_hake",1
+"995","Spotted_hake",2
+"996","Spotted_hake",3
+"997","Spotted_hake",4
+"998","Spotted_hake",7
+"999","Spotted_hake",8
+"1000","Spotted_hake",10
+"1001","Spotted_hake",11
+"1002","Striped dolphin",1
+"1003","Striped dolphin",2
+"1004","Striped dolphin",4
+"1005","Striped_anchovy",4
+"1006","Striped_anchovy",10
+"1007","Striped_bass",2
+"1008","Striped_bass",3
+"1009","Striped_bass",4
+"1010","Striped_bass",7
+"1011","Striped_bass",8
+"1012","Striped_bass",10
+"1013","Striped_bass",11
+"1014","Striped_searobin",1
+"1015","Striped_searobin",2
+"1016","Striped_searobin",3
+"1017","Striped_searobin",4
+"1018","Striped_searobin",6
+"1019","Striped_searobin",7
+"1020","Striped_searobin",8
+"1021","Striped_searobin",9
+"1022","Striped_searobin",10
+"1023","Striped_searobin",11
+"1024","Summer_flounder",1
+"1025","Summer_flounder",2
+"1026","Summer_flounder",3
+"1027","Summer_flounder",4
+"1028","Summer_flounder",7
+"1029","Summer_flounder",8
+"1030","Summer_flounder",10
+"1031","Summer_flounder",11
+"1032","surf_scoter_normalized_AEA",1
+"1033","surf_scoter_normalized_AEA",2
+"1034","surf_scoter_normalized_AEA",3
+"1035","surf_scoter_normalized_AEA",4
+"1036","surf_scoter_normalized_AEA",6
+"1037","surf_scoter_normalized_AEA",7
+"1038","surf_scoter_normalized_AEA",8
+"1039","surf_scoter_normalized_AEA",9
+"1040","surf_scoter_normalized_AEA",10
+"1041","surf_scoter_normalized_AEA",11
+"1042","Tautog",2
+"1043","Tautog",3
+"1044","Tautog",4
+"1045","Tautog",7
+"1046","Tautog",8
+"1047","Tautog",10
+"1048","Tautog",11
+"1049","thick_billed_murre_normalized_AEA",1
+"1050","thick_billed_murre_normalized_AEA",2
+"1051","thick_billed_murre_normalized_AEA",3
+"1052","thick_billed_murre_normalized_AEA",4
+"1053","thick_billed_murre_normalized_AEA",6
+"1054","thick_billed_murre_normalized_AEA",7
+"1055","thick_billed_murre_normalized_AEA",8
+"1056","thick_billed_murre_normalized_AEA",9
+"1057","Thorny_skate",1
+"1058","Thorny_skate",2
+"1059","Thorny_skate",3
+"1060","Thorny_skate",6
+"1061","Thorny_skate",7
+"1062","Thorny_skate",9
+"1063","Tilefish",1
+"1064","Tilefish",2
+"1065","Tilefish",4
+"1066","Trues beaked whale",1
+"1067","Trues beaked whale",2
+"1068","Trues beaked whale",4
+"1069","Weakfish",1
+"1070","Weakfish",2
+"1071","Weakfish",4
+"1072","Weakfish",10
+"1073","White_hake",1
+"1074","White_hake",2
+"1075","White_hake",3
+"1076","White_hake",4
+"1077","White_hake",6
+"1078","White_hake",7
+"1079","White_hake",9
+"1080","white_winged_scoter_normalized_AEA",1
+"1081","white_winged_scoter_normalized_AEA",2
+"1082","white_winged_scoter_normalized_AEA",3
+"1083","white_winged_scoter_normalized_AEA",4
+"1084","white_winged_scoter_normalized_AEA",6
+"1085","white_winged_scoter_normalized_AEA",7
+"1086","white_winged_scoter_normalized_AEA",8
+"1087","white_winged_scoter_normalized_AEA",9
+"1088","white_winged_scoter_normalized_AEA",10
+"1089","white_winged_scoter_normalized_AEA",11
+"1090","wilsons_storm_petrel_normalized_AEA",1
+"1091","wilsons_storm_petrel_normalized_AEA",2
+"1092","wilsons_storm_petrel_normalized_AEA",3
+"1093","wilsons_storm_petrel_normalized_AEA",4
+"1094","wilsons_storm_petrel_normalized_AEA",6
+"1095","wilsons_storm_petrel_normalized_AEA",7
+"1096","wilsons_storm_petrel_normalized_AEA",8
+"1097","wilsons_storm_petrel_normalized_AEA",9
+"1098","wilsons_storm_petrel_normalized_AEA",10
+"1099","wilsons_storm_petrel_normalized_AEA",11
+"1100","Windowpane",1
+"1101","Windowpane",2
+"1102","Windowpane",3
+"1103","Windowpane",4
+"1104","Windowpane",6
+"1105","Windowpane",7
+"1106","Windowpane",8
+"1107","Windowpane",9
+"1108","Windowpane",10
+"1109","Windowpane",11
+"1110","Winter_flounder",2
+"1111","Winter_flounder",3
+"1112","Winter_flounder",4
+"1113","Winter_flounder",6
+"1114","Winter_flounder",7
+"1115","Winter_flounder",8
+"1116","Winter_flounder",9
+"1117","Winter_flounder",10
+"1118","Winter_flounder",11
+"1119","Winter_skate",1
+"1120","Winter_skate",2
+"1121","Winter_skate",3
+"1122","Winter_skate",4
+"1123","Winter_skate",6
+"1124","Winter_skate",7
+"1125","Winter_skate",8
+"1126","Winter_skate",9
+"1127","Winter_skate",10
+"1128","Winter_skate",11
+"1129","Witch_flounder",1
+"1130","Witch_flounder",2
+"1131","Witch_flounder",3
+"1132","Witch_flounder",4
+"1133","Witch_flounder",6
+"1134","Witch_flounder",7
+"1135","Witch_flounder",9
+"1136","Yellowtail_flounder",1
+"1137","Yellowtail_flounder",2
+"1138","Yellowtail_flounder",3
+"1139","Yellowtail_flounder",4
+"1140","Yellowtail_flounder",6
+"1141","Yellowtail_flounder",7
+"1142","Yellowtail_flounder",8
+"1143","Yellowtail_flounder",9
+"1144","Yellowtail_flounder",10
+"1145","Yellowtail_flounder",11

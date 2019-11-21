@@ -180,10 +180,15 @@ ggplot(perc_change_df, aes(x = as.numeric(year), y = change, color = state)) +
 
 We want to add in historical loss from the 1777-1854 time period. We have values from the 80's/90's. We can add what we just calculated to these for a couple more data points.
 
+Maine is <1% according to Bromberg and Bertness (2005). They assign both 0% and <1% in the paper, but state that 569 ha have been lost. This is a non-zero amount of loss so without more information, we are setting Maine's percent loss to 0.5%.
+
 ```{r historic_loss}
 hist_loss <- data.frame(state_name = c("Rhode Island", "Massachusetts", "New Hampshire", "Maine", "Connecticut", "New York"),
                         state = c("RI", "MA", "NH", "ME", "CT", "NY"),
-                        hist_perc_loss = c(53, 41, 18, 0, 27, 48))
+                        hist_perc_loss = c(53, 41, 18, 0.5, 27, 48), 
+                        area_lost_ha = c(1831,13352,500, 569,2129,1032)) %>% #in hectares
+                mutate(original_area = area_lost_ha/(0.01*hist_perc_loss),
+                       prop_of_ne = original_area/sum(original_area)) #calculate the proportion of original salt marsh by state compared to the whole NE region
 
 full_df <- perc_change_df %>%
   mutate(state2 = ifelse(str_detect(state, "MA"), "MA", state)) %>%
@@ -200,7 +205,20 @@ full_df <- perc_change_df %>%
            state == "RI" ~ 11
          )) %>%
   left_join(rgn_data, by = "rgn_id") %>%
-  select(rgn_id, rgn_name, year, total_loss)
+  select(rgn_id, rgn_name, year, total_loss, original_area)
+
+ne_df <- full_df %>%
+  mutate(area_lost = (total_loss/100) * original_area) %>%
+  group_by(year) %>%
+  summarize(original_area = sum(original_area),
+            area_lost = sum(area_lost)) %>%
+  ungroup() %>%
+  mutate(total_loss = 100*(area_lost/original_area),
+         rgn_id = 12,
+         rgn_name = "Northeast") %>%
+  select(-area_lost)
+
+full_df <- bind_rows(full_df, ne_df)
 
 #save for dashboard
 write_csv(full_df, "data/salt_marsh_percent_change.csv")
@@ -216,9 +234,9 @@ toolbox_layer <- full_df %>%
   complete(year = 1996:2010) %>% #only completing to 2010 for linear interpolation
   mutate(perc_loss = na.approx(total_loss)) %>%
   complete(year = 1996:2017) %>%
-  mutate(perc_loss = na.locf(perc_loss)) %>% #now we carry forward the 2010 value for all years to 2017
+  mutate(perc_loss = na.locf(perc_loss)) %>% #now we carry forward the 2010 values for all years to 2017
   ungroup() %>%
-  select(-total_loss) 
+  select(-total_loss)
 ```
 
 # Results
@@ -236,7 +254,7 @@ ggplot(toolbox_layer, aes(x = year, y = perc_loss, color = rgn_name)) +
 Add in offshore regions with NA then save
 ```{r save}
 out <- toolbox_layer %>%
-  complete(rgn_id = 1:11, year) %>%
+  complete(rgn_id = 1:12, year) %>%
   select(rgn_id, year, perc_loss) %>%
   mutate(habitat = "saltmarsh")
 write_csv(out, file.path(dir_calc, "layers/hab_salt_marsh.csv"))
