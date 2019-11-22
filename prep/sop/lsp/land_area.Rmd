@@ -173,7 +173,7 @@ ggplot(land_protection, aes(x = year, y = prop_area, color = rgn_name)) +
 
 ```{r save_to_toolbox}
 #save land
-write.csv(land_protected_by_rgn %>% select(rgn_id, year, prop_area), file = "~/github/ne-scores/region/layers/lsp_protected_land.csv")
+write.csv(land_protection %>% select(rgn_id, year, prop_area), file = "~/github/ne-scores/region/layers/lsp_protected_land.csv")
 ```
 
 
