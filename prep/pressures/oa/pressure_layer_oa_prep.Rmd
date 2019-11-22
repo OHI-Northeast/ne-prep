@@ -387,18 +387,46 @@ data <- base::merge(rgn_data, regions_stats, all.y=TRUE, by.x="rgn_id", by.y="zo
           dplyr::select(-area_km2)%>%
   gather("year", "pressure_score",starts_with("oa_")) 
 
-oa_data <- data %>%
+oa_data_subrgns <- data %>%
   mutate(year = substr(year, 14, 17)) %>%
   mutate(year = as.numeric(year))
+
+```
+
+Extract data for the region as a whole
+```{r extract_regional_data}
+# read in raster files
+pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_oa/output/new'), full.names=T), raster) %>%
+  brick()
+
+ne_regionstats <- cellStats(pressure_stack, mean)%>% 
+  as.data.frame() %>% 
+  rename(pressure_score = ".") %>% 
+  tibble::rownames_to_column("file_name") %>% 
+  mutate(year = substr(file_name, 14, 17)) %>% 
+  select(-file_name) %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast",
+         state_abv = NA,
+         state_name = NA,
+         state = "Northeast",
+         year = as.numeric(year))
+```
+
+Combine the two and save
+```{r}
+oa_data <- rbind(oa_data_subrgns, ne_regionstats)
 
 write.csv(oa_data, file.path(dir_anx, "prs_oa/output/oa.csv"), row.names=FALSE)
 ```
 
 
+
 ### 2017 scores
 ```{r map_scores}
 last_year <- oa_data%>%
-  filter(year==2017)
+  filter(year==2017) %>% 
+  filter(rgn_id != 12)
 
 #map_scores is a function to plot a tmap map of the scores
 map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Pressure Score", map_title = "Ocean Acidification Pressure")
@@ -407,7 +435,7 @@ map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Press
 Changes over time
 ```{r}
 oa_overtime <-ggplot(oa_data)+
-  geom_line(aes(x=year, y = pressure_score, color=state))+
+  geom_line(aes(x=year, y = pressure_score, color=rgn_name))+
   ggtitle("OA Pressure Score") +
   ylab("Score") +
   xlab("Year") +
