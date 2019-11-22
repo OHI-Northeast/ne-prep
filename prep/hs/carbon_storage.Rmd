@@ -56,8 +56,9 @@ salt_marsh <- read_csv("~/github/ne-scores/region/layers/hab_salt_marsh.csv") %>
   rowwise() %>%
   mutate(habitat = "saltmarsh",
           score  = round(min(100, (100 - perc_loss)), digits = 2)) %>% #prevents score from going above 100
-  left_join(rgns) %>%
-  select(rgn_name, year, score, habitat, rgn_id)
+  left_join(rgn_data) %>%
+  select(rgn_name, year, score, habitat, rgn_id) %>%
+  mutate(rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_name))
 ```
 
 ```{r eelgrass_score_plot}
