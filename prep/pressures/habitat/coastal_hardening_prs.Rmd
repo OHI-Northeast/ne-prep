@@ -124,20 +124,19 @@ mapview(maine)
 ## Calculate percent armored 
 Here we are going to do the calculations without MA because more work is required to separate the state regions.
 ```{r calculate_percent_hard}
-coast_arm <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
+coast_arm_subrgns <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
   select(GENERALIZE, rgn_name, rgn_id, geometry) %>% 
   filter(rgn_name != "Massachusetts") %>% 
   mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored"),
          armored_km = ifelse(armored == "armored", st_length(geometry)/1000, NA),
          coastline_km = st_length(geometry)/1000) %>% # the distances are in meters
   group_by(rgn_name) %>% 
-  summarize(hardened_coastline = sum(armored_km, na.rm = TRUE),
+  summarise(hardened_coastline = sum(armored_km, na.rm = TRUE), ## here it looks like its in meter because [m], but we converted it to km. we can read in the data orginially and tell it to read it as km, but it takes a very long time to redo.
             total_coastline = sum(coastline_km, na.rm = TRUE)) %>% 
   ungroup() %>% 
   rowwise() %>% 
   mutate(percent_hard = hardened_coastline/total_coastline)
-  
-coast_arm
+
 ```
 
 Calculate percent armored for MA regions
@@ -158,17 +157,42 @@ ma <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp
          armored_km = ifelse(armored == "armored", st_length(geometry)/1000, NA),
          coastline_km = st_length(geometry)/1000) %>% # the distances are in meters
   group_by(rgn_name) %>% 
-  summarize(hardened_coastline = sum(armored_km, na.rm = TRUE),
+  summarise(hardened_coastline = sum(armored_km, na.rm = TRUE),
             total_coastline = sum(coastline_km, na.rm = TRUE)) %>% 
   ungroup() %>% 
   rowwise() %>% 
   mutate(percent_hard = hardened_coastline/total_coastline)
 ```
 
+Calculate for the whole region
+```{r calculate_percent_hard}
+coast_arm_rgn12 <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
+  select(GENERALIZE, rgn_name, rgn_id, geometry) %>% 
+  mutate(armored = ifelse(str_detect(GENERALIZE, "Armored", negate= TRUE), "not armored", "armored"),
+         armored_km = ifelse(armored == "armored", st_length(geometry)/1000, NA),
+         coastline_km = st_length(geometry)/1000,
+         rgn_name = "Northeast") %>% # the distances are in meters
+  group_by(rgn_name) %>% 
+  summarise(hardened_coastline = sum(armored_km, na.rm = TRUE), ## here it looks like its in meter because [m], but we converted it to km. we can read in the data orginially and tell it to read it as km, but it takes a very long time to redo.
+            total_coastline = sum(coastline_km, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  mutate(percent_hard = hardened_coastline/total_coastline)
+```
+
 Combine MA with the other regions
 ```{r combine_all_regions}
-coast_arm <- coast_arm %>% 
-  rbind(ma)
+coast_arm <- coast_arm_subrgns %>% 
+  dplyr::bind_rows(ma) %>% 
+  dplyr::bind_rows(coast_arm_rgn12) %>% 
+  mutate(rgn_id = case_when(rgn_name == "Connecticut" ~ 5,
+                            rgn_name == "Maine" ~ 6,
+                            rgn_name == "New Hampshire" ~ 9,
+                            rgn_name == "New York" ~ 10,
+                            rgn_name == "Rhode Island" ~ 11,
+                            rgn_name == "Massachusetts-North" ~ 7,
+                            rgn_name == "Massachusetts-South" ~ 8,
+                            rgn_name == "Northeast" ~ 12)) %>% 
+  select(rgn_name, rgn_id, percent_hard)
 ```
 
 Map with binary armored or not to double check that it looks good and nothing crazy is happening
@@ -209,31 +233,6 @@ miss_rgns <- tribble(
 Tidy df for scores
 ```{r create_scores_layer}
 prs_hardening <- coast_arm %>% 
-  select(rgn_name, percent_hard) %>% 
-  as.data.frame() %>% 
-  rename(state = rgn_name) %>% 
-  mutate(rgn_id1 = case_when(
-    state == "Maine" ~ "6", 
-    state == "New Hampshire" ~ "9", 
-    state == "Massachusetts" ~ "7",
-    state == "Rhode Island" ~ "11",
-    state == "Connecticut" ~ "5",
-    state == "New York" ~ "10"),
-    rgn_id2 = case_when(
-    state == "Massachusetts" ~ "8"
-    )) %>% 
-  replace(., is.na(.), "0") %>% 
-  gather(rgn_id1, rgn_id2, key= "filler", value = "rgn_id") %>% 
-  filter(rgn_id != "0") %>% 
-  select(-filler, - state) %>% 
-  mutate(rgn_name = case_when(
-    rgn_id == "6" ~ "Maine", 
-    rgn_id == "9" ~ "New Hampshire", 
-    rgn_id == "7" ~ "Massachusetts-North",
-    rgn_id == "8" ~ "Massachusetts-South",
-    rgn_id == "11" ~ "Rhode Island",
-    rgn_id == "5" ~ "Connecticut",
-    rgn_id == "10" ~ "New York")) %>% 
   mutate(year = 2017)
 ```
 
