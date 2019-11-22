@@ -164,6 +164,23 @@ trampling <-pop_stats_2 %>%
 trampling
 ```
 
+We also want to do the same calculation but with the Northeast as 1 big region
+```{r}
+# want to use ne_pop_coast
+ne_pop_stats <- cellStats(ne_pop_coast, mean) %>% 
+  as.data.frame() %>% 
+  rename(avg_ppl_km2 = ".") %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast",
+         ref = ref_1,
+         score = avg_ppl_km2/ref) %>% 
+  select(rgn_id, rgn_name, score)
+
+```
+
+
+
+
 Create a scores layer
 Creating a df to add on to the climate change scores to have the missing regions there 
 ```{r missing_rgns_df}
@@ -188,6 +205,7 @@ prs_trampling <-trampling %>%
     rgn_id == "5" ~ "Connecticut",
     rgn_id == "10" ~ "New York")) %>% 
   rbind(miss_rgns) %>% 
+  rbind(ne_pop_stats) %>% 
   mutate(year = 2017)
 ```
 

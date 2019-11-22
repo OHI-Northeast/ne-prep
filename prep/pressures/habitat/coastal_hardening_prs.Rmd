@@ -164,7 +164,7 @@ ma <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp
   mutate(percent_hard = hardened_coastline/total_coastline)
 ```
 
-Calculate for the whole region
+Calculate for the whole region. We need to do this separatly because we are looking at the Northeast region as a whole, not calculating each subregion separately.
 ```{r calculate_percent_hard}
 coast_arm_rgn12 <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapefiles/erma.shp")) %>% 
   select(GENERALIZE, rgn_name, rgn_id, geometry) %>% 
@@ -179,7 +179,7 @@ coast_arm_rgn12 <-  read_sf(file.path(dir_anx, "prs_hab/coastal_hardening/shapef
   mutate(percent_hard = hardened_coastline/total_coastline)
 ```
 
-Combine MA with the other regions
+Combine subregions (no MA), MA, and Northeast calculations
 ```{r combine_all_regions}
 coast_arm <- coast_arm_subrgns %>% 
   dplyr::bind_rows(ma) %>% 
