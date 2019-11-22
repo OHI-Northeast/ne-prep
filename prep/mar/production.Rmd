@@ -179,7 +179,7 @@ ggplot(maine_ff, aes(x = Year, y = pounds, color = Species)) +
 
 Now we have the data cleaned up and can look at production by species and state over time.
 
-```{r prod_by_species, fig.width = 8, fig.height = 6}
+```{r}
 remaining_sp <- data_clean %>%
     filter(!is.na(pounds)) %>%
     select(Year, Region, Species, Species_name_to_use, pounds) 
@@ -191,7 +191,10 @@ production_df <- full_join(combo, remaining_sp) %>%
   bind_rows(maine_ff)
 
 write_csv(production_df, "data/production_clean.csv")
+```
 
+
+```{r prod_by_species, fig.width = 8, fig.height = 6}
 ggplot(production_df, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
   theme_bw() +
@@ -246,9 +249,17 @@ production_gf <- production_df %>%
    Region == "New Hampshire" & Year < 2013, NA, #no evidence of farming before 2013
     ifelse(Region == "Massachusetts" & Species %in% c("Soft Shell Clams", "Scallops") & !Year %in% c(2010:2012), NA, pounds2))) %>%
   select(-pounds2)
-    
 
-ggplot(production_gf, aes(x = Year, y = pounds, color = Species)) +
+#production for whole northeast
+ne_prod <- production_gf %>%
+  group_by(Species, Year) %>%
+  summarize(pounds = sum(pounds, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(Region = "Northeast")
+
+prod_gf <- bind_rows(production_gf, ne_prod)    
+
+ggplot(prod_gf, aes(x = Year, y = pounds, color = Species)) +
   geom_line() +
   theme_bw() +
   facet_wrap(~Region)
@@ -260,7 +271,7 @@ ggplot(production_gf, aes(x = Year, y = pounds, color = Species)) +
 We apply a three year rolling mean to account for year to year variability. 
 
 ```{r 3yr_rolling_mean}
-prod_3yr <- production_gf %>%
+prod_3yr <- prod_gf %>%
   filter(Year > 2000) %>%
   arrange(Year) %>%
   group_by(Region, Species) %>%
@@ -284,6 +295,7 @@ ggplot(prod_3yr, aes(x = Year, y = prod_avg_3yr, color = Species)) +
 
 out <- prod_3yr %>%
   left_join(rgn_data, by = c("Region" = "state")) %>%
+  mutate(rgn_id = ifelse(Region == "Northeast", 12, rgn_id)) %>%
   select(year = Year, rgn_id, Species, production = prod_avg_3yr, yr_num, last_years_prod)
 
 write_csv(out, "~/github/ne-scores/region/layers/mar_production.csv")
