@@ -168,9 +168,20 @@ Now we want to calculate scores between 0 and 1 and then average by region id an
 rescaled_df <- coastal_data %>%
   gather(key = "layer", value = "index_score", -year, -city_community, -state, -rgn_name, -rgn_id) %>%
   mutate(layer = ifelse(layer == "ComEng_ct", "commercial", "recreational"), 
-         score = index_score/4) %>%
+         score = index_score/4) 
+
+#get scores across all communities for entire Northeast region (rgn 12)
+ne_df <- rescaled_df %>%
+  group_by(year, layer) %>%
+  summarize(mean_score = mean(score)) %>%
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast")
+
+state_df <- rescaled_df %>%
   group_by(year, rgn_name, rgn_id, layer) %>%
   summarize(mean_score = mean(score))
+
+rescaled_df_all <- bind_rows(ne_df, state_df)
   
 ```
 
@@ -180,7 +191,7 @@ We will use a spatial reference point for this layer. We will take the maximum s
 
 ```{r reference_points}
 
-df_ref <- rescaled_df %>%
+df_ref <- rescaled_df_all %>%
   group_by(layer) %>%
   mutate(ref = max(mean_score)) %>%
   ungroup

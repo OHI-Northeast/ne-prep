@@ -135,11 +135,34 @@ for(i in 2005:2017){
 }
 ```
 
+ Add in the whole Northeast as another region (region id = 12)
+ 
+```{r calculate_ne_land_prot}
+
+ne_prot <- land_protected_by_rgn %>%
+  group_by(year, type) %>%
+  summarize(area = sum(area),
+            prot_area_m = sum(prot_area_m)) %>%
+  ungroup() %>%
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast",
+         prop_area = prot_area_m/area)
+
+```
+ 
+Combine
+
+```{r}
+land_protection <- land_protected_by_rgn %>%
+  select(-state_name, -state_abv) %>%
+  bind_rows(ne_prot)
+```
+
 
 # Results
 
 ```{r land_protected_prop_by_rgn}
-ggplot(land_protected_by_rgn, aes(x = year, y = prop_area, color = rgn_name)) +
+ggplot(land_protection, aes(x = year, y = prop_area, color = rgn_name)) +
   geom_line() +
   theme_bw() +
   labs(y = "Proportion of inland 1km protected")

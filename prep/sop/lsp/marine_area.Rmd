@@ -74,9 +74,18 @@ We are also going to remove all areas that are designated as fishery/shellfish m
 ```{r load_and_clean_marine_layer}
 marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
   st_transform(us_alb) %>%
-  st_crop(rgns)  %>%
+  st_crop(rgns)  
+
+marine_states <- marine %>%
   st_intersection(state_waters) %>%
   filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
+         !is.na(Loc_Ds)) 
+
+#calculate for whole Northeast
+## There are areas with designation as "Closed Area" outside of state waters. Feedback from Michelle Bachmann suggests that these are for fisheries management and should not be included in sense of place.
+marine_ne <- marine %>%
+  st_intersection(ne_rgn) %>%
+  filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Closed Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
          !is.na(Loc_Ds)) 
 ```
 
@@ -88,7 +97,7 @@ First let's combine polygons so we don't double count areas. For example, multip
 
 All areas included in the Marine layer were established before our time period (or have NA for Date_Est) so we don't need to do this by year. 
 ```{r}
-marine_protected_by_rgn <- marine %>%
+marine_protected_by_rgn <- marine_states %>%
   select(rgn_id, Date_Est, Loc_Ds, Loc_Nm) %>%
   mutate(rgn_id = ifelse(c(rgn_id == 11 & Loc_Nm == "Cape and Islands Ocean Sanctuary"), 8, rgn_id)) %>% #one sliver of Cape and Islands Ocean Sanctuary was being assigned to Rhode Island but is definitely MA
   group_by(rgn_id) %>%
@@ -102,8 +111,31 @@ marine_protected_by_rgn <- marine %>%
     st_set_geometry(NULL) %>% 
   uncount(13, .id = "n", .remove = F) %>%
   mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
+  select(-n, -state_abv, -state_name, -state)
+```
+```{r}
+marine_protected_ne <- marine_ne %>%
+  select(rgn_id, Date_Est, Loc_Ds, Loc_Nm) %>% 
+  group_by(rgn_id) %>%
+  summarise() %>%
+  ungroup() %>%
+  mutate(area = st_area(geometry), #in km2
+         total_area = st_area(ne_rgn),
+         rgn_name = "Northeast",
+         prop_area = round(as.numeric(area)/total_area, digits = 2),
+         type = "marine",
+         year = 2005) %>% 
+    st_set_geometry(NULL) %>% 
+  uncount(13, .id = "n", .remove = F) %>%
+  mutate(year = ifelse(n == 1, 2005, n + 2004)) %>%
   select(-n)
 ```
+
+Combine
+```{r}
+marine_protected_by_rgn <- bind_rows(marine_protected_by_rgn, marine_protected_ne)
+```
+
 
 # Results
 
