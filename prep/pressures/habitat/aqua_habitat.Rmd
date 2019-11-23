@@ -138,9 +138,12 @@ Now that we have the state waters areas, we can calculate the scores. The way we
 5. Calculate a reference point of two times the maximum pressure
 6. Calculate the pressure using the reference point
 
-We will use a reference point of 21871 scaled production by region area. look at code for notes
+We will use a reference point of 22308 scaled production by region area. look at code for notes
 ```{r calculate_prs_score}
-aq_hab_prs_int <- left_join(production, sf_watch, by = ("Species")) %>% 
+production_subrgns <- production %>% 
+  filter(rgn_id != 12) 
+
+aq_hab_prs_int <- left_join(production_subrgns, sf_watch, by = ("Species")) %>% 
   left_join(area_state_waters, by = c("rgn_id"))  %>%
   mutate(production = ifelse(production == "NaN", NA , production)) %>% 
   rowwise() %>% 
@@ -163,12 +166,9 @@ Calculate the same way but for the entire Northeast region
 ```{r}
 # calculate annual production of each species 
 production_rgn12 <- production %>% 
+  filter(rgn_id == 12) %>% 
   mutate(production = ifelse(production == "NaN", NA , production)) %>% 
-  group_by(year, Species) %>% 
-  summarise(total_production = sum(production, is.na = TRUE)) %>% 
-  ungroup() %>% 
-  mutate(rgn_id = 12,
-         rgn_name = "Northeast")
+  mutate(rgn_name = "Northeast")
 
 # calculate the total area of state waters 
 area_region <- read_sf(file.path(dir_git, "spatial/shapefiles/state_waters.shp")) %>% 
@@ -183,17 +183,17 @@ area_region <- read_sf(file.path(dir_git, "spatial/shapefiles/state_waters.shp")
 aq_hab_prs_rgn12 <- left_join(production_rgn12, sf_watch, by = ("Species")) %>% 
   rowwise() %>% 
   mutate(sfw_score = AqCriteria3/10,
-         scaled_production = (total_production*sfw_score)) %>% 
+         scaled_production = (production*sfw_score)) %>% 
   group_by(year, rgn_name, rgn_id) %>% 
   summarise(sum_scale_prod = sum(scaled_production, na.rm = TRUE)) %>% 
   ungroup() %>% 
   left_join(area_region, by = c("rgn_id", "rgn_name"))  %>%
   mutate(scaled_area_prod = sum_scale_prod/Area_km) %>% 
-  mutate(ref = 7093) %>% 
+  mutate(ref = 5769) %>% 
   rowwise() %>% 
   mutate(prs_score = scaled_area_prod/ref)
 
-## we calculated the reference point in 2019 as 2*max(aq_hab_prs_rgn12$scaled_area_prod, na.rm = TRUE) = 7093 to give the pressure some room to grow. We will manually input it here instead of recalcualting each year, resulting in a moving reference point where the highest production year will likely be the most recent
+## we calculated the reference point in 2019 as 2*max(aq_hab_prs_rgn12$scaled_area_prod, na.rm = TRUE) = 5769 to give the pressure some room to grow. We will manually input it here instead of recalcualting each year, resulting in a moving reference point where the highest production year will likely be the most recent
 ```
 
 Combine rgn12 to rest
