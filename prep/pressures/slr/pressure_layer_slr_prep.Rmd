@@ -37,7 +37,6 @@ The sea level rise pressure layer is derived from monthly data of gridded sea le
 ***
 
 # Setup
-
 ``` {r setup, message = FALSE, warning = FALSE}
 
 knitr::opts_chunk$set(fig.width = 10, fig.height = 8, fig.path = 'figs/', message = FALSE, warning = FALSE)
@@ -247,12 +246,37 @@ data <- base::merge(rgn_data, regions_stats, all.y=TRUE, by.x="rgn_id", by.y="zo
           dplyr::select(-area_km2)%>%
   gather("year", "pressure_score",starts_with("slr_")) 
 
-slr_data <- data %>%
+slr_data_int <- data %>%
   mutate(year = substr(year, 5, 8)) %>%
   mutate(year = as.numeric(year))
 ```
+Extract data for the region as a whole
+```{r extract_region_data}
+# read in raster files
+pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_slr/output/msla_rescaled'), full.names=T), raster) %>%
+  brick()
+
+ne_regionstats <- cellStats(pressure_stack, mean)%>% 
+  as.data.frame() %>% 
+  rename(pressure_score = ".") %>% 
+  tibble::rownames_to_column("file_name") %>% 
+  mutate(year = substr(file_name, 5, 8)) %>% 
+  select(-file_name) %>% 
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast",
+         state_abv = NA,
+         state_name = NA,
+         state = "Northeast",
+         year = as.numeric(year))
+```
+
 
 ```{r save}
+slr_data <- rbind(slr_data_int, ne_regionstats) %>% 
+  select(rgn_id, rgn_name, year, pressure_score) %>% 
+  filter(year >= 2005 & year <= 2017)
+
+
 write.csv(slr_data, file.path("~/github/ne-scores/region/layers/cc_slr.csv"), row.names=FALSE)
 ```
 
@@ -260,7 +284,8 @@ write.csv(slr_data, file.path("~/github/ne-scores/region/layers/cc_slr.csv"), ro
 ## 2017 scores
 ```{r map_scores}
 last_year <- slr_data%>%
-  filter(year==2017)
+  filter(year==2017,
+         rgn_id != 12)
 
 #map_scores is a function to plot a tmap map of the scores
 map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Pressure Score", map_title = "Sea Level Rise")
@@ -271,7 +296,7 @@ map_scores(last_year, score_var = last_year$pressure_score, scale_label = "Press
 
 ```{r graph_scores_overtime}
 slr_overtime <-ggplot(slr_data)+
-  geom_line(aes(x=year, y = pressure_score, color=state))+
+  geom_line(aes(x=year, y = pressure_score, color=rgn_name))+
   ggtitle("Sea Level Rise Pressure Score") +
   ylab("Score") +
   xlab("Year") +

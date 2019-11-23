@@ -394,7 +394,7 @@ oa_data_subrgns <- data %>%
 ```
 
 Extract data for the region as a whole
-```{r extract_regional_data}
+```{r extract_region_data}
 # read in raster files
 pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_oa/output/new'), full.names=T), raster) %>%
   brick()
