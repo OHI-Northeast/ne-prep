@@ -8,10 +8,12 @@ COD,atlantic cod,Georges Bank,CODGBW,NMFS,GB Cod West,7,Massachusetts-North
 COD,atlantic cod,Georges Bank,CODGBW,NMFS,GB Cod West,8,Massachusetts-South
 COD,atlantic cod,Georges Bank,CODGBW,NMFS,GB Cod West,10,New York
 COD,atlantic cod,Georges Bank,CODGBW,NMFS,GB Cod West,11,Rhode Island
+COD,atlantic cod,Georges Bank,CODGBW,NMFS,GB Cod West,12,Northeast
 COD,atlantic cod,Gulf of Maine,CODGMSS,NMFS,GOM Cod,3,Gulf of Maine
 COD,atlantic cod,Gulf of Maine,CODGMSS,NMFS,GOM Cod,6,Maine
 COD,atlantic cod,Gulf of Maine,CODGMSS,NMFS,GOM Cod,7,Massachusetts-North
 COD,atlantic cod,Gulf of Maine,CODGMSS,NMFS,GOM Cod,9,New Hampshire
+COD,atlantic cod,Gulf of Maine,CODGMSS,NMFS,GOM Cod,12,Northeast
 HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,1,Offshore
 HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,2,Georges Bank
 HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,3,Gulf of Maine
@@ -20,10 +22,12 @@ HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,7,Massachusetts-North
 HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,8,Massachusetts-South
 HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,10,New York
 HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,11,Rhode Island
+HADDOCK,haddock,Georges Bank,HADGBW,NMFS,GB Haddock West,12,Northeast
 HADDOCK,haddock,Gulf of Maine,HADGM,NMFS,GOM Haddock,3,Gulf of Maine
 HADDOCK,haddock,Gulf of Maine,HADGM,NMFS,GOM Haddock,6,Maine
 HADDOCK,haddock,Gulf of Maine,HADGM,NMFS,GOM Haddock,7,Massachusetts-North
 HADDOCK,haddock,Gulf of Maine,HADGM,NMFS,GOM Haddock,9,New Hampshire
+HADDOCK,haddock,Gulf of Maine,HADGM,NMFS,GOM Haddock,12,Northeast
 OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,1,Offshore
 OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,2,Georges Bank
 OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,3,Gulf of Maine
@@ -35,6 +39,7 @@ OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,8,Mass
 OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,9,New Hampshire
 OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,10,New York
 OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,11,Rhode Island
+OCEAN POUT,ocean pout,Northwestern Atlantic Coast,OPTGMMA,NMFS,Ocean Pout,12,Northeast
 POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,1,Offshore
 POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,2,Georges Bank
 POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,3,Gulf of Maine
@@ -46,6 +51,7 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,8,Massachuset
 POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,9,New Hampshire
 POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,10,New York
 POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Island
+POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,12,Northeast
 "HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,White Hake,1,Offshore
 "HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,White Hake,2,Georges Bank
 "HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,White Hake,3,Gulf of Maine
@@ -57,6 +63,7 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,White Hake,9,New Hampshire
 "HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,White Hake,10,New York
 "HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,White Hake,11,Rhode Island
+"HAKE, WHITE",white hake,Gulf of Maine / Georges Bank,HKWGMMA,NMFS,White Hake,12,Northeast
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,Northern Windowpane,1,Offshore
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,Northern Windowpane,2,Georges Bank
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,Northern Windowpane,3,Gulf of Maine
@@ -64,6 +71,7 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,Northern Windowpane,7,Massachusetts-North
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,Northern Windowpane,8,Massachusetts-South
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,Northern Windowpane,9,New Hampshire
+"FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Gulf of Maine / Georges Bank,FLGMGBSS,NMFS,Northern Windowpane,12,Northeast
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,Southern Windowpane,1,Offshore
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,Southern Windowpane,2,Georges Bank
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,Southern Windowpane,4,Mid-Atlantic Bight
@@ -71,10 +79,12 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,Southern Windowpane,8,Massachusetts-South
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,Southern Windowpane,10,New York
 "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,Southern Windowpane,11,Rhode Island
+"FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",windowpane,Southern New England / Mid-Atlantic,FLDSNEMA,NMFS,Southern Windowpane,12,Northeast
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Gulf of Maine,FLWGMSS,NMFS,GOM Winter Flounder,3,Gulf of Maine
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Gulf of Maine,FLWGMSS,NMFS,GOM Winter Flounder,6,Maine
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Gulf of Maine,FLWGMSS,NMFS,GOM Winter Flounder,7,Massachusetts-North
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Gulf of Maine,FLWGMSS,NMFS,GOM Winter Flounder,9,New Hampshire
+"FLOUNDER, WINTER / BLACKBACK",winter flounder,Gulf of Maine,FLWGMSS,NMFS,GOM Winter Flounder,12,Northeast
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,SNE/MA Winter Flounder,1,Offshore
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,SNE/MA Winter Flounder,2,Georges Bank
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,SNE/MA Winter Flounder,3,Gulf of Maine
@@ -84,6 +94,7 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,SNE/MA Winter Flounder,8,Massachusetts-South
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,SNE/MA Winter Flounder,10,New York
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,SNE/MA Winter Flounder,11,Rhode Island
+"FLOUNDER, WINTER / BLACKBACK",winter flounder,Southern New England / Mid-Atlantic,FLWSNEMA,NMFS,SNE/MA Winter Flounder,12,Northeast
 "FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,Witch Flounder,1,Offshore
 "FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,Witch Flounder,2,Georges Bank
 "FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,Witch Flounder,3,Gulf of Maine
@@ -95,15 +106,18 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,Witch Flounder,9,New Hampshire
 "FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,Witch Flounder,10,New York
 "FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,Witch Flounder,11,Rhode Island
+"FLOUNDER, WITCH / GRAY SOLE",witch flounder,Northwestern Atlantic Coast,WITGMMA,NMFS,Witch Flounder,12,Northeast
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,CC/GOM Yellowtail Flounder,2,Georges Bank
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,CC/GOM Yellowtail Flounder,3,Gulf of Maine
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,CC/GOM Yellowtail Flounder,6,Maine
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,CC/GOM Yellowtail Flounder,7,Massachusetts-North
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,CC/GOM Yellowtail Flounder,8,Massachusetts-South
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,CC/GOM Yellowtail Flounder,9,New Hampshire
+"FLOUNDER, YELLOWTAIL",yellowtail flounder,Cape Cod / Gulf of Maine,YELCCGM,NMFS,CC/GOM Yellowtail Flounder,12,Northeast
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Georges Bank,YELGB,NMFS,GB Yellowtail Flounder,1,Offshore
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Georges Bank,YELGB,NMFS,GB Yellowtail Flounder,2,Georges Bank
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Georges Bank,YELGB,NMFS,GB Yellowtail Flounder,3,Gulf of Maine
+"FLOUNDER, YELLOWTAIL",yellowtail flounder,Georges Bank,YELGB,NMFS,GB Yellowtail Flounder,12,Northeast
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,SNE/MA Yellowtail Flounder,1,Offshore
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,SNE/MA Yellowtail Flounder,2,Georges Bank
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,SNE/MA Yellowtail Flounder,4,Mid-Atlantic Bight
@@ -111,6 +125,7 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,SNE/MA Yellowtail Flounder,8,Massachusetts-South
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,SNE/MA Yellowtail Flounder,10,New York
 "FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,SNE/MA Yellowtail Flounder,11,Rhode Island
+"FLOUNDER, YELLOWTAIL",yellowtail flounder,Southern New England / Mid-Atlantic,YELSNE,NMFS,SNE/MA Yellowtail Flounder,12,Northeast
 "HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,NA,1,Offshore
 "HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -122,6 +137,7 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 "HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,NA,10,New York
 "HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+"HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,NA,12,Northeast
 "CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,NA,1,Offshore
 "CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,NA,2,Georges Bank
 "CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,NA,3,Gulf of Maine
@@ -130,6 +146,7 @@ POLLOCK,pollock,Gulf of Maine / Georges Bank,POKGMASS,NMFS,Pollock,11,Rhode Isla
 "CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,NA,7,Massachusetts-North
 "CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,NA,8,Massachusetts-South
 "CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,NA,9,New Hampshire
+"CRAB, RED",red deepsea crab,Northwestern Atlantic,NA,NMFS,NA,12,Northeast
 REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,Redfish,1,Offshore
 REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,Redfish,2,Georges Bank
 REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,Redfish,3,Gulf of Maine
@@ -141,6 +158,7 @@ REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMF
 REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,Redfish,9,New Hampshire
 REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,Redfish,10,New York
 REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,Redfish,11,Rhode Island
+REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMFS,Redfish,12,Northeast
 "FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,Plaice,1,Offshore
 "FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,Plaice,2,Georges Bank
 "FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,Plaice,3,Gulf of Maine
@@ -152,6 +170,7 @@ REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMF
 "FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,Plaice,9,New Hampshire
 "FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,Plaice,10,New York
 "FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,Plaice,11,Rhode Island
+"FLOUNDER, AMERICAN PLAICE /DAB",american plaice,Gulf of Maine / Georges Bank,PLAGMMA,NMFS,Plaice,12,Northeast
 "HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,Halibut,1,Offshore
 "HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,Halibut,2,Georges Bank
 "HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,Halibut,3,Gulf of Maine
@@ -163,9 +182,11 @@ REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMF
 "HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,Halibut,9,New Hampshire
 "HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,Halibut,10,New York
 "HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,Halibut,11,Rhode Island
+"HALIBUT, ATLANTIC",atlantic halibut,Northwestern Atlantic Coast,HALGMMA,NMFS,Halibut,12,Northeast
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Georges Bank,FLWGB,NMFS,GB Winter Flounder,1,Offshore
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Georges Bank,FLWGB,NMFS,GB Winter Flounder,2,Georges Bank
 "FLOUNDER, WINTER / BLACKBACK",winter flounder,Georges Bank,FLWGB,NMFS,GB Winter Flounder,3,Gulf of Maine
+"FLOUNDER, WINTER / BLACKBACK",winter flounder,Georges Bank,FLWGB,NMFS,GB Winter Flounder,12,Northeast
 "SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,NA,1,Offshore
 "SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -177,12 +198,14 @@ REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMF
 "SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 "SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,NA,10,New York
 "SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+"SCALLOP, SEA",sea scallop,Northwestern Atlantic Coast,NA,NMFS,NA,12,Northeast
 "HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,Northern Red Hake,2,Georges Bank
 "HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,Northern Red Hake,3,Gulf of Maine
 "HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,Northern Red Hake,6,Maine
 "HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,Northern Red Hake,7,Massachusetts-North
 "HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,Northern Red Hake,8,Massachusetts-South
 "HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,Northern Red Hake,9,New Hampshire
+"HAKE, RED / LING",red hake,Gulf of Maine / Northern Georges Bank,HKRGMNGB,NMFS,Northern Red Hake,12,Northeast
 "HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,Southern Red Hake,1,Offshore
 "HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,Southern Red Hake,2,Georges Bank
 "HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,Southern Red Hake,4,Mid-Atlantic Bight
@@ -190,12 +213,14 @@ REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMF
 "HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,Southern Red Hake,8,Massachusetts-South
 "HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,Southern Red Hake,10,New York
 "HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,Southern Red Hake,11,Rhode Island
+"HAKE, RED / LING",red hake,Southern Georges Bank / Mid-Atlantic,HKRSGBMA,NMFS,Southern Red Hake,12,Northeast
 "HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,Northern Silver Hake,2,Georges Bank
 "HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,Northern Silver Hake,3,Gulf of Maine
 "HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,Northern Silver Hake,6,Maine
 "HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,Northern Silver Hake,7,Massachusetts-North
 "HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,Northern Silver Hake,8,Massachusetts-South
 "HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,Northern Silver Hake,9,New Hampshire
+"HAKE, SILVER / WHITING",silver hake,Gulf of Maine / Northern Georges Bank,HKSGMNGB,NMFS,Northern Silver Hake,12,Northeast
 "HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,Southern Whiting,1,Offshore
 "HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,Southern Whiting,2,Georges Bank
 "HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,Southern Whiting,4,Mid-Atlantic Bight
@@ -203,6 +228,7 @@ REDFISH / OCEAN PERCH,acadian redfish,Gulf of Maine / Georges Bank,REDGMGBSS,NMF
 "HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,Southern Whiting,8,Massachusetts-South
 "HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,Southern Whiting,10,New York
 "HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,Southern Whiting,11,Rhode Island
+"HAKE, SILVER / WHITING",silver hake,Southern Georges Bank / Mid-Atlantic,HKSSGBMA,NMFS,Southern Whiting,12,Northeast
 WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,Wolffish,1,Offshore
 WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,Wolffish,2,Georges Bank
 WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,Wolffish,3,Gulf of Maine
@@ -213,12 +239,15 @@ WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,
 WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,Wolffish,9,New Hampshire
 WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,Wolffish,10,New York
 WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,Wolffish,11,Rhode Island
+WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,Wolffish,12,Northeast
 COD,atlantic cod,Eastern Georges Bank,CODGBE,NMFS,GB Cod East,1,Offshore
 COD,atlantic cod,Eastern Georges Bank,CODGBE,NMFS,GB Cod East,2,Georges Bank
 COD,atlantic cod,Eastern Georges Bank,CODGBE,NMFS,GB Cod East,3,Gulf of Maine
+COD,atlantic cod,Eastern Georges Bank,CODGBE,NMFS,GB Cod East,12,Northeast
 HADDOCK,haddock,Eastern Georges Bank,HADGBE,NMFS,GB Haddock East,1,Offshore
 HADDOCK,haddock,Eastern Georges Bank,HADGBE,NMFS,GB Haddock East,2,Georges Bank
 HADDOCK,haddock,Eastern Georges Bank,HADGBE,NMFS,GB Haddock East,3,Gulf of Maine
+HADDOCK,haddock,Eastern Georges Bank,HADGBE,NMFS,GB Haddock East,12,Northeast
 NA,atlantic salmon,Gulf of Maine,NA,NMFS,NA,NA,NA
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,2,Georges Bank
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,3,Gulf of Maine
@@ -226,6 +255,7 @@ MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Ban
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,7,Massachusetts-North
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,8,Massachusetts-South
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,9,New Hampshire
+MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,12,Northeast
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,1,Offshore
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,2,Georges Bank
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,4,Mid-Atlantic Bight
@@ -233,6 +263,7 @@ MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,8,Massachusetts-South
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,10,New York
 MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,11,Rhode Island
+MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,12,Northeast
 "DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,NA,1,Offshore
 "DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -244,6 +275,7 @@ MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic
 "DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 "DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,NA,10,New York
 "DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+"DOGFISH, SPINY",spiny dogfish,Atlantic Coast,NA,NMFS,NA,12,Northeast
 "FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,NA,1,Offshore
 "FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -255,6 +287,7 @@ MONKFISH / ANGLERFISH / GOOSEFISH,goosefish,Southern Georges Bank / Mid-Atlantic
 "FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 "FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,NA,10,New York
 "FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+"FLOUNDER, SUMMER / FLUKE",summer flounder,Mid-Atlantic Coast,NA,NMFS,NA,12,Northeast
 BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,1,Offshore
 BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -266,6 +299,7 @@ BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,8,Massachusetts-South
 BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,10,New York
 BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,12,Northeast
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,1,Offshore
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -274,6 +308,7 @@ BLUEFISH,bluefish,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,8,Massachusetts-South
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,10,New York
 "CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+"CLAM, SURF",atlantic surfclam,Mid-Atlantic Coast,NA,NMFS,NA,12,Northeast
 BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,1,Offshore
 BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -285,6 +320,7 @@ BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,8,Massachusetts-Sout
 BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,10,New York
 BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+BLACK SEA BASS,black sea bass,Mid-Atlantic Coast,NA,NMFS,NA,12,Northeast
 SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,1,Offshore
 SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -296,6 +332,7 @@ SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,8,Massachusetts-South
 SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,10,New York
 SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+SCUP / PORGY,scup,Atlantic Coast,NA,NMFS,NA,12,Northeast
 TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,1,Offshore
 TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -307,6 +344,7 @@ TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,8,Massachusetts-South
 TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,10,New York
 TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+TILEFISH,tilefish,Mid-Atlantic Coast,NA,NMFS,NA,12,Northeast
 BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,1,Offshore
 BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,2,Georges Bank
 BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,3,Gulf of Maine
@@ -318,6 +356,7 @@ BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,8,Massachusetts-S
 BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,9,New Hampshire
 BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,10,New York
 BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,11,Rhode Island
+BUTTERFISH,butterfish,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,12,Northeast
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,1,Offshore
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -329,6 +368,7 @@ OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,8,Massachusetts-South
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,9,New Hampshire
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,10,New York
 OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,12,Northeast
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,1,Offshore
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,2,Georges Bank
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,3,Gulf of Maine
@@ -340,6 +380,7 @@ OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,9,New Hampshire
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,10,New York
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,11,Rhode Island
+"MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,NA,12,Northeast
 "SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,NA,1,Offshore
 "SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,NA,2,Georges Bank
 "SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,NA,3,Gulf of Maine
@@ -351,12 +392,14 @@ OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
 "SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,NA,9,New Hampshire
 "SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,NA,10,New York
 "SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,NA,11,Rhode Island
+"SKATE, BARNDOOR",barndoor skate,Georges Bank / Southern New England,NA,NMFS,NA,12,Northeast
 "SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,2,Georges Bank
 "SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,4,Mid-Atlantic Bight
 "SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,5,Connecticut
 "SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,8,Massachusetts-South
 "SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,10,New York
 "SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,11,Rhode Island
+"SKATE, CLEARNOSE",clearnose skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,12,Northeast
 "SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,1,Offshore
 "SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,2,Georges Bank
 "SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,3,Gulf of Maine
@@ -366,17 +409,20 @@ OCEAN QUAHOG,ocean quahog,Atlantic Coast,NA,NMFS,NA,11,Rhode Island
 "SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,8,Massachusetts-South
 "SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,10,New York
 "SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,11,Rhode Island
+"SKATE, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,12,Northeast
 NA,rosette skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,NA,NA
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,3,Gulf of Maine
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,4,Mid-Atlantic Bight
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,7,Massachusetts-North
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,10,New York
+"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,12,Northeast
 "SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,NA,2,Georges Bank
 "SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,NA,3,Gulf of Maine
 "SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,NA,6,Maine
 "SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,NA,7,Massachusetts-North
 "SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,NA,8,Massachusetts-South
 "SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,NA,9,New Hampshire
+"SKATE, THORNY",thorny skate,Gulf of Maine,NA,NMFS,NA,12,Northeast
 "SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,1,Offshore
 "SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,2,Georges Bank
 "SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,3,Gulf of Maine
@@ -388,6 +434,7 @@ NA,rosette skate,Southern New England / Mid-Atlantic,NA,NMFS,NA,NA,NA
 "SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,9,New Hampshire
 "SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,10,New York
 "SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,11,Rhode Island
+"SKATE, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,12,Northeast
 SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,1,Offshore
 SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,2,Georges Bank
 SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,3,Gulf of Maine
@@ -399,6 +446,7 @@ SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,8,M
 SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,9,New Hampshire
 SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,10,New York
 SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,11,Rhode Island
+SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,12,Northeast
 "TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,NA,1,Offshore
 "TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,NA,2,Georges Bank
 "TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,NA,3,Gulf of Maine
@@ -410,6 +458,7 @@ SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,11,
 "TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,NA,9,New Hampshire
 "TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,NA,10,New York
 "TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,NA,11,Rhode Island
+"TUNA, ALBACORE",albacore tuna,Northern Atlantic,ALBANATL,RAM,NA,12,Northeast
 "TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,NA,1,Offshore
 "TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,NA,2,Georges Bank
 "TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,NA,3,Gulf of Maine
@@ -421,6 +470,7 @@ SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,11,
 "TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,NA,9,New Hampshire
 "TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,NA,10,New York
 "TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,NA,11,Rhode Island
+"TUNA, BLUEFIN",atlantic bluefin tuna,Western Atlantic,ATBTUNAWATL,RAM,NA,12,Northeast
 "CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,NA,1,Offshore
 "CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,NA,2,Georges Bank
 "CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,NA,3,Gulf of Maine
@@ -432,11 +482,13 @@ SQUID / LOLIGO,longfin inshore squid,Georges Bank / Cape Hatteras,NA,NMFS,NA,11,
 "CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,NA,9,New Hampshire
 "CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,NA,10,New York
 "CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,NA,11,Rhode Island
+"CROAKER, ATLANTIC",atlantic croaker,Mid-Atlantic Coast,ATLCROAKMATLC,RAM,NA,12,Northeast
 "TUNA, BIG EYE",bigeye tuna,Atlantic Ocean,BIGEYEATL,RAM,NA,1,Offshore
 "TUNA, BIG EYE",bigeye tuna,Atlantic Ocean,BIGEYEATL,RAM,NA,2,Georges Bank
 "TUNA, BIG EYE",bigeye tuna,Atlantic Ocean,BIGEYEATL,RAM,NA,4,Mid-Atlantic Bight
 "TUNA, BIG EYE",bigeye tuna,Atlantic Ocean,BIGEYEATL,RAM,NA,8,Massachusetts-South
 "TUNA, BIG EYE",bigeye tuna,Atlantic Ocean,BIGEYEATL,RAM,NA,10,New York
+"TUNA, BIG EYE",bigeye tuna,Atlantic Ocean,BIGEYEATL,RAM,NA,12,Northeast
 NA,blue marlin,Atlantic Ocean,BMARLINATL,RAM,NA,NA,NA
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,NA,1,Offshore
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,NA,2,Georges Bank
@@ -449,6 +501,7 @@ NA,blue marlin,Atlantic Ocean,BMARLINATL,RAM,NA,NA,NA
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,NA,9,New Hampshire
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,NA,10,New York
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,NA,11,Rhode Island
+"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,NA,12,Northeast
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,1,Offshore
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,2,Georges Bank
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,3,Gulf of Maine
@@ -460,6 +513,7 @@ MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,8,Massachusetts-South
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,9,New Hampshire
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,10,New York
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,11,Rhode Island
+MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,12,Northeast
 NA,sailfish,Western Atlantic,SAILWATL,RAM,NA,NA,NA
 "TUNA, SKIPJACK",skipjack tuna,Western Atlantic,SKJWATL,RAM,NA,1,Offshore
 "TUNA, SKIPJACK",skipjack tuna,Western Atlantic,SKJWATL,RAM,NA,2,Georges Bank
@@ -468,6 +522,7 @@ NA,sailfish,Western Atlantic,SAILWATL,RAM,NA,NA,NA
 "TUNA, SKIPJACK",skipjack tuna,Western Atlantic,SKJWATL,RAM,NA,8,Massachusetts-South
 "TUNA, SKIPJACK",skipjack tuna,Western Atlantic,SKJWATL,RAM,NA,10,New York
 "TUNA, SKIPJACK",skipjack tuna,Western Atlantic,SKJWATL,RAM,NA,11,Rhode Island
+"TUNA, SKIPJACK",skipjack tuna,Western Atlantic,SKJWATL,RAM,NA,12,Northeast
 STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,NA,1,Offshore
 STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,NA,2,Georges Bank
 STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,NA,3,Gulf of Maine
@@ -479,10 +534,12 @@ STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,
 STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,NA,9,New Hampshire
 STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,NA,10,New York
 STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,NA,11,Rhode Island
+STRIPED BASS,striped bass,Gulf of Maine / Cape Hatteras,STRIPEDBASSGOMCHATT,RAM,NA,12,Northeast
 SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,1,Offshore
 SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,2,Georges Bank
 SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,4,Mid-Atlantic Bight
 SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,8,Massachusetts-South
+SWORDFISH,swordfish,Northern Atlantic,SWORDNATL,RAM,NA,12,Northeast
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,1,Offshore
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,2,Georges Bank
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,3,Gulf of Maine
@@ -494,6 +551,7 @@ WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,9,New Hampshire
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,10,New York
 WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,11,Rhode Island
+WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,NA,12,Northeast
 NA,white marlin,Atlantic Ocean,WMARLINATL,RAM,NA,NA,NA
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,1,Offshore
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,2,Georges Bank
@@ -504,6 +562,7 @@ NA,white marlin,Atlantic Ocean,WMARLINATL,RAM,NA,NA,NA
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,8,Massachusetts-South
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,10,New York
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,11,Rhode Island
+"TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,12,Northeast
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,1,Offshore
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,2,Georges Bank
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,3,Gulf of Maine
@@ -513,6 +572,7 @@ NA,white marlin,Atlantic Ocean,WMARLINATL,RAM,NA,NA,NA
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,8,Massachusetts-South
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,10,New York
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,11,Rhode Island
+"SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,12,Northeast
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,1,Offshore
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,2,Georges Bank
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,3,Gulf of Maine
@@ -524,28 +584,33 @@ NA,white marlin,Atlantic Ocean,WMARLINATL,RAM,NA,NA,NA
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,9,New Hampshire
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,10,New York
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,11,Rhode Island
+"SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,12,Northeast
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,3,Gulf of Maine
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,4,Mid-Atlantic Bight
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,7,Massachusetts-North
 "SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,10,New York
+"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,12,Northeast
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,2,Georges Bank
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,3,Gulf of Maine
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,6,Maine
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,7,Massachusetts-North
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,8,Massachusetts-South
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,9,New Hampshire
+MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,12,Northeast
 MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,2,Georges Bank
 MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,3,Gulf of Maine
 MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,6,Maine
 MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,7,Massachusetts-North
 MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,8,Massachusetts-South
 MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,9,New Hampshire
+MONK LIVERS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,12,Northeast
 MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,2,Georges Bank
 MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,3,Gulf of Maine
 MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,6,Maine
 MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,7,Massachusetts-North
 MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,8,Massachusetts-South
 MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,9,New Hampshire
+MONK TAILS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,12,Northeast
 MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,1,Offshore
 MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,2,Georges Bank
 MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,4,Mid-Atlantic Bight
@@ -553,6 +618,7 @@ MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,5,Connectic
 MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,8,Massachusetts-South
 MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,10,New York
 MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,11,Rhode Island
+MONK HEADS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,12,Northeast
 MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,1,Offshore
 MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,2,Georges Bank
 MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,4,Mid-Atlantic Bight
@@ -560,6 +626,7 @@ MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,5,Connecti
 MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,8,Massachusetts-South
 MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,10,New York
 MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,11,Rhode Island
+MONK LIVERS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,12,Northeast
 MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,1,Offshore
 MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,2,Georges Bank
 MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,4,Mid-Atlantic Bight
@@ -567,10 +634,12 @@ MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,5,Connectic
 MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,8,Massachusetts-South
 MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,10,New York
 MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,11,Rhode Island
+MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,12,Northeast
 "TILEFISH, BLUELINE",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,1,Offshore
 "TILEFISH, BLUELINE",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "TILEFISH, BLUELINE",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,4,Mid-Atlantic Bight
 "TILEFISH, BLUELINE",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,8,Massachusetts-South
+"TILEFISH, BLUELINE",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,12,Northeast
 "TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,1,Offshore
 "TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,2,Georges Bank
 "TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,3,Gulf of Maine
@@ -580,3 +649,4 @@ MONK TAILS,goosefish,Southern Georges Bank / Mid-Atlantic,NA,NMFS,NA,11,Rhode Is
 "TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,8,Massachusetts-South
 "TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,10,New York
 "TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,11,Rhode Island
+"TILEFISH, GOLDEN",tilefish,Mid-Atlantic Coast,NA,NMFS,NA,12,Northeast

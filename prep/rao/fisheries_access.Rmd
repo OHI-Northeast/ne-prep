@@ -30,29 +30,27 @@ library(tidyverse)
 library(readxl)
 ```
 
-#Summary
+# Summary
 Fisheries access layer is derived from NOAA FSSI data.
 
 ***
 
-#Data Source 
-**Reference**: NOAA FSSI
+# Data Source 
+
+## [NOAA Fish Stock Sustainability Index](https://www.fisheries.noaa.gov/national/population-assessments/status-us-fisheries)
 
 **Downloaded**: Emailed to Jamie Afflerbach on July 29, 2019 by Karen Greene (NOAA)
 
-**Description**:  Fish Stock Sustainability Index
+**Description**:  Fish stocks in the Northeast are scored on a scale of 1 - 4 (low to high)
 
 **Native data resolution**: Stock level
 
 **Time range**: 2005-2018
 
 **Format**:  Tabular
-
-**Reference**: 
-
 ***
   
-# Methods
+# Analysis
 
 ## Load FSSI data
 
@@ -119,7 +117,7 @@ return(d)
 late_df <- map_df(late_files, clean_func)
 ```
 
-Combine!
+Combine old and newer dataframes
 
 ```{r combine_early_and_late}
 fssi_data <- early_df %>%
@@ -228,7 +226,9 @@ fssi_full <- fssi %>%
   filter(!is.na(rgn_id)) %>%
   bind_rows(b) %>%
   mutate(stock_location = paste0(stock, " ", location)) %>%
-  left_join(rgn_data)
+  left_join(rgn_data) %>%
+  mutate(rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_name)) %>%
+  select(-area_km2, -state_abv, -state, -state_name)
 
 write_csv(fssi_full, "data/fssi_scores.csv")
 ```
