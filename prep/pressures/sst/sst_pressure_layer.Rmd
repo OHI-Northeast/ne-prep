@@ -196,51 +196,36 @@ saveGIF({
 
 ## Region scores
 
-By extracting the data for each of the 9 regions using the `zonal` function from the `raster` package we can get the mean score per region.
+By extracting the data for each of the 11 regions using the `zonal` function from the `raster` package we can get the mean score per region.
 
 ```{r extract_data, eval=F}
 
 # read in rescaled files
-pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_sst/output/sst_rescale'),full.names=T), raster)%>%
+pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_sst/output/sst_rescale'),full.names=T), raster) %>%
   brick()
 
 # extract data for each region (zones is previously defined in common.R)
-regions_stats  <- zonal(pressure_stack,  zones, fun="mean", na.rm=TRUE, progress="text")%>%
+region_stats  <- zonal(pressure_stack,  zones, fun="mean", na.rm=TRUE, progress="text") %>%
                   data.frame()
+
+#extract data for entire region (region 12)
+rgn_12_zones <- raster(file.path(dir_git, "spatial/ocean_rasters/rgn_12_zone.tif"))
+ne_stats <- zonal(pressure_stack,  rgn_12_zones, fun="mean", na.rm=TRUE, progress="text") %>%
+                  data.frame()
+
+regions_stats <- bind_rows(region_stats, ne_stats)
 
 #merge the zonal stats with the rgn_data as defined in common.R
 data           <- merge(rgn_data, regions_stats, all.y=TRUE, by.x="rgn_id", by.y="zone") %>%
-                    dplyr::select(-area_km2)%>%
-                    gather("year", "pressure_score", starts_with("sst_rescale_")) 
+                    dplyr::select(-area_km2, -state_abv, -state_name, -state)%>%
+                    gather("year", "pressure_score", starts_with("sst_rescale_")) %>%
+                    mutate(rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_name))
 
 #add a year column that grabs the last year of the 5 year period and reformat as numeric
 sst_data <- data %>%
               mutate(year=substr(year,18, 21)) %>%
               mutate(year = as.numeric(year))
-
-#save output data
-write.csv(sst_data, file.path(dir_calc, "layers/cc_sst.csv"), row.names=FALSE)
 ```
-
-## Current scores
-
-Let's look at the most recent scores using the data from 2012 since it's the most recent year in the CoRTAD dataset.
-
-```{r current_score}
-
-#select data from 2017
-now <- read.csv(file.path(dir_calc, "layers/cc_sst.csv")) %>%
-  filter(year==2017)
-
-#map_scores is a function to plot a tmap map of the scores
-map_scores(now, score_var = now$pressure_score, 
-           scale_label = "Pressure Score",
-           map_title = "Sea Surface Temperature Pressures 2017")
-
-```
-
-
-## Region scores through time
 
 
 ```{r ggplot_time}
@@ -271,6 +256,11 @@ print(Motion, 'chart', file='sst.html')
 
 ```
 
+# Save to toolbox
+
+```{r save_to_tbx}
+write.csv(sst_data, file.path(dir_calc, "layers/cc_sst.csv"), row.names=FALSE)
+```
 
 ***
 

@@ -254,13 +254,24 @@ Stack each year then run `zonal` statistics to get the mean pressure score for e
 
 ```{r zonal_stats}
 catch_stack <- list.files(file.path(dir_anx, "prs_fish/data/"), pattern = "rescaled_catch_", full.names = T) %>% stack()
-catch_z     <- zonal(catch_stack, zones) %>% #zonal's default statistic is to take the mean
+catch_rgns     <- zonal(catch_stack, zones) %>% #zonal's default statistic is to take the mean
   as.data.frame() %>%
   gather(key = "year", value = "pressure_score", -zone) %>%
   mutate(year = as.numeric(str_replace(year, "rescaled_catch_", ""))) %>%
   rename(rgn_id = zone) %>%
   left_join(rgn_data, by = "rgn_id") %>%
   select(-area_km2, -state_name, -state, -state_abv)
+
+#get zonal for the entire region
+rgn_12_zones <- raster("~/github/ne-prep/spatial/ocean_rasters/rgn_12_zone.tif")
+catch_ne <- zonal(catch_stack, rgn_12_zones) %>% #zonal's default statistic is to take the mean
+  as.data.frame() %>%
+  gather(key = "year", value = "pressure_score", -zone) %>%
+  mutate(year = as.numeric(str_replace(year, "rescaled_catch_", ""))) %>%
+  rename(rgn_id = zone) %>%
+  mutate(rgn_name = "Northeast") 
+  
+catch_z <- bind_rows(catch_rgns, catch_ne)
 ```
 
 # Pressure scores

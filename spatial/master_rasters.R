@@ -61,6 +61,9 @@ r <- fasterize(rgns, ocean_ne, field = "rgn_id")
 
 writeRaster(r, filename = "~/github/ne-prep/spatial/ocean_rasters/ne_rgns_rast.tif", overwrite = T)
 
+s <- r
+s[s>0]<-12
+writeRaster(s, filename = "~/github/ne-prep/spatial/ocean_rasters/rgn_12_zone.tif", overwrite = T)
 
 
 
