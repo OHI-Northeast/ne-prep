@@ -28,11 +28,13 @@ library(readxl)
 library(animation)
 ```
 
-#Summary
+# Summary
+
+The fishing pressure layer represents the total amount of biomass removed by fishing through landings and bycatch. Total biomass per half-degree cell within the Northeast is calculated for each year 2000 - 2015, then rescaled using the 99.9th quantile across the time series and region. This ends up being 43 tons/km2.
 
 ***
 
-#Data Source
+# Data Source
 
 **Reference**: Watson, R. A. and Tidd, A. 2018. Mapping nearly a century and a half of global marine fishing: 1869–2015. Marine Policy, 93, pp. 171-177. [(Paper URL)](https://doi.org/10.1016/j.marpol.2018.04.023)
 
@@ -121,9 +123,11 @@ combine_fis <- function(x) {
   ## Join with master and spatial cells file
   df <- readRDS(x) %>%
     dplyr::filter(Cell %in% ne_cell_ids) %>%
-    dplyr::mutate(Landings = Reported+IUU) %>% 
+    dplyr::mutate(Catch = Reported+IUU+Discards) %>% 
     dplyr::left_join(index, by = "ID") %>% 
-    select(ID, Cell, Landings, Year = IYear, Cell, Discards = Discards.x)
+    select(ID, Cell, Catch, Year = IYear) %>%
+    left_join(cells) %>%
+    mutate(tons_per_km = Catch/OceanAreasqkm)
   
   ## Save each individual year as a single file
   five_years <- sort(unique(df$Year)) 
@@ -150,7 +154,7 @@ combine_fis <- function(x) {
 map(all_files, combine_fis)
 ```
 
-Create annual bycatch and landings raster layers. Combine non-industrial and industrial catch per cell, we do not differentiate.
+Create annual catch raster layers by combining landings and discards (for total biomass removal) from both non-industrial and industrial fishing.
 
 ```{r, results = "hide"}
 make_catch_rasters <- function(year){
@@ -159,12 +163,11 @@ make_catch_rasters <- function(year){
   nind <- read_csv(paste0(dir_anx, "/prs_fish/data/CatchNInd_", year, ".csv"))
   
   both <- bind_rows(ind, nind) %>%
-    mutate(catch = Landings + Discards) %>%
     group_by(Cell) %>%
-    summarize(total_catch = sum(catch))
+    summarize(total_catch = sum(tons_per_km))
   
   #subs cells_raster with landings and bycatch
-  #reproject & resample to 1km (the catch is already at 1 km - in Version 4.0 it comes as catch/km2)
+  #reproject & resample to 1km (the catch is already at 1 km - in Version 4.0 it comes as tons but above we calculated per km2)
   catch_rast <- subs(cells_raster, both, by = "Cell", which = "total_catch") %>%
     projectRaster(ocean_ne) %>%
     resample(ocean_ne) %>%
@@ -190,7 +193,7 @@ animation::saveGIF({
   for(i in 1:nlayers(catch_rasts)){
      plot(ocean_ne,col='cornsilk2',  main=names(catch_rasts[[i]]),axes=F,legend=F)
       # don't forget to fix the zlimits
-    plot(catch_rasts[[i]], zlim=c(0,140000), axes=F, col=cols, add=T)
+    plot(catch_rasts[[i]],axes=F, col=cols, add=T)
       
   }
 }, movie.name = 'catch_over_time.gif')
@@ -200,14 +203,14 @@ animation::saveGIF({
 
 # Get reference point
 
-We will use the 99th quantile. The majority of catch is well below 20,000 tons/km2. But in 2009, there is a record of 138,371 pounds/km2. This seems like an outlier so to rescale, we will use the 99th quantile instead (21398 pounds/km2).
+We will use the 99.9th quantile to rescale (42.9 tons/km2)
 
 ```{r reference_point}
 #landings
 all_vals <- getValues(catch_rasts)
 
 hist(all_vals, breaks = 25)
-catch_ref  <- quantile(all_vals, na.rm = T, probs = 0.99)
+catch_ref  <- quantile(all_vals, na.rm = T, probs = 0.999)
 ```
 
 # Rescale between 0 and 1
