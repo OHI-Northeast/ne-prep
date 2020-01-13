@@ -79,7 +79,8 @@ ram_sp <- ram_stock_ass %>%
   mutate(species = tolower(commonname),
          source      = "RAM",
          location = as.character(areaname)) %>%
-  select(-commonname, -areaname) #create a duplicate column "species" to match with noaa
+  select(-commonname, -areaname) %>%#create a duplicate column "species" to match with noaa
+  add_row(stockid = "LOBSTERSNE", species = "american lobster", source = "RAM", location = "Southern New England") #add southern new england stock of american lobster
 ```
 
 First I want to combine the RAM and NMFS Stock assessment data since they have location data too
@@ -203,7 +204,9 @@ match_areas_to_stocks <- read.csv("data/nmfs_spatial_catch_by_ohi_rgn.csv", stri
     stock_id == "OPTGMMA" ~ "Northwestern Atlantic Coast",
     stock_id == "POKGMASS" ~ "Gulf of Maine / Georges Bank",
     stock_id == "REDGMGBSS" ~ "Gulf of Maine / Georges Bank",
-    stock_id == "WOLGMMA" ~ "Gulf of Maine / Georges Bank"
+    stock_id == "WOLGMMA" ~ "Gulf of Maine / Georges Bank",
+    stock_id == "LOBSTERSNE" ~ "Southern New England",
+    stock_id == "LOBSTERGOM" ~ "Gulf of Maine"
   ))
 ```
 

@@ -51,8 +51,10 @@ source("~/github/ne-prep/src/R/common.R")
 
 Cleaning the raw data a bit by fixing column names and turning `stat_area` numeric. 
 ```{r}
+#loading data
 raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_JUL 2019 Updated.xlsx"))
 
+#cleaning up a bit
 clean <- raw %>%
   rename(year = YEAR,
          stat_area = `STAT\r\nAREA`,
@@ -62,7 +64,8 @@ clean <- raw %>%
          stock = `STOCK NAME`) %>%
   mutate(stat_area = as.numeric(stat_area))
 
-head(clean)
+#preview of what data looks like
+DT::datatable(head(clean, n = 20))
 ```
 
 There are a total of `r length(unique(clean$species))` reported species, which include groupings such as "Confidential Species" or "Clam, species not specified". Some of these species, such as Atlantic Cod, have multiple stocks.
@@ -146,8 +149,59 @@ region_catch <- bind_rows(rgn_catch, ne_catch)
 head(region_catch, n = 20)
 ```
 
+
+# Replace lobster catch
+
+The catch figures for American lobster in this spatial NMFS dataset are significantly lower than reported landings in scientific stock assessments. Given the importance of this species both culturally and commercially, the landings figures are replaced at the state level using publically available NOAA NMFS commercial landings. These are different than the spatialized data in that they are only reported at the state level, not by statistical area. These numbers were compared to landings reported in the Atlantic Marine Fisheries Commission 2015 Lobster stock assessment and were found to be very close, but go through 2017 whereas the stock assessment only has landings data to 2014. Therefore we use the NMFS commercial landigns by state data here. Importantly, since this data only comes in by state, we do not have any information for how much is caught offshore beyond state waters and therefore can not include any lobster catch in state waters within the offshore region scores.
+
+It does seem important to try and account for the amount of lobster caught in North and South Massachusetts as that has been varying in recent years. The NMFS commercial landings data do not give us a way to do this. But since the NMFS statistical areas 514 and 537/538 line up pretty well with these two regions, we can use the proportional difference between these for spatially reported lobster landings each year and apply it to the Massachusetts data from the commercial landings dataset.
+
 ```{r}
-write_csv(region_catch, "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this file is used in fis_species_lookuptable.Rmd to create the species lookup table
+l <- filter(clean, species == "LOBSTER, AMERICAN" & stat_area %in% c(514, 537, 538))
+ggplot(l, aes(x = year, y = pounds, color = as.character(stat_area))) + 
+  geom_line()
+```
+
+From the chart, there is very little catch in area 538 (south of Nantucket and Martha's Vineyard). We will add that catch to the southern massachusetts region, calculate the proportion of total catch in North (514) and South (537,538) Massachusetts.
+
+```{r mass_split_lobster}
+#calculating the proportion of catch in north and south mass
+prop_ma_lobs <- l %>%
+  mutate(rgn_id = ifelse(stat_area == 514, 7, 8)) %>%
+  group_by(year) %>%
+  mutate(year_all_catch = sum(pounds)) %>%
+  ungroup() %>%
+  group_by(rgn_id, year) %>%
+  mutate(rgn_catch = sum(pounds, na.rm = T)) %>%
+  ungroup() %>%
+  mutate(prop_catch = rgn_catch/year_all_catch) %>%
+  select(year, species, rgn_id, prop_catch) %>%
+  distinct()
+
+ggplot(prop_ma_lobs, aes(x = year, y = prop_catch, color = as.character(rgn_id))) +geom_line()
+```
+
+Load the NMFS Commercial landings data for lobster
+```{r}
+lobster <- read_csv("data/nmfs_lobster_state_landings.csv") %>%
+  select(year = Year, State, catch = Pounds, species = `AFS Name`) %>%
+  mutate(state_name = str_to_title(State)) %>%
+  select(-State) %>%
+  left_join(rgn_data) %>%
+  left_join(prop_ma_lobs) %>%
+  mutate(catch = ifelse(is.na(prop_catch), catch, prop_catch*catch)) %>%
+  mutate(display_name = "LOBSTER, AMERICAN",
+         stock_id = ifelse(rgn_id > 7, "LOBSTERSNE", "LOBSTERGOM"),
+         stock = ifelse(rgn_id > 7, "SNE Lobster", "GOM/GB Lobster")) %>% #differentiate stocks based on north/south cape cod
+  select(species, stock_id, stock, rgn_id, year, rgn_name, catch, display_name)
+
+rgn_catch_plus_lob <- region_catch %>% filter(species != "LOBSTER, AMERICAN") %>%
+  bind_rows(lobster)
+```
+
+
+```{r}
+write_csv(rgn_catch_plus_lob, "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this file is used in fis_species_lookuptable.Rmd to create the species lookup table
 ```
 
 

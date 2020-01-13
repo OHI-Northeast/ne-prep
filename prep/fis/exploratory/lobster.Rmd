@@ -33,7 +33,7 @@ source("~/github/ne-prep/src/R/common.R")
 # Data Cleaning
 
 ```{r}
-raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_MAR 2019.xlsx"))
+raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_JUL 2019 Updated.xlsx"))
 
 #get the lobster data
 lobster <- raw %>%
@@ -125,8 +125,22 @@ ggplot(lob_map_ohi, aes(x = year, y = catch, color = rgn_name)) +
 ```
 
 
+## NMFS manually downloaded state landings for lobster
+
+```{r}
+nmfs_lobster <- read_csv("../data/nmfs_lobster_state_landings.csv") %>%
+  mutate(Year = as.numeric(Year))
+
+ggplot(nmfs_lobster, aes(x = Year, y = Pounds, color = State)) +
+  geom_line()
+```
 
 
+Data from 2015 lobster stock assessment report
+
+```{r}
+
+```
 
 
 

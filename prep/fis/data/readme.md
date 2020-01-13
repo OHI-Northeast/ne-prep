@@ -25,3 +25,5 @@
 
 `all_species_caught_assessment_summary.csv` created in `5_assessed_species_lookuptable.Rmd`
 - this table lists all species caught in the Northeast, and their assessment status (yes = assessed)
+
+`nmfs_lobster_state_landings.csv` was downloaded from the [NMFS Commercial Landings website](https://foss.nmfs.noaa.gov/apexfoss/f?p=215:200:15792138817166::NO:::) on Deceber 9, 2017. These data are landings for commercially caught American Lobster from 2000 to 2017. These will be used to replace the lobster catch data by statistical area. After doing comparisons of the landings by stat area data for lobster with the landings reported in the 2015 stock assessment, it's clear that a lot of landings are done in state waters and somehow not captured in the statistical area data. 

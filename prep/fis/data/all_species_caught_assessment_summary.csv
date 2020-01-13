@@ -67,7 +67,6 @@ HARD QUAHOG,NA,NA,NA,NA,no
 "HERRING, ATLANTIC",atlantic herring,Northwestern Atlantic Coast,NA,NMFS,yes
 "HERRING, BLUE BACK",NA,NA,NA,NA,no
 JOHN DORY,NA,NA,NA,NA,no
-"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,yes
 LUMPFISH,NA,NA,NA,NA,no
 "MACKEREL, ATLANTIC",atlantic mackerel,Gulf of Maine / Cape Hatteras,NA,NMFS,yes
 "MACKEREL, CHUB",NA,NA,NA,NA,no
@@ -166,3 +165,5 @@ WEAKFISH / SQUETEAGUE / GRAY SEA TROUT,weakfish,Atlantic Coast,WEAKFISHATLC,RAM,
 "WHITING, BLACK",NA,NA,NA,NA,no
 "WHITING, KING / KINGFISH",NA,NA,NA,NA,no
 WOLFFISH / OCEAN CATFISH,atlantic wolffish,Gulf of Maine / Georges Bank,WOLGMMA,NMFS,yes
+"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,yes
+"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,yes
