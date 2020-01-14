@@ -154,9 +154,6 @@ stock_ass_data <- ts %>%
   left_join(sp)
 ```
 
-```{r}
-write.csv(stock_ass_data, file = "data/ram_stock_assessment_data.csv")
-```
 
 # Replace Lobster
 
@@ -174,14 +171,16 @@ lob_2009_assessment <- data.frame(stocklong = c("American lobster Gulf of Maine"
                                   target = c(0.56, 71860000, 0.94, 15830000),
                                   current   = c(0.48, 116077000, 0.32, 14676700)) %>%
   mutate(value = current/target,
-         ohi_metric = c("f_fmsy", "b_bmsy", "f_fmsy", "b_bmsy"))
+         metric = c("F/Fmsy", "B/Bmsy", "F/Fmsy", "B/Bmsy"),
+         areaname = ifelse(str_detect(stocklong, "Gulf"), "Gulf of Maine", "Southern New England")) 
 
 lob_2015_assessment <- data.frame(stocklong = c("American lobster Gulf of Maine", "American lobster Gulf of Maine", "American lobster Southern New England", "American lobster Southern New England"),
                                   metric = c("exploitation", "abundance", "explotation", "abundance"),
                                   target = c(0.46, 107000000, 0.37, 32000000),
                                   current   = c(0.48, 248000000, 0.27, 10000000)) %>%
   mutate(value = current/target,
-         ohi_metric = c("f_fmsy", "b_bmsy", "f_fmsy", "b_bmsy")) 
+         metric = c("F/Fmsy", "B/Bmsy", "F/Fmsy", "B/Bmsy"),
+         areaname = ifelse(str_detect(stocklong, "Gulf"), "Gulf of Maine", "Southern New England")) 
 
 lob_1 <- do.call("rbind", replicate(3, lob_2009_assessment, simplify = FALSE))
 lob_1$year = c(rep(2005,4), rep(2006, 4), rep(2007,4))
@@ -190,13 +189,21 @@ lob_2 <- do.call("rbind", replicate(3, lob_2015_assessment, simplify = FALSE))
 lob_2$year = c(rep(2011,4), rep(2012, 4), rep(2013,4))
 
 lobster_stock_status <- bind_rows(lob_1, lob_2) %>%
-  select(-metric, -target, -current) %>%
+  select(-target, -current) %>%
   mutate(commonname = "American lobster",
          scientificname = "Homarus americanus",
          stockid = NA)
 ```
 
+```{r}
+stock_ass_data <- stock_ass_data %>%
+    mutate(remove = ifelse(stockid == "LOBSTERGOM" & year %in% c(2005:2007), 1, 0)) %>%
+    filter(remove == 0) %>%
+    select(-remove) %>%
+  bind_rows(lobster_stock_status)
 
+write.csv(stock_ass_data, file = "data/ram_stock_assessment_data.csv")
+```
 
 ---
 
@@ -208,28 +215,16 @@ Convert these value to stock scores between 0 and 1 in the same way we do for NM
 
 #grab just B/Bmsy data
   ram_b_bmsy <- stock_ass_data %>%
-    filter(metric == "B/Bmsy") %>% #remove the RAM values for lobster
+    filter(metric == "B/Bmsy") %>% 
     select(stockid, stocklong, scientificname, commonname, year, value) %>%
-    rename(b_bmsy = value) %>%
-    mutate(remove = ifelse(stockid == "LOBSTERGOM" & year %in% c(2005:2007), 1, 0)) %>%
-    filter(remove == 0) %>%
-    select(-remove) %>%
-   bind_rows(lobster_stock_status %>% 
-               filter(ohi_metric == "b_bmsy") %>% 
-               select(-ohi_metric)) %>%
-  mutate(b_bmsy = ifelse(is.na(b_bmsy), value, b_bmsy)) %>%
-  select(-value)
+    rename(b_bmsy = value)
   
 #grab just F/Fmsy data  
   ram_f_fmsy <- stock_ass_data %>%
     filter(metric == "F/Fmsy") %>%
     select(stockid, stocklong, scientificname, commonname, year, value) %>%
-    mutate(remove = ifelse(stockid == "LOBSTERGOM" & year %in% c(2005:2007), 1, 0)) %>%
-    filter(remove == 0) %>%
-    select(-remove) %>%
-    bind_rows(lobster_stock_status %>% 
-               filter(ohi_metric == "f_fmsy") %>% 
-               select(-ohi_metric)) 
+    rename(f_fmsy = value)
+  
   ### 
   b_bmsy_underexploit_penalty <- 0.25
   b_bmsy_underexploit_thresh  <- 3.00
@@ -238,13 +233,12 @@ Convert these value to stock scores between 0 and 1 in the same way we do for NM
   
   ### Apply rolling mean to F/Fmsy
   ## Why do we do this? because B is a less sensitive metric (relies of biological processes) and F can fluctuate pretty easily because it is really just a mgmt decision.
-  ram_f_fmsy <- ram_f_fmsy %>%
-    mutate(f_fmsy= value) %>%
+  ram_f_fmsy <- ram_f_fmsy  %>%
     arrange(stockid, year) %>%
     group_by(stockid) %>%
     mutate(f_fmsy_rollmean = zoo::rollmean(f_fmsy, k = 3, align = 'right', fill = NA)) %>%
     ungroup() %>%
-    select(-value, -f_fmsy) %>%
+    select(-f_fmsy) %>%
     rename(f_fmsy = f_fmsy_rollmean)
   
   stock_status_layers <- ram_b_bmsy %>%
