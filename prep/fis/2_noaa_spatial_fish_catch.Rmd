@@ -208,7 +208,7 @@ write_csv(rgn_catch_plus_lob, "data/nmfs_spatial_catch_by_ohi_rgn.csv") #this fi
 ## Total catch over time
 
 ```{r total_northeast_catch}
-total_catch <- region_catch %>%
+total_catch <- rgn_catch_plus_lob %>%
   filter(rgn_id == 12) %>%
   group_by(year) %>%
   summarize(catch = sum(catch))
@@ -224,7 +224,7 @@ ggplot(total_catch, aes(x = year, y = catch)) +
 ## Visualize catch by region
 
 ```{r raw_catch_by_region}
-ggplot(region_catch, aes(x = year, y = catch, fill = display_name)) +
+ggplot(rgn_catch_plus_lob, aes(x = year, y = catch, fill = display_name)) +
   facet_wrap(~rgn_name, scales = "free_y") +
   geom_bar(stat = "identity") +
   theme_bw() +
@@ -247,7 +247,7 @@ unique(ale$year)
 Ok clearly we are missing data for 2001, 2002, 04-05, 2008-11. We don't know if these are 0's or missing data. We need to **gapfill** this missing data. When a species/state combination has missing data for a year, we can not assume it has a catch of 0. Since we calculate a rolling average of catch, NAs will remain as NA's and the average will rely on just one or two years of catch. This is done to account for any wild fluctuations in catch year to year.
 
 ```{r gapfilled_catch_by_region}
-gf_data <- region_catch %>%
+gf_data <- rgn_catch_plus_lob %>%
   group_by(rgn_id, rgn_name, species, stock, stock_id, display_name) %>%
   complete(year = 1998:2017) %>%
   arrange(year) %>%
