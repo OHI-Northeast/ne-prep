@@ -42,6 +42,7 @@ library(readxl)
 library(sf)
 #install.packages("viridis")
 library(viridis)
+library(janitor)
 
 source("~/github/ne-prep/src/R/common.R")
 ```
@@ -152,48 +153,26 @@ head(region_catch, n = 20)
 
 # Replace lobster catch
 
-The catch figures for American lobster in this spatial NMFS dataset are significantly lower than reported landings in scientific stock assessments. Given the importance of this species both culturally and commercially, the landings figures are replaced at the state level using publically available NOAA NMFS commercial landings. These are different than the spatialized data in that they are only reported at the state level, not by statistical area. These numbers were compared to landings reported in the Atlantic Marine Fisheries Commission 2015 Lobster stock assessment and were found to be very close, but go through 2017 whereas the stock assessment only has landings data to 2014. Therefore we use the NMFS commercial landigns by state data here. Importantly, since this data only comes in by state, we do not have any information for how much is caught offshore beyond state waters and therefore can not include any lobster catch in state waters within the offshore region scores.
+The catch figures for American lobster in this spatial NMFS dataset are significantly lower than reported landings in scientific stock assessments. Given the importance of this species both culturally and commercially, the landings figures are replaced using Lobster data from another NMFS dataset called the Data Matching and Imputation System (DMIS) database. These come with statistical areas so they can matchup with the VTR database. The VTR database is inaccurate when it comes to lobster because vessels with **only a lobster permit** are not required to submit a vessel trip report. The DMIS database builds off the VTR data to estimate landings by area. 
 
-It does seem important to try and account for the amount of lobster caught in North and South Massachusetts as that has been varying in recent years. The NMFS commercial landings data do not give us a way to do this. But since the NMFS statistical areas 514 and 537/538 line up pretty well with these two regions, we can use the proportional difference between these for spatially reported lobster landings each year and apply it to the Massachusetts data from the commercial landings dataset.
 
+Load the DMIS data and calculate catch per OHI region
 ```{r}
-l <- filter(clean, species == "LOBSTER, AMERICAN" & stat_area %in% c(514, 537, 538))
-ggplot(l, aes(x = year, y = pounds, color = as.character(stat_area))) + 
-  geom_line()
-```
-
-From the chart, there is very little catch in area 538 (south of Nantucket and Martha's Vineyard). We will add that catch to the southern massachusetts region, calculate the proportion of total catch in North (514) and South (537,538) Massachusetts.
-
-```{r mass_split_lobster}
-#calculating the proportion of catch in north and south mass
-prop_ma_lobs <- l %>%
-  mutate(rgn_id = ifelse(stat_area == 514, 7, 8)) %>%
-  group_by(year) %>%
-  mutate(year_all_catch = sum(pounds)) %>%
+lobster <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/JAfflerbach_Landings by Stat Area DMIS_JAN 2020.xlsx")) %>% 
+  clean_names() %>%
+  filter(species == "LOBSTER, AMERICAN") %>%
+  group_by(stat_area, year, species, stock_id, stock_name) %>%
+  summarize(catch = sum(lbs_landed)) %>%
   ungroup() %>%
-  group_by(rgn_id, year) %>%
-  mutate(rgn_catch = sum(pounds, na.rm = T)) %>%
-  ungroup() %>%
-  mutate(prop_catch = rgn_catch/year_all_catch) %>%
-  select(year, species, rgn_id, prop_catch) %>%
-  distinct()
-
-ggplot(prop_ma_lobs, aes(x = year, y = prop_catch, color = as.character(rgn_id))) +geom_line()
-```
-
-Load the NMFS Commercial landings data for lobster
-```{r}
-lobster <- read_csv("data/nmfs_lobster_state_landings.csv") %>%
-  select(year = Year, State, catch = Pounds, species = `AFS Name`) %>%
-  mutate(state_name = str_to_title(State)) %>%
-  select(-State) %>%
-  left_join(rgn_data) %>%
-  left_join(prop_ma_lobs) %>%
-  mutate(catch = ifelse(is.na(prop_catch), catch, prop_catch*catch)) %>%
+  mutate(stat_area = as.numeric(stat_area)) %>%
+  left_join(calc_prop_area, by = c("stat_area" = "Id")) %>%
+  mutate(catch = catch*ohi_rgn_prop_area) %>% #adjusting catch by the proportional area with overlap
+  select(-area_km2, -FULL_NAME, -SHORT_NAME, -stat_area.y, -ohi_area, -NAFODIV) %>%
   mutate(display_name = "LOBSTER, AMERICAN",
          stock_id = ifelse(rgn_id > 7, "LOBSTERSNE", "LOBSTERGOM"),
          stock = ifelse(rgn_id > 7, "SNE Lobster", "GOM/GB Lobster")) %>% #differentiate stocks based on north/south cape cod
-  select(species, stock_id, stock, rgn_id, year, rgn_name, catch, display_name)
+  select(species, stock_id, stock, rgn_id, year, rgn_name, catch, display_name) %>%
+  filter(!is.na(rgn_id))
 
 rgn_catch_plus_lob <- region_catch %>% filter(species != "LOBSTER, AMERICAN") %>%
   bind_rows(lobster)

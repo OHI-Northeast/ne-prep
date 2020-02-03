@@ -1,0 +1,136 @@
+---
+title: "Comparing DIMS and VTR data"
+author: "Jamie Afflerbach"
+date: "2/2/2020"
+output: html_document
+---
+
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE, results = 'hide'}
+
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, fig.path = "figs/")
+
+source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+library(readxl)
+library(janitor)
+library(tidyr)
+library(trelliscopejs)
+```
+
+This script compares two different fish landings datasets shared by Allison Ferguson from NOAA. The Vessel Trip Report (VTR) data and a combined VTR and DMIS (dealer data). Some helpful notes from Allison:
+
+-	From what I understand, the DMIS dealer matching database pulls trip level data from all our data sources, including VTR. For trips where there's a dealer record but no VTR, DMIS grabs the last used statistical area from a vessel and applies that.  For trips where it can't find a last known area, it assigns area 516 which does not actually exist, but is in the general area of boston.  There is an "area source" field in DMIS which lists whether the area came directly from a VTR, or was calculated from a VTR, or was Imputed.  He is in the process of redesigning the DMIS system, and the area data will be handled more accurately.  So it sounds to me like the VTR data is still the best route for pulling landings by statistical area.  However, I can rerun your whole report with DMIS if you'd like to see the differences.  In the meantime I have finished running the lobster data using DMIS and once my coworker reviews it, I can send to you.  I can add the area source column so you'll know how accurate the area is.
+
+-	 DMIS database, which is a derived database including dealer and vessel.  It attempts to match trip data across all sources
+
+-	Please note that the DMIS [Dealer Matching Imputation System] does NOT include the surf clam/ocean quahog database [that was news to me], so you can use the numbers I sent you last year for SURF CLAM & OCEAN QHAHOG.
+
+## Loading VTR data
+
+```{r}
+vtr <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Afflerbach_UCSB_Landings by Stat Area_JUL 2019 Updated.xlsx"))
+
+#cleaning up a bit
+clean_vtr <- clean_names(vtr)
+
+```
+
+## Loading DMIS data
+
+```{r}
+dmis <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/JAfflerbach_Landings by Stat Area DMIS_JAN 2020.xlsx"))
+
+clean_dmis <- clean_names(dmis)
+```
+
+The VTR data goes back to `r min(clean_vtr$year, na.rm = T)` and DMIS only goes back to `r min(clean_dmis$year, na.rm = T)`
+
+```{r}
+unique(clean_vtr$species)
+setdiff(unique(clean_dmis$species), unique(clean_vtr$species))
+```
+
+
+```{r}
+#look at total catch per species and year
+
+dmis_sp_yr <- clean_dmis %>%
+  mutate(species = case_when(
+    species == "FLOUNDER, AM. PLAICE" ~ "FLOUNDER, AMERICAN PLAICE /DAB",
+    species == "WOLFISH, ATLANTIC" ~ "WOLFFISH / OCEAN CATFISH", 
+    species == "FLOUNDER, SUMMER" ~ "FLOUNDER, SUMMER / FLUKE",
+    species == "HAKE, SILVER" ~ "HAKE, SILVER / WHITING",
+    species == "FLOUNDER, WITCH" ~ "FLOUNDER, WITCH / GRAY SOLE",
+    species == "POUT, OCEAN" ~ "OCEAN POUT",
+    species == "GOOSEFISH, BLACKFIN" ~ "MONKFISH / ANGLERFISH / GOOSEFISH",
+    species == "DOLPHINFISH" ~ "DOLPHIN FISH / MAHI-MAHI",
+    species == "FLOUNDER, WINTER" ~ "FLOUNDER, WINTER / BLACKBACK",
+    species == "HAKE, RED" ~ "HAKE, RED / LING",
+    species == "SEA BASS, BLACK" ~ "BLACK SEA BASS",
+    species == "FLOUNDER, SAND-DAB" ~ "FLOUNDER, SAND-DAB / WINDOWPANE / BRILL",
+    TRUE ~ as.character(species)
+  )) %>%
+  group_by(species, stock_id, year) %>%
+  summarize(catch = sum(lbs_landed, na.rm = T)) %>%
+  mutate(source = "DMIS") %>%
+  ungroup()
+
+vtr_sp_yr <- clean_vtr %>%
+  group_by(species, stock_id, year) %>%
+  summarize(catch = sum(lbs_landed_hail_wt, na.rm = T)) %>%
+  mutate(source = "VTR") %>%
+  ungroup()
+
+combo <- dmis_sp_yr %>%
+  bind_rows(vtr_sp_yr) %>%
+  mutate(stock_sp = paste(species, stock_id, sep = "_")) %>%
+  mutate(stock_id = case_when(
+    species == "HALIBUT, ATLANTIC" ~ "HALGMMA",
+    TRUE ~ as.character(stock_id)
+  ))
+```
+
+Filter out ones without assessment (not using them anyway)
+
+```{r}
+ass_sp <- read_csv("data/all_species_caught_assessment_summary.csv") %>%
+  filter(assessed == "yes")
+```
+
+
+
+```{r}
+combo_filter <- combo %>%
+  filter(species %in% ass_sp$nmfs_original_species) %>%
+  group_by(stock_sp) %>%
+  mutate(count = n()) %>% #count how many instances of the stock_sp there are. if only 1, remove
+  ungroup() %>%
+  filter(count > 1,
+         year > 2006,
+         !species %in% c("OCEAN QUAHOG", "CLAM, SURF"))
+
+ggplot(combo_filter, aes(x = year, y = catch, color = source)) +
+  geom_line() +
+  facet_trelliscope(~stock_sp, scales = "free")
+```
+How well do these line up?
+
+```{r}
+mod_df <- combo_filter %>%
+  pivot_wider(names_from = source, values_from = catch) %>%
+  filter(!is.na(DMIS),
+         !is.na(VTR)) %>%
+  group_by(stock_sp) %>%
+  do(lm(DMIS~VTR, data=.) %>% summary() %>% .$r.squared %>% as.data.frame)
+
+a <- mod_df %>% filter(stock_sp == "BLACK SEA BASS_NA")
+
+mod <- lm(DMIS ~ VTR, a)
+```
+
+Look just at lobster
+
+```{r}
+lobster_dmis <- clean_dmis %>%
+  filter(species == "LOBSTER, AMERICAN")
+```
+

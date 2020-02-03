@@ -25,7 +25,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 library(tidyverse)
 library(readxl)
-library(gganimate)
+library(janitor)
 source("~/github/ne-prep/src/R/common.R")
 ```
 
@@ -52,7 +52,7 @@ lobster <- raw %>%
 ```
 
 
-#Map lobster catch
+# Map lobster catch
 
 Statistical areas
 ```{r}
@@ -136,12 +136,45 @@ ggplot(nmfs_lobster, aes(x = Year, y = Pounds, color = State)) +
 ```
 
 
-Data from 2015 lobster stock assessment report
+Look at lobster catch from DMIS database
 
 ```{r}
 
+dmis <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/JAfflerbach_Landings by Stat Area DMIS_JAN 2020.xlsx"))
+
+clean_dmis <- clean_names(dmis) %>%
+  filter(species == "LOBSTER, AMERICAN") %>%
+  mutate(stat_area = as.numeric(stat_area))
+
+#map
+
+lob_dmis_map <- stat_shp %>%
+  filter(Id %in% ohi_stat_areas$Id) %>%
+  left_join(clean_dmis, by = c("Id" = "stat_area")) %>%
+  select(Id, year, lbs_landed)
+
+ggplot(lob_dmis_map) +
+  geom_sf(aes(fill = lbs_landed)) +
+  facet_wrap(~year) +
+  theme_bw()
+
 ```
 
+```{r}
+
+dmis_lob_map_ohi <- calc_prop_area %>%
+  left_join(clean_dmis, by = c("Id" = "stat_area")) %>%
+  mutate(catch = ohi_rgn_prop_area*lbs_landed) %>%
+  group_by(rgn_id, rgn_name, year) %>%
+  summarize(catch = sum(catch)) %>%
+  select(rgn_name, rgn_id, year, catch)
+
+
+ggplot(dmis_lob_map_ohi) +
+  geom_sf(aes(fill = catch), size = 0.1) +
+  theme_bw() +
+  facet_wrap(~year)
+```
 
 
 
