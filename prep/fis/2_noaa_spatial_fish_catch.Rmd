@@ -174,8 +174,20 @@ lobster <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/JAfflerbach_Landin
   select(species, stock_id, stock, rgn_id, year, rgn_name, catch, display_name) %>%
   filter(!is.na(rgn_id))
 
-rgn_catch_plus_lob <- region_catch %>% filter(species != "LOBSTER, AMERICAN") %>%
-  bind_rows(lobster)
+rgn_catch_plus_lob <- region_catch %>% 
+  mutate(remove = ifelse(species == "LOBSTER, AMERICAN" & year > 2006, 1, 0)) %>%
+  filter(remove == 0) %>% #we want to replace the 2007 onwards lobster
+  select(-remove) %>%
+  bind_rows(lobster) %>%
+  mutate(stock_id = case_when(
+            species == "LOBSTER, AMERICAN" & rgn_id > 7 ~ "LOBSTERSNE",
+            species == "LOBSTER, AMERICAN" & rgn_id < 8 ~ "LOBSTERGOM",
+            TRUE ~ as.character(stock_id)),
+         stock = case_when(
+            species == "LOBSTER, AMERICAN" & rgn_id > 7 ~ "SNE Lobster",
+            species == "LOBSTER, AMERICAN" & rgn_id < 8 ~ "GOM/GB Lobster",
+            TRUE ~ as.character(stock)
+         ))
 ```
 
 
