@@ -58,7 +58,7 @@ raw <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/catch_by_stat_area/Aff
 #cleaning up a bit
 clean <- raw %>%
   rename(year = YEAR,
-         stat_area = `STAT\r\nAREA`,
+         stat_area = `STAT\r\nAREA`, 
          species = SPECIES,
          pounds = `LBS LANDED \r\n(HAIL WT)`,
          stock_id = `STOCK ID`,
@@ -171,16 +171,60 @@ lobster <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/JAfflerbach_Landin
   group_by(year, species, rgn_name, rgn_id) %>%
   summarize(catch = sum(catch)) %>%
   ungroup() %>%
-  mutate(display_name = "LOBSTER, AMERICAN",
+  mutate(display_name = ifelse(rgn_id %in% c(4, 5, 10, 11, 8, 1), "AMERICAN LOBSTER SOUTHERN NE", "AMERICAN LOBSTER GULF OF MAINE"),
          stock_id = ifelse(rgn_id %in% c(4, 5, 10, 11, 8, 1), "LOBSTERSNE", "LOBSTERGOM"),
          stock = ifelse(rgn_id %in% c(4, 5, 10, 11, 8, 1), "SNE Lobster", "GOM/GB Lobster")) %>% #differentiate stocks based on north/south cape cod
   filter(!is.na(rgn_id))
+```
 
+Create a dataframe of catch for each lobster stock for entire Northeast (region 12)
+```{r}
+ne_lobster <- lobster %>%
+  group_by(species, stock_id, stock, year, display_name) %>%
+  summarize(catch = sum(catch)) %>%
+  ungroup() %>%
+  mutate(rgn_id = 12, rgn_name = "Northeast")
+```
+
+Calculate the proportion of catch for the whole region between these two stocks for 2007 and we are going to apply that proportion to the catch for 2005 and 2006.
+```{r}
+ne_lob_prop <- ne_lobster %>%
+  group_by(year, rgn_id, rgn_name) %>%
+  mutate(tot_catch = sum(catch)) %>%
+  ungroup() %>%
+  mutate(prop_catch = catch/tot_catch) %>%
+  filter(year == 2007) %>%
+  select(species, stock_id, stock, display_name, prop_catch)
+```
+
+Grab data from `region_catch` for lobster pre 2007 and assign the Northeast region (region 12) the catch among the two stocks based on the proportional catch just calculated.
+
+```{r}
+rgn_12_lobster <- region_catch %>%
+  filter(rgn_id == 12,
+         species == "LOBSTER, AMERICAN",
+         year < 2007) %>%
+  left_join(ne_lob_prop, by = "species") %>%
+  select(rgn_id, year, rgn_name, species, stock_id = stock_id.y, stock = stock.y, display_name = display_name.y, catch, prop_catch) %>%
+  mutate(catch2 = catch*prop_catch) %>%
+  select(-catch, -prop_catch) %>%
+  rename(catch = catch2)
+```
+
+
+Create final catch dataframe including the updated lobster data
+
+```{r}
 rgn_catch_plus_lob <- region_catch %>% 
-  mutate(remove = ifelse(species == "LOBSTER, AMERICAN" & year > 2006, 1, 0)) %>%
-  filter(remove == 0) %>% #we want to replace the 2007 onwards lobster
+  mutate(remove = case_when(
+    species == "LOBSTER, AMERICAN" & year > 2006 ~ "remove",
+    species == "LOBSTER, AMERICAN" & rgn_id == 12 ~ "remove",
+    TRUE ~ "keep")) %>%
+  filter(remove == "keep") %>% #we want to replace the 2007 onwards lobster
   select(-remove) %>%
   bind_rows(lobster) %>%
+  bind_rows(ne_lobster) %>%
+  bind_rows(rgn_12_lobster) %>%
   mutate(stock_id = case_when(
             species == "LOBSTER, AMERICAN" & rgn_id %in% c(4, 5, 10, 11, 8, 1) ~ "LOBSTERSNE",
             species == "LOBSTER, AMERICAN" & rgn_id %in% c(2, 3, 6, 7, 9) ~ "LOBSTERGOM",
@@ -188,8 +232,21 @@ rgn_catch_plus_lob <- region_catch %>%
          stock = case_when(
             species == "LOBSTER, AMERICAN" & rgn_id %in% c(4, 5, 10, 11, 8, 1) ~ "SNE Lobster",
             species == "LOBSTER, AMERICAN" & rgn_id %in% c(2, 3, 6, 7, 9) ~ "GOM/GB Lobster",
-            TRUE ~ as.character(stock)
-         ))
+            TRUE ~ as.character(stock)),
+         display_name = case_when(
+            species == "LOBSTER, AMERICAN" & rgn_id %in% c(4, 5, 10, 11, 8, 1) ~ "AMERICAN LOBSTER SOUTHERN NE",
+            species == "LOBSTER, AMERICAN" & rgn_id %in% c(2, 3, 6, 7, 9) ~ "AMERICAN LOBSTER GULF OF MAINE",
+            TRUE ~ as.character(display_name))
+         )
+```
+
+```{r}
+lob <- rgn_catch_plus_lob %>%  filter(species == "LOBSTER, AMERICAN")
+
+ggplot(lob, aes(x = year, y = catch, color = display_name)) +
+  geom_line() +
+  theme_bw() +
+  facet_wrap(~rgn_name, scales = "free_y")
 ```
 
 

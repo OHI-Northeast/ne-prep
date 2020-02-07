@@ -495,6 +495,7 @@ NA,blue marlin,Atlantic Ocean,BMARLINATL,RAM,NA,NA,NA
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,6,Maine
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,7,Massachusetts-North
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,9,New Hampshire
+"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,12,Northeast
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,1,Offshore
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,2,Georges Bank
 MENHADEN,atlantic menhaden,Atlantic,MENATLAN,RAM,NA,3,Gulf of Maine
@@ -561,18 +562,21 @@ NA,white marlin,Atlantic Ocean,WMARLINATL,RAM,NA,NA,NA
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,6,Maine
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,7,Massachusetts-North
 "LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,9,New Hampshire
+"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,12,Northeast
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,1,Offshore
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,4,Mid-Atlantic Bight
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,5,Connecticut
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,8,Massachusetts-South
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,10,New York
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,11,Rhode Island
+"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,12,Northeast
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,1,Offshore
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,4,Mid-Atlantic Bight
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,5,Connecticut
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,8,Massachusetts-South
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,10,New York
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,11,Rhode Island
+"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,12,Northeast
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,1,Offshore
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,2,Georges Bank
 "SKATE WINGS, LITTLE (SUMMER)",little skate,Georges Bank / Southern New England,NA,NMFS,NA,3,Gulf of Maine
