@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Compiled on Mon Jan 13 13:47:34 2020 by afflerbach" />
+<meta name="author" content="Compiled on Fri Feb 7 11:27:18 2020 by afflerbach" />
 
 
 <title>Create an assessed species information lookup table</title>
@@ -1648,7 +1648,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Create an assessed species information lookup table</h1>
-<h4 class="author"><em>Compiled on Mon Jan 13 13:47:34 2020 by afflerbach</em></h4>
+<h4 class="author"><em>Compiled on Fri Feb 7 11:27:18 2020 by afflerbach</em></h4>
 
 </div>
 
@@ -1659,8 +1659,8 @@ div.tocify {
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(tidyverse)</a></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.2.1     ✓ purrr   0.3.3
-## ✓ tibble  2.1.3     ✓ dplyr   0.8.3
-## ✓ tidyr   0.8.3     ✓ stringr 1.4.0
+## ✓ tibble  2.1.3     ✓ dplyr   0.8.4
+## ✓ tidyr   1.0.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.4.0</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
@@ -1795,27 +1795,28 @@ div.tocify {
 <a class="sourceLine" id="cb17-51" title="51">  )) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb17-52" title="52"><span class="st">  </span><span class="kw">left_join</span>(nmfs_catch) <span class="op">%&gt;%</span><span class="st"> </span><span class="co">#add in the original catch (uppercase)</span></a>
 <a class="sourceLine" id="cb17-53" title="53"><span class="kw">select</span>(nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source)</a></code></pre></div>
-<pre><code>## Joining, by = &quot;species&quot;Joining, by = &quot;species_low&quot;</code></pre>
+<pre><code>## Joining, by = &quot;species&quot;</code></pre>
+<pre><code>## Joining, by = &quot;species_low&quot;</code></pre>
 <p>Fixing the skate wings and monk fish pieces matching. Skates and Monkfish are reported in NMFS catch as full fish as well as pieces (wings, livers, heads). I’m sure there is a nice way to incorporate these species names into the data above but I’m doing it manually here…</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">add_species &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">stock_assessment_species_name =</span> <span class="kw">c</span>(<span class="st">&quot;little skate&quot;</span>, <span class="st">&quot;winter skate&quot;</span>, <span class="st">&quot;smooth skate&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;tilefish&quot;</span>, <span class="st">&quot;tilefish&quot;</span>),</a>
-<a class="sourceLine" id="cb19-2" title="2">                          <span class="dt">stock_assessment_species_location =</span> <span class="kw">c</span>(<span class="st">&quot;Georges Bank / Southern New England&quot;</span>, </a>
-<a class="sourceLine" id="cb19-3" title="3">                                                                <span class="st">&quot;Georges Bank / Southern New England&quot;</span>,</a>
-<a class="sourceLine" id="cb19-4" title="4">                                                                <span class="st">&quot;Gulf of Maine&quot;</span>,</a>
-<a class="sourceLine" id="cb19-5" title="5">                                                                <span class="st">&quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb19-6" title="6">                                                                <span class="st">&quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb19-7" title="7">                                                                <span class="st">&quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb19-8" title="8">                                                                <span class="st">&quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
-<a class="sourceLine" id="cb19-9" title="9">                                                                <span class="st">&quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
-<a class="sourceLine" id="cb19-10" title="10">                                                                <span class="st">&quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
-<a class="sourceLine" id="cb19-11" title="11">                                                                <span class="st">&quot;Mid-Atlantic Coast&quot;</span>,</a>
-<a class="sourceLine" id="cb19-12" title="12">                                                                <span class="st">&quot;Mid-Atlantic Coast&quot;</span>),</a>
-<a class="sourceLine" id="cb19-13" title="13">                          <span class="dt">source =</span> <span class="st">&quot;NMFS&quot;</span>,</a>
-<a class="sourceLine" id="cb19-14" title="14">                          <span class="dt">nmfs_original_species =</span> <span class="kw">c</span>(<span class="st">&quot;SKATE WINGS, LITTLE (SUMMER)&quot;</span>, <span class="st">&quot;SKATE WINGS, WINTER (BIG)&quot;</span>, <span class="st">&quot;SKATE, SMOOTH&quot;</span>, </a>
-<a class="sourceLine" id="cb19-15" title="15">                                                    <span class="st">&quot;MONK HEADS&quot;</span>, <span class="st">&quot;MONK LIVERS&quot;</span>, <span class="st">&quot;MONK TAILS&quot;</span>, <span class="st">&quot;MONK HEADS&quot;</span>, <span class="st">&quot;MONK LIVERS&quot;</span>, <span class="st">&quot;MONK TAILS&quot;</span>, <span class="st">&quot;TILEFISH, BLUELINE&quot;</span>, <span class="st">&quot;TILEFISH, GOLDEN&quot;</span>),</a>
-<a class="sourceLine" id="cb19-16" title="16">                          <span class="dt">stockid =</span> <span class="ot">NA</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">add_species &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">stock_assessment_species_name =</span> <span class="kw">c</span>(<span class="st">&quot;little skate&quot;</span>, <span class="st">&quot;winter skate&quot;</span>, <span class="st">&quot;smooth skate&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;goosefish&quot;</span>, <span class="st">&quot;tilefish&quot;</span>, <span class="st">&quot;tilefish&quot;</span>),</a>
+<a class="sourceLine" id="cb20-2" title="2">                          <span class="dt">stock_assessment_species_location =</span> <span class="kw">c</span>(<span class="st">&quot;Georges Bank / Southern New England&quot;</span>, </a>
+<a class="sourceLine" id="cb20-3" title="3">                                                                <span class="st">&quot;Georges Bank / Southern New England&quot;</span>,</a>
+<a class="sourceLine" id="cb20-4" title="4">                                                                <span class="st">&quot;Gulf of Maine&quot;</span>,</a>
+<a class="sourceLine" id="cb20-5" title="5">                                                                <span class="st">&quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb20-6" title="6">                                                                <span class="st">&quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb20-7" title="7">                                                                <span class="st">&quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb20-8" title="8">                                                                <span class="st">&quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
+<a class="sourceLine" id="cb20-9" title="9">                                                                <span class="st">&quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
+<a class="sourceLine" id="cb20-10" title="10">                                                                <span class="st">&quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
+<a class="sourceLine" id="cb20-11" title="11">                                                                <span class="st">&quot;Mid-Atlantic Coast&quot;</span>,</a>
+<a class="sourceLine" id="cb20-12" title="12">                                                                <span class="st">&quot;Mid-Atlantic Coast&quot;</span>),</a>
+<a class="sourceLine" id="cb20-13" title="13">                          <span class="dt">source =</span> <span class="st">&quot;NMFS&quot;</span>,</a>
+<a class="sourceLine" id="cb20-14" title="14">                          <span class="dt">nmfs_original_species =</span> <span class="kw">c</span>(<span class="st">&quot;SKATE WINGS, LITTLE (SUMMER)&quot;</span>, <span class="st">&quot;SKATE WINGS, WINTER (BIG)&quot;</span>, <span class="st">&quot;SKATE, SMOOTH&quot;</span>, </a>
+<a class="sourceLine" id="cb20-15" title="15">                                                    <span class="st">&quot;MONK HEADS&quot;</span>, <span class="st">&quot;MONK LIVERS&quot;</span>, <span class="st">&quot;MONK TAILS&quot;</span>, <span class="st">&quot;MONK HEADS&quot;</span>, <span class="st">&quot;MONK LIVERS&quot;</span>, <span class="st">&quot;MONK TAILS&quot;</span>, <span class="st">&quot;TILEFISH, BLUELINE&quot;</span>, <span class="st">&quot;TILEFISH, GOLDEN&quot;</span>),</a>
+<a class="sourceLine" id="cb20-16" title="16">                          <span class="dt">stockid =</span> <span class="ot">NA</span>)</a></code></pre></div>
 <p>Combine the two datasets to get the full lookup table</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">full_df &lt;-<span class="st"> </span>comb <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="kw">bind_rows</span>(add_species)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">full_df &lt;-<span class="st"> </span>comb <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="st">  </span><span class="kw">bind_rows</span>(add_species)</a></code></pre></div>
 <pre><code>## Warning in bind_rows_(x, .id): binding character and factor vector, coercing
 ## into character vector
 
@@ -1827,48 +1828,48 @@ div.tocify {
 
 ## Warning in bind_rows_(x, .id): binding character and factor vector, coercing
 ## into character vector</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="co">#list of stocks and their rgn_ids</span></a>
-<a class="sourceLine" id="cb22-2" title="2">match_areas_to_stocks &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/nmfs_spatial_catch_by_ohi_rgn.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> F) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-3" title="3"><span class="st">  </span><span class="kw">select</span>(species, stock_id, stock, rgn_id, rgn_name) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-4" title="4"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(stock_id)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-5" title="5"><span class="st">  </span><span class="kw">distinct</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb22-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stock_assessment_species_location =</span> <span class="kw">case_when</span>(</a>
-<a class="sourceLine" id="cb22-7" title="7">    stock_id <span class="op">==</span><span class="st"> &quot;CODGBE&quot;</span> <span class="op">~</span><span class="st"> &quot;Eastern Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-8" title="8">    stock_id <span class="op">==</span><span class="st"> &quot;CODGBW&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-9" title="9">    stock_id <span class="op">==</span><span class="st"> &quot;CODGMSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span>,</a>
-<a class="sourceLine" id="cb22-10" title="10">    stock_id <span class="op">==</span><span class="st"> &quot;PLAGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-11" title="11">    stock_id <span class="op">==</span><span class="st"> &quot;FLDSNEMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England / Mid-Atlantic&quot;</span>,</a>
-<a class="sourceLine" id="cb22-12" title="12">    stock_id <span class="op">==</span><span class="st"> &quot;FLGMGBSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-13" title="13">    stock_id <span class="op">==</span><span class="st"> &quot;FLWGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-14" title="14">    stock_id <span class="op">==</span><span class="st"> &quot;FLWGMSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span>,</a>
-<a class="sourceLine" id="cb22-15" title="15">    stock_id <span class="op">==</span><span class="st"> &quot;FLWSNEMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England / Mid-Atlantic&quot;</span>,</a>
-<a class="sourceLine" id="cb22-16" title="16">    stock_id <span class="op">==</span><span class="st"> &quot;WITGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Northwestern Atlantic Coast&quot;</span>,</a>
-<a class="sourceLine" id="cb22-17" title="17">    stock_id <span class="op">==</span><span class="st"> &quot;YELCCGM&quot;</span> <span class="op">~</span><span class="st"> &quot;Cape Cod / Gulf of Maine&quot;</span>,</a>
-<a class="sourceLine" id="cb22-18" title="18">    stock_id <span class="op">==</span><span class="st"> &quot;YELGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-19" title="19">    stock_id <span class="op">==</span><span class="st"> &quot;YELSNE&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England / Mid-Atlantic&quot;</span>,</a>
-<a class="sourceLine" id="cb22-20" title="20">    stock_id <span class="op">==</span><span class="st"> &quot;HADGBE&quot;</span> <span class="op">~</span><span class="st"> &quot;Eastern Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-21" title="21">    stock_id <span class="op">==</span><span class="st"> &quot;HADGBW&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-22" title="22">    stock_id <span class="op">==</span><span class="st"> &quot;HADGM&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span>,</a>
-<a class="sourceLine" id="cb22-23" title="23">    stock_id <span class="op">==</span><span class="st"> &quot;HKRGMNGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-24" title="24">    stock_id <span class="op">==</span><span class="st"> &quot;HKRSGBMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
-<a class="sourceLine" id="cb22-25" title="25">    stock_id <span class="op">==</span><span class="st"> &quot;HKSGMNGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-26" title="26">    stock_id <span class="op">==</span><span class="st"> &quot;HKSSGBMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern Georges Bank / Mid-Atlantic&quot;</span>, </a>
-<a class="sourceLine" id="cb22-27" title="27">    stock_id <span class="op">==</span><span class="st"> &quot;HKWGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-28" title="28">    stock_id <span class="op">==</span><span class="st"> &quot;HALGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Northwestern Atlantic Coast&quot;</span>,</a>
-<a class="sourceLine" id="cb22-29" title="29">    stock_id <span class="op">==</span><span class="st"> &quot;OPTGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Northwestern Atlantic Coast&quot;</span>,</a>
-<a class="sourceLine" id="cb22-30" title="30">    stock_id <span class="op">==</span><span class="st"> &quot;POKGMASS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-31" title="31">    stock_id <span class="op">==</span><span class="st"> &quot;REDGMGBSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-32" title="32">    stock_id <span class="op">==</span><span class="st"> &quot;WOLGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
-<a class="sourceLine" id="cb22-33" title="33">    stock_id <span class="op">==</span><span class="st"> &quot;LOBSTERSNE&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England&quot;</span>,</a>
-<a class="sourceLine" id="cb22-34" title="34">    stock_id <span class="op">==</span><span class="st"> &quot;LOBSTERGOM&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span></a>
-<a class="sourceLine" id="cb22-35" title="35">  ))</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="co">#list of stocks and their rgn_ids</span></a>
+<a class="sourceLine" id="cb23-2" title="2">match_areas_to_stocks &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/nmfs_spatial_catch_by_ohi_rgn.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> F) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="st">  </span><span class="kw">select</span>(species, stock_id, stock, rgn_id, rgn_name) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(stock_id)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-5" title="5"><span class="st">  </span><span class="kw">distinct</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-6" title="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stock_assessment_species_location =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb23-7" title="7">    stock_id <span class="op">==</span><span class="st"> &quot;CODGBE&quot;</span> <span class="op">~</span><span class="st"> &quot;Eastern Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-8" title="8">    stock_id <span class="op">==</span><span class="st"> &quot;CODGBW&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-9" title="9">    stock_id <span class="op">==</span><span class="st"> &quot;CODGMSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span>,</a>
+<a class="sourceLine" id="cb23-10" title="10">    stock_id <span class="op">==</span><span class="st"> &quot;PLAGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-11" title="11">    stock_id <span class="op">==</span><span class="st"> &quot;FLDSNEMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England / Mid-Atlantic&quot;</span>,</a>
+<a class="sourceLine" id="cb23-12" title="12">    stock_id <span class="op">==</span><span class="st"> &quot;FLGMGBSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-13" title="13">    stock_id <span class="op">==</span><span class="st"> &quot;FLWGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-14" title="14">    stock_id <span class="op">==</span><span class="st"> &quot;FLWGMSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span>,</a>
+<a class="sourceLine" id="cb23-15" title="15">    stock_id <span class="op">==</span><span class="st"> &quot;FLWSNEMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England / Mid-Atlantic&quot;</span>,</a>
+<a class="sourceLine" id="cb23-16" title="16">    stock_id <span class="op">==</span><span class="st"> &quot;WITGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Northwestern Atlantic Coast&quot;</span>,</a>
+<a class="sourceLine" id="cb23-17" title="17">    stock_id <span class="op">==</span><span class="st"> &quot;YELCCGM&quot;</span> <span class="op">~</span><span class="st"> &quot;Cape Cod / Gulf of Maine&quot;</span>,</a>
+<a class="sourceLine" id="cb23-18" title="18">    stock_id <span class="op">==</span><span class="st"> &quot;YELGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-19" title="19">    stock_id <span class="op">==</span><span class="st"> &quot;YELSNE&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England / Mid-Atlantic&quot;</span>,</a>
+<a class="sourceLine" id="cb23-20" title="20">    stock_id <span class="op">==</span><span class="st"> &quot;HADGBE&quot;</span> <span class="op">~</span><span class="st"> &quot;Eastern Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-21" title="21">    stock_id <span class="op">==</span><span class="st"> &quot;HADGBW&quot;</span> <span class="op">~</span><span class="st"> &quot;Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-22" title="22">    stock_id <span class="op">==</span><span class="st"> &quot;HADGM&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span>,</a>
+<a class="sourceLine" id="cb23-23" title="23">    stock_id <span class="op">==</span><span class="st"> &quot;HKRGMNGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-24" title="24">    stock_id <span class="op">==</span><span class="st"> &quot;HKRSGBMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern Georges Bank / Mid-Atlantic&quot;</span>,</a>
+<a class="sourceLine" id="cb23-25" title="25">    stock_id <span class="op">==</span><span class="st"> &quot;HKSGMNGB&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Northern Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-26" title="26">    stock_id <span class="op">==</span><span class="st"> &quot;HKSSGBMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern Georges Bank / Mid-Atlantic&quot;</span>, </a>
+<a class="sourceLine" id="cb23-27" title="27">    stock_id <span class="op">==</span><span class="st"> &quot;HKWGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-28" title="28">    stock_id <span class="op">==</span><span class="st"> &quot;HALGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Northwestern Atlantic Coast&quot;</span>,</a>
+<a class="sourceLine" id="cb23-29" title="29">    stock_id <span class="op">==</span><span class="st"> &quot;OPTGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Northwestern Atlantic Coast&quot;</span>,</a>
+<a class="sourceLine" id="cb23-30" title="30">    stock_id <span class="op">==</span><span class="st"> &quot;POKGMASS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-31" title="31">    stock_id <span class="op">==</span><span class="st"> &quot;REDGMGBSS&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-32" title="32">    stock_id <span class="op">==</span><span class="st"> &quot;WOLGMMA&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine / Georges Bank&quot;</span>,</a>
+<a class="sourceLine" id="cb23-33" title="33">    stock_id <span class="op">==</span><span class="st"> &quot;LOBSTERSNE&quot;</span> <span class="op">~</span><span class="st"> &quot;Southern New England&quot;</span>,</a>
+<a class="sourceLine" id="cb23-34" title="34">    stock_id <span class="op">==</span><span class="st"> &quot;LOBSTERGOM&quot;</span> <span class="op">~</span><span class="st"> &quot;Gulf of Maine&quot;</span></a>
+<a class="sourceLine" id="cb23-35" title="35">  ))</a></code></pre></div>
 <p>Match</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">m &lt;-<span class="st"> </span>full_df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(match_areas_to_stocks, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;nmfs_original_species&quot;</span> =<span class="st"> &quot;species&quot;</span>, <span class="st">&quot;stock_assessment_species_location&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stockid =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(stock_id), stockid, stock_id)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>stock_id)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">m &lt;-<span class="st"> </span>full_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(match_areas_to_stocks, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;nmfs_original_species&quot;</span> =<span class="st"> &quot;species&quot;</span>, <span class="st">&quot;stock_assessment_species_location&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stockid =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(stock_id), stockid, stock_id)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>stock_id)</a></code></pre></div>
 <p>There are still species with stock assessments that do not have <code>stockid</code> in the NMFS catch dataset.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">filter</span>(m, <span class="kw">is.na</span>(stockid)) <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>stock_assessment_species_name <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">filter</span>(m, <span class="kw">is.na</span>(stockid)) <span class="op">%&gt;%</span><span class="st"> </span>.<span class="op">$</span>stock_assessment_species_name <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">unique</span>()</a></code></pre></div>
 <pre><code>##  [1] &quot;atlantic herring&quot;      &quot;red deepsea crab&quot;      &quot;sea scallop&quot;          
 ##  [4] &quot;atlantic salmon&quot;       &quot;goosefish&quot;             &quot;spiny dogfish&quot;        
 ##  [7] &quot;summer flounder&quot;       &quot;bluefish&quot;              &quot;atlantic surfclam&quot;    
@@ -1879,10 +1880,10 @@ div.tocify {
 ## [22] &quot;winter skate&quot;          &quot;longfin inshore squid&quot;</code></pre>
 <p>These species do not have multiple stocks within our region, so we can use the OHI regions where they are caught to identify where they are. The one issue is Goosefish/Monkfish. There are two stocks (Southern Georges Bank / Mid-Atlantic and Gulf of Maine / Northern Georges Bank). Let’s look at these two areas, which are used for other stocks, and see what OHI areas this includes.</p>
 <p>Regions in Southern New England/Mid Atlantic include</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">sgb &lt;-<span class="st"> </span><span class="kw">filter</span>(m, stock_assessment_species_location <span class="op">==</span><span class="st"> &quot;Southern Georges Bank / Mid-Atlantic&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb26-2" title="2"><span class="st">  </span><span class="kw">select</span>(rgn_id, rgn_name, stock_assessment_species_location) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb26-3" title="3"><span class="st">  </span><span class="kw">distinct</span>()</a>
-<a class="sourceLine" id="cb26-4" title="4">sgb</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">sgb &lt;-<span class="st"> </span><span class="kw">filter</span>(m, stock_assessment_species_location <span class="op">==</span><span class="st"> &quot;Southern Georges Bank / Mid-Atlantic&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="st">  </span><span class="kw">select</span>(rgn_id, rgn_name, stock_assessment_species_location) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-3" title="3"><span class="st">  </span><span class="kw">distinct</span>()</a>
+<a class="sourceLine" id="cb27-4" title="4">sgb</a></code></pre></div>
 <pre><code>## # A tibble: 9 x 3
 ##   rgn_id rgn_name            stock_assessment_species_location   
 ##    &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;                               
@@ -1895,10 +1896,10 @@ div.tocify {
 ## 7     11 Rhode Island        Southern Georges Bank / Mid-Atlantic
 ## 8     12 Northeast           Southern Georges Bank / Mid-Atlantic
 ## 9     NA &lt;NA&gt;                Southern Georges Bank / Mid-Atlantic</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">gom &lt;-<span class="st"> </span><span class="kw">filter</span>(m, stock_assessment_species_location <span class="op">==</span><span class="st"> &quot;Gulf of Maine / Northern Georges Bank&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb28-2" title="2"><span class="st">  </span><span class="kw">select</span>(rgn_id, rgn_name, stock_assessment_species_location) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb28-3" title="3"><span class="st">  </span><span class="kw">distinct</span>() </a>
-<a class="sourceLine" id="cb28-4" title="4">gom</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">gom &lt;-<span class="st"> </span><span class="kw">filter</span>(m, stock_assessment_species_location <span class="op">==</span><span class="st"> &quot;Gulf of Maine / Northern Georges Bank&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="st">  </span><span class="kw">select</span>(rgn_id, rgn_name, stock_assessment_species_location) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="st">  </span><span class="kw">distinct</span>() </a>
+<a class="sourceLine" id="cb29-4" title="4">gom</a></code></pre></div>
 <pre><code>## # A tibble: 8 x 3
 ##   rgn_id rgn_name            stock_assessment_species_location    
 ##    &lt;int&gt; &lt;chr&gt;               &lt;chr&gt;                                
@@ -1911,40 +1912,40 @@ div.tocify {
 ## 7     12 Northeast           Gulf of Maine / Northern Georges Bank
 ## 8     NA &lt;NA&gt;                Gulf of Maine / Northern Georges Bank</code></pre>
 <p>Regions 2 and 8 are in both (MA-Virginian and Georges Bank). I think we can use these distinctions to assign regions to the Goosefish/Monkfish scores.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">goosefish &lt;-<span class="st"> </span>gom <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="st">  </span><span class="kw">bind_rows</span>(sgb) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb30-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(rgn_id)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb30-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stock_assessment_species_name =</span> <span class="st">&quot;goosefish&quot;</span>)</a>
-<a class="sourceLine" id="cb30-5" title="5"></a>
-<a class="sourceLine" id="cb30-6" title="6">m2 &lt;-<span class="st"> </span>m <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb30-7" title="7"><span class="st">  </span><span class="kw">left_join</span>(goosefish, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;stock_assessment_species_name&quot;</span>, <span class="st">&quot;stock_assessment_species_location&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb30-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rgn_id =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_id.y), rgn_id.x, rgn_id.y),</a>
-<a class="sourceLine" id="cb30-9" title="9">         <span class="dt">rgn_name =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_name.y), rgn_name.x, rgn_name.y)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb30-10" title="10"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>rgn_id.y, <span class="op">-</span>rgn_id.x, <span class="op">-</span>rgn_name.y, <span class="op">-</span>rgn_name.x)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">goosefish &lt;-<span class="st"> </span>gom <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-2" title="2"><span class="st">  </span><span class="kw">bind_rows</span>(sgb) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-3" title="3"><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(rgn_id)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stock_assessment_species_name =</span> <span class="st">&quot;goosefish&quot;</span>)</a>
+<a class="sourceLine" id="cb31-5" title="5"></a>
+<a class="sourceLine" id="cb31-6" title="6">m2 &lt;-<span class="st"> </span>m <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-7" title="7"><span class="st">  </span><span class="kw">left_join</span>(goosefish, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;stock_assessment_species_name&quot;</span>, <span class="st">&quot;stock_assessment_species_location&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rgn_id =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_id.y), rgn_id.x, rgn_id.y),</a>
+<a class="sourceLine" id="cb31-9" title="9">         <span class="dt">rgn_name =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_name.y), rgn_name.x, rgn_name.y)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-10" title="10"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>rgn_id.y, <span class="op">-</span>rgn_id.x, <span class="op">-</span>rgn_name.y, <span class="op">-</span>rgn_name.x)</a></code></pre></div>
 <p>Now lets just get all OHI regions where the remaining stocks are caught. The easier alternative to this would be to assign all OHI regions to all of these stocks, but if this data is used outside of scores that would possibly indicate stocks existing where they do not.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">leftovers &lt;-<span class="st"> </span>m2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-2" title="2"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">is.na</span>(rgn_id))</a>
-<a class="sourceLine" id="cb31-3" title="3"></a>
-<a class="sourceLine" id="cb31-4" title="4"><span class="co">#filter catch for these leftover species</span></a>
-<a class="sourceLine" id="cb31-5" title="5">leftovers_catch &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/nmfs_spatial_catch_by_ohi_rgn.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> F) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-6" title="6"><span class="st">  </span><span class="kw">filter</span>(species <span class="op">%in%</span><span class="st"> </span>leftovers<span class="op">$</span>nmfs_original_species) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-7" title="7"><span class="st">  </span><span class="kw">select</span>(species, rgn_id, rgn_name) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-8" title="8"><span class="st">  </span><span class="kw">distinct</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">leftovers &lt;-<span class="st"> </span>m2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">is.na</span>(rgn_id))</a>
+<a class="sourceLine" id="cb32-3" title="3"></a>
+<a class="sourceLine" id="cb32-4" title="4"><span class="co">#filter catch for these leftover species</span></a>
+<a class="sourceLine" id="cb32-5" title="5">leftovers_catch &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/nmfs_spatial_catch_by_ohi_rgn.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> F) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-6" title="6"><span class="st">  </span><span class="kw">filter</span>(species <span class="op">%in%</span><span class="st"> </span>leftovers<span class="op">$</span>nmfs_original_species) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-7" title="7"><span class="st">  </span><span class="kw">select</span>(species, rgn_id, rgn_name) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb32-8" title="8"><span class="st">  </span><span class="kw">distinct</span>()</a></code></pre></div>
 <p>Combine! This should make the complete dataset.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">comp_dataset &lt;-<span class="st"> </span>m2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(leftovers_catch, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;nmfs_original_species&quot;</span> =<span class="st"> &quot;species&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rgn_id =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_id.y), rgn_id.x, rgn_id.y),</a>
-<a class="sourceLine" id="cb32-4" title="4">         <span class="dt">rgn_name =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_name.y), rgn_name.x, rgn_name.y)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb32-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>rgn_id.y, <span class="op">-</span>rgn_id.x, <span class="op">-</span>rgn_name.y, <span class="op">-</span>rgn_name.x)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">comp_dataset &lt;-<span class="st"> </span>m2 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(leftovers_catch, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;nmfs_original_species&quot;</span> =<span class="st"> &quot;species&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rgn_id =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_id.y), rgn_id.x, rgn_id.y),</a>
+<a class="sourceLine" id="cb33-4" title="4">         <span class="dt">rgn_name =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_name.y), rgn_name.x, rgn_name.y)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>rgn_id.y, <span class="op">-</span>rgn_id.x, <span class="op">-</span>rgn_name.y, <span class="op">-</span>rgn_name.x)</a></code></pre></div>
 <p>Create another dataset that lists all species caught in the northeast and identify which are assessed.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">all_species_caught &lt;-<span class="st"> </span>nmfs_catch <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(comp_dataset, <span class="dt">by =</span> <span class="st">&quot;nmfs_original_species&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-3" title="3"><span class="st">  </span><span class="kw">select</span>(nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">assessed =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(source), <span class="st">&quot;no&quot;</span>, <span class="st">&quot;yes&quot;</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-5" title="5"><span class="st">  </span><span class="kw">distinct</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">all_species_caught &lt;-<span class="st"> </span>nmfs_catch <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(comp_dataset, <span class="dt">by =</span> <span class="st">&quot;nmfs_original_species&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-3" title="3"><span class="st">  </span><span class="kw">select</span>(nmfs_original_species, stock_assessment_species_name, stock_assessment_species_location, stockid, source) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">assessed =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(source), <span class="st">&quot;no&quot;</span>, <span class="st">&quot;yes&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-5" title="5"><span class="st">  </span><span class="kw">distinct</span>()</a></code></pre></div>
 <p>#Save</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">write_csv</span>(comp_dataset, <span class="st">&quot;data/assessed_species_lookup_table.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb34-2" title="2"><span class="kw">write_csv</span>(all_species_caught, <span class="st">&quot;data/all_species_caught_assessment_summary.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">write_csv</span>(comp_dataset, <span class="st">&quot;data/assessed_species_lookup_table.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="kw">write_csv</span>(all_species_caught, <span class="st">&quot;data/all_species_caught_assessment_summary.csv&quot;</span>)</a></code></pre></div>
 </div>
 
 
