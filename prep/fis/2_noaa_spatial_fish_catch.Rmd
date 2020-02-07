@@ -168,10 +168,12 @@ lobster <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/JAfflerbach_Landin
   left_join(calc_prop_area, by = c("stat_area" = "Id")) %>%
   mutate(catch = catch*ohi_rgn_prop_area) %>% #adjusting catch by the proportional area with overlap
   select(-area_km2, -FULL_NAME, -SHORT_NAME, -stat_area.y, -ohi_area, -NAFODIV) %>%
+  group_by(year, species, rgn_name, rgn_id) %>%
+  summarize(catch = sum(catch)) %>%
+  ungroup() %>%
   mutate(display_name = "LOBSTER, AMERICAN",
          stock_id = ifelse(rgn_id > 7, "LOBSTERSNE", "LOBSTERGOM"),
          stock = ifelse(rgn_id > 7, "SNE Lobster", "GOM/GB Lobster")) %>% #differentiate stocks based on north/south cape cod
-  select(species, stock_id, stock, rgn_id, year, rgn_name, catch, display_name) %>%
   filter(!is.na(rgn_id))
 
 rgn_catch_plus_lob <- region_catch %>% 
