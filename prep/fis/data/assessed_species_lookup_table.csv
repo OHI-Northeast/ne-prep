@@ -557,19 +557,6 @@ NA,white marlin,Atlantic Ocean,WMARLINATL,RAM,NA,NA,NA
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,10,New York
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,11,Rhode Island
 "TUNA, YELLOWFIN",yellowfin tuna,Atlantic Ocean,YFINATL,RAM,NA,12,Northeast
-"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,2,Georges Bank
-"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,3,Gulf of Maine
-"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,6,Maine
-"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,7,Massachusetts-North
-"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,9,New Hampshire
-"LOBSTER, AMERICAN",american lobster,Gulf of Maine,LOBSTERGOM,RAM,GOM/GB Lobster,12,Northeast
-"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,1,Offshore
-"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,4,Mid-Atlantic Bight
-"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,5,Connecticut
-"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,8,Massachusetts-South
-"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,10,New York
-"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,11,Rhode Island
-"LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,12,Northeast
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,1,Offshore
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,4,Mid-Atlantic Bight
 "LOBSTER, AMERICAN",american lobster,Southern New England,LOBSTERSNE,RAM,SNE Lobster,5,Connecticut
@@ -599,11 +586,6 @@ NA,white marlin,Atlantic Ocean,WMARLINATL,RAM,NA,NA,NA
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,10,New York
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,11,Rhode Island
 "SKATE WINGS, WINTER (BIG)",winter skate,Georges Bank / Southern New England,NA,NMFS,NA,12,Northeast
-"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,3,Gulf of Maine
-"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,4,Mid-Atlantic Bight
-"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,7,Massachusetts-North
-"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,10,New York
-"SKATE, SMOOTH",smooth skate,Gulf of Maine,NA,NMFS,NA,12,Northeast
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,2,Georges Bank
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,3,Gulf of Maine
 MONK HEADS,goosefish,Gulf of Maine / Northern Georges Bank,NA,NMFS,NA,6,Maine

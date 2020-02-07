@@ -276,7 +276,8 @@ comp_dataset <- m2 %>%
   left_join(leftovers_catch, by = c("nmfs_original_species" = "species")) %>%
   mutate(rgn_id = ifelse(is.na(rgn_id.y), rgn_id.x, rgn_id.y),
          rgn_name = ifelse(is.na(rgn_name.y), rgn_name.x, rgn_name.y)) %>%
-  select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x)
+  select(-rgn_id.y, -rgn_id.x, -rgn_name.y, -rgn_name.x) %>%
+  distinct()
 ```
 
 

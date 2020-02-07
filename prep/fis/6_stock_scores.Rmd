@@ -66,7 +66,7 @@ ss_toolbox <- nmfs_ss %>%
   bind_rows(ram_ss) %>%
   mutate(species = tolower(species)) %>%
   left_join(lookup_table, by = c("source", "species", "location")) %>%
-  select(year, source, nmfs_original_species, location, score, rgn_id)
+  select(year, source, nmfs_original_species, location, score, rgn_id, stockid)
 ```
 
 
@@ -84,19 +84,19 @@ catch <- read_csv(file.path(dir_calc, "layers/fis_meancatch.csv"))
 
 #combine catch and stock scores
 catch_ss <- ss_toolbox %>%
-  left_join(catch, by = c("year", "rgn_id", "nmfs_original_species" = "species")) %>%
+  left_join(catch, by = c("year", "rgn_id", "nmfs_original_species" = "species", "stockid" = "stock_id")) %>%
   filter(!is.na(mean_catch)) %>%
   group_by(year, rgn_id) %>%
   mutate(yr_rgn_catch = sum(mean_catch_times_prop),
          catch_prop = mean_catch_times_prop/yr_rgn_catch) %>%
   ungroup() %>%
-  mutate(display_name = ifelse(is.na(stock_id), nmfs_original_species, stock_id))
+  mutate(display_name = ifelse(is.na(stockid), nmfs_original_species, stockid))
 ```
 
 Lines are weighted based on the catch_prop
 
 ```{r}
-ggplot(catch_ss %>% filter(catch_prop > 0.1), aes(x = year, y = score, color = display_name, size=catch_prop)) +
+ggplot(catch_ss %>% filter(catch_prop > 0.1), aes(x = year, y = score, color = fixed_name, size=catch_prop)) +
   geom_line() +
   theme_bw() +
   facet_wrap(~rgn_id) +

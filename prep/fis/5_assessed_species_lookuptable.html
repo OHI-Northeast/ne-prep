@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Compiled on Fri Feb 7 14:53:42 2020 by afflerbach" />
+<meta name="author" content="Compiled on Fri Feb 7 15:20:55 2020 by afflerbach" />
 
 
 <title>Create an assessed species information lookup table</title>
@@ -1648,7 +1648,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Create an assessed species information lookup table</h1>
-<h4 class="author"><em>Compiled on Fri Feb 7 14:53:42 2020 by afflerbach</em></h4>
+<h4 class="author"><em>Compiled on Fri Feb 7 15:20:55 2020 by afflerbach</em></h4>
 
 </div>
 
@@ -1936,7 +1936,8 @@ div.tocify {
 <a class="sourceLine" id="cb33-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(leftovers_catch, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;nmfs_original_species&quot;</span> =<span class="st"> &quot;species&quot;</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb33-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rgn_id =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_id.y), rgn_id.x, rgn_id.y),</a>
 <a class="sourceLine" id="cb33-4" title="4">         <span class="dt">rgn_name =</span> <span class="kw">ifelse</span>(<span class="kw">is.na</span>(rgn_name.y), rgn_name.x, rgn_name.y)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb33-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>rgn_id.y, <span class="op">-</span>rgn_id.x, <span class="op">-</span>rgn_name.y, <span class="op">-</span>rgn_name.x)</a></code></pre></div>
+<a class="sourceLine" id="cb33-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>rgn_id.y, <span class="op">-</span>rgn_id.x, <span class="op">-</span>rgn_name.y, <span class="op">-</span>rgn_name.x) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb33-6" title="6"><span class="st">  </span><span class="kw">distinct</span>()</a></code></pre></div>
 <p>Create another dataset that lists all species caught in the northeast and identify which are assessed.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">all_species_caught &lt;-<span class="st"> </span>nmfs_catch <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb34-2" title="2"><span class="st">  </span><span class="kw">left_join</span>(comp_dataset, <span class="dt">by =</span> <span class="st">&quot;nmfs_original_species&quot;</span>) <span class="op">%&gt;%</span></a>
