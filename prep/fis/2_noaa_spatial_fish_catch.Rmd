@@ -172,8 +172,8 @@ lobster <- read_excel(file.path(dir_anx, "_raw_data/NOAA_NMFS/JAfflerbach_Landin
   summarize(catch = sum(catch)) %>%
   ungroup() %>%
   mutate(display_name = "LOBSTER, AMERICAN",
-         stock_id = ifelse(rgn_id > 7, "LOBSTERSNE", "LOBSTERGOM"),
-         stock = ifelse(rgn_id > 7, "SNE Lobster", "GOM/GB Lobster")) %>% #differentiate stocks based on north/south cape cod
+         stock_id = ifelse(rgn_id %in% c(4, 5, 10, 11, 8, 1), "LOBSTERSNE", "LOBSTERGOM"),
+         stock = ifelse(rgn_id %in% c(4, 5, 10, 11, 8, 1), "SNE Lobster", "GOM/GB Lobster")) %>% #differentiate stocks based on north/south cape cod
   filter(!is.na(rgn_id))
 
 rgn_catch_plus_lob <- region_catch %>% 
@@ -182,12 +182,12 @@ rgn_catch_plus_lob <- region_catch %>%
   select(-remove) %>%
   bind_rows(lobster) %>%
   mutate(stock_id = case_when(
-            species == "LOBSTER, AMERICAN" & rgn_id > 7 ~ "LOBSTERSNE",
-            species == "LOBSTER, AMERICAN" & rgn_id < 8 ~ "LOBSTERGOM",
+            species == "LOBSTER, AMERICAN" & rgn_id %in% c(4, 5, 10, 11, 8, 1) ~ "LOBSTERSNE",
+            species == "LOBSTER, AMERICAN" & rgn_id %in% c(2, 3, 6, 7, 9) ~ "LOBSTERGOM",
             TRUE ~ as.character(stock_id)),
          stock = case_when(
-            species == "LOBSTER, AMERICAN" & rgn_id > 7 ~ "SNE Lobster",
-            species == "LOBSTER, AMERICAN" & rgn_id < 8 ~ "GOM/GB Lobster",
+            species == "LOBSTER, AMERICAN" & rgn_id %in% c(4, 5, 10, 11, 8, 1) ~ "SNE Lobster",
+            species == "LOBSTER, AMERICAN" & rgn_id %in% c(2, 3, 6, 7, 9) ~ "GOM/GB Lobster",
             TRUE ~ as.character(stock)
          ))
 ```
