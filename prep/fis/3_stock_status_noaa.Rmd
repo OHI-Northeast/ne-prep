@@ -147,7 +147,8 @@ data_gf <- data %>%
   mutate(gf_value = zoo::na.approx(value3), #linear interpolation to gapfill
          gf = ifelse(is.na(value), 1, 0)) %>% #if a value is gapfilled, assign it a 1, otherwise 0
   select(-value, -value2, -value3, -timeseries) %>%
-  rename(value = gf_value)
+  rename(value = gf_value) %>%
+  ungroup()
 ```
 
 
@@ -160,12 +161,12 @@ Convert these value to stock scores.
 #grab just B/Bmsy data
   nmfs_b_bmsy <- data_gf %>%
     filter(indicator == "b_bmsy") %>%
-    select(stock, year, value)
+    select(indicator, stock, year, value)
 
 #grab just F/Fmsy data  
   nmfs_f_fmsy <- data_gf %>%
     filter(indicator == "f_fmsy") %>%
-    select(stock, year, value)
+    select(indicator, stock, year, value)
   ### 
   b_bmsy_underexploit_penalty <- 0.25
   b_bmsy_underexploit_thresh  <- 3.00
