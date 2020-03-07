@@ -83,122 +83,122 @@
 "82",9,"Atlantic cod","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,12
 "83",10,"Atlantic cod","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,12
 "84",11,"Atlantic cod","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,12
-"85",5,"Haddock","Connecticut",NA,FALSE,NA,NA,NA,0.6,13
-"86",6,"Haddock","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"87",7,"Haddock","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"88",8,"Haddock","Massachusetts-South",NA,FALSE,NA,NA,NA,0.6,13
-"89",9,"Haddock","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"90",10,"Haddock","New York",NA,FALSE,NA,NA,NA,0.6,13
-"91",11,"Haddock","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
-"92",5,"Sandbar shark","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"93",6,"Sandbar shark","Maine",NA,FALSE,NA,NA,NA,0.6,14
-"94",7,"Sandbar shark","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"95",8,"Sandbar shark","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"96",9,"Sandbar shark","New Hampshire",NA,FALSE,NA,NA,NA,0.6,14
-"97",10,"Sandbar shark","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"98",11,"Sandbar shark","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
-"99",5,"Common tern","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,15
-"100",6,"Common tern","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.571428571428571,15
-"101",7,"Common tern","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,15
-"102",8,"Common tern","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,15
-"103",9,"Common tern","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.571428571428571,15
-"104",10,"Common tern","New York",0.4,TRUE,"EN","Endangered",0.6,0.571428571428571,15
-"105",11,"Common tern","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,15
-"106",5,"Humpback whale","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,16
-"107",6,"Humpback whale","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,16
-"108",7,"Humpback whale","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.485714285714286,16
-"109",8,"Humpback whale","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.485714285714286,16
-"110",9,"Humpback whale","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,16
-"111",10,"Humpback whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.485714285714286,16
-"112",11,"Humpback whale","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,16
-"113",5,"Minke whale","Connecticut",NA,FALSE,NA,NA,NA,0.466666666666667,17
-"114",6,"Minke whale","Maine",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,17
-"115",7,"Minke whale","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.466666666666667,17
-"116",8,"Minke whale","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.466666666666667,17
-"117",9,"Minke whale","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,17
-"118",10,"Minke whale","New York",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,17
-"119",11,"Minke whale","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,17
-"120",5,"Bald eagle","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.414285714285714,18
-"121",6,"Bald eagle","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.414285714285714,18
-"122",7,"Bald eagle","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,18
-"123",8,"Bald eagle","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,18
-"124",9,"Bald eagle","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,18
-"125",10,"Bald eagle","New York",0.5,TRUE,"VU/EN","Vulnerable/Endangered",0.5,0.414285714285714,18
-"126",11,"Bald eagle","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.414285714285714,18
-"127",5,"Atlantic bluefin tuna","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.4,19
-"128",6,"Atlantic bluefin tuna","Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,19
-"129",7,"Atlantic bluefin tuna","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.4,19
-"130",8,"Atlantic bluefin tuna","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.4,19
-"131",9,"Atlantic bluefin tuna","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.4,19
-"132",10,"Atlantic bluefin tuna","New York",0.4,TRUE,"EN","Endangered",0.6,0.4,19
-"133",11,"Atlantic bluefin tuna","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.4,19
-"134",5,"Fin whale","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,20
-"135",6,"Fin whale","Maine",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,20
-"136",7,"Fin whale","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,20
-"137",8,"Fin whale","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,20
-"138",9,"Fin whale","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,20
-"139",10,"Fin whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.371428571428571,20
-"140",11,"Fin whale","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,20
-"141",5,"Least tern","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,21
-"142",6,"Least tern","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.342857142857143,21
-"143",7,"Least tern","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,21
-"144",8,"Least tern","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,21
-"145",9,"Least tern","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.342857142857143,21
-"146",10,"Least tern","New York",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,21
-"147",11,"Least tern","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,21
-"148",5,"Piping plover","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,22
-"149",6,"Piping plover","Maine",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,22
-"150",7,"Piping plover","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,22
-"151",8,"Piping plover","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,22
-"152",9,"Piping plover","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.314285714285714,22
-"153",10,"Piping plover","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.314285714285714,22
-"154",11,"Piping plover","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.314285714285714,22
-"155",5,"Sperm whale","Connecticut",NA,FALSE,NA,NA,NA,0.3,23
-"156",6,"Sperm whale","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.3,23
-"157",7,"Sperm whale","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,23
-"158",8,"Sperm whale","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,23
-"159",9,"Sperm whale","New Hampshire",NA,FALSE,NA,NA,NA,0.3,23
-"160",10,"Sperm whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,23
-"161",11,"Sperm whale","Rhode Island",NA,FALSE,NA,NA,NA,0.3,23
-"162",5,"Atlantic puffin","Connecticut",NA,FALSE,NA,NA,NA,0.266666666666667,24
-"163",6,"Atlantic puffin","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,24
-"164",7,"Atlantic puffin","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.266666666666667,24
-"165",8,"Atlantic puffin","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.266666666666667,24
-"166",9,"Atlantic puffin","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,24
-"167",10,"Atlantic puffin","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,24
-"168",11,"Atlantic puffin","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,24
-"169",5,"Roseate tern","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.257142857142857,25
-"170",6,"Roseate tern","Maine",0.4,TRUE,"EN","Endangered",0.6,0.257142857142857,25
-"171",7,"Roseate tern","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.257142857142857,25
-"172",8,"Roseate tern","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.257142857142857,25
-"173",9,"Roseate tern","New Hampshire",0.1,TRUE,"CR/EX","Critically Endangered/Extinct",0.9,0.257142857142857,25
-"174",10,"Roseate tern","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.257142857142857,25
-"175",11,"Roseate tern","Rhode Island",0.1,TRUE,"CR/EX","Critically Endangered/Extinct",0.9,0.257142857142857,25
-"176",5,"Atlantic sturgeon","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,26
-"177",6,"Atlantic sturgeon","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.242857142857143,26
-"178",7,"Atlantic sturgeon","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,26
-"179",8,"Atlantic sturgeon","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,26
-"180",9,"Atlantic sturgeon","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,26
-"181",10,"Atlantic sturgeon","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,26
-"182",11,"Atlantic sturgeon","Rhode Island",0.1,TRUE,"CR/EX","Critically Endangered/Extinct",0.9,0.242857142857143,26
-"183",5,"North atlantic right whale","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"184",6,"North atlantic right whale","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"185",7,"North atlantic right whale","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"186",8,"North atlantic right whale","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"187",9,"North atlantic right whale","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"188",10,"North atlantic right whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"189",11,"North atlantic right whale","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,27
-"190",5,"Atlantic salmon","Connecticut",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"191",6,"Atlantic salmon","Maine",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"192",7,"Atlantic salmon","Massachusetts-North",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"193",8,"Atlantic salmon","Massachusetts-South",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"194",9,"Atlantic salmon","New Hampshire",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"195",10,"Atlantic salmon","New York",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"196",11,"Atlantic salmon","Rhode Island",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,28
-"197",5,"Great white shark","Connecticut",NA,FALSE,NA,NA,NA,NA,29
-"198",6,"Great white shark","Maine",NA,FALSE,NA,NA,NA,NA,29
-"199",7,"Great white shark","Massachusetts-North",NA,FALSE,NA,NA,NA,NA,29
-"200",8,"Great white shark","Massachusetts-South",NA,FALSE,NA,NA,NA,NA,29
-"201",9,"Great white shark","New Hampshire",NA,FALSE,NA,NA,NA,NA,29
-"202",10,"Great white shark","New York",NA,FALSE,NA,NA,NA,NA,29
-"203",11,"Great white shark","Rhode Island",NA,FALSE,NA,NA,NA,NA,29
+"85",5,"Great white shark","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"86",6,"Great white shark","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"87",7,"Great white shark","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"88",8,"Great white shark","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"89",9,"Great white shark","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"90",10,"Great white shark","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"91",11,"Great white shark","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,13
+"92",5,"Haddock","Connecticut",NA,FALSE,NA,NA,NA,0.6,14
+"93",6,"Haddock","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
+"94",7,"Haddock","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
+"95",8,"Haddock","Massachusetts-South",NA,FALSE,NA,NA,NA,0.6,14
+"96",9,"Haddock","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
+"97",10,"Haddock","New York",NA,FALSE,NA,NA,NA,0.6,14
+"98",11,"Haddock","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,14
+"99",5,"Sandbar shark","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"100",6,"Sandbar shark","Maine",NA,FALSE,NA,NA,NA,0.6,15
+"101",7,"Sandbar shark","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"102",8,"Sandbar shark","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"103",9,"Sandbar shark","New Hampshire",NA,FALSE,NA,NA,NA,0.6,15
+"104",10,"Sandbar shark","New York",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"105",11,"Sandbar shark","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.6,15
+"106",5,"Common tern","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,16
+"107",6,"Common tern","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.571428571428571,16
+"108",7,"Common tern","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,16
+"109",8,"Common tern","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,16
+"110",9,"Common tern","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.571428571428571,16
+"111",10,"Common tern","New York",0.4,TRUE,"EN","Endangered",0.6,0.571428571428571,16
+"112",11,"Common tern","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.571428571428571,16
+"113",5,"Humpback whale","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,17
+"114",6,"Humpback whale","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,17
+"115",7,"Humpback whale","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.485714285714286,17
+"116",8,"Humpback whale","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.485714285714286,17
+"117",9,"Humpback whale","New Hampshire",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,17
+"118",10,"Humpback whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.485714285714286,17
+"119",11,"Humpback whale","Rhode Island",0.6,TRUE,"VU","Vulnerable",0.4,0.485714285714286,17
+"120",5,"Minke whale","Connecticut",NA,FALSE,NA,NA,NA,0.466666666666667,18
+"121",6,"Minke whale","Maine",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,18
+"122",7,"Minke whale","Massachusetts-North",0.6,TRUE,"VU","Vulnerable",0.4,0.466666666666667,18
+"123",8,"Minke whale","Massachusetts-South",0.6,TRUE,"VU","Vulnerable",0.4,0.466666666666667,18
+"124",9,"Minke whale","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,18
+"125",10,"Minke whale","New York",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,18
+"126",11,"Minke whale","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.466666666666667,18
+"127",5,"Bald eagle","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.414285714285714,19
+"128",6,"Bald eagle","Maine",0.8,TRUE,"NT","Not Threatened",0.2,0.414285714285714,19
+"129",7,"Bald eagle","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,19
+"130",8,"Bald eagle","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,19
+"131",9,"Bald eagle","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.414285714285714,19
+"132",10,"Bald eagle","New York",0.5,TRUE,"VU/EN","Vulnerable/Endangered",0.5,0.414285714285714,19
+"133",11,"Bald eagle","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.414285714285714,19
+"134",5,"Atlantic bluefin tuna","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"135",6,"Atlantic bluefin tuna","Maine",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"136",7,"Atlantic bluefin tuna","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"137",8,"Atlantic bluefin tuna","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"138",9,"Atlantic bluefin tuna","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"139",10,"Atlantic bluefin tuna","New York",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"140",11,"Atlantic bluefin tuna","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.4,20
+"141",5,"Fin whale","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,21
+"142",6,"Fin whale","Maine",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,21
+"143",7,"Fin whale","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,21
+"144",8,"Fin whale","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,21
+"145",9,"Fin whale","New Hampshire",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,21
+"146",10,"Fin whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.371428571428571,21
+"147",11,"Fin whale","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.371428571428571,21
+"148",5,"Least tern","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,22
+"149",6,"Least tern","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.342857142857143,22
+"150",7,"Least tern","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,22
+"151",8,"Least tern","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,22
+"152",9,"Least tern","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.342857142857143,22
+"153",10,"Least tern","New York",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,22
+"154",11,"Least tern","Rhode Island",0.4,TRUE,"EN","Endangered",0.6,0.342857142857143,22
+"155",5,"Piping plover","Connecticut",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,23
+"156",6,"Piping plover","Maine",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,23
+"157",7,"Piping plover","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,23
+"158",8,"Piping plover","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.314285714285714,23
+"159",9,"Piping plover","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.314285714285714,23
+"160",10,"Piping plover","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.314285714285714,23
+"161",11,"Piping plover","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.314285714285714,23
+"162",5,"Sperm whale","Connecticut",NA,FALSE,NA,NA,NA,0.3,24
+"163",6,"Sperm whale","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.3,24
+"164",7,"Sperm whale","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,24
+"165",8,"Sperm whale","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,24
+"166",9,"Sperm whale","New Hampshire",NA,FALSE,NA,NA,NA,0.3,24
+"167",10,"Sperm whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.3,24
+"168",11,"Sperm whale","Rhode Island",NA,FALSE,NA,NA,NA,0.3,24
+"169",5,"Atlantic puffin","Connecticut",NA,FALSE,NA,NA,NA,0.266666666666667,25
+"170",6,"Atlantic puffin","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,25
+"171",7,"Atlantic puffin","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.266666666666667,25
+"172",8,"Atlantic puffin","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.266666666666667,25
+"173",9,"Atlantic puffin","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,25
+"174",10,"Atlantic puffin","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,25
+"175",11,"Atlantic puffin","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.266666666666667,25
+"176",5,"Roseate tern","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.257142857142857,26
+"177",6,"Roseate tern","Maine",0.4,TRUE,"EN","Endangered",0.6,0.257142857142857,26
+"178",7,"Roseate tern","Massachusetts-North",0.4,TRUE,"EN","Endangered",0.6,0.257142857142857,26
+"179",8,"Roseate tern","Massachusetts-South",0.4,TRUE,"EN","Endangered",0.6,0.257142857142857,26
+"180",9,"Roseate tern","New Hampshire",0.1,TRUE,"CR/EX","Critically Endangered/Extinct",0.9,0.257142857142857,26
+"181",10,"Roseate tern","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.257142857142857,26
+"182",11,"Roseate tern","Rhode Island",0.1,TRUE,"CR/EX","Critically Endangered/Extinct",0.9,0.257142857142857,26
+"183",5,"Atlantic sturgeon","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,27
+"184",6,"Atlantic sturgeon","Maine",0.6,TRUE,"VU","Vulnerable",0.4,0.242857142857143,27
+"185",7,"Atlantic sturgeon","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,27
+"186",8,"Atlantic sturgeon","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,27
+"187",9,"Atlantic sturgeon","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,27
+"188",10,"Atlantic sturgeon","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.242857142857143,27
+"189",11,"Atlantic sturgeon","Rhode Island",0.1,TRUE,"CR/EX","Critically Endangered/Extinct",0.9,0.242857142857143,27
+"190",5,"North atlantic right whale","Connecticut",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,28
+"191",6,"North atlantic right whale","Maine",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,28
+"192",7,"North atlantic right whale","Massachusetts-North",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,28
+"193",8,"North atlantic right whale","Massachusetts-South",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,28
+"194",9,"North atlantic right whale","New Hampshire",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,28
+"195",10,"North atlantic right whale","New York",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,28
+"196",11,"North atlantic right whale","Rhode Island",0.2,TRUE,"CR","Critically Endangered",0.8,0.2,28
+"197",5,"Atlantic salmon","Connecticut",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,29
+"198",6,"Atlantic salmon","Maine",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,29
+"199",7,"Atlantic salmon","Massachusetts-North",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,29
+"200",8,"Atlantic salmon","Massachusetts-South",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,29
+"201",9,"Atlantic salmon","New Hampshire",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,29
+"202",10,"Atlantic salmon","New York",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,29
+"203",11,"Atlantic salmon","Rhode Island",0.146999999880791,TRUE,NA,"Critically Endangered/Extinct",NA,0.146999999880791,29

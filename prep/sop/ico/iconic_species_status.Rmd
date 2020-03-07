@@ -322,10 +322,15 @@ us_status <- spp_rgns_scores %>%
   select(-rgn_id)
 ```
 
-For those species in a region where they are found but without a state status, use the USA designated one
+For those species in a region where they are found but without a state status, use the USA designated one. Here I also add Great White Shark to each of the regions in the Northeast. We only have scores for USA/IUCN but need to assign it to all the regions.
 
 ```{r}
+shark <- data.frame(rgn_id = c(5:11), 
+                    common = "great white shark",
+                    state = NA)
+
 df_us <- spp_rgns_scores %>%
+  bind_rows(shark) %>%
   left_join(us_status, by = "common") %>%
   rowwise() %>%
   mutate(fscore = ifelse(is.na(score), USA, score),
