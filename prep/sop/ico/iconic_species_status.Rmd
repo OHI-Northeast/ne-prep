@@ -365,7 +365,7 @@ ico_layer <- df_us %>%
   ungroup() %>%
   left_join(rgn_data) %>%
   mutate(score = ifelse(rgn_id < 5, NA, score),
-         rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_id)) %>%
+         rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_name)) %>%
   select(rgn_id, rgn_name, year, common, score)
 ```
 
