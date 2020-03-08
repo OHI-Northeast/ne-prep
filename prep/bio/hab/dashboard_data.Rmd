@@ -46,9 +46,9 @@ eelgrass   <- read_csv("data/eelgrass_score_rgn_gf.csv") %>%
          habitat = "eelgrass") %>%
   select(year, rgn_name, raw_data, metric, score, habitat)
 
-offshore   <- read_csv("~/github/ne-scores/region/layers/hab_sasi.csv") %>%
-  mutate(metric = "sasi_score",
-         raw_data = sasi,
+offshore   <- read_csv("~/github/ne-scores/region/layers/hab_fishing_effects.csv") %>%
+  mutate(metric = "score",
+         raw_data = score,
          habitat = "offshore") %>%
   select(year, rgn_name, raw_data, metric, score, habitat)
 
