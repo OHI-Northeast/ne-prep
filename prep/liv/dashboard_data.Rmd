@@ -51,21 +51,37 @@ noep_fix <- noep %>%
   bind_rows(ma)
 ```
 
+Add region 12 (entire northeast)
+
+```{r northeast_rgn}
+rgn_12 <- noep_fix %>%
+  pivot_longer(cols = Employment:GDP) %>%
+  group_by(Year, Sector, name) %>%
+  summarize(value = sum(value, na.rm = T)) %>%
+  ungroup() %>%
+  pivot_wider() %>%
+  mutate(rgn_id = 12,
+         rgn_name = "Northeast")
+
+noep_all <- noep_fix %>%
+  bind_rows(rgn_12)
+```
+
 Save in the `data` folder
 
 ```{r}
 #employment by sector
-noep_fix %>%
+noep_all %>%
   select(Year, rgn_id, rgn_name, Employment, Sector) %>%
   write.csv("data/jobs_sector.csv")
 
 #wages by sector
-noep_fix %>%
+noep_all %>%
   select(Year, rgn_id, rgn_name, Wages, Sector) %>%
   write.csv("data/wages_sector.csv")
 
 #gdp by sector
-noep_fix %>%
+noep_all %>%
   select(Year, rgn_id, rgn_name, GDP, Sector) %>%
   write.csv("data/gdp_sector.csv")
 ```
