@@ -90,6 +90,16 @@ New York,0.6,55
 New York,0.7,2
 New York,0.8,35
 New York,1,478
+Northeast,0,2
+Northeast,0.19999999999999996,12
+Northeast,0.30000000000000004,1
+Northeast,0.4,18
+Northeast,0.5,2
+Northeast,0.6,38
+Northeast,0.7,2
+Northeast,0.8,32
+Northeast,0.9,4
+Northeast,1,519
 Offshore,0,2
 Offshore,0.19999999999999996,12
 Offshore,0.30000000000000004,1
@@ -109,13 +119,3 @@ Rhode Island,0.6,36
 Rhode Island,0.8,33
 Rhode Island,0.9,3
 Rhode Island,1,483
-NA,0,2
-NA,0.19999999999999996,12
-NA,0.30000000000000004,1
-NA,0.4,18
-NA,0.5,2
-NA,0.6,38
-NA,0.7,2
-NA,0.8,32
-NA,0.9,4
-NA,1,519
