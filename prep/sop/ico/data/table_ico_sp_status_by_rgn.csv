@@ -128,88 +128,89 @@
 "127",11,"Haddock","Rhode Island",0.6
 "128",12,"Haddock","Northeast",0.6
 "129",5,"Horseshoe crab","Connecticut",0.5
-"130",7,"Horseshoe crab","Massachusetts-North",1
-"131",10,"Horseshoe crab","New York",1
-"132",11,"Horseshoe crab","Rhode Island",1
-"133",12,"Horseshoe crab","Northeast",1
-"134",5,"Humpback whale","Connecticut",0.6
-"135",6,"Humpback whale","Maine",0.6
-"136",7,"Humpback whale","Massachusetts-North",0.4
-"137",8,"Humpback whale","Massachusetts-South",0.4
-"138",9,"Humpback whale","New Hampshire",0.6
-"139",10,"Humpback whale","New York",0.2
-"140",11,"Humpback whale","Rhode Island",0.6
-"141",12,"Humpback whale","Northeast",0.6
-"142",5,"Least tern","Connecticut",0.4
-"143",6,"Least tern","Maine",0.2
-"144",7,"Least tern","Massachusetts-North",0.4
-"145",8,"Least tern","Massachusetts-South",0.4
-"146",9,"Least tern","New Hampshire",0.2
-"147",10,"Least tern","New York",0.4
-"148",11,"Least tern","Rhode Island",0.4
-"149",12,"Least tern","Northeast",0.8
-"150",6,"Minke whale","Maine",0.4
-"151",7,"Minke whale","Massachusetts-North",0.6
-"152",8,"Minke whale","Massachusetts-South",0.6
-"153",9,"Minke whale","New Hampshire",0.4
-"154",10,"Minke whale","New York",0.4
-"155",11,"Minke whale","Rhode Island",0.4
-"156",12,"Minke whale","Northeast",0.4
-"157",5,"North atlantic right whale","Connecticut",0.2
-"158",6,"North atlantic right whale","Maine",0.2
-"159",7,"North atlantic right whale","Massachusetts-North",0.2
-"160",8,"North atlantic right whale","Massachusetts-South",0.2
-"161",9,"North atlantic right whale","New Hampshire",0.2
-"162",10,"North atlantic right whale","New York",0.2
-"163",11,"North atlantic right whale","Rhode Island",0.2
-"164",12,"North atlantic right whale","Northeast",0.2
-"165",5,"Osprey","Connecticut",0.8
-"166",6,"Osprey","Maine",1
-"167",7,"Osprey","Massachusetts-North",0.8
-"168",8,"Osprey","Massachusetts-South",0.8
-"169",9,"Osprey","New Hampshire",0.6
-"170",10,"Osprey","New York",0.6
-"171",11,"Osprey","Rhode Island",0.4
-"172",12,"Osprey","Northeast",1
-"173",5,"Piping plover","Connecticut",0.4
-"174",6,"Piping plover","Maine",0.4
-"175",7,"Piping plover","Massachusetts-North",0.4
-"176",8,"Piping plover","Massachusetts-South",0.4
-"177",9,"Piping plover","New Hampshire",0.2
-"178",10,"Piping plover","New York",0.2
-"179",11,"Piping plover","Rhode Island",0.2
-"180",12,"Piping plover","Northeast",0.6
-"181",5,"Roseate tern","Connecticut",0.2
-"182",6,"Roseate tern","Maine",0.4
-"183",7,"Roseate tern","Massachusetts-North",0.4
-"184",8,"Roseate tern","Massachusetts-South",0.4
-"185",9,"Roseate tern","New Hampshire",0.1
-"186",10,"Roseate tern","New York",0.2
-"187",11,"Roseate tern","Rhode Island",0.1
-"188",12,"Roseate tern","Northeast",0.6
-"189",5,"Sandbar shark","Connecticut",0.6
-"190",7,"Sandbar shark","Massachusetts-North",0.6
-"191",8,"Sandbar shark","Massachusetts-South",0.6
-"192",10,"Sandbar shark","New York",0.6
-"193",11,"Sandbar shark","Rhode Island",0.6
-"194",12,"Sandbar shark","Northeast",0.6
-"195",6,"Sea scallop","Maine",1
-"196",7,"Sea scallop","Massachusetts-North",1
-"197",8,"Sea scallop","Massachusetts-South",1
-"198",9,"Sea scallop","New Hampshire",1
-"199",10,"Sea scallop","New York",1
-"200",11,"Sea scallop","Rhode Island",1
-"201",12,"Sea scallop","Northeast",1
-"202",6,"Sperm whale","Maine",0.6
-"203",7,"Sperm whale","Massachusetts-North",0.2
-"204",8,"Sperm whale","Massachusetts-South",0.2
-"205",10,"Sperm whale","New York",0.2
-"206",12,"Sperm whale","Northeast",0.6
-"207",5,"Striped bass","Connecticut",0.6
-"208",6,"Striped bass","Maine",1
-"209",7,"Striped bass","Massachusetts-North",1
-"210",8,"Striped bass","Massachusetts-South",1
-"211",9,"Striped bass","New Hampshire",0.8
-"212",10,"Striped bass","New York",0.8
-"213",11,"Striped bass","Rhode Island",1
-"214",12,"Striped bass","Northeast",1
+"130",6,"Horseshoe crab","Maine",1
+"131",7,"Horseshoe crab","Massachusetts-North",1
+"132",10,"Horseshoe crab","New York",1
+"133",11,"Horseshoe crab","Rhode Island",1
+"134",12,"Horseshoe crab","Northeast",1
+"135",5,"Humpback whale","Connecticut",0.6
+"136",6,"Humpback whale","Maine",0.6
+"137",7,"Humpback whale","Massachusetts-North",0.4
+"138",8,"Humpback whale","Massachusetts-South",0.4
+"139",9,"Humpback whale","New Hampshire",0.6
+"140",10,"Humpback whale","New York",0.2
+"141",11,"Humpback whale","Rhode Island",0.6
+"142",12,"Humpback whale","Northeast",0.6
+"143",5,"Least tern","Connecticut",0.4
+"144",6,"Least tern","Maine",0.2
+"145",7,"Least tern","Massachusetts-North",0.4
+"146",8,"Least tern","Massachusetts-South",0.4
+"147",9,"Least tern","New Hampshire",0.2
+"148",10,"Least tern","New York",0.4
+"149",11,"Least tern","Rhode Island",0.4
+"150",12,"Least tern","Northeast",0.8
+"151",6,"Minke whale","Maine",0.4
+"152",7,"Minke whale","Massachusetts-North",0.6
+"153",8,"Minke whale","Massachusetts-South",0.6
+"154",9,"Minke whale","New Hampshire",0.4
+"155",10,"Minke whale","New York",0.4
+"156",11,"Minke whale","Rhode Island",0.4
+"157",12,"Minke whale","Northeast",0.4
+"158",5,"North atlantic right whale","Connecticut",0.2
+"159",6,"North atlantic right whale","Maine",0.2
+"160",7,"North atlantic right whale","Massachusetts-North",0.2
+"161",8,"North atlantic right whale","Massachusetts-South",0.2
+"162",9,"North atlantic right whale","New Hampshire",0.2
+"163",10,"North atlantic right whale","New York",0.2
+"164",11,"North atlantic right whale","Rhode Island",0.2
+"165",12,"North atlantic right whale","Northeast",0.2
+"166",5,"Osprey","Connecticut",0.8
+"167",6,"Osprey","Maine",1
+"168",7,"Osprey","Massachusetts-North",0.8
+"169",8,"Osprey","Massachusetts-South",0.8
+"170",9,"Osprey","New Hampshire",0.6
+"171",10,"Osprey","New York",0.6
+"172",11,"Osprey","Rhode Island",0.4
+"173",12,"Osprey","Northeast",1
+"174",5,"Piping plover","Connecticut",0.4
+"175",6,"Piping plover","Maine",0.4
+"176",7,"Piping plover","Massachusetts-North",0.4
+"177",8,"Piping plover","Massachusetts-South",0.4
+"178",9,"Piping plover","New Hampshire",0.2
+"179",10,"Piping plover","New York",0.2
+"180",11,"Piping plover","Rhode Island",0.2
+"181",12,"Piping plover","Northeast",0.6
+"182",5,"Roseate tern","Connecticut",0.2
+"183",6,"Roseate tern","Maine",0.4
+"184",7,"Roseate tern","Massachusetts-North",0.4
+"185",8,"Roseate tern","Massachusetts-South",0.4
+"186",9,"Roseate tern","New Hampshire",0.1
+"187",10,"Roseate tern","New York",0.2
+"188",11,"Roseate tern","Rhode Island",0.1
+"189",12,"Roseate tern","Northeast",0.6
+"190",5,"Sandbar shark","Connecticut",0.6
+"191",7,"Sandbar shark","Massachusetts-North",0.6
+"192",8,"Sandbar shark","Massachusetts-South",0.6
+"193",10,"Sandbar shark","New York",0.6
+"194",11,"Sandbar shark","Rhode Island",0.6
+"195",12,"Sandbar shark","Northeast",0.6
+"196",6,"Sea scallop","Maine",1
+"197",7,"Sea scallop","Massachusetts-North",1
+"198",8,"Sea scallop","Massachusetts-South",1
+"199",9,"Sea scallop","New Hampshire",1
+"200",10,"Sea scallop","New York",1
+"201",11,"Sea scallop","Rhode Island",1
+"202",12,"Sea scallop","Northeast",1
+"203",6,"Sperm whale","Maine",0.6
+"204",7,"Sperm whale","Massachusetts-North",0.2
+"205",8,"Sperm whale","Massachusetts-South",0.2
+"206",10,"Sperm whale","New York",0.2
+"207",12,"Sperm whale","Northeast",0.6
+"208",5,"Striped bass","Connecticut",0.6
+"209",6,"Striped bass","Maine",1
+"210",7,"Striped bass","Massachusetts-North",1
+"211",8,"Striped bass","Massachusetts-South",1
+"212",9,"Striped bass","New Hampshire",0.8
+"213",10,"Striped bass","New York",0.8
+"214",11,"Striped bass","Rhode Island",1
+"215",12,"Striped bass","Northeast",1

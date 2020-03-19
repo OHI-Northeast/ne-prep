@@ -286,7 +286,7 @@ update_df <- spp_rgns_scores1 %>%
 
 How many of our iconic species do we have?
 
-Look at where these species are found. For example, bottlenose dolphin is only listed in MA and NY - is this true?
+Look at where these species are found.
 
 ```{r}
 spp_rgns <- species_rgns %>%
@@ -322,12 +322,14 @@ us_status <- spp_rgns_scores %>%
   select(-rgn_id)
 ```
 
-For those species in a region where they are found but without a state status, use the USA designated one. Here I also add Great White Shark to each of the regions in the Northeast. We only have scores for USA/IUCN but need to assign it to all the regions.
+For those species in a region where they are found but without a state status, use the USA designated one. Here I also add Great White Shark to each of the regions in the Northeast. We only have scores for USA/IUCN but need to assign it to all the regions. I'm also adding Horseshoe Crab to Maine (https://dmc.umaine.edu/2015/02/05/horseshoe-crab-report-local-effort/)
 
 ```{r}
 shark <- data.frame(rgn_id = c(5:11), 
                     common = "great white shark",
                     state = NA)
+
+hsc <- data.frame(rgn_id = 6, common = "horseshoe crab", score = 1.0)
 
 df_us <- spp_rgns_scores %>%
   bind_rows(shark) %>%
@@ -337,7 +339,8 @@ df_us <- spp_rgns_scores %>%
          year = 2017) %>%
   select(rgn_id, common, score = fscore) %>%
   filter(rgn_id < 12,
-         !is.na(score)) 
+         !is.na(score)) %>%
+  bind_rows(hsc)
 ```
 
 Use USA designated status for region 12, the whole Northeast

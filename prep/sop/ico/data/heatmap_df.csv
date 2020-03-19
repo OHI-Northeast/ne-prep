@@ -27,20 +27,20 @@
 "26",9,"Sea scallop","New Hampshire",1,TRUE,"LC","Least Concern",0,1,4
 "27",10,"Sea scallop","New York",1,TRUE,"LC","Least Concern",0,1,4
 "28",11,"Sea scallop","Rhode Island",1,TRUE,"LC","Least Concern",0,1,4
-"29",5,"Striped bass","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.885714285714286,5
-"30",6,"Striped bass","Maine",1,TRUE,"LC","Least Concern",0,0.885714285714286,5
-"31",7,"Striped bass","Massachusetts-North",1,TRUE,"LC","Least Concern",0,0.885714285714286,5
-"32",8,"Striped bass","Massachusetts-South",1,TRUE,"LC","Least Concern",0,0.885714285714286,5
-"33",9,"Striped bass","New Hampshire",0.8,TRUE,"NT","Not Threatened",0.2,0.885714285714286,5
-"34",10,"Striped bass","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.885714285714286,5
-"35",11,"Striped bass","Rhode Island",1,TRUE,"LC","Least Concern",0,0.885714285714286,5
-"36",5,"Horseshoe crab","Connecticut",0.5,TRUE,"VU/EN","Vulnerable/Endangered",0.5,0.875,6
-"37",6,"Horseshoe crab","Maine",NA,FALSE,NA,NA,NA,0.875,6
-"38",7,"Horseshoe crab","Massachusetts-North",1,TRUE,"LC","Least Concern",0,0.875,6
-"39",8,"Horseshoe crab","Massachusetts-South",NA,FALSE,NA,NA,NA,0.875,6
-"40",9,"Horseshoe crab","New Hampshire",NA,FALSE,NA,NA,NA,0.875,6
-"41",10,"Horseshoe crab","New York",1,TRUE,"LC","Least Concern",0,0.875,6
-"42",11,"Horseshoe crab","Rhode Island",1,TRUE,"LC","Least Concern",0,0.875,6
+"29",5,"Horseshoe crab","Connecticut",0.5,TRUE,"VU/EN","Vulnerable/Endangered",0.5,0.9,5
+"30",6,"Horseshoe crab","Maine",1,TRUE,"LC","Least Concern",0,0.9,5
+"31",7,"Horseshoe crab","Massachusetts-North",1,TRUE,"LC","Least Concern",0,0.9,5
+"32",8,"Horseshoe crab","Massachusetts-South",NA,FALSE,NA,NA,NA,0.9,5
+"33",9,"Horseshoe crab","New Hampshire",NA,FALSE,NA,NA,NA,0.9,5
+"34",10,"Horseshoe crab","New York",1,TRUE,"LC","Least Concern",0,0.9,5
+"35",11,"Horseshoe crab","Rhode Island",1,TRUE,"LC","Least Concern",0,0.9,5
+"36",5,"Striped bass","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.885714285714286,6
+"37",6,"Striped bass","Maine",1,TRUE,"LC","Least Concern",0,0.885714285714286,6
+"38",7,"Striped bass","Massachusetts-North",1,TRUE,"LC","Least Concern",0,0.885714285714286,6
+"39",8,"Striped bass","Massachusetts-South",1,TRUE,"LC","Least Concern",0,0.885714285714286,6
+"40",9,"Striped bass","New Hampshire",0.8,TRUE,"NT","Not Threatened",0.2,0.885714285714286,6
+"41",10,"Striped bass","New York",0.8,TRUE,"NT","Not Threatened",0.2,0.885714285714286,6
+"42",11,"Striped bass","Rhode Island",1,TRUE,"LC","Least Concern",0,0.885714285714286,6
 "43",5,"Alewife","Connecticut",0.6,TRUE,"VU","Vulnerable",0.4,0.742857142857143,7
 "44",6,"Alewife","Maine",1,TRUE,"LC","Least Concern",0,0.742857142857143,7
 "45",7,"Alewife","Massachusetts-North",0.7,TRUE,"NT/VU","Not Threatened/Vulnerable",0.3,0.742857142857143,7
