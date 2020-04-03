@@ -48,7 +48,13 @@ combo <- bind_rows(ram_clean, noaa) %>%
     indicator == "f_fmsy" ~ "F/Fmsy",
     TRUE ~ as.character(indicator)
   )) %>%
-  arrange(stock)
+  arrange(stock) %>%
+  filter(year > 1999) %>%
+  complete(year = 2000:2017,
+           indicator,
+           stock) %>%
+  group_by(indicator) %>%
+  fill(value, .direction = "downup")
 
 write_csv(combo, "data/stock_assessment_data_for_dashboard.csv")
 
