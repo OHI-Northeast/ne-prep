@@ -53,7 +53,7 @@ combo <- bind_rows(ram_clean, noaa) %>%
   complete(year = 2000:2017,
            indicator,
            stock) %>%
-  group_by(indicator) %>%
+  group_by(indicator, stock) %>%
   fill(value, .direction = "downup")
 
 write_csv(combo, "data/stock_assessment_data_for_dashboard.csv")
