@@ -29,7 +29,6 @@ library(DT)
 #install.packages("striprtf")
 library(striprtf)
 library(zoo)
-library(trelliscopejs)
 
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
 ```
@@ -79,7 +78,8 @@ coast_wages <- noep_data %>%
 ggplot(coast_wages, aes(x = Year, y = Wages, color = County)) +
   geom_line() +
   theme_bw() +
-  facet_trelliscope(~rgn_name, scales = "free", width = 800, self_contained = T)
+  facet_wrap(~rgn_name, scales = "free") +
+  theme(legend.position = "none")
 ```
 
 ---

@@ -25,7 +25,6 @@ source('~/github/ne-prep/src/R/common.R')   ### an OHI-Northeast specific versio
 library(readxl)
 library(DT)
 library(zoo)
-library(trelliscopejs)
 
 #round to 2 decimals
 options(digits = 3, scipen = 999)
@@ -70,7 +69,8 @@ noep_data = read.csv("../liv/data/clean_noep_data.csv") %>%
 ggplot(noep_data, aes(x = Year, y = GDP, color = County)) +
   geom_line() +
   theme_bw() +
-  facet_trelliscope(~rgn_name, scales = "free", self_contained = T, width = 800)
+  facet_wrap(~rgn_name, scales = "free") +
+  theme(legend.position = "none")
 ```
 
 ---

@@ -76,7 +76,8 @@ coast_jobs <- noep_data %>%
 ggplot(coast_jobs, aes(x = Year, y = Employment, color = County)) +
   geom_line() +
   theme_bw() +
-  facet_trelliscope(~rgn_name, scales = "free", self_contained = T, width = 800)
+  facet_wrap(~rgn_name, scales = "free") +
+  theme(legend.position = "none")
 ```
 
 ---

@@ -91,10 +91,61 @@ clean_data <- out %>%
         select(-rgn_id.x, -rgn_id.y)
 ```
 
+## Try to account for added seafood sector
+
+>Note: In the recent release of the ENOW series "An additional industry, Fish and Seafood Merchant Wholesalers (NAICS 424460) was added to the Living Resources sector's Seafood Market industry for data years 2016 and beyond. The industry was not applied to earlier years." The addition of this industry significantly distorts annual comparisons and timeline analysis of the Seafood Market sector and Living Resources totals.
+
+```{r}
+maine <- clean_data %>%
+  filter(State == "Maine") %>%
+  group_by(County, Year, Sector) %>%
+  summarize(establishments = sum(Establishments, na.rm = T),
+            jobs = sum(Employment, na.rm = T),
+            wages = sum(Wages, na.rm = T),
+            gdp = sum(GDP, na.rm = T))
+
+#jobs
+ggplot(maine, aes(x = Year, y = gdp, color = Sector)) +
+  geom_line() +
+  facet_wrap(~County, scales = "free")
+```
+# Account for this adjustment
+by subtracting the 2016 value for Living Resources from All Ocean Sectors, and instead gapfilling with 2015 data. See what this does
+
+```{r}
+#get difference in Living Resources sector from 2015 to 2016. We will use this to fix the All Ocean Sectors data for 2016
+diff <- clean_data %>%
+  filter(Year > 2014,
+         Sector == "Living Resources") %>%
+  pivot_longer(cols = c(Establishments, Wages, Employment, GDP), names_to = "layer", values_to = "value") %>%
+  pivot_wider(names_from = Year, values_from = value) %>%
+  mutate(diff = `2016` - `2015`) %>%
+  select(County, rgn_id, layer, diff)
+
+fix <- clean_data %>%
+  filter(Year == 2016,
+         Sector == "All Ocean Sectors") %>%
+  pivot_longer(cols = c(Establishments, Wages, Employment, GDP), names_to = "layer", values_to = "2016_value") %>%
+  left_join(diff, by = c("rgn_id", "layer", "County")) %>%
+  mutate(new_2016_value = `2016_value` - diff) %>%
+  mutate(new_2016_value = ifelse(is.na(new_2016_value), `2016_value`, new_2016_value)) %>%
+  select(-`2016_value`, -diff) %>%
+  pivot_wider(names_from = "layer", values_from = "new_2016_value")
+  
+#remove 2016 from clean_data and add in fix
+
+clean_data_w_2016_fix <- clean_data %>%
+  mutate(remove = ifelse(Year == 2016 & Sector == "All Ocean Sectors", 1, 0)) %>%
+  filter(remove == 0) %>%
+  select(-remove) %>%
+  bind_rows(fix)
+```
+
+
 ## Save
 
 The final output if `clean_noep_data.csv` in the data folder.
 
 ```{r save}
-write.csv(clean_data, "data/clean_noep_data.csv")
+write.csv(clean_data_w_2016_fix, "data/clean_noep_data.csv")
 ```
