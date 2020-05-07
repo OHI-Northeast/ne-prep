@@ -63,9 +63,10 @@ library(DT)
     bind_rows(sqi) %>%
     bind_rows(trash) %>%
     bind_rows(path) %>%
-    mutate(score = round(score, digits = 0))
+    mutate(score = round(score, digits = 0),
+           rgn_name = ifelse(rgn_id == 12, "Northeast", rgn_name))
 
-  ## saving cw_data for dashboard -- CONSIDER DOING THIS IN PREP
+  ## saving cw_data for dashboard
   write_csv(cw_data, "data/region_layer_scores.csv")
 ```
 

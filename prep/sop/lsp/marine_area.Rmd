@@ -26,7 +26,6 @@ knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/', message
 
 source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
 
-library(tidyverse)
 library(sf)
 library(mapview)
 library(cowplot)
@@ -73,8 +72,9 @@ We are also going to remove all areas that are designated as fishery/shellfish m
 
 ```{r load_and_clean_marine_layer}
 marine <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Marine.shp")) %>%
-  st_transform(us_alb) %>%
-  st_crop(rgns)  
+  lwgeom::st_make_valid() %>%
+  st_transform(st_crs(rgns_simp)) %>%
+  st_crop(ne_ext) 
 
 marine_states <- marine %>%
   st_intersection(state_waters) %>%
@@ -88,6 +88,15 @@ marine_ne <- marine %>%
   filter(!Loc_Ds %in% c("Fishery Management Area", "Closure Area", "Closed Area", "Fishery Management Areas", "Shellfish Management Area", "Essential Fish Habitat Conservation Area", "Conservation Area", "Gear Restricted Area", "Special Area Management Plan"), #the Conservation Areas are for Mussel Seed
          !is.na(Loc_Ds)) 
 ```
+
+
+Save for dashboard display
+
+```{r}
+write_sf(marine_states, "data/marine_prot_areas_state_waters.shp")
+write_sf(marine_ne, "data/marine_pro_areas_whole_ne.shp")
+```
+
 
 # Calculate total area protected
 

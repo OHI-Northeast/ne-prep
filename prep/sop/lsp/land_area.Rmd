@@ -65,23 +65,26 @@ Let's look at the available layers in the USGS PADUS database
 st_layers(file.path(dir_anx, "_raw_data/USGS/PADUS2_0_GDB_Arc10x/PADUS2_0.gdb"))
 ```
 
-After exploring the data descriptions we know we want all ecept the Proclamation layer. When I load these, I'm also cropping to our region to reduce object size.
+After exploring the data descriptions we know we want all except the Proclamation layer. When I load these, I'm also cropping to our region to reduce object size.
 
 ```{r load_three_land_layers}
 desig <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Designation.shp")) %>%
-  st_transform(us_alb) %>%
+  st_transform(st_crs(rgns_simp)) %>%
+  lwgeom::st_make_valid() %>%
   st_crop(rgns) %>%
   st_intersection(inland_buffer)
 
 ease <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Easement.shp")) %>%
-  st_transform(us_alb) %>%
+  st_transform(st_crs(rgns_simp)) %>%
+  lwgeom::st_make_valid() %>%
   st_crop(rgns)  %>%
   st_intersection(inland_buffer)
 
 #fee is causing geometry errors. so i filter just for our states first and the error goes away. The error must exist outside or region of interest
 fee <- read_sf(dsn = file.path(dir_anx, "_raw_data/USGS/PADUS2_0_Shapefiles/PADUS2_0Fee.shp")) %>%
   filter(State_Nm %in% c("NY", "RI", "CT", "MA", "NH", "ME")) %>%
-  st_transform(us_alb) %>%
+  st_transform(st_crs(rgns_simp)) %>%
+  lwgeom::st_make_valid() %>%
   st_crop(rgns)  %>%
   st_intersection(inland_buffer)
 ```
@@ -107,6 +110,8 @@ land <- ease_clean %>%
   rbind(desig_clean) %>%
   unique() %>% #remove duplicates
   lwgeom::st_make_valid()
+
+write_sf(land, "data/land_prot_areas.shp")
 ```
 
 We want to measure amount protected each year. The data has this information stored in the `Date_Est` column. To account for this, we can iterate over each year (2005-2017). Some designated areas have an `NA` for Date Established. Since we have no other information to use for these areas, we assume they have been established since before 2005.
