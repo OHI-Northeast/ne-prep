@@ -1,4 +1,4 @@
-## Ocean Health Index Northeast: Sea Surface Temperature Pressure Layer
+## Ocean Health Index US Northeast: Sea Surface Temperature Pressure Layer
 
 This folder describes the methods used to prepare data for the sea surface temperature pressure layer for the US Northeast OHI assessment.
 
