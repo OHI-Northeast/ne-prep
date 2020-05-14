@@ -19,33 +19,28 @@ toc: true
 
 # Summary
 
-This script calculates the ocean acidification pressure score.
+This script calculates the ocean acidification pressure layer derived from [NOAA's East Coast Ocean Acidification Product Suite](https://www.coral.noaa.gov/accrete/east-coast-oaps.html).
 
 # Data:
 
-1. East Coast Ocean Acidification Product Suite https://www.coral.noaa.gov/accrete/east-coast-oaps.html
-
-We have downloaded aragonite data from the site. 
+Source: [East Coast Ocean Acidification Product Suite](https://www.coral.noaa.gov/accrete/east-coast-oaps.html)
 
 Time frame: 2014-2017
 
-The data is downloaded as seperate NetCDF files for each year. Each file has one variable (OmegaAr) with three dimensions (lat, long, and time). The unit for time is months since Janurary 2014 (0-11), but when we convert this data into an array later the month dimesions "turns in" the normal 1-12 because it counting the number of data sets for that dimension.
+The data was downloaded as separate NetCDF files for each year and saved on NCEAS servers. Each file has one variable (OmegaAr) with three dimensions (lat, long, and time). The unit for time is months since January 2014 (0-11), but when we convert this data into an array later the month dimensions "turns in" the normal 1-12 because it counting the number of data sets for that dimension.
 
-Since we do not have historic data, we used a base of aragaonite staturation of 1. This is widely used in as the threshold level.
+Since we do not have a historical reference point to compare to, we used a step-wise approach to rescale:
+$$ X = \begin{cases} 1,& \Omega <= 1,\\
+-1*\Omega + 2,& 1<\Omega <= 1.5,\\
+-0.5*\Omega + 1.25,&  1.5 < \Omega <= 2.5,\\
+0,& \Omega > 2.5
+\end{cases}$$
 
-Equation for calculating aragonite satuation change:
-$$\Delta \Omega_{year} = \frac{(\Omega_{base} - \Omega_{year})}{(\Omega_{base} - 1)}$$
 
-Note that current is subtracted from the baseline; this way, a reduction in $\Omega$ becomes a positive pressure value. It is then normalized by the current mean state; so a decrease in $\Omega$ while the current state is high indicates less pressure than the same decrease when the current state is near 1. 
-
-$\Delta \Omega_{year}$ is then modified to account for increases in aragonite saturation state (pressure = 0) and arag sat state less than 1 (pressure = 1).
-
-# Methods
-
-## Setup (libraries and loading data)
+# Setup 
 
 The main R libraries needed for this analysis are the `raster`, and `ncdf4` packages.
-``` {r setup, echo = FALSE, message = FALSE, warning = FALSE}
+``` {r setup, message = FALSE, warning = FALSE}
 
 knitr::opts_chunk$set(fig.width = 8, fig.height = 6, fig.path = 'figs/', message = FALSE, warning = FALSE)
 
@@ -57,21 +52,18 @@ library(raster)
 library(ncdf4)
 library(maps)
 library(RColorBrewer)
-library(googleVis)
-library(maps)
 library(parallel)
 library(foreach)
 library(doParallel)
 library(fasterize)
 library(rasterVis)
 library(here)
-library(raster)
 library(gstat)
 library(scales)
+library(animation)
 
 #define paths for the raw data and OA folder held on git-annex on our NCEAS server, Mazu
 raw_dir     = file.path(dir_M,'git-annex/neprep/_raw_data')
-glob_dir    = file.path(dir_M,'git-annex/globalprep/prs_oa')
 ne_dir  = file.path(dir_M,'git-annex/neprep/prs_oa')
 
 cols      = colorRampPalette(brewer.pal(9, 'Spectral'))(255) # rainbow color scheme
@@ -117,15 +109,16 @@ oa.array_2016[oa.array_2016 == fillvalue_2016$value] <- NA
 oa.array_2017[oa.array_2017 == fillvalue_2017$value] <- NA
 ```
 
-The following code:
-1. Rasterizes the monthly data
-2. Reprojects, crops, resamples, and interpolates using nearest neighbor
-3. Saves as monthly tiff files
+The following code:  
 
-Need to do this for each year
+1. Rasterizes the monthly data  
+2. Reprojects, crops, resamples, and interpolates using nearest neighbor  
+3. Saves as monthly tiff files  
+
+We do this for each year
 
 2014
-```{r rastering_monthly_2014}
+```{r rastering_monthly_2014, eval = F}
 registerDoParallel(6)
 
   foreach(month = c(1:12))  %dopar% {
@@ -145,9 +138,8 @@ registerDoParallel(6)
 ```
 
 
-## Results nearest neighbor for 2014 just to look (had also done idw interpolation, but chose this one.)
-```{r gif_results}
-library(animation)
+Results for 2014 using nearest neighbor interpolation just to look (had also done idw interpolation, but chose this one.
+```{r gif_results, eval = F}
 
 monthly_2014 <- list.files(file.path(dir_anx, 'prs_oa/int/noaa_monthly/v2014'), full.names = T) %>%stack()
                          
@@ -164,8 +156,7 @@ animation::saveGIF({
 ```
 
 2015
-```{r rastering_monthly_2015}
-registerDoParallel(6)
+```{r rastering_monthly_2015, eval = F}
 
   foreach(month = c(1:12))  %dopar% {
   
@@ -184,8 +175,7 @@ registerDoParallel(6)
 ```
 
 2016
-```{r rastering_monthly_2016}
-registerDoParallel(6)
+```{r rastering_monthly_2016, eval = F}
 
   foreach(month = c(01:12))  %dopar% {
   
@@ -204,8 +194,7 @@ registerDoParallel(6)
 ```
 
 2017
-```{r rastering_monthly_2017}
-registerDoParallel(6)
+```{r rastering_monthly_2017, eval = F}
 
   foreach(month = c(1:12))  %dopar% {
   
@@ -223,7 +212,9 @@ registerDoParallel(6)
   }
 ```
 
-Now that we have all the monthly files as tiff files and in the right projection and extent we can calulate an annual arag saturation.
+# Calculate Annual Means
+
+Now that we have all the monthly files as tiff files and in the right projection and extent we can calulate mean annual aragonite saturation state for the region.
 
 First we need to load and save all the files
 ```{r read_in_monthly_files}
@@ -238,9 +229,7 @@ monthly_files <- c(list.files(file.path(dir_anx, "prs_oa/int/noaa_monthly/v2014"
 ```
 
 
-## Calculate Annual Means
-
-```{r calculate_annual_means}
+```{r calculate_annual_means, eval= F}
 maxyr <- substr(monthly_files, 60, 63) %>% 
   as.numeric() %>% 
   max()
@@ -258,23 +247,24 @@ foreach(yr = c(2014:maxyr)) %dopar% {
 }
 ```
 
-## Rescale from 0 to 1
+# Rescale from 0 to 1
 
 Thresholds:
 
-- 1 aragonite saturation = a pressure of 1. This is a widely accepted saturation lethal threshold for pteropods
+- If aragonite saturation state is 1 = a pressure of 1. This is a widely accepted saturation lethal threshold for calcifying marine organisms although indivdual responses vary
 
 - 1.5 aragonite saturation = a pressure of 0.5. This saturation level is when mild dissolution begins to occurr 
 (source: https://www.frontiersin.org/articles/10.3389/fmars.2019.00227/full)
 
 - 2.5 aragonite saturation = a pressure of 0. This is the lowest saturation level where few organims are affected source(https://pubs.geoscienceworld.org/gsa/geology/article/37/12/1131/103987/Marine-calcifiers-exhibit-mixed-responses-to-CO2)
 
-This means that we are going to use two different trends for rescaling. One between the first two threshold, and a second between the last two. These linear relationships were calcaculated externally and should not change unless the thresholds change. If this happens they would need to be recalculated
-The first linear regression is:
-y= -1x + 2
+This means that we are going to use two different trends for rescaling. A steeper change between 1 and 1.5, and a slower decrease between 1.5 and 2.5. These linear relationships were calculated externally and should not change unless the thresholds change.
 
-The second linear regression is:
-y= -0.5x + 1.25
+$$ X = \begin{cases} 1,& \Omega <= 1,\\
+-1*\Omega + 2,& 1<\Omega <= 1.5,\\
+-0.5*\Omega + 1.25,&  1.5 < \Omega <= 2.5,\\
+0,& \Omega > 2.5
+\end{cases}$$
 
 The maximum aragonite saturation values by year in our regions:
 2014: 1.85
@@ -282,7 +272,7 @@ The maximum aragonite saturation values by year in our regions:
 2016: 2.75
 2017: 2.63
 
-```{r reference_point}
+```{r reference_point, eval = F}
 ref_1 = 1.5
 ref_2 = 2.5 
 
@@ -308,8 +298,8 @@ foreach(file = files) %dopar% {
 ```
 
 
-Now we want to interpolate using the nearest neighbor technique. We are using the nearest neighbor technique to interpolate
-```{r interpolate_noaa} 
+Now we want to interpolate using the nearest neighbor technique to preserve original values
+```{r interpolate_noaa, eval = F} 
 #register parallel cores
 
 registerDoParallel(24)
@@ -335,10 +325,8 @@ foreach(file = files) %dopar%{
 ```
 
 Next we are going to resample and mask the raster
-```{r}
+```{r, eval = F}
 files <- list.files(file.path(dir_anx,'prs_oa/int/noaa_rescaled_int'), full.names=TRUE)
-
-registerDoParallel(24)
 
 foreach(file = files)%dopar% {
   
@@ -346,16 +334,17 @@ foreach(file = files)%dopar% {
   yr <- substr(file,nchar(file)-7,nchar(file)-4)
   cat(yr)
   x <- raster(file)%>%
-  raster::resample(zones, method = 'ngb')%>%
+  raster::resample(zones, method = 'ngb') %>%
   raster::mask(zones)
        
   writeRaster(x, filename = paste0(dir_anx, '/prs_oa/output/new/oa_prs_layer_', yr, ".tif"), overwrite=TRUE)
 }
 ```
 
-## Results
+# Results
+
 Create a gif using the new data 2014-2017
-```{r gif_results_newdata}
+```{r gif_results_newdata, eval = F}
 library(animation)
 
 oa_layers <- list.files(file.path(dir_anx, 'prs_oa/output/new'), full.names = T) %>%stack()
@@ -372,8 +361,12 @@ animation::saveGIF({
 }, movie.name = 'OA_Pressures_scores.gif')
 ```
 
+![](OA_Pressures_scores.gif)
+
 ### Region scores
+
 Extract data for each region
+
 ```{r extract_regional_data}
 # read in raster files
 pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_oa/output/new'), full.names=T), raster) %>%
@@ -394,6 +387,7 @@ oa_data_subrgns <- data %>%
 ```
 
 Extract data for the region as a whole
+
 ```{r extract_region_data}
 # read in raster files
 pressure_stack <- lapply(list.files(file.path(dir_anx, 'prs_oa/output/new'), full.names=T), raster) %>%
@@ -414,17 +408,18 @@ ne_regionstats <- cellStats(pressure_stack, mean)%>%
 ```
 
 Combine the two and save
+
 ```{r}
 oa_data <- rbind(oa_data_subrgns, ne_regionstats)
 
-write.csv(oa_data, file.path(dir_anx, "prs_oa/output/oa.csv"), row.names=FALSE)
+write.csv(oa_data, "data/oa_pressure_scores.csv", row.names=FALSE)
 ```
 
 
 
 ### 2017 scores
 ```{r map_scores}
-last_year <- oa_data%>%
+last_year <- read_csv("data/oa_pressure_scores.csv") %>%
   filter(year==2017) %>% 
   filter(rgn_id != 12)
 
@@ -443,21 +438,21 @@ oa_overtime <-ggplot(oa_data)+
 oa_overtime
 ```
 
-### Save layer
+# Save layer
 ```{r tidy_for_layer}
 oa_prs <- oa_data %>% 
   select(year, rgn_id, rgn_name, pressure_score) %>% 
   rename(score = pressure_score)
 ```
 
-
 ```{r write_to_scores}
 write.csv(oa_prs, file.path(dir_calc, "layers/cc_acid.csv"))
 ```
 
 
-Visualzing Actual concentrations of aragonite 
-```{r}
+Visualizing aragonite saturation state in the region
+
+```{r, eval = F}
 # interpolate
 registerDoParallel(24)
 
@@ -512,3 +507,4 @@ animation::saveGIF({
 }, movie.name = 'Aragonite_Concentration.gif')
 ```
 
+![](Aragonite_Concentration.gif)
