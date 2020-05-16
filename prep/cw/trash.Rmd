@@ -60,7 +60,7 @@ raw <- readxl::read_excel(file.path(dir_anx, "_raw_data/OceanConservancy/Coastal
 return(raw)
 }
 
-years <- as.character(c(2006:2017)) #need to be characters to use years as sheet names in read_excel
+years <- as.character(c(2005:2017)) #need to be characters to use years as sheet names in read_excel
 
 out <- map_df(years, clean_func)
 
