@@ -6,7 +6,7 @@ Data layer prep:
 
 ### [Salt Marsh](https://ohi-northeast.github.io/ne-prep/prep/bio/hab/salt_marsh.html)
 
-### [Eelgrass](https://ohi-northeast.github.io/ne-prep/prep/bio/hab/eelgrass.html)
+### [Eelgrass](https://ohi-northeast.github.io/ne-prep/prep/bio/hab/eelgrass_layer.html)
 
 ### [Offshore Habitats](https://ohi-northeast.github.io/ne-prep/prep/bio/hab/offshore_habitats.html)
 
