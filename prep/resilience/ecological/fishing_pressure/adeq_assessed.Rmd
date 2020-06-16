@@ -51,8 +51,14 @@ The percentage of species with formal stocks assessments is calculated using the
 ``` {r setup,  message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.path = 'figs/',
                       message = FALSE, warning = FALSE)
+```
 
-source('~/github/ne-prep/src/R/common.R')  ### an OHINE specific version of common.R
+```{r}
+
+library(here)
+source(here("ne-prep/src/R/common.R"))  ### an OHINE specific version of common.R
+
+source('~/github/ne-prep/src/R/common.R')
 
 dir_git <- '~/github/ne-prep'
 dir_anx <- file.path(dir_M, 'git-annex/neprep')
