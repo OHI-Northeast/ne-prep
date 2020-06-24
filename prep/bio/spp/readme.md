@@ -27,7 +27,7 @@ In total, we have 763 species with range maps for our region. There are 92 speci
 We access the NatureServe API with the `natserv` R package to retrieve each species conservation status across all scales from global (IUCN) to state level (CT, NY, MA, ME, RI, NH) using the script `4_get_natureserve_data.Rmd`. 328 of our species have an assigned conservation status within NatureServe.
 
 **Get species conservation status information from IUCN**
-Since only 328 of our species of interest have a listed status in NatureServe, we wanted to check the IUCN API to see if some species status are captured in this global database but haven't been included in NatureServe. In `5_create_spp_source_status_df.Rmd` we query the IUCN API using the `rredlist` R package and obtain all available status information for the remaining species. This brings us to a total of 712 species with a conservation status.
+Since only 328 of our species of interest have a listed status in NatureServe, we wanted to check the IUCN API to see if some species status are captured in this global database but haven't been included in NatureServe. In `5_create_spp_source_status_df.Rmd` we query the IUCN API using the `rredlist` R package and obtain all available status information for the remaining species. This brings us to a total of 691 species with a conservation status.
 
 
 ## Where are these species located within the Northeast?
