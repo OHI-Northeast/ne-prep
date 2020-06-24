@@ -16,9 +16,10 @@ We have already downloaded all available IUCN marine species range maps for othe
 The next step was to rasterize each of those species range maps from IUCN, only for our area. The script `2_rasterize_iucn_spp_shps.Rmd` does just that and saves individual species rasters with values of 1 for presence or NA for absence. These are stored on a server at NCEAS.
 
 **Get Northeast Ocean Data Portal species range maps**  
+
 Where available, we want to use finer scale range map information for species in the US Northeast. The Northeast Ocean Data Portal contains hundreds of species range maps that we prefer to use instead of IUCN range maps. Through our partners we were able to obtain 156 species range maps. The script `3_process_dataportal_spp_maps.Rmd` rasterizes each shapefile and saves to the server.
 
-In total, we have 763 species with range maps for our region. There are 92 species that hae range maps in both databases. We always prioritize the data portal range maps over the IUCN range maps since they were developed specifically for our region of interest.
+In total, we have 763 species with range maps for our region. There are 92 species that have range maps in both databases. We always prioritize the data portal range maps over the IUCN range maps since they were developed specifically for our region of interest.
 
 
 ## What is the conservation status for marine species in the US Northeast?
