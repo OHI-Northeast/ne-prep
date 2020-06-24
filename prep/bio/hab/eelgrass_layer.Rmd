@@ -76,11 +76,12 @@ library(htmlwidgets)
 The shapefiles were cleaned and saved in the `eelgrass.Rmd` script.
 
 ```{r load_eelgrass_shapefiles}
-current <- read_sf(file.path(dir_anx, "hab/current_eelgrass_locations/current_eelgrass_locations.shp"))  %>% lwgeom::st_make_valid() #make the geometry valid
-past    <- read_sf(file.path(dir_anx, "hab/past_eelgrass_locations/past_eelgrass_locations.shp")) %>% lwgeom::st_make_valid() #make the geometry valid
-gbe     <- read_sf(file.path(dir_anx, "hab/gbe_eelgrass_locations/gbe_eelgrass_locations.shp")) %>% lwgeom::st_make_valid() #make the geometry valid
+current <- read_sf(file.path(dir_anx, "hab/current_eelgrass_locations/current_eelgrass_locations.shp"))  %>% st_make_valid() #make the geometry valid
+past    <- read_sf(file.path(dir_anx, "hab/past_eelgrass_locations/past_eelgrass_locations.shp")) %>% st_make_valid() #make the geometry valid
+gbe     <- read_sf(file.path(dir_anx, "hab/gbe_eelgrass_locations/gbe_eelgrass_locations.shp")) %>% st_make_valid() #make the geometry valid
 lines   <- read_sf(file.path(dir_anx, "hab/line_eelgrass_locations/line_eelgrass_locations.shp")) 
 ```
+
 
 ## Load & spatialize NCCA data
 
@@ -240,7 +241,7 @@ ggplot() +
 
 ```{r}
 int <- ma_points %>%
-  st_transform('+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +units=m +no_defs') %>%
+  st_transform(crs = st_crs(rgns)) %>%
   st_intersection(rgns)
 
 
@@ -321,8 +322,6 @@ ggplot() +
 ## Get scores using `spsurvey`
 
 Use the [`spsurvey`](https://www.rdocumentation.org/packages/spsurvey/versions/3.4) package to run `cat.analysis` and produce a sub-population estimate that incorporates site weights. 
-
-We also are going to split out the nitrogen and water clarity data.
 
 We remove all sites that have `MISSING` as a status. In this data, New York has 5%, New Hampshire has 3.5% and Maine has 2% missing.
 
