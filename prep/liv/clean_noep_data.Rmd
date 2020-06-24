@@ -27,7 +27,7 @@ This script takes individual state-level .csv data that were manually downloaded
 ### National Ocean Economics Program (NOEP)
 
 **Downloaded**: [Manually downloaded by state from website](http://www.oceaneconomics.org/Market/ocean/oceanEcon.asp) on May 9, 2019.    
-**Description**:  Total number of jobs and wages per sector for RI, ME, MA, CT, and NH counties from 2005 to 2016. The data also include number of establishments and GDP for each sector - state - year.  
+**Description**:  Total number of jobs and wages per sector for RI, ME, MA, CT, NY and NH counties from 2005 to 2016. The data also include number of establishments and GDP for each sector - state - year.  
 **Native data resolution**: County level     
 **Time range**: 2005 - 2016  
 **Format**:  Tabular  
