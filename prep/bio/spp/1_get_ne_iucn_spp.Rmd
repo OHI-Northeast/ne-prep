@@ -18,7 +18,7 @@ output:
 
 # Summary
 
-This script takes the OHI Northeast region shapefile and compares it to the global shapefiles we have from IUCN to extract all species maps that fall within our region. A lot of this code dips into the `spp_risk_dists` repo from Casey O'Hara: https://github.com/jafflerbach/spp_risk_dists.
+This script takes the OHI Northeast region shapefile and compares it to the global shapefiles we have from IUCN to extract all species maps that fall within our region. A lot of this code dips into the `spp_risk_dists` repo from Casey O'Hara (forked to my repo): https://github.com/jamiecmontgomery/spp_risk_dists.
 
 # Setup
 ```{r setup, message = F, warning = F}
