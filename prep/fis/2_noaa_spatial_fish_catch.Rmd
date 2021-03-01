@@ -69,7 +69,8 @@ clean <- raw %>%
 DT::datatable(head(clean, n = 20))
 ```
 
-There are a total of `r length(unique(clean$species))` reported species, which include groupings such as "Confidential Species" or "Clam, species not specified". Some of these species, such as Atlantic Cod, have multiple stocks.
+There are a total of `r length(unique(clean$species))` reported species, which include groupings such as "Confidential Species" or "Clam, species not specified". Some of these species, such as Atlantic Cod, have multiple stocks. There are `r clean %>% filter(!is.na(stock_id)) %>% distinct(stock_id) %>% nrow()` stock ids, and `r clean %>% filter(is.na(stock_id),!is.na(species)) %>% distinct(species) %>% nrow()` species without distinct stock ids. If we combine these, and remove "Confidential species" and anything identified as "other" we have a total of `r clean %>% filter(is.na(stock_id), !is.na(species)) %>% distinct(species) %>%  filter(!str_detect(species, "OTHER"), !str_detect(species, "CONFIDENTIAL")) %>% nrow()` stocks.
+
 
 # Spatial data
 

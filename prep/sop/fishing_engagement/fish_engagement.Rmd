@@ -139,7 +139,8 @@ shp <- read_sf(file.path(dir_anx, "_raw_data/NOAA_Social/2009-2016_National_Indi
   st_transform(crs = us_alb)
 
 #intersect with our 1km inlkand buffer
-buff <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1mile.shp")
+buff <- read_sf("~/github/ne-prep/spatial/shapefiles/ohine_inland_1mile.shp") %>%
+  st_transform(crs = us_alb)
 
 int <- st_intersection(shp, buff)
 

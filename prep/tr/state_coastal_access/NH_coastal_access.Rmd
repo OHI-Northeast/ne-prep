@@ -31,7 +31,7 @@ library(tidyverse)
 
 ---
 
-#Data Source 
+# Data Source 
 
 **Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
 
@@ -64,7 +64,8 @@ Combine inland buffer with connecticut state waters
 nh_shape <- rgns %>%
   filter(rgn_name == "New Hampshire") %>%
   select(rgn_name, rgn_id) %>%
-  rbind(inland_buffer)
+  rbind(inland_buffer) %>%
+  st_transform(us_alb)
 ```
 
 

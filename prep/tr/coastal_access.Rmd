@@ -32,7 +32,7 @@ library(sf)
 
 ---
 
-#Data Source 
+# Data Source 
 
 **Reference**: NOAA [Environmental Sensitivity Index](https://response.restoration.noaa.gov/maps-and-spatial-data/download-esi-maps-and-gis-data.html)
 
@@ -93,7 +93,7 @@ calc_coastal_coverage <- function(state, state_abv){
 df <- data.frame(state = c("New Hampshire", "New York", "Connecticut", "Massachusetts-North", "Massachusetts-South", "Rhode Island", "Maine"),
                  state_abv = c("nh", "ny", "cy", "ma", "ma", "ri", "me"))
 
-#i know I could use map for this but i can't figure it out right now
+
 nh_area <- calc_coastal_coverage("New Hampshire", "nh")
 ny_area <- calc_coastal_coverage("New York", "ny")
 ct_area <- calc_coastal_coverage("Connecticut", "ct")
