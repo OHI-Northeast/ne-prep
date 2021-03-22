@@ -54,7 +54,7 @@ ram_ss <- read.csv("data/ram_stock_scores.csv") %>%
 
 # Combine
 
-We can combine these two (RAM and NMFS) now. Then we need to assign region IDs to each stock for hte toolbox. We can do this by using the fisheries lookup table
+We can combine these two (RAM and NMFS) now. Then we need to assign region IDs to each stock for the toolbox. We can do this by using the fisheries lookup table
 
 ```{r}
 #fisheries lookup table gives us a list of each species with stock assessment plus info on where they are
@@ -92,6 +92,30 @@ catch_ss <- ss_toolbox %>%
   ungroup() %>%
   mutate(display_name = ifelse(is.na(stockid), nmfs_original_species, stockid))
 ```
+
+What proportion of total catch is assessed?
+
+```{r}
+total_catch <- read_csv("data/nmfs_spatial_catch_by_ohi_rgn.csv") %>%
+  filter(rgn_id == 12) %>%
+  group_by(year) %>%
+  summarize(total_catch = sum(catch))
+
+assessed_catch <- read_csv("data/nmfs_spatial_catch_by_ohi_rgn.csv") %>%
+  filter(rgn_id == 12,
+         species %in% lookup_table$nmfs_original_species) %>%
+  group_by(year) %>%
+  summarize(assessed_catch = sum(catch)) %>%
+  left_join(total_catch) %>%
+  mutate(prop_assessed = assessed_catch/total_catch)
+
+ggplot(assessed_catch) +
+  geom_col(aes(x = year, y = prop_assessed)) +
+  theme_minimal() +
+  labs(x = "", y = 'Proportion of catch assessed')
+  
+```
+
 
 Lines are weighted based on the catch_prop
 
